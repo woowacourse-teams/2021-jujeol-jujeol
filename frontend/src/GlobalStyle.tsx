@@ -3,6 +3,17 @@ import { Global, css } from '@emotion/react';
 const GlobalStyle = () => (
   <Global
     styles={css`
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body,
+      #root {
+        width: 100%;
+        height: 100%;
+      }
+
       html,
       body,
       h1,
@@ -48,6 +59,19 @@ const GlobalStyle = () => (
       ol,
       ul {
         list-style: none;
+      }
+      a,
+      a:link,
+      a:visited,
+      a:hover,
+      a:active {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a,
+      button {
+        -webkit-tap-highlight-color: transparent;
       }
     `}
   />
