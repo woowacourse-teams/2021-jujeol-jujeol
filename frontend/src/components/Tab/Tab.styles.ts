@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { COLOR } from 'src/constants';
+import { COLOR, Z_INDEX } from 'src/constants';
 
 const Nav = styled.nav`
   width: 100%;
@@ -9,6 +9,7 @@ const Nav = styled.nav`
   position: fixed;
   bottom: 0;
   left: 0;
+  z-index: ${Z_INDEX.TAB_BAR};
 
   ul {
     display: flex;

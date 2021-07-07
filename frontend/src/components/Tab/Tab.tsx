@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { COLOR, PATH } from 'src/constants';
 import HomeIcon from '../Icons/home';
 import HumanIcon from '../Icons/human';
-import { Nav } from './Tab.style';
+import { Nav } from './Tab.styles';
 
 const tabConfig = [
   {
