@@ -1,25 +1,38 @@
 import React from 'react';
+import drinks from 'src/mock/drinks';
+import { Title, ItemList, ItemImage, ItemInfo } from './styles';
+import Card from 'src/components/Card/Card';
 
 const HomePage = () => {
   return (
-    <main>
+    <div>
       <ul>
-        {Array.from({ length: 10 }).map((value, index) => (
-          <section key={index}>
-            <h2>오늘 이런 술 어때요?</h2>
-            <p>회원님을 위해 준비했어요</p>
-            <div>
-              <div>
-                <img src="" alt="사진" />
-                <p>코젤다크</p>
-                <p>5%</p>
-              </div>
-              <div>...</div>
-            </div>
-          </section>
+        {Array.from({ length: 3 }).map((value, index) => (
+          <li key={index} style={{ marginBottom: '1rem' }}>
+            <section>
+              <Title textAlign="center">
+                <h2>오늘 이런 술 어때요?</h2>
+                <p>회원님을 위해 준비했어요</p>
+              </Title>
+
+              <ItemList count={drinks.length}>
+                {drinks.map(({ id, name, imageUrl, alcoholByVolume }) => (
+                  <li key={id}>
+                    <Card>
+                      <ItemImage src={imageUrl} alt={name} />
+                      <ItemInfo>
+                        <h3>{name}</h3>
+                        <p>{`${alcoholByVolume}%`}</p>
+                      </ItemInfo>
+                    </Card>
+                  </li>
+                ))}
+              </ItemList>
+            </section>
+          </li>
         ))}
       </ul>
-    </main>
+    </div>
   );
 };
 
