@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import Tab from './components/Tab/Tab';
 import PATH from './constants/path';
 import HomePage from './pages/HomePage';
-import { Container } from './styles';
+import { MainContainer } from './styles';
 
 const App = () => {
   return (
@@ -15,13 +15,13 @@ const App = () => {
           <button type="button">search</button>
         </header>
 
-        <Container>
+        <MainContainer>
           <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
           <Route exact path={[PATH.LOGIN]}>
             login
           </Route>
           <Redirect to={PATH.ROOT} />
-        </Container>
+        </MainContainer>
 
         <Tab></Tab>
       </Router>

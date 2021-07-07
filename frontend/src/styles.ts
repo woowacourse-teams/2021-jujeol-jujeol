@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import COLOR from './constants/color';
 
-const Container = styled.div`
-  padding: 1.5rem;
+const MainContainer = styled.main`
+  padding: 1.5rem 0 4rem;
   box-sizing: border-box;
   background-color: ${COLOR.PURPLE_900};
   color: ${COLOR.WHITE_100};
@@ -11,4 +11,4 @@ const Container = styled.div`
   overflow-y: auto;
 `;
 
-export { Container };
+export { MainContainer };
