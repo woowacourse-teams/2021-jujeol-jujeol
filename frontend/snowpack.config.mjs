@@ -12,4 +12,8 @@ export default {
   packageOptions: {},
   devOptions: {},
   buildOptions: {},
+  alias: {
+    src: './src',
+    public: './public',
+  },
 };
