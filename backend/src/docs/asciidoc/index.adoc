@@ -1,0 +1,15 @@
+= 주절주절 API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+//== 계정
+//=== 정보 조회
+//==== Account-Id로 계정 정보 조회
+//- Request
+//include::{snippets}/account-search/http-request.adoc[]
+//- Response
+//include::{snippets}/account-search/http-response.adoc[]

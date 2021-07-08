@@ -1,5 +1,9 @@
 package com.jujeol;
 
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.documentationConfiguration;
 
 import io.restassured.RestAssured;
@@ -41,26 +45,35 @@ public class AcceptanceTest {
         this.logFlag = logFlag;
     }
 
-    public ExtractableResponse<Response> invokeHttpGet(String path, Object... pathParams) {
+    public ExtractableResponse<Response> invokeHttpGet(String path, String identifier, Object... pathParams) {
         if (!logFlag) {
             return RestAssured
-                    .given()
+                    .given(spec)
+                    .filter(document(identifier,
+                            preprocessRequest(prettyPrint()),
+                            preprocessResponse(prettyPrint())))
                     .when().get(path, pathParams)
                     .then()
                     .extract();
         }
 
         return RestAssured
-                .given().log().all()
+                .given(spec).log().all()
+                .filter(document(identifier,
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())))
                 .when().get(path, pathParams)
                 .then().log().all()
                 .extract();
     }
 
-    public <T> ExtractableResponse<Response> invokeHttpPost(String path, T data) {
+    public <T> ExtractableResponse<Response> invokeHttpPost(String path, String identifier, T data) {
         if (!logFlag) {
             return RestAssured
-                    .given()
+                    .given(spec)
+                    .filter(document(identifier,
+                            preprocessRequest(prettyPrint()),
+                            preprocessResponse(prettyPrint())))
                     .body(data).contentType(ContentType.JSON)
                     .post(path)
                     .then()
@@ -68,7 +81,10 @@ public class AcceptanceTest {
         }
 
         return RestAssured
-                .given().log().all()
+                .given(spec).log().all()
+                .filter(document(identifier,
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())))
                 .body(data).contentType(ContentType.JSON)
                 .post(path)
                 .then().log().all()
