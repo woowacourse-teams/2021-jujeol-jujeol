@@ -1,4 +1,5 @@
 import { Global, css } from '@emotion/react';
+import { COLOR } from './constants';
 
 const GlobalStyle = () => (
   <Global
@@ -12,6 +13,7 @@ const GlobalStyle = () => (
       #root {
         width: 100%;
         height: 100%;
+        background-color: ${COLOR.PURPLE_900};
       }
 
       html,
