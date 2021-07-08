@@ -20,5 +20,6 @@ class DrinkName {
         if (Objects.isNull(name) || name.isBlank()) {
             throw new InvalidDrinkNameException();
         }
+        this.name = name;
     }
 }

@@ -21,11 +21,12 @@ public class Drink {
     private DrinkName name;
     @Embedded
     private AlcoholByVolume alcoholByVolume;
-    private String imageUrl;
+    @Embedded
+    private ImageUrl imageUrl;
 
     public Drink(String name, Double alcoholByVolume, String imageUrl) {
         this.name = new DrinkName(name);
         this.alcoholByVolume = new AlcoholByVolume(alcoholByVolume);
-        this.imageUrl = imageUrl;
+        this.imageUrl = new ImageUrl(imageUrl);
     }
 }
