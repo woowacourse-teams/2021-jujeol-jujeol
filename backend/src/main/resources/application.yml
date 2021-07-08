@@ -1,0 +1,2 @@
+file-server:
+  url: localhost:8080

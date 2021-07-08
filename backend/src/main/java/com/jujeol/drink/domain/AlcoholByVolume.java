@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Embeddable
-public class AlcoholByVolume {
+class AlcoholByVolume {
 
     @Column
     private Double value;
