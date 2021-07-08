@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container } from './Card.styles';
 
 interface Props {

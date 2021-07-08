@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import React from 'react';
 import { COLOR, Z_INDEX } from 'src/constants';
 
 const Title = styled.div<Omit<React.CSSProperties, 'translate'>>`

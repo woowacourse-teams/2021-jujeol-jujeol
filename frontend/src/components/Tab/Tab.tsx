@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { COLOR, PATH } from 'src/constants';
 import HomeIcon from '../Icons/home';

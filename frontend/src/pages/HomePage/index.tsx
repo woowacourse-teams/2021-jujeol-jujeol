@@ -1,4 +1,3 @@
-import React from 'react';
 import drinks from 'src/mock/drinks';
 import { Title, ItemList, ItemImage, ItemInfo } from './styles';
 import Card from 'src/components/Card/Card';
