@@ -49,20 +49,23 @@ asciidoctor.doFirst {
 }
 
 asciidoctor {
-    inputs.dir snippetsDir
     dependsOn test
+    inputs.dir snippetsDir
 }
 
 task createDocument(type: Copy) {
     dependsOn asciidoctor
-
     from file("build/docs/asciidoc/index.html")
     into file("src/main/resources/static")
 }
 
+build {
+    dependsOn createDocument
+}
+
 bootJar {
     dependsOn asciidoctor
-    from ("${asciidoctor.outputDir}/asciidoc") {
+    from ("${asciidoctor.outputDir}") {
         into 'static'
     }
 }
