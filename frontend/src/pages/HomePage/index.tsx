@@ -1,35 +1,46 @@
-import drinks from 'src/mock/drinks';
 import { Title, ItemList, ItemImage, ItemInfo } from './styles';
 import Card from 'src/components/Card/Card';
+import { useQuery } from 'react-query';
+import API from 'src/apis/requests';
+
+interface Drinks {
+  id: number;
+  name: string;
+  imageUrl: string;
+  alcoholByVolume: number;
+}
 
 const HomePage = () => {
+  const { data = { data: [], count: 0 } } = useQuery('drinks', API.getDrinks, {
+    retry: 1,
+  });
+  const { data: drinks, count } = data;
+
   return (
     <div>
       <ul>
-        {Array.from({ length: 3 }).map((value, index) => (
-          <li key={index} style={{ marginBottom: '1rem' }}>
-            <section>
-              <Title textAlign="center">
-                <h2>오늘 이런 술 어때요?</h2>
-                <p>회원님을 위해 준비했어요</p>
-              </Title>
+        <li>
+          <section>
+            <Title textAlign="center">
+              <h2>오늘 이런 술 어때요?</h2>
+              <p>회원님을 위해 준비했어요</p>
+            </Title>
 
-              <ItemList count={drinks.length}>
-                {drinks.map(({ id, name, imageUrl, alcoholByVolume }) => (
-                  <li key={id}>
-                    <Card>
-                      <ItemImage src={imageUrl} alt={name} />
-                      <ItemInfo>
-                        <h3>{name}</h3>
-                        <p>{`${alcoholByVolume}%`}</p>
-                      </ItemInfo>
-                    </Card>
-                  </li>
-                ))}
-              </ItemList>
-            </section>
-          </li>
-        ))}
+            <ItemList count={count}>
+              {drinks.map(({ id, name, imageUrl, alcoholByVolume }: Drinks) => (
+                <li key={id}>
+                  <Card>
+                    <ItemImage src={imageUrl} alt={name} />
+                    <ItemInfo>
+                      <h3>{name}</h3>
+                      <p>{`${alcoholByVolume}%`}</p>
+                    </ItemInfo>
+                  </Card>
+                </li>
+              ))}
+            </ItemList>
+          </section>
+        </li>
       </ul>
     </div>
   );

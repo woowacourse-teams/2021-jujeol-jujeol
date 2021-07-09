@@ -1,7 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.5.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.asciidoctor.convert' version '1.5.8'
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
     id 'java'
 }
 
@@ -19,12 +19,7 @@ repositories {
     mavenCentral()
 }
 
-ext {
-    set('snippetsDir', file("build/generated-snippets"))
-}
-
 dependencies {
-    implementation 'org.springframework.cloud:spring-cloud-starter-aws'
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -36,16 +31,41 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
     implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
+    testImplementation 'io.rest-assured:rest-assured:3.3.0'
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
 }
 
 test {
-    outputs.dir snippetsDir
     useJUnitPlatform()
 }
 
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/index.html')
+}
+
 asciidoctor {
-    inputs.dir snippetsDir
     dependsOn test
+    inputs.dir snippetsDir
+}
+
+task createDocument(type: Copy) {
+    dependsOn asciidoctor
+    from file("build/docs/asciidoc/index.html")
+    into file("src/main/resources/static")
+}
+
+build {
+    dependsOn createDocument
+}
+
+bootJar {
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}") {
+        into 'static'
+    }
 }
