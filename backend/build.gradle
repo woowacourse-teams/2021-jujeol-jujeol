@@ -1,7 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.5.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.asciidoctor.convert' version '1.5.10'
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
     id 'java'
 }
 
@@ -42,7 +42,10 @@ ext {
 
 test {
     useJUnitPlatform()
-    outputs.dir snippetsDir
+}
+
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/index.html')
 }
 
 asciidoctor {
@@ -53,14 +56,13 @@ asciidoctor {
 task createDocument(type: Copy) {
     dependsOn asciidoctor
 
-    from file("build/asciidoc/html5/index.html")
+    from file("build/docs/asciidoc/index.html")
     into file("src/main/resources/static")
 }
 
 bootJar {
-    dependsOn createDocument
-
-    from ("${asciidoctor.outputDir}/html5") {
-        into "static"
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}/asciidoc") {
+        into 'static'
     }
 }
