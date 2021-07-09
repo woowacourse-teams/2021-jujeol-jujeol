@@ -2,11 +2,14 @@ package com.jujeol;
 
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.DrinkRepository;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile({"local", "dev"})
 public class DataLoader implements CommandLineRunner {
 
     private DrinkRepository drinkRepository;

@@ -2,10 +2,12 @@ package com.jujeol.drink.application.dto;
 
 import com.jujeol.drink.domain.Drink;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
+@EqualsAndHashCode(of = "id")
 public class DrinkResponse {
 
     private Long id;

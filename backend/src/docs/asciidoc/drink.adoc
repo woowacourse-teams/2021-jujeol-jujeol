@@ -1,0 +1,11 @@
+== 주류
+=== 전체 정보 조회
+==== 전체 화면에서 주류 정보 조회
+
+- Request
+
+include::{snippets}/drinks/show/all/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/all/http-response.adoc[]

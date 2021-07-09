@@ -18,7 +18,7 @@ public class DrinkService {
 
     private final DrinkRepository drinkRepository;
 
-    public List<DrinkResponse> findDrinks() {
+    public List<DrinkResponse> showDrinks() {
         //todo: 페이지네이션
         return drinkRepository.findAll(Pageable.ofSize(7))
                 .get()
