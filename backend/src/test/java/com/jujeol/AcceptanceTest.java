@@ -1,5 +1,6 @@
 package com.jujeol;
 
+import com.jujeol.RequestBuilder.Function;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +27,15 @@ public class AcceptanceTest {
         request = new RequestBuilder(restDocumentation);
     }
 
-    protected RequestBuilder request() {
-        return request;
+    /**
+     * use-example :
+     *  request()
+     *      .get("/path")                   http method
+     *      .withoutLog()                   default : true
+     *      .withDocument("identifier")     default : withoutDocument
+     *      .build();
+     */
+    protected Function request() {
+        return request.builder();
     }
 }
