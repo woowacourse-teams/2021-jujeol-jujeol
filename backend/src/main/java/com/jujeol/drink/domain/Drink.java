@@ -6,14 +6,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Drink {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
     private Long id;
     @Embedded
     private DrinkName name;
@@ -22,14 +26,8 @@ public class Drink {
     @Embedded
     private ImageFilePath imageFilePath;
 
-    public Drink(String name, Double alcoholByVolume, String imageUrl) {
-        this.name = new DrinkName(name);
-        this.alcoholByVolume = new AlcoholByVolume(alcoholByVolume);
-        this.imageFilePath = new ImageFilePath(imageUrl);
-    }
-
-    public Long getId() {
-        return id;
+    public static Drink from(String name, Double alcoholByVolume, String imageUrl) {
+        return new Drink(null, new DrinkName(name), new AlcoholByVolume(alcoholByVolume), new ImageFilePath(imageUrl));
     }
 
     public String getName() {

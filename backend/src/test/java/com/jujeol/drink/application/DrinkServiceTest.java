@@ -18,13 +18,13 @@ class DrinkServiceTest {
     @Autowired
     private DrinkService drinkService;
 
-    @DisplayName("전체보기 - 성공")
-    @Test
-    void findDrinks() {
-        //given
-        List<DrinkResponse> drinks = drinkService.findDrinks();
-        //when
-        //then
-        assertThat(drinks).hasSize(7);
-    }
+//    @DisplayName("전체보기 - 성공")
+//    @Test
+//    void findDrinks() {
+//        //given
+//        List<DrinkResponse> drinks = drinkService.findDrinks();
+//        //when
+//        //then
+//        assertThat(drinks).hasSize(7);
+//    }
 }
