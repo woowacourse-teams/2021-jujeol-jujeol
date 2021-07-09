@@ -1,10 +1,12 @@
 import drinks from 'src/mock/drinks';
 import { Title, ItemList, ItemImage, ItemInfo } from './styles';
 import Card from 'src/components/Card/Card';
+import MainHeader from 'src/components/Header/MainHeader';
 
 const HomePage = () => {
   return (
     <div>
+      <MainHeader />
       <ul>
         {Array.from({ length: 3 }).map((value, index) => (
           <li key={index} style={{ marginBottom: '1rem' }}>
