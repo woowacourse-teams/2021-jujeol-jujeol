@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-d
 import Tab from './components/Tab/Tab';
 import PATH from './constants/path';
 import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
 import { MainContainer } from './styles';
 
 const App = () => {
@@ -11,9 +12,7 @@ const App = () => {
         <MainContainer>
           <Switch>
             <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
-            <Route exact path={[PATH.LOGIN]}>
-              login
-            </Route>
+            <Route exact path={[PATH.LOGIN]} component={LoginPage} />
             <Redirect to={PATH.ROOT} />
           </Switch>
         </MainContainer>
