@@ -22,5 +22,5 @@
       "public/*": ["./public/*"]
     },
   },
-  "include": ["src"]
+  "include": ["src", "custom.d.ts"]
 }
