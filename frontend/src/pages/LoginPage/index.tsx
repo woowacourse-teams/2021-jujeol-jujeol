@@ -1,12 +1,12 @@
 import { Logo, Container } from './styles';
-import logo from 'src/assets/jujeol_logo_square.svg';
 import KakaoLogin from 'src/components/SocialLogin/KakaoLogin';
+import JujeolLogoSquare from 'src/assets/jujeol_logo_square';
 
 const LoginPage = () => {
   return (
     <Container>
       <Logo>
-        <img src={logo} alt="주절주절 로고" width="180px" />
+        <JujeolLogoSquare />
       </Logo>
 
       <div>
