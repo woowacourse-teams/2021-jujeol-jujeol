@@ -1,4 +1,8 @@
-= 주절주절 API Document
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -6,10 +10,16 @@
 :toclevels: 2
 :sectlinks:
 
-//== 계정
-//=== 정보 조회
-//==== Account-Id로 계정 정보 조회
-//- Request
-//include::{snippets}/account-search/http-request.adoc[]
-//- Response
-//include::{snippets}/account-search/http-response.adoc[]
+= 주절주절 API Document
+
+== 주류
+=== 전체 정보 조회
+==== 전체 화면에서 주류 정보 조회
+
+- Request
+
+include::{snippets}/drinks/show/all/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/all/http-response.adoc[]
