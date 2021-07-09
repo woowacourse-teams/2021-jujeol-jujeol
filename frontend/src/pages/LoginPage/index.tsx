@@ -1,6 +1,6 @@
-import KakaoIcon from 'src/components/Icons/symbol_kakao';
-import { Logo, Container, KakaoLoginButton } from './styles';
+import { Logo, Container } from './styles';
 import logo from 'src/assets/jujeol_logo_square.svg';
+import KakaoLogin from 'src/components/SocialLogin/KakaoLogin';
 
 const LoginPage = () => {
   return (
@@ -11,10 +11,7 @@ const LoginPage = () => {
 
       <div>
         <p>만 18세 이상만 이용 가능한 서비스입니다.</p>
-        <KakaoLoginButton>
-          <KakaoIcon />
-          <span>카카오 로그인</span>
-        </KakaoLoginButton>
+        <KakaoLogin />
       </div>
     </Container>
   );

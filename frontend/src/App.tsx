@@ -3,6 +3,7 @@ import Tab from './components/Tab/Tab';
 import PATH from './constants/path';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import OauthPage from './pages/OauthPage';
 import { MainContainer } from './styles';
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
           <Switch>
             <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
             <Route exact path={[PATH.LOGIN]} component={LoginPage} />
+            <Route exact path={[PATH.OAUTH]} component={OauthPage} />
             <Redirect to={PATH.ROOT} />
           </Switch>
         </MainContainer>
