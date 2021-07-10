@@ -10,7 +10,9 @@ export default {
     bundle: true,
   },
   packageOptions: {},
-  devOptions: {},
+  devOptions: {
+    port: 3000,
+  },
   buildOptions: {},
   alias: {
     src: './src',

@@ -23,50 +23,93 @@ public class RequestBuilder {
         this.restDocumentation = restDocumentation;
     }
 
-    public Given builder() {
-        return new Given();
+    public Function builder() {
+        return new Function();
     }
 
-    public class Given {
+    public class Function {
 
-        private final RequestSpecification spec;
+        public Option get(String path, Object... pathParams) {
+            return new Option(new GetRequest(path, pathParams));
+        }
 
-        public Given() {
-            this.spec = new RequestSpecBuilder()
+        public <T> Option post(String path, T data) {
+            return new Option(new PostRequest<>(path, data));
+        }
+    }
+
+    public class Option {
+
+        private final RestAssuredRequest request;
+        private boolean logFlag;
+        private DocumentConfig documentConfig;
+
+        public Option(RestAssuredRequest request) {
+            this.request = request;
+            this.logFlag = true;
+            this.documentConfig = new DocumentConfig();
+        }
+
+        public Option withDocument(String identifier) {
+            documentConfig.createDocument(identifier);
+            return this;
+        }
+
+        public Option withoutLog() {
+            this.logFlag = false;
+            return this;
+        }
+
+        public ExtractableResponse<Response> build() {
+            RequestSpecification requestSpec;
+            if (documentConfig.documentFlag) {
+                requestSpec = requestWithDocument();
+            } else {
+                requestSpec = RestAssured.given();
+            }
+
+            if(logFlag) {
+                requestSpec = requestSpec.log().all();
+            }
+
+            ValidatableResponse validatableResponse = request.doAction(requestSpec);
+
+            if (logFlag) {
+                validatableResponse = validatableResponse.log().all();
+            }
+
+            return validatableResponse.extract();
+        }
+
+        private RequestSpecification requestWithDocument() {
+            final RequestSpecification spec = new RequestSpecBuilder()
                     .addFilter(documentationConfiguration(restDocumentation))
                     .build();
+
+            return RestAssured.given(spec)
+                    .filter(document(documentConfig.identifier,
+                            preprocessRequest(prettyPrint()),
+                            preprocessResponse(prettyPrint())));
         }
 
-        public When withDocument(String identifier) {
-            return new When(RestAssured
-                    .given(spec)
-                    .filter(document(identifier, preprocessRequest(prettyPrint()),
-                            preprocessResponse(prettyPrint()))));
-        }
+        private class DocumentConfig {
 
-        public When noDocument() {
-            return new When(RestAssured.given());
-        }
-    }
+            private boolean documentFlag;
+            private String identifier;
 
-    public class When {
+            public DocumentConfig() {
+                this.documentFlag = false;
+            }
 
-        private final RequestSpecification requestSpecification;
-
-        public When(RequestSpecification requestSpecification) {
-            this.requestSpecification = requestSpecification;
-        }
-
-        public Then get(String path, Object... pathParams) {
-            return new Then(requestSpecification, new GetRequest(path, pathParams));
-        }
-
-        public <T> Then post(String path, T data) {
-            return new Then(requestSpecification, new PostRequest<>(path, data));
+            void createDocument(String identifier) {
+                this.identifier = identifier;
+                this.documentFlag = true;
+            }
         }
     }
 
     interface RestAssuredRequest {
+
         ValidatableResponse doAction(RequestSpecification spec);
     }
 
@@ -102,40 +145,6 @@ public class RequestBuilder {
             return spec.body(data).contentType(ContentType.JSON)
                     .post(path)
                     .then();
-        }
-    }
-
-    public class Then {
-
-        private RequestSpecification requestSpecification;
-        private RestAssuredRequest restAssuredRequest;
-        private boolean logFlag = true;
-
-        public Then(RequestSpecification requestSpecification,
-                RestAssuredRequest restAssuredRequest) {
-            this.requestSpecification = requestSpecification;
-            this.restAssuredRequest = restAssuredRequest;
-        }
-
-        public Then withoutLog() {
-            this.logFlag = false;
-            return this;
-        }
-
-        public ExtractableResponse<Response> build() {
-            if(logFlag) {
-                this.requestSpecification = requestSpecification.log().all();
-            }
-
-            ValidatableResponse validatableResponse =
-                    restAssuredRequest
-                            .doAction(requestSpecification);
-
-            if(logFlag) {
-                validatableResponse = validatableResponse.log().all();
-            }
-
-            return validatableResponse.extract();
         }
     }
 }
