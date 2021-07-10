@@ -6,6 +6,18 @@
 :toclevels: 2
 :sectlinks:
 
+== 멤버
+=== 로그인
+==== 토큰 발급
+
+- Request
+
+include::{snippets}/member/login/token/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/login/token/http-response.adoc[]
+
 //== 계정
 //=== 정보 조회
 //==== Account-Id로 계정 정보 조회
