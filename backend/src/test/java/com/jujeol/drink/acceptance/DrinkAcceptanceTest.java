@@ -1,16 +1,14 @@
 package com.jujeol.drink.acceptance;
 
+import static com.jujeol.TestDataLoader.BEERS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
-import com.jujeol.commons.dto.CommonResponseDto;
 import com.jujeol.drink.application.dto.DrinkResponse;
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
 
 public class DrinkAcceptanceTest extends AcceptanceTest {
 
@@ -19,15 +17,17 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     public void showDrinksTest() {
         //given
         //when
-        ExtractableResponse<Response> response = request()
+        List<DrinkResponse> drinkResponses = request()
                 .get("/drinks")
                 .withDocument("drinks/show/all")
-                .build();
+                .build().convertBodyToList(DrinkResponse.class);
 
-        CommonResponseDto<List<DrinkResponse>> expectedResult =
-                response.body().as(CommonResponseDto.class);
+        //then
+        List<DrinkResponse> expectedResult = BEERS.stream()
+                .filter(drink -> drink.getId() < 8)
+                .map(drink -> DrinkResponse.from(drink, ""))
+                .collect(Collectors.toList());
 
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(expectedResult.getData().size()).isEqualTo(7);
+        assertThat(expectedResult).containsAll(drinkResponses);
     }
 }

@@ -18,7 +18,7 @@ public class ExceptionAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = request()
                 .get("/neverexistapi/never/and/ever")
                 .withDocument("exception/notfound")
-                .build();
+                .build().totalResponse();
 
         int statusCode = response.statusCode();
         JujeolExceptionDto body = response.body().as(JujeolExceptionDto.class);
