@@ -2,7 +2,6 @@ package com.jujeol;
 
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.DrinkRepository;
-import java.util.Arrays;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
