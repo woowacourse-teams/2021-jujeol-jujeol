@@ -25,7 +25,7 @@ include::{snippets}/drinks/show/all/http-request.adoc[]
 include::{snippets}/drinks/show/all/http-response.adoc[]
 
 == 예외
-=== 404 예외성
+=== 404 예외
 - Request
 
 include::{snippets}/exception/notfound/http-request.adoc[]
