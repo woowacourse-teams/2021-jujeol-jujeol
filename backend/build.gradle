@@ -1,7 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.5.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.asciidoctor.convert' version '1.5.8'
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
     id 'java'
 }
 
@@ -17,10 +17,6 @@ configurations {
 
 repositories {
     mavenCentral()
-}
-
-ext {
-    set('snippetsDir', file("build/generated-snippets"))
 }
 
 dependencies {
@@ -41,19 +37,36 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 }
 
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
 test {
-    outputs.dir snippetsDir
     useJUnitPlatform()
 }
 
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/index.html')
+}
+
 asciidoctor {
-    inputs.dir snippetsDir
     dependsOn test
+    inputs.dir snippetsDir
+}
+
+task createDocument(type: Copy) {
+    dependsOn asciidoctor
+    from file("build/docs/asciidoc/index.html")
+    into file("src/main/resources/static")
+}
+
+build {
+    dependsOn createDocument
 }
 
 bootJar {
-  dependsOn asciidoctor
-  from ("${asciidoctor.outputDir}/html5") {
-    into "static/docs"
-  }
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}") {
+        into 'static'
+    }
 }
