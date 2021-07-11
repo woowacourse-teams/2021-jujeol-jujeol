@@ -6,6 +6,25 @@
 :toclevels: 2
 :sectlinks:
 
+== 멤버
+=== 로그인
+==== 토큰 발급
+
+- Request
+
+include::{snippets}/member/login/token/http-request.adoc[]
+providerName 규칙
+[width="70%"]
+|===
+|로그인 서버 종류 |providerName
+|카카오 | KAKAO
+|네이버 |NAVER
+|===
+
+- Response
+
+include::{snippets}/member/login/token/http-response.adoc[]
+
 //== 계정
 //=== 정보 조회
 //==== Account-Id로 계정 정보 조회

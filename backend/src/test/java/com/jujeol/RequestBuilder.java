@@ -6,6 +6,10 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.documentationConfiguration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jujeol.commons.dto.CommonResponseDto;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
@@ -13,60 +17,153 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 
 public class RequestBuilder {
 
     private final RestDocumentationContextProvider restDocumentation;
+    private final ObjectMapper objectMapper;
 
     public RequestBuilder(RestDocumentationContextProvider restDocumentation) {
         this.restDocumentation = restDocumentation;
+        this.objectMapper = new ObjectMapper();
     }
 
-    public Given builder() {
-        return new Given();
+    public Function builder() {
+        return new Function();
     }
 
-    public class Given {
+    public class Function {
 
-        private final RequestSpecification spec;
+        public Option get(String path, Object... pathParams) {
+            return new Option(new GetRequest(path, pathParams));
+        }
 
-        public Given() {
-            this.spec = new RequestSpecBuilder()
+        public <T> Option post(String path, T data) {
+            return new Option(new PostRequest<>(path, data));
+        }
+    }
+
+    public class Option {
+
+        private final RestAssuredRequest request;
+        private boolean logFlag;
+        private DocumentConfig documentConfig;
+
+        public Option(RestAssuredRequest request) {
+            this.request = request;
+            this.logFlag = true;
+            this.documentConfig = new DocumentConfig();
+        }
+
+        public Option withDocument(String identifier) {
+            documentConfig.createDocument(identifier);
+            return this;
+        }
+
+        public Option withoutLog() {
+            this.logFlag = false;
+            return this;
+        }
+
+        public HttpResponse build() {
+            RequestSpecification requestSpec;
+            if (documentConfig.documentFlag) {
+                requestSpec = requestWithDocument();
+            } else {
+                requestSpec = RestAssured.given();
+            }
+
+            if(logFlag) {
+                requestSpec = requestSpec.log().all();
+            }
+
+            ValidatableResponse validatableResponse = request.doAction(requestSpec);
+
+            if (logFlag) {
+                validatableResponse = validatableResponse.log().all();
+            }
+
+            return new HttpResponse(validatableResponse.extract());
+        }
+
+        private RequestSpecification requestWithDocument() {
+            final RequestSpecification spec = new RequestSpecBuilder()
                     .addFilter(documentationConfiguration(restDocumentation))
                     .build();
+
+            return RestAssured.given(spec)
+                    .filter(document(documentConfig.identifier,
+                            preprocessRequest(prettyPrint()),
+                            preprocessResponse(prettyPrint())));
         }
 
-        public When withDocument(String identifier) {
-            return new When(RestAssured
-                    .given(spec)
-                    .filter(document(identifier, preprocessRequest(prettyPrint()),
-                            preprocessResponse(prettyPrint()))));
-        }
+        private class DocumentConfig {
 
-        public When noDocument() {
-            return new When(RestAssured.given());
+            private boolean documentFlag;
+            private String identifier;
+
+            public DocumentConfig() {
+                this.documentFlag = false;
+            }
+
+            void createDocument(String identifier) {
+                this.identifier = identifier;
+                this.documentFlag = true;
+            }
         }
     }
 
-    public class When {
+    public class HttpResponse {
 
-        private final RequestSpecification requestSpecification;
+        private final ExtractableResponse<Response> extractableResponse;
 
-        public When(RequestSpecification requestSpecification) {
-            this.requestSpecification = requestSpecification;
+        public HttpResponse(ExtractableResponse<Response> extractableResponse) {
+            this.extractableResponse = extractableResponse;
         }
 
-        public Then get(String path, Object... pathParams) {
-            return new Then(requestSpecification, new GetRequest(path, pathParams));
+        public <T> T convertBody(Class<T> tClass) {
+            final CommonResponseDto responseDto
+                    = extractableResponse.body().as(CommonResponseDto.class);
+
+            final LinkedHashMap data = (LinkedHashMap) responseDto.getData();
+            return objectMapper.convertValue(data, tClass);
         }
 
-        public <T> Then post(String path, T data) {
-            return new Then(requestSpecification, new PostRequest<>(path, data));
+        public <T> List<T> convertBodyToList(Class<T> tClass) {
+            final String json = extractableResponse.asString();
+            try {
+                final JsonNode jsonNode = objectMapper.readTree(json);
+
+                final List<T> list = new ArrayList<>();
+                final Iterator<JsonNode> data = jsonNode.withArray("data").elements();
+
+                data.forEachRemaining(dataNode -> {
+                    try {
+                        final T hello = objectMapper.treeToValue(dataNode, tClass);
+                        list.add(hello);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                });
+                return list;
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                return new ArrayList<>();
+            }
+        }
+
+        public ExtractableResponse<Response> totalResponse() {
+            return extractableResponse;
         }
     }
 
     interface RestAssuredRequest {
+
         ValidatableResponse doAction(RequestSpecification spec);
     }
 
@@ -102,40 +199,6 @@ public class RequestBuilder {
             return spec.body(data).contentType(ContentType.JSON)
                     .post(path)
                     .then();
-        }
-    }
-
-    public class Then {
-
-        private RequestSpecification requestSpecification;
-        private RestAssuredRequest restAssuredRequest;
-        private boolean logFlag = true;
-
-        public Then(RequestSpecification requestSpecification,
-                RestAssuredRequest restAssuredRequest) {
-            this.requestSpecification = requestSpecification;
-            this.restAssuredRequest = restAssuredRequest;
-        }
-
-        public Then withoutLog() {
-            this.logFlag = false;
-            return this;
-        }
-
-        public ExtractableResponse<Response> build() {
-            if(logFlag) {
-                this.requestSpecification = requestSpecification.log().all();
-            }
-
-            ValidatableResponse validatableResponse =
-                    restAssuredRequest
-                            .doAction(requestSpecification);
-
-            if(logFlag) {
-                validatableResponse = validatableResponse.log().all();
-            }
-
-            return validatableResponse.extract();
         }
     }
 }
