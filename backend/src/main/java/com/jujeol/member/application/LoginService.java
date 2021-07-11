@@ -9,15 +9,18 @@ import com.jujeol.member.domain.Provider;
 import com.jujeol.member.util.JwtTokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
+@Transactional(readOnly = true)
 public class LoginService {
 
     private final SocialLoginStrategyFactory socialLoginStrategyFactory;
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
+    @Transactional
     public TokenResponse createToken(TokenRequest tokenRequest) {
         final SocialClient socialClient =
                 socialLoginStrategyFactory.selectSocialClient(tokenRequest.getProviderName());
