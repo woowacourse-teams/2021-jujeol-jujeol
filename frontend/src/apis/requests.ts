@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, Method } from 'axios';
 
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = process.env.SNOWPACK_PUBLIC_API_URL;
 
 const request = async (config: AxiosRequestConfig) => {
   try {
