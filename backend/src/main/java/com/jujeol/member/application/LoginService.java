@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class LoginService {
 
-    private final ProviderStrategyFactory providerStrategyFactory;
+    private final SocialLoginStrategyFactory socialLoginStrategyFactory;
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
     public TokenResponse createToken(TokenRequest tokenRequest) {
         final SocialClient socialClient =
-                providerStrategyFactory.selectSocialClient(tokenRequest.getProviderName());
+                socialLoginStrategyFactory.selectSocialClient(tokenRequest.getProviderName());
 
         String accessToken = socialClient.getAccessToken(tokenRequest.getCode());
         MemberDetails memberDetails = socialClient.getDetails(accessToken);

@@ -1,6 +1,6 @@
 package com.jujeol.member.infrastructure;
 
-import com.jujeol.member.application.ProviderStrategyFactory;
+import com.jujeol.member.application.SocialLoginStrategyFactory;
 import com.jujeol.member.application.SocialClient;
 import com.jujeol.member.domain.ProviderName;
 import com.jujeol.member.infrastructure.kakao.KakaoClient;
@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-@Profile({"dev", "prod"})
+@Profile({"dev", "prod", "local"})
 @RequiredArgsConstructor
-public class SocialClientFactory implements ProviderStrategyFactory {
+public class SocialClientFactory implements SocialLoginStrategyFactory {
 
     private final RestTemplate restTemplate;
     private final ClientResponseConverter converter;
