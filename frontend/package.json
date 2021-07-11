@@ -10,7 +10,7 @@
     "build": "snowpack build",
     "build:local": "cp ./env/.env.local ./.env && snowpack build --polyfill-node",
     "build:dev": "cp ./env/.env.development ./.env && GENERATE_SOURCEMAP=false snowpack build --polyfill-node",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest src",
     "storybook": "start-storybook -p 6006",
     "storybook-build": "build-storybook",
     "type-check": "tsc"
@@ -48,8 +48,10 @@
     "@storybook/addon-essentials": "^6.3.2",
     "@storybook/addon-links": "^6.3.2",
     "@storybook/react": "^6.3.2",
+    "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@types/dotenv": "^8.2.0",
+    "@types/jest": "^26.0.24",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",
     "babel-loader": "^8.2.2",
@@ -61,6 +63,9 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-testing-library": "^4.7.0",
-    "prettier": "^2.2.1"
+    "jest": "^27.0.6",
+    "jsdom": "^16.6.0",
+    "prettier": "^2.2.1",
+    "ts-jest": "^27.0.3"
   }
 }
