@@ -4,6 +4,7 @@ import com.jujeol.member.application.SocialLoginStrategyFactory;
 import com.jujeol.member.application.SocialClient;
 import com.jujeol.member.domain.ProviderName;
 import com.jujeol.member.infrastructure.kakao.KakaoClient;
+import com.jujeol.member.infrastructure.kakao.KakaoOauthInfo;
 import java.util.EnumMap;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -19,13 +20,14 @@ public class SocialClientFactory implements SocialLoginStrategyFactory {
 
     private final RestTemplate restTemplate;
     private final ClientResponseConverter converter;
+    private final KakaoOauthInfo kakaoOauthInfo;
 
     private Map<ProviderName, SocialClient> socialClients;
 
     @PostConstruct
     private void initialize() {
         socialClients = new EnumMap<>(ProviderName.class);
-        socialClients.put(ProviderName.KAKAO, new KakaoClient(restTemplate, converter));
+        socialClients.put(ProviderName.KAKAO, new KakaoClient(restTemplate, converter, kakaoOauthInfo));
     }
 
     @Override
