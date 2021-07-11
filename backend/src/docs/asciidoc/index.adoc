@@ -23,3 +23,13 @@ include::{snippets}/drinks/show/all/http-request.adoc[]
 - Response
 
 include::{snippets}/drinks/show/all/http-response.adoc[]
+
+== 예외
+=== 404 예외
+- Request
+
+include::{snippets}/exception/notfound/http-request.adoc[]
+
+- Response
+
+include::{snippets}/exception/notfound/http-response.adoc[]

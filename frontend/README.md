@@ -2,7 +2,16 @@
 
 #### Quick Start
 
+##### local 서버 연결
+
 ```
 cd frontend
-npm start
+npm run start:local
+```
+
+##### dev 서버 연결
+
+```
+cd frontend
+npm run start:dev
 ```
