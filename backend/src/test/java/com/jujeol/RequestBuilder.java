@@ -23,6 +23,29 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.documentationConfiguration;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jujeol.commons.dto.CommonResponseDto;
+import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.http.ContentType;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+
 public class RequestBuilder {
 
     private final RestDocumentationContextProvider restDocumentation;
@@ -115,49 +138,6 @@ public class RequestBuilder {
                 this.identifier = identifier;
                 this.documentFlag = true;
             }
-        }
-
-    public class HttpResponse {
-
-        private final ExtractableResponse<Response> extractableResponse;
-
-        public HttpResponse(ExtractableResponse<Response> extractableResponse) {
-            this.extractableResponse = extractableResponse;
-        }
-
-        public <T> T convertBody(Class<T> tClass) {
-            final CommonResponseDto responseDto
-                    = extractableResponse.body().as(CommonResponseDto.class);
-
-            final LinkedHashMap data = (LinkedHashMap) responseDto.getData();
-            return objectMapper.convertValue(data, tClass);
-        }
-
-        public <T> List<T> convertBodyToList(Class<T> tClass) {
-            final String json = extractableResponse.asString();
-            try {
-                final JsonNode jsonNode = objectMapper.readTree(json);
-
-                final List<T> list = new ArrayList<>();
-                final Iterator<JsonNode> data = jsonNode.withArray("data").elements();
-
-                data.forEachRemaining(dataNode -> {
-                    try {
-                        final T hello = objectMapper.treeToValue(dataNode, tClass);
-                        list.add(hello);
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                });
-                return list;
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                return new ArrayList<>();
-            }
-        }
-
-        public ExtractableResponse<Response> totalResponse() {
-            return extractableResponse;
         }
     }
 
