@@ -20,7 +20,7 @@
     "paths": {
       "src/*": ["./src/*"],
       "public/*": ["./public/*"]
-    },
+    }
   },
-  "include": ["src", "custom.d.ts"]
+  "include": ["src", "config.d.ts"]
 }
