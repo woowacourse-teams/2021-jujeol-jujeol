@@ -18,7 +18,8 @@ public class ClientResponseConverter {
     public <T> MultiValueMap<String, String> convertHttpBody(T body) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         final Map<String, String> map =
-                objectMapper.convertValue(body, new TypeReference<>() {});
+                objectMapper.convertValue(body, new TypeReference<>() {
+                });
         params.setAll(map);
         return params;
     }

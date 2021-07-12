@@ -1,7 +1,7 @@
 package com.jujeol.member.infrastructure;
 
-import com.jujeol.member.application.SocialLoginStrategyFactory;
 import com.jujeol.member.application.SocialClient;
+import com.jujeol.member.application.SocialLoginStrategyFactory;
 import com.jujeol.member.domain.ProviderName;
 import com.jujeol.member.infrastructure.kakao.KakaoClient;
 import com.jujeol.member.infrastructure.kakao.KakaoOauthInfo;
@@ -27,7 +27,8 @@ public class SocialClientFactory implements SocialLoginStrategyFactory {
     @PostConstruct
     private void initialize() {
         socialClients = new EnumMap<>(ProviderName.class);
-        socialClients.put(ProviderName.KAKAO, new KakaoClient(restTemplate, converter, kakaoOauthInfo));
+        socialClients
+                .put(ProviderName.KAKAO, new KakaoClient(restTemplate, converter, kakaoOauthInfo));
     }
 
     @Override
