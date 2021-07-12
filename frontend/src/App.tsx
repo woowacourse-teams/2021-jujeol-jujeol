@@ -27,6 +27,9 @@ const App = () => {
             <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
             <Route exact path={[PATH.LOGIN]} component={LoginPage} />
             <Route exact path={[PATH.OAUTH]} component={OauthPage} />
+            <Route exact path={[PATH.MYPAGE]}>
+              mypage
+            </Route>
             <Redirect to={PATH.ROOT} />
           </Switch>
         </MainContainer>
