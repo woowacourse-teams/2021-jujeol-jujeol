@@ -10,7 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity @Getter
+@Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Member {
@@ -22,15 +23,7 @@ public class Member {
     @Embedded
     private Provider provider;
 
-    @Embedded
-    private BirthYear birthYear;
-
-
-    public static Member create(Provider provider, BirthYear birthYear) {
-        // TODO : 미성년자 가입 불가
-//        if(birthYear.currentAge() < 19) {
-//            throw new MinorAgeException();
-//        }
-        return new Member(null, provider, birthYear);
+    public static Member create(Provider provider) {
+        return new Member(null, provider);
     }
 }

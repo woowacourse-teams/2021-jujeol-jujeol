@@ -2,6 +2,7 @@ package com.jujeol.member.infrastructure.kakao;
 
 import com.jujeol.member.application.MemberDetails;
 import com.jujeol.member.application.SocialClient;
+import com.jujeol.member.exception.KakaoAccessException;
 import com.jujeol.member.infrastructure.ClientResponseConverter;
 import com.jujeol.member.infrastructure.kakao.dto.KakaoAccessTokenRequest;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @RequiredArgsConstructor
@@ -33,19 +35,24 @@ public class KakaoClient implements SocialClient {
         headers.add(CONTENT_TYPE, DEFAULT_CHARSET);
 
         final KakaoAccessTokenRequest kakaoAccessTokenRequest = new KakaoAccessTokenRequest(
-                GRANT_TYPE, kakaoOauthInfo.getClientId(), kakaoOauthInfo.getKakaoRedirectUrl(), code,
+                GRANT_TYPE, kakaoOauthInfo.getClientId(), kakaoOauthInfo.getKakaoRedirectUrl(),
+                code,
                 kakaoOauthInfo.getClientSecret());
 
-        ResponseEntity<String> response = restTemplate.exchange(
-                kakaoOauthInfo.getKakaoTokenUrl(),
-                HttpMethod.POST,
-                new HttpEntity<>(
-                        clientResponseConverter.convertHttpBody(kakaoAccessTokenRequest),
-                        headers),
-                String.class
-        );
-
-        return clientResponseConverter.extractDataAsString(response.getBody(), ACCESS_TOKEN);
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(
+                    kakaoOauthInfo.getKakaoTokenUrl(),
+                    HttpMethod.POST,
+                    new HttpEntity<>(
+                            clientResponseConverter.convertHttpBody(kakaoAccessTokenRequest),
+                            headers),
+                    String.class
+            );
+            return clientResponseConverter.extractDataAsString(response.getBody(), ACCESS_TOKEN);
+        } catch (HttpClientErrorException e) {
+            System.out.println(e.getMessage());
+            throw new KakaoAccessException();
+        }
     }
 
     @Override
@@ -53,18 +60,20 @@ public class KakaoClient implements SocialClient {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(AUTHORIZATION, String.format(BEARER_FORM, accessToken));
         final String body = restTemplate
-                .exchange(kakaoOauthInfo.getKakaoUserUrl(), HttpMethod.GET, new HttpEntity<>(httpHeaders),
+                .exchange(kakaoOauthInfo.getKakaoUserUrl(), HttpMethod.GET,
+                        new HttpEntity<>(httpHeaders),
                         String.class)
                 .getBody();
 
         final String id = clientResponseConverter.extractDataAsString(body, ID);
-        return new KakaoMemberDetails(id, null);
+        return new KakaoMemberDetails(id);
     }
 
     @Override
     public void unlink(String accessToken) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(AUTHORIZATION, String.format(BEARER_FORM, accessToken));
-        restTemplate.exchange(kakaoOauthInfo.getKakaoUnlinkUrl(), HttpMethod.GET, new HttpEntity<>(httpHeaders), Void.class);
+        restTemplate.exchange(kakaoOauthInfo.getKakaoUnlinkUrl(), HttpMethod.GET,
+                new HttpEntity<>(httpHeaders), Void.class);
     }
 }

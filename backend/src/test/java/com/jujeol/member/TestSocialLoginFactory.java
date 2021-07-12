@@ -23,11 +23,6 @@ public class TestSocialLoginFactory implements SocialLoginStrategyFactory {
             }
 
             @Override
-            public String birthYear() {
-                return "1993";
-            }
-
-            @Override
             public ProviderName providerCode() {
                 return ProviderName.TEST;
             }

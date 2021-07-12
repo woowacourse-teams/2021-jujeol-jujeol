@@ -6,7 +6,5 @@ public interface MemberDetails {
 
     String accountId();
 
-    String birthYear();
-
     ProviderName providerCode();
 }
