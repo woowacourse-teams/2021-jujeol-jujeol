@@ -13,7 +13,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DrinkService {
 
+<<<<<<< HEAD
     @Value("${file-server.url:localhost:8080/docs}")
+=======
+    @Value("${file-server.url}")
+>>>>>>> c7261e0444d3e4b1cb749e612e2d7634c566b3b4
     private String fileServerUrl;
 
     private final DrinkRepository drinkRepository;

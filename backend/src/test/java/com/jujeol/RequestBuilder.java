@@ -116,7 +116,6 @@ public class RequestBuilder {
                 this.documentFlag = true;
             }
         }
-    }
 
     public class HttpResponse {
 

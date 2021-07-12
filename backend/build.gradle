@@ -45,6 +45,10 @@ ext {
     snippetsDir = file('build/generated-snippets')
 }
 
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
 test {
     useJUnitPlatform()
 }
@@ -68,9 +72,16 @@ build {
     dependsOn createDocument
 }
 
+task createDocument(type: Copy) {
+    dependsOn asciidoctor
+
+    from file("build/docs/asciidoc/index.html")
+    into file("src/main/resources/static")
+}
+
 bootJar {
     dependsOn asciidoctor
-    from ("${asciidoctor.outputDir}") {
+    from ("${asciidoctor.outputDir}/asciidoc") {
         into 'static'
     }
 }
