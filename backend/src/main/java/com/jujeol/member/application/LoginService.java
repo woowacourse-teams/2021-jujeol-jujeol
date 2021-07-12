@@ -2,7 +2,6 @@ package com.jujeol.member.application;
 
 import com.jujeol.member.application.dto.TokenRequest;
 import com.jujeol.member.application.dto.TokenResponse;
-import com.jujeol.member.domain.BirthYear;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
 import com.jujeol.member.domain.Provider;
@@ -38,8 +37,7 @@ public class LoginService {
 
         return memberRepository.findByProvideId(provideId).orElseGet(() -> {
             final Provider provider = Provider.create(provideId, memberDetails.providerCode());
-            final BirthYear birthYear = BirthYear.of(memberDetails.birthYear());
-            return memberRepository.save(Member.create(provider, birthYear));
+            return memberRepository.save(Member.create(provider));
         });
     }
 }

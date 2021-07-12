@@ -12,16 +12,10 @@ import lombok.NoArgsConstructor;
 public class KakaoMemberDetails implements MemberDetails {
 
     private String id;
-    private String birthYear;
 
     @Override
     public String accountId() {
         return id;
-    }
-
-    @Override
-    public String birthYear() {
-        return birthYear;
     }
 
     @Override
