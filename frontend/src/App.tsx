@@ -1,5 +1,5 @@
 import { FormEvent } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import SearchBar from './components/@shared/SearchBar/SearchBar';
 import Header from './components/Header/Header';
 import Tab from './components/Tab/Tab';
@@ -21,11 +21,13 @@ const App = () => {
         </Header>
 
         <MainContainer>
-          <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
-          <Route exact path={[PATH.LOGIN]}>
-            login
-          </Route>
-          <Redirect to={PATH.ROOT} />
+          <Switch>
+            <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
+            <Route exact path={[PATH.LOGIN]}>
+              login
+            </Route>
+            <Redirect to={PATH.ROOT} />
+          </Switch>
         </MainContainer>
 
         <Tab></Tab>
