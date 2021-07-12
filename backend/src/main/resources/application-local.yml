@@ -11,8 +11,6 @@ spring:
   output:
     ansi:
       enabled: always
-file-server:
-  url: http://localhost:8080/docs
 logging:
   level:
     root: info
