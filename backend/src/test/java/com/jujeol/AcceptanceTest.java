@@ -27,6 +27,14 @@ public class AcceptanceTest {
         request = new RequestBuilder(restDocumentation);
     }
 
+    /**
+     * use-example :
+     *  request()
+     *      .get("/path")                   http method
+     *      .withoutLog()                   default : true
+     *      .withDocument("identifier")     default : withoutDocument
+     *      .build();
+     */
     protected Function request() {
         return request.builder();
     }

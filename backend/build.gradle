@@ -41,6 +41,10 @@ ext {
     snippetsDir = file('build/generated-snippets')
 }
 
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
 test {
     useJUnitPlatform()
 }
