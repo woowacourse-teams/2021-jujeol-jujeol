@@ -161,6 +161,50 @@ public class RequestBuilder {
         }
     }
 
+    public class HttpResponse {
+
+        private final ExtractableResponse<Response> extractableResponse;
+
+        public HttpResponse(ExtractableResponse<Response> extractableResponse) {
+            this.extractableResponse = extractableResponse;
+        }
+
+        public <T> T convertBody(Class<T> tClass) {
+            final CommonResponseDto responseDto
+                    = extractableResponse.body().as(CommonResponseDto.class);
+
+            final LinkedHashMap data = (LinkedHashMap) responseDto.getData();
+            return objectMapper.convertValue(data, tClass);
+        }
+
+        public <T> List<T> convertBodyToList(Class<T> tClass) {
+            final String json = extractableResponse.asString();
+            try {
+                final JsonNode jsonNode = objectMapper.readTree(json);
+
+                final List<T> list = new ArrayList<>();
+                final Iterator<JsonNode> data = jsonNode.withArray("data").elements();
+
+                data.forEachRemaining(dataNode -> {
+                    try {
+                        final T hello = objectMapper.treeToValue(dataNode, tClass);
+                        list.add(hello);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                });
+                return list;
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                return new ArrayList<>();
+            }
+        }
+
+        public ExtractableResponse<Response> totalResponse() {
+            return extractableResponse;
+        }
+    }
+
     interface RestAssuredRequest {
 
         ValidatableResponse doAction(RequestSpecification spec);
