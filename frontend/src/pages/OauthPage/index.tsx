@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useMutation } from 'react-query';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import API from 'src/apis/requests';
 import { PATH } from 'src/constants';
 
@@ -13,6 +13,8 @@ interface RequestData {
 
 const OauthPage = () => {
   const history = useHistory();
+  const location = useLocation();
+
   const code = new URLSearchParams(location.search).get(KAKAO_CODE_QUERY_SELECTOR);
 
   const { mutate } = useMutation(
@@ -43,7 +45,7 @@ const OauthPage = () => {
     return <Redirect to={PATH.LOGIN} />;
   }
 
-  return <div></div>;
+  return <></>;
 };
 
 export default OauthPage;
