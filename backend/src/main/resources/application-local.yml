@@ -11,3 +11,6 @@ spring:
   output:
     ansi:
       enabled: always
+logging:
+  level:
+    root: info

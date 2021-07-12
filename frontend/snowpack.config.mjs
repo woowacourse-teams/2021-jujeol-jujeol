@@ -4,7 +4,12 @@ export default {
     public: '/',
     src: '/dist',
   },
-  plugins: ['@snowpack/plugin-webpack', '@snowpack/plugin-typescript', '@snowpack/plugin-babel'],
+  plugins: [
+    '@snowpack/plugin-webpack',
+    '@snowpack/plugin-typescript',
+    '@snowpack/plugin-babel',
+    '@snowpack/plugin-dotenv',
+  ],
   routes: [{ match: 'routes', src: '.*', dest: '/index.html' }],
   optimize: {
     bundle: true,
@@ -14,4 +19,8 @@ export default {
     port: 3000,
   },
   buildOptions: {},
+  alias: {
+    src: './src',
+    public: './public',
+  },
 };
