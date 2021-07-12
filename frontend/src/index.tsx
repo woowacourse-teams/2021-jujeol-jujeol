@@ -1,10 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import APIProvider from './apis/APIProvider';
 import App from './App';
+import GlobalStyle from './GlobalStyle';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <APIProvider>
+      <GlobalStyle />
+      <App />
+    </APIProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
