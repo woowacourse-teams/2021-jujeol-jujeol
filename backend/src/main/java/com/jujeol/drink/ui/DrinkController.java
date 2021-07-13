@@ -19,8 +19,8 @@ public class DrinkController {
 
     @GetMapping("/drinks")
     public ResponseEntity<CommonResponseDto<List<DrinkSimpleResponse>>> showDrinks() {
-        List<DrinkSimpleResponse> drinkSimpleRespons = drinkService.showDrinks();
-        return ResponseEntity.ok(CommonResponseDto.fromList(drinkSimpleRespons, drinkSimpleRespons.size()));
+        List<DrinkSimpleResponse> drinkSimpleResponse = drinkService.showDrinks();
+        return ResponseEntity.ok(CommonResponseDto.fromList(drinkSimpleResponse, drinkSimpleResponse.size()));
     }
 
     @GetMapping("/drinks/{id}")
