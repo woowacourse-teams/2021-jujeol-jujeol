@@ -17,7 +17,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     public void showDrinksTest() {
         //given
         //when
-        List<DrinkSimpleResponse> drinkSimpleRespons = request()
+        List<DrinkSimpleResponse> drinkSimpleResponse = request()
                 .get("/drinks")
                 .withDocument("drinks/show/all")
                 .build().convertBodyToList(DrinkSimpleResponse.class);
@@ -28,6 +28,6 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .map(drink -> DrinkSimpleResponse.from(drink, ""))
                 .collect(Collectors.toList());
 
-        assertThat(expectedResult).containsAll(drinkSimpleRespons);
+        assertThat(expectedResult).containsAll(drinkSimpleResponse);
     }
 }
