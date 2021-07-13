@@ -1,7 +1,9 @@
 package com.jujeol.drink.application;
 
 import com.jujeol.drink.application.dto.DrinkResponse;
+import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.DrinkRepository;
+import com.jujeol.drink.exception.NotFoundDrinkException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +26,11 @@ public class DrinkService {
                 .get()
                 .map(drink -> DrinkResponse.from(drink, fileServerUrl))
                 .collect(Collectors.toList());
+    }
+
+    public DrinkResponse showDrinkDetail(Long id) {
+        Drink drink = drinkRepository.findById(id)
+                .orElseThrow(NotFoundDrinkException::new);
+        return DrinkResponse.from(drink, fileServerUrl);
     }
 }
