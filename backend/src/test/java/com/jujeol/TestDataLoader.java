@@ -48,4 +48,3 @@ public class TestDataLoader implements CommandLineRunner {
         BEERS = drinkRepository.saveAll(beers);
     }
 }
-

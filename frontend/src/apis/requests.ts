@@ -16,6 +16,9 @@ const API = {
   getDrinks: () => {
     return request({ method: 'get' as Method, url: `${BASE_URL}/drinks` });
   },
+  login: <T>(data: T) => {
+    return request({ method: 'post' as Method, url: `${BASE_URL}/login/token`, data });
+  },
 };
 
 export default API;

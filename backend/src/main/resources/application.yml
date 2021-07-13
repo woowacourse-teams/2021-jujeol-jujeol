@@ -9,3 +9,5 @@ spring:
       "local": "console-logging,http-console-logging"
       "dev" : "file-logging,http-file-logging"
       "prod" : "file-logging,http-file-logging"
+file-server:
+  url: https://dmaxaug2ve9od.cloudfront.net
