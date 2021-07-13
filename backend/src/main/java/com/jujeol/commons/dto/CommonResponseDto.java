@@ -23,5 +23,3 @@ public class CommonResponseDto<T> {
         return new CommonResponseDto<>(data, null);
     }
 }
-
-

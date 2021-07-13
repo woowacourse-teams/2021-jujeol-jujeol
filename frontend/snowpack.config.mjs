@@ -14,7 +14,8 @@ export default {
   optimize: {
     bundle: true,
   },
-  packageOptions: {},
+  packageOptions: {
+  },
   devOptions: {
     port: 3000,
   },
