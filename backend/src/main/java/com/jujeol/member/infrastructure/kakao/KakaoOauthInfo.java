@@ -10,16 +10,16 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 public class KakaoOauthInfo {
 
-    @Value("${kakao.client.id:123}")
+    @Value("${kakao.client.id}")
     private String clientId;
-    @Value("${kakao.client.secret:123}")
+    @Value("${kakao.client.secret}")
     private String clientSecret;
-    @Value("${kakao.url.access-token:/default}")
+    @Value("${kakao.url.access-token}")
     private String kakaoTokenUrl;
-    @Value("${kakao.url.profile:/default}")
+    @Value("${kakao.url.profile}")
     private String kakaoUserUrl;
-    @Value("${kakao.client.redirect-url:/default}")
+    @Value("${kakao.client.redirect-url}")
     private String kakaoRedirectUrl;
-    @Value("${kakao.url.unlink:/default}")
+    @Value("${kakao.url.unlink}")
     private String kakaoUnlinkUrl;
 }
