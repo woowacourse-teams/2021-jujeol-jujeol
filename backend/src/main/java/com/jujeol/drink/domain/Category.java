@@ -1,5 +1,8 @@
 package com.jujeol.drink.domain;
 
+import lombok.Getter;
+
+@Getter
 public enum Category {
 
     BEER("맥주"),
@@ -7,13 +10,9 @@ public enum Category {
     WINE("와인"),
     MAKGEOLLI("막걸리");
 
-    private String name;
+    private final String name;
 
     Category(String name) {
         this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 }
