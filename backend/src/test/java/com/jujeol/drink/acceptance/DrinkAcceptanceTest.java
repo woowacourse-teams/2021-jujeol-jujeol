@@ -4,7 +4,7 @@ import static com.jujeol.TestDataLoader.BEERS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
-import com.jujeol.drink.application.dto.DrinkResponse;
+import com.jujeol.drink.application.dto.DrinkSimpleResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
@@ -17,17 +17,17 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     public void showDrinksTest() {
         //given
         //when
-        List<DrinkResponse> drinkResponses = request()
+        List<DrinkSimpleResponse> drinkSimpleRespons = request()
                 .get("/drinks")
                 .withDocument("drinks/show/all")
-                .build().convertBodyToList(DrinkResponse.class);
+                .build().convertBodyToList(DrinkSimpleResponse.class);
 
         //then
-        List<DrinkResponse> expectedResult = BEERS.stream()
+        List<DrinkSimpleResponse> expectedResult = BEERS.stream()
                 .filter(drink -> drink.getId() < 8)
-                .map(drink -> DrinkResponse.from(drink, ""))
+                .map(drink -> DrinkSimpleResponse.from(drink, ""))
                 .collect(Collectors.toList());
 
-        assertThat(expectedResult).containsAll(drinkResponses);
+        assertThat(expectedResult).containsAll(drinkSimpleRespons);
     }
 }

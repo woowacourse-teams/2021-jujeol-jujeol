@@ -2,7 +2,8 @@ package com.jujeol.drink.ui;
 
 import com.jujeol.commons.dto.CommonResponseDto;
 import com.jujeol.drink.application.DrinkService;
-import com.jujeol.drink.application.dto.DrinkResponse;
+import com.jujeol.drink.application.dto.DrinkDetailResponse;
+import com.jujeol.drink.application.dto.DrinkSimpleResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +18,15 @@ public class DrinkController {
     private final DrinkService drinkService;
 
     @GetMapping("/drinks")
-    public ResponseEntity<CommonResponseDto<List<DrinkResponse>>> showDrinks() {
-        List<DrinkResponse> drinkResponses = drinkService.showDrinks();
-        return ResponseEntity.ok(CommonResponseDto.fromList(drinkResponses, drinkResponses.size()));
+    public ResponseEntity<CommonResponseDto<List<DrinkSimpleResponse>>> showDrinks() {
+        List<DrinkSimpleResponse> drinkSimpleRespons = drinkService.showDrinks();
+        return ResponseEntity.ok(CommonResponseDto.fromList(drinkSimpleRespons, drinkSimpleRespons.size()));
     }
 
     @GetMapping("/drinks/{id}")
-    public ResponseEntity<CommonResponseDto<DrinkResponse>> showDrinkDetail(@PathVariable Long id) {
-        DrinkResponse drinkResponse = drinkService.showDrinkDetail(id);
+    public ResponseEntity<CommonResponseDto<DrinkDetailResponse>> showDrinkDetail(@PathVariable Long id) {
+        // TODO: member & preference 추가
+        DrinkDetailResponse drinkResponse = drinkService.showDrinkDetail(id);
         return ResponseEntity.ok(CommonResponseDto.fromOne(drinkResponse));
     }
 }

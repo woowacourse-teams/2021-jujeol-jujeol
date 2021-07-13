@@ -1,12 +1,10 @@
 package com.jujeol;
 
-import com.jujeol.drink.application.dto.DrinkResponse;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.DrinkRepository;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
