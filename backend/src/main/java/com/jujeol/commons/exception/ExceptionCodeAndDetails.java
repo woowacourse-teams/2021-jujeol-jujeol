@@ -2,6 +2,7 @@ package com.jujeol.commons.exception;
 
 import com.jujeol.drink.exception.InvalidAlcoholByVolumeException;
 import com.jujeol.drink.exception.InvalidDrinkNameException;
+import com.jujeol.drink.exception.InvalidEnglishNameException;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.member.exception.KakaoAccessException;
 import java.util.Arrays;
@@ -18,8 +19,9 @@ public enum ExceptionCodeAndDetails {
     KAKAO_ACCESS_EXCEPTION("1002", "카카오 로그인 서버에 접근 중 예외가 발생했습니다.", KakaoAccessException.class),
 
     INVALID_ALCOHOL_BY_VOLUME("2001", "해당 주류의 도수가 잘 못 되었습니다.", InvalidAlcoholByVolumeException.class),
-    INVALID_DRINK_NAME("2002", "해당 주류의 이름이 공백입니다.", InvalidDrinkNameException.class),
-    NOT_FOUND_DRINK("2003", "해당하는 id의 상품을 찾을 수 없습니다.", NotFoundDrinkException.class)
+    INVALID_DRINK_NAME("2002", "해당 주류의 이름이 형식에 맞지 않습니다.", InvalidDrinkNameException.class),
+    NOT_FOUND_DRINK("2003", "해당하는 id의 상품을 찾을 수 없습니다.", NotFoundDrinkException.class),
+    INVALID_ENGLISH_DRINK_NAME("2005", "해당 주류의 영문명이 형식에 맞지 않습니다.", InvalidEnglishNameException.class);
     ;
 
     private String code;

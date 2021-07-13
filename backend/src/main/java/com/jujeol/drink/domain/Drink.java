@@ -26,18 +26,24 @@ public class Drink {
     @Embedded
     private DrinkName name;
     @Embedded
+    private DrinkEnglishName englishName;
+    @Embedded
     private AlcoholByVolume alcoholByVolume;
     @Embedded
     private ImageFilePath imageFilePath;
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    public static Drink from(String name, Double alcoholByVolume, String imageUrl, Category category) {
-        return new Drink(null, new DrinkName(name), new AlcoholByVolume(alcoholByVolume), new ImageFilePath(imageUrl), category);
+    public static Drink from(String name, String englishName, Double alcoholByVolume, String imageUrl, Category category) {
+        return new Drink(null, new DrinkName(name), new DrinkEnglishName(englishName), new AlcoholByVolume(alcoholByVolume), new ImageFilePath(imageUrl), category);
     }
 
     public String getName() {
         return name.getName();
+    }
+
+    public String getEnglishName() {
+        return englishName.getEnglishName();
     }
 
     public Double getAlcoholByVolume() {

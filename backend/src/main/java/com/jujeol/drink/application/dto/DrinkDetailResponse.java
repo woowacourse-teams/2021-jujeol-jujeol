@@ -14,6 +14,7 @@ public class DrinkDetailResponse {
 
     private Long id;
     private String name;
+    private String englishName;
     private Double alcoholByVolume;
     private String imageUrl;
     private String category;
@@ -21,6 +22,7 @@ public class DrinkDetailResponse {
     public static DrinkDetailResponse from(Drink drink, String fileServerUrl) {
         return new DrinkDetailResponse(drink.getId(),
                 drink.getName(),
+                drink.getEnglishName(),
                 drink.getAlcoholByVolume(),
                 fileServerUrl + "/" + drink.getImageFilePath(),
                 drink.getCategory()
