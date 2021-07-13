@@ -27,10 +27,12 @@ public class RequestBuilder {
 
     private final RestDocumentationContextProvider restDocumentation;
     private final ObjectMapper objectMapper;
+    private final String accessToken;
 
-    public RequestBuilder(RestDocumentationContextProvider restDocumentation) {
+    public RequestBuilder(RestDocumentationContextProvider restDocumentation, String accessToken) {
         this.restDocumentation = restDocumentation;
         this.objectMapper = new ObjectMapper();
+        this.accessToken = accessToken;
     }
 
     public Function builder() {
@@ -46,17 +48,27 @@ public class RequestBuilder {
         public <T> Option post(String path, T data) {
             return new Option(new PostRequest<>(path, data));
         }
+
+        public <T> Option put(String path, T data) {
+            return new Option(new PutRequest<>(path, data));
+        }
+
+        public <T> Option delete(String path) {
+            return new Option(new DeleteRequest<>(path));
+        }
     }
 
     public class Option {
 
         private final RestAssuredRequest request;
         private boolean logFlag;
+        private boolean withUserFlag;
         private DocumentConfig documentConfig;
 
         public Option(RestAssuredRequest request) {
             this.request = request;
             this.logFlag = true;
+            this.withUserFlag = false;
             this.documentConfig = new DocumentConfig();
         }
 
@@ -70,6 +82,11 @@ public class RequestBuilder {
             return this;
         }
 
+        public Option withUser() {
+            this.withUserFlag = true;
+            return this;
+        }
+
         public HttpResponse build() {
             RequestSpecification requestSpec;
             if (documentConfig.documentFlag) {
@@ -78,7 +95,11 @@ public class RequestBuilder {
                 requestSpec = RestAssured.given();
             }
 
-            if(logFlag) {
+            if (withUserFlag) {
+                requestSpec.header("Authorization", "Bearer " + accessToken);
+            }
+
+            if (logFlag) {
                 requestSpec = requestSpec.log().all();
             }
 
@@ -198,6 +219,40 @@ public class RequestBuilder {
         public ValidatableResponse doAction(RequestSpecification spec) {
             return spec.body(data).contentType(ContentType.JSON)
                     .post(path)
+                    .then();
+        }
+    }
+
+    private static class PutRequest<T> implements RestAssuredRequest {
+
+        private final String path;
+        private final T data;
+
+        public PutRequest(String path, T data) {
+            this.path = path;
+            this.data = data;
+        }
+
+        @Override
+        public ValidatableResponse doAction(RequestSpecification spec) {
+            return spec.body(data).contentType(ContentType.JSON)
+                    .put(path)
+                    .then();
+        }
+    }
+
+    private static class DeleteRequest<T> implements RestAssuredRequest {
+
+        private final String path;
+
+        public DeleteRequest(String path) {
+            this.path = path;
+        }
+
+        @Override
+        public ValidatableResponse doAction(RequestSpecification spec) {
+            return spec.contentType(ContentType.JSON)
+                    .delete(path)
                     .then();
         }
     }

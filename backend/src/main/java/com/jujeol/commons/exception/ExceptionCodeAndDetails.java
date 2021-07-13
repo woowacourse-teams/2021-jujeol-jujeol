@@ -4,6 +4,7 @@ import com.jujeol.drink.exception.InvalidAlcoholByVolumeException;
 import com.jujeol.drink.exception.InvalidDrinkNameException;
 import com.jujeol.member.exception.InvalidTokenException;
 import com.jujeol.member.exception.KakaoAccessException;
+import com.jujeol.member.exception.NoSuchMemberException;
 import java.util.Arrays;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,8 +19,10 @@ public enum ExceptionCodeAndDetails {
     INVALID_ALCOHOL_BY_VOLUME("2001", "해당 주류의 도수가 잘 못 되었습니다.", InvalidAlcoholByVolumeException.class),
     INVALID_DRINK_NAME("2002", "해당 주류의 이름이 공백입니다.", InvalidDrinkNameException.class),
 
-    KAKAO_ACCESS_EXCEPTION("1002", "카카오 로그인 서버에 접근 중 예외가 발생했습니다.", KakaoAccessException.class),
-    INVALID_TOKEN("1003", "유효하지 않은 토큰입니다.", InvalidTokenException .class)
+    NO_SUCH_MEMBER("2004", "해당 id의 유저가 없습니다.", NoSuchMemberException.class),
+
+    KAKAO_ACCESS("1002", "카카오 로그인 서버에 접근 중 예외가 발생했습니다.", KakaoAccessException.class),
+    INVALID_TOKEN("1003", "access token이 유효하지 않습니다.", InvalidTokenException .class)
     ;
 
     private String code;
