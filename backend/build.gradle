@@ -41,6 +41,13 @@ ext {
     snippetsDir = file('build/generated-snippets')
 }
 
+processResources.dependsOn('copySecret')
+
+task copySecret(type: Copy) {
+    from '../auth/application-oauth.yml'
+    into 'src/main/resources'
+}
+
 test {
     useJUnitPlatform()
 }
