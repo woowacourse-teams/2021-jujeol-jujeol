@@ -32,10 +32,6 @@ public class Drink {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    public static Drink from(String name, Double alcoholByVolume, String imageUrl) {
-        return new Drink(null, new DrinkName(name), new AlcoholByVolume(alcoholByVolume), new ImageFilePath(imageUrl), null);
-    }
-
     public static Drink from(String name, Double alcoholByVolume, String imageUrl, Category category) {
         return new Drink(null, new DrinkName(name), new AlcoholByVolume(alcoholByVolume), new ImageFilePath(imageUrl), category);
     }
