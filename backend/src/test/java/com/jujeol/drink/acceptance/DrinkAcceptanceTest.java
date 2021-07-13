@@ -4,11 +4,17 @@ import static com.jujeol.TestDataLoader.BEERS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
+import com.jujeol.commons.exception.ExceptionCodeAndDetails;
+import com.jujeol.commons.exception.JujeolExceptionDto;
+import com.jujeol.drink.application.dto.DrinkDetailResponse;
 import com.jujeol.drink.application.dto.DrinkSimpleResponse;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
 public class DrinkAcceptanceTest extends AcceptanceTest {
 
@@ -29,5 +35,39 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .collect(Collectors.toList());
 
         assertThat(expectedResult).containsAll(drinkSimpleResponse);
+    }
+
+    @DisplayName("단일 조회 - 성공")
+    @Test
+    public void showDrinkDetailTest(){
+        //given
+        //when
+        DrinkDetailResponse drinkDetailResponse = request()
+                .get("/drinks/1")
+                .withDocument("drinks/show/detail")
+                .build().convertBody(DrinkDetailResponse.class);
+
+        //then
+        DrinkDetailResponse expectedResult = DrinkDetailResponse.from(BEERS.get(0), "");
+
+        assertThat(expectedResult).isEqualTo(drinkDetailResponse);
+    }
+
+    @DisplayName("단일 조회 - 실패 (찾을 수 없는 id)")
+    @Test
+    public void showDrinkDetailTest_fail(){
+        //given
+        //when
+        ExtractableResponse<Response> response = request()
+            .get("drinks/1000")
+            .withDocument("drinks/show/detail-fail")
+            .build().totalResponse();
+
+        JujeolExceptionDto body = response.body().as(JujeolExceptionDto.class);
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getCode());
+        assertThat(body.getMessage()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
     }
 }
