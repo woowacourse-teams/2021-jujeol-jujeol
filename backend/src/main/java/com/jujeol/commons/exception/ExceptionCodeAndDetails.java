@@ -4,6 +4,7 @@ import com.jujeol.drink.exception.InvalidAlcoholByVolumeException;
 import com.jujeol.drink.exception.InvalidDrinkNameException;
 import com.jujeol.drink.exception.InvalidEnglishNameException;
 import com.jujeol.drink.exception.NotFoundDrinkException;
+import com.jujeol.drink.exception.NotFoundReviewException;
 import com.jujeol.member.exception.KakaoAccessException;
 import java.util.Arrays;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,8 @@ public enum ExceptionCodeAndDetails {
     INVALID_ALCOHOL_BY_VOLUME("2001", "해당 주류의 도수가 잘 못 되었습니다.", InvalidAlcoholByVolumeException.class),
     INVALID_DRINK_NAME("2002", "해당 주류의 이름이 형식에 맞지 않습니다.", InvalidDrinkNameException.class),
     NOT_FOUND_DRINK("2003", "해당하는 id의 상품을 찾을 수 없습니다.", NotFoundDrinkException.class),
-    INVALID_ENGLISH_DRINK_NAME("2005", "해당 주류의 영문명이 형식에 맞지 않습니다.", InvalidEnglishNameException.class);
+    INVALID_ENGLISH_DRINK_NAME("2004", "해당 주류의 영문명이 형식에 맞지 않습니다.", InvalidEnglishNameException.class),
+    NOT_FOUND_REVIEW("2005", "해당하는 id의 리뷰를 찾을 수 없습니다.", NotFoundReviewException.class)
     ;
 
     private String code;

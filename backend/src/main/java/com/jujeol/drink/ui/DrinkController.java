@@ -9,6 +9,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,12 @@ public class DrinkController {
     @PostMapping("/drinks/{id}/reviews")
     public ResponseEntity<Void> createReview(@PathVariable Long id, @RequestBody ReviewRequest reviewRequest) {
         drinkService.createReview(id, reviewRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/drinks/{drinkId}/reviews/{reviewId}")
+    public ResponseEntity<Void> deleteReview(@PathVariable Long drinkId, @PathVariable Long reviewId) {
+        drinkService.deleteReview(drinkId, reviewId);
         return ResponseEntity.ok().build();
     }
 }

@@ -8,6 +8,7 @@ import com.jujeol.drink.domain.DrinkRepository;
 import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.ReviewRepository;
 import com.jujeol.drink.exception.NotFoundDrinkException;
+import com.jujeol.drink.exception.NotFoundReviewException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -46,5 +47,14 @@ public class DrinkService {
 
         Review saveReview = reviewRepository.save(Review.from(reviewRequest.getContent(), drink));
         drink.addReview(saveReview);
+    }
+
+    @Transactional
+    public void deleteReview(Long drinkId, Long reviewId) {
+        Drink drink = drinkRepository.findById(drinkId).orElseThrow(NotFoundDrinkException::new);
+        Review review = reviewRepository.findById(reviewId).orElseThrow(NotFoundReviewException::new);
+
+        reviewRepository.delete(review);
+        drink.removeReview(review);
     }
 }

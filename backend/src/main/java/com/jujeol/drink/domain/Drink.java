@@ -64,6 +64,10 @@ public class Drink {
         reviews.add(review);
     }
 
+    public void removeReview(Review review) {
+        reviews.remove(review);
+    }
+
     public String getName() {
         return name.getName();
     }
