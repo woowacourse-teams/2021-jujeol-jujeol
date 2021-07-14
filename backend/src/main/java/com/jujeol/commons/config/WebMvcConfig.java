@@ -18,10 +18,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/docs/**")
                 .addResourceLocations("classpath:/static/");
+
+        registry.addResourceHandler("/admin/**")
+                .addResourceLocations("classpath:/static/admin/");
     }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/admin").setViewName("/admin/html/index");
+
         registry.addRedirectViewController("/", "/docs/index.html");
     }
 }
