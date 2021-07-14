@@ -109,7 +109,7 @@ include::{snippets}/reviews/update/http-request.adoc[]
 
 include::{snippets}/reviews/update/http-response.adoc[]
 
-=== 리뷰 수정(싪패_1)
+=== 리뷰 수정(실패_1)
 ==== 리뷰 수정 시 해당하는 id의 상품이 없는 경우
 
 - Request
