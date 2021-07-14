@@ -54,7 +54,19 @@ public class DrinkService {
         Drink drink = drinkRepository.findById(drinkId).orElseThrow(NotFoundDrinkException::new);
         Review review = reviewRepository.findById(reviewId).orElseThrow(NotFoundReviewException::new);
 
+        // TODO; Drink 안에 있는 Review 인지 검증 추가
+
         reviewRepository.delete(review);
         drink.removeReview(review);
+    }
+
+    @Transactional
+    public void updateReview(Long drinksId, Long reviewId, ReviewRequest reviewRequest) {
+        Drink drink = drinkRepository.findById(drinksId).orElseThrow(NotFoundDrinkException::new);
+        Review review = reviewRepository.findById(reviewId).orElseThrow(NotFoundReviewException::new);
+
+        // TODO; Drink 안에 있는 Review 인지 검증 추가
+
+        review.editContent(reviewRequest.getContent());
     }
 }

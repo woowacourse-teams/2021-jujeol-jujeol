@@ -40,7 +40,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("단일 조회 - 성공")
     @Test
-    public void showDrinkDetailTest(){
+    public void showDrinkDetailTest() {
         //given
         //when
         DrinkDetailResponse drinkDetailResponse = request()
@@ -56,20 +56,21 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("단일 조회 - 실패 (찾을 수 없는 id)")
     @Test
-    public void showDrinkDetailTest_fail(){
+    public void showDrinkDetailTest_fail() {
         //given
         //when
         ExtractableResponse<Response> response = request()
-            .get("drinks/1000")
-            .withDocument("drinks/show/detail-fail")
-            .build().totalResponse();
+                .get("drinks/1000")
+                .withDocument("drinks/show/detail-fail")
+                .build().totalResponse();
 
         JujeolExceptionDto body = response.body().as(JujeolExceptionDto.class);
 
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getCode());
-        assertThat(body.getMessage()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
+        assertThat(body.getMessage())
+                .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
     }
 
     @DisplayName("리뷰 생성 - 성공")
@@ -102,54 +103,119 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getCode());
-        assertThat(body.getMessage()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
+        assertThat(body.getMessage())
+                .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
     }
 
     @DisplayName("리뷰 삭제 - 성공")
     @Test
-    public void deleteReviewTest(){
+    public void deleteReviewTest() {
         //given
         //when
         ExtractableResponse<Response> response = request()
-            .delete("/drinks/1/reviews/1")
-            .withDocument("reviews/delete")
-            .build().totalResponse();
+                .delete("/drinks/1/reviews/1")
+                .withDocument("reviews/delete")
+                .build().totalResponse();
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     @DisplayName("리뷰 삭제 - 실패(잘못된 Drink id)")
     @Test
-    public void deleteReviewTest_fail_notFoundDrink(){
+    public void deleteReviewTest_fail_notFoundDrink() {
         //given
         //when
         ExtractableResponse<Response> response = request()
-            .delete("/drinks/" + Integer.MAX_VALUE + "/reviews/1")
-            .withDocument("reviews/delete-fail-drink")
-            .build().totalResponse();
+                .delete("/drinks/" + Integer.MAX_VALUE + "/reviews/1")
+                .withDocument("reviews/delete-fail-drink")
+                .build().totalResponse();
 
         JujeolExceptionDto body = response.body().as(JujeolExceptionDto.class);
 
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getCode());
-        assertThat(body.getMessage()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
+        assertThat(body.getMessage())
+                .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
     }
+
     @DisplayName("리뷰 삭제 - 실패(잘못된 Review id)")
     @Test
-    public void deleteReviewTest_fail_notFoundReview(){
+    public void deleteReviewTest_fail_notFoundReview() {
         //given
         //when
         ExtractableResponse<Response> response = request()
-            .delete("/drinks/1/reviews/-1")
-            .withDocument("reviews/delete-fail-review")
-            .build().totalResponse();
+                .delete("/drinks/1/reviews/-1")
+                .withDocument("reviews/delete-fail-review")
+                .build().totalResponse();
 
         JujeolExceptionDto body = response.body().as(JujeolExceptionDto.class);
 
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_REVIEW.getCode());
-        assertThat(body.getMessage()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_REVIEW.getMessage());
+        assertThat(body.getMessage())
+                .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_REVIEW.getMessage());
+    }
+
+    @DisplayName("리뷰 수정 - 성공")
+    @Test
+    public void updateReview() {
+        //given
+        String content = "천재 윤지우";
+        ReviewRequest reviewRequest = new ReviewRequest(content);
+
+        //when
+        ExtractableResponse<Response> response = request()
+                .put("/drinks/1/reviews/1", reviewRequest)
+                .withDocument("reviews/update")
+                .build().totalResponse();
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @DisplayName("리뷰 수정 - 실패(잘못된 Drink id)")
+    @Test
+    public void updateReview_fail_notFoundDrink() {
+        //given
+        String content = "천재 윤지우";
+        ReviewRequest reviewRequest = new ReviewRequest(content);
+
+        //when
+        ExtractableResponse<Response> response = request()
+                .put("/drinks/" + Integer.MAX_VALUE + "/reviews/1", reviewRequest)
+                .withDocument("reviews/update-fail-drink")
+                .build().totalResponse();
+
+        JujeolExceptionDto jujeolExceptionDto = response.body().as(JujeolExceptionDto.class);
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(jujeolExceptionDto.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getCode());
+        assertThat(jujeolExceptionDto.getMessage())
+                .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
+    }
+
+    @DisplayName("리뷰 수정 - 실패(잘못된 Review id)")
+    @Test
+    public void updateReview_fail_notFoundReview() {
+        //given
+        String content = "천재 윤지우";
+        ReviewRequest reviewRequest = new ReviewRequest(content);
+
+        //when
+        ExtractableResponse<Response> response = request()
+                .put("/drinks/1/reviews/" + Integer.MAX_VALUE, reviewRequest)
+                .withDocument("reviews/update-fail-review")
+                .build().totalResponse();
+
+        JujeolExceptionDto jujeolExceptionDto = response.body().as(JujeolExceptionDto.class);
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(jujeolExceptionDto.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_REVIEW.getCode());
+        assertThat(jujeolExceptionDto.getMessage())
+                .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_REVIEW.getMessage());
     }
 }

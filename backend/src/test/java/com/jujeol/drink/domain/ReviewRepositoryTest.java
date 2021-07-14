@@ -3,6 +3,8 @@ package com.jujeol.drink.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.drink.exception.NotFoundDrinkException;
+import com.jujeol.drink.exception.NotFoundReviewException;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -68,5 +70,28 @@ public class ReviewRepositoryTest {
 
         // then
         assertThat(findDrink.getReviews()).hasSize(0);
+    }
+
+    @DisplayName("")
+    @Test
+    public void update(){
+        //given
+        Drink stella = Drink.from(
+            "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+        Drink saveDrink = drinkRepository.save(stella);
+
+        Review review = Review.from("아주 맛있네요!", stella);
+        Review saveReview = reviewRepository.save(review);
+
+        saveDrink.addReview(saveReview);
+
+        //when
+        review.editContent("사실은 맛없어요.");
+        testEntityManager.flush();
+        testEntityManager.clear();
+
+        //then
+        Review editReview = reviewRepository.findById(saveReview.getId()).orElseThrow(NotFoundReviewException::new);
+        assertThat(editReview.getContent()).isEqualTo("사실은 맛없어요.");
     }
 }

@@ -97,6 +97,41 @@ include::{snippets}/reviews/create-fail/http-request.adoc[]
 
 include::{snippets}/reviews/create-fail/http-response.adoc[]
 
+
+=== 리뷰 수정
+==== 선택한 리뷰를 수정
+
+- Request
+
+include::{snippets}/reviews/update/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/update/http-response.adoc[]
+
+=== 리뷰 수정(싪패_1)
+==== 리뷰 수정 시 해당하는 id의 상품이 없는 경우
+
+- Request
+
+include::{snippets}/reviews/update-fail-drink/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/update-fail-drink/http-response.adoc[]
+
+=== 리뷰 수정(실패_2)
+==== 리뷰 수정 시 해당하는 id의 리뷰가 없는 경우
+
+- Request
+
+include::{snippets}/reviews/update-fail-review/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/update-fail-review/http-response.adoc[]
+
+
 === 리뷰 식제
 ==== 선택한 리뷰를 삭제
 

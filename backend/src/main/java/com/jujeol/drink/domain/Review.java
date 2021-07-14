@@ -39,4 +39,8 @@ public class Review {
     public void toDrink(Drink drink) {
         this.drink = drink;
     }
+
+    public void editContent(String content) {
+        this.content = content;
+    }
 }
