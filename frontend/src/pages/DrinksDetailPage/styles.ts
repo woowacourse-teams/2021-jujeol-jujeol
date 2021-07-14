@@ -1,6 +1,11 @@
 import styled from '@emotion/styled';
 import { COLOR } from 'src/constants';
 
+const Image = styled.img`
+  width: 100%;
+  background-color: ${COLOR.WHITE_100};
+`;
+
 const Section = styled.section`
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
@@ -21,4 +26,25 @@ const PreferenceSection = styled.section`
   }
 `;
 
-export { Section, PreferenceSection };
+const DescriptionSection = styled.section`
+  margin-bottom: 1.5rem;
+
+  h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  > p {
+    margin-bottom: 2rem;
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-column-gap: 2rem;
+    justify-content: center;
+  }
+`;
+
+export { Section, PreferenceSection, Image, DescriptionSection };

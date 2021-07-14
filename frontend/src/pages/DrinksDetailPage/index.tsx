@@ -1,19 +1,18 @@
 import { useState } from 'react';
-import HumanIcon from 'src/components/Icons/human';
+import Property from 'src/components/Property/Property';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import { COLOR, PREFERENCE } from 'src/constants';
 import { drinksDetail } from 'src/mock/drinksDetail';
-import { Section, PreferenceSection } from './styles';
+import { properties, categoryIdType } from './propertyData';
+import { Section, PreferenceSection, Image, DescriptionSection } from './styles';
 
 const DrinksDetailPage = () => {
-  // url params 받아서 get request
   const [drinkInfo, setDrinkInfo] = useState(drinksDetail);
   const {
-    id: detailId,
     name,
     englishName,
     imageUrl,
-    category: { id: categoryId, name: categoryName },
+    category: { id: categoryId },
     alcoholByVolume,
     preferenceRate,
   } = drinkInfo;
@@ -24,7 +23,7 @@ const DrinksDetailPage = () => {
 
   return (
     <>
-      <img src={imageUrl} alt={name} width="100%" />
+      <Image src={imageUrl} alt={name} />
       <Section>
         <PreferenceSection>
           <h3>당신의 선호도는? {preferenceRate} 점</h3>
@@ -37,61 +36,25 @@ const DrinksDetailPage = () => {
           />
         </PreferenceSection>
 
-        <section style={{ marginBottom: '1.5rem' }}>
-          <div style={{ marginBottom: '2rem' }}>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-              {name}
-            </h2>
-            <p>{`(${englishName}, ${alcoholByVolume}%)`}</p>
-          </div>
+        <DescriptionSection>
+          <h2>{name}</h2>
+          <p>{`(${englishName}, ${alcoholByVolume}%)`}</p>
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: '2rem',
-              }}
-            >
-              <HumanIcon color="white" />
-              <div
-                style={{
-                  marginLeft: '0.6rem',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <p>주종</p>
-                <p>{categoryName}</p>
-              </div>
-            </div>
+          <ul>
+            {properties.map((property) => {
+              const { Icon, content } = property.getProperty({
+                categoryId: categoryId as categoryIdType,
+                alcoholByVolume,
+              });
 
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <HumanIcon color="white" />
-              <div
-                style={{
-                  marginLeft: '0.6rem',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <p>도수</p>
-                <p>{alcoholByVolume}</p>
-              </div>
-            </div>
-          </div>
-        </section>
+              return (
+                <li key={property.id}>
+                  <Property Icon={Icon} title={property.name} content={content} />
+                </li>
+              );
+            })}
+          </ul>
+        </DescriptionSection>
       </Section>
     </>
   );
