@@ -64,6 +64,31 @@ include::{snippets}/drinks/show/detail-fail/http-request.adoc[]
 
 include::{snippets}/drinks/show/detail-fail/http-response.adoc[]
 
+== 리뷰
+=== 리뷰 생성
+==== 상세 화면에서 특정 상품에 대한 리뷰를 작성
+
+- Request
+
+include::{snippets}/reviews/create/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/create/http-response.adoc[]
+
+
+=== 리뷰 생성(실패)
+==== 리뷰를 작성하려는 대상 상품의 id가 없을 경우
+
+- Request
+
+include::{snippets}/reviews/create-fail/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/create-fail/http-response.adoc[]
+
+
 == 예외
 === 404 예외
 - Request
