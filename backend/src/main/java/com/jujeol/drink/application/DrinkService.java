@@ -3,6 +3,7 @@ package com.jujeol.drink.application;
 import com.jujeol.drink.application.dto.DrinkDetailResponse;
 import com.jujeol.drink.application.dto.DrinkSimpleResponse;
 import com.jujeol.drink.application.dto.ReviewRequest;
+import com.jujeol.drink.application.dto.ReviewResponse;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.DrinkRepository;
 import com.jujeol.drink.domain.Review;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,5 +70,11 @@ public class DrinkService {
         // TODO; Drink 안에 있는 Review 인지 검증 추가
 
         review.editContent(reviewRequest.getContent());
+    }
+
+    public Page<ReviewResponse> showReviews(Long drinkId, Pageable pageable) {
+        // TODO : memberDto null 제거
+        Page<Review> all = reviewRepository.findAllByDrinkId(drinkId, pageable);
+        return all.map(review -> ReviewResponse.from(review.getId(), null, review.getContent()));
     }
 }

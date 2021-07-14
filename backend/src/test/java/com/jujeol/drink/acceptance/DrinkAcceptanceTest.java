@@ -9,6 +9,7 @@ import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.application.dto.DrinkDetailResponse;
 import com.jujeol.drink.application.dto.DrinkSimpleResponse;
 import com.jujeol.drink.application.dto.ReviewRequest;
+import com.jujeol.drink.application.dto.ReviewResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
@@ -217,5 +218,25 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         assertThat(jujeolExceptionDto.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_REVIEW.getCode());
         assertThat(jujeolExceptionDto.getMessage())
                 .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_REVIEW.getMessage());
+    }
+
+    @DisplayName("리뷰 조회 - 성공")
+    @Test
+    void showReviews() {
+        //given
+
+        //when
+        List<ReviewResponse> responsesPageOne = request()
+                .get("/drinks/1/reviews?page=0")
+                .withDocument("reviews/show")
+                .build().convertBodyToList(ReviewResponse.class);
+
+        List<ReviewResponse> responsesPageTwo = request()
+                .get("/drinks/1/reviews?page=1")
+                .build().convertBodyToList(ReviewResponse.class);
+
+        //then
+        assertThat(responsesPageOne).hasSize(10);
+        assertThat(responsesPageTwo).hasSize(2);
     }
 }

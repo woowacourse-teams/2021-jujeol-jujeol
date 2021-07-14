@@ -14,12 +14,13 @@ public class CommonResponseDto<T> {
 
     private T data;
     private Integer count;
+    private PageInfo pageInfo;
 
-    public static <T> CommonResponseDto<T> fromList(T data, Integer size) {
-        return new CommonResponseDto<>(data, size);
+    public static <T> CommonResponseDto<T> fromList(T data, Integer size, PageInfo pageInfo) {
+        return new CommonResponseDto<>(data, size, pageInfo);
     }
 
     public static <T> CommonResponseDto<T> fromOne(T data) {
-        return new CommonResponseDto<>(data, null);
+        return new CommonResponseDto<>(data, null, null);
     }
 }
