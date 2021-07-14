@@ -86,7 +86,6 @@ include::{snippets}/reviews/create/http-request.adoc[]
 
 include::{snippets}/reviews/create/http-response.adoc[]
 
-
 === 리뷰 생성(실패)
 ==== 리뷰를 작성하려는 대상 상품의 id가 없을 경우
 
@@ -98,9 +97,42 @@ include::{snippets}/reviews/create-fail/http-request.adoc[]
 
 include::{snippets}/reviews/create-fail/http-response.adoc[]
 
+=== 리뷰 식제
+==== 선택한 리뷰를 삭제
+
+- Request
+
+include::{snippets}/reviews/delete/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/delete/http-response.adoc[]
+
+=== 리뷰 식제(싪패_1)
+==== 리뷰 삭제 시 해당하는 id의 상품이 없는 경우
+
+- Request
+
+include::{snippets}/reviews/delete-fail-drink/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/delete-fail-drink/http-response.adoc[]
+
+=== 리뷰 식제(실패_2)
+==== 리뷰 삭제 시 해당하는 id의 리뷰가 없는 경우
+
+- Request
+
+include::{snippets}/reviews/delete-fail-review/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/delete-fail-review/http-response.adoc[]
 
 == 예외
 === 404 예외
+
 - Request
 
 include::{snippets}/exception/notfound/http-request.adoc[]

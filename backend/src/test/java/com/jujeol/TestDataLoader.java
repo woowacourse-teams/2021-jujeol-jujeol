@@ -3,6 +3,8 @@ package com.jujeol;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.DrinkRepository;
+import com.jujeol.drink.domain.Review;
+import com.jujeol.drink.domain.ReviewRepository;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
@@ -14,13 +16,15 @@ import org.springframework.stereotype.Component;
 public class TestDataLoader implements CommandLineRunner {
 
     private DrinkRepository drinkRepository;
+    private ReviewRepository reviewRepository;
 
     public static List<Drink> BEERS;
+    public static List<Review> REVIEWS;
 
-    public TestDataLoader(DrinkRepository drinkRepository) {
+    public TestDataLoader(DrinkRepository drinkRepository, ReviewRepository reviewRepository) {
         this.drinkRepository = drinkRepository;
+        this.reviewRepository = reviewRepository;
     }
-
 
     @Override
     public void run(String... args) throws Exception {
@@ -46,5 +50,14 @@ public class TestDataLoader implements CommandLineRunner {
                 stella, kgb, estp, tiger_rad, tsingtao, apple, ob, tigerLemon);
 
         BEERS = drinkRepository.saveAll(beers);
+
+        Review review1 = Review.from("천재 윤피카", stella);
+        Review review2 = Review.from("천재 크로플", stella);
+        Review review3 = Review.from("천재 나봄", stella);
+        Review review4 = Review.from("천재 웨지", stella);
+
+        List<Review> reviews = List.of(review1, review2, review3, review4);
+
+        REVIEWS = reviewRepository.saveAll(reviews);
     }
 }
