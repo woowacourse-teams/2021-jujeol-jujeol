@@ -2,6 +2,8 @@ import { Title, ItemList, ItemImage, ItemInfo } from './styles';
 import Card from 'src/components/Card/Card';
 import { useQuery } from 'react-query';
 import API from 'src/apis/requests';
+import { PATH } from 'src/constants';
+import { Link } from 'react-router-dom';
 
 interface Drinks {
   id: number;
@@ -29,13 +31,15 @@ const HomePage = () => {
             <ItemList count={count}>
               {drinks.map(({ id, name, imageUrl, alcoholByVolume }: Drinks) => (
                 <li key={id}>
-                  <Card>
-                    <ItemImage src={imageUrl} alt={name} />
-                    <ItemInfo>
-                      <h3>{name}</h3>
-                      <p>{`${alcoholByVolume}%`}</p>
-                    </ItemInfo>
-                  </Card>
+                  <Link to={`${PATH.DRINKS}/id`}>
+                    <Card>
+                      <ItemImage src={imageUrl} alt={name} />
+                      <ItemInfo>
+                        <h3>{name}</h3>
+                        <p>{`${alcoholByVolume}%`}</p>
+                      </ItemInfo>
+                    </Card>
+                  </Link>
                 </li>
               ))}
             </ItemList>
