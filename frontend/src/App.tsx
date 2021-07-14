@@ -4,6 +4,7 @@ import SearchBar from './components/@shared/SearchBar/SearchBar';
 import Header from './components/Header/Header';
 import Tab from './components/Tab/Tab';
 import PATH from './constants/path';
+import DrinksDetailPage from './pages/DrinksDetailPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import OauthPage from './pages/OauthPage';
@@ -27,6 +28,7 @@ const App = () => {
             <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
             <Route exact path={[PATH.LOGIN]} component={LoginPage} />
             <Route exact path={[PATH.OAUTH]} component={OauthPage} />
+            <Route exact path={`${PATH.DRINKS}/:id`} component={DrinksDetailPage} />
             <Route exact path={[PATH.MYPAGE]}>
               mypage
             </Route>
