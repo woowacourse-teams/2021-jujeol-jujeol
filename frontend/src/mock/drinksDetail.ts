@@ -7,7 +7,7 @@ const drinksDetail = {
     id: 0,
     name: '맥주',
   },
-  alcoholByVolume: '3.4',
+  alcoholByVolume: 3.4,
   preferenceRate: 3.5,
 };
 
