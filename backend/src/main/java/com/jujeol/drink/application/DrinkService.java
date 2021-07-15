@@ -10,6 +10,7 @@ import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.ReviewRepository;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.exception.NotFoundReviewException;
+import com.jujeol.drink.exception.NotExistReviewInDrinkException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +57,7 @@ public class DrinkService {
         Drink drink = drinkRepository.findById(drinkId).orElseThrow(NotFoundDrinkException::new);
         Review review = reviewRepository.findById(reviewId).orElseThrow(NotFoundReviewException::new);
 
-        // TODO; Drink 안에 있는 Review 인지 검증 추가
+        validateReviewWithDrink(drink, review);
 
         reviewRepository.delete(review);
         drink.removeReview(review);
@@ -67,7 +68,7 @@ public class DrinkService {
         Drink drink = drinkRepository.findById(drinksId).orElseThrow(NotFoundDrinkException::new);
         Review review = reviewRepository.findById(reviewId).orElseThrow(NotFoundReviewException::new);
 
-        // TODO; Drink 안에 있는 Review 인지 검증 추가
+        validateReviewWithDrink(drink, review);
 
         review.editContent(reviewRequest.getContent());
     }
@@ -76,5 +77,11 @@ public class DrinkService {
         // TODO : memberDto null 제거
         Page<Review> all = reviewRepository.findAllByDrinkId(drinkId, pageable);
         return all.map(review -> ReviewResponse.from(review.getId(), null, review.getContent()));
+    }
+
+    private void validateReviewWithDrink(Drink drink, Review review) {
+        if (!review.isReviewOf(drink)) {
+            throw new NotExistReviewInDrinkException();
+        }
     }
 }

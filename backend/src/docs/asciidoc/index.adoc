@@ -142,6 +142,18 @@ include::{snippets}/reviews/update-fail-review/http-request.adoc[]
 include::{snippets}/reviews/update-fail-review/http-response.adoc[]
 
 
+=== 리뷰 수정(실패_3)
+==== 수정하려는 리뷰가 주류 정보와 일치하지 않는 경우
+
+- Request
+
+include::{snippets}/reviews/update-fail-match/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/update-fail-match/http-response.adoc[]
+
+
 === 리뷰 식제
 ==== 선택한 리뷰를 삭제
 
@@ -174,6 +186,19 @@ include::{snippets}/reviews/delete-fail-review/http-request.adoc[]
 - Response
 
 include::{snippets}/reviews/delete-fail-review/http-response.adoc[]
+
+
+=== 리뷰 삭제(실패_3)
+==== 삭제하려는 리뷰가 주류 정보와 일치하지 않는 경우
+
+- Request
+
+include::{snippets}/reviews/delete-fail-match/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/delete-fail-match/http-response.adoc[]
+
 
 == 예외
 === 404 예외

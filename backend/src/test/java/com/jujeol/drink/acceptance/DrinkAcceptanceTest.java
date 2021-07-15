@@ -159,6 +159,25 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_REVIEW.getMessage());
     }
 
+    @DisplayName("리뷰 삭제 - 실패(리뷰와 주류 불일치)")
+    @Test
+    public void deleteReviewTest_fail_notExistReviewInDrink() {
+        //given
+        //when
+        ExtractableResponse<Response> response = request()
+                .delete("/drinks/2/reviews/1")
+                .withDocument("reviews/delete-fail-match")
+                .build().totalResponse();
+
+        JujeolExceptionDto body = response.body().as(JujeolExceptionDto.class);
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_EXIST_REVIEW_IN_DRINK.getCode());
+        assertThat(body.getMessage())
+                .isEqualTo(ExceptionCodeAndDetails.NOT_EXIST_REVIEW_IN_DRINK.getMessage());
+    }
+
     @DisplayName("리뷰 수정 - 성공")
     @Test
     public void updateReview() {
@@ -218,6 +237,29 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         assertThat(jujeolExceptionDto.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_REVIEW.getCode());
         assertThat(jujeolExceptionDto.getMessage())
                 .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_REVIEW.getMessage());
+    }
+
+
+    @DisplayName("리뷰 수정 - 실패(리뷰와 주류 불일치)")
+    @Test
+    public void updateReviewTest_fail_notExistReviewInDrink() {
+        //given
+        String content = "천재 윤지우";
+        ReviewRequest reviewRequest = new ReviewRequest(content);
+
+        //when
+        ExtractableResponse<Response> response = request()
+                .put("/drinks/2/reviews/1", reviewRequest)
+                .withDocument("reviews/update-fail-match")
+                .build().totalResponse();
+
+        JujeolExceptionDto body = response.body().as(JujeolExceptionDto.class);
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_EXIST_REVIEW_IN_DRINK.getCode());
+        assertThat(body.getMessage())
+                .isEqualTo(ExceptionCodeAndDetails.NOT_EXIST_REVIEW_IN_DRINK.getMessage());
     }
 
     @DisplayName("리뷰 조회 - 성공")

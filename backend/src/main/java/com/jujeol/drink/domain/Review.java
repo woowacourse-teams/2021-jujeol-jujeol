@@ -43,4 +43,8 @@ public class Review {
     public void editContent(String content) {
         this.content = content;
     }
+
+    public boolean isReviewOf(Drink drink) {
+        return this.drink.equals(drink);
+    }
 }
