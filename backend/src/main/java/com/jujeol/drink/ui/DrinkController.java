@@ -3,6 +3,7 @@ package com.jujeol.drink.ui;
 import com.jujeol.commons.dto.CommonResponseDto;
 import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.drink.application.DrinkService;
+import com.jujeol.drink.application.ReviewService;
 import com.jujeol.drink.application.dto.DrinkDetailResponse;
 import com.jujeol.drink.application.dto.DrinkSimpleResponse;
 import com.jujeol.drink.application.dto.ReviewRequest;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class DrinkController {
 
     private final DrinkService drinkService;
+    private final ReviewService reviewService;
 
     @GetMapping("/drinks")
     public ResponseEntity<CommonResponseDto<List<DrinkSimpleResponse>>> showDrinks() {
@@ -47,7 +49,7 @@ public class DrinkController {
             @PathVariable Long id,
             @PageableDefault Pageable pageable
     ) {
-        Page<ReviewResponse> pageResponses = drinkService.showReviews(id, pageable);
+        Page<ReviewResponse> pageResponses = reviewService.showReviews(id, pageable);
         List<ReviewResponse> reviewResponses = pageResponses.stream().collect(Collectors.toList());
 
         // todo: 마지막 페이지를 초과하는 값을 받으면 마지막 페이지 반환
@@ -61,7 +63,7 @@ public class DrinkController {
 
     @PostMapping("/drinks/{id}/reviews")
     public ResponseEntity<Void> createReview(@PathVariable Long id, @RequestBody ReviewRequest reviewRequest) {
-        drinkService.createReview(id, reviewRequest);
+        reviewService.createReview(id, reviewRequest);
         return ResponseEntity.ok().build();
     }
 
@@ -71,13 +73,13 @@ public class DrinkController {
         @PathVariable Long reviewId,
         @RequestBody ReviewRequest reviewRequest
     ) {
-        drinkService.updateReview(drinksId, reviewId, reviewRequest);
+        reviewService.updateReview(drinksId, reviewId, reviewRequest);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/drinks/{drinkId}/reviews/{reviewId}")
     public ResponseEntity<Void> deleteReview(@PathVariable Long drinkId, @PathVariable Long reviewId) {
-        drinkService.deleteReview(drinkId, reviewId);
+        reviewService.deleteReview(drinkId, reviewId);
         return ResponseEntity.ok().build();
     }
 }
