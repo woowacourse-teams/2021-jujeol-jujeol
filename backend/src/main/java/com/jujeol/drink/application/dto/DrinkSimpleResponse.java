@@ -10,17 +10,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode(of = "id")
-public class DrinkResponse {
+public class DrinkSimpleResponse {
 
     private Long id;
     private String name;
     private Double alcoholByVolume;
     private String imageUrl;
 
-    public static DrinkResponse from(Drink drink, String fileServerUrl) {
-        return new DrinkResponse(drink.getId(),
+    public static DrinkSimpleResponse from(Drink drink, String fileServerUrl) {
+        return new DrinkSimpleResponse(drink.getId(),
                 drink.getName(),
                 drink.getAlcoholByVolume(),
-                fileServerUrl + "/" + drink.getImageFilePath());
+                fileServerUrl + "/" + drink.getImageFilePath()
+            );
     }
 }
