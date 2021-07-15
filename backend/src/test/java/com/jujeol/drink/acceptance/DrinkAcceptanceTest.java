@@ -8,8 +8,6 @@ import com.jujeol.commons.exception.ExceptionCodeAndDetails;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.application.dto.DrinkDetailResponse;
 import com.jujeol.drink.application.dto.DrinkSimpleResponse;
-import com.jujeol.drink.application.dto.ReviewRequest;
-import com.jujeol.drink.application.dto.ReviewResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
