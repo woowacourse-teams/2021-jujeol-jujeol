@@ -1,5 +1,6 @@
 package com.jujeol.drink.application.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class ReviewResponse {
 
     private Long id;
+    @JsonProperty(value = "Author")
     private MemberDto memberDto;
     private String content;
 

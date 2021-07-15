@@ -97,6 +97,16 @@ include::{snippets}/reviews/create-fail/http-request.adoc[]
 
 include::{snippets}/reviews/create-fail/http-response.adoc[]
 
+=== 리뷰 조회
+==== 상세 화면에서 특정 상품에 대한 리뷰를 조회
+
+- Request
+
+include::{snippets}/reviews/show/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/show/http-response.adoc[]
 
 === 리뷰 수정
 ==== 선택한 리뷰를 수정
