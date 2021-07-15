@@ -4,10 +4,11 @@ import com.jujeol.commons.dto.CommonResponseDto;
 import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.drink.application.DrinkService;
 import com.jujeol.drink.application.ReviewService;
-import com.jujeol.drink.application.dto.DrinkDetailResponse;
-import com.jujeol.drink.application.dto.DrinkSimpleResponse;
+import com.jujeol.drink.application.dto.DrinkDto;
 import com.jujeol.drink.application.dto.ReviewRequest;
 import com.jujeol.drink.application.dto.ReviewResponse;
+import com.jujeol.drink.ui.dto.DrinkDetailResponse;
+import com.jujeol.drink.ui.dto.DrinkSimpleResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -33,15 +34,19 @@ public class DrinkController {
     @GetMapping("/drinks")
     public ResponseEntity<CommonResponseDto<List<DrinkSimpleResponse>>> showDrinks() {
         // todo 페이지 네이션
-        List<DrinkSimpleResponse> drinkSimpleResponse = drinkService.showDrinks();
-        return ResponseEntity.ok(CommonResponseDto.fromList(drinkSimpleResponse, drinkSimpleResponse.size(), null));
+        List<DrinkDto> drinkDtos = drinkService.showDrinks();
+        List<DrinkSimpleResponse> drinkSimpleResponses = drinkDtos.stream()
+                .map(DrinkSimpleResponse::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(CommonResponseDto.fromList(drinkSimpleResponses, drinkDtos.size(), null));
     }
 
     @GetMapping("/drinks/{id}")
     public ResponseEntity<CommonResponseDto<DrinkDetailResponse>> showDrinkDetail(@PathVariable Long id) {
         // TODO: member & preference 추가
-        DrinkDetailResponse drinkResponse = drinkService.showDrinkDetail(id);
-        return ResponseEntity.ok(CommonResponseDto.fromOne(drinkResponse));
+        DrinkDto drinkDto = drinkService.showDrinkDetail(id);
+        DrinkDetailResponse drinkDetailResponse = DrinkDetailResponse.from(drinkDto);
+        return ResponseEntity.ok(CommonResponseDto.fromOne(drinkDetailResponse));
     }
 
     @GetMapping("/drinks/{id}/reviews")

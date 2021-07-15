@@ -6,8 +6,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.jujeol.AcceptanceTest;
 import com.jujeol.commons.exception.ExceptionCodeAndDetails;
 import com.jujeol.commons.exception.JujeolExceptionDto;
-import com.jujeol.drink.application.dto.DrinkDetailResponse;
-import com.jujeol.drink.application.dto.DrinkSimpleResponse;
+import com.jujeol.drink.application.dto.DrinkDto;
+import com.jujeol.drink.ui.dto.DrinkDetailResponse;
+import com.jujeol.drink.ui.dto.DrinkSimpleResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
@@ -31,7 +32,8 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         //then
         List<DrinkSimpleResponse> expectedResult = BEERS.stream()
                 .filter(drink -> drink.getId() < 8)
-                .map(drink -> DrinkSimpleResponse.from(drink, ""))
+                .map(drink -> DrinkDto.from(drink, ""))
+                .map(DrinkSimpleResponse::from)
                 .collect(Collectors.toList());
 
         assertThat(expectedResult).containsAll(drinkSimpleResponse);
@@ -48,7 +50,9 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .build().convertBody(DrinkDetailResponse.class);
 
         //then
-        DrinkDetailResponse expectedResult = DrinkDetailResponse.from(BEERS.get(0), "");
+        DrinkDetailResponse expectedResult = DrinkDetailResponse.from(
+                DrinkDto.from(BEERS.get(0), "")
+            );
 
         assertThat(expectedResult).isEqualTo(drinkDetailResponse);
     }

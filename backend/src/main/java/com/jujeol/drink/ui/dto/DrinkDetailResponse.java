@@ -1,6 +1,6 @@
-package com.jujeol.drink.application.dto;
+package com.jujeol.drink.ui.dto;
 
-import com.jujeol.drink.domain.Drink;
+import com.jujeol.drink.application.dto.DrinkDto;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,13 +19,13 @@ public class DrinkDetailResponse {
     private String imageUrl;
     private String category;
 
-    public static DrinkDetailResponse from(Drink drink, String fileServerUrl) {
-        return new DrinkDetailResponse(drink.getId(),
-                drink.getName(),
-                drink.getEnglishName(),
-                drink.getAlcoholByVolume(),
-                fileServerUrl + "/" + drink.getImageFilePath(),
-                drink.getCategory()
+    public static DrinkDetailResponse from(DrinkDto drinkDto) {
+        return new DrinkDetailResponse(drinkDto.getId(),
+                drinkDto.getName(),
+                drinkDto.getEnglishName(),
+                drinkDto.getAlcoholByVolume(),
+                drinkDto.getImageUrl(),
+                drinkDto.getCategory()
             );
     }
 }

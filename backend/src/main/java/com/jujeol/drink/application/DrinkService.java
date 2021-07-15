@@ -1,7 +1,6 @@
 package com.jujeol.drink.application;
 
-import com.jujeol.drink.application.dto.DrinkDetailResponse;
-import com.jujeol.drink.application.dto.DrinkSimpleResponse;
+import com.jujeol.drink.application.dto.DrinkDto;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.DrinkRepository;
 import com.jujeol.drink.exception.NotFoundDrinkException;
@@ -21,17 +20,17 @@ public class DrinkService {
 
     private final DrinkRepository drinkRepository;
 
-    public List<DrinkSimpleResponse> showDrinks() {
+    public List<DrinkDto> showDrinks() {
         //todo: 페이지네이션
         return drinkRepository.findAll(Pageable.ofSize(7))
                 .get()
-                .map(drink -> DrinkSimpleResponse.from(drink, fileServerUrl))
+                .map(drink -> DrinkDto.from(drink, fileServerUrl))
                 .collect(Collectors.toList());
     }
 
-    public DrinkDetailResponse showDrinkDetail(Long id) {
+    public DrinkDto showDrinkDetail(Long id) {
         Drink drink = drinkRepository.findById(id)
                 .orElseThrow(NotFoundDrinkException::new);
-        return DrinkDetailResponse.from(drink, fileServerUrl);
+        return DrinkDto.from(drink, fileServerUrl);
     }
 }
