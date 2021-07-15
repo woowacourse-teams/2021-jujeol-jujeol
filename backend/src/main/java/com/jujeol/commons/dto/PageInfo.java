@@ -14,6 +14,6 @@ public class PageInfo {
     private int countPerPage;
 
     public static PageInfo from(int currentPage, int lastPage, int countPerPage) {
-        return new PageInfo(currentPage, lastPage, countPerPage);
+        return new PageInfo(currentPage + 1, lastPage, countPerPage);
     }
 }

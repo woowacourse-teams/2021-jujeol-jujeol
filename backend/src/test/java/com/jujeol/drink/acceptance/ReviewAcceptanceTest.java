@@ -57,12 +57,12 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //when
         List<ReviewResponse> responsesPageOne = request()
-                .get("/drinks/1/reviews?page=0")
+                .get("/drinks/1/reviews?page=1")
                 .withDocument("reviews/show")
                 .build().convertBodyToList(ReviewResponse.class);
 
         List<ReviewResponse> responsesPageTwo = request()
-                .get("/drinks/1/reviews?page=1")
+                .get("/drinks/1/reviews?page=2")
                 .build().convertBodyToList(ReviewResponse.class);
 
         //then
