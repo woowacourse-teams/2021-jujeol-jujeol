@@ -31,8 +31,8 @@ const HomePage = () => {
             <ItemList count={count}>
               {drinks.map(({ id, name, imageUrl, alcoholByVolume }: Drinks) => (
                 <li key={id}>
-                  <Link to={`${PATH.DRINKS}/id`}>
-                    <Card>
+                  <Link to={`${PATH.DRINKS}/${id}`}>
+                    <Card width="13rem" height="17rem">
                       <ItemImage src={imageUrl} alt={name} />
                       <ItemInfo>
                         <h3>{name}</h3>
