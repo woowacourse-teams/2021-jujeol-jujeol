@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Property from 'src/components/Property/Property';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
+import Review from 'src/components/Review/Review';
 import { COLOR, PREFERENCE } from 'src/constants';
 import { drinksDetail } from 'src/mock/drinksDetail';
 import { properties, categoryIdType } from './propertyData';
@@ -55,6 +56,8 @@ const DrinksDetailPage = () => {
             })}
           </ul>
         </DescriptionSection>
+
+        <Review />
       </Section>
     </>
   );
