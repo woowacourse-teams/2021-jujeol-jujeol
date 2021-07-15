@@ -75,8 +75,8 @@ public class DrinkService {
 
     public Page<ReviewResponse> showReviews(Long drinkId, Pageable pageable) {
         // TODO : memberDto null 제거
-        Page<Review> all = reviewRepository.findAllByDrinkId(drinkId, pageable);
-        return all.map(review -> ReviewResponse.from(review.getId(), null, review.getContent()));
+        return reviewRepository.findAllByDrinkId(drinkId, pageable)
+                .map(review -> ReviewResponse.from(review.getId(), null, review.getContent()));
     }
 
     private void validateReviewWithDrink(Drink drink, Review review) {
