@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class ReviewResponse {
 
     private Long id;
-    @JsonProperty(value = "Author")
+    @JsonProperty(value = "author")
     private MemberDto memberDto;
     private String content;
 

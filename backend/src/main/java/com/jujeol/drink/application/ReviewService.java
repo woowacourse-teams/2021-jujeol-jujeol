@@ -1,5 +1,6 @@
 package com.jujeol.drink.application;
 
+import com.jujeol.drink.application.dto.MemberDto;
 import com.jujeol.drink.application.dto.ReviewRequest;
 import com.jujeol.drink.application.dto.ReviewResponse;
 import com.jujeol.drink.domain.Drink;
@@ -39,9 +40,12 @@ public class ReviewService {
     }
 
     public Page<ReviewResponse> showReviews(Long drinkId, Pageable pageable) {
-        // TODO : memberDto null 제거
         return reviewRepository.findAllByDrinkId(drinkId, pageable)
-                .map(review -> ReviewResponse.from(review.getId(), null, review.getContent()));
+                .map(review -> ReviewResponse.from(
+                        review.getId(),
+                        MemberDto.from(review.getMemberId()),
+                        review.getContent())
+                );
     }
 
     @Transactional

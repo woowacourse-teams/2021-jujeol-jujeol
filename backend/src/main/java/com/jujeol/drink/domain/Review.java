@@ -52,4 +52,8 @@ public class Review {
     public boolean isAuthor(Member member) {
         return this.member.equals(member);
     }
+
+    public Long getMemberId() {
+        return member.getId();
+    }
 }

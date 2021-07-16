@@ -1,15 +1,19 @@
 package com.jujeol.drink.acceptance;
 
+import static com.jujeol.TestDataLoader.MEMBER;
+import static com.jujeol.TestDataLoader.MEMBER2;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
 import com.jujeol.commons.exception.ExceptionCodeAndDetails;
 import com.jujeol.commons.exception.JujeolExceptionDto;
+import com.jujeol.drink.application.dto.MemberDto;
 import com.jujeol.drink.application.dto.ReviewRequest;
 import com.jujeol.drink.application.dto.ReviewResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -68,8 +72,14 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
                 .build().convertBodyToList(ReviewResponse.class);
 
         //then
+        List<Long> memberIds = responsesPageOne.stream()
+                .map(ReviewResponse::getMemberDto)
+                .map(MemberDto::getId)
+                .collect(Collectors.toList());
+
         assertThat(responsesPageOne).hasSize(10);
         assertThat(responsesPageTwo).hasSize(2);
+        assertThat(memberIds).contains(MEMBER.getId(), MEMBER2.getId());
     }
 
     @DisplayName("리뷰 수정 - 성공")
