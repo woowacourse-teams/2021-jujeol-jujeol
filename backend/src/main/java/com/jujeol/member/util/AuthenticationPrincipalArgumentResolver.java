@@ -1,8 +1,8 @@
 package com.jujeol.member.util;
 
-import com.jujeol.member.domain.AuthenticationPrincipal;
-import com.jujeol.member.domain.LoginMember;
-import com.jujeol.member.exception.InvalidTokenException;
+import com.jujeol.member.ui.AuthenticationPrincipal;
+import com.jujeol.member.ui.Authority;
+import com.jujeol.member.ui.LoginMember;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -28,12 +28,12 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
             NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         String credentials = AuthorizationExtractor
                 .extract(webRequest.getNativeRequest(HttpServletRequest.class));
+
         if (!jwtTokenProvider.validateToken(credentials)) {
-            throw new InvalidTokenException();
+            return new LoginMember(Authority.ANONYMOUS);
         }
 
         Long id = Long.parseLong(jwtTokenProvider.getPayload(credentials));
-
-        return new LoginMember(id);
+        return new LoginMember(id, Authority.USER);
     }
 }

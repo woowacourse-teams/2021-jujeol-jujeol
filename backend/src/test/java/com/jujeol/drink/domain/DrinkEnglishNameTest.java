@@ -14,7 +14,8 @@ class DrinkEnglishNameTest {
     @DisplayName("주류 영어 이름 - 성공")
     @ParameterizedTest
     @NullSource
-    @ValueSource(strings = {"stella", "Tiger_Rad", "Tiger_Rad", "gom_pyo", "TSINGTAO", "gom_pyo", "OB", "Tiger_Lemon"})
+    @ValueSource(strings = {"stella", "Tiger_Rad", "Tiger_Rad", "gom_pyo", "TSINGTAO", "gom_pyo",
+            "OB", "Tiger_Lemon"})
     void drinkEnglishNameTest(String englishName) {
         //given
         DrinkEnglishName drinkEnglishName = new DrinkEnglishName(englishName);

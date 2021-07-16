@@ -3,8 +3,12 @@ package com.jujeol.member.acceptance;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
+import com.jujeol.commons.exception.ExceptionCodeAndDetails;
+import com.jujeol.commons.exception.JujeolExceptionDto;
+import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.member.application.dto.MemberResponse;
 import com.jujeol.member.application.dto.PreferenceRequest;
+import com.jujeol.member.exception.UnauthorizedUserException;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +21,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     public void findMember() {
         //when
         Long id = request().get("/members/me")
-                .withDocument("member/find")
+                .withDocument("member/show/me")
                 .withUser()
                 .build()
                 .convertBody(MemberResponse.class)
@@ -25,6 +29,24 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
         //then
         assertThat(id).isEqualTo(1L);
+    }
+
+    @Test
+    @DisplayName("멤버 조회 - 실패")
+    public void findMember_fail_NoSuchMember() {
+        //when
+        ExtractableResponse<Response> response = request().get("/members/me")
+                .withDocument("member/show/me-fail")
+                .build()
+                .totalResponse();
+
+        JujeolExceptionDto exception = response.as(JujeolExceptionDto.class);
+        ExceptionCodeAndDetails codeAndDetails = ExceptionCodeAndDetails
+                .findByClass(UnauthorizedUserException.class);
+
+        //then
+        assertThat(exception.getCode()).isEqualTo(codeAndDetails.getCode());
+        assertThat(exception.getMessage()).isEqualTo(codeAndDetails.getMessage());
     }
 
     @Test
@@ -37,13 +59,58 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         //when
         ExtractableResponse<Response> response = request()
                 .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
-                .withDocument("member/create/preference")
+                .withDocument("member/preference/create")
                 .withUser()
                 .build()
                 .totalResponse();
 
         //then
         assertThat(response.statusCode()).isEqualTo(200);
+    }
+
+    @Test
+    @DisplayName("선호도 등록 - 실패(비로그인 유저가 선호도 등록 요청했을 때)")
+    public void createPreference_fail_unauthorizedUser() {
+        //given
+        Long drinkId = 1L;
+        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
+
+        //when
+        ExtractableResponse<Response> response = request()
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .build()
+                .totalResponse();
+
+        JujeolExceptionDto exception = response.as(JujeolExceptionDto.class);
+        ExceptionCodeAndDetails codeAndDetails = ExceptionCodeAndDetails
+                .findByClass(UnauthorizedUserException.class);
+
+        //then
+        assertThat(exception.getCode()).isEqualTo(codeAndDetails.getCode());
+        assertThat(exception.getMessage()).isEqualTo(codeAndDetails.getMessage());
+    }
+
+    @Test
+    @DisplayName("선호도 등록 - 실패(해당 주류가 없을 때)")
+    public void createPreference_fail_notFound() {
+        //given
+        Long drinkId = 100L;
+        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
+
+        //when
+        ExtractableResponse<Response> response = request()
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .withUser()
+                .build()
+                .totalResponse();
+
+        JujeolExceptionDto exception = response.as(JujeolExceptionDto.class);
+        ExceptionCodeAndDetails codeAndDetails = ExceptionCodeAndDetails
+                .findByClass(NotFoundDrinkException.class);
+
+        //then
+        assertThat(exception.getCode()).isEqualTo(codeAndDetails.getCode());
+        assertThat(exception.getMessage()).isEqualTo(codeAndDetails.getMessage());
     }
 
     @Test
@@ -54,7 +121,6 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
         request()
                 .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
-                .withDocument("member/update/preference")
                 .withUser()
                 .build()
                 .totalResponse();
@@ -63,7 +129,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         //when
         ExtractableResponse<Response> updateResponse = request()
                 .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
-                .withDocument("member/update/preference")
+                .withDocument("member/preference/update")
                 .withUser()
                 .build()
                 .totalResponse();
@@ -88,7 +154,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         //when
         ExtractableResponse<Response> response = request()
                 .delete("/members/me/drinks/" + drinkId + "/preference")
-                .withDocument("member/delete/preference")
+                .withDocument("member/preference/delete")
                 .withUser()
                 .build()
                 .totalResponse();
