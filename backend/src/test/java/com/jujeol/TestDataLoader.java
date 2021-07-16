@@ -26,6 +26,7 @@ public class TestDataLoader implements CommandLineRunner {
     public static List<Drink> BEERS;
     public static List<Review> REVIEWS;
     public static Member MEMBER;
+    public static Member MEMBER2;
 
     public TestDataLoader(DrinkRepository drinkRepository,
             ReviewRepository reviewRepository,
@@ -63,10 +64,13 @@ public class TestDataLoader implements CommandLineRunner {
 
         BEERS = drinkRepository.saveAll(beers);
 
-        Provider provider = Provider.create("1", ProviderName.TEST);
-        Member member = Member.create(provider);
+        Provider provider1 = Provider.create("1234", ProviderName.TEST);
+        Member member1 = Member.create(provider1);
+        Provider provider2 = Provider.create("5678", ProviderName.TEST);
+        Member member2 = Member.create(provider2);
 
-        MEMBER = memberRepository.save(member);
+        MEMBER = memberRepository.save(member1);
+        MEMBER2 = memberRepository.save(member2);
 
         Review review1 = Review.from("천재 윤피카", stella, MEMBER);
         Review review2 = Review.from("천재 크로플", stella, MEMBER);
@@ -77,9 +81,9 @@ public class TestDataLoader implements CommandLineRunner {
         Review review7 = Review.from("천재 소롱", stella, MEMBER);
         Review review8 = Review.from("천재 소롱", stella, MEMBER);
         Review review9 = Review.from("천재 소롱", stella, MEMBER);
-        Review review10 = Review.from("바보 피카", stella, MEMBER);
-        Review review11 = Review.from("바보 피카", stella, MEMBER);
-        Review review12 = Review.from("바보 피카", stella, MEMBER);
+        Review review10 = Review.from("바보 피카", stella, MEMBER2);
+        Review review11 = Review.from("바보 피카", stella, MEMBER2);
+        Review review12 = Review.from("바보 피카", stella, MEMBER2);
 
         List<Review> reviews = List.of(
                 review1, review2, review3, review4,

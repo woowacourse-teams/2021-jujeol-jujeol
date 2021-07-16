@@ -82,6 +82,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //when
         ExtractableResponse<Response> response = request()
                 .put("/drinks/1/reviews/1", reviewRequest)
+                .withUser()
                 .withDocument("reviews/update")
                 .build().totalResponse();
 
@@ -99,6 +100,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //when
         ExtractableResponse<Response> response = request()
                 .put("/drinks/" + Integer.MAX_VALUE + "/reviews/1", reviewRequest)
+                .withUser()
                 .withDocument("reviews/update-fail-drink")
                 .build().totalResponse();
 
@@ -122,6 +124,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //when
         ExtractableResponse<Response> response = request()
                 .put("/drinks/1/reviews/" + Integer.MAX_VALUE, reviewRequest)
+                .withUser()
                 .withDocument("reviews/update-fail-review")
                 .build().totalResponse();
 
@@ -145,6 +148,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //when
         ExtractableResponse<Response> response = request()
                 .put("/drinks/2/reviews/1", reviewRequest)
+                .withUser()
                 .withDocument("reviews/update-fail-match")
                 .build().totalResponse();
 
@@ -158,6 +162,30 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
                 .isEqualTo(ExceptionCodeAndDetails.NOT_EXIST_REVIEW_IN_DRINK.getMessage());
     }
 
+    @DisplayName("리뷰 수정 - 실패(다른 사용자가 수정할 경우)")
+    @Test
+    void updateReviewTest_fail_anotherUser() {
+        //given
+        String content = "천재 윤지우";
+        ReviewRequest reviewRequest = new ReviewRequest(content);
+
+        //when
+        ExtractableResponse<Response> response = request()
+                .put("/drinks/1/reviews/10", reviewRequest)
+                .withUser()
+                .withDocument("reviews/update-fail-author")
+                .build().totalResponse();
+
+        JujeolExceptionDto body = response.body().as(JujeolExceptionDto.class);
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(body.getCode())
+                .isEqualTo(ExceptionCodeAndDetails.UNAUTHORIZED_USER.getCode());
+        assertThat(body.getMessage())
+                .isEqualTo(ExceptionCodeAndDetails.UNAUTHORIZED_USER.getMessage());
+    }
+
     @DisplayName("리뷰 삭제 - 성공")
     @Test
     public void deleteReviewTest() {
@@ -165,6 +193,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //when
         ExtractableResponse<Response> response = request()
                 .delete("/drinks/1/reviews/1")
+                .withUser()
                 .withDocument("reviews/delete")
                 .build().totalResponse();
         //then
@@ -178,6 +207,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //when
         ExtractableResponse<Response> response = request()
                 .delete("/drinks/" + Integer.MAX_VALUE + "/reviews/1")
+                .withUser()
                 .withDocument("reviews/delete-fail-drink")
                 .build().totalResponse();
 
@@ -197,6 +227,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //when
         ExtractableResponse<Response> response = request()
                 .delete("/drinks/1/reviews/-1")
+                .withUser()
                 .withDocument("reviews/delete-fail-review")
                 .build().totalResponse();
 
@@ -216,6 +247,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //when
         ExtractableResponse<Response> response = request()
                 .delete("/drinks/2/reviews/1")
+                .withUser()
                 .withDocument("reviews/delete-fail-match")
                 .build().totalResponse();
 
@@ -227,5 +259,26 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
                 .isEqualTo(ExceptionCodeAndDetails.NOT_EXIST_REVIEW_IN_DRINK.getCode());
         assertThat(body.getMessage())
                 .isEqualTo(ExceptionCodeAndDetails.NOT_EXIST_REVIEW_IN_DRINK.getMessage());
+    }
+
+    @DisplayName("리뷰 삭제 - 실패(다른 사용자가 삭제할 경우)")
+    @Test
+    void deleteReviewTest_fail_anotherUser() {
+        //given
+        //when
+        ExtractableResponse<Response> response = request()
+                .delete("/drinks/1/reviews/10")
+                .withUser()
+                .withDocument("reviews/delete-fail-author")
+                .build().totalResponse();
+
+        JujeolExceptionDto body = response.body().as(JujeolExceptionDto.class);
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(body.getCode())
+                .isEqualTo(ExceptionCodeAndDetails.UNAUTHORIZED_USER.getCode());
+        assertThat(body.getMessage())
+                .isEqualTo(ExceptionCodeAndDetails.UNAUTHORIZED_USER.getMessage());
     }
 }

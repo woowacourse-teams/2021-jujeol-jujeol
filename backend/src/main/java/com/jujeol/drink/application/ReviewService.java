@@ -9,6 +9,7 @@ import com.jujeol.drink.domain.ReviewRepository;
 import com.jujeol.drink.exception.NotExistReviewInDrinkException;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.exception.NotFoundReviewException;
+import com.jujeol.member.exception.UnauthorizedUserException;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
 import com.jujeol.member.exception.NoSuchMemberException;
@@ -27,10 +28,10 @@ public class ReviewService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void createReview(Long loginMemberId, Long id, ReviewRequest reviewRequest) {
-        Drink drink = drinkRepository.findById(id).orElseThrow(NotFoundDrinkException::new);
+    public void createReview(Long loginMemberId, Long drinkId, ReviewRequest reviewRequest) {
         Member member = memberRepository.findById(loginMemberId)
                 .orElseThrow(NoSuchMemberException::new);
+        Drink drink = drinkRepository.findById(drinkId).orElseThrow(NotFoundDrinkException::new);
 
         Review review = Review.from(reviewRequest.getContent(), drink, member);
         Review saveReview = reviewRepository.save(review);
@@ -44,23 +45,28 @@ public class ReviewService {
     }
 
     @Transactional
-    public void updateReview(Long drinksId, Long reviewId, ReviewRequest reviewRequest) {
+    public void updateReview(Long loginMemberId, Long drinksId, Long reviewId,
+            ReviewRequest reviewRequest) {
+        Member member = memberRepository.findById(loginMemberId).orElseThrow(NoSuchMemberException::new);
         Drink drink = drinkRepository.findById(drinksId).orElseThrow(NotFoundDrinkException::new);
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(NotFoundReviewException::new);
 
         validateReviewWithDrink(drink, review);
+        validateReviewWithMember(member, review);
 
         review.editContent(reviewRequest.getContent());
     }
 
     @Transactional
-    public void deleteReview(Long drinkId, Long reviewId) {
+    public void deleteReview(Long loginId, Long drinkId, Long reviewId) {
+        Member member = memberRepository.findById(loginId).orElseThrow(NoSuchMemberException::new);
         Drink drink = drinkRepository.findById(drinkId).orElseThrow(NotFoundDrinkException::new);
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(NotFoundReviewException::new);
 
         validateReviewWithDrink(drink, review);
+        validateReviewWithMember(member, review);
 
         reviewRepository.delete(review);
         drink.removeReview(review);
@@ -69,6 +75,12 @@ public class ReviewService {
     private void validateReviewWithDrink(Drink drink, Review review) {
         if (!review.isReviewOf(drink)) {
             throw new NotExistReviewInDrinkException();
+        }
+    }
+
+    private void validateReviewWithMember(Member member, Review review) {
+        if(!review.isAuthor(member)) {
+            throw new UnauthorizedUserException();
         }
     }
 }

@@ -153,6 +153,17 @@ include::{snippets}/reviews/update-fail-match/http-request.adoc[]
 
 include::{snippets}/reviews/update-fail-match/http-response.adoc[]
 
+=== 리뷰 수정(실패_4)
+==== 리뷰를 수정하려는 사용자가 리뷰를 작성한 사용자와 다른 경우
+
+- Request
+
+include::{snippets}/reviews/update-fail-author/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/update-fail-author/http-response.adoc[]
+
 
 === 리뷰 식제
 ==== 선택한 리뷰를 삭제
@@ -199,6 +210,16 @@ include::{snippets}/reviews/delete-fail-match/http-request.adoc[]
 
 include::{snippets}/reviews/delete-fail-match/http-response.adoc[]
 
+=== 리뷰 삭제(실패_4)
+==== 리뷰를 삭제하려는 사용자가 리뷰를 작성한 사용자와 다른 경우
+
+- Request
+
+include::{snippets}/reviews/delete-fail-author/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/delete-fail-author/http-response.adoc[]
 
 == 예외
 === 404 예외

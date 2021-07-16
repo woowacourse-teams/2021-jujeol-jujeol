@@ -48,4 +48,8 @@ public class Review {
     public boolean isReviewOf(Drink drink) {
         return this.drink.equals(drink);
     }
+
+    public boolean isAuthor(Member member) {
+        return this.member.equals(member);
+    }
 }

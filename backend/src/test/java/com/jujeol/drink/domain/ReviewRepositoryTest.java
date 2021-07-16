@@ -1,12 +1,16 @@
 package com.jujeol.drink.domain;
 
-import static com.jujeol.TestDataLoader.MEMBER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.exception.NotFoundReviewException;
+import com.jujeol.member.domain.Member;
+import com.jujeol.member.domain.MemberRepository;
+import com.jujeol.member.domain.Provider;
+import com.jujeol.member.domain.ProviderName;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,9 +29,20 @@ public class ReviewRepositoryTest {
     private DrinkRepository drinkRepository;
     @Autowired
     private ReviewRepository reviewRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Autowired
     private TestEntityManager testEntityManager;
+
+    private Member member;
+
+    @BeforeEach
+    void setUp() {
+
+        Member createMember = Member.create(Provider.create("1234", ProviderName.TEST));
+        member = memberRepository.save(createMember);
+    }
 
     @DisplayName("Review와 Drink 연관관계 매핑이 잘 되는지 테스트")
     @Test
@@ -37,7 +52,7 @@ public class ReviewRepositoryTest {
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
-        Review review = Review.from("아주 맛있네요!", stella, MEMBER);
+        Review review = Review.from("아주 맛있네요!", stella, member);
         Review saveReview = reviewRepository.save(review);
 
         saveDrink.addReview(saveReview);
@@ -59,7 +74,7 @@ public class ReviewRepositoryTest {
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
-        Review review = Review.from("아주 맛있네요!", stella, MEMBER);
+        Review review = Review.from("아주 맛있네요!", stella, member);
         Review saveReview = reviewRepository.save(review);
 
         saveDrink.addReview(saveReview);
@@ -84,7 +99,7 @@ public class ReviewRepositoryTest {
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
-        Review review = Review.from("아주 맛있네요!", stella, MEMBER);
+        Review review = Review.from("아주 맛있네요!", stella, member);
         Review saveReview = reviewRepository.save(review);
 
         saveDrink.addReview(saveReview);
@@ -108,9 +123,9 @@ public class ReviewRepositoryTest {
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
-        Review saveReview1 = reviewRepository.save(Review.from("아주 맛있네요!", stella, MEMBER));
-        Review saveReview2 = reviewRepository.save(Review.from("평범해요.", stella, MEMBER));
-        Review saveReview3 = reviewRepository.save(Review.from("이건 좀...", stella, MEMBER));
+        Review saveReview1 = reviewRepository.save(Review.from("아주 맛있네요!", stella, member));
+        Review saveReview2 = reviewRepository.save(Review.from("평범해요.", stella, member));
+        Review saveReview3 = reviewRepository.save(Review.from("이건 좀...", stella, member));
 
         Pageable pageable = PageRequest.of(0, 10);
 

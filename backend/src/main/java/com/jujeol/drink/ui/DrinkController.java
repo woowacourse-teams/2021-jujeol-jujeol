@@ -83,18 +83,21 @@ public class DrinkController {
 
     @PutMapping("/drinks/{drinksId}/reviews/{reviewId}")
     public ResponseEntity<Void> updateReview(
+            @AuthenticationPrincipal LoginMember loginMember,
             @PathVariable Long drinksId,
             @PathVariable Long reviewId,
             @RequestBody ReviewRequest reviewRequest
     ) {
-        reviewService.updateReview(drinksId, reviewId, reviewRequest);
+        reviewService.updateReview(loginMember.getId(), drinksId, reviewId, reviewRequest);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/drinks/{drinkId}/reviews/{reviewId}")
-    public ResponseEntity<Void> deleteReview(@PathVariable Long drinkId,
+    public ResponseEntity<Void> deleteReview(
+            @AuthenticationPrincipal LoginMember loginMember,
+            @PathVariable Long drinkId,
             @PathVariable Long reviewId) {
-        reviewService.deleteReview(drinkId, reviewId);
+        reviewService.deleteReview(loginMember.getId(), drinkId, reviewId);
         return ResponseEntity.ok().build();
     }
 }
