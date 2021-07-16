@@ -2,7 +2,12 @@ package com.jujeol.commons.exception;
 
 import com.jujeol.drink.exception.InvalidAlcoholByVolumeException;
 import com.jujeol.drink.exception.InvalidDrinkNameException;
+import com.jujeol.drink.exception.InvalidEnglishNameException;
+import com.jujeol.drink.exception.NotFoundDrinkException;
+import com.jujeol.drink.exception.NotFoundReviewException;
+import com.jujeol.member.exception.InvalidTokenException;
 import com.jujeol.member.exception.KakaoAccessException;
+import com.jujeol.member.exception.NoSuchMemberException;
 import java.util.Arrays;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,10 +19,15 @@ public enum ExceptionCodeAndDetails {
     NOT_FOUND_ERROR_CODE("0001", "발생한 에러의 에러코드를 찾을 수 없습니다.", NotFoundErrorCodeException.class),
     NOT_FOUND_API("0002", "해당 경로에 대한 응답 API를 찾을 수 없습니다.", NoHandlerFoundException.class),
 
+    KAKAO_ACCESS("1002", "카카오 로그인 서버에 접근 중 예외가 발생했습니다.", KakaoAccessException.class),
+    INVALID_TOKEN("1003", "access token이 유효하지 않습니다.", InvalidTokenException.class),
+    NO_SUCH_MEMBER("1004", "해당 id의 유저가 없습니다.", NoSuchMemberException.class),
+
     INVALID_ALCOHOL_BY_VOLUME("2001", "해당 주류의 도수가 잘 못 되었습니다.", InvalidAlcoholByVolumeException.class),
-    INVALID_DRINK_NAME("2002", "해당 주류의 이름이 공백입니다.", InvalidDrinkNameException.class),
-  
-    KAKAO_ACCESS_EXCEPTION("1002", "카카오 로그인 서버에 접근 중 예외가 발생했습니다.", KakaoAccessException.class)
+    INVALID_DRINK_NAME("2002", "해당 주류의 이름이 형식에 맞지 않습니다.", InvalidDrinkNameException.class),
+    NOT_FOUND_DRINK("2003", "해당하는 id의 상품을 찾을 수 없습니다.", NotFoundDrinkException.class),
+    INVALID_ENGLISH_DRINK_NAME("2004", "해당 주류의 영문명이 형식에 맞지 않습니다.", InvalidEnglishNameException.class),
+    NOT_FOUND_REVIEW("2005", "해당하는 id의 리뷰를 찾을 수 없습니다.", NotFoundReviewException.class)
     ;
 
     private String code;
