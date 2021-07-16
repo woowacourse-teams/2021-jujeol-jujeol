@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import API from 'src/apis/requests';
-import { PATH } from 'src/constants';
+import { LOCAL_STORAGE_KEY, PATH } from 'src/constants';
+import { setLocalStorageItem } from 'src/utils/localStorage';
 
 const KAKAO_CODE_QUERY_SELECTOR = 'code';
 
@@ -22,15 +23,12 @@ const OauthPage = () => {
     {
       onSuccess: ({ data: { accessToken } }) => {
         if (!accessToken) {
-          alert('서버 오류가 발생했습니다. 다시 한 번 시도해 주세요');
           history.push(PATH.LOGIN);
           return;
         }
-        localStorage.setItem('jujeol_access_token', accessToken);
+
+        setLocalStorageItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, accessToken);
         history.push(PATH.HOME);
-      },
-      onError: () => {
-        alert('서버 오류가 발생했습니다. 다시 한 번 시도해 주세요');
       },
     }
   );
