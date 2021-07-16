@@ -7,9 +7,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.jujeol.AcceptanceTest;
 import com.jujeol.commons.exception.ExceptionCodeAndDetails;
 import com.jujeol.commons.exception.JujeolExceptionDto;
-import com.jujeol.drink.application.dto.DrinkDetailResponse;
-import com.jujeol.drink.application.dto.DrinkSimpleResponse;
-import com.jujeol.drink.application.dto.ReviewRequest;
+import com.jujeol.drink.application.dto.DrinkDto;
+import com.jujeol.drink.ui.dto.DrinkDetailResponse;
+import com.jujeol.drink.ui.dto.DrinkSimpleResponse;
+import com.jujeol.member.domain.Preference;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
@@ -33,7 +34,8 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         //then
         List<DrinkSimpleResponse> expectedResult = BEERS.stream()
                 .filter(drink -> drink.getId() < 8)
-                .map(drink -> DrinkSimpleResponse.from(drink, ""))
+                .map(drink -> DrinkDto.from(drink, Preference.of(drink, 0), ""))
+                .map(DrinkSimpleResponse::from)
                 .collect(Collectors.toList());
 
         assertThat(expectedResult).containsAll(drinkSimpleResponse);
@@ -52,7 +54,9 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .convertBody(DrinkDetailResponse.class);
 
         //then
-        DrinkDetailResponse expectedResult = DrinkDetailResponse.from(BEERS.get(0), PREFERENCE, "");
+        DrinkDetailResponse expectedResult = DrinkDetailResponse.from(
+                DrinkDto.from(BEERS.get(0), PREFERENCE, "")
+        );
 
         assertThat(expectedResult).isEqualTo(drinkDetailResponse);
     }
@@ -69,40 +73,6 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
 
         JujeolExceptionDto body = response.body().as(JujeolExceptionDto.class);
 
-        //then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-        assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getCode());
-        assertThat(body.getMessage())
-                .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
-    }
-
-    @DisplayName("리뷰 생성 - 성공")
-    @Test
-    void createReviewTest() {
-        //given
-        String content = "너무 맛있어요 - 소롱";
-        ReviewRequest reviewRequest = new ReviewRequest(content);
-        ExtractableResponse<Response> response = request()
-                .post("/drinks/1/reviews", reviewRequest)
-                .withDocument("reviews/create")
-                .build().totalResponse();
-        //when
-        //then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-    }
-
-    @DisplayName("리뷰 생성 - 실패(존재하지 않는 주류 id)")
-    @Test
-    void createReviewTest_fail() {
-        //given
-        String content = "너무 맛있어요 - 피카";
-        ReviewRequest reviewRequest = new ReviewRequest(content);
-        ExtractableResponse<Response> response = request()
-                .post("/drinks/1000/reviews", reviewRequest)
-                .withDocument("reviews/create-fail")
-                .build().totalResponse();
-        //when
-        JujeolExceptionDto body = response.body().as(JujeolExceptionDto.class);
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getCode());

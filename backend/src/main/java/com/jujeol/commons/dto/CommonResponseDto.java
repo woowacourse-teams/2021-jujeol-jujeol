@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 public class CommonResponseDto<T> {
 
     private T data;
-    private Integer count;
+    private PageInfo pageInfo;
 
-    public static <T> CommonResponseDto<T> fromList(T data, Integer size) {
-        return new CommonResponseDto<>(data, size);
+    public static <T> CommonResponseDto<T> fromList(T data, PageInfo pageInfo) {
+        return new CommonResponseDto<>(data, pageInfo);
     }
 
     public static <T> CommonResponseDto<T> fromOne(T data) {

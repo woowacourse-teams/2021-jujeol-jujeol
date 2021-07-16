@@ -1,5 +1,6 @@
 package com.jujeol.drink.domain;
 
+import com.jujeol.member.domain.Member;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,18 +26,34 @@ public class Review {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "DRINK_ID")
+    @JoinColumn(name = "drink_id")
     private Drink drink;
 
-    public static Review from(String content, Drink drink) {
-        return new Review(null, content, drink);
-    }
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    public static Review from(String content) {
-        return new Review(null, content, null);
+    public static Review from(String content, Drink drink, Member member) {
+        return new Review(null, content, drink, member);
     }
 
     public void toDrink(Drink drink) {
         this.drink = drink;
+    }
+
+    public void editContent(String content) {
+        this.content = content;
+    }
+
+    public boolean isReviewOf(Drink drink) {
+        return this.drink.equals(drink);
+    }
+
+    public boolean isAuthor(Member member) {
+        return this.member.equals(member);
+    }
+
+    public Long getMemberId() {
+        return member.getId();
     }
 }

@@ -9,7 +9,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(of = "id")
 public class Drink {
 
     @Id
@@ -56,7 +55,7 @@ public class Drink {
                 new ImageFilePath(imageUrl),
                 category,
                 new ArrayList<>()
-                );
+        );
     }
 
     public void addReview(Review review) {

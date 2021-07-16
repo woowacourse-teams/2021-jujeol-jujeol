@@ -3,6 +3,8 @@ package com.jujeol;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.DrinkRepository;
+import com.jujeol.drink.domain.Review;
+import com.jujeol.drink.domain.ReviewRepository;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
 import com.jujeol.member.domain.Preference;
@@ -19,26 +21,31 @@ import org.springframework.stereotype.Component;
 @Profile({"test"})
 public class TestDataLoader implements CommandLineRunner {
 
-    private DrinkRepository drinkRepository;
-    private MemberRepository memberRepository;
-    private PreferenceRepository preferenceRepository;
+    private final DrinkRepository drinkRepository;
+    private final ReviewRepository reviewRepository;
+    private final MemberRepository memberRepository;
+    private final PreferenceRepository preferenceRepository;
 
     public static List<Drink> BEERS;
+    public static List<Review> REVIEWS;
     public static Member MEMBER;
+    public static Member MEMBER2;
     public static Preference PREFERENCE;
 
-    public TestDataLoader(DrinkRepository drinkRepository,
+    public TestDataLoader(
+            DrinkRepository drinkRepository,
+            ReviewRepository reviewRepository,
             MemberRepository memberRepository,
             PreferenceRepository preferenceRepository
     ) {
         this.drinkRepository = drinkRepository;
+        this.reviewRepository = reviewRepository;
         this.memberRepository = memberRepository;
         this.preferenceRepository = preferenceRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
-
         Drink stella = Drink.from(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         Drink kgb = Drink.from(
@@ -64,7 +71,35 @@ public class TestDataLoader implements CommandLineRunner {
 
         BEERS = drinkRepository.saveAll(beers);
 
-        MEMBER = memberRepository.save(Member.from(Provider.of("1234", ProviderName.TEST)));
+        Provider provider1 = Provider.of("1234", ProviderName.TEST);
+        Member member1 = Member.from(provider1);
+        Provider provider2 = Provider.of("5678", ProviderName.TEST);
+        Member member2 = Member.from(provider2);
+
+        MEMBER = memberRepository.save(member1);
+        MEMBER2 = memberRepository.save(member2);
+
         PREFERENCE = preferenceRepository.save(Preference.of(MEMBER, stella, 3.5));
+
+        Review review1 = Review.from("천재 윤피카", stella, MEMBER);
+        Review review2 = Review.from("천재 크로플", stella, MEMBER);
+        Review review3 = Review.from("천재 나봄", stella, MEMBER);
+        Review review4 = Review.from("천재 소롱", stella, MEMBER);
+        Review review5 = Review.from("천재 소롱", stella, MEMBER);
+        Review review6 = Review.from("천재 소롱", stella, MEMBER);
+        Review review7 = Review.from("천재 소롱", stella, MEMBER);
+        Review review8 = Review.from("천재 소롱", stella, MEMBER);
+        Review review9 = Review.from("천재 소롱", stella, MEMBER);
+        Review review10 = Review.from("바보 피카", stella, MEMBER2);
+        Review review11 = Review.from("바보 피카", stella, MEMBER2);
+        Review review12 = Review.from("바보 피카", stella, MEMBER2);
+
+        List<Review> reviews = List.of(
+                review1, review2, review3, review4,
+                review5, review6, review7, review8,
+                review9, review10, review11, review12
+        );
+
+        REVIEWS = reviewRepository.saveAll(reviews);
     }
 }

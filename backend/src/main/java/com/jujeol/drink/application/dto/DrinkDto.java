@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode(of = "id")
-public class DrinkDetailResponse {
+public class DrinkDto {
 
     private Long id;
     private String name;
@@ -21,12 +21,12 @@ public class DrinkDetailResponse {
     private String category;
     private double preferenceRate;
 
-    public static DrinkDetailResponse from(
+    public static DrinkDto from(
             Drink drink,
             Preference preference,
             String fileServerUrl
     ) {
-        return new DrinkDetailResponse(drink.getId(),
+        return new DrinkDto(drink.getId(),
                 drink.getName(),
                 drink.getEnglishName(),
                 drink.getAlcoholByVolume(),

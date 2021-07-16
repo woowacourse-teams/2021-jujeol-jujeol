@@ -10,5 +10,9 @@ spring:
       "dev" : "file-logging,http-file-logging"
       "prod" : "file-logging,http-file-logging"
     include: oauth
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
 file-server:
   url: https://dmaxaug2ve9od.cloudfront.net
