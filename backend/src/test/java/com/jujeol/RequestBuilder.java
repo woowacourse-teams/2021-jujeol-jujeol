@@ -9,7 +9,7 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jujeol.commons.dto.CommonResponseDto;
+import com.jujeol.commons.dto.CommonResponse;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
@@ -148,8 +148,8 @@ public class RequestBuilder {
         }
 
         public <T> T convertBody(Class<T> tClass) {
-            final CommonResponseDto responseDto
-                    = extractableResponse.body().as(CommonResponseDto.class);
+            final CommonResponse responseDto
+                    = extractableResponse.body().as(CommonResponse.class);
 
             final LinkedHashMap data = (LinkedHashMap) responseDto.getData();
             return objectMapper.convertValue(data, tClass);

@@ -1,6 +1,5 @@
 package com.jujeol.drink.domain;
 
-import com.jujeol.drink.exception.InvalidDrinkNameException;
 import com.jujeol.drink.exception.InvalidEnglishNameException;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -24,8 +23,8 @@ public class DrinkEnglishName {
 
     public DrinkEnglishName(String englishName) {
 
-        if(Objects.isNull(englishName) || englishName.isBlank()) {
-            this.englishName = null;
+        if (Objects.isNull(englishName) || englishName.isBlank()) {
+            this.englishName = "";
             return;
         }
 

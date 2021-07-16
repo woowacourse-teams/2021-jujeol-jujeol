@@ -13,7 +13,7 @@ public class MemberResponse {
 
     private Long id;
 
-    public static MemberResponse of(Member member) {
+    public static MemberResponse from(Member member) {
         return new MemberResponse(member.getId());
     }
 }

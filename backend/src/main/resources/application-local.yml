@@ -14,3 +14,5 @@ spring:
 logging:
   level:
     root: info
+file-server:
+  url: http://localhost:8080/docs
