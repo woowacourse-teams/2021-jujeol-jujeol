@@ -25,7 +25,7 @@ public class Review {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "DRINK_ID")
+    @JoinColumn(name = "drink_id")
     private Drink drink;
 
     public static Review from(String content, Drink drink) {
