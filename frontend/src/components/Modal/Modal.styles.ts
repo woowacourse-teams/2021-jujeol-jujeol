@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 import { COLOR, Z_INDEX } from 'src/constants';
 
 const popUp = keyframes`
@@ -19,17 +19,17 @@ const popUp = keyframes`
   }
 `;
 
-const Container = styled.div`
+const Container = styled.div<{ isOpened: boolean }>`
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
   bottom: 0;
   left: 0;
-  z-index: ${Z_INDEX.MODAL};
+  visibility: ${({ isOpened }) => (isOpened ? 'visible' : 'hidden')};
 `;
 
-const Content = styled.div`
+const Content = styled.div<{ isOpened: boolean }>`
   width: 100vw;
   height: 90vh;
   border-top-right-radius: 1.5rem;
@@ -39,7 +39,11 @@ const Content = styled.div`
   bottom: 0;
   left: 0;
   background-color: ${COLOR.WHITE_100};
-  animation: ${popUp} 0.6s ease-out;
+  animation: ${({ isOpened }) =>
+    isOpened &&
+    css`
+      ${popUp} 0.6s ease-out
+    `};
   transform: translateY(1%);
 
   ::before {
