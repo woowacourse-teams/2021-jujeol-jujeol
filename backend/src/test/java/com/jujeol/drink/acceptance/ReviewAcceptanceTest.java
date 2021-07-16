@@ -24,6 +24,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         ReviewRequest reviewRequest = new ReviewRequest(content);
         ExtractableResponse<Response> response = request()
                 .post("/drinks/1/reviews", reviewRequest)
+                .withUser()
                 .withDocument("reviews/create")
                 .build().totalResponse();
         //when
@@ -39,6 +40,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         ReviewRequest reviewRequest = new ReviewRequest(content);
         ExtractableResponse<Response> response = request()
                 .post("/drinks/" + Integer.MAX_VALUE + "/reviews", reviewRequest)
+                .withUser()
                 .withDocument("reviews/create-fail")
                 .build().totalResponse();
         //when
@@ -104,7 +106,8 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-        assertThat(jujeolExceptionDto.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getCode());
+        assertThat(jujeolExceptionDto.getCode())
+                .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getCode());
         assertThat(jujeolExceptionDto.getMessage())
                 .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
     }
@@ -126,7 +129,8 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-        assertThat(jujeolExceptionDto.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_REVIEW.getCode());
+        assertThat(jujeolExceptionDto.getCode())
+                .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_REVIEW.getCode());
         assertThat(jujeolExceptionDto.getMessage())
                 .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_REVIEW.getMessage());
     }
@@ -148,7 +152,8 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-        assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_EXIST_REVIEW_IN_DRINK.getCode());
+        assertThat(body.getCode())
+                .isEqualTo(ExceptionCodeAndDetails.NOT_EXIST_REVIEW_IN_DRINK.getCode());
         assertThat(body.getMessage())
                 .isEqualTo(ExceptionCodeAndDetails.NOT_EXIST_REVIEW_IN_DRINK.getMessage());
     }
@@ -218,7 +223,8 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-        assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_EXIST_REVIEW_IN_DRINK.getCode());
+        assertThat(body.getCode())
+                .isEqualTo(ExceptionCodeAndDetails.NOT_EXIST_REVIEW_IN_DRINK.getCode());
         assertThat(body.getMessage())
                 .isEqualTo(ExceptionCodeAndDetails.NOT_EXIST_REVIEW_IN_DRINK.getMessage());
     }

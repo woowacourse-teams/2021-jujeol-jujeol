@@ -5,6 +5,10 @@ import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.DrinkRepository;
 import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.ReviewRepository;
+import com.jujeol.member.domain.Member;
+import com.jujeol.member.domain.MemberRepository;
+import com.jujeol.member.domain.Provider;
+import com.jujeol.member.domain.ProviderName;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
@@ -17,13 +21,18 @@ public class TestDataLoader implements CommandLineRunner {
 
     private DrinkRepository drinkRepository;
     private ReviewRepository reviewRepository;
+    private MemberRepository memberRepository;
 
     public static List<Drink> BEERS;
     public static List<Review> REVIEWS;
+    public static Member MEMBER;
 
-    public TestDataLoader(DrinkRepository drinkRepository, ReviewRepository reviewRepository) {
+    public TestDataLoader(DrinkRepository drinkRepository,
+            ReviewRepository reviewRepository,
+            MemberRepository memberRepository) {
         this.drinkRepository = drinkRepository;
         this.reviewRepository = reviewRepository;
+        this.memberRepository = memberRepository;
     }
 
     @Override
@@ -54,24 +63,29 @@ public class TestDataLoader implements CommandLineRunner {
 
         BEERS = drinkRepository.saveAll(beers);
 
-        Review review1 = Review.from("천재 윤피카", stella);
-        Review review2 = Review.from("천재 크로플", stella);
-        Review review3 = Review.from("천재 나봄", stella);
-        Review review4 = Review.from("천재 소롱", stella);
-        Review review5 = Review.from("천재 소롱", stella);
-        Review review6 = Review.from("천재 소롱", stella);
-        Review review7 = Review.from("천재 소롱", stella);
-        Review review8 = Review.from("천재 소롱", stella);
-        Review review9 = Review.from("천재 소롱", stella);
-        Review review10 = Review.from("바보 피카", stella);
-        Review review11 = Review.from("바보 피카", stella);
-        Review review12 = Review.from("바보 피카", stella);
+        Provider provider = Provider.create("1", ProviderName.TEST);
+        Member member = Member.create(provider);
+
+        MEMBER = memberRepository.save(member);
+
+        Review review1 = Review.from("천재 윤피카", stella, MEMBER);
+        Review review2 = Review.from("천재 크로플", stella, MEMBER);
+        Review review3 = Review.from("천재 나봄", stella, MEMBER);
+        Review review4 = Review.from("천재 소롱", stella, MEMBER);
+        Review review5 = Review.from("천재 소롱", stella, MEMBER);
+        Review review6 = Review.from("천재 소롱", stella, MEMBER);
+        Review review7 = Review.from("천재 소롱", stella, MEMBER);
+        Review review8 = Review.from("천재 소롱", stella, MEMBER);
+        Review review9 = Review.from("천재 소롱", stella, MEMBER);
+        Review review10 = Review.from("바보 피카", stella, MEMBER);
+        Review review11 = Review.from("바보 피카", stella, MEMBER);
+        Review review12 = Review.from("바보 피카", stella, MEMBER);
 
         List<Review> reviews = List.of(
                 review1, review2, review3, review4,
                 review5, review6, review7, review8,
                 review9, review10, review11, review12
-            );
+        );
 
         REVIEWS = reviewRepository.saveAll(reviews);
     }

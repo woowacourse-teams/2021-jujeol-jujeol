@@ -9,6 +9,9 @@ import com.jujeol.drink.domain.ReviewRepository;
 import com.jujeol.drink.exception.NotExistReviewInDrinkException;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.exception.NotFoundReviewException;
+import com.jujeol.member.domain.Member;
+import com.jujeol.member.domain.MemberRepository;
+import com.jujeol.member.exception.NoSuchMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,12 +24,16 @@ public class ReviewService {
 
     private final DrinkRepository drinkRepository;
     private final ReviewRepository reviewRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
-    public void createReview(Long id, ReviewRequest reviewRequest) {
+    public void createReview(Long loginMemberId, Long id, ReviewRequest reviewRequest) {
         Drink drink = drinkRepository.findById(id).orElseThrow(NotFoundDrinkException::new);
+        Member member = memberRepository.findById(loginMemberId)
+                .orElseThrow(NoSuchMemberException::new);
 
-        Review saveReview = reviewRepository.save(Review.from(reviewRequest.getContent(), drink));
+        Review review = Review.from(reviewRequest.getContent(), drink, member);
+        Review saveReview = reviewRepository.save(review);
         drink.addReview(saveReview);
     }
 
@@ -39,7 +46,8 @@ public class ReviewService {
     @Transactional
     public void updateReview(Long drinksId, Long reviewId, ReviewRequest reviewRequest) {
         Drink drink = drinkRepository.findById(drinksId).orElseThrow(NotFoundDrinkException::new);
-        Review review = reviewRepository.findById(reviewId).orElseThrow(NotFoundReviewException::new);
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(NotFoundReviewException::new);
 
         validateReviewWithDrink(drink, review);
 
@@ -49,7 +57,8 @@ public class ReviewService {
     @Transactional
     public void deleteReview(Long drinkId, Long reviewId) {
         Drink drink = drinkRepository.findById(drinkId).orElseThrow(NotFoundDrinkException::new);
-        Review review = reviewRepository.findById(reviewId).orElseThrow(NotFoundReviewException::new);
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(NotFoundReviewException::new);
 
         validateReviewWithDrink(drink, review);
 

@@ -1,5 +1,6 @@
 package com.jujeol.drink.domain;
 
+import com.jujeol.member.domain.Member;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,12 +29,12 @@ public class Review {
     @JoinColumn(name = "drink_id")
     private Drink drink;
 
-    public static Review from(String content, Drink drink) {
-        return new Review(null, content, drink);
-    }
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    public static Review from(String content) {
-        return new Review(null, content, null);
+    public static Review from(String content, Drink drink, Member member) {
+        return new Review(null, content, drink, member);
     }
 
     public void toDrink(Drink drink) {

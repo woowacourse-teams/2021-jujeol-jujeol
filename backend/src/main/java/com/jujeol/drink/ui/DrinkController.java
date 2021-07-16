@@ -9,6 +9,8 @@ import com.jujeol.drink.application.dto.ReviewRequest;
 import com.jujeol.drink.application.dto.ReviewResponse;
 import com.jujeol.drink.ui.dto.DrinkDetailResponse;
 import com.jujeol.drink.ui.dto.DrinkSimpleResponse;
+import com.jujeol.member.domain.AuthenticationPrincipal;
+import com.jujeol.member.domain.LoginMember;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -38,11 +40,13 @@ public class DrinkController {
         List<DrinkSimpleResponse> drinkSimpleResponses = drinkDtos.stream()
                 .map(DrinkSimpleResponse::from)
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(CommonResponseDto.fromList(drinkSimpleResponses, drinkDtos.size(), null));
+        return ResponseEntity
+                .ok(CommonResponseDto.fromList(drinkSimpleResponses, drinkDtos.size(), null));
     }
 
     @GetMapping("/drinks/{id}")
-    public ResponseEntity<CommonResponseDto<DrinkDetailResponse>> showDrinkDetail(@PathVariable Long id) {
+    public ResponseEntity<CommonResponseDto<DrinkDetailResponse>> showDrinkDetail(
+            @PathVariable Long id) {
         // TODO: member & preference 추가
         DrinkDto drinkDto = drinkService.showDrinkDetail(id);
         DrinkDetailResponse drinkDetailResponse = DrinkDetailResponse.from(drinkDto);
@@ -63,27 +67,33 @@ public class DrinkController {
                 pageResponses.getTotalPages(),
                 pageable.getPageSize());
 
-        return ResponseEntity.ok(CommonResponseDto.fromList(reviewResponses, reviewResponses.size(), pageInfo));
+        return ResponseEntity
+                .ok(CommonResponseDto.fromList(reviewResponses, reviewResponses.size(), pageInfo));
     }
 
     @PostMapping("/drinks/{id}/reviews")
-    public ResponseEntity<Void> createReview(@PathVariable Long id, @RequestBody ReviewRequest reviewRequest) {
-        reviewService.createReview(id, reviewRequest);
+    public ResponseEntity<Void> createReview(
+            @AuthenticationPrincipal LoginMember loginMember,
+            @PathVariable Long id,
+            @RequestBody ReviewRequest reviewRequest
+    ) {
+        reviewService.createReview(loginMember.getId(), id, reviewRequest);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/drinks/{drinksId}/reviews/{reviewId}")
     public ResponseEntity<Void> updateReview(
-        @PathVariable Long drinksId,
-        @PathVariable Long reviewId,
-        @RequestBody ReviewRequest reviewRequest
+            @PathVariable Long drinksId,
+            @PathVariable Long reviewId,
+            @RequestBody ReviewRequest reviewRequest
     ) {
         reviewService.updateReview(drinksId, reviewId, reviewRequest);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/drinks/{drinkId}/reviews/{reviewId}")
-    public ResponseEntity<Void> deleteReview(@PathVariable Long drinkId, @PathVariable Long reviewId) {
+    public ResponseEntity<Void> deleteReview(@PathVariable Long drinkId,
+            @PathVariable Long reviewId) {
         reviewService.deleteReview(drinkId, reviewId);
         return ResponseEntity.ok().build();
     }
