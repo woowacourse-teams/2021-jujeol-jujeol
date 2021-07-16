@@ -4,6 +4,8 @@ import { useQuery } from 'react-query';
 import API from 'src/apis/requests';
 import { PATH } from 'src/constants';
 import { Link } from 'react-router-dom';
+import notFoundImage from 'src/assets/default.png';
+import { onImageError } from 'src/utils/error';
 
 interface Drinks {
   id: number;
@@ -13,10 +15,9 @@ interface Drinks {
 }
 
 const HomePage = () => {
-  const { data = { data: [], count: 0 } } = useQuery('drinks', API.getDrinks, {
+  const { data: { data: drinks } = [] } = useQuery('drinks', API.getDrinks, {
     retry: 1,
   });
-  const { data: drinks, count } = data;
 
   return (
     <div>
@@ -28,12 +29,16 @@ const HomePage = () => {
               <p>회원님을 위해 준비했어요</p>
             </Title>
 
-            <ItemList count={count}>
-              {drinks.map(({ id, name, imageUrl, alcoholByVolume }: Drinks) => (
+            <ItemList count={drinks?.length ?? 0}>
+              {drinks?.map(({ id, name, imageUrl, alcoholByVolume }: Drinks) => (
                 <li key={id}>
                   <Link to={`${PATH.DRINKS}/${id}`}>
                     <Card width="13rem" height="17rem">
-                      <ItemImage src={imageUrl} alt={name} />
+                      <ItemImage
+                        src={imageUrl ?? notFoundImage}
+                        alt={name}
+                        onError={onImageError}
+                      />
                       <ItemInfo>
                         <h3>{name}</h3>
                         <p>{`${alcoholByVolume}%`}</p>
