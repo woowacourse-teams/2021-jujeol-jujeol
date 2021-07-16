@@ -14,5 +14,3 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true
-file-server:
-  url: https://dmaxaug2ve9od.cloudfront.net

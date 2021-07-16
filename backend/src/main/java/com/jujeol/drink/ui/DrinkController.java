@@ -35,7 +35,6 @@ public class DrinkController {
 
     @GetMapping("/drinks")
     public ResponseEntity<CommonResponseDto<List<DrinkSimpleResponse>>> showDrinks() {
-        // todo 페이지 네이션
         List<DrinkDto> drinkDtos = drinkService.showDrinks();
         List<DrinkSimpleResponse> drinkSimpleResponses = drinkDtos.stream()
                 .map(DrinkSimpleResponse::from)

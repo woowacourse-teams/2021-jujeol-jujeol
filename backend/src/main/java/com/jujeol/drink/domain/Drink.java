@@ -2,6 +2,7 @@ package com.jujeol.drink.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -72,6 +73,9 @@ public class Drink {
     }
 
     public String getEnglishName() {
+        if (Objects.isNull(englishName)) {
+            return null;
+        }
         return englishName.getEnglishName();
     }
 

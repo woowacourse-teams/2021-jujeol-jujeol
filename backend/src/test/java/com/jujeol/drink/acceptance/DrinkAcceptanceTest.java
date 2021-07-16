@@ -26,7 +26,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     public void showDrinksTest() {
         //given
         //when
-        List<DrinkSimpleResponse> drinkSimpleResponse = request()
+        List<DrinkSimpleResponse> drinkSimpleResponses = request()
                 .get("/drinks")
                 .withDocument("drinks/show/all")
                 .build().convertBodyToList(DrinkSimpleResponse.class);
@@ -38,7 +38,8 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .map(DrinkSimpleResponse::from)
                 .collect(Collectors.toList());
 
-        assertThat(expectedResult).containsAll(drinkSimpleResponse);
+        assertThat(drinkSimpleResponses).usingRecursiveComparison()
+                .isEqualTo(expectedResult);
     }
 
     @DisplayName("단일 조회 - 성공")

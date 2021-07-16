@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DrinkService {
 
-    @Value("${file-server.url:localhost:8080/docs}")
+    @Value("${file-server.url:}")
     private String fileServerUrl;
 
     private final DrinkRepository drinkRepository;
@@ -27,10 +27,9 @@ public class DrinkService {
     private final ReviewRepository reviewRepository;
 
     public List<DrinkDto> showDrinks() {
-        //todo: 페이지네이션, preference
         return drinkRepository.findAll(Pageable.ofSize(7))
                 .get()
-                .map(drink -> DrinkDto.from(drink, null, fileServerUrl))
+                .map(drink -> DrinkDto.from(drink, Preference.of(drink, 0), fileServerUrl))
                 .collect(Collectors.toList());
     }
 
