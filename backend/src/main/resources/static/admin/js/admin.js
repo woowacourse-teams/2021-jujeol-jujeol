@@ -60,12 +60,15 @@ const testData = {
 
 window.onload = (async () => {
   console.log("admin.js :: onload")
-  // await getRequest("/admin/drinks");
+  //renderDrinksTable(testData.data);
+
+  const response = await getRequest("/admin/drinks")
+  if (response.data) {
+    renderDrinksTable(response.data)
+  }
 })
 
 // test data loading
-renderDrinksTable(testData.data);
-// await getRequest("/admin/drinks");
 
 function renderDrinksTable(data) {
   console.log('admin.js :: renderDrinksTable() :: parameter');
