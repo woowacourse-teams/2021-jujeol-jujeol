@@ -19,6 +19,6 @@ public class LoginController {
     @PostMapping("/login/token")
     public ResponseEntity<CommonResponseDto<TokenResponse>> login(
             @RequestBody TokenRequest tokenRequest) {
-        return ResponseEntity.ok(CommonResponseDto.fromOne(loginService.createToken(tokenRequest)));
+        return ResponseEntity.ok(CommonResponseDto.from(loginService.createToken(tokenRequest)));
     }
 }

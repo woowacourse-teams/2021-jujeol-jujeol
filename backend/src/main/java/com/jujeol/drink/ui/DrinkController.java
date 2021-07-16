@@ -41,7 +41,7 @@ public class DrinkController {
                 .map(DrinkSimpleResponse::from)
                 .collect(Collectors.toList());
         return ResponseEntity
-                .ok(CommonResponseDto.fromList(drinkSimpleResponses, null));
+                .ok(CommonResponseDto.from(drinkSimpleResponses, null));
     }
 
     @GetMapping("/drinks/{id}")
@@ -52,11 +52,11 @@ public class DrinkController {
         if (loginMember.getAuthority().isAnonymous()) {
             DrinkDto drinkDto = drinkService.showDrinkDetail(id);
             DrinkDetailResponse drinkDetailResponse = DrinkDetailResponse.from(drinkDto);
-            return ResponseEntity.ok(CommonResponseDto.fromOne(drinkDetailResponse));
+            return ResponseEntity.ok(CommonResponseDto.from(drinkDetailResponse));
         }
         DrinkDto drinkDto = drinkService.showDrinkDetail(id, loginMember.getId());
         DrinkDetailResponse drinkDetailResponse = DrinkDetailResponse.from(drinkDto);
-        return ResponseEntity.ok(CommonResponseDto.fromOne(drinkDetailResponse));
+        return ResponseEntity.ok(CommonResponseDto.from(drinkDetailResponse));
     }
 
     @GetMapping("/drinks/{id}/reviews")
@@ -74,7 +74,7 @@ public class DrinkController {
                 pageable.getPageSize());
 
         return ResponseEntity
-                .ok(CommonResponseDto.fromList(reviewResponses, pageInfo));
+                .ok(CommonResponseDto.from(reviewResponses, pageInfo));
     }
 
     @PostMapping("/drinks/{id}/reviews")

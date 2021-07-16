@@ -15,11 +15,11 @@ public class CommonResponseDto<T> {
     private T data;
     private PageInfo pageInfo;
 
-    public static <T> CommonResponseDto<T> fromList(T data, PageInfo pageInfo) {
+    public static <T> CommonResponseDto<T> from(T data, PageInfo pageInfo) {
         return new CommonResponseDto<>(data, pageInfo);
     }
 
-    public static <T> CommonResponseDto<T> fromOne(T data) {
+    public static <T> CommonResponseDto<T> from(T data) {
         return new CommonResponseDto<>(data, null);
     }
 }
