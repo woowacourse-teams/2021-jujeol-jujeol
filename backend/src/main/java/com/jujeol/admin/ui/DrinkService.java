@@ -140,8 +140,7 @@ public interface DrinkService {
             final AdminDrinkResponse adminDrinkResponse1 = drinkResponses.stream()
                     .filter(adminDrinkResponse -> adminDrinkResponse.getId().equals(id))
                     .findAny().orElseThrow(IllegalStateException::new);
-            //TODO : update 만들기
-
+            adminDrinkResponse1.changeInfo(drinkRequest);
         }
     }
 }

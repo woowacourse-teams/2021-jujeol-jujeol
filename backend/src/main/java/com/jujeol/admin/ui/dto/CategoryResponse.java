@@ -11,4 +11,9 @@ public class CategoryResponse {
 
     private Long id;
     private String name;
+
+    public void changeCategory(CategoryRequest category) {
+        this.id = category.getId();
+        this.name = category.getName();
+    }
 }
