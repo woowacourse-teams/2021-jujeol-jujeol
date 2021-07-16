@@ -1,6 +1,12 @@
 import axios, { AxiosRequestConfig, Method } from 'axios';
+import { LOCAL_STORAGE_KEY, REQUEST_URL } from 'src/constants';
+import { getLocalStorageItem } from 'src/utils/localStorage';
 
-const BASE_URL = process.env.SNOWPACK_PUBLIC_API_URL;
+axios.defaults.baseURL = process.env.SNOWPACK_PUBLIC_API_URL;
+
+const isNoAuthorizationRequired = (path: string) => {
+  return [REQUEST_URL.LOGIN, REQUEST_URL.GET_DRINKS].includes(path);
+};
 
 const request = async (config: AxiosRequestConfig) => {
   try {
@@ -12,12 +18,30 @@ const request = async (config: AxiosRequestConfig) => {
   }
 };
 
+axios.interceptors.request.use(
+  (config) => {
+    if (!config.headers.Authorization || isNoAuthorizationRequired(config.url as string)) {
+      const token = getLocalStorageItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
+
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 const API = {
   getDrinks: () => {
-    return request({ method: 'get' as Method, url: `${BASE_URL}/drinks` });
+    return request({ method: 'GET' as Method, url: REQUEST_URL.GET_DRINKS });
   },
   login: <T>(data: T) => {
-    return request({ method: 'post' as Method, url: `${BASE_URL}/login/token`, data });
+    return request({ method: 'POST' as Method, url: REQUEST_URL.LOGIN, data });
+  },
+  getUserInfo: () => {
+    return request({ method: 'GET' as Method, url: REQUEST_URL.GET_USER_INFO });
   },
 };
 
