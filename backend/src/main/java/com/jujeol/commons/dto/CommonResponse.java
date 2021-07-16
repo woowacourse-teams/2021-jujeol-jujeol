@@ -10,16 +10,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @JsonInclude(Include.NON_NULL)
-public class CommonResponseDto<T> {
+public class CommonResponse<T> {
 
     private T data;
     private PageInfo pageInfo;
 
-    public static <T> CommonResponseDto<T> from(T data, PageInfo pageInfo) {
-        return new CommonResponseDto<>(data, pageInfo);
+    public static <T> CommonResponse<T> from(T data, PageInfo pageInfo) {
+        return new CommonResponse<>(data, pageInfo);
     }
 
-    public static <T> CommonResponseDto<T> from(T data) {
-        return new CommonResponseDto<>(data, null);
+    public static <T> CommonResponse<T> from(T data) {
+        return new CommonResponse<>(data, null);
     }
 }

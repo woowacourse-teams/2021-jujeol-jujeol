@@ -1,6 +1,6 @@
 package com.jujeol.drink.ui;
 
-import com.jujeol.commons.dto.CommonResponseDto;
+import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.drink.application.DrinkService;
 import com.jujeol.drink.application.ReviewService;
@@ -34,32 +34,32 @@ public class DrinkController {
     private final ReviewService reviewService;
 
     @GetMapping("/drinks")
-    public ResponseEntity<CommonResponseDto<List<DrinkSimpleResponse>>> showDrinks() {
+    public ResponseEntity<CommonResponse<List<DrinkSimpleResponse>>> showDrinks() {
         List<DrinkDto> drinkDtos = drinkService.showDrinks();
         List<DrinkSimpleResponse> drinkSimpleResponses = drinkDtos.stream()
                 .map(DrinkSimpleResponse::from)
                 .collect(Collectors.toList());
         return ResponseEntity
-                .ok(CommonResponseDto.from(drinkSimpleResponses, null));
+                .ok(CommonResponse.from(drinkSimpleResponses, null));
     }
 
     @GetMapping("/drinks/{id}")
-    public ResponseEntity<CommonResponseDto<DrinkDetailResponse>> showDrinkDetail(
+    public ResponseEntity<CommonResponse<DrinkDetailResponse>> showDrinkDetail(
             @PathVariable Long id,
             @AuthenticationPrincipal LoginMember loginMember
     ) {
         if (loginMember.getAuthority().isAnonymous()) {
             DrinkDto drinkDto = drinkService.showDrinkDetail(id);
             DrinkDetailResponse drinkDetailResponse = DrinkDetailResponse.from(drinkDto);
-            return ResponseEntity.ok(CommonResponseDto.from(drinkDetailResponse));
+            return ResponseEntity.ok(CommonResponse.from(drinkDetailResponse));
         }
         DrinkDto drinkDto = drinkService.showDrinkDetail(id, loginMember.getId());
         DrinkDetailResponse drinkDetailResponse = DrinkDetailResponse.from(drinkDto);
-        return ResponseEntity.ok(CommonResponseDto.from(drinkDetailResponse));
+        return ResponseEntity.ok(CommonResponse.from(drinkDetailResponse));
     }
 
     @GetMapping("/drinks/{id}/reviews")
-    public ResponseEntity<CommonResponseDto<List<ReviewResponse>>> showReviews(
+    public ResponseEntity<CommonResponse<List<ReviewResponse>>> showReviews(
             @PathVariable Long id,
             @PageableDefault Pageable pageable
     ) {
@@ -73,7 +73,7 @@ public class DrinkController {
                 pageable.getPageSize());
 
         return ResponseEntity
-                .ok(CommonResponseDto.from(reviewResponses, pageInfo));
+                .ok(CommonResponse.from(reviewResponses, pageInfo));
     }
 
     @PostMapping("/drinks/{id}/reviews")
@@ -86,14 +86,14 @@ public class DrinkController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/drinks/{drinksId}/reviews/{reviewId}")
+    @PutMapping("/drinks/{drinkId}/reviews/{reviewId}")
     public ResponseEntity<Void> updateReview(
             @AuthenticationPrincipal LoginMember loginMember,
-            @PathVariable Long drinksId,
+            @PathVariable Long drinkId,
             @PathVariable Long reviewId,
             @RequestBody ReviewRequest reviewRequest
     ) {
-        reviewService.updateReview(loginMember.getId(), drinksId, reviewId, reviewRequest);
+        reviewService.updateReview(loginMember.getId(), drinkId, reviewId, reviewRequest);
         return ResponseEntity.ok().build();
     }
 

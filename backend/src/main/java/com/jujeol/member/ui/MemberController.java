@@ -1,6 +1,6 @@
 package com.jujeol.member.ui;
 
-import com.jujeol.commons.dto.CommonResponseDto;
+import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.member.application.MemberService;
 import com.jujeol.member.application.dto.MemberResponse;
 import com.jujeol.member.application.dto.PreferenceRequest;
@@ -22,10 +22,10 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping
-    public ResponseEntity<CommonResponseDto<MemberResponse>> findMemberOfMine(
+    public ResponseEntity<CommonResponse<MemberResponse>> findMemberOfMine(
             @AuthenticationPrincipal LoginMember loginMember
     ) {
-        return ResponseEntity.ok(CommonResponseDto.from(memberService.findMember(loginMember.getId())));
+        return ResponseEntity.ok(CommonResponse.from(memberService.findMember(loginMember.getId())));
     }
 
     @PutMapping("/drinks/{id}/preference")
