@@ -15,4 +15,4 @@ logging:
   level:
     root: info
 file-server:
-  url: http://localhost:8080/docs
+  url: https://dmaxaug2ve9od.cloudfront.net
