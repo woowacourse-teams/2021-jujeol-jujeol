@@ -3,6 +3,7 @@ package com.jujeol.member.acceptance;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
+import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.member.application.dto.MemberResponse;
 import com.jujeol.member.application.dto.PreferenceRequest;
 import io.restassured.response.ExtractableResponse;
@@ -36,8 +37,11 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .build()
                 .totalResponse();
 
+        JujeolExceptionDto exception = response.as(JujeolExceptionDto.class);
+
         //then
-        assertThat(response.statusCode()).isEqualTo(400);
+        assertThat(exception.getCode()).isEqualTo("1005");
+        assertThat(exception.getMessage()).isEqualTo("권한이 없는 유저입니다.");
     }
 
     @Test
@@ -57,6 +61,47 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
         //then
         assertThat(response.statusCode()).isEqualTo(200);
+    }
+
+    @Test
+    @DisplayName("선호도 등록 - 실패(비로그인 유저가 선호도 등록 요청했을 때)")
+    public void createPreference_fail_unauthorizedUser() {
+        //given
+        Long drinkId = 1L;
+        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
+
+        //when
+        ExtractableResponse<Response> response = request()
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .build()
+                .totalResponse();
+
+        JujeolExceptionDto exception = response.as(JujeolExceptionDto.class);
+
+        //then
+        assertThat(exception.getCode()).isEqualTo("1005");
+        assertThat(exception.getMessage()).isEqualTo("권한이 없는 유저입니다.");
+    }
+
+    @Test
+    @DisplayName("선호도 등록 - 실패(비로그인 유저가 선호도 등록 요청했을 떄)")
+    public void createPreference_fail_notFound() {
+        //given
+        Long drinkId = 100L;
+        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
+
+        //when
+        ExtractableResponse<Response> response = request()
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .withUser()
+                .build()
+                .totalResponse();
+
+        JujeolExceptionDto exception = response.as(JujeolExceptionDto.class);
+
+        //then
+        assertThat(exception.getCode()).isEqualTo("2003");
+        assertThat(exception.getMessage()).isEqualTo("해당하는 id의 상품을 찾을 수 없습니다.");
     }
 
     @Test

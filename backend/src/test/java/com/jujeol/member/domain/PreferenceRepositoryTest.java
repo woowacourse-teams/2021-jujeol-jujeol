@@ -26,8 +26,8 @@ public class PreferenceRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    Drink savedDrink;
-    Member savedMember;
+    private Drink savedDrink;
+    private Member savedMember;
 
     @BeforeEach
     void setUp() {

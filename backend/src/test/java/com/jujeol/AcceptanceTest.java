@@ -31,7 +31,7 @@ public class AcceptanceTest {
     @BeforeEach
     public void setUp(RestDocumentationContextProvider restDocumentation) {
         RestAssured.port = port;
-        TokenResponse token = loginService.createToken(new TokenRequest("1234", ProviderName.TEST));
+        TokenResponse token = loginService.createToken(new TokenRequest("5678", ProviderName.TEST));
         request = new RequestBuilder(restDocumentation, token.getAccessToken());
     }
 
