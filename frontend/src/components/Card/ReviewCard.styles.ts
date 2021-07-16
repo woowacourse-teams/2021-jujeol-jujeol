@@ -5,6 +5,16 @@ import { COLOR } from 'src/constants';
 const Header = styled.div`
   display: flex;
   margin-bottom: 0.5rem;
+
+  button {
+    margin-left: auto;
+    border: none;
+    background-color: transparent;
+
+    :focus {
+      border: 1px solid ${COLOR.GRAY_200};
+    }
+  }
 `;
 
 const ReviewerInfo = styled.div`

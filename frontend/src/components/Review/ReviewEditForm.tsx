@@ -1,6 +1,30 @@
+import { useEffect, useState } from 'react';
 import { Form, Content, EditButton, DeleteButton } from './ReviewEditForm.styles';
 
-const ReviewEditForm = () => {
+interface ReviewData {
+  id: number;
+  author: {
+    id: number;
+    name: string;
+  };
+  content: string;
+  createdAt: Date;
+  modifiedAt: Date | null;
+}
+
+interface Props {
+  review: ReviewData;
+}
+
+const ReviewEditForm = ({ review }: Props) => {
+  const { id, author, content, createdAt, modifiedAt } = review;
+
+  const [editText, setEditText] = useState(content);
+
+  useEffect(() => {
+    setEditText(review.content);
+  }, [review]);
+
   return (
     <Form>
       <h2>리뷰 수정하기</h2>
@@ -9,7 +33,7 @@ const ReviewEditForm = () => {
           <span>21.07.12</span>
           <span>0/300</span>
         </div>
-        <textarea value="내용이 들어 갑니다" />
+        <textarea value={editText} onChange={({ target }) => setEditText(target.value)} />
       </Content>
 
       <EditButton>수정하기</EditButton>
