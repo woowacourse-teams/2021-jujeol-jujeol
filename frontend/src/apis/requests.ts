@@ -43,6 +43,9 @@ const API = {
   getUserInfo: () => {
     return request({ method: 'GET' as Method, url: REQUEST_URL.GET_USER_INFO });
   },
+  getDrink: <T>(id: T) => {
+    return request({ method: 'GET' as Method, url: `${REQUEST_URL.GET_DRINK}/${id}` });
+  },
 };
 
 export default API;
