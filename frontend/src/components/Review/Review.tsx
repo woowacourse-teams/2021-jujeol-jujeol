@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { COLOR } from 'src/constants';
-import drinksReviews from 'src/mock/drinksReviews';
+import drinksReviews from 'src/mocks/drinksReviews';
 import Card from '../Card/Card';
 import ReviewCard from '../Card/ReviewCard';
 import { Wrapper, Form, ReviewList } from './Review.styles';

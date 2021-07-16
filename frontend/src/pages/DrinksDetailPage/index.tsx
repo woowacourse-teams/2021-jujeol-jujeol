@@ -3,7 +3,7 @@ import Property from 'src/components/Property/Property';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import Review from 'src/components/Review/Review';
 import { COLOR, PREFERENCE } from 'src/constants';
-import { drinksDetail } from 'src/mock/drinksDetail';
+import { drinksDetail } from 'src/mocks/drinksDetail';
 import { properties, categoryIdType } from './propertyData';
 import { Section, PreferenceSection, Image, DescriptionSection } from './styles';
 
