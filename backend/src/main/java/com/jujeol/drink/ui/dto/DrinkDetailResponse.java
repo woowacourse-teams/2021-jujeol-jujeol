@@ -1,6 +1,7 @@
 package com.jujeol.drink.ui.dto;
 
 import com.jujeol.drink.application.dto.DrinkDto;
+import com.jujeol.drink.domain.Category;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,7 +18,7 @@ public class DrinkDetailResponse {
     private String englishName;
     private Double alcoholByVolume;
     private String imageUrl;
-    private String category;
+    private CategoryResponse category;
     private double preferenceRate;
 
     public static DrinkDetailResponse from(DrinkDto drinkDto) {
@@ -27,7 +28,7 @@ public class DrinkDetailResponse {
                 drinkDto.getEnglishName(),
                 drinkDto.getAlcoholByVolume(),
                 drinkDto.getImageUrl(),
-                drinkDto.getCategory(),
+                new CategoryResponse(1L, drinkDto.getCategory()),
                 drinkDto.getPreferenceRate()
         );
     }

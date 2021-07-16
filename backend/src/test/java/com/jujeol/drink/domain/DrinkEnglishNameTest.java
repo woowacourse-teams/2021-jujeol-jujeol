@@ -6,14 +6,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.jujeol.drink.exception.InvalidEnglishNameException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class DrinkEnglishNameTest {
 
     @DisplayName("주류 영어 이름 - 성공")
     @ParameterizedTest
-    @NullSource
     @ValueSource(strings = {"stella", "Tiger_Rad", "Tiger_Rad", "gom_pyo", "TSINGTAO", "gom_pyo",
             "OB", "Tiger_Lemon"})
     void drinkEnglishNameTest(String englishName) {

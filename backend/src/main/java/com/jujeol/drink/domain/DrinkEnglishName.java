@@ -24,7 +24,7 @@ public class DrinkEnglishName {
     public DrinkEnglishName(String englishName) {
 
         if (Objects.isNull(englishName) || englishName.isBlank()) {
-            this.englishName = null;
+            this.englishName = "";
             return;
         }
 
