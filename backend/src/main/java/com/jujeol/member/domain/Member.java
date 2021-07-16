@@ -23,7 +23,11 @@ public class Member {
     @Embedded
     private Provider provider;
 
-    public static Member create(Provider provider) {
+    public static Member from(Provider provider) {
         return new Member(null, provider);
+    }
+
+    public static Member from(Long id) {
+        return new Member(id, null);
     }
 }

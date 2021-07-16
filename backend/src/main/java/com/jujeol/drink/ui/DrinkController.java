@@ -5,6 +5,8 @@ import com.jujeol.drink.application.DrinkService;
 import com.jujeol.drink.application.dto.DrinkDetailResponse;
 import com.jujeol.drink.application.dto.DrinkSimpleResponse;
 import com.jujeol.drink.application.dto.ReviewRequest;
+import com.jujeol.member.ui.AuthenticationPrincipal;
+import com.jujeol.member.ui.LoginMember;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,24 +26,33 @@ public class DrinkController {
     @GetMapping("/drinks")
     public ResponseEntity<CommonResponseDto<List<DrinkSimpleResponse>>> showDrinks() {
         List<DrinkSimpleResponse> drinkSimpleResponse = drinkService.showDrinks();
-        return ResponseEntity.ok(CommonResponseDto.fromList(drinkSimpleResponse, drinkSimpleResponse.size()));
+        return ResponseEntity
+                .ok(CommonResponseDto.fromList(drinkSimpleResponse, drinkSimpleResponse.size()));
     }
 
     @GetMapping("/drinks/{id}")
-    public ResponseEntity<CommonResponseDto<DrinkDetailResponse>> showDrinkDetail(@PathVariable Long id) {
-        // TODO: member & preference 추가
-        DrinkDetailResponse drinkResponse = drinkService.showDrinkDetail(id);
+    public ResponseEntity<CommonResponseDto<DrinkDetailResponse>> showDrinkDetail(
+            @PathVariable Long id,
+            @AuthenticationPrincipal LoginMember loginMember
+    ) {
+        if (loginMember.getAuthority().isAnonymous()) {
+            DrinkDetailResponse drinkResponse = drinkService.showDrinkDetail(id);
+            return ResponseEntity.ok(CommonResponseDto.fromOne(drinkResponse));
+        }
+        DrinkDetailResponse drinkResponse = drinkService.showDrinkDetail(id, loginMember.getId());
         return ResponseEntity.ok(CommonResponseDto.fromOne(drinkResponse));
     }
 
     @PostMapping("/drinks/{id}/reviews")
-    public ResponseEntity<Void> createReview(@PathVariable Long id, @RequestBody ReviewRequest reviewRequest) {
+    public ResponseEntity<Void> createReview(@PathVariable Long id,
+            @RequestBody ReviewRequest reviewRequest) {
         drinkService.createReview(id, reviewRequest);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/drinks/{drinkId}/reviews/{reviewId}")
-    public ResponseEntity<Void> deleteReview(@PathVariable Long drinkId, @PathVariable Long reviewId) {
+    public ResponseEntity<Void> deleteReview(@PathVariable Long drinkId,
+            @PathVariable Long reviewId) {
         drinkService.deleteReview(drinkId, reviewId);
         return ResponseEntity.ok().build();
     }

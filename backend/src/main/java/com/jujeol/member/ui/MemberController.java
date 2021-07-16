@@ -4,8 +4,7 @@ import com.jujeol.commons.dto.CommonResponseDto;
 import com.jujeol.member.application.MemberService;
 import com.jujeol.member.application.dto.MemberResponse;
 import com.jujeol.member.application.dto.PreferenceRequest;
-import com.jujeol.member.domain.AuthenticationPrincipal;
-import com.jujeol.member.domain.LoginMember;
+import com.jujeol.member.exception.UnauthorizedUserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,7 +26,7 @@ public class MemberController {
     public ResponseEntity<CommonResponseDto<MemberResponse>> findMemberOfMine(
             @AuthenticationPrincipal LoginMember loginMember
     ) {
-        return ResponseEntity.ok(CommonResponseDto.fromOne(memberService.findMember(loginMember)));
+        return ResponseEntity.ok(CommonResponseDto.fromOne(memberService.findMember(loginMember.getId())));
     }
 
     @PutMapping("/drinks/{id}/preference")
@@ -36,7 +35,7 @@ public class MemberController {
             @PathVariable(name = "id") Long drinkId,
             @RequestBody PreferenceRequest preferenceRequest
     ) {
-        memberService.createOrUpdatePreference(loginMember, drinkId, preferenceRequest);
+        memberService.createOrUpdatePreference(loginMember.getId(), drinkId, preferenceRequest);
         return ResponseEntity.ok().build();
     }
 
@@ -45,7 +44,7 @@ public class MemberController {
             @AuthenticationPrincipal LoginMember loginMember,
             @PathVariable(name = "id") Long drinkId
     ) {
-        memberService.deletePreference(loginMember, drinkId);
+        memberService.deletePreference(loginMember.getId(), drinkId);
         return ResponseEntity.ok().build();
     }
 }

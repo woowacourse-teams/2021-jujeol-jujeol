@@ -28,7 +28,7 @@ public class ReviewRepositoryTest {
     void saveDrinkAndReview() {
         //given
         Drink stella = Drink.from(
-            "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
         Review review = Review.from("아주 맛있네요!", stella);
@@ -37,9 +37,9 @@ public class ReviewRepositoryTest {
         saveDrink.addReview(saveReview);
         //when
         Drink findDrink = drinkRepository.findById(saveDrink.getId())
-            .orElseThrow(NotFoundDrinkException::new);
+                .orElseThrow(NotFoundDrinkException::new);
         Review findReview = reviewRepository.findById(saveReview.getId())
-            .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(IllegalArgumentException::new);
         //then
         assertThat(findReview.getDrink()).isEqualTo(findDrink);
         assertThat(findDrink.getReviews().get(0)).isEqualTo(findReview);
@@ -50,7 +50,7 @@ public class ReviewRepositoryTest {
     public void delete() {
         //given
         Drink stella = Drink.from(
-            "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
         Review review = Review.from("아주 맛있네요!", stella);
@@ -64,7 +64,7 @@ public class ReviewRepositoryTest {
         testEntityManager.clear();
 
         Drink findDrink = drinkRepository.findById(saveDrink.getId())
-            .orElseThrow(NotFoundDrinkException::new);
+                .orElseThrow(NotFoundDrinkException::new);
 
         // then
         assertThat(findDrink.getReviews()).hasSize(0);

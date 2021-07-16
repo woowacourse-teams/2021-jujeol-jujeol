@@ -38,7 +38,11 @@ public class Preference {
         this.rate = rate;
     }
 
-    public static Preference from(Member member, Drink drink, double rate) {
+    public static Preference of(Drink drink, double rate) {
+        return new Preference(null, drink, rate);
+    }
+
+    public static Preference of(Member member, Drink drink, double rate) {
         return new Preference(member, drink, rate);
     }
 

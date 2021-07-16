@@ -17,7 +17,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     public void findMember() {
         //when
         Long id = request().get("/members/me")
-                .withDocument("member/find")
+                .withDocument("member/show/me")
                 .withUser()
                 .build()
                 .convertBody(MemberResponse.class)
@@ -25,6 +25,19 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
         //then
         assertThat(id).isEqualTo(1L);
+    }
+
+    @Test
+    @DisplayName("멤버 조회 - 실패")
+    public void findMember_fail_NoSuchMember() {
+        //when
+        ExtractableResponse<Response> response = request().get("/members/me")
+                .withDocument("member/show/me-fail")
+                .build()
+                .totalResponse();
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(400);
     }
 
     @Test
@@ -37,7 +50,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         //when
         ExtractableResponse<Response> response = request()
                 .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
-                .withDocument("member/create/preference")
+                .withDocument("member/preference/create")
                 .withUser()
                 .build()
                 .totalResponse();
@@ -54,7 +67,6 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
         request()
                 .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
-                .withDocument("member/update/preference")
                 .withUser()
                 .build()
                 .totalResponse();
@@ -63,7 +75,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         //when
         ExtractableResponse<Response> updateResponse = request()
                 .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
-                .withDocument("member/update/preference")
+                .withDocument("member/preference/update")
                 .withUser()
                 .build()
                 .totalResponse();
@@ -88,7 +100,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         //when
         ExtractableResponse<Response> response = request()
                 .delete("/members/me/drinks/" + drinkId + "/preference")
-                .withDocument("member/delete/preference")
+                .withDocument("member/preference/delete")
                 .withUser()
                 .build()
                 .totalResponse();

@@ -21,8 +21,8 @@ public class MemberRepositoryTest {
     public void findByProvideIdTest() {
         //given
         String provideId = "1";
-        Provider provider = Provider.create(provideId, ProviderName.TEST);
-        memberRepository.save(Member.create(provider));
+        Provider provider = Provider.of(provideId, ProviderName.TEST);
+        memberRepository.save(Member.from(provider));
 
         //when
         Member member = memberRepository.findByProvideId(provider.getProvideId()).get();

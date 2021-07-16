@@ -1,4 +1,4 @@
-package com.jujeol.member.domain;
+package com.jujeol.member.ui;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,13 +1,9 @@
 package com.jujeol;
 
 import com.jujeol.RequestBuilder.Function;
-import com.jujeol.member.TestSocialLoginFactory;
 import com.jujeol.member.application.LoginService;
-import com.jujeol.member.application.MemberDetails;
-import com.jujeol.member.application.SocialLoginStrategyFactory;
 import com.jujeol.member.application.dto.TokenRequest;
 import com.jujeol.member.application.dto.TokenResponse;
-import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.ProviderName;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;

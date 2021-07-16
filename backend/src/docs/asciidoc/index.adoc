@@ -34,12 +34,21 @@ include::{snippets}/member/login/token/http-response.adoc[]
 
 - Request
 
-include::{snippets}/member/find/http-request.adoc[]
+include::{snippets}/member/show/me/http-request.adoc[]
 
 - Response
 
-include::{snippets}/member/find/http-response.adoc[]
+include::{snippets}/member/show/me/http-response.adoc[]
 
+=== 멤버 조회 (실패)
+
+- Request
+
+include::{snippets}/member/show/me-fail/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/show/me-fail/http-response.adoc[]
 == 주류
 === 전체 정보 조회
 ==== 전체 화면에서 주류 정보 조회
@@ -73,6 +82,41 @@ include::{snippets}/drinks/show/detail-fail/http-request.adoc[]
 - Response
 
 include::{snippets}/drinks/show/detail-fail/http-response.adoc[]
+
+== 선호도
+=== 선호도 생성
+==== 상세 화면에서 특정 상품에 대한 선호도 작성
+
+- Request
+
+include::{snippets}/member/preference/create/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/create/http-response.adoc[]
+
+=== 선호도 수정
+==== 상세 화면에서 특정 상품에 대한 선호도 수정
+
+- Request
+
+include::{snippets}/member/preference/update/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/update/http-response.adoc[]
+
+=== 선호도 삭제
+==== 상세 화면에서 특정 상품에 대한 선호도 삭제
+
+- Request
+
+include::{snippets}/member/preference/delete/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/delete/http-response.adoc[]
+
 
 == 리뷰
 === 리뷰 생성

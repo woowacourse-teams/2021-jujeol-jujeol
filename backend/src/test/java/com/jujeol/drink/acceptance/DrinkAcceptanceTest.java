@@ -1,6 +1,7 @@
 package com.jujeol.drink.acceptance;
 
 import static com.jujeol.TestDataLoader.BEERS;
+import static com.jujeol.TestDataLoader.PREFERENCE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
@@ -40,36 +41,39 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("단일 조회 - 성공")
     @Test
-    public void showDrinkDetailTest(){
+    public void showDrinkDetailTest() {
         //given
         //when
         DrinkDetailResponse drinkDetailResponse = request()
                 .get("/drinks/1")
                 .withDocument("drinks/show/detail")
-                .build().convertBody(DrinkDetailResponse.class);
+                .withUser()
+                .build()
+                .convertBody(DrinkDetailResponse.class);
 
         //then
-        DrinkDetailResponse expectedResult = DrinkDetailResponse.from(BEERS.get(0), "");
+        DrinkDetailResponse expectedResult = DrinkDetailResponse.from(BEERS.get(0), PREFERENCE, "");
 
         assertThat(expectedResult).isEqualTo(drinkDetailResponse);
     }
 
     @DisplayName("단일 조회 - 실패 (찾을 수 없는 id)")
     @Test
-    public void showDrinkDetailTest_fail(){
+    public void showDrinkDetailTest_fail() {
         //given
         //when
         ExtractableResponse<Response> response = request()
-            .get("drinks/1000")
-            .withDocument("drinks/show/detail-fail")
-            .build().totalResponse();
+                .get("drinks/1000")
+                .withDocument("drinks/show/detail-fail")
+                .build().totalResponse();
 
         JujeolExceptionDto body = response.body().as(JujeolExceptionDto.class);
 
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getCode());
-        assertThat(body.getMessage()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
+        assertThat(body.getMessage())
+                .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
     }
 
     @DisplayName("리뷰 생성 - 성공")
@@ -102,6 +106,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getCode());
-        assertThat(body.getMessage()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
+        assertThat(body.getMessage())
+                .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
     }
 }
