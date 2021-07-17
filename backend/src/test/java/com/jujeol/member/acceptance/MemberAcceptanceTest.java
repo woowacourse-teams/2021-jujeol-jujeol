@@ -69,51 +69,6 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("선호도 등록 - 실패(비로그인 유저가 선호도 등록 요청했을 때)")
-    public void createPreference_fail_unauthorizedUser() {
-        //given
-        Long drinkId = 1L;
-        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
-
-        //when
-        ExtractableResponse<Response> response = request()
-                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
-                .build()
-                .totalResponse();
-
-        JujeolExceptionDto exception = response.as(JujeolExceptionDto.class);
-        ExceptionCodeAndDetails codeAndDetails = ExceptionCodeAndDetails
-                .findByClass(UnauthorizedUserException.class);
-
-        //then
-        assertThat(exception.getCode()).isEqualTo(codeAndDetails.getCode());
-        assertThat(exception.getMessage()).isEqualTo(codeAndDetails.getMessage());
-    }
-
-    @Test
-    @DisplayName("선호도 등록 - 실패(해당 주류가 없을 때)")
-    public void createPreference_fail_notFound() {
-        //given
-        Long drinkId = 100L;
-        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
-
-        //when
-        ExtractableResponse<Response> response = request()
-                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
-                .withUser()
-                .build()
-                .totalResponse();
-
-        JujeolExceptionDto exception = response.as(JujeolExceptionDto.class);
-        ExceptionCodeAndDetails codeAndDetails = ExceptionCodeAndDetails
-                .findByClass(NotFoundDrinkException.class);
-
-        //then
-        assertThat(exception.getCode()).isEqualTo(codeAndDetails.getCode());
-        assertThat(exception.getMessage()).isEqualTo(codeAndDetails.getMessage());
-    }
-
-    @Test
     @DisplayName("선호도 수정 - 성공")
     public void updatePreference() {
         //given
@@ -139,6 +94,53 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    @DisplayName("선호도 등록 및 수정 - 실패(비로그인 유저가 선호도 등록 및 수정 요청했을 때)")
+    public void createPreference_fail_unauthorizedUser() {
+        //given
+        Long drinkId = 1L;
+        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
+
+        //when
+        ExtractableResponse<Response> response = request()
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .withDocument("member/preference/create-fail-user")
+                .build()
+                .totalResponse();
+
+        JujeolExceptionDto exception = response.as(JujeolExceptionDto.class);
+        ExceptionCodeAndDetails codeAndDetails = ExceptionCodeAndDetails
+                .findByClass(UnauthorizedUserException.class);
+
+        //then
+        assertThat(exception.getCode()).isEqualTo(codeAndDetails.getCode());
+        assertThat(exception.getMessage()).isEqualTo(codeAndDetails.getMessage());
+    }
+
+    @Test
+    @DisplayName("선호도 등록 및 수정 - 실패(해당 주류가 없을 때)")
+    public void createPreference_fail_notFound() {
+        //given
+        Long drinkId = 100L;
+        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
+
+        //when
+        ExtractableResponse<Response> response = request()
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .withDocument("member/preference/create-fail-drink")
+                .withUser()
+                .build()
+                .totalResponse();
+
+        JujeolExceptionDto exception = response.as(JujeolExceptionDto.class);
+        ExceptionCodeAndDetails codeAndDetails = ExceptionCodeAndDetails
+                .findByClass(NotFoundDrinkException.class);
+
+        //then
+        assertThat(exception.getCode()).isEqualTo(codeAndDetails.getCode());
+        assertThat(exception.getMessage()).isEqualTo(codeAndDetails.getMessage());
+    }
+
+    @Test
     @DisplayName("선호도 삭제 - 성공")
     public void deletePreference() {
         //given
@@ -161,5 +163,27 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
         //then
         assertThat(response.statusCode()).isEqualTo(200);
+    }
+
+    @Test
+    @DisplayName("선호도 삭제 - 실패(비로그인 유저가 선호도 등록 및 수정 요청했을 때)")
+    public void deletePreference_fail_unauthorizedUser() {
+        //given
+        Long drinkId = 1L;
+
+        //when
+        ExtractableResponse<Response> response = request()
+                .delete("/members/me/drinks/" + drinkId + "/preference")
+                .withDocument("member/preference/delete-fail-user")
+                .build()
+                .totalResponse();
+
+        JujeolExceptionDto exception = response.as(JujeolExceptionDto.class);
+        ExceptionCodeAndDetails codeAndDetails = ExceptionCodeAndDetails
+                .findByClass(UnauthorizedUserException.class);
+
+        //then
+        assertThat(exception.getCode()).isEqualTo(codeAndDetails.getCode());
+        assertThat(exception.getMessage()).isEqualTo(codeAndDetails.getMessage());
     }
 }
