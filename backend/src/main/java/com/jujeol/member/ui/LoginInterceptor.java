@@ -24,6 +24,12 @@ public class LoginInterceptor implements HandlerInterceptor {
             return true;
         }
 
+        if (request.getMethod().equals(HttpMethod.GET.name())
+                && request.getRequestURI().matches("/drinks/[0-9]/reviews")
+        ) {
+            return true;
+        }
+
         String token = AuthorizationExtractor.extract(request);
         if (jwtTokenProvider.validateToken(token)) {
             return true;
