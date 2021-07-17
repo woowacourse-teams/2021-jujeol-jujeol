@@ -17,7 +17,7 @@ public interface DrinkService {
 
     Page<AdminDrinkResponse> findDrinks(Pageable pageable);
 
-    void saveDrinks(List<DrinkRequest> drinkRequests);
+    List<AdminDrinkResponse> saveDrinks(List<DrinkRequest> drinkRequests);
 
     void removeDrink(Long id);
 
@@ -116,7 +116,7 @@ public interface DrinkService {
         }
 
         @Override
-        public void saveDrinks(List<DrinkRequest> drinkRequests) {
+        public List<AdminDrinkResponse> saveDrinks(List<DrinkRequest> drinkRequests) {
             final List<AdminDrinkResponse> responses = drinkRequests.stream()
                     .map(drinkRequest -> new AdminDrinkResponse(
                             id++,
@@ -128,6 +128,7 @@ public interface DrinkService {
                     )
                     .collect(Collectors.toList());
             this.drinkResponses.addAll(responses);
+            return drinkResponses;
         }
 
         @Override
