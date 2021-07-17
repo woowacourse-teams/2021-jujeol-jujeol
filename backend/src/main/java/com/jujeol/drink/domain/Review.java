@@ -4,24 +4,21 @@ import com.jujeol.member.domain.Member;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@EntityListeners(AuditingEntityListener.class)
 public class Review {
 
     @Id
@@ -39,10 +36,9 @@ public class Review {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createAt;
 
-    @LastModifiedDate
     private LocalDateTime modifiedAt;
 
     public static Review from(String content, Drink drink, Member member) {
@@ -63,6 +59,17 @@ public class Review {
 
     public boolean isAuthor(Member member) {
         return this.member.equals(member);
+    }
+
+    @PrePersist
+    public void prePersist() {
+        createAt = LocalDateTime.now();
+        modifiedAt = null;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        modifiedAt = LocalDateTime.now();
     }
 
     public Long getMemberId() {
