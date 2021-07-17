@@ -24,15 +24,17 @@
   </style>
 
 
-<!--  <script type="module" src="/admin/js/admin.js"></script>
+  <script type="module" src="/admin/js/admin.js"></script>
   <link href="/admin/bootstrap/bootstrap.min.css" rel="stylesheet">
-  &lt;!&ndash; Custom styles for this template &ndash;&gt;
-  <link href="/admin/css/dashboard.css" rel="stylesheet">-->
+  <!-- Custom styles for this template -->
+  <link href="/admin/css/dashboard.css" rel="stylesheet">
 
+<!--
   <script type="module" src="../js/admin.js"></script>
     <link href="../bootstrap/bootstrap.min.css" rel="stylesheet">
-  <!-- Custom styles for this template -->
+  &lt;!&ndash; Custom styles for this template &ndash;&gt;
   <link href="../css/dashboard.css" rel="stylesheet">
+-->
 </head>
 <body>
 <div id="app">
@@ -91,11 +93,11 @@
             <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">English Name</th>
-              <th scope="col">alcoholByVolumn</th>
-              <th scope="col">imageFilePath</th>
-              <th scope="col">category</th>
+              <th class="name required" scope="col">이름</th>
+              <th class="englishName required" scope="col">영어 이름</th>
+              <th class="abv" scope="col">도수</th>
+              <th class="imageFilePath required" scope="col">이미지 경로</th>
+              <th class="category required" scope="col">주종</th>
               <th class="text-center" scope="col">수정</th>
               <th class="text-center" scope="col">삭제</th>
             </tr>
@@ -114,182 +116,107 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="dataInsertModalTitleLabel">Modal title</h5>
+          <h5 class="modal-title" id="dataInsertModalTitleLabel">주류 수기 입력</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"
                   aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <table class="table table-striped table-sm">
+          <table id="batchInsert" class="table table-striped table-sm">
             <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">English Name</th>
-              <th scope="col">alcoholByVolumn</th>
-              <th scope="col">imageFilePath</th>
-              <th scope="col">category</th>
-              <th scope="col">수정</th>
-              <th scope="col">삭제</th>
+              <th class="name required" scope="col">이름</th>
+              <th class="englishName" scope="col">영어 이름</th>
+              <th class="abv required" scope="col">도수</th>
+              <th class="imageFilePath required" scope="col">이미지 경로</th>
+              <th class="category required" scope="col">주종</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>1,001</td>
-              <td>random</td>
-              <td>data</td>
-              <td>placeholder</td>
-              <td>text</td>
-              <td>text</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-primary">수정</button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-danger">삭제</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1,002</td>
-              <td>placeholder</td>
-              <td>irrelevant</td>
-              <td>visual</td>
-              <td>layout</td>
-              <td>layout</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-primary">수정</button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-danger">삭제</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1,003</td>
-              <td>data</td>
-              <td>rich</td>
-              <td>dashboard</td>
-              <td>tabular</td>
-              <td>tabular</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-primary">수정</button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-danger">삭제</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1,004</td>
-              <td>text</td>
-              <td>random</td>
-              <td>layout</td>
-              <td>dashboard</td>
-              <td>dashboard</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-primary">수정</button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-danger">삭제</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1,005</td>
-              <td>dashboard</td>
-              <td>irrelevant</td>
-              <td>text</td>
-              <td>placeholder</td>
-              <td>placeholder</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-primary">수정</button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-danger">삭제</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1,006</td>
-              <td>dashboard</td>
-              <td>illustrative</td>
-              <td>rich</td>
-              <td>data</td>
-              <td>data</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-primary">수정</button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-danger">삭제</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1,007</td>
-              <td>placeholder</td>
-              <td>tabular</td>
-              <td>information</td>
-              <td>irrelevant</td>
-              <td>irrelevant</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-primary">수정</button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-danger">삭제</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1,008</td>
-              <td>random</td>
-              <td>data</td>
-              <td>placeholder</td>
-              <td>text</td>
-              <td>text</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-primary">수정</button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-danger">삭제</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1,009</td>
-              <td>placeholder</td>
-              <td>irrelevant</td>
-              <td>visual</td>
-              <td>layout</td>
-              <td>layout</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-primary">수정</button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-danger">삭제</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1,010</td>
-              <td>data</td>
-              <td>rich</td>
-              <td>dashboard</td>
-              <td>tabular</td>
-              <td>tabular</td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-primary">수정</button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-sm btn-outline-danger">삭제</button>
-              </td>
-            </tr>
+              <tr class="drinkTableRow">
+                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
+                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
+                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
+                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
+                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
+              </tr>
+              <tr class="drinkTableRow">
+                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
+                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
+                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
+                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
+                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
+              </tr>
+              <tr class="drinkTableRow">
+                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
+                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
+                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
+                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
+                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
+              </tr>
+              <tr class="drinkTableRow">
+                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
+                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
+                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
+                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
+                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
+              </tr>
+              <tr class="drinkTableRow">
+                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
+                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
+                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
+                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
+                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
+              </tr>
+              <tr class="drinkTableRow">
+                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
+                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
+                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
+                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
+                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
+              </tr>
+              <tr class="drinkTableRow">
+                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
+                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
+                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
+                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
+                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
+              </tr>
+              <tr class="drinkTableRow">
+                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
+                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
+                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
+                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
+                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
+              </tr>
+              <tr class="drinkTableRow">
+                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
+                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
+                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
+                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
+                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
+              </tr>
+              <tr class="drinkTableRow">
+                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
+                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
+                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
+                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
+                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
+              </tr>
             </tbody>
           </table>
         </div>
         <div class="modal-footer">
-          <div class="spinner-border text-primary" role="status">
+          <div class="spinner-border text-primary batchInsertSpinner hide" role="status">
           </div>
-          <button type="button" class="btn btn-outline-primary">저장</button>
+          <button type="button" class="btn btn-outline-primary saveButton">저장</button>
           <button type="button" class="btn btn-secondary text-align" data-bs-dismiss="modal">닫기</button>
         </div>
       </div>
     </div>
   </div>
 </div>
-<script src="../bootstrap/bootstrap.bundle.min.js"></script>
-<!--
+<!--<script src="../bootstrap/bootstrap.bundle.min.js"></script>-->
 <script src="/admin/bootstrap/bootstrap.bundle.min.js"></script>
--->
 <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
         integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
         crossorigin="anonymous"></script>

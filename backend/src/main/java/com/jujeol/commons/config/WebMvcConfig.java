@@ -25,7 +25,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/admin").setViewName("/admin/html/index");
+        registry.addViewController("/admin").setViewName("/admin/html/index.html");
 
         registry.addRedirectViewController("/", "/docs/index.html");
     }

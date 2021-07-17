@@ -2,12 +2,20 @@ body {
   font-size: .875rem;
 }
 
+.required:after{
+  color: #d00;
+  content: " *";
+}
+
 .feather {
   width: 16px;
   height: 16px;
   vertical-align: text-bottom;
 }
 
+.hide {
+  display: none;
+}
 /*
  * Sidebar
  */
