@@ -1,3 +1,3 @@
 [submodule "auth"]
 	path = auth
-	url = https://github.com/jujeol-jujeol/jujeol-auth.git
+	url = git@github.com:woowacourse-teams/2021-jujeol-jujeol.git
