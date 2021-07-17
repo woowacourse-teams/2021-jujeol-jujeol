@@ -5,9 +5,9 @@ import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.DrinkRepository;
 import com.jujeol.drink.domain.ReviewRepository;
 import com.jujeol.drink.exception.NotFoundDrinkException;
+import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.Preference;
 import com.jujeol.member.domain.PreferenceRepository;
-import com.jujeol.member.exception.NoSuchPreferenceException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class DrinkService {
     public List<DrinkDto> showDrinks() {
         return drinkRepository.findAll(Pageable.ofSize(7))
                 .get()
-                .map(drink -> DrinkDto.from(drink, Preference.of(drink, 0), fileServerUrl))
+                .map(drink -> DrinkDto.from(drink, Preference.from(drink, 0), fileServerUrl))
                 .collect(Collectors.toList());
     }
 
@@ -39,7 +39,7 @@ public class DrinkService {
         Drink drink = drinkRepository.findById(id)
                 .orElseThrow(NotFoundDrinkException::new);
 
-        Preference preference = Preference.of(drink, 0.0);
+        Preference preference = Preference.from(drink, 0.0);
 
         return DrinkDto.from(drink, preference, fileServerUrl);
     }
@@ -50,7 +50,7 @@ public class DrinkService {
 
         Preference preference = preferenceRepository
                 .findByMemberIdAndDrinkId(memberId, drinkId)
-                .orElseThrow(NoSuchPreferenceException::new);
+                .orElseGet(() -> Preference.from(Member.from(memberId), drink, 0.0));
 
         return DrinkDto.from(drink, preference, fileServerUrl);
     }

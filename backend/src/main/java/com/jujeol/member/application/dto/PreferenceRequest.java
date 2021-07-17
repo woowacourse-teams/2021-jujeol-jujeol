@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PreferenceRequest {
 
-    private double rate;
+    private double preferenceRate;
 }

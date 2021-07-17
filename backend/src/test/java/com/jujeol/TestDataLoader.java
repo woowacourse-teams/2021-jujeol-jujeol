@@ -79,7 +79,7 @@ public class TestDataLoader implements CommandLineRunner {
         MEMBER = memberRepository.save(member1);
         MEMBER2 = memberRepository.save(member2);
 
-        PREFERENCE = preferenceRepository.save(Preference.of(MEMBER, stella, 3.5));
+        PREFERENCE = preferenceRepository.save(Preference.from(MEMBER, stella, 3.5));
 
         Review review1 = Review.from("천재 윤피카", stella, MEMBER);
         Review review2 = Review.from("천재 크로플", stella, MEMBER);

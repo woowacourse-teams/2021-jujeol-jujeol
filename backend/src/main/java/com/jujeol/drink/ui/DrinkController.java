@@ -48,12 +48,13 @@ public class DrinkController {
             @PathVariable Long id,
             @AuthenticationPrincipal LoginMember loginMember
     ) {
-        if (loginMember.getAuthority().isAnonymous()) {
-            DrinkDto drinkDto = drinkService.showDrinkDetail(id);
-            DrinkDetailResponse drinkDetailResponse = DrinkDetailResponse.from(drinkDto);
-            return ResponseEntity.ok(CommonResponse.from(drinkDetailResponse));
+        DrinkDto drinkDto = new DrinkDto();
+        if (loginMember.isAnonymous()) {
+            drinkDto = drinkService.showDrinkDetail(id);
         }
-        DrinkDto drinkDto = drinkService.showDrinkDetail(id, loginMember.getId());
+        if (loginMember.isMember()) {
+            drinkDto = drinkService.showDrinkDetail(id, loginMember.getId());
+        }
         DrinkDetailResponse drinkDetailResponse = DrinkDetailResponse.from(drinkDto);
         return ResponseEntity.ok(CommonResponse.from(drinkDetailResponse));
     }
