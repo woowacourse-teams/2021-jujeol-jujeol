@@ -13,6 +13,7 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
 public class MemberAcceptanceTest extends AcceptanceTest {
 
@@ -65,7 +66,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .totalResponse();
 
         //then
-        assertThat(response.statusCode()).isEqualTo(200);
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     @Test
@@ -90,7 +91,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .totalResponse();
 
         //then
-        assertThat(updateResponse.statusCode()).isEqualTo(200);
+        assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     @Test
@@ -162,7 +163,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .totalResponse();
 
         //then
-        assertThat(response.statusCode()).isEqualTo(200);
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     @Test
