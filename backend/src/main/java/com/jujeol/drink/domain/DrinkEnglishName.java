@@ -1,7 +1,6 @@
 package com.jujeol.drink.domain;
 
 import com.jujeol.drink.exception.InvalidEnglishNameException;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.persistence.Column;

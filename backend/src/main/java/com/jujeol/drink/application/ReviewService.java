@@ -45,7 +45,10 @@ public class ReviewService {
                 .map(review -> ReviewResponse.from(
                         review.getId(),
                         MemberDto.from(review.getMemberId()),
-                        review.getContent())
+                        review.getContent(),
+                        review.getCreateAt(),
+                        review.getModifiedAt()
+                        )
                 );
     }
 
