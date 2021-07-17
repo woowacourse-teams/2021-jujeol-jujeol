@@ -42,10 +42,10 @@ public class MemberService {
 
         preferenceRepository
                 .findByMemberIdAndDrinkId(member.getId(), drink.getId())
-                .ifPresentOrElse(exist -> exist.updateRate(preferenceRequest.getRate()),
+                .ifPresentOrElse(exist -> exist.updateRate(preferenceRequest.getPreferenceRate()),
                         () -> {
                             Preference newPreference = Preference
-                                    .of(member, drink, preferenceRequest.getRate());
+                                    .from(member, drink, preferenceRequest.getPreferenceRate());
                             preferenceRepository.save(newPreference);
                         }
                 );

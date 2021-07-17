@@ -34,7 +34,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         //then
         List<DrinkSimpleResponse> expectedResult = BEERS.stream()
                 .filter(drink -> drink.getId() < 8)
-                .map(drink -> DrinkDto.from(drink, Preference.of(drink, 0), ""))
+                .map(drink -> DrinkDto.from(drink, Preference.from(drink, 0), ""))
                 .map(DrinkSimpleResponse::from)
                 .collect(Collectors.toList());
 

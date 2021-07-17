@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.DrinkRepository;
-import com.jujeol.member.exception.NoSuchPreferenceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,13 +42,13 @@ public class PreferenceRepositoryTest {
     @DisplayName("memberId와 drinkId를 통한 조회 테스트")
     public void findByMemberIdAndDrinkIdTest() {
         //given
-        Preference preference = Preference.of(savedMember, savedDrink, 2.0);
+        Preference preference = Preference.from(savedMember, savedDrink, 2.0);
         Preference savedPreference = preferenceRepository.save(preference);
 
         //when
         Preference actual = preferenceRepository
                 .findByMemberIdAndDrinkId(savedMember.getId(), savedDrink.getId())
-                .orElseThrow(NoSuchPreferenceException::new);
+                .orElseGet(() -> Preference.from(savedMember, savedDrink, 0.0));
 
         //then
         assertThat(savedPreference.getRate()).isEqualTo(actual.getRate());
@@ -59,14 +58,14 @@ public class PreferenceRepositoryTest {
     @DisplayName("선호도 수정 테스트")
     public void updateTest() {
         //given
-        Preference preference = Preference.of(savedMember, savedDrink, 2.0);
+        Preference preference = Preference.from(savedMember, savedDrink, 2.0);
         Preference savedPreference = preferenceRepository.save(preference);
 
         //when
         savedPreference.updateRate(4.0);
         Preference findPreference = preferenceRepository
                 .findByMemberIdAndDrinkId(savedMember.getId(), savedDrink.getId())
-                .orElseThrow(NoSuchPreferenceException::new);
+                .orElseGet(() -> Preference.from(savedMember, savedDrink, 0.0));
         //then
         assertThat(findPreference.getRate()).isEqualTo(4.0);
     }
@@ -75,19 +74,17 @@ public class PreferenceRepositoryTest {
     @DisplayName("memberId와 drinkId를 통한 삭제 테스트")
     public void deleteByMemberIdAndDrinkIdTest() {
         //given
-        Preference preference = Preference.of(savedMember, savedDrink, 3.0);
+        Preference preference = Preference.from(savedMember, savedDrink, 3.0);
         preferenceRepository.save(preference);
 
         //when
         preferenceRepository
                 .deleteByMemberIdAndDrinkId(savedMember.getId(), savedDrink.getId());
+        Preference expect = preferenceRepository
+                .findByMemberIdAndDrinkId(savedMember.getId(), savedDrink.getId())
+                .orElseGet(() -> Preference.from(savedMember, savedDrink, 0.0));
 
         //then
-        assertThatThrownBy(() -> {
-            preferenceRepository
-                    .findByMemberIdAndDrinkId(savedMember.getId(), savedDrink.getId())
-                    .orElseThrow(NoSuchPreferenceException::new);
-        }).isInstanceOf(NoSuchPreferenceException.class)
-                .hasMessageContaining("해당 주류에 대한 선호도가 없습니다");
+        assertThat(expect.getRate()).isEqualTo(0.0);
     }
 }
