@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { COLOR } from 'src/constants';
+import nicknameGenerator from 'src/utils/createNickname';
 import HumanIcon from '../Icons/human';
 import { modalContext } from '../Modal/ModalProvider';
 import ReviewEditForm from '../Review/ReviewEditForm';
@@ -47,8 +48,8 @@ const ReviewCard = ({ review }: Props) => {
       <Header>
         <HumanIcon color={COLOR.YELLOW_300} />
         <ReviewerInfo>
-          <span>{author.name}</span>
-          <time>{createdAt.toLocaleDateString()}</time>
+          <span>{nicknameGenerator(author.id.toString())}</span>
+          <time>{createdAt?.toLocaleDateString()}</time>
         </ReviewerInfo>
         <button
           type="button"
