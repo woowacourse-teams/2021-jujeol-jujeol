@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,7 +18,7 @@ public interface DrinkService {
 
     Page<AdminDrinkResponse> findDrinks(Pageable pageable);
 
-    void saveDrinks(List<DrinkRequest> drinkRequests);
+    List<AdminDrinkResponse> saveDrinks(List<DrinkRequest> drinkRequests);
 
     void removeDrink(Long id);
 
@@ -28,6 +29,11 @@ public interface DrinkService {
 
         private List<AdminDrinkResponse> drinkResponses = new ArrayList<>();
         private Long id = 8L;
+
+        @PostConstruct
+        public void initialize() {
+            drinkResponses.addAll(DummyData.drinkResponses());
+        }
 
         @Override
         public Page<AdminDrinkResponse> findDrinks(Pageable pageable) {
@@ -65,7 +71,7 @@ public interface DrinkService {
 
                 @Override
                 public List<AdminDrinkResponse> getContent() {
-                    return DummyData.drinkResponses();
+                    return drinkResponses;
                 }
 
                 @Override
@@ -116,7 +122,7 @@ public interface DrinkService {
         }
 
         @Override
-        public void saveDrinks(List<DrinkRequest> drinkRequests) {
+        public List<AdminDrinkResponse> saveDrinks(List<DrinkRequest> drinkRequests) {
             final List<AdminDrinkResponse> responses = drinkRequests.stream()
                     .map(drinkRequest -> new AdminDrinkResponse(
                             id++,
@@ -128,6 +134,7 @@ public interface DrinkService {
                     )
                     .collect(Collectors.toList());
             this.drinkResponses.addAll(responses);
+            return drinkResponses;
         }
 
         @Override
