@@ -7,13 +7,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class CategoryResponse {
+public class DrinkRequest {
 
-    private Long id;
     private String name;
-
-    public void changeCategory(CategoryRequest category) {
-        this.id = category.getId();
-        this.name = category.getName();
-    }
+    private String englishName;
+    private String imageUrl;
+    private CategoryRequest category;
+    private Double alcoholByVolume;
 }

@@ -7,13 +7,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class CategoryResponse {
+public class CategoryRequest {
 
     private Long id;
     private String name;
-
-    public void changeCategory(CategoryRequest category) {
-        this.id = category.getId();
-        this.name = category.getName();
-    }
 }
