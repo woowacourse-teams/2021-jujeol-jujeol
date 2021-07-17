@@ -95,6 +95,29 @@ include::{snippets}/member/preference/create/http-request.adoc[]
 
 include::{snippets}/member/preference/create/http-response.adoc[]
 
+=== 선호도 생성 (실패_1)
+==== 다른 멤버의 선호도로 접근했을 때
+
+- Request
+
+include::{snippets}/member/preference/create-fail-user/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/create-fail-user/http-response.adoc[]
+
+=== 선호도 생성 (실패_2)
+==== 해당 주류가 존재하지 않을 때
+
+- Request
+
+include::{snippets}/member/preference/create-fail-drink/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/create-fail-drink/http-response.adoc[]
+
+
 === 선호도 수정
 ==== 상세 화면에서 특정 상품에 대한 선호도 수정
 
@@ -105,6 +128,28 @@ include::{snippets}/member/preference/update/http-request.adoc[]
 - Response
 
 include::{snippets}/member/preference/update/http-response.adoc[]
+
+=== 선호도 수정 (실패_1)
+==== 다른 멤버의 선호도로 접근했을 때
+
+- Request
+
+include::{snippets}/member/preference/create-fail-user/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/create-fail-user/http-response.adoc[]
+
+=== 선호도 수정 (실패_2)
+==== 해당 주류가 존재하지 않을 때
+
+- Request
+
+include::{snippets}/member/preference/create-fail-drink/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/create-fail-drink/http-response.adoc[]
 
 === 선호도 삭제
 ==== 상세 화면에서 특정 상품에 대한 선호도 삭제
@@ -117,6 +162,16 @@ include::{snippets}/member/preference/delete/http-request.adoc[]
 
 include::{snippets}/member/preference/delete/http-response.adoc[]
 
+=== 선호도 삭제 (실패)
+==== 다른 멤버의 선호도를 삭제하려고 할 때
+
+- Request
+
+include::{snippets}/member/preference/delete-fail-user/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/delete-fail-user/http-response.adoc[]
 
 == 리뷰
 === 리뷰 생성
