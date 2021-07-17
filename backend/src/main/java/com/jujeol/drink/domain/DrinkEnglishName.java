@@ -18,15 +18,10 @@ public class DrinkEnglishName {
     private static final Pattern PATTERN =
             Pattern.compile("^[A-Za-z\\d\\t-_]*$");
 
-    @Column
+    @Column(nullable = false)
     private String englishName;
 
     public DrinkEnglishName(String englishName) {
-
-        if (Objects.isNull(englishName) || englishName.isBlank()) {
-            this.englishName = "";
-            return;
-        }
 
         if (!isEnglishNamePattern(englishName)) {
             throw new InvalidEnglishNameException();

@@ -7,7 +7,6 @@ import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.ReviewRepository;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
-import com.jujeol.member.domain.Preference;
 import com.jujeol.member.domain.PreferenceRepository;
 import com.jujeol.member.domain.Provider;
 import com.jujeol.member.domain.ProviderName;
@@ -40,8 +39,8 @@ public class DataLoader implements CommandLineRunner {
 
         // Drink Data
         Drink stella = Drink.from("스텔라", "stella", 5.5, "stella_artois.png", Category.BEER);
-        Drink kgb = Drink.from("KGB", null, 3.5, "kgb.png", Category.BEER);
-        Drink efes = Drink.from("EFES", null,7.5, "efes.png", Category.BEER);
+        Drink kgb = Drink.from("KGB", "", 3.5, "kgb.png", Category.BEER);
+        Drink efes = Drink.from("EFES", "",7.5, "efes.png", Category.BEER);
         Drink tiger_rad = Drink.from("타이거 라들러 자몽", "Tiger_Rad", 9.5, "tiger_raddler_grapefruit.png", Category.BEER);
         Drink tsingtao = Drink.from("칭따오", "TSINGTAO", 12.0, "tsingtao.png", Category.BEER);
         Drink gom_pyo = Drink.from("곰표", "gom_pyo", 8.2, "gom_pyo.png", Category.BEER);

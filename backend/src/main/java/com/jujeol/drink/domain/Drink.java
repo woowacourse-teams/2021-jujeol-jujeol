@@ -73,9 +73,6 @@ public class Drink {
     }
 
     public String getEnglishName() {
-        if (Objects.isNull(englishName)) {
-            return null;
-        }
         return englishName.getEnglishName();
     }
 
