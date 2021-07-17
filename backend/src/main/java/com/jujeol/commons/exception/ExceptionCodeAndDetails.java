@@ -9,7 +9,6 @@ import com.jujeol.drink.exception.NotFoundReviewException;
 import com.jujeol.member.exception.InvalidTokenException;
 import com.jujeol.member.exception.KakaoAccessException;
 import com.jujeol.member.exception.NoSuchMemberException;
-import com.jujeol.member.exception.NoSuchPreferenceException;
 import com.jujeol.member.exception.UnauthorizedUserException;
 import java.util.Arrays;
 import lombok.AllArgsConstructor;
@@ -26,7 +25,6 @@ public enum ExceptionCodeAndDetails {
     INVALID_TOKEN("1003", "access token이 유효하지 않습니다.", InvalidTokenException.class),
     NO_SUCH_MEMBER("1004", "해당 id의 유저가 없습니다.", NoSuchMemberException.class),
     UNAUTHORIZED_USER("1005", "권한이 없는 유저입니다.", UnauthorizedUserException.class),
-    NO_SUCH_PREFERENCE("1006", "해당 주류에 대한 선호도가 없습니다", NoSuchPreferenceException.class),
 
     INVALID_ALCOHOL_BY_VOLUME("2001", "해당 주류의 도수가 잘 못 되었습니다.",
             InvalidAlcoholByVolumeException.class),
