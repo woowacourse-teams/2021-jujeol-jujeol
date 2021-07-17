@@ -185,7 +185,7 @@ include::{snippets}/reviews/create/http-request.adoc[]
 
 include::{snippets}/reviews/create/http-response.adoc[]
 
-=== 리뷰 생성(실패)
+=== 리뷰 생성(실패_1)
 ==== 리뷰를 작성하려는 대상 상품의 id가 없을 경우
 
 - Request
@@ -196,7 +196,7 @@ include::{snippets}/reviews/create-fail/http-request.adoc[]
 
 include::{snippets}/reviews/create-fail/http-response.adoc[]
 
-=== 리뷰 생성(실패)
+=== 리뷰 생성(실패_2)
 ==== 동일 상품에 대해 하루 두 개 이상의 리뷰를 작성하려고 할 경우
 
 - Request

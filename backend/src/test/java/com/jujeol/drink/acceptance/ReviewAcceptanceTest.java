@@ -34,6 +34,9 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //when
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+
+        List<ReviewResponse> reviewResponses = getReviews(2L);
+        assertThat(reviewResponses.get(0).getContent()).isEqualTo(reviewRequest.getContent());
     }
 
     @DisplayName("리뷰 생성 - 실패(존재하지 않는 주류 id)")
@@ -116,13 +119,23 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //when
         ExtractableResponse<Response> response = request()
-                .put("/drinks/1/reviews/1", reviewRequest)
+                .put("/drinks/3/reviews/13", reviewRequest)
                 .withUser()
                 .withDocument("reviews/update")
                 .build().totalResponse();
 
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+
+        List<ReviewResponse> reviewResponses = getReviews(3L);
+        assertThat(reviewResponses.get(0).getContent()).isEqualTo(reviewRequest.getContent());
+    }
+
+    private List<ReviewResponse> getReviews(Long drinkId) {
+        return request()
+                .get("/drinks/" + drinkId + "/reviews")
+                .build()
+                .convertBodyToList(ReviewResponse.class);
     }
 
     @DisplayName("리뷰 수정 - 실패(잘못된 Drink id)")
