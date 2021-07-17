@@ -7,6 +7,7 @@ import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.DrinkRepository;
 import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.ReviewRepository;
+import com.jujeol.drink.exception.CreateReviewLimitException;
 import com.jujeol.drink.exception.NotExistReviewInDrinkException;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.exception.NotFoundReviewException;
@@ -14,6 +15,8 @@ import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
 import com.jujeol.member.exception.NoSuchMemberException;
 import com.jujeol.member.exception.UnauthorizedUserException;
+import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,9 +38,25 @@ public class ReviewService {
                 .orElseThrow(NoSuchMemberException::new);
         Drink drink = drinkRepository.findById(drinkId).orElseThrow(NotFoundDrinkException::new);
 
+        validateCreateReviewLimit(loginMemberId, drinkId);
+
         Review review = Review.from(reviewRequest.getContent(), drink, member);
         Review saveReview = reviewRepository.save(review);
         drink.addReview(saveReview);
+    }
+
+    private void validateCreateReviewLimit(Long loginMemberId, Long drinkId) {
+        List<Review> byDrinkIdAndMemberId = reviewRepository
+                .findByDrinkIdAndMemberId(drinkId, loginMemberId, Pageable.ofSize(1));
+
+        if (!byDrinkIdAndMemberId.isEmpty()) {
+            LocalDate now = LocalDate.now();
+            LocalDate createdAt = byDrinkIdAndMemberId.get(0).getCreateAt().toLocalDate();
+
+            if (createdAt.isEqual(now)) {
+                throw new CreateReviewLimitException();
+            }
+        }
     }
 
     public Page<ReviewResponse> showReviews(Long drinkId, Pageable pageable) {

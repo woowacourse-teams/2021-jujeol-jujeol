@@ -27,7 +27,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         String content = "너무 맛있어요 - 소롱";
         ReviewRequest reviewRequest = new ReviewRequest(content);
         ExtractableResponse<Response> response = request()
-                .post("/drinks/1/reviews", reviewRequest)
+                .post("/drinks/2/reviews", reviewRequest)
                 .withUser()
                 .withDocument("reviews/create")
                 .build().totalResponse();
@@ -54,6 +54,31 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getCode());
         assertThat(body.getMessage())
                 .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
+    }
+
+    @DisplayName("리뷰 생성 - 실패(하루 최대 생성 제한)")
+    @Test
+    void createReviewTest_fail_createReviewLimit() {
+        //given
+        String content = "너무 맛있어요 - 피카";
+        ReviewRequest reviewRequest = new ReviewRequest(content);
+        request()
+                .post("/drinks/1/reviews", reviewRequest)
+                .withUser()
+                .build().totalResponse();
+        //when
+        ExtractableResponse<Response> response = request()
+                .post("/drinks/1/reviews", reviewRequest)
+                .withUser()
+                .withDocument("reviews/create-fail-limit")
+                .build().totalResponse();
+
+        JujeolExceptionDto body = response.body().as(JujeolExceptionDto.class);
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.CREATE_REVIEW_LIMIT.getCode());
+        assertThat(body.getMessage())
+                .isEqualTo(ExceptionCodeAndDetails.CREATE_REVIEW_LIMIT.getMessage());
     }
 
     @DisplayName("리뷰 조회 - 성공")
