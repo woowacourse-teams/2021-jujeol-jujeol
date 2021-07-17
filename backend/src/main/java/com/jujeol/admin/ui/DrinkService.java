@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -28,6 +29,11 @@ public interface DrinkService {
 
         private List<AdminDrinkResponse> drinkResponses = new ArrayList<>();
         private Long id = 8L;
+
+        @PostConstruct
+        public void initialize() {
+            drinkResponses.addAll(DummyData.drinkResponses());
+        }
 
         @Override
         public Page<AdminDrinkResponse> findDrinks(Pageable pageable) {
@@ -65,7 +71,7 @@ public interface DrinkService {
 
                 @Override
                 public List<AdminDrinkResponse> getContent() {
-                    return DummyData.drinkResponses();
+                    return drinkResponses;
                 }
 
                 @Override
