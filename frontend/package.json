@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "snowpack dev",
-    "start:local": "cp ./env/.env.local ./.env && snowpack dev",
-    "start:dev": "cp ./env/.env.development ./.env && snowpack dev",
+    "start:local": "cp ./env/.env.local ./.env && snowpack dev --polyfill-node",
+    "start:dev": "cp ./env/.env.development ./.env && snowpack dev --polyfill-node",
     "build": "snowpack build",
     "build:local": "cp ./env/.env.local ./.env && snowpack build --polyfill-node",
     "build:dev": "cp ./env/.env.development ./.env && GENERATE_SOURCEMAP=false snowpack build --polyfill-node",
