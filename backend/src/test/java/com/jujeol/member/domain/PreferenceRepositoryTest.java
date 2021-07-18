@@ -1,7 +1,6 @@
 package com.jujeol.member.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;

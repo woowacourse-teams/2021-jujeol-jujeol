@@ -1,7 +1,6 @@
 package com.jujeol.drink.domain;
 
 import com.jujeol.drink.exception.InvalidEnglishNameException;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.persistence.Column;
@@ -18,15 +17,10 @@ public class DrinkEnglishName {
     private static final Pattern PATTERN =
             Pattern.compile("^[A-Za-z\\d\\t-_]*$");
 
-    @Column
+    @Column(nullable = false)
     private String englishName;
 
     public DrinkEnglishName(String englishName) {
-
-        if (Objects.isNull(englishName) || englishName.isBlank()) {
-            this.englishName = "";
-            return;
-        }
 
         if (!isEnglishNamePattern(englishName)) {
             throw new InvalidEnglishNameException();

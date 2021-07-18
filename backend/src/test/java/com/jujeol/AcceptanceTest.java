@@ -1,5 +1,6 @@
 package com.jujeol;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jujeol.RequestBuilder.Function;
 import com.jujeol.member.application.LoginService;
 import com.jujeol.member.application.dto.TokenRequest;
@@ -27,12 +28,14 @@ public class AcceptanceTest {
     private RequestBuilder request;
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     public void setUp(RestDocumentationContextProvider restDocumentation) {
         RestAssured.port = port;
         TokenResponse token = loginService.createToken(new TokenRequest("5678", ProviderName.TEST));
-        request = new RequestBuilder(restDocumentation, token.getAccessToken());
+        request = new RequestBuilder(restDocumentation, token.getAccessToken(), objectMapper);
     }
 
     /**
