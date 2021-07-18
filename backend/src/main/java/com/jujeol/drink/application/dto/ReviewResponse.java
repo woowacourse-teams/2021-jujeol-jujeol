@@ -15,16 +15,16 @@ public class ReviewResponse {
     @JsonProperty(value = "author")
     private MemberDto memberDto;
     private String content;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
     public static ReviewResponse from(
             Long id,
             MemberDto memberDto,
             String content,
-            LocalDateTime createAt,
+            LocalDateTime createdAt,
             LocalDateTime modifiedAt
     ) {
-        return new ReviewResponse(id, memberDto, content, createAt, modifiedAt);
+        return new ReviewResponse(id, memberDto, content, createdAt, modifiedAt);
     }
 }
