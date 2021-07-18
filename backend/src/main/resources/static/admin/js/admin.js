@@ -1,3 +1,4 @@
+import Drinks from "./drinks/model/Drinks.js";
 import drinkTableRow from "./drinks/component/drinkTableRow.js";
 import {
   getRequest,
@@ -6,93 +7,49 @@ import {
   deleteRequest
 } from "./utils/methodFetches.js";
 import drinkTableColumns from "./drinks/component/drinkTableColumns.js";
+import Drinks from "./drinks/model/Drinks";
 
 const $drinksTable = document.querySelector("#drinksTable");
-const testData = {
-  data: [{
-    id: "1000",
-    name: "나봄마시면한방에가는술1",
-    imageUrl: "대충이미지",
-    englishName: "nabomKiierBOOM1",
-    category: {
-      id: "1",
-      name: "nabomKiller"
-    },
-    alcoholByVolume: 99.9
-  }, {
-    id: "1001",
-    name: "나봄마시면한방에가는술2",
-    imageUrl: "대충이미지",
-    englishName: "nabomKiierBOOM2",
-    category: {
-      id: "1",
-      name: "nabomKiller"
-    },
-    alcoholByVolume: 99.9
-  }, {
-    id: "1002",
-    name: "나봄마시면한방에가는술3",
-    imageUrl: "대충이미지",
-    englishName: "nabomKiierBOOM3",
-    category: {
-      id: "1",
-      name: "nabomKiller"
-    },
-    alcoholByVolume: 99.9
-  }, {
-    id: "1003",
-    name: "나봄마시면한방에가는술4",
-    imageUrl: "대충이미지",
-    englishName: "nabomKiierBOOM4",
-    category: {
-      id: "1",
-      name: "nabomKiller"
-    },
-    alcoholByVolume: 99.9
-  }
-  ],
-  pageInfo: {
-    currentPage: 1,
-    lastPage: 1,
-    countPerPage: 50
-  }
+
+const init = () => {
+  const drinks = new Drinks();
+  console.log("admin.js :: onload");
+
+  addEditButtonsEvent(drinks);
+  addSaveButtonEvent(drinks);
+
+  renderDrinksTable(drinks);
 }
+// 현재 구조의 문제점 : 상태관리를 통해서가 아니라 로우하게 다루고 있음
+// fetches는 상테와 연관되게 하고, 렌더와 분리
 
-let drinkStore = testData.data;
+window.addEventListener('DOMContentLoaded', init);
 
-window.onload = (() => {
-  console.log("admin.js :: onload")
-  addEditButtonsEvent();
-  addSaveButtonEvent();
-
-  renderDrinksTable();
-})
-
-async function renderDrinksTable() {
+async function renderDrinksTable(drinks) {
   const response = await getRequest("/admin/drinks")
   if (response.data) {
-    drinkStore = response.data
+    drinks.setDrinks(response.data);
   }
 
   console.log('admin.js :: renderDrinksTable() :: parameter');
   $drinksTable.querySelector('tbody').innerHTML = '';
-  drinkStore.forEach((element) => {
+  drinks.getDrinks().forEach((element) => {
     $drinksTable.querySelector('tbody').insertAdjacentHTML('afterbegin',
         drinkTableRow(element)
     )
   })
 }
 
-function addEditButtonsEvent() {
+function addEditButtonsEvent(drinks) {
   const $tableBody = document.querySelector(
       "main #drinksTable tbody");
 
   $tableBody.addEventListener('click',
-      event => drinkTableUpdateEvent(event)
+      event => drinkTableUpdateEvent(event, drinks)
   )
 
   $tableBody.addEventListener('click',
-      event => drinkTableDeleteEvent(event)
+      event => drinkTableDeleteEvent(event, drinks)
   )
 }
 
@@ -105,7 +62,7 @@ function addSaveButtonEvent() {
   )
 }
 
-async function drinkTableUpdateEvent(event) {
+async function drinkTableUpdateEvent(event, drinks) {
   if (!(event.target.classList.contains("updateButton")
       || event.target.classList.contains("normalButton"))) {
     return;
@@ -113,7 +70,7 @@ async function drinkTableUpdateEvent(event) {
 
   const $parentRow = event.target.closest(".drinkTableRow");
   const drinkId = $parentRow.querySelector(".drinkId").innerText;
-  const drink = drinkStore.find(ele => ele.id == drinkId);
+  const drink = drinks.getDrinks().find(ele => ele.id == drinkId);
 
   console.log("drinkTableUpdateEvent ::: drinkStore")
   console.log(drinkStore)
@@ -132,7 +89,7 @@ async function drinkTableUpdateEvent(event) {
     console.log("drinkTableUpdateEvent ::: requestBody")
     console.log(requestBody);
     await putRequest(`/admin/drinks/${drinkId}`, requestBody);
-    await renderDrinksTable();
+    await renderDrinksTable(drinks);
   } else {
     if (document.querySelector("#drinksTable tbody tr .updateButton")) {
       alert("동시에 두 개의 행을 수정할 수  없습니다.")
