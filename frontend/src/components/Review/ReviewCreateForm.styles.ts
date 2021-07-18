@@ -19,6 +19,7 @@ const Form = styled.form`
   textarea {
     width: 100%;
     height: 4rem;
+    font-size: 1rem;
     resize: none;
     background-color: transparent;
     border: none;

@@ -18,6 +18,7 @@ const RangeWithIcons = ({
   value,
   disabled,
   setValue,
+  onClick,
   onTouchStart,
   onTouchEnd,
 }: Props) => {
@@ -42,7 +43,7 @@ const RangeWithIcons = ({
   };
 
   return (
-    <Wrapper>
+    <Wrapper onClick={onClick} onTouchStart={onTouchStart}>
       <input
         type="range"
         min={min}
@@ -51,7 +52,6 @@ const RangeWithIcons = ({
         value={value}
         disabled={disabled}
         onChange={onChange}
-        onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       />
       <div>

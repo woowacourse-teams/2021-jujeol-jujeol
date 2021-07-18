@@ -21,9 +21,10 @@ const Form = styled.form`
 
 const Content = styled.div`
   width: 100%;
+  height: 70%;
   flex-grow: 1;
   position: relative;
-  margin: 1rem 0;
+  margin: 2rem 0 1.5rem;
 
   div {
     position: absolute;
@@ -38,6 +39,8 @@ const Content = styled.div`
   }
 
   textarea {
+    margin-top: 0.5rem;
+    font-size: 1rem;
     width: 100%;
     height: 100%;
     resize: none;
