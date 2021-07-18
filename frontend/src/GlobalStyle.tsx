@@ -81,6 +81,10 @@ const GlobalStyle = () => (
         font-size: 16px;
         -webkit-tap-highlight-color: transparent;
       }
+
+      input {
+        -webkit-tap-highlight-color: transparent;
+      }
     `}
   />
 );

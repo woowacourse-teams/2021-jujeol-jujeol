@@ -25,6 +25,19 @@ const Wrapper = styled.div`
     outline: 0;
   }
 
+  input[type='range']::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 3rem;
+    cursor: pointer;
+    background-color: grey;
+  }
+
+  input::-webkit-slider-thumb {
+    height: 3.5rem;
+    width: 1rem;
+    margin-left: 0.5rem;
+  }
+
   div {
     width: 100%;
     display: flex;
