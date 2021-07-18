@@ -6,6 +6,8 @@ import { PATH } from 'src/constants';
 import { Link } from 'react-router-dom';
 import notFoundImage from 'src/assets/default.png';
 import { onImageError } from 'src/utils/error';
+import { useContext } from 'react';
+import UserContext from 'src/contexts/UserContext';
 
 interface Drinks {
   id: number;
@@ -18,6 +20,7 @@ const HomePage = () => {
   const { data: { data: drinks } = [] } = useQuery('drinks', API.getDrinks, {
     retry: 1,
   });
+  const { isLoggedIn, userData } = useContext(UserContext);
 
   return (
     <div>
@@ -26,7 +29,9 @@ const HomePage = () => {
           <section>
             <Title textAlign="center">
               <h2>오늘 이런 술 어때요?</h2>
-              <p>회원님을 위해 준비했어요</p>
+              <p>
+                {isLoggedIn ? `${userData?.name} 님을 위해 준비했어요` : '주절주절이 엄선한 TOP7'}
+              </p>
             </Title>
 
             <ItemList count={drinks?.length ?? 0}>

@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { COLOR } from 'src/constants';
+import UserContext from 'src/contexts/UserContext';
 import Card from '../Card/Card';
 import ReviewCard from '../Card/ReviewCard';
 import { Wrapper, Form, ReviewList } from './Review.styles';
 
 const Review = ({ reviews }: Review.ReviewList) => {
   const [content, setContent] = useState('');
+  const { name: userName } = useContext(UserContext)?.userData ?? { name: '비로그인' };
 
   return (
     <Wrapper>
@@ -17,7 +19,7 @@ const Review = ({ reviews }: Review.ReviewList) => {
           }}
         >
           <div>
-            <span>청바지_1234</span>
+            <span>{userName}</span>
             <span>{`${content.length}/300`}</span>
           </div>
           <textarea

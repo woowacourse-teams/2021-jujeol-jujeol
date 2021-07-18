@@ -27,17 +27,19 @@ const getRandomBaseName = () => {
 };
 
 const nicknameGenerator = (() => {
-  const nicknameArray: { [key: string]: string } = getLocalStorageItem('jujeol_nicknames') ?? {};
+  const nicknameArray: { [key: number]: string } = getLocalStorageItem('jujeol_nicknames') ?? {};
 
   const getName = (id: string) => {
-    if (Object.keys(nicknameArray).includes(id)) {
-      return nicknameArray[id];
+    const memberId = Number(id);
+
+    if (nicknameArray[memberId]) {
+      return nicknameArray[memberId];
     }
 
-    nicknameArray[id] = getRandomBaseName() + '_' + generateId();
+    nicknameArray[memberId] = getRandomBaseName() + '_' + generateId();
     setLocalStorageItem('jujeol_nicknames', nicknameArray);
 
-    return nicknameArray[id];
+    return nicknameArray[memberId];
   };
 
   return getName;
