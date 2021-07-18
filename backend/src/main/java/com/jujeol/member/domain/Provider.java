@@ -22,7 +22,7 @@ public class Provider {
     @Enumerated(EnumType.STRING)
     private ProviderName providerName;
 
-    public static Provider create(String provideId, ProviderName providerName) {
+    public static Provider of(String provideId, ProviderName providerName) {
         return new Provider(provideId, providerName);
     }
 }

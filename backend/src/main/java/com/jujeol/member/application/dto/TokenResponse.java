@@ -10,4 +10,8 @@ import lombok.NoArgsConstructor;
 public class TokenResponse {
 
     private String accessToken;
+
+    public static TokenResponse from(String accessToken) {
+        return new TokenResponse(accessToken);
+    }
 }
