@@ -37,7 +37,7 @@ public class Review {
     private Member member;
 
     @Column(updatable = false)
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
 
@@ -63,7 +63,7 @@ public class Review {
 
     @PrePersist
     public void prePersist() {
-        createAt = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
         modifiedAt = null;
     }
 
