@@ -52,6 +52,9 @@ const API = {
   postReview: <I, D>(id: I, data: D) => {
     return request({ method: 'POST' as Method, url: `/drinks/${id}/reviews`, data });
   },
+  deleteReview: <I>(drinkId: I, reviewId: I) => {
+    return request({ method: 'DELETE' as Method, url: `/drinks/${drinkId}/reviews/${reviewId}` });
+  },
 };
 
 export default API;
