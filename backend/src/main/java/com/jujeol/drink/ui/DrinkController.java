@@ -63,7 +63,7 @@ public class DrinkController {
     @GetMapping("/drinks/{id}/reviews")
     public ResponseEntity<CommonResponse<List<ReviewResponse>>> showReviews(
             @PathVariable Long id,
-            @PageableDefault(sort = "createAt", direction = Direction.DESC) Pageable pageable
+            @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable
     ) {
         Page<ReviewResponse> pageResponses = reviewService.showReviews(id, pageable);
         List<ReviewResponse> reviewResponses = pageResponses.stream().collect(Collectors.toList());
