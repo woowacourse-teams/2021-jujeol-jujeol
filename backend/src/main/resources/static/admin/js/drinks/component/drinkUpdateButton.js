@@ -1,5 +1,4 @@
 export default function (state) {
-  console.log(state);
   const stateDetail = {
     update:{type : "updateButton", cssClass : "btn-outline-success", text : "완료"},
     default:{type : "normalButton", cssClass : "btn-outline-primary", text : "수정"}

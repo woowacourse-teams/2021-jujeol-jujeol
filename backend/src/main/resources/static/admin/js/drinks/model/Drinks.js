@@ -3,6 +3,14 @@ export default class Drinks {
     this.drinks = [];
   }
 
+  findById(id){
+    return this.drinks.find(ele => ele.id === Number(id));
+  }
+
+  anyOnUpdate(){
+    return this.drinks.findIndex(ele => ele.onUpdate === true) !== -1
+  }
+
   getDrinks() {
     return this.drinks;
   }
