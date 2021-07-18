@@ -49,9 +49,9 @@ public class TestDataLoader implements CommandLineRunner {
         Drink stella = Drink.from(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         Drink kgb = Drink.from(
-                "KGB", null, 3.5, "KakaoTalk_Image_2021-07-08-19-58-09_002.png", Category.BEER);
+                "KGB", "", 3.5, "KakaoTalk_Image_2021-07-08-19-58-09_002.png", Category.BEER);
         Drink estp = Drink.from(
-                "ESTP", null, 7.5, "KakaoTalk_Image_2021-07-08-19-58-11_003.png", Category.BEER);
+                "ESTP", "", 7.5, "KakaoTalk_Image_2021-07-08-19-58-11_003.png", Category.BEER);
         Drink tiger_rad = Drink.from(
                 "타이거 라들러 자몽", "Tiger_Rad", 9.5, "KakaoTalk_Image_2021-07-08-19-58-15_004.png",
                 Category.BEER);
@@ -93,11 +93,13 @@ public class TestDataLoader implements CommandLineRunner {
         Review review10 = Review.from("바보 피카", stella, MEMBER2);
         Review review11 = Review.from("바보 피카", stella, MEMBER2);
         Review review12 = Review.from("바보 피카", stella, MEMBER2);
+        Review review13 = Review.from("이제.. 끝낼래...", estp, MEMBER);
 
         List<Review> reviews = List.of(
                 review1, review2, review3, review4,
                 review5, review6, review7, review8,
-                review9, review10, review11, review12
+                review9, review10, review11, review12,
+                review13
         );
 
         REVIEWS = reviewRepository.saveAll(reviews);

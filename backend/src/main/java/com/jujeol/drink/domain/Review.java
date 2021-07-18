@@ -1,6 +1,7 @@
 package com.jujeol.drink.domain;
 
 import com.jujeol.member.domain.Member;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,8 +36,13 @@ public class Review {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Column(updatable = false)
+    private LocalDateTime createAt;
+
+    private LocalDateTime modifiedAt;
+
     public static Review from(String content, Drink drink, Member member) {
-        return new Review(null, content, drink, member);
+        return new Review(null, content, drink, member, null, null);
     }
 
     public void toDrink(Drink drink) {
@@ -51,6 +59,17 @@ public class Review {
 
     public boolean isAuthor(Member member) {
         return this.member.equals(member);
+    }
+
+    @PrePersist
+    public void prePersist() {
+        createAt = LocalDateTime.now();
+        modifiedAt = null;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        modifiedAt = LocalDateTime.now();
     }
 
     public Long getMemberId() {

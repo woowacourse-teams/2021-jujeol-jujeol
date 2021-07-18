@@ -95,6 +95,29 @@ include::{snippets}/member/preference/create/http-request.adoc[]
 
 include::{snippets}/member/preference/create/http-response.adoc[]
 
+=== 선호도 생성 (실패_1)
+==== 비회원이 선호도를 생성하려 할 때
+
+- Request
+
+include::{snippets}/member/preference/create-fail-user/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/create-fail-user/http-response.adoc[]
+
+=== 선호도 생성 (실패_2)
+==== 해당 주류가 존재하지 않을 때
+
+- Request
+
+include::{snippets}/member/preference/create-fail-drink/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/create-fail-drink/http-response.adoc[]
+
+
 === 선호도 수정
 ==== 상세 화면에서 특정 상품에 대한 선호도 수정
 
@@ -105,6 +128,28 @@ include::{snippets}/member/preference/update/http-request.adoc[]
 - Response
 
 include::{snippets}/member/preference/update/http-response.adoc[]
+
+=== 선호도 수정 (실패_1)
+==== 비회원이 선호도를 수정하려고 할 때
+
+- Request
+
+include::{snippets}/member/preference/create-fail-user/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/create-fail-user/http-response.adoc[]
+
+=== 선호도 수정 (실패_2)
+==== 해당 주류가 존재하지 않을 때
+
+- Request
+
+include::{snippets}/member/preference/create-fail-drink/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/create-fail-drink/http-response.adoc[]
 
 === 선호도 삭제
 ==== 상세 화면에서 특정 상품에 대한 선호도 삭제
@@ -117,6 +162,16 @@ include::{snippets}/member/preference/delete/http-request.adoc[]
 
 include::{snippets}/member/preference/delete/http-response.adoc[]
 
+=== 선호도 삭제 (실패)
+==== 비회원이 선호도를 삭제하려고 할 때
+
+- Request
+
+include::{snippets}/member/preference/delete-fail-user/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/delete-fail-user/http-response.adoc[]
 
 == 리뷰
 === 리뷰 생성
@@ -130,7 +185,7 @@ include::{snippets}/reviews/create/http-request.adoc[]
 
 include::{snippets}/reviews/create/http-response.adoc[]
 
-=== 리뷰 생성(실패)
+=== 리뷰 생성(실패_1)
 ==== 리뷰를 작성하려는 대상 상품의 id가 없을 경우
 
 - Request
@@ -140,6 +195,17 @@ include::{snippets}/reviews/create-fail/http-request.adoc[]
 - Response
 
 include::{snippets}/reviews/create-fail/http-response.adoc[]
+
+=== 리뷰 생성(실패_2)
+==== 동일 상품에 대해 하루 두 개 이상의 리뷰를 작성하려고 할 경우
+
+- Request
+
+include::{snippets}/reviews/create-fail-limit/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/create-fail-limit/http-response.adoc[]
 
 === 리뷰 조회
 ==== 상세 화면에서 특정 상품에 대한 리뷰를 조회

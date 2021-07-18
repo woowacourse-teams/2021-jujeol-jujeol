@@ -29,9 +29,9 @@ public class RequestBuilder {
     private final ObjectMapper objectMapper;
     private final String accessToken;
 
-    public RequestBuilder(RestDocumentationContextProvider restDocumentation, String accessToken) {
+    public RequestBuilder(RestDocumentationContextProvider restDocumentation, String accessToken, ObjectMapper objectMapper) {
         this.restDocumentation = restDocumentation;
-        this.objectMapper = new ObjectMapper();
+        this.objectMapper = objectMapper;
         this.accessToken = accessToken;
     }
 

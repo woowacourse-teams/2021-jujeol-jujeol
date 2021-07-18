@@ -27,13 +27,16 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         String content = "너무 맛있어요 - 소롱";
         ReviewRequest reviewRequest = new ReviewRequest(content);
         ExtractableResponse<Response> response = request()
-                .post("/drinks/1/reviews", reviewRequest)
+                .post("/drinks/2/reviews", reviewRequest)
                 .withUser()
                 .withDocument("reviews/create")
                 .build().totalResponse();
         //when
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+
+        List<ReviewResponse> reviewResponses = getReviews(2L);
+        assertThat(reviewResponses.get(0).getContent()).isEqualTo(reviewRequest.getContent());
     }
 
     @DisplayName("리뷰 생성 - 실패(존재하지 않는 주류 id)")
@@ -54,6 +57,31 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getCode());
         assertThat(body.getMessage())
                 .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
+    }
+
+    @DisplayName("리뷰 생성 - 실패(하루 최대 생성 제한)")
+    @Test
+    void createReviewTest_fail_createReviewLimit() {
+        //given
+        String content = "너무 맛있어요 - 피카";
+        ReviewRequest reviewRequest = new ReviewRequest(content);
+        request()
+                .post("/drinks/1/reviews", reviewRequest)
+                .withUser()
+                .build().totalResponse();
+        //when
+        ExtractableResponse<Response> response = request()
+                .post("/drinks/1/reviews", reviewRequest)
+                .withUser()
+                .withDocument("reviews/create-fail-limit")
+                .build().totalResponse();
+
+        JujeolExceptionDto body = response.body().as(JujeolExceptionDto.class);
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.CREATE_REVIEW_LIMIT.getCode());
+        assertThat(body.getMessage())
+                .isEqualTo(ExceptionCodeAndDetails.CREATE_REVIEW_LIMIT.getMessage());
     }
 
     @DisplayName("리뷰 조회 - 성공")
@@ -91,13 +119,23 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //when
         ExtractableResponse<Response> response = request()
-                .put("/drinks/1/reviews/1", reviewRequest)
+                .put("/drinks/3/reviews/13", reviewRequest)
                 .withUser()
                 .withDocument("reviews/update")
                 .build().totalResponse();
 
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+
+        List<ReviewResponse> reviewResponses = getReviews(3L);
+        assertThat(reviewResponses.get(0).getContent()).isEqualTo(reviewRequest.getContent());
+    }
+
+    private List<ReviewResponse> getReviews(Long drinkId) {
+        return request()
+                .get("/drinks/" + drinkId + "/reviews")
+                .build()
+                .convertBodyToList(ReviewResponse.class);
     }
 
     @DisplayName("리뷰 수정 - 실패(잘못된 Drink id)")
