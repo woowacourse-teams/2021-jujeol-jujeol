@@ -14,7 +14,7 @@ const request = async (config: AxiosRequestConfig) => {
 
     return response.data;
   } catch ({ response }) {
-    throw response.data.error;
+    throw response.data;
   }
 };
 
@@ -34,20 +34,23 @@ axios.interceptors.request.use(
 );
 
 const API = {
-  getDrinks: () => {
-    return request({ method: 'GET' as Method, url: REQUEST_URL.GET_DRINKS });
-  },
   login: <T>(data: T) => {
     return request({ method: 'POST' as Method, url: REQUEST_URL.LOGIN, data });
   },
   getUserInfo: () => {
     return request({ method: 'GET' as Method, url: REQUEST_URL.GET_USER_INFO });
   },
+  getDrinks: () => {
+    return request({ method: 'GET' as Method, url: REQUEST_URL.GET_DRINKS });
+  },
   getDrink: <T>(id: T) => {
     return request({ method: 'GET' as Method, url: `${REQUEST_URL.GET_DRINK}/${id}` });
   },
   getReview: <T>(id: T, params: URLSearchParams) => {
     return request({ method: 'GET' as Method, url: `/drinks/${id}/reviews?` + params.toString() });
+  },
+  postReview: <I, D>(id: I, data: D) => {
+    return request({ method: 'POST' as Method, url: `/drinks/${id}/reviews`, data });
   },
 };
 

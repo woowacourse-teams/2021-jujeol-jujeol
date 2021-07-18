@@ -38,7 +38,7 @@ const ReviewCard = ({ review }: Props) => {
         <HumanIcon color={COLOR.YELLOW_300} />
         <ReviewerInfo>
           <span>{nicknameGenerator(author.id.toString())}</span>
-          <time>{createdAt?.toLocaleDateString()}</time>
+          <time>{new Date(createdAt)?.toLocaleDateString()}</time>
         </ReviewerInfo>
         <button
           type="button"

@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import API from 'src/apis/requests';
-import { LOCAL_STORAGE_KEY, PATH } from 'src/constants';
+import { LOCAL_STORAGE_KEY, PATH, MESSAGE } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
 import { setLocalStorageItem } from 'src/utils/localStorage';
 
@@ -47,7 +47,7 @@ const OauthPage = () => {
   }
 
   if (isLoggedIn) {
-    alert('접근 할 수 없는 페이지 입니다.');
+    alert(MESSAGE.PAGE_ACCESS_NOT_ALLOWED);
     return <Redirect to={PATH.HOME} />;
   }
 
