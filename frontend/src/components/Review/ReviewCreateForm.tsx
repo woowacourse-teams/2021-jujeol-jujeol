@@ -1,8 +1,8 @@
 import { FormEventHandler, useContext, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import API from 'src/apis/requests';
-import { COLOR, MESSAGE, ERROR_MESSAGE, REVIEW } from 'src/constants';
+import { COLOR, MESSAGE, ERROR_MESSAGE, REVIEW, PATH } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
 import Card from '../Card/Card';
 import { Form } from './ReviewCreateForm.styles';
@@ -13,6 +13,7 @@ const NOT_LOGGED_IN_PLACEHOLDER = '리뷰를 등록하기 위해서는 로그인
 
 const ReviewCreateForm = () => {
   const [content, setContent] = useState('');
+  const history = useHistory();
   const { id: drinkId } = useParams<{ id: string }>();
 
   const queryClient = useQueryClient();
@@ -31,7 +32,7 @@ const ReviewCreateForm = () => {
     }
   );
 
-  const onCreateReview: FormEventHandler<HTMLFormElement> = (event) => {
+  const onCreate: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
     if (!content) return;
@@ -39,15 +40,23 @@ const ReviewCreateForm = () => {
     mutate();
   };
 
+  const onCheckLoggedIn = () => {
+    if (!isLoggedIn) {
+      if (confirm(MESSAGE.LOGIN_REQUIRED_TO_CREATE_REVIEW)) {
+        history.push(PATH.LOGIN);
+      }
+    }
+  };
+
   return (
-    <Form onSubmit={onCreateReview}>
+    <Form onSubmit={onCreate}>
       <Card padding="1rem" backgroundColor={COLOR.WHITE_200}>
         <textarea
           placeholder={isLoggedIn ? LOGGED_IN_PLACEHOLDER : NOT_LOGGED_IN_PLACEHOLDER}
           value={content}
           readOnly={!isLoggedIn}
           maxLength={REVIEW.MAX_LENGTH}
-          onClick={() => !isLoggedIn && alert(MESSAGE.LOGIN_REQUIRED_TO_CREATE_REVIEW)}
+          onClick={onCheckLoggedIn}
           onChange={({ target }) => setContent(target.value)}
           required
         />

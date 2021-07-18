@@ -40,12 +40,14 @@ const API = {
   getUserInfo: () => {
     return request({ method: 'GET' as Method, url: REQUEST_URL.GET_USER_INFO });
   },
+
   getDrinks: () => {
     return request({ method: 'GET' as Method, url: REQUEST_URL.GET_DRINKS });
   },
   getDrink: <T>(id: T) => {
     return request({ method: 'GET' as Method, url: `${REQUEST_URL.GET_DRINK}/${id}` });
   },
+
   getReview: <T>(id: T, params: URLSearchParams) => {
     return request({ method: 'GET' as Method, url: `/drinks/${id}/reviews?` + params.toString() });
   },
@@ -61,6 +63,13 @@ const API = {
   },
   deleteReview: <I>(drinkId: I, reviewId: I) => {
     return request({ method: 'DELETE' as Method, url: `/drinks/${drinkId}/reviews/${reviewId}` });
+  },
+
+  postPreference: <I, D>(id: I, data: D) => {
+    return request({ method: 'PUT' as Method, url: `/members/me/drinks/${id}/preference`, data });
+  },
+  deletePreference: <I>(id: I) => {
+    return request({ method: 'DELETE' as Method, url: `/members/me/drinks/${id}/preference` });
   },
 };
 
