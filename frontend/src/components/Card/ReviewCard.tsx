@@ -7,19 +7,8 @@ import ReviewEditForm from '../Review/ReviewEditForm';
 import Card from './Card';
 import { Header, ReviewerInfo, Content, ShowMoreButton } from './ReviewCard.styles';
 
-interface ReviewData {
-  id: number;
-  author: {
-    id: number;
-    name: string;
-  };
-  content: string;
-  createdAt: Date;
-  modifiedAt: Date | null;
-}
-
 interface Props {
-  review: ReviewData;
+  review: Review.ReviewItem;
 }
 
 const ReviewCard = ({ review }: Props) => {

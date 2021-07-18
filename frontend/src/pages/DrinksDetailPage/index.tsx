@@ -26,19 +26,32 @@ const defaultDrinkDetail = {
 const DrinksDetailPage = () => {
   const { id: drinkId } = useParams<{ id: string }>();
   const [drinkInfo, setDrinkInfo] = useState(defaultDrinkDetail);
+  const [reviews, setReviews] = useState([]);
+  const reviewSearchParams = new URLSearchParams('?page=1');
 
-  const query = useQuery('drink-detail', () => API.getDrink<string>(drinkId), {
+  const DrinkQuery = useQuery('drink-detail', () => API.getDrink<string>(drinkId), {
     retry: 0,
     onSuccess: ({ data }) => {
-      setDrinkInfo({ ...data, category: { id: 0, name: '맥주' } });
+      setDrinkInfo(data);
     },
   });
+
+  const ReviewsQuery = useQuery(
+    'reviews',
+    () => API.getReview<string>(drinkId, reviewSearchParams),
+    {
+      retry: 0,
+      onSuccess: ({ data, pageInfo }) => {
+        setReviews(data);
+      },
+    }
+  );
 
   const {
     name,
     englishName,
     imageUrl,
-    category: { id: categoryId },
+    category: { id: categoryId, name: categoryName },
     alcoholByVolume,
     preferenceRate,
   } = drinkInfo;
@@ -84,7 +97,7 @@ const DrinksDetailPage = () => {
           </ul>
         </DescriptionSection>
 
-        <Review />
+        <Review reviews={reviews} />
       </Section>
     </>
   );

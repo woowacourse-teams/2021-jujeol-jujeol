@@ -8,8 +8,8 @@ interface Properties {
 
 // TODO: 어플리케이션이 시작될 때, 전체 categories를 불러오는 기능 필요
 const CATEGORY_NAME = {
-  0: '맥주',
-  1: '소주',
+  0: '소주',
+  1: '맥주',
   2: '막걸리',
 };
 

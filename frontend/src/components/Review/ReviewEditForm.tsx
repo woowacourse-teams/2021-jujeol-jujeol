@@ -1,19 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Form, Content, EditButton, DeleteButton } from './ReviewEditForm.styles';
-
-interface ReviewData {
-  id: number;
-  author: {
-    id: number;
-    name: string;
-  };
-  content: string;
-  createdAt: Date;
-  modifiedAt: Date | null;
-}
-
 interface Props {
-  review: ReviewData;
+  review: Review.ReviewItem;
 }
 
 const ReviewEditForm = ({ review }: Props) => {

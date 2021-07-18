@@ -83,6 +83,7 @@ const ReviewList = styled.ul`
   grid-row-gap: 1rem;
   font-size: 0.875rem;
   margin-top: 1rem;
+  line-break: anywhere;
 
   li {
     position: relative;

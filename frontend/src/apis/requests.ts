@@ -46,6 +46,9 @@ const API = {
   getDrink: <T>(id: T) => {
     return request({ method: 'GET' as Method, url: `${REQUEST_URL.GET_DRINK}/${id}` });
   },
+  getReview: <T>(id: T, params: URLSearchParams) => {
+    return request({ method: 'GET' as Method, url: `/drinks/${id}/reviews?` + params.toString() });
+  },
 };
 
 export default API;
