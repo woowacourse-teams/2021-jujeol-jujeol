@@ -1,27 +1,32 @@
 package com.jujeol.admin.ui.dto;
 
-import com.jujeol.drink.application.dto.DrinkResponse;
+import com.jujeol.drink.application.dto.DrinkDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AdminDrinkResponse {
 
     private Long id;
     private String name;
     private String englishName;
-    private String imageUrl;
-    private CategoryResponse category;
     private Double alcoholByVolume;
+    private String imageUrl;
+    private AdminCategory category;
+    private double preferenceRate;
 
-    public void changeInfo(DrinkRequest drinkRequest) {
-        this.name = drinkRequest.getName();
-        this.englishName = drinkRequest.getEnglishName();
-        this.imageUrl = drinkRequest.getImageUrl();
-        this.category.changeCategory(drinkRequest.getCategory());
-        this.alcoholByVolume = drinkRequest.getAlcoholByVolume();
+    public static AdminDrinkResponse from(DrinkDto drinkDto) {
+        return new AdminDrinkResponse(
+                drinkDto.getId(),
+                drinkDto.getName(),
+                drinkDto.getEnglishName(),
+                drinkDto.getAlcoholByVolume(),
+                drinkDto.getImageUrl(),
+                new AdminCategory(1L, drinkDto.getCategory()),
+                drinkDto.getPreferenceRate()
+        );
     }
 }

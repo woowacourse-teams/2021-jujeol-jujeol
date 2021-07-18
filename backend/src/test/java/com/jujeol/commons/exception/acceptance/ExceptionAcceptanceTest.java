@@ -9,6 +9,7 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
 public class ExceptionAcceptanceTest extends AcceptanceTest {
 
@@ -23,7 +24,7 @@ public class ExceptionAcceptanceTest extends AcceptanceTest {
         int statusCode = response.statusCode();
         JujeolExceptionDto body = response.body().as(JujeolExceptionDto.class);
 
-        assertThat(statusCode).isEqualTo(404);
+        assertThat(statusCode).isEqualTo(HttpStatus.NOT_FOUND.value());
         assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_API.getCode());
         assertThat(body.getMessage()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_API.getMessage());
     }
