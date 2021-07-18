@@ -51,7 +51,7 @@ public class ReviewService {
 
         if (!byDrinkIdAndMemberId.isEmpty()) {
             LocalDate now = LocalDate.now();
-            LocalDate createdAt = byDrinkIdAndMemberId.get(0).getCreateAt().toLocalDate();
+            LocalDate createdAt = byDrinkIdAndMemberId.get(0).getCreatedAt().toLocalDate();
 
             if (createdAt.isEqual(now)) {
                 throw new CreateReviewLimitException();
@@ -65,7 +65,7 @@ public class ReviewService {
                         review.getId(),
                         MemberDto.from(review.getMemberId()),
                         review.getContent(),
-                        review.getCreateAt(),
+                        review.getCreatedAt(),
                         review.getModifiedAt()
                         )
                 );
