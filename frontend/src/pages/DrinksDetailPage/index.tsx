@@ -13,7 +13,7 @@ import UserContext from 'src/contexts/UserContext';
 const defaultDrinkDetail = {
   name: 'name',
   englishName: 'english name',
-  imageUrl: notFoundImage,
+  imageUrl: '',
   category: {
     id: 0,
     name: '',
