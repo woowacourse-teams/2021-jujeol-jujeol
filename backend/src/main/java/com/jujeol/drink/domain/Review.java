@@ -3,6 +3,7 @@ package com.jujeol.drink.domain;
 import com.jujeol.member.domain.Member;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,7 +27,8 @@ public class Review {
     private Long id;
 
     @Column(nullable = false)
-    private String content;
+    @Embedded
+    private ReviewContent content;
 
     @ManyToOne
     @JoinColumn(name = "drink_id")
@@ -42,7 +44,7 @@ public class Review {
     private LocalDateTime modifiedAt;
 
     public static Review from(String content, Drink drink, Member member) {
-        return new Review(null, content, drink, member, null, null);
+        return new Review(null, new ReviewContent(content), drink, member, null, null);
     }
 
     public void toDrink(Drink drink) {
@@ -50,7 +52,7 @@ public class Review {
     }
 
     public void editContent(String content) {
-        this.content = content;
+        this.content = new ReviewContent(content);
     }
 
     public boolean isReviewOf(Drink drink) {
@@ -70,6 +72,10 @@ public class Review {
     @PreUpdate
     public void preUpdate() {
         modifiedAt = LocalDateTime.now();
+    }
+
+    public String getContent() {
+        return content.getContent();
     }
 
     public Long getMemberId() {
