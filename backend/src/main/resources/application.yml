@@ -9,6 +9,7 @@ spring:
       "local": "console-logging,http-console-logging"
       "dev" : "file-logging,http-file-logging"
       "prod" : "file-logging,http-file-logging"
+      "test" : "console-logging"
     include: oauth
   data:
     web:

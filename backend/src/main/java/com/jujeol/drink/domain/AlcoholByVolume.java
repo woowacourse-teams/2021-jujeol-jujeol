@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Embeddable
 class AlcoholByVolume {
 
-    @Column
+    @Column(name = "alcoholByVolume")
     private Double value;
 
     public AlcoholByVolume(Double alcoholByVolume) {

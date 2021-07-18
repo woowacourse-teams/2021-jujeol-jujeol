@@ -35,8 +35,8 @@ public class DrinkController {
     private final ReviewService reviewService;
 
     @GetMapping("/drinks")
-    public ResponseEntity<CommonResponse<List<DrinkSimpleResponse>>> showDrinks() {
-        List<DrinkDto> drinkDtos = drinkService.showDrinks();
+    public ResponseEntity<CommonResponse<List<DrinkSimpleResponse>>> showDrinks(@PageableDefault(7) Pageable pageable) {
+        Page<DrinkDto> drinkDtos = drinkService.showDrinks(pageable);
         List<DrinkSimpleResponse> drinkSimpleResponses = drinkDtos.stream()
                 .map(DrinkSimpleResponse::from)
                 .collect(Collectors.toList());

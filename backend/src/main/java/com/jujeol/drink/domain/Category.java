@@ -1,6 +1,9 @@
 package com.jujeol.drink.domain;
 
+import com.jujeol.drink.exception.NotFoundCategoryException;
+import java.util.Arrays;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 public enum Category {
@@ -14,5 +17,12 @@ public enum Category {
 
     Category(String name) {
         this.name = name;
+    }
+
+    public static Category matches(String category) {
+        return Arrays.stream(values())
+                .filter(cat -> cat.toString().equalsIgnoreCase(category))
+                .findAny()
+                .orElseThrow(NotFoundCategoryException::new);
     }
 }

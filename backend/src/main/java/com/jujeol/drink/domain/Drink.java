@@ -2,6 +2,7 @@ package com.jujeol.drink.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Converter;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -84,10 +85,22 @@ public class Drink {
     }
 
     public String getCategory() {
-        return category.getName();
+        return category.toString();
     }
 
     public List<Review> getReviews() {
         return reviews;
+    }
+
+    public void updateInfo(String name,
+            String englishName,
+            String imageUrl,
+            String category,
+            Double alcoholByVolume) {
+        this.name = new DrinkName(name);
+        this.englishName = new DrinkEnglishName(englishName);
+        this.imageFilePath = new ImageFilePath(imageUrl);
+        this.category = Category.matches(category);
+        this.alcoholByVolume = new AlcoholByVolume(alcoholByVolume);
     }
 }

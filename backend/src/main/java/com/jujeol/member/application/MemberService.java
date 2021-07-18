@@ -1,7 +1,7 @@
 package com.jujeol.member.application;
 
 import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.DrinkRepository;
+import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.member.application.dto.MemberResponse;
 import com.jujeol.member.application.dto.PreferenceRequest;

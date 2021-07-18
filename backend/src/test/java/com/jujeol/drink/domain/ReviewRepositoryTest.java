@@ -2,6 +2,8 @@ package com.jujeol.drink.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.jujeol.drink.domain.repository.DrinkRepository;
+import com.jujeol.drink.domain.repository.ReviewRepository;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.exception.NotFoundReviewException;
 import com.jujeol.member.domain.Member;

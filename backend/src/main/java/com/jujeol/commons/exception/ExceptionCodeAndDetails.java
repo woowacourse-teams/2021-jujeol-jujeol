@@ -4,6 +4,7 @@ import com.jujeol.drink.exception.InvalidAlcoholByVolumeException;
 import com.jujeol.drink.exception.InvalidDrinkNameException;
 import com.jujeol.drink.exception.InvalidEnglishNameException;
 import com.jujeol.drink.exception.NotExistReviewInDrinkException;
+import com.jujeol.drink.exception.NotFoundCategoryException;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.exception.NotFoundReviewException;
 import com.jujeol.member.exception.InvalidTokenException;
@@ -34,7 +35,8 @@ public enum ExceptionCodeAndDetails {
             InvalidEnglishNameException.class),
     NOT_FOUND_REVIEW("2005", "해당하는 id의 리뷰를 찾을 수 없습니다.", NotFoundReviewException.class),
     NOT_EXIST_REVIEW_IN_DRINK("2006", "해당 주류에 존재하지 않는 리뷰입니다.",
-            NotExistReviewInDrinkException.class);
+            NotExistReviewInDrinkException.class),
+    NOT_EXIST_CATEGORY("2007", "해당 카테고리가 존재하지 않습니다.", NotFoundCategoryException.class);
 
     private String code;
     private String message;
