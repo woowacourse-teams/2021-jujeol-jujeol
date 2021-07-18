@@ -19,14 +19,15 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
     private final SimpleJdbcInsert jdbcInsert;
 
     public DrinkRepositoryImpl(DataSource dataSource) {
-        this.jdbcInsert = new SimpleJdbcInsert(dataSource);
+        this.jdbcInsert =
+                new SimpleJdbcInsert(dataSource)
+                .withTableName("drink")
+                .usingGeneratedKeyColumns("id");
     }
 
     @Override
     @Transactional
     public void batchInsert(List<Drink> drinks) {
-        jdbcInsert.withTableName("drink")
-                .usingGeneratedKeyColumns("id");
         final SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(drinks);
         jdbcInsert.executeBatch(batch);
     }

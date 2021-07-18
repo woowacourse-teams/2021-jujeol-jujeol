@@ -17,6 +17,6 @@ public class AdminDrinkRequest {
     private AdminCategory category;
 
     public DrinkRequestDto toDto() {
-        return DrinkRequestDto.of(name, englishName, alcoholByVolume, imageUrl, category.getCategory());
+        return DrinkRequestDto.of(name, englishName, alcoholByVolume, imageUrl, category.getName());
     }
 }

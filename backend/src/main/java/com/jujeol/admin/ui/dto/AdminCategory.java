@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class AdminCategory {
 
     private Long id;
-    private String category;
+    private String name;
 }

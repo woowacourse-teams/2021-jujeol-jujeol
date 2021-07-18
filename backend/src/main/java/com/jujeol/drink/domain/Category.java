@@ -21,7 +21,7 @@ public enum Category {
 
     public static Category matches(String category) {
         return Arrays.stream(values())
-                .filter(cat -> cat.toString().equalsIgnoreCase(category))
+                .filter(cat -> cat.toString().equalsIgnoreCase(category) || cat.getName().equalsIgnoreCase(category))
                 .findAny()
                 .orElseThrow(NotFoundCategoryException::new);
     }
