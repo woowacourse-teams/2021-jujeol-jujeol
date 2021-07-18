@@ -27,6 +27,7 @@ const Container = styled.div<{ isOpened: boolean }>`
   bottom: 0;
   left: 0;
   visibility: ${({ isOpened }) => (isOpened ? 'visible' : 'hidden')};
+  z-index: ${Z_INDEX.MODAL};
 `;
 
 const Content = styled.div<{ isOpened: boolean }>`

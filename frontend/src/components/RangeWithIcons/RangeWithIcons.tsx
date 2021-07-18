@@ -7,6 +7,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   color: string;
   value: number;
   setValue: (value: number) => void;
+  onTouchEnd: () => void;
 }
 
 const RangeWithIcons = ({
@@ -15,7 +16,10 @@ const RangeWithIcons = ({
   max,
   step,
   value,
+  disabled,
   setValue,
+  onTouchStart,
+  onTouchEnd,
 }: Props) => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(Number(event.target.value));
@@ -39,7 +43,17 @@ const RangeWithIcons = ({
 
   return (
     <Wrapper>
-      <input type="range" min={min} max={max} step={step} value={value} onChange={onChange} />
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        disabled={disabled}
+        onChange={onChange}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      />
       <div>
         {Array.from({ length: max as number }).map((_, index) => {
           return <StarIcon color={color} key={index} status={getIconsStatus(index)} />;

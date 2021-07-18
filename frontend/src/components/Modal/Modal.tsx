@@ -1,3 +1,4 @@
+import { MouseEventHandler } from 'react';
 import { Container, Content } from './Modal.styles';
 
 interface Props {
@@ -7,15 +8,15 @@ interface Props {
 }
 
 const Modal = ({ isOpened, setIsOpened, children }: Props) => {
-  const onClose = () => {
-    setIsOpened(false);
+  const onClose: MouseEventHandler<HTMLDivElement> = (event) => {
+    if (event.currentTarget === event.target) {
+      setIsOpened(false);
+    }
   };
 
   return (
-    <Container isOpened={isOpened}>
-      <Content isOpened={isOpened} onClick={onClose}>
-        {children}
-      </Content>
+    <Container isOpened={isOpened} onClick={onClose}>
+      <Content isOpened={isOpened}>{children}</Content>
     </Container>
   );
 };

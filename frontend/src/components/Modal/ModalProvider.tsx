@@ -5,6 +5,7 @@ import { PORTAL_ID } from 'src/constants';
 
 interface modalContextValue {
   openModal: (value: React.ReactNode) => void;
+  closeModal: () => void;
 }
 
 const modalContext = createContext<modalContextValue | null>(null);
@@ -18,8 +19,12 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     setIsModalOpened(true);
   };
 
+  const closeModal = () => {
+    setIsModalOpened(false);
+  };
+
   return (
-    <modalContext.Provider value={{ openModal }}>
+    <modalContext.Provider value={{ openModal, closeModal }}>
       {children}
       <Portal id={PORTAL_ID.MODAL}>
         <Modal isOpened={isModalOpened} setIsOpened={setIsModalOpened}>

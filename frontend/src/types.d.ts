@@ -12,4 +12,8 @@ declare namespace Review {
   export interface ReviewList {
     reviews: ReviewItem[];
   }
+
+  export type ReviewRequestData = {
+    content: string;
+  };
 }

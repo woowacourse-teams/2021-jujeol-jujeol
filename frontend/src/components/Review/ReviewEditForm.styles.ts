@@ -6,7 +6,7 @@ const Form = styled.form`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  height: 100%;
+  height: 90%;
   width: 100%;
 
   h2 {
@@ -57,11 +57,12 @@ const EditButton = styled.button`
 `;
 
 const DeleteButton = styled.button`
+  display: block;
+  margin-left: auto;
   height: 3rem;
   background-color: transparent;
   border: none;
   color: ${COLOR.GRAY_300};
-  align-self: flex-end;
 `;
 
 export { Form, Content, EditButton, DeleteButton };
