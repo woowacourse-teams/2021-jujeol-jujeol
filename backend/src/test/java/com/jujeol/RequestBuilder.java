@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jujeol.commons.dto.CommonResponse;
+import com.jujeol.commons.exception.JujeolExceptionDto;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 
 public class RequestBuilder {
@@ -176,6 +178,14 @@ public class RequestBuilder {
                 e.printStackTrace();
                 return new ArrayList<>();
             }
+        }
+
+        public HttpStatus statusCode() {
+            return HttpStatus.valueOf(extractableResponse.statusCode());
+        }
+
+        public JujeolExceptionDto errorResponse() {
+            return extractableResponse.as(JujeolExceptionDto.class);
         }
 
         public ExtractableResponse<Response> totalResponse() {

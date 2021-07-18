@@ -22,4 +22,8 @@ public class CommonResponse<T> {
     public static <T> CommonResponse<T> from(T data) {
         return new CommonResponse<>(data, null);
     }
+
+    public static CommonResponse<?> ok() {
+        return new CommonResponse<>(null, null);
+    }
 }

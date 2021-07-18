@@ -2,6 +2,7 @@ package com.jujeol.drink.domain;
 
 import com.jujeol.drink.exception.InvalidReviewContentException;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ReviewContent {
 
+    @Column(nullable = false, length = 300)
     private String content;
 
     public ReviewContent(String content) {

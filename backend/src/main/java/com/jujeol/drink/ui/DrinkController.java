@@ -35,8 +35,8 @@ public class DrinkController {
     private final ReviewService reviewService;
 
     @GetMapping("/drinks")
-    public ResponseEntity<CommonResponse<List<DrinkSimpleResponse>>> showDrinks() {
-        List<DrinkDto> drinkDtos = drinkService.showDrinks();
+    public ResponseEntity<CommonResponse<List<DrinkSimpleResponse>>> showDrinks(@PageableDefault(7) Pageable pageable) {
+        Page<DrinkDto> drinkDtos = drinkService.showDrinks(pageable);
         List<DrinkSimpleResponse> drinkSimpleResponses = drinkDtos.stream()
                 .map(DrinkSimpleResponse::from)
                 .collect(Collectors.toList());
@@ -68,7 +68,6 @@ public class DrinkController {
         Page<ReviewResponse> pageResponses = reviewService.showReviews(id, pageable);
         List<ReviewResponse> reviewResponses = pageResponses.stream().collect(Collectors.toList());
 
-        // todo: 마지막 페이지를 초과하는 값을 받으면 마지막 페이지 반환
         PageInfo pageInfo = PageInfo.from(
                 pageable.getPageNumber(),
                 pageResponses.getTotalPages(),

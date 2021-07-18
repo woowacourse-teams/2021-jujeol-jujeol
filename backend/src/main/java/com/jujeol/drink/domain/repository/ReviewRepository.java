@@ -1,5 +1,6 @@
-package com.jujeol.drink.domain;
+package com.jujeol.drink.domain.repository;
 
+import com.jujeol.drink.domain.Review;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of="id")
 public class Drink {
 
     @Id
@@ -84,10 +84,22 @@ public class Drink {
     }
 
     public String getCategory() {
-        return category.getName();
+        return category.toString();
     }
 
     public List<Review> getReviews() {
         return reviews;
+    }
+
+    public void updateInfo(String name,
+            String englishName,
+            String imageUrl,
+            String category,
+            Double alcoholByVolume) {
+        this.name = new DrinkName(name);
+        this.englishName = new DrinkEnglishName(englishName);
+        this.imageFilePath = new ImageFilePath(imageUrl);
+        this.category = Category.matches(category);
+        this.alcoholByVolume = new AlcoholByVolume(alcoholByVolume);
     }
 }
