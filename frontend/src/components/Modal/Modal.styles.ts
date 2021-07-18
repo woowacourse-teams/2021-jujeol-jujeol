@@ -32,7 +32,7 @@ const Container = styled.div<{ isOpened: boolean }>`
 
 const Content = styled.div<{ isOpened: boolean }>`
   width: 100vw;
-  height: 90vh;
+  height: 80vh;
   border-top-right-radius: 1.5rem;
   border-top-left-radius: 1.5rem;
   padding: 2.5rem 2rem 2rem;

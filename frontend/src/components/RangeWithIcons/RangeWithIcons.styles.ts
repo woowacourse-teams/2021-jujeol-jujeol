@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 const Wrapper = styled.div`
   width: 100%;
   max-width: 280px;
+  height: 3rem;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -18,7 +19,7 @@ const Wrapper = styled.div`
 
     cursor: pointer;
     margin: 0;
-    height: 48px;
+    height: 3rem;
     appearance: none;
     opacity: 0;
     outline: 0;

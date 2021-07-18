@@ -112,6 +112,7 @@ const DrinksDetailPage = () => {
             setValue={setPreferenceRate}
             disabled={!isLoggedIn}
             onTouchStart={onCheckLoggedIn}
+            onClick={onCheckLoggedIn}
             onTouchEnd={onUpdatePreference}
           />
         </PreferenceSection>

@@ -4,7 +4,10 @@ import { COLOR } from './constants';
 const GlobalStyle = () => (
   <Global
     styles={css`
+      @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
       * {
+        font-family: 'Nanum Gothic', sans-serif;
         box-sizing: border-box;
       }
 
@@ -14,6 +17,7 @@ const GlobalStyle = () => (
         width: 100%;
         height: 100%;
         background-color: ${COLOR.PURPLE_900};
+        font-size: 16px;
       }
 
       html,
@@ -73,6 +77,8 @@ const GlobalStyle = () => (
 
       a,
       button {
+        color: ${COLOR.BLACK_900};
+        font-size: 16px;
         -webkit-tap-highlight-color: transparent;
       }
     `}

@@ -2,7 +2,7 @@ const MESSAGE = {
   LOGIN_REQUIRED_TO_CREATE_REVIEW:
     '리뷰를 등록하기 위해서는 로그인이 필요합니다.\n로그인 화면으로 이동하시겠습니까?',
   LOGIN_REQUIRED_TO_UPDATE_PREFERENCE:
-    '리뷰를 등록하기 위해서는 로그인이 필요합니다.\n로그인 화면으로 이동하시겠습니까?',
+    '선호도를 등록하기 위해서는 로그인이 필요합니다.\n로그인 화면으로 이동하시겠습니까?',
   PAGE_ACCESS_NOT_ALLOWED: '접근 할 수 없는 페이지 입니다.',
 };
 

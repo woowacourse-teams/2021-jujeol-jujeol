@@ -19,10 +19,15 @@ const PreferenceSection = styled.section`
   margin-bottom: 2rem;
 
   h3 {
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.3rem;
     font-weight: 400;
     color: ${COLOR.WHITE_200};
+
+    span {
+      font-weight: 700;
+      font-size: 1.4rem;
+    }
   }
 `;
 
