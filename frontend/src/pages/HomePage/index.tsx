@@ -8,6 +8,7 @@ import notFoundImage from 'src/assets/default.png';
 import { onImageError } from 'src/utils/error';
 import { useContext } from 'react';
 import UserContext from 'src/contexts/UserContext';
+import MainHeader from 'src/components/Header/MainHeader';
 
 interface Drinks {
   id: number;
@@ -24,6 +25,7 @@ const HomePage = () => {
 
   return (
     <div>
+      <MainHeader />
       <ul>
         <li>
           <section>
