@@ -1,4 +1,4 @@
-package com.jujeol.drink.domain.repository2;
+package com.jujeol.drink.domain.repository;
 
 import com.jujeol.drink.domain.Drink;
 import java.util.List;

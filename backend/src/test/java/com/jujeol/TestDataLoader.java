@@ -93,11 +93,13 @@ public class TestDataLoader implements CommandLineRunner {
         Review review10 = Review.from("바보 피카", stella, MEMBER2);
         Review review11 = Review.from("바보 피카", stella, MEMBER2);
         Review review12 = Review.from("바보 피카", stella, MEMBER2);
+        Review review13 = Review.from("이제.. 끝낼래...", estp, MEMBER);
 
         List<Review> reviews = List.of(
                 review1, review2, review3, review4,
                 review5, review6, review7, review8,
-                review9, review10, review11, review12
+                review9, review10, review11, review12,
+                review13
         );
 
         REVIEWS = reviewRepository.saveAll(reviews);

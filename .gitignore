@@ -64,3 +64,5 @@ fabric.properties
 
 # VSCode configuration
 cspell.json
+
+./logs/jujeol.log
