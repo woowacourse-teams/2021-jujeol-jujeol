@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 import { COLOR, PATH } from 'src/constants';
+import UserContext from 'src/contexts/UserContext';
 import HomeIcon from '../Icons/home';
 import HumanIcon from '../Icons/human';
 import { Nav } from './Tab.styles';
@@ -34,15 +35,8 @@ const tabConfig = (isLoggedIn: boolean) => {
       ]);
 };
 
-const getAccessToken = () => localStorage.getItem('jujeol_access_token');
-
 const Tab = () => {
-  const location = useLocation();
-  const [isLoggedIn, setIsLoggedIn] = useState(!!getAccessToken());
-
-  useEffect(() => {
-    setIsLoggedIn(!!getAccessToken());
-  }, [location.pathname]);
+  const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
   return (
     <Nav>

@@ -3,7 +3,7 @@ import { screen, render, waitFor } from '@testing-library/react';
 import APIProvider from 'src/apis/APIProvider';
 import HomePage from '.';
 import API from 'src/apis/requests';
-import drinks from 'src/mock/drinks';
+import drinks from 'src/mocks/drinks';
 
 describe('사용자는 홈 화면에서 주류 목록을 조회할 수 있다.', () => {
   beforeAll(async () => {
