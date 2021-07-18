@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { FormEventHandler, useContext, useEffect, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import API from 'src/apis/requests';
 import { ERROR_MESSAGE, REVIEW } from 'src/constants';
+import { modalContext } from '../Modal/ModalProvider';
 import { Form, Content, EditButton, DeleteButton } from './ReviewEditForm.styles';
 interface Props {
   drinkId: string;
@@ -11,7 +12,12 @@ interface Props {
 const ReviewEditForm = ({ drinkId, review }: Props) => {
   const { id: reviewId, content, createdAt, modifiedAt } = review;
 
-  const [editText, setEditText] = useState(content);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  const closeModal = useContext(modalContext)?.closeModal;
+
+  const [editContent, setEditContent] = useState(content);
+
   const queryClient = useQueryClient();
 
   const { mutate: deleteReview } = useMutation(
@@ -19,6 +25,23 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries('reviews');
+        closeModal?.();
+      },
+      onError: () => {
+        alert(ERROR_MESSAGE.DEFAULT);
+      },
+    }
+  );
+
+  const { mutate: editReview } = useMutation(
+    () =>
+      API.editReview<string, Review.ReviewRequestData>(drinkId, reviewId.toString(), {
+        content: editContent,
+      }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('reviews');
+        closeModal?.();
       },
       onError: () => {
         alert(ERROR_MESSAGE.DEFAULT);
@@ -27,8 +50,19 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
   );
 
   useEffect(() => {
-    setEditText(review.content);
+    if (textAreaRef.current) {
+      textAreaRef.current.focus();
+      textAreaRef.current.setSelectionRange(review.content.length, review.content.length);
+    }
+
+    setEditContent(review.content);
   }, [review]);
+
+  const onEdit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+
+    editReview();
+  };
 
   const onDelete = () => {
     if (confirm('리뷰를 삭제하시겠습니까?')) {
@@ -37,21 +71,30 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
   };
 
   return (
-    <Form>
-      <h2>리뷰 수정하기</h2>
-      <Content>
-        <div>
-          <span>{new Date(createdAt).toLocaleDateString()}</span>
-          <span>{`${editText.length}/${REVIEW.MAX_LENGTH}`}</span>
-        </div>
-        <textarea value={editText} onChange={({ target }) => setEditText(target.value)} />
-      </Content>
+    <>
+      <Form onSubmit={onEdit}>
+        <h2>리뷰 수정하기</h2>
+        <Content>
+          <div>
+            <span>{new Date(createdAt).toLocaleDateString()}</span>
+            <span>{`${editContent.length}/${REVIEW.MAX_LENGTH}`}</span>
+          </div>
+          <textarea
+            value={editContent}
+            onChange={({ target }) => setEditContent(target.value)}
+            ref={textAreaRef}
+            placeholder="리뷰를 작성해 주세요"
+            maxLength={REVIEW.MAX_LENGTH}
+            required
+          />
+        </Content>
 
-      <EditButton>수정하기</EditButton>
+        <EditButton disabled={!editContent}>수정하기</EditButton>
+      </Form>
       <DeleteButton type="button" onClick={onDelete}>
         삭제하기
       </DeleteButton>
-    </Form>
+    </>
   );
 };
 

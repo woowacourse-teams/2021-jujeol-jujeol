@@ -29,7 +29,7 @@ const ReviewCard = ({ review }: Props) => {
     if (content) {
       setIsShowMore(content.clientHeight < content.scrollHeight);
     }
-  }, [contentRef]);
+  }, [contentRef, content]);
 
   const onShowMore = () => {
     setIsShowMore(false);
