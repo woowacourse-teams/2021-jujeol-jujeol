@@ -39,6 +39,25 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         assertThat(reviewResponses.get(0).getContent()).isEqualTo(reviewRequest.getContent());
     }
 
+    @DisplayName("리뷰 생성 - 성공(300자)")
+    @Test
+    void createReviewTest_300() {
+        //given
+        String content = "이 내용은 정확히 300자입니다. 300자 까지 뭐라고 쓸지 모르겠네요.. 자소서 쓰는 기분... 저희팀 소개를 하자면 일단 저 웨지 나봄 크로플 피카 소롱 서니 티케 이렇게 7명으로 이루어져있구요! 모두 한명 한명 맡은바 임무를 잘 수행하고 있습니다. 저는 여기 팀에 들어오게 되어서 얼마나 좋은지 몰라요 다들 너무 잘 챙겨주시고 잘 이끌어주셔서 감사합니다. 코로나 또한 빨리 종식되었으면 좋겠어요 다들 못보니까 너무 아쉽고 힘드네요 ㅠㅠ  다들 건강 챙기시구 코로나 조심하세요 그럼 이만 줄이겠습니다. 이부분은300자를맞추기위한몸부림";
+        ReviewRequest reviewRequest = new ReviewRequest(content);
+        ExtractableResponse<Response> response = request()
+                .post("/drinks/2/reviews", reviewRequest)
+                .withUser()
+                .withDocument("reviews/create-succeed300")
+                .build().totalResponse();
+        //when
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+
+        List<ReviewResponse> reviewResponses = getReviews(2L);
+        assertThat(reviewResponses.get(0).getContent()).isEqualTo(reviewRequest.getContent());
+    }
+
     @DisplayName("리뷰 생성 - 실패(존재하지 않는 주류 id)")
     @Test
     void createReviewTest_fail() {
