@@ -8,8 +8,6 @@ import Review from 'src/components/Review/Review';
 import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 import { properties, categoryIdType } from './propertyData';
 import { Section, PreferenceSection, Image, DescriptionSection } from './styles';
-import notFoundImage from 'src/assets/default.png';
-import { onImageError } from 'src/utils/error';
 import UserContext from 'src/contexts/UserContext';
 
 const defaultDrinkDetail = {
@@ -100,7 +98,7 @@ const DrinksDetailPage = () => {
 
   return (
     <>
-      <Image src={imageUrl ?? notFoundImage} alt={name} onError={onImageError} />
+      <Image src={imageUrl} alt={name} />
       <Section>
         <PreferenceSection>
           <h3>

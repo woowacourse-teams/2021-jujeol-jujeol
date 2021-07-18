@@ -4,8 +4,6 @@ import { useQuery } from 'react-query';
 import API from 'src/apis/requests';
 import { PATH } from 'src/constants';
 import { Link } from 'react-router-dom';
-import notFoundImage from 'src/assets/default.png';
-import { onImageError } from 'src/utils/error';
 import { useContext } from 'react';
 import UserContext from 'src/contexts/UserContext';
 import MainHeader from 'src/components/Header/MainHeader';
@@ -41,11 +39,7 @@ const HomePage = () => {
                 <li key={id}>
                   <Link to={`${PATH.DRINKS}/${id}`}>
                     <Card width="13rem" height="17rem">
-                      <ItemImage
-                        src={imageUrl ?? notFoundImage}
-                        alt={name}
-                        onError={onImageError}
-                      />
+                      <ItemImage src={imageUrl} alt={name} />
                       <ItemInfo>
                         <h3>{name}</h3>
                         <p>{`${alcoholByVolume}%`}</p>
