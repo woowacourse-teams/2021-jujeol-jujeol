@@ -1,9 +1,9 @@
 package com.jujeol.drink.application;
 
 import com.jujeol.drink.application.dto.DrinkDto;
+import com.jujeol.drink.application.dto.DrinkRequestDto;
 import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.DrinkRepository;
-import com.jujeol.drink.domain.ReviewRepository;
+import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.Preference;
@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,13 +27,10 @@ public class DrinkService {
 
     private final DrinkRepository drinkRepository;
     private final PreferenceRepository preferenceRepository;
-    private final ReviewRepository reviewRepository;
 
-    public List<DrinkDto> showDrinks() {
-        return drinkRepository.findAll(Pageable.ofSize(7))
-                .get()
-                .map(drink -> DrinkDto.from(drink, Preference.from(drink, 0), fileServerUrl))
-                .collect(Collectors.toList());
+    public Page<DrinkDto> showDrinks(Pageable pageable) {
+        return drinkRepository.findAll(pageable)
+                .map(drink -> DrinkDto.from(drink, Preference.from(drink, 0), fileServerUrl));
     }
 
     public DrinkDto showDrinkDetail(Long id) {
@@ -53,5 +51,28 @@ public class DrinkService {
                 .orElseGet(() -> Preference.from(Member.from(memberId), drink, 0.0));
 
         return DrinkDto.from(drink, preference, fileServerUrl);
+    }
+
+    @Transactional
+    public void insertDrinks(List<DrinkRequestDto> drinkRequests) {
+        final List<Drink> drinks = drinkRequests.stream()
+                .map(DrinkRequestDto::toEntity)
+                .collect(Collectors.toList());
+        drinkRepository.batchInsert(drinks);
+    }
+
+    @Transactional
+    public void updateDrink(Long id, DrinkRequestDto drinkDto) {
+        final Drink drink = drinkRepository.findById(id).orElseThrow(NotFoundDrinkException::new);
+        drink.updateInfo(drinkDto.getName(),
+                drinkDto.getEnglishName(),
+                drinkDto.getImageUrl(),
+                drinkDto.getCategory(),
+                drinkDto.getAlcoholByVolume());
+    }
+
+    @Transactional
+    public void removeDrink(Long id) {
+        drinkRepository.deleteById(id);
     }
 }
