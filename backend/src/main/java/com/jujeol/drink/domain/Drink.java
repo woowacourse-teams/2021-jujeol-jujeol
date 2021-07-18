@@ -1,8 +1,5 @@
 package com.jujeol.drink.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.Converter;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -20,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of="id")
 public class Drink {
 
     @Id

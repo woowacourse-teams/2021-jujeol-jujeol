@@ -2,8 +2,6 @@ package com.jujeol.drink.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.jujeol.drink.domain.repository.DrinkRepository;
-import com.jujeol.drink.domain.repository.ReviewRepository;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.exception.NotFoundReviewException;
 import com.jujeol.member.domain.Member;
@@ -139,5 +137,30 @@ public class ReviewRepositoryTest {
 
         //then
         assertThat(reviews).containsExactly(saveReview1, saveReview2, saveReview3);
+    }
+
+    @DisplayName("DrinkId와 MemberId로 리뷰 조회 - 성공")
+    @Test
+    public void findFirstByDrinkIdAndMemberId() {
+        //given
+        Drink stella = Drink.from(
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+        Drink saveDrink = drinkRepository.save(stella);
+
+        Member member2 = Member.from(Provider.of("1234", ProviderName.TEST));
+        Member saveMember2 = memberRepository.save(memberRepository.save(member2));
+
+        Review saveReview1 = reviewRepository.save(Review.from("아주 맛있네요!", stella, member));
+        Review saveReview2 = reviewRepository.save(Review.from("평범해요.", stella, member));
+        Review saveReview3 = reviewRepository.save(
+                Review.from("이건 좀...", stella, saveMember2)
+        );
+
+        //when
+        List<Review> byDrinkIdAndMemberId = reviewRepository
+                .findByDrinkIdAndMemberId(saveDrink.getId(), member.getId(), Pageable.ofSize(1));
+
+        //then
+        assertThat(byDrinkIdAndMemberId).containsExactly(saveReview2);
     }
 }

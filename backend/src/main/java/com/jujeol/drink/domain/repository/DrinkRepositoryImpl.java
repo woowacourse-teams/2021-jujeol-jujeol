@@ -1,11 +1,8 @@
-package com.jujeol.drink.domain.repository;
+package com.jujeol.drink.domain.repository2;
 
 import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.repository.DrinkCustomRepository;
 import java.util.List;
 import javax.sql.DataSource;
-import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;

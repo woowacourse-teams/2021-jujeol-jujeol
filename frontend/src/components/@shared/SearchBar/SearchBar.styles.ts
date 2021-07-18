@@ -26,6 +26,7 @@ const Container = styled.form`
   }
 
   input::placeholder {
+    font-size: 1rem;
     color: ${COLOR.GRAY_200};
   }
 

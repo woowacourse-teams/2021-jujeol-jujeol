@@ -96,7 +96,7 @@ include::{snippets}/member/preference/create/http-request.adoc[]
 include::{snippets}/member/preference/create/http-response.adoc[]
 
 === 선호도 생성 (실패_1)
-==== 다른 멤버의 선호도로 접근했을 때
+==== 비회원이 선호도를 생성하려 할 때
 
 - Request
 
@@ -130,7 +130,7 @@ include::{snippets}/member/preference/update/http-request.adoc[]
 include::{snippets}/member/preference/update/http-response.adoc[]
 
 === 선호도 수정 (실패_1)
-==== 다른 멤버의 선호도로 접근했을 때
+==== 비회원이 선호도를 수정하려고 할 때
 
 - Request
 
@@ -163,7 +163,7 @@ include::{snippets}/member/preference/delete/http-request.adoc[]
 include::{snippets}/member/preference/delete/http-response.adoc[]
 
 === 선호도 삭제 (실패)
-==== 다른 멤버의 선호도를 삭제하려고 할 때
+==== 비회원이 선호도를 삭제하려고 할 때
 
 - Request
 
@@ -185,7 +185,7 @@ include::{snippets}/reviews/create/http-request.adoc[]
 
 include::{snippets}/reviews/create/http-response.adoc[]
 
-=== 리뷰 생성(실패)
+=== 리뷰 생성(실패_1)
 ==== 리뷰를 작성하려는 대상 상품의 id가 없을 경우
 
 - Request
@@ -195,6 +195,40 @@ include::{snippets}/reviews/create-fail/http-request.adoc[]
 - Response
 
 include::{snippets}/reviews/create-fail/http-response.adoc[]
+
+=== 리뷰 생성(실패_2)
+==== 동일 상품에 대해 하루 두 개 이상의 리뷰를 작성하려고 할 경우
+
+- Request
+
+include::{snippets}/reviews/create-fail-limit/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/create-fail-limit/http-response.adoc[]
+
+=== 리뷰 생성(실패_3)
+==== 리뷰 내용이 비어있을 경우
+
+- Request
+
+include::{snippets}/reviews/create-fail-emptyContent/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/create-fail-emptyContent/http-response.adoc[]
+
+
+=== 리뷰 생성(실패_4)
+==== 리뷰 내용이 300자 이상일 경우
+
+- Request
+
+include::{snippets}/reviews/create-fail-contentOver300/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/create-fail-contentOver300/http-response.adoc[]
 
 === 리뷰 조회
 ==== 상세 화면에서 특정 상품에 대한 리뷰를 조회
@@ -263,6 +297,27 @@ include::{snippets}/reviews/update-fail-author/http-request.adoc[]
 
 include::{snippets}/reviews/update-fail-author/http-response.adoc[]
 
+=== 리뷰 수정(실패_5)
+==== 리뷰 수정할 때 빈 내용으로 수정할 경우
+
+- Request
+
+include::{snippets}/reviews/update-fail-emptyContent/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/update-fail-emptyContent/http-response.adoc[]
+
+=== 리뷰 수정(실패_6)
+==== 리뷰를 수정할 때 리뷰 내용이 300자 이상일 경우
+
+- Request
+
+include::{snippets}/reviews/update-fail-contentOver300/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/update-fail-contentOver300/http-response.adoc[]
 
 === 리뷰 식제
 ==== 선택한 리뷰를 삭제

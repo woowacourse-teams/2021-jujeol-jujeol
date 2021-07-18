@@ -65,7 +65,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .totalResponse();
 
         //then
-        assertThat(response.statusCode()).isEqualTo(200);
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     @Test
@@ -90,7 +90,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .totalResponse();
 
         //then
-        assertThat(updateResponse.statusCode()).isEqualTo(200);
+        assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     @Test
@@ -162,7 +162,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .totalResponse();
 
         //then
-        assertThat(response.statusCode()).isEqualTo(200);
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     @Test
