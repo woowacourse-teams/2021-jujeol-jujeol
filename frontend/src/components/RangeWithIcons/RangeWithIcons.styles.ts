@@ -25,6 +25,13 @@ const Wrapper = styled.div`
     outline: 0;
   }
 
+  input[type='range']::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 3rem;
+    cursor: pointer;
+    background-color: grey;
+  }
+
   div {
     width: 100%;
     display: flex;
