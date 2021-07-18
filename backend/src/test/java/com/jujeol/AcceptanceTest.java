@@ -1,9 +1,15 @@
 package com.jujeol;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jujeol.RequestBuilder.Function;
+import com.jujeol.member.application.LoginService;
+import com.jujeol.member.application.dto.TokenRequest;
+import com.jujeol.member.application.dto.TokenResponse;
+import com.jujeol.member.domain.ProviderName;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -20,11 +26,16 @@ public class AcceptanceTest {
     @LocalServerPort
     private int port;
     private RequestBuilder request;
+    @Autowired
+    private LoginService loginService;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     public void setUp(RestDocumentationContextProvider restDocumentation) {
         RestAssured.port = port;
-        request = new RequestBuilder(restDocumentation);
+        TokenResponse token = loginService.createToken(new TokenRequest("5678", ProviderName.TEST));
+        request = new RequestBuilder(restDocumentation, token.getAccessToken(), objectMapper);
     }
 
     /**

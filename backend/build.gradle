@@ -52,10 +52,6 @@ test {
     useJUnitPlatform()
 }
 
-asciidoctor.doFirst {
-    delete file('src/main/resources/static/index.html')
-}
-
 asciidoctor {
     dependsOn test
     inputs.dir snippetsDir
@@ -63,6 +59,7 @@ asciidoctor {
 
 task createDocument(type: Copy) {
     dependsOn asciidoctor
+    delete file('src/main/resources/static/index.html')
     from file("build/docs/asciidoc/index.html")
     into file("src/main/resources/static")
 }
@@ -72,7 +69,7 @@ build {
 }
 
 bootJar {
-    dependsOn asciidoctor
+    dependsOn createDocument
     from("${asciidoctor.outputDir}") {
         into 'static'
     }

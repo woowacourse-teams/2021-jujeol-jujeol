@@ -1,6 +1,6 @@
 package com.jujeol.member.ui;
 
-import com.jujeol.commons.dto.CommonResponseDto;
+import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.member.application.LoginService;
 import com.jujeol.member.application.dto.TokenRequest;
 import com.jujeol.member.application.dto.TokenResponse;
@@ -17,8 +17,8 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping("/login/token")
-    public ResponseEntity<CommonResponseDto<TokenResponse>> login(
+    public ResponseEntity<CommonResponse<TokenResponse>> login(
             @RequestBody TokenRequest tokenRequest) {
-        return ResponseEntity.ok(CommonResponseDto.fromOne(loginService.createToken(tokenRequest)));
+        return ResponseEntity.ok(CommonResponse.from(loginService.createToken(tokenRequest)));
     }
 }

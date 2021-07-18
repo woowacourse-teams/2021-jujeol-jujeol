@@ -4,6 +4,7 @@ const PATH: { [key: string]: string } = {
   LOGIN: '/login',
   OAUTH: '/oauth',
   MYPAGE: '/mypage',
+  DRINKS: '/drinks',
 };
 
 export default PATH;

@@ -29,15 +29,15 @@ public class LoginService {
 
         Member member = findOrCreateMember(memberDetails);
         final String token = jwtTokenProvider.createToken(member.getId().toString());
-        return new TokenResponse(token);
+        return TokenResponse.from(token);
     }
 
     private Member findOrCreateMember(MemberDetails memberDetails) {
         final String provideId = memberDetails.accountId();
 
         return memberRepository.findByProvideId(provideId).orElseGet(() -> {
-            final Provider provider = Provider.create(provideId, memberDetails.providerCode());
-            return memberRepository.save(Member.create(provider));
+            final Provider provider = Provider.of(provideId, memberDetails.providerCode());
+            return memberRepository.save(Member.from(provider));
         });
     }
 }

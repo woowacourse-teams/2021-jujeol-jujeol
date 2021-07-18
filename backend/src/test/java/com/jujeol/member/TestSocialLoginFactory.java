@@ -1,8 +1,8 @@
 package com.jujeol.member;
 
 import com.jujeol.member.application.MemberDetails;
-import com.jujeol.member.application.SocialLoginStrategyFactory;
 import com.jujeol.member.application.SocialClient;
+import com.jujeol.member.application.SocialLoginStrategyFactory;
 import com.jujeol.member.domain.ProviderName;
 import javax.annotation.PostConstruct;
 import org.springframework.context.annotation.Profile;
