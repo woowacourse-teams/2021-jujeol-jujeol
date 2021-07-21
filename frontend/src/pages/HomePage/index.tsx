@@ -1,6 +1,6 @@
 import MainHeader from 'src/components/Header/MainHeader';
 import Grid from 'src/components/@shared/Grid/Grid';
-import ItemListSection from 'src/components/Section/ItemListSection';
+import DrinkListSection from 'src/components/Section/DrinkListSection';
 import BannerSection from 'src/components/Section/BannerSection';
 import config, { ItemList, Banner } from './config';
 
@@ -12,7 +12,7 @@ const HomePage = () => {
         {config.map((section: ItemList | Banner) => {
           if (section.sectionType === 'ITEM_LIST') {
             const {
-              sectionType,
+              id,
               type,
               title,
               titleAlign,
@@ -24,9 +24,8 @@ const HomePage = () => {
             }: ItemList = section;
 
             return (
-              <li key={title}>
-                <ItemListSection
-                  sectionType={sectionType}
+              <li key={id}>
+                <DrinkListSection
                   type={type as 'CARD' | 'LIST'}
                   title={title}
                   titleAlign={titleAlign}
@@ -41,12 +40,11 @@ const HomePage = () => {
           }
 
           if (section.sectionType === 'BANNER') {
-            const { sectionType, type, title, src, alt }: Banner = section;
+            const { id, type, title, src, alt }: Banner = section;
 
             return (
-              <li>
+              <li key={id}>
                 <BannerSection
-                  sectionType={sectionType}
                   type={type as 'IMAGE'}
                   title={title as '프로모션 배너'}
                   src={src}

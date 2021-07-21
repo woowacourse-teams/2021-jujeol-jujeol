@@ -1,6 +1,7 @@
 import { PATH } from 'src/constants';
 
 interface ItemList {
+  id: number;
   sectionType: 'ITEM_LIST';
   type: 'CARD' | 'LIST';
   query: {
@@ -15,6 +16,7 @@ interface ItemList {
 }
 
 interface Banner {
+  id: number;
   sectionType: 'BANNER';
   type: 'IMAGE';
   title: '프로모션 배너';
@@ -26,6 +28,7 @@ type HomePageConfig = (ItemList | Banner)[];
 
 const config: HomePageConfig = [
   {
+    id: 0,
     sectionType: 'ITEM_LIST',
     type: 'CARD',
     query: {
@@ -38,6 +41,7 @@ const config: HomePageConfig = [
     isShowMoreEnabled: false,
   },
   {
+    id: 1,
     sectionType: 'ITEM_LIST',
     type: 'LIST',
     query: {
@@ -50,6 +54,7 @@ const config: HomePageConfig = [
     showMoreLink: PATH.VIEW_ALL,
   },
   {
+    id: 3,
     sectionType: 'BANNER',
     type: 'IMAGE',
     title: '프로모션 배너',

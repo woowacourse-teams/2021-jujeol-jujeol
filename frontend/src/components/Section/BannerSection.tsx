@@ -1,7 +1,6 @@
 import { Container } from './BannerSection.styles';
 
 interface Props {
-  sectionType: 'BANNER';
   type: 'IMAGE';
   title: '프로모션 배너';
   src: string;
