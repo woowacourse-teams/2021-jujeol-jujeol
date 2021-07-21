@@ -6,6 +6,7 @@ import DrinksDetailPage from './pages/DrinksDetailPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import OauthPage from './pages/OauthPage';
+import ViewAllPage from './pages/ViewAllPage/ViewAllPage';
 import { MainContainer } from './styles';
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
               <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
               <Route exact path={[PATH.LOGIN]} component={LoginPage} />
               <Route exact path={[PATH.OAUTH]} component={OauthPage} />
+              <Route exact path={[PATH.VIEW_ALL]} component={ViewAllPage} />
               <Route exact path={`${PATH.DRINKS}/:id`} component={DrinksDetailPage} />
               <Route exact path={[PATH.MYPAGE]}>
                 mypage
