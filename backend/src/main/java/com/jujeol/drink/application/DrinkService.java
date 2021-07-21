@@ -5,7 +5,6 @@ import com.jujeol.drink.application.dto.DrinkRequestDto;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.exception.NotFoundDrinkException;
-import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.Preference;
 import com.jujeol.member.domain.PreferenceRepository;
 import java.util.List;

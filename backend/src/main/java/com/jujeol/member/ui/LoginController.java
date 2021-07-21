@@ -2,8 +2,8 @@ package com.jujeol.member.ui;
 
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.member.application.LoginService;
-import com.jujeol.member.ui.dto.SocialProviderCodeRequest;
 import com.jujeol.member.application.dto.TokenDto;
+import com.jujeol.member.ui.dto.SocialProviderCodeRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

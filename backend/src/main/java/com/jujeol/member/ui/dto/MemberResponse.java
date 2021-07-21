@@ -1,7 +1,6 @@
 package com.jujeol.member.ui.dto;
 
 import com.jujeol.member.application.dto.MemberDto;
-import com.jujeol.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

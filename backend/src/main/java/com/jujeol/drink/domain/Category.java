@@ -3,7 +3,6 @@ package com.jujeol.drink.domain;
 import com.jujeol.drink.exception.NotFoundCategoryException;
 import java.util.Arrays;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public enum Category {

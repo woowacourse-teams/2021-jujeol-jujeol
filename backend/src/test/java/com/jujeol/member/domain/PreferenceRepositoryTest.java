@@ -33,7 +33,7 @@ public class PreferenceRepositoryTest {
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         savedDrink = drinkRepository.save(stella);
 
-        Member member = Member.from(Provider.of("1234", ProviderName.TEST), null);
+        Member member = Member.from(Provider.of("1234", ProviderName.TEST), null, null);
         savedMember = memberRepository.save(member);
     }
 
