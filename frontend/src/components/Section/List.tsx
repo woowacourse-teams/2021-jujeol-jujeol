@@ -11,7 +11,7 @@ interface Props {
 
 const List = ({ items, count, onItemClick }: Props) => {
   return (
-    <Grid row={`${count ?? items.length}`} rowGap="1rem" padding="0 2rem">
+    <Grid row={`${count ?? items?.length}`} rowGap="1rem" padding="0 2rem">
       {items?.slice(0, count).map(({ id, name, imageUrl, alcoholByVolume }: ItemList.Drinks) => (
         <Item key={id} onClick={onItemClick}>
           <Link to={`${PATH.DRINKS}/${id}`}>
