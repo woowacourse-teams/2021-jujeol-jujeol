@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import API from 'src/apis/requests';
 import CardList from './CardList';
 import { Title } from './ItemListSection.styles';
+import List from './List';
 
 interface Props {
   sectionType: 'ITEM_LIST';
@@ -33,7 +34,7 @@ const ItemListSection = ({
 
   return (
     <section>
-      <Title textAlign={titleAlign}>
+      <Title textAlign={titleAlign} isShowMoreEnabled={isShowMoreEnabled}>
         <div>
           <h2>{title}</h2>
           {subTitle && <p>{subTitle}</p>}
@@ -41,6 +42,7 @@ const ItemListSection = ({
         {isShowMoreEnabled && <Link to="#">더보기 +</Link>}
       </Title>
       {type === 'CARD' && <CardList items={drinks} count={count ?? drinks?.length} />}
+      {type === 'LIST' && <List items={drinks} count={count ?? drinks?.length} />}
     </section>
   );
 };
