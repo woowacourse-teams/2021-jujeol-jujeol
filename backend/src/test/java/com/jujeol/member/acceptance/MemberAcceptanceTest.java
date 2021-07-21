@@ -6,8 +6,8 @@ import com.jujeol.AcceptanceTest;
 import com.jujeol.commons.exception.ExceptionCodeAndDetails;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.exception.NotFoundDrinkException;
-import com.jujeol.member.application.dto.MemberResponse;
-import com.jujeol.member.application.dto.PreferenceRequest;
+import com.jujeol.member.application.dto.MemberDto;
+import com.jujeol.member.application.dto.PreferenceDto;
 import com.jujeol.member.exception.UnauthorizedUserException;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -25,7 +25,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .withDocument("member/show/me")
                 .withUser()
                 .build()
-                .convertBody(MemberResponse.class)
+                .convertBody(MemberDto.class)
                 .getId();
 
         //then
@@ -55,11 +55,11 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     public void createPreference() {
         //given
         Long drinkId = 1L;
-        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
+        PreferenceDto preferenceDto = PreferenceDto.of(4.5);
 
         //when
         ExtractableResponse<Response> response = request()
-                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceDto)
                 .withDocument("member/preference/create")
                 .withUser()
                 .build()
@@ -74,17 +74,17 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     public void updatePreference() {
         //given
         Long drinkId = 1L;
-        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
+        PreferenceDto preferenceDto = PreferenceDto.of(4.5);
         request()
-                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceDto)
                 .withUser()
                 .build()
                 .totalResponse();
-        preferenceRequest = new PreferenceRequest(3.0);
+        preferenceDto = PreferenceDto.of(3.0);
 
         //when
         ExtractableResponse<Response> updateResponse = request()
-                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceDto)
                 .withDocument("member/preference/update")
                 .withUser()
                 .build()
@@ -99,11 +99,11 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     public void createPreference_fail_unauthorizedUser() {
         //given
         Long drinkId = 1L;
-        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
+        PreferenceDto preferenceDto = PreferenceDto.of(4.5);
 
         //when
         ExtractableResponse<Response> response = request()
-                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceDto)
                 .withDocument("member/preference/create-fail-user")
                 .build()
                 .totalResponse();
@@ -122,11 +122,11 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     public void createPreference_fail_notFound() {
         //given
         Long drinkId = 100L;
-        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
+        PreferenceDto preferenceDto = PreferenceDto.of(4.5);
 
         //when
         ExtractableResponse<Response> response = request()
-                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceDto)
                 .withDocument("member/preference/create-fail-drink")
                 .withUser()
                 .build()
@@ -146,10 +146,10 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     public void deletePreference() {
         //given
         Long drinkId = 1L;
-        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
+        PreferenceDto preferenceDto = PreferenceDto.of(4.5);
 
         request()
-                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceDto)
                 .withUser()
                 .build()
                 .totalResponse();

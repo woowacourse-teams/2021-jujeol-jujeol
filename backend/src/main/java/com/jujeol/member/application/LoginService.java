@@ -1,7 +1,7 @@
 package com.jujeol.member.application;
 
-import com.jujeol.member.application.dto.TokenRequest;
-import com.jujeol.member.application.dto.TokenResponse;
+import com.jujeol.member.application.dto.SocialProviderCodeDto;
+import com.jujeol.member.application.dto.TokenDto;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
 import com.jujeol.member.domain.Provider;
@@ -20,16 +20,16 @@ public class LoginService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
-    public TokenResponse createToken(TokenRequest tokenRequest) {
+    public TokenDto createToken(SocialProviderCodeDto socialProviderCodeDto) {
         final SocialClient socialClient =
-                socialLoginStrategyFactory.selectSocialClient(tokenRequest.getProviderName());
+                socialLoginStrategyFactory.selectSocialClient(socialProviderCodeDto.getProviderName());
 
-        String accessToken = socialClient.getAccessToken(tokenRequest.getCode());
+        String accessToken = socialClient.getAccessToken(socialProviderCodeDto.getCode());
         MemberDetails memberDetails = socialClient.getDetails(accessToken);
 
         Member member = findOrCreateMember(memberDetails);
         final String token = jwtTokenProvider.createToken(member.getId().toString());
-        return TokenResponse.from(token);
+        return TokenDto.from(token);
     }
 
     private Member findOrCreateMember(MemberDetails memberDetails) {

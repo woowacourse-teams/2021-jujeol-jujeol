@@ -3,8 +3,8 @@ package com.jujeol;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jujeol.RequestBuilder.Function;
 import com.jujeol.member.application.LoginService;
-import com.jujeol.member.application.dto.TokenRequest;
-import com.jujeol.member.application.dto.TokenResponse;
+import com.jujeol.member.application.dto.SocialProviderCodeDto;
+import com.jujeol.member.application.dto.TokenDto;
 import com.jujeol.member.domain.ProviderName;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +34,7 @@ public class AcceptanceTest {
     @BeforeEach
     public void setUp(RestDocumentationContextProvider restDocumentation) {
         RestAssured.port = port;
-        TokenResponse token = loginService.createToken(new TokenRequest("5678", ProviderName.TEST));
+        TokenDto token = loginService.createToken(SocialProviderCodeDto.of("5678", ProviderName.TEST));
         request = new RequestBuilder(restDocumentation, token.getAccessToken(), objectMapper);
     }
 

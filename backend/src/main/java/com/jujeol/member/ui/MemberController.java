@@ -2,8 +2,8 @@ package com.jujeol.member.ui;
 
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.member.application.MemberService;
-import com.jujeol.member.application.dto.MemberResponse;
-import com.jujeol.member.application.dto.PreferenceRequest;
+import com.jujeol.member.application.dto.MemberDto;
+import com.jujeol.member.application.dto.PreferenceDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,7 +22,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping
-    public ResponseEntity<CommonResponse<MemberResponse>> findMemberOfMine(
+    public ResponseEntity<CommonResponse<MemberDto>> findMemberOfMine(
             @AuthenticationPrincipal LoginMember loginMember
     ) {
         return ResponseEntity.ok(CommonResponse.from(memberService.findMember(loginMember.getId())));
@@ -32,9 +32,9 @@ public class MemberController {
     public ResponseEntity<Void> createOrUpdatePreference(
             @AuthenticationPrincipal LoginMember loginMember,
             @PathVariable(name = "id") Long drinkId,
-            @RequestBody PreferenceRequest preferenceRequest
+            @RequestBody PreferenceDto preferenceDto
     ) {
-        memberService.createOrUpdatePreference(loginMember.getId(), drinkId, preferenceRequest);
+        memberService.createOrUpdatePreference(loginMember.getId(), drinkId, preferenceDto);
         return ResponseEntity.ok().build();
     }
 
