@@ -15,8 +15,9 @@ const Container = styled.ul<GridStyle>`
   display: grid;
 
   ${({ col }) => col && `grid-template-columns: repeat(${col}, 1fr);`}
-  ${({ colGap }) => colGap && `grid-column-gap: ${colGap});`}
+  ${({ colGap }) => colGap && `grid-column-gap: ${colGap};`}
   ${({ colMin, colMax }) =>
+    (colMin || colMax) &&
     `grid-template-columns: minmax(${colMin ?? 'auto'}, ${colMax ?? 'auto'});`}
   ${({ row }) => row && `grid-template-rows: repeat(${row}, 1fr);`}
   ${({ rowGap }) => rowGap && `grid-row-gap: ${rowGap};`}
