@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import API from 'src/apis/requests';
+import Header from 'src/components/Header/Header';
 import List from 'src/components/Section/List';
 import ListItem from 'src/components/Section/ListItem';
 import { PATH } from 'src/constants';
@@ -18,12 +19,14 @@ const ViewAllPage = () => {
 
   return (
     <div>
-      <Title>
-        <button type="button" onClick={goBack}>
-          {'<'}
-        </button>
-        <h1>전체보기</h1>
-      </Title>
+      <Header>
+        <Title>
+          <button type="button" onClick={goBack}>
+            {'<'}
+          </button>
+          <h1>전체보기</h1>
+        </Title>
+      </Header>
       <List count={drinks?.length}>
         {drinks?.map((item: ItemList.Drinks) => (
           <ListItem
