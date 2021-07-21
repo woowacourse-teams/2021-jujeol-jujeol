@@ -14,6 +14,7 @@ interface GridStyle extends Omit<React.CSSProperties, 'translate'> {
 const Container = styled.ul<GridStyle>`
   display: grid;
 
+  ${({ padding }) => padding && `padding: ${padding};`}
   ${({ col }) => col && `grid-template-columns: repeat(${col}, 1fr);`}
   ${({ colGap }) => colGap && `grid-column-gap: ${colGap};`}
   ${({ colMin, colMax }) =>

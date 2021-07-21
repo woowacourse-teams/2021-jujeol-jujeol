@@ -4,7 +4,18 @@ interface Props extends GridStyle {
   children: React.ReactNode;
 }
 
-const Grid = ({ col, row, colGap, rowGap, colMin, colMax, rowMin, rowMax, children }: Props) => {
+const Grid = ({
+  col,
+  row,
+  colGap,
+  rowGap,
+  colMin,
+  colMax,
+  rowMin,
+  rowMax,
+  padding,
+  children,
+}: Props) => {
   return (
     <Container
       col={col}
@@ -15,6 +26,7 @@ const Grid = ({ col, row, colGap, rowGap, colMin, colMax, rowMin, rowMax, childr
       colMax={colMax}
       rowMin={rowMin}
       rowMax={rowMax}
+      padding={padding}
     >
       {children}
     </Container>
