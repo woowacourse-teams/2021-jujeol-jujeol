@@ -42,6 +42,29 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .isEqualTo(expectedResult);
     }
 
+    @DisplayName("추천 조회 - 성공")
+    @Test
+    public void showDrinksByThemeTest() {
+        //given
+        String theme = "recommendation";
+
+        //when
+        List<DrinkSimpleResponse> drinkSimpleResponses = request()
+                .get("/drinks?theme=" + theme + "&page=1")
+                .withDocument("drinks/show/all-theme")
+                .build().convertBodyToList(DrinkSimpleResponse.class);
+
+        //then
+        List<DrinkSimpleResponse> expectedResult = BEERS.stream()
+                .filter(drink -> drink.getId() < 8)
+                .map(drink -> DrinkDto.from(drink, Preference.from(drink, 0), ""))
+                .map(DrinkSimpleResponse::from)
+                .collect(Collectors.toList());
+
+        assertThat(drinkSimpleResponses).usingRecursiveComparison()
+                .isEqualTo(expectedResult);
+    }
+
     @DisplayName("단일 조회 - 성공")
     @Test
     public void showDrinkDetailTest() {
