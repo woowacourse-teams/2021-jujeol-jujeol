@@ -16,6 +16,7 @@ interface Props {
   subTitle?: string;
   count?: number;
   isShowMoreEnabled?: boolean;
+  showMoreLink?: string;
 }
 
 const ItemListSection = ({
@@ -27,6 +28,7 @@ const ItemListSection = ({
   subTitle = '',
   count,
   isShowMoreEnabled = true,
+  showMoreLink,
 }: Props) => {
   const { data: { data: drinks } = [] } = useQuery('drinks', () => API.getDrinks(), {
     retry: 1,
@@ -39,7 +41,7 @@ const ItemListSection = ({
           <h2>{title}</h2>
           {subTitle && <p>{subTitle}</p>}
         </div>
-        {isShowMoreEnabled && <Link to="#">더보기 +</Link>}
+        {isShowMoreEnabled && showMoreLink && <Link to={showMoreLink}>더보기 +</Link>}
       </Title>
       {type === 'CARD' && <CardList items={drinks} count={count ?? drinks?.length} />}
       {type === 'LIST' && <List items={drinks} count={count ?? drinks?.length} />}

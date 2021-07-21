@@ -19,6 +19,7 @@ const HomePage = () => {
               subTitle,
               query,
               isShowMoreEnabled,
+              showMoreLink,
               count,
             }: ItemList = section;
 
@@ -32,6 +33,7 @@ const HomePage = () => {
                   subTitle={subTitle}
                   query={query}
                   isShowMoreEnabled={isShowMoreEnabled}
+                  showMoreLink={showMoreLink}
                   count={count}
                 />
               </li>

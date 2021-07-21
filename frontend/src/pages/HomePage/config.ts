@@ -1,3 +1,5 @@
+import { PATH } from 'src/constants';
+
 interface ItemList {
   sectionType: 'ITEM_LIST';
   type: 'CARD' | 'LIST';
@@ -9,6 +11,7 @@ interface ItemList {
   subTitle?: string;
   count?: number;
   isShowMoreEnabled?: boolean;
+  showMoreLink?: string;
 }
 
 interface Banner {
@@ -44,6 +47,7 @@ const config: HomePageConfig = [
     titleAlign: 'left',
     count: 3,
     isShowMoreEnabled: true,
+    showMoreLink: PATH.VIEW_ALL,
   },
   {
     sectionType: 'BANNER',
