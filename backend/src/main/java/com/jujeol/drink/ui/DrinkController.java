@@ -2,6 +2,7 @@ package com.jujeol.drink.ui;
 
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageInfo;
+import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.application.DrinkService;
 import com.jujeol.drink.application.ReviewService;
 import com.jujeol.drink.application.dto.DrinkDto;
@@ -9,6 +10,7 @@ import com.jujeol.drink.application.dto.ReviewRequest;
 import com.jujeol.drink.application.dto.ReviewResponse;
 import com.jujeol.drink.ui.dto.DrinkDetailResponse;
 import com.jujeol.drink.ui.dto.DrinkSimpleResponse;
+import com.jujeol.drink.ui.dto.ThemeRequest;
 import com.jujeol.member.ui.AuthenticationPrincipal;
 import com.jujeol.member.ui.LoginMember;
 import java.util.List;
@@ -22,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,13 +38,14 @@ public class DrinkController {
     private final ReviewService reviewService;
 
     @GetMapping("/drinks")
-    public ResponseEntity<CommonResponse<List<DrinkSimpleResponse>>> showDrinks(@PageableDefault(7) Pageable pageable) {
+    public ResponseEntity<CommonResponse<List<DrinkSimpleResponse>>> showDrinks(
+            @ModelAttribute ThemeRequest themeRequest,
+            @PageableDefault(7) Pageable pageable
+    ) {
         Page<DrinkDto> drinkDtos = drinkService.showDrinks(pageable);
-        List<DrinkSimpleResponse> drinkSimpleResponses = drinkDtos.stream()
-                .map(DrinkSimpleResponse::from)
-                .collect(Collectors.toList());
+
         return ResponseEntity
-                .ok(CommonResponse.from(drinkSimpleResponses, null));
+                .ok(PageResponseAssembler.assemble(drinkDtos.map(DrinkSimpleResponse::from)));
     }
 
     @GetMapping("/drinks/{id}")
@@ -71,7 +75,8 @@ public class DrinkController {
         PageInfo pageInfo = PageInfo.from(
                 pageable.getPageNumber(),
                 pageResponses.getTotalPages(),
-                pageable.getPageSize());
+                pageable.getPageSize(),
+                pageResponses.getTotalElements());
 
         return ResponseEntity
                 .ok(CommonResponse.from(reviewResponses, pageInfo));
