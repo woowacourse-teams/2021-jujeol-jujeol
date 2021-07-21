@@ -23,6 +23,7 @@ public class DrinkRequestDto {
     }
 
     public Drink toEntity() {
-        return Drink.from(name, englishName, alcoholByVolume, imageUrl, Category.matches(category));
+        // todo preferenceAvg 변경
+        return Drink.from(name, englishName, alcoholByVolume, imageUrl, 0.0, Category.matches(category));
     }
 }
