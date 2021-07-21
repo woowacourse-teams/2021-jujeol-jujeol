@@ -25,11 +25,18 @@ public class Member {
     @Embedded
     private Provider provider;
 
-    public static Member from(Provider provider) {
-        return new Member(null, provider);
+    @Embedded
+    private Nickname nickname;
+
+    public static Member from(Long id, Provider provider, String nickname) {
+        return new Member(id, provider, new Nickname(nickname));
     }
 
-    public static Member from(Long id) {
-        return new Member(id, null);
+    public static Member from(Provider provider, String nickname) {
+        return new Member(null, provider, new Nickname(nickname));
+    }
+
+    public static Member createAnonymousMember() {
+        return new Member(null, null, null);
     }
 }

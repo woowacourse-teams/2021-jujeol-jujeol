@@ -42,7 +42,7 @@ public class ReviewRepositoryTest {
     @BeforeEach
     void setUp() {
 
-        Member createMember = Member.from(Provider.of("1234", ProviderName.TEST));
+        Member createMember = Member.from(Provider.of("1234", ProviderName.TEST), null);
         member = memberRepository.save(createMember);
     }
 
@@ -149,7 +149,7 @@ public class ReviewRepositoryTest {
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
-        Member member2 = Member.from(Provider.of("1234", ProviderName.TEST));
+        Member member2 = Member.from(Provider.of("1234", ProviderName.TEST), null);
         Member saveMember2 = memberRepository.save(memberRepository.save(member2));
 
         Review saveReview1 = reviewRepository.save(Review.from("아주 맛있네요!", stella, member));

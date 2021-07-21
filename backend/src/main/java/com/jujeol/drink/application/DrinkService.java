@@ -48,7 +48,7 @@ public class DrinkService {
 
         Preference preference = preferenceRepository
                 .findByMemberIdAndDrinkId(memberId, drinkId)
-                .orElseGet(() -> Preference.from(Member.from(memberId), drink, 0.0));
+                .orElseGet(() -> Preference.anonymousPreference(drink));
 
         return DrinkDto.from(drink, preference, fileServerUrl);
     }

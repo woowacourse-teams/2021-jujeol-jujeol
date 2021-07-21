@@ -37,7 +37,7 @@ public class LoginService {
 
         return memberRepository.findByProvideId(provideId).orElseGet(() -> {
             final Provider provider = Provider.of(provideId, memberDetails.providerCode());
-            return memberRepository.save(Member.from(provider));
+            return memberRepository.save(Member.from(provider, null));
         });
     }
 }

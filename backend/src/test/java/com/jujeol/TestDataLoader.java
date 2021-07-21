@@ -72,9 +72,9 @@ public class TestDataLoader implements CommandLineRunner {
         BEERS = drinkRepository.saveAll(beers);
 
         Provider provider1 = Provider.of("1234", ProviderName.TEST);
-        Member member1 = Member.from(provider1);
+        Member member1 = Member.from(provider1, null);
         Provider provider2 = Provider.of("5678", ProviderName.TEST);
-        Member member2 = Member.from(provider2);
+        Member member2 = Member.from(provider2, null);
 
         MEMBER = memberRepository.save(member1);
         MEMBER2 = memberRepository.save(member2);

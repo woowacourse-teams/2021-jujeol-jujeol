@@ -22,7 +22,7 @@ public class MemberRepositoryTest {
         //given
         String provideId = "1";
         Provider provider = Provider.of(provideId, ProviderName.TEST);
-        memberRepository.save(Member.from(provider));
+        memberRepository.save(Member.from(provider, null));
 
         //when
         Member member = memberRepository.findByProvideId(provider.getProvideId()).get();

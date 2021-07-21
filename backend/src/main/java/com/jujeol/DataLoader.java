@@ -53,7 +53,7 @@ public class DataLoader implements CommandLineRunner {
 
         // Member Data
         Provider provider = Provider.of("1234", ProviderName.TEST);
-        Member member = Member.from(provider);
+        Member member = Member.createAnonymousMember();
 
         memberRepository.save(member);
 
