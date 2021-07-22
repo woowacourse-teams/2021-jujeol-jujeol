@@ -7,6 +7,7 @@ const Container = styled.div<Omit<React.CSSProperties, 'translate'>>`
   width: ${({ width }) => width};
   height: ${({ height }) => height};
   padding: ${({ padding }) => padding};
+  border: ${({ border }) => border};
   border-radius: 1rem;
   position: relative;
 `;
