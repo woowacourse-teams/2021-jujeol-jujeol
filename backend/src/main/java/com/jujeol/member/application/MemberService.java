@@ -1,5 +1,6 @@
 package com.jujeol.member.application;
 
+import com.jujeol.drink.application.dto.DrinkDto;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.exception.NotFoundDrinkException;
@@ -11,6 +12,9 @@ import com.jujeol.member.domain.Preference;
 import com.jujeol.member.domain.PreferenceRepository;
 import com.jujeol.member.exception.NoSuchMemberException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MemberService {
+
+    @Value("${file-server.url:}")
+    private String fileServerUrl;
 
     private final MemberRepository memberRepository;
     private final PreferenceRepository preferenceRepository;
@@ -54,5 +61,15 @@ public class MemberService {
     @Transactional
     public void deletePreference(Long memberId, Long drinkId) {
         preferenceRepository.deleteByMemberIdAndDrinkId(memberId, drinkId);
+    }
+
+    public Page<DrinkDto> findDrinks(Long id, Pageable pageable) {
+        return drinkRepository.findAll(pageable)
+                .map(drink -> DrinkDto.from(
+                        drink,
+                        Preference.from(drink, 3.5),
+                        fileServerUrl
+                        )
+                );
     }
 }
