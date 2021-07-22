@@ -75,6 +75,17 @@ include::{snippets}/drinks/show/all/http-request.adoc[]
 
 include::{snippets}/drinks/show/all/http-response.adoc[]
 
+=== 추천 정보 조회
+==== 전체 화면에서 추천 주류 정보 조회
+
+- Request
+
+include::{snippets}/drinks/show/all-theme/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/all-theme/http-response.adoc[]
+
 === 단일 상품 조회
 ==== 상세 화면에서 단일 상품 정보 조회
 
