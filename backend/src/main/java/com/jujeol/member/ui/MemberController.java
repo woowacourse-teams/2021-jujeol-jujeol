@@ -2,16 +2,17 @@ package com.jujeol.member.ui;
 
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageInfo;
+import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.application.dto.DrinkDto;
-import com.jujeol.drink.application.dto.ReviewResponse;
+import com.jujeol.drink.application.dto.ReviewDto;
 import com.jujeol.member.application.MemberService;
 import com.jujeol.member.application.dto.MemberResponse;
 import com.jujeol.member.application.dto.PreferenceRequest;
 import com.jujeol.member.ui.dto.MemberDrinkResponse;
+import com.jujeol.member.ui.dto.MemberReviewResponse;
+import com.jujeol.member.ui.dto.ReviewDrinkResponse;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -64,12 +65,29 @@ public class MemberController {
             @PageableDefault Pageable pageable
     ) {
         Page<DrinkDto> drinks = memberService.findDrinks(loginMember.getId(), pageable);
-        List<MemberDrinkResponse> responses = drinks
-                .map(MemberDrinkResponse::from)
-                .toList();
+        Page<MemberDrinkResponse> responses = drinks.map(MemberDrinkResponse::from);
 
-        PageInfo pageInfo = PageInfo.from(
-                pageable.getPageNumber(), drinks.getTotalPages(), pageable.getPageSize(), drinks.getTotalElements());
-        return ResponseEntity.ok(CommonResponse.from(responses, pageInfo));
+        return ResponseEntity.ok(PageResponseAssembler.assemble(responses));
+    }
+
+    @GetMapping("/reviews")
+    public ResponseEntity<CommonResponse<List<MemberReviewResponse>>> showReviewsOfMine(
+            @AuthenticationPrincipal LoginMember loginMember,
+            @PageableDefault Pageable pageable
+    ) {
+        Page<ReviewDto> reviews = memberService.findReviews(loginMember.getId(), pageable);
+        Page<MemberReviewResponse> responses = reviews
+                .map(reviewDto -> MemberReviewResponse.create(
+                        reviewDto.getId(),
+                        reviewDto.getContent(),
+                        reviewDto.getCreatedAt(),
+                        reviewDto.getModifiedAt(),
+                        ReviewDrinkResponse.create(
+                                reviewDto.getDrinkDto().getId(),
+                                reviewDto.getDrinkDto().getName(),
+                                reviewDto.getDrinkDto().getImageUrl()
+                        )
+                ));
+        return ResponseEntity.ok(PageResponseAssembler.assemble(responses));
     }
 }

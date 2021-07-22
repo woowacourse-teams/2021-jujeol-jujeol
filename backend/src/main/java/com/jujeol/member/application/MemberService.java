@@ -1,8 +1,10 @@
 package com.jujeol.member.application;
 
 import com.jujeol.drink.application.dto.DrinkDto;
+import com.jujeol.drink.application.dto.ReviewDto;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.repository.DrinkRepository;
+import com.jujeol.drink.domain.repository.ReviewRepository;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.member.application.dto.MemberResponse;
 import com.jujeol.member.application.dto.PreferenceRequest;
@@ -29,6 +31,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PreferenceRepository preferenceRepository;
     private final DrinkRepository drinkRepository;
+    private final ReviewRepository reviewRepository;
 
     public MemberResponse findMember(Long id) {
         Member member = memberRepository.findById(id)
@@ -71,5 +74,20 @@ public class MemberService {
                         fileServerUrl
                         )
                 );
+    }
+
+    public Page<ReviewDto> findReviews(Long id, Pageable pageable) {
+        return reviewRepository.findAll(pageable)
+                .map(review -> ReviewDto.create(
+                        review.getId(),
+                        DrinkDto.from(
+                                review.getDrink(),
+                                Preference.from(review.getDrink(), 3.5),
+                                fileServerUrl
+                        ),
+                        review.getContent(),
+                        review.getCreatedAt(),
+                        review.getModifiedAt()
+                ));
     }
 }
