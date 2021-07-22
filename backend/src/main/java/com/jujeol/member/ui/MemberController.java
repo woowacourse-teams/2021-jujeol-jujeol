@@ -69,7 +69,7 @@ public class MemberController {
                 .toList();
 
         PageInfo pageInfo = PageInfo.from(
-                pageable.getPageNumber(), drinks.getTotalPages(), pageable.getPageSize());
+                pageable.getPageNumber(), drinks.getTotalPages(), pageable.getPageSize(), drinks.getTotalElements());
         return ResponseEntity.ok(CommonResponse.from(responses, pageInfo));
     }
 }
