@@ -5,6 +5,7 @@ import static com.jujeol.TestDataLoader.PREFERENCE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
+import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.commons.exception.ExceptionCodeAndDetails;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.application.dto.DrinkDto;
@@ -26,10 +27,10 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     public void showDrinksTest() {
         //given
         //when
-        List<DrinkSimpleResponse> drinkSimpleResponses = request()
+        final HttpResponse httpResponse = request()
                 .get("/drinks")
                 .withDocument("drinks/show/all")
-                .build().convertBodyToList(DrinkSimpleResponse.class);
+                .build();
 
         //then
         List<DrinkSimpleResponse> expectedResult = BEERS.stream()
@@ -38,8 +39,13 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .map(DrinkSimpleResponse::from)
                 .collect(Collectors.toList());
 
+        final List<DrinkSimpleResponse> drinkSimpleResponses =
+                httpResponse.convertBodyToList(DrinkSimpleResponse.class);
+
         assertThat(drinkSimpleResponses).usingRecursiveComparison()
                 .isEqualTo(expectedResult);
+
+        페이징_검증(httpResponse.pageInfo(), 1,2,7,8);
     }
 
     @DisplayName("추천 조회 - 성공")
