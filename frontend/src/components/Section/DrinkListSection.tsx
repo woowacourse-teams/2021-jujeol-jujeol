@@ -31,9 +31,14 @@ const DrinkListSection = ({
   isShowMoreEnabled = true,
   showMoreLink,
 }: Props) => {
-  const { data: { data: drinks } = [] } = useQuery('drinks', () => API.getDrinks(), {
-    retry: 1,
-  });
+  const queryParams = new URLSearchParams(query);
+  const { data: { data: drinks } = [] } = useQuery(
+    'drinks',
+    () => API.getDrinks({ pageParam: 1, params: queryParams }),
+    {
+      retry: 1,
+    }
+  );
   const history = useHistory();
 
   return (

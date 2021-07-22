@@ -44,9 +44,7 @@ const config: HomePageConfig = [
     id: 1,
     sectionType: 'ITEM_LIST',
     type: 'LIST',
-    query: {
-      theme: 'recommendation',
-    },
+    query: {},
     title: '전체보기',
     titleAlign: 'left',
     count: 3,

@@ -41,8 +41,11 @@ const API = {
     return request({ method: 'GET' as Method, url: REQUEST_URL.GET_USER_INFO });
   },
 
-  getDrinks: () => {
-    return request({ method: 'GET' as Method, url: REQUEST_URL.GET_DRINKS });
+  getDrinks: ({ pageParam = 1, params }: { pageParam: number; params?: URLSearchParams }) => {
+    return request({
+      method: 'GET' as Method,
+      url: REQUEST_URL.GET_DRINKS + '?page=' + pageParam + (params ? '&' + params.toString() : ''),
+    });
   },
   getDrink: <T>(id: T) => {
     return request({ method: 'GET' as Method, url: `${REQUEST_URL.GET_DRINK}/${id}` });

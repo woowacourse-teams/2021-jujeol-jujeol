@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import API from 'src/apis/requests';
 import Header from 'src/components/Header/Header';
@@ -8,9 +8,21 @@ import { PATH } from 'src/constants';
 import { Title } from './ViewAllPage.styles';
 
 const ViewAllPage = () => {
-  const { data: { data: drinks } = [] } = useQuery('drinks', () => API.getDrinks(), {
+  const { data, fetchNextPage } = useInfiniteQuery<{
+    data: ItemList.Drinks[];
+    pageInfo: { currentPage: number; lastPage: number; countPerPage: number; totalSize: number };
+  }>('drinks', ({ pageParam }) => API.getDrinks({ pageParam }), {
+    getNextPageParam: (lastPage) => {
+      return lastPage?.pageInfo.currentPage < lastPage?.pageInfo.lastPage
+        ? lastPage?.pageInfo.currentPage + 1
+        : undefined;
+    },
     retry: 1,
   });
+
+  const [responseData] = data?.pages ?? [];
+  const { data: drinks } = responseData ?? {};
+
   const history = useHistory();
 
   const goBack = () => {
