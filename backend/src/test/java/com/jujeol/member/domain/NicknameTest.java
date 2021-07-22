@@ -3,6 +3,7 @@ package com.jujeol.member.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.jujeol.member.domain.nickname.Nickname;
 import com.jujeol.member.exception.InvalidUserNicknameLengthException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,7 +20,7 @@ class NicknameTest {
         //given
         //when
         //then
-        assertThatThrownBy(() -> new Nickname(nickname))
+        assertThatThrownBy(() -> Nickname.create(nickname))
                 .isInstanceOf(InvalidUserNicknameLengthException.class);
     }
 
@@ -30,6 +31,6 @@ class NicknameTest {
         //given
         //when
         //then
-        assertThat(new Nickname(nickname)).isNotNull();
+        assertThat(Nickname.create(nickname)).isNotNull();
     }
 }

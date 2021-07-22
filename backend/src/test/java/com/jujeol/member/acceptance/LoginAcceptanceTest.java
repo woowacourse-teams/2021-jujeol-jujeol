@@ -3,9 +3,9 @@ package com.jujeol.member.acceptance;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
-import com.jujeol.member.ui.dto.SocialProviderCodeRequest;
 import com.jujeol.member.application.dto.TokenDto;
 import com.jujeol.member.domain.ProviderName;
+import com.jujeol.member.ui.dto.SocialProviderCodeRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -28,4 +28,5 @@ public class LoginAcceptanceTest extends AcceptanceTest {
 
         assertThat(accessToken).isNotEmpty();
     }
+
 }

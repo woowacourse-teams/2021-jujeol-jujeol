@@ -1,6 +1,7 @@
 package com.jujeol.member.domain;
 
 import com.jujeol.drink.domain.Drink;
+import com.jujeol.member.domain.nickname.Member;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

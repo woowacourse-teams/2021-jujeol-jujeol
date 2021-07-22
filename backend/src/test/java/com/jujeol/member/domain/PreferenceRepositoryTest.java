@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.repository.DrinkRepository;
+import com.jujeol.member.domain.nickname.Member;
+import com.jujeol.member.domain.nickname.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,7 +35,7 @@ public class PreferenceRepositoryTest {
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         savedDrink = drinkRepository.save(stella);
 
-        Member member = Member.from(Provider.of("1234", ProviderName.TEST), null, null);
+        Member member = Member.create(Provider.of("1234", ProviderName.TEST), null, null);
         savedMember = memberRepository.save(member);
     }
 
