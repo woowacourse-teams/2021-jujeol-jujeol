@@ -5,6 +5,7 @@ import static com.jujeol.TestDataLoader.MEMBER2;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
+import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.commons.exception.ExceptionCodeAndDetails;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.application.dto.MemberDto;
@@ -149,24 +150,28 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     void showReviews() {
         //given
 
+
         //when
-        List<ReviewResponse> responsesPageOne = request()
+        final HttpResponse httpResponsePageOne = request()
                 .get("/drinks/1/reviews?page=1")
                 .withDocument("reviews/show")
-                .build().convertBodyToList(ReviewResponse.class);
+                .build();
 
-        List<ReviewResponse> responsesPageTwo = request()
+        final HttpResponse httpResponsePageTwo = request()
                 .get("/drinks/1/reviews?page=2")
-                .build().convertBodyToList(ReviewResponse.class);
+                .build();
 
         //then
-        List<Long> memberIds = responsesPageOne.stream()
+        final List<ReviewResponse> reviewResponses =
+                httpResponsePageOne.convertBodyToList(ReviewResponse.class);
+
+        List<Long> memberIds = reviewResponses.stream()
                 .map(ReviewResponse::getMemberDto)
                 .map(MemberDto::getId)
                 .collect(Collectors.toList());
 
-        assertThat(responsesPageOne).hasSize(10);
-        assertThat(responsesPageTwo).hasSize(2);
+        페이징_검증(httpResponsePageOne.pageInfo(), 1,2,10,12);
+        페이징_검증(httpResponsePageTwo.pageInfo(), 2,2,10,12);
         assertThat(memberIds).contains(MEMBER.getId(), MEMBER2.getId());
     }
 
