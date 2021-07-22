@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
+import Flex from 'src/styles/Flex';
+
 import { COLOR } from 'src/constants';
 
 const Header = styled.header`
-  display: flex;
-  align-items: center;
+  ${Flex({ alignItems: 'center' })};
 
   position: relative;
 
@@ -33,9 +34,7 @@ const Header = styled.header`
 `;
 
 const Statistics = styled.ul`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${Flex({ justifyContent: 'center', alignItems: 'center' })};
 
   width: 100%;
   height: 5.5rem;
@@ -53,10 +52,7 @@ const Statistics = styled.ul`
   }
 
   li {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })};
 
     width: 100%;
     height: 4rem;
@@ -75,10 +71,7 @@ const Statistics = styled.ul`
 `;
 
 const VerticalItem = styled.li`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })};
 
   :last-child {
     position: relative;
@@ -97,9 +90,7 @@ const VerticalItem = styled.li`
   }
 
   div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    ${Flex({ justifyContent: 'center', alignItems: 'center' })};
 
     span {
       font-size: 0.8rem;
@@ -109,10 +100,7 @@ const VerticalItem = styled.li`
 `;
 
 const VerticalScrollList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  justify-items: center;
-  align-items: center;
+  ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })};
 
   padding-right: 1.3rem;
 
