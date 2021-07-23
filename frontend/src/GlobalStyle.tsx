@@ -9,6 +9,7 @@ const GlobalStyle = () => (
       * {
         font-family: 'Nanum Gothic', sans-serif;
         box-sizing: border-box;
+        scroll-behavior: smooth;
       }
 
       html,
