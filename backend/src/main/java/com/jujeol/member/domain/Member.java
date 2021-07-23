@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -62,5 +63,10 @@ public class Member {
     @PreUpdate
     private void preUpdate() {
         modifiedAt = LocalDateTime.now();
+    }
+
+    public void updateNicknameAndBiography(Nickname nickname, Biography biography) {
+        this.nickname = nickname;
+        this.biography = biography;
     }
 }

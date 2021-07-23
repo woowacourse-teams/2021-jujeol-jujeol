@@ -16,7 +16,12 @@ public class MemberDto {
     private String bio;
 
     public static MemberDto from(Member member) {
-        return new MemberDto(member.getId(),  member.getNickname().getNickname(), member.getBiography()
-                .getBiography());
+        return new MemberDto(member.getId(), member.getNickname().getNickname(),
+                member.getBiography()
+                        .getBiography());
+    }
+
+    public static MemberDto create(Long id, String nickname, String bio) {
+        return new MemberDto(id, nickname, bio);
     }
 }

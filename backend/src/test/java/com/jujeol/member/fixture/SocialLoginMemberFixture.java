@@ -16,7 +16,7 @@ public enum SocialLoginMemberFixture {
     WEDGE("1004", "potato.potato.potato", "1004"),
     PIKA("1005", "pika.pika.pika", "1005"),
     NABOM("1006", "nabom.summer.winter", "1006"),
-    DEFAULT("1007", "this.is.default", "1007");
+    DEFAULT("1234", "this.is.default", "1234");
 
     SocialLoginMemberFixture(String matchedCode, String accessToken,
             String accountId) {

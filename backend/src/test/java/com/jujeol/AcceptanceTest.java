@@ -39,13 +39,6 @@ public class AcceptanceTest {
     public void setUp(RestDocumentationContextProvider restDocumentation) {
         RestAssured.port = port;
         TokenDto token = loginService.createToken(SocialLoginMemberFixture.DEFAULT.toDto());
-//        loginService.createToken(SocialLoginMemberFixture.SOLONG.toDto());
-//        loginService.createToken(SocialLoginMemberFixture.SUNNY.toDto());
-//        loginService.createToken(SocialLoginMemberFixture.TIKE.toDto());
-//        loginService.createToken(SocialLoginMemberFixture.CROFFLE.toDto());
-//        loginService.createToken(SocialLoginMemberFixture.WEDGE.toDto());
-//        loginService.createToken(SocialLoginMemberFixture.NABOM.toDto());
-//        loginService.createToken(SocialLoginMemberFixture.PIKA.toDto());
 
         request = new RequestBuilder(restDocumentation, token.getAccessToken(), objectMapper);
     }

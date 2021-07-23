@@ -9,6 +9,7 @@ import com.jujeol.member.application.MemberService;
 import com.jujeol.member.application.dto.MemberDto;
 import com.jujeol.member.application.dto.PreferenceDto;
 import com.jujeol.member.ui.dto.MemberDrinkResponse;
+import com.jujeol.member.ui.dto.MemberRequest;
 import com.jujeol.member.ui.dto.MemberResponse;
 import com.jujeol.member.ui.dto.MemberReviewResponse;
 import com.jujeol.member.ui.dto.ReviewDrinkResponse;
@@ -20,6 +21,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,11 +36,24 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping
-    public ResponseEntity<CommonResponse<MemberDto>> findMemberOfMine(
+    public ResponseEntity<CommonResponse<MemberResponse>> findMemberOfMine(
             @AuthenticationPrincipal LoginMember loginMember
     ) {
+        MemberDto member = memberService.findMember(loginMember.getId());
         return ResponseEntity
-                .ok(CommonResponse.from(memberService.findMember(loginMember.getId())));
+                .ok(CommonResponse.from(MemberResponse.from(member)));
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> updateMember(
+            @AuthenticationPrincipal LoginMember loginMember,
+            @RequestBody MemberRequest memberRequest
+    ) {
+
+        memberService.updateMember(
+                MemberDto.create(loginMember.getId(), memberRequest.getNickname(), memberRequest.getBio())
+        );
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/drinks/{id}/preference")

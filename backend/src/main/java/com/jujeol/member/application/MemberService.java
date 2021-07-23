@@ -8,10 +8,12 @@ import com.jujeol.drink.domain.repository.ReviewRepository;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.member.application.dto.MemberDto;
 import com.jujeol.member.application.dto.PreferenceDto;
+import com.jujeol.member.domain.Biography;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
 import com.jujeol.member.domain.Preference;
 import com.jujeol.member.domain.PreferenceRepository;
+import com.jujeol.member.domain.nickname.Nickname;
 import com.jujeol.member.exception.NoSuchMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,6 +39,14 @@ public class MemberService {
         Member member = memberRepository.findById(id)
                 .orElseThrow(NoSuchMemberException::new);
         return MemberDto.from(member);
+    }
+
+    @Transactional
+    public void updateMember(MemberDto memberDto) {
+        Member member = memberRepository.findById(memberDto.getId())
+                .orElseThrow(NoSuchMemberException::new);
+
+        member.updateNicknameAndBiography(Nickname.create(memberDto.getNickname()), Biography.create(memberDto.getBio()));
     }
 
     @Transactional
