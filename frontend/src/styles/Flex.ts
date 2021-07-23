@@ -1,13 +1,6 @@
 import { css } from '@emotion/react';
 
-interface FlexContainer {
-  flexDirection?: 'row' | 'row-reverse' | 'column' | 'column-reverse';
-  justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around';
-  flexWrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
-  alignItems?: 'stretch' | 'flex-start' | 'flex-end' | 'center' | 'baseline';
-}
-
-const Flex = ({ flexDirection, justifyContent, flexWrap, alignItems }: FlexContainer) => css`
+const Flex = ({ flexDirection, justifyContent, flexWrap, alignItems }: React.CSSProperties) => css`
   display: flex;
   flex-direction: ${flexDirection ?? 'row'};
   justify-content: ${justifyContent ?? 'flex-start'};
