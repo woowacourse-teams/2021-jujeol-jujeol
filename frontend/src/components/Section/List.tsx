@@ -8,7 +8,7 @@ interface Props {
 
 const List = ({ count, rowGap = '1rem', children }: Props) => {
   return (
-    <Grid row={`${count}`} rowGap={rowGap} padding="0 2rem">
+    <Grid row={count} rowGap={rowGap} padding="0 2rem">
       {children}
     </Grid>
   );

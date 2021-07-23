@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 
 interface GridStyle extends Omit<React.CSSProperties, 'translate'> {
-  col?: string;
-  row?: string;
+  col?: number;
+  row?: number;
   colGap?: string;
   rowGap?: string;
   colMin?: string;
