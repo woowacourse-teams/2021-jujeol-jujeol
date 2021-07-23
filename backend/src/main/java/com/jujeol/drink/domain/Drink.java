@@ -2,6 +2,7 @@ package com.jujeol.drink.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -36,6 +37,8 @@ public class Drink {
     private ImageFilePath imageFilePath;
     @Enumerated(EnumType.STRING)
     private Category category;
+    @Column
+    private Double preferenceAvg;
 
     @OneToMany(mappedBy = "drink")
     private List<Review> reviews = new ArrayList<>();
@@ -45,6 +48,7 @@ public class Drink {
             String englishName,
             Double alcoholByVolume,
             String imageUrl,
+            Double preferenceAvg,
             Category category
     ) {
         return new Drink(
@@ -54,6 +58,7 @@ public class Drink {
                 new AlcoholByVolume(alcoholByVolume),
                 new ImageFilePath(imageUrl),
                 category,
+                preferenceAvg,
                 new ArrayList<>()
         );
     }
@@ -85,6 +90,10 @@ public class Drink {
 
     public String getCategory() {
         return category.toString();
+    }
+
+    public Double getPreferenceAvg() {
+        return preferenceAvg;
     }
 
     public List<Review> getReviews() {

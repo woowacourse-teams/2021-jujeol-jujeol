@@ -2,11 +2,13 @@ import styled from '@emotion/styled';
 import { COLOR, Z_INDEX } from 'src/constants';
 
 const Nav = styled.nav`
-  width: 100%;
+  max-width: 100%;
+  min-width: 100%;
+
   height: 4rem;
   padding: 0.3rem;
   background-color: ${COLOR.WHITE_100};
-  position: fixed;
+  position: sticky;
   bottom: 0;
   left: 0;
   z-index: ${Z_INDEX.TAB_BAR};

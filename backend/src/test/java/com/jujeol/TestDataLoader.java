@@ -49,23 +49,23 @@ public class TestDataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Drink stella = Drink.from(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 1.0, Category.BEER);
         Drink kgb = Drink.from(
-                "KGB", "", 3.5, "KakaoTalk_Image_2021-07-08-19-58-09_002.png", Category.BEER);
+                "KGB", "", 3.5, "KakaoTalk_Image_2021-07-08-19-58-09_002.png", 0.0, Category.BEER);
         Drink estp = Drink.from(
-                "ESTP", "", 7.5, "KakaoTalk_Image_2021-07-08-19-58-11_003.png", Category.BEER);
+                "ESTP", "", 7.5, "KakaoTalk_Image_2021-07-08-19-58-11_003.png", 0.0, Category.BEER);
         Drink tiger_rad = Drink.from(
-                "타이거 라들러 자몽", "Tiger_Rad", 9.5, "KakaoTalk_Image_2021-07-08-19-58-15_004.png",
+                "타이거 라들러 자몽", "Tiger_Rad", 9.5, "KakaoTalk_Image_2021-07-08-19-58-15_004.png", 0.0,
                 Category.BEER);
         Drink tsingtao = Drink.from(
-                "칭따오", "TSINGTAO", 12.0, "KakaoTalk_Image_2021-07-08-19-58-18_005.png",
+                "칭따오", "TSINGTAO", 12.0, "KakaoTalk_Image_2021-07-08-19-58-18_005.png", 0.0,
                 Category.BEER);
         Drink apple = Drink.from(
-                "애플", "Apple", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", Category.BEER);
+                "애플", "Apple", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", 0.0, Category.BEER);
         Drink ob = Drink.from(
-                "오비", "OB", 85.0, "KakaoTalk_Image_2021-07-08-19-58-22_007.png", Category.BEER);
+                "오비", "OB", 85.0, "KakaoTalk_Image_2021-07-08-19-58-22_007.png", 0.0, Category.BEER);
         Drink tigerLemon = Drink.from(
-                "타이거 라들러 레몬", "Tiger_Lemon", 4.5, "KakaoTalk_Image_2021-07-08-19-58-22_008.png",
+                "타이거 라들러 레몬", "Tiger_Lemon", 4.5, "KakaoTalk_Image_2021-07-08-19-58-22_008.png", 0.0,
                 Category.BEER);
 
         List<Drink> beers = Arrays.asList(

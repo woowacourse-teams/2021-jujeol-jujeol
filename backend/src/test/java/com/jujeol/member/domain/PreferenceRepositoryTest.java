@@ -30,7 +30,7 @@ public class PreferenceRepositoryTest {
     @BeforeEach
     void setUp() {
         Drink stella = Drink.from(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, Category.BEER);
         savedDrink = drinkRepository.save(stella);
 
         Member member = Member.create(Provider.of("1234", ProviderName.TEST), null, null);
