@@ -8,7 +8,7 @@ const HomePage = () => {
   return (
     <div>
       <MainHeader />
-      <Grid rowGap="2rem" colMin="280px" colMax="420px">
+      <Grid rowGap="2rem" colMin="280px" colMax="480px">
         {config.map((section: ItemList | BannerType) => {
           if (section.sectionType === 'ITEM_LIST') {
             const {
