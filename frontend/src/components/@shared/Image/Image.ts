@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { ImgHTMLAttributes } from 'react';
 
 const SIZE = {
   SMALL: '4.5rem',
@@ -7,17 +6,14 @@ const SIZE = {
   LARGE: '7.5rem',
 };
 
-type sizeType = keyof typeof SIZE;
-
 const SHAPE = {
   CIRCLE: '50%',
   ROUND_SQUARE: '10px',
 };
-type shapeType = keyof typeof SHAPE;
 
-interface ImageType extends ImgHTMLAttributes<HTMLImageElement> {
-  shape: shapeType;
-  size: sizeType;
+interface ImageType {
+  shape: keyof typeof SHAPE;
+  size: keyof typeof SIZE;
 }
 
 const Img = styled.img<ImageType>`
@@ -27,4 +23,4 @@ const Img = styled.img<ImageType>`
 `;
 
 export { Img };
-export type { ImageType, sizeType, shapeType };
+export type { ImageType };

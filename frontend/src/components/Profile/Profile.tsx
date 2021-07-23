@@ -1,5 +1,5 @@
 import { ImgHTMLAttributes } from 'react';
-import Image from '../@shared/Image/Image';
+import { Img } from '../@shared/Image/Image';
 import { Container } from './Profile.styles';
 
 interface Props extends ImgHTMLAttributes<HTMLImageElement> {
@@ -10,7 +10,7 @@ interface Props extends ImgHTMLAttributes<HTMLImageElement> {
 const Profile = ({ src, nickname, bio }: Props) => {
   return (
     <Container>
-      <Image src={src} alt="프로필 사진" shape="CIRCLE" size="SMALL" />
+      <Img src={src} alt="프로필 사진" shape="CIRCLE" size="SMALL" />
 
       <div>
         <h3>{nickname}</h3>

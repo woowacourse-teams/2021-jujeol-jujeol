@@ -1,6 +1,6 @@
 import { COLOR } from 'src/constants';
 import Card from '../@shared/Card/Card';
-import Image from '../@shared/Image/Image';
+import { Img } from '../@shared/Image/Image';
 import TextReview from '../Review/TextReview';
 
 const PersonalReviewCard = () => {
@@ -12,7 +12,7 @@ const PersonalReviewCard = () => {
       padding="0.6rem"
       border={`1px solid ${COLOR.PURPLE_100}`}
     >
-      <Image
+      <Img
         src="http://placehold.it/100x100"
         alt="리뷰를 입력한 술"
         shape="ROUND_SQUARE"

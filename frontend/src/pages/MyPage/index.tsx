@@ -1,4 +1,4 @@
-import Image from 'src/components/@shared/Image/Image';
+import { Img } from 'src/components/@shared/Image/Image';
 import PersonalReviewCard from 'src/components/Card/PersonalReviewCard';
 import StarIcon from 'src/components/Icons/star';
 import Preview from 'src/components/Preview/Preview';
@@ -22,7 +22,6 @@ const MyPage = () => {
           <p>43개</p>
           <p>내가 마신 술</p>
         </li>
-
         <li>
           <p>15개</p>
           <p>내가 남긴 리뷰</p>
@@ -33,7 +32,7 @@ const MyPage = () => {
         <Horizontal count={7}>
           {Array.from({ length: 7 }).map((_, index) => (
             <VerticalItem key={index}>
-              <Image
+              <Img
                 src="http://placehold.it/120x120"
                 alt="호감도를 입력한 술"
                 shape="ROUND_SQUARE"
