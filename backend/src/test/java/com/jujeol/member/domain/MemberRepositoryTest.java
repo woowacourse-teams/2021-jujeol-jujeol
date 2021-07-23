@@ -2,8 +2,6 @@ package com.jujeol.member.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.jujeol.member.domain.nickname.Member;
-import com.jujeol.member.domain.nickname.MemberRepository;
 import com.jujeol.member.domain.nickname.Nickname;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

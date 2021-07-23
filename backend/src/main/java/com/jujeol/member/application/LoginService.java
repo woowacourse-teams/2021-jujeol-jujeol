@@ -5,8 +5,8 @@ import com.jujeol.member.application.dto.TokenDto;
 import com.jujeol.member.domain.Biography;
 import com.jujeol.member.domain.nickname.CheersExpression;
 import com.jujeol.member.domain.nickname.CheersExpressionsFactory;
-import com.jujeol.member.domain.nickname.Member;
-import com.jujeol.member.domain.nickname.MemberRepository;
+import com.jujeol.member.domain.Member;
+import com.jujeol.member.domain.MemberRepository;
 import com.jujeol.member.domain.nickname.Nickname;
 import com.jujeol.member.domain.nickname.NicknameFactory;
 import com.jujeol.member.domain.Provider;
@@ -41,15 +41,20 @@ public class LoginService {
 
     private Member findOrCreateMember(MemberDetails memberDetails) {
         final String provideId = memberDetails.accountId();
+
+        return memberRepository.findByProvideId(provideId).orElseGet(() -> {
+            final Provider provider = Provider.of(provideId, memberDetails.providerCode());
+            return memberRepository.save(createMember(provider));
+        });
+    }
+
+    private Member createMember(Provider provider) {
         final CheersExpression cheersExpression = cheersExpressionsFactory
                 .getRandomCheersExpression();
 
         final Nickname nickname = nicknameFactory.createNickname(cheersExpression.getAbbreviation());
         final Biography biography = Biography.create(cheersExpression.getExpression());
 
-        return memberRepository.findByProvideId(provideId).orElseGet(() -> {
-            final Provider provider = Provider.of(provideId, memberDetails.providerCode());
-            return memberRepository.save(Member.create(provider, nickname, biography));
-        });
+        return Member.create(provider, nickname, biography);
     }
 }

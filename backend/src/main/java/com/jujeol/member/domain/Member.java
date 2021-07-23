@@ -1,7 +1,6 @@
-package com.jujeol.member.domain.nickname;
+package com.jujeol.member.domain;
 
-import com.jujeol.member.domain.Biography;
-import com.jujeol.member.domain.Provider;
+import com.jujeol.member.domain.nickname.Nickname;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;

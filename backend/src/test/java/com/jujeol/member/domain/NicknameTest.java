@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.jujeol.member.domain.nickname.Nickname;
+import com.jujeol.member.exception.InvalidUserNicknameCharacterException;
 import com.jujeol.member.exception.InvalidUserNicknameLengthException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,6 +23,17 @@ class NicknameTest {
         //then
         assertThatThrownBy(() -> Nickname.create(nickname))
                 .isInstanceOf(InvalidUserNicknameLengthException.class);
+    }
+
+    @DisplayName("닉네임 생성 - 실패(잘 못 된 형식)")
+    @ParameterizedTest
+    @ValueSource(strings = {"띄어쓰 기 포함", "자음은ㅇㅈ이지", "특수문자의왕!!"})
+    void createNickname_fail_InvalidNicknameCharacter(String nickname) {
+        //given
+        //when
+        //then
+        assertThatThrownBy(() -> Nickname.create(nickname))
+                .isInstanceOf(InvalidUserNicknameCharacterException.class);
     }
 
     @DisplayName("닉네임 생성 - 성공")

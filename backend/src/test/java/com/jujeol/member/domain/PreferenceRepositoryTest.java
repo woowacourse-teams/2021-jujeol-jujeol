@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.repository.DrinkRepository;
-import com.jujeol.member.domain.nickname.Member;
-import com.jujeol.member.domain.nickname.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
 package com.jujeol.member.application.dto;
 
-import com.jujeol.member.domain.nickname.Member;
+import com.jujeol.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +16,7 @@ public class MemberDto {
     private String bio;
 
     public static MemberDto from(Member member) {
-        return new MemberDto(member.getId(), "청바지_123", "청춘은 바로 지금!");
+        return new MemberDto(member.getId(),  member.getNickname().getNickname(), member.getBiography()
+                .getBiography());
     }
 }

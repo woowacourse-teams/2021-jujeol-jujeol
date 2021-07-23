@@ -1,5 +1,6 @@
-package com.jujeol.member.domain.nickname;
+package com.jujeol.member.domain;
 
+import com.jujeol.member.domain.Member;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;

@@ -6,9 +6,10 @@ import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.application.dto.DrinkDto;
 import com.jujeol.drink.application.dto.ReviewDto;
 import com.jujeol.member.application.MemberService;
-import com.jujeol.member.application.dto.MemberResponse;
-import com.jujeol.member.application.dto.PreferenceRequest;
+import com.jujeol.member.application.dto.MemberDto;
+import com.jujeol.member.application.dto.PreferenceDto;
 import com.jujeol.member.ui.dto.MemberDrinkResponse;
+import com.jujeol.member.ui.dto.MemberResponse;
 import com.jujeol.member.ui.dto.MemberReviewResponse;
 import com.jujeol.member.ui.dto.ReviewDrinkResponse;
 import java.util.List;
@@ -33,7 +34,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping
-    public ResponseEntity<CommonResponse<MemberResponse>> findMemberOfMine(
+    public ResponseEntity<CommonResponse<MemberDto>> findMemberOfMine(
             @AuthenticationPrincipal LoginMember loginMember
     ) {
         return ResponseEntity
@@ -44,7 +45,7 @@ public class MemberController {
     public ResponseEntity<Void> createOrUpdatePreference(
             @AuthenticationPrincipal LoginMember loginMember,
             @PathVariable(name = "id") Long drinkId,
-            @RequestBody PreferenceRequest preferenceRequest
+            @RequestBody PreferenceDto preferenceRequest
     ) {
         memberService.createOrUpdatePreference(loginMember.getId(), drinkId, preferenceRequest);
         return ResponseEntity.ok().build();

@@ -1,7 +1,7 @@
 package com.jujeol.member.application;
 
-import com.jujeol.member.domain.nickname.Member;
-import com.jujeol.member.domain.nickname.MemberRepository;
+import com.jujeol.member.domain.Member;
+import com.jujeol.member.domain.MemberRepository;
 import com.jujeol.member.domain.nickname.Nickname;
 import com.jujeol.member.domain.nickname.NicknameFactory;
 import java.util.List;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AddHashNicknameFactory implements NicknameFactory {
 
-    private static final PageRequest TOP_ONE_REQUEST = PageRequest.of(0, 1);
+    private static final PageRequest FIRST_OBJECT = PageRequest.of(0, 1);
     private static final String DELIMITER = "_";
     private static final String HUNDREDS_PLACE_PATTERN = "%03d";
     private static final int EXIST = 0;
@@ -30,7 +30,7 @@ public class AddHashNicknameFactory implements NicknameFactory {
 
     private int findLastHashOfNickname(String nickname) {
         List<Member> existMember = memberRepository
-                .findOneStartingWithNicknameAndMostRecent(nickname, TOP_ONE_REQUEST);
+                .findOneStartingWithNicknameAndMostRecent(nickname, FIRST_OBJECT);
 
         if (existMember.isEmpty()) {
             return 0;

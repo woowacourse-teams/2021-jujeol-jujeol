@@ -3,12 +3,16 @@ package com.jujeol.member.acceptance;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
+import com.jujeol.RequestBuilder;
 import com.jujeol.commons.exception.ExceptionCodeAndDetails;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.member.application.dto.MemberDto;
 import com.jujeol.member.application.dto.PreferenceDto;
+import com.jujeol.member.application.dto.TokenDto;
+import com.jujeol.member.domain.ProviderName;
 import com.jujeol.member.exception.UnauthorizedUserException;
+import com.jujeol.member.ui.dto.SocialProviderCodeRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
@@ -20,6 +24,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     @Test
     @DisplayName("멤버 조회 - 성공")
     public void findMember() {
+        //given
         //when
         Long id = request().get("/members/me")
                 .withDocument("member/show/me")
