@@ -1,4 +1,4 @@
-import { Container } from './BannerSection.styles';
+import { Container } from './Banner.styles';
 
 interface Props {
   type: 'IMAGE';
@@ -7,7 +7,7 @@ interface Props {
   alt: string;
 }
 
-const BannerSection = ({ type, title, src, alt }: Props) => {
+const Banner = ({ type, title, src, alt }: Props) => {
   return (
     <Container>
       {type === 'IMAGE' && (
@@ -20,4 +20,4 @@ const BannerSection = ({ type, title, src, alt }: Props) => {
   );
 };
 
-export default BannerSection;
+export default Banner;

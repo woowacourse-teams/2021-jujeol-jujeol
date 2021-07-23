@@ -1,12 +1,12 @@
 import { useQuery } from 'react-query';
 import API from 'src/apis/requests';
-import CardList from './CardList';
-import ListItem from './ListItem';
-import List from './List';
-import Section from './Section';
+import List from '../../components/List/List';
+import Section from '../../components/Section/Section';
 import { useHistory } from 'react-router-dom';
 import { PATH } from 'src/constants';
-import CardItem from './CardItem';
+import CardList from 'src/components/List/CardList';
+import CardItem from 'src/components/Item/CardItem';
+import ListItem from 'src/components/Item/ListItem';
 
 interface Props {
   type: 'CARD' | 'LIST';
@@ -34,7 +34,7 @@ const DrinkListSection = ({
   const queryParams = new URLSearchParams(query);
   const { data: { data: drinks } = [] } = useQuery(
     'drinks',
-    () => API.getDrinks({ pageParam: 1, params: queryParams }),
+    () => API.getDrinks({ page: 1, params: queryParams }),
     {
       retry: 1,
     }

@@ -41,10 +41,10 @@ const API = {
     return request({ method: 'GET' as Method, url: REQUEST_URL.GET_USER_INFO });
   },
 
-  getDrinks: ({ pageParam = 1, params }: { pageParam: number; params?: URLSearchParams }) => {
+  getDrinks: ({ page, params }: { page: number; params?: URLSearchParams }) => {
     return request({
       method: 'GET' as Method,
-      url: REQUEST_URL.GET_DRINKS + '?page=' + pageParam + (params ? '&' + params.toString() : ''),
+      url: REQUEST_URL.GET_DRINKS + '?page=' + page + (params ? '&' + params.toString() : ''),
     });
   },
   getDrink: <T>(id: T) => {

@@ -1,29 +1,25 @@
 import { useInfiniteQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import API from 'src/apis/requests';
-import Header from 'src/components/Header/Header';
-import List from 'src/components/Section/List';
-import ListItem from 'src/components/Section/ListItem';
+import Header from 'src/components/@shared/Header/Header';
+import ListItem from 'src/components/Item/ListItem';
+import List from 'src/components/List/List';
 import { PATH } from 'src/constants';
 import { Title } from './ViewAllPage.styles';
 
 const ViewAllPage = () => {
-  const { data, fetchNextPage } = useInfiniteQuery<{
+  const history = useHistory();
+
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<{
     data: ItemList.Drinks[];
     pageInfo: { currentPage: number; lastPage: number; countPerPage: number; totalSize: number };
-  }>('drinks', ({ pageParam }) => API.getDrinks({ pageParam }), {
-    getNextPageParam: (lastPage) => {
-      return lastPage?.pageInfo.currentPage < lastPage?.pageInfo.lastPage
-        ? lastPage?.pageInfo.currentPage + 1
-        : undefined;
+  }>('drinks', ({ pageParam = 1 }) => API.getDrinks({ page: pageParam }), {
+    getNextPageParam: ({ pageInfo }) => {
+      return pageInfo.currentPage < pageInfo.lastPage ? pageInfo.currentPage + 1 : undefined;
     },
     retry: 1,
   });
-
-  const [responseData] = data?.pages ?? [];
-  const { data: drinks } = responseData ?? {};
-
-  const history = useHistory();
+  const drinks = data?.pages?.map((page) => page.data).flat() ?? [];
 
   const goBack = () => {
     history.goBack();
@@ -52,6 +48,20 @@ const ViewAllPage = () => {
           />
         ))}
       </List>
+
+      {hasNextPage ? (
+        <button
+          type="button"
+          onClick={() => fetchNextPage()}
+          style={{ width: '100%', marginTop: '1rem' }}
+        >
+          더보기
+        </button>
+      ) : (
+        <p style={{ width: '100%', marginTop: '1rem', padding: '1rem' }}>
+          끝! 새로운 술이 추가 될 테니 기대해 주세요
+        </p>
+      )}
     </div>
   );
 };

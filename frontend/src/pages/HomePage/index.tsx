@@ -1,15 +1,15 @@
 import MainHeader from 'src/components/Header/MainHeader';
 import Grid from 'src/components/@shared/Grid/Grid';
-import DrinkListSection from 'src/components/Section/DrinkListSection';
-import BannerSection from 'src/components/Section/BannerSection';
-import config, { ItemList, Banner } from './config';
+import DrinkListSection from 'src/pages/HomePage/DrinkListSection';
+import config, { ItemList, Banner as BannerType } from './config';
+import Banner from 'src/components/Banner/Banner';
 
 const HomePage = () => {
   return (
     <div>
       <MainHeader />
       <Grid rowGap="2rem" colMin="280px" colMax="420px">
-        {config.map((section: ItemList | Banner) => {
+        {config.map((section: ItemList | BannerType) => {
           if (section.sectionType === 'ITEM_LIST') {
             const {
               id,
@@ -40,11 +40,11 @@ const HomePage = () => {
           }
 
           if (section.sectionType === 'BANNER') {
-            const { id, type, title, src, alt }: Banner = section;
+            const { id, type, title, src, alt }: BannerType = section;
 
             return (
               <li key={id}>
-                <BannerSection
+                <Banner
                   type={type as 'IMAGE'}
                   title={title as '프로모션 배너'}
                   src={src}

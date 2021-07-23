@@ -1,4 +1,4 @@
-import Card from '../Card/Card';
+import Card from '../@shared/Card/Card';
 import { ItemImage, ItemInfo } from './CardItem.styles';
 
 interface Props {
