@@ -9,7 +9,8 @@ public class PageResponseAssembler {
         PageInfo pageInfo = PageInfo.from(
                 data.getPageable().getPageNumber(),
                 data.getTotalPages(),
-                data.getPageable().getPageSize());
+                data.getPageable().getPageSize(),
+                data.getTotalElements());
         return CommonResponse.from(data.getContent(), pageInfo);
     }
 }
