@@ -1,7 +1,7 @@
 import { COLOR } from 'src/constants';
+import Card from '../@shared/Card/Card';
 import Image from '../@shared/Image/Image';
 import TextReview from '../Review/TextReview';
-import Card from './Card';
 
 const PersonalReviewCard = () => {
   return (
