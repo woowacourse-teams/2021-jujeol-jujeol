@@ -15,11 +15,7 @@ const MyPage = () => {
         <h2>내정보</h2>
       </Header>
 
-      <Profile
-        src="http://placehold.it/72x72"
-        nickname="청바지_122"
-        introduction="청춘은 바로 지금"
-      />
+      <Profile src="http://placehold.it/72x72" nickname="청바지_122" bio="청춘은 바로 지금" />
 
       <Statistics>
         <li>
