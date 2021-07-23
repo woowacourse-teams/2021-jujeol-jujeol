@@ -4,7 +4,6 @@ import { COLOR } from 'src/constants';
 const Container = styled.section`
   width: 100%;
   height: fit-content;
-  border-radius: 0.5rem;
   position: relative;
 
   h2 {
