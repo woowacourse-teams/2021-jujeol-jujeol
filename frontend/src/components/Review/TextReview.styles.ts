@@ -11,11 +11,11 @@ const Container = styled.div`
 const Title = styled.p`
   font-weight: 600;
   font-size: 1rem;
-  margin-bottom: 0.8rem;
+  line-height: 1.5;
 
   + span {
     font-size: 0.7rem;
-    margin-bottom: 0.2rem;
+    line-height: 1.5;
   }
 `;
 
