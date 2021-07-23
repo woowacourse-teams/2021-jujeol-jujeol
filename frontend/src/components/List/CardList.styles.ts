@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Container as Grid } from '../@shared/Grid/Grid.styles';
+import Grid from '../@shared/Grid/Grid';
 
 const ItemList = styled(Grid)`
   height: 20rem;

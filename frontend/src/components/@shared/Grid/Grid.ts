@@ -11,7 +11,7 @@ interface GridStyle extends Omit<React.CSSProperties, 'translate'> {
   rowMax?: string;
 }
 
-const Container = styled.ul<GridStyle>`
+const Grid = styled.ul<GridStyle>`
   display: grid;
 
   ${({ padding }) => padding && `padding: ${padding};`}
@@ -26,5 +26,4 @@ const Container = styled.ul<GridStyle>`
     (rowMin || rowMax) && `grid-template-rows: minmax(${rowMin ?? 'auto'}, ${rowMax ?? 'auto'});`}
 `;
 
-export { Container };
-export type { GridStyle };
+export default Grid;
