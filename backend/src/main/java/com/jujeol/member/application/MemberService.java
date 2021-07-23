@@ -66,8 +66,8 @@ public class MemberService {
         preferenceRepository.deleteByMemberIdAndDrinkId(memberId, drinkId);
     }
 
-    public Page<DrinkDto> findDrinks(Long id, Pageable pageable) {
-        return drinkRepository.findAll(pageable)
+    public Page<DrinkDto> findDrinks(Long memberId, Pageable pageable) {
+        return preferenceRepository.findDrinkUsingPreference(memberId, pageable)
                 .map(drink -> DrinkDto.from(
                         drink,
                         Preference.from(drink, 3.5),
