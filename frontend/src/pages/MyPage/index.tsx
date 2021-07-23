@@ -11,7 +11,7 @@ const MyPage = () => {
   return (
     <>
       <Header>
-        <button></button>
+        <button />
         <h2>내정보</h2>
       </Header>
 
