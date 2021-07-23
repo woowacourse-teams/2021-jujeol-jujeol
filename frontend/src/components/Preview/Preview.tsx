@@ -1,3 +1,4 @@
+import ArrowButton from '../@shared/ArrowButton/ArrowButton';
 import { PreviewSection } from './Preview.styles';
 
 interface Props {
@@ -10,7 +11,13 @@ const Preview = ({ title, children }: Props) => {
     <PreviewSection>
       <div>
         <h3>{title}</h3>
-        <button>더보기</button>
+        <ArrowButton
+          name="더보기"
+          fontSize=" 0.8rem"
+          dir="RIGHT"
+          size="0.4rem"
+          borderSize="0.0625rem"
+        />
       </div>
       {children}
     </PreviewSection>

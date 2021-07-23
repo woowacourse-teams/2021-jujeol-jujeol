@@ -17,27 +17,6 @@ const PreviewSection = styled.section`
       font-weight: 700;
       margin-bottom: 1rem;
     }
-
-    button {
-      margin-right: 0.5rem;
-
-      background-color: transparent;
-      border: none;
-      color: inherit;
-
-      font-size: 0.8rem;
-      font-weight: 400;
-
-      &::after {
-        content: '';
-        width: 0.4rem;
-        height: 0.4rem;
-        border-top: 1px solid white;
-        border-right: 1px solid white;
-        display: inline-block;
-        transform: rotate(45deg);
-      }
-    }
   }
 `;
 

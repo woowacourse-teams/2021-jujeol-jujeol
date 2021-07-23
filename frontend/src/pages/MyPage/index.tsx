@@ -1,3 +1,5 @@
+import { useHistory } from 'react-router-dom';
+import ArrowButton from 'src/components/@shared/ArrowButton/ArrowButton';
 import { Img } from 'src/components/@shared/Image/Image';
 import PersonalReviewCard from 'src/components/Card/PersonalReviewCard';
 import StarIcon from 'src/components/Icons/star';
@@ -8,10 +10,12 @@ import Horizontal from 'src/components/ScrollList/Horizontal';
 import { Header, Statistics, VerticalItem, VerticalScrollList } from './styles';
 
 const MyPage = () => {
+  const history = useHistory();
+
   return (
     <>
       <Header>
-        <button />
+        <ArrowButton size="0.7rem" borderSize="2px" dir="LEFT" onClick={() => history.goBack()} />
         <h2>내정보</h2>
       </Header>
 

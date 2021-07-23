@@ -11,22 +11,6 @@ const Header = styled.header`
   width: 100%;
   height: 3.5em;
 
-  button {
-    background: transparent;
-    border: none;
-    padding: 0 0.6rem;
-
-    &:after {
-      content: '';
-      width: 0.7rem;
-      height: 0.7rem;
-      border-top: 2px solid white;
-      border-right: 2px solid white;
-      display: inline-block;
-      transform: rotate(225deg);
-    }
-  }
-
   h2 {
     font-size: 1.3rem;
     font-weight: 700;
