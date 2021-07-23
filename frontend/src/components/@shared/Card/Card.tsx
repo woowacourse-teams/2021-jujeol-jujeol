@@ -5,13 +5,22 @@ interface Props extends React.CSSProperties {
   onClick?: () => void;
 }
 
-const Card = ({ width = '100%', height, padding, backgroundColor, children, onClick }: Props) => {
+const Card = ({
+  width = '100%',
+  height,
+  padding,
+  backgroundColor,
+  border,
+  children,
+  onClick,
+}: Props) => {
   return (
     <Container
       width={width}
       height={height}
       padding={padding}
       backgroundColor={backgroundColor}
+      border={border}
       onClick={onClick}
     >
       {children}

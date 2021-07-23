@@ -20,6 +20,26 @@ const GlobalStyle = () => (
         font-size: 16px;
       }
 
+      #root {
+        position: relative;
+        max-width: 480px;
+        min-width: 280px;
+        margin: 0 auto;
+      }
+
+      #modal {
+        width: 100%;
+        max-width: 480px;
+        min-width: 280px;
+        height: 100vh;
+        position: fixed;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+        visibility: hidden;
+        z-index: 10;
+      }
+
       html,
       body,
       h1,

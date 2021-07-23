@@ -6,6 +6,7 @@ import DrinksDetailPage from './pages/DrinksDetailPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import OauthPage from './pages/OauthPage';
+import MyPage from './pages/MyPage';
 import ViewAllPage from './pages/ViewAllPage/ViewAllPage';
 import { MainContainer } from './styles';
 
@@ -21,9 +22,7 @@ const App = () => {
               <Route exact path={[PATH.OAUTH]} component={OauthPage} />
               <Route exact path={[PATH.VIEW_ALL]} component={ViewAllPage} />
               <Route exact path={`${PATH.DRINKS}/:id`} component={DrinksDetailPage} />
-              <Route exact path={[PATH.MYPAGE]}>
-                mypage
-              </Route>
+              <Route exact path={[PATH.MYPAGE]} component={MyPage} />
               <Redirect to={PATH.ROOT} />
             </Switch>
           </MainContainer>

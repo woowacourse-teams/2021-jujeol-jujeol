@@ -19,6 +19,7 @@ public class DrinkDetailResponse {
     private String imageUrl;
     private CategoryResponse category;
     private double preferenceRate;
+    private double preferenceAvg;
 
     public static DrinkDetailResponse from(DrinkDto drinkDto) {
         return new DrinkDetailResponse(
@@ -28,7 +29,8 @@ public class DrinkDetailResponse {
                 drinkDto.getAlcoholByVolume(),
                 drinkDto.getImageUrl(),
                 new CategoryResponse(1L, drinkDto.getCategory()),
-                drinkDto.getPreferenceRate()
+                drinkDto.getPreferenceRate(),
+                drinkDto.getPreferenceAvg()
         );
     }
 }
