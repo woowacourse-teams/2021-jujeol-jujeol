@@ -38,14 +38,14 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         // Drink Data
-        Drink stella = Drink.from("스텔라", "stella", 5.5, "stella_artois.png", Category.BEER);
-        Drink kgb = Drink.from("KGB", "", 3.5, "kgb.png", Category.BEER);
-        Drink efes = Drink.from("EFES", "",7.5, "efes.png", Category.BEER);
-        Drink tiger_rad = Drink.from("타이거 라들러 자몽", "Tiger_Rad", 9.5, "tiger_raddler_grapefruit.png", Category.BEER);
-        Drink tsingtao = Drink.from("칭따오", "TSINGTAO", 12.0, "tsingtao.png", Category.BEER);
-        Drink gom_pyo = Drink.from("곰표", "gom_pyo", 8.2, "gom_pyo.png", Category.BEER);
-        Drink ob = Drink.from("오비", "OB", 85.0, "ob_lager.png", Category.BEER);
-        Drink tigerLemon = Drink.from("타이거 라들러 레몬", "Tiger_Lemon", 4.5, "tiger_raddler_lemon.png", Category.BEER);
+        Drink stella = Drink.from("스텔라", "stella", 5.5, "stella_artois.png", 0.0, Category.BEER);
+        Drink kgb = Drink.from("KGB", "", 3.5, "kgb.png", 0.0, Category.BEER);
+        Drink efes = Drink.from("EFES", "",7.5, "efes.png", 0.0, Category.BEER);
+        Drink tiger_rad = Drink.from("타이거 라들러 자몽", "Tiger_Rad", 9.5, "tiger_raddler_grapefruit.png", 0.0, Category.BEER);
+        Drink tsingtao = Drink.from("칭따오", "TSINGTAO", 12.0, "tsingtao.png", 0.0, Category.BEER);
+        Drink gom_pyo = Drink.from("곰표", "gom_pyo", 8.2, "gom_pyo.png", 0.0, Category.BEER);
+        Drink ob = Drink.from("오비", "OB", 85.0, "ob_lager.png", 0.0, Category.BEER);
+        Drink tigerLemon = Drink.from("타이거 라들러 레몬", "Tiger_Lemon", 4.5, "tiger_raddler_lemon.png", 0.0, Category.BEER);
 
         List<Drink> beers = List
                 .of(stella, kgb, efes, tiger_rad, tsingtao, gom_pyo, ob, tigerLemon);
