@@ -12,8 +12,10 @@ import lombok.NoArgsConstructor;
 public class MemberResponse {
 
     private Long id;
+    private String nickname;
+    private String bio;
 
     public static MemberResponse from(Member member) {
-        return new MemberResponse(member.getId());
+        return new MemberResponse(member.getId(), "청바지_123", "청춘은 바로 지금!");
     }
 }

@@ -15,7 +15,7 @@ public class PageInfo {
     private int totalSize;
 
     public static PageInfo from(int currentPage, int lastPage, int countPerPage, long totalSize) {
-        return PageInfo.from(currentPage + 1, lastPage, countPerPage, (int) totalSize);
+        return PageInfo.from(currentPage, lastPage, countPerPage, (int) totalSize);
     }
 
     public static PageInfo from(int currentPage, int lastPage, int countPerPage, int totalSize) {

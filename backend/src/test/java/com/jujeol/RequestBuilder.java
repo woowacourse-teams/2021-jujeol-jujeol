@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jujeol.commons.dto.CommonResponse;
+import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -186,6 +187,10 @@ public class RequestBuilder {
 
         public JujeolExceptionDto errorResponse() {
             return extractableResponse.as(JujeolExceptionDto.class);
+        }
+
+        public PageInfo pageInfo() {
+            return extractableResponse.body().as(CommonResponse.class).getPageInfo();
         }
 
         public ExtractableResponse<Response> totalResponse() {
