@@ -1,4 +1,4 @@
-import Header from './Header';
+import Header from '../@shared/Header/Header';
 import { Logo } from './MainHeader.styles';
 
 const MainHeader = () => {

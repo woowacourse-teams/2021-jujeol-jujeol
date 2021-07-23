@@ -17,3 +17,12 @@ declare namespace Review {
     content: string;
   };
 }
+
+declare namespace ItemList {
+  interface Drinks {
+    id: number;
+    name: string;
+    imageUrl: string;
+    alcoholByVolume: number;
+  }
+}
