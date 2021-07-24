@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.Review;
+import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.domain.repository.ReviewRepository;
 import java.util.Comparator;
@@ -32,13 +33,19 @@ public class MemberInfoRepositoryTest {
     private MemberRepository memberRepository;
     @Autowired
     private ReviewRepository reviewRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     private Member savedMember;
+    private Category savedCategory;
 
     @BeforeEach
     void setUp() {
         Member member = Member.from(Provider.of("1234", ProviderName.TEST));
         savedMember = memberRepository.save(member);
+
+        Category beer = Category.create("맥주");
+        savedCategory = categoryRepository.save(beer);
     }
 
     @DisplayName("내가 남긴 리뷰 모아보기")
@@ -46,7 +53,8 @@ public class MemberInfoRepositoryTest {
     public void findReviewsByMemberId() {
         //given
         Drink stella = Drink.from(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0,
+                savedCategory);
         Drink drink = drinkRepository.save(stella);
 
         Review review1 = Review.create("리뷰 1", drink, savedMember);
@@ -76,12 +84,14 @@ public class MemberInfoRepositoryTest {
     public void findDrinkUsingPreference() {
         //given
         Drink kgb = Drink.from(
-                "KGB", "", 3.5, "KakaoTalk_Image_2021-07-08-19-58-09_002.png", Category.BEER);
+                "KGB", "", 3.5, "KakaoTalk_Image_2021-07-08-19-58-09_002.png", 0.0,
+                savedCategory);
         Drink estp = Drink.from(
-                "ESTP", "", 7.5, "KakaoTalk_Image_2021-07-08-19-58-11_003.png", Category.BEER);
+                "ESTP", "", 7.5, "KakaoTalk_Image_2021-07-08-19-58-11_003.png", 0.0,
+                savedCategory);
         Drink tiger_rad = Drink.from(
-                "타이거 라들러 자몽", "Tiger_Rad", 9.5, "KakaoTalk_Image_2021-07-08-19-58-15_004.png",
-                Category.BEER);
+                "타이거 라들러 자몽", "Tiger_Rad", 9.5, "KakaoTalk_Image_2021-07-08-19-58-15_004.png", 0.0,
+                savedCategory);
 
         List<Drink> drinks = drinkRepository.saveAll(List.of(kgb, estp, tiger_rad));
 
