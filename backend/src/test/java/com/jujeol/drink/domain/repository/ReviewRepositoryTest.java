@@ -1,9 +1,10 @@
-package com.jujeol.drink.domain;
+package com.jujeol.drink.domain.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.jujeol.drink.domain.repository.DrinkRepository;
-import com.jujeol.drink.domain.repository.ReviewRepository;
+import com.jujeol.drink.domain.Category;
+import com.jujeol.drink.domain.Drink;
+import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.exception.NotFoundReviewException;
 import com.jujeol.member.domain.Member;
@@ -33,14 +34,18 @@ public class ReviewRepositoryTest {
     private ReviewRepository reviewRepository;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private TestEntityManager testEntityManager;
 
     private Member member;
+    private Category BEER;
 
     @BeforeEach
     void setUp() {
+        BEER = categoryRepository.save(Category.create("맥주"));
         Member createMember = Member.from(Provider.of("1234", ProviderName.TEST));
         member = memberRepository.save(createMember);
     }
@@ -49,8 +54,8 @@ public class ReviewRepositoryTest {
     @Test
     void saveDrinkAndReview() {
         //given
-        Drink stella = Drink.create(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+        Drink stella = Drink.from(
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
         Review review = Review.create("아주 맛있네요!", stella, member);
@@ -71,6 +76,8 @@ public class ReviewRepositoryTest {
     @Test
     public void delete() {
         //given
+        Drink stella = Drink.from(
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink stella = Drink.create(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         Drink saveDrink = drinkRepository.save(stella);
@@ -96,6 +103,8 @@ public class ReviewRepositoryTest {
     @Test
     public void update() {
         //given
+        Drink stella = Drink.from(
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink stella = Drink.create(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         Drink saveDrink = drinkRepository.save(stella);
@@ -120,6 +129,8 @@ public class ReviewRepositoryTest {
     @Test
     void findAllByDrinkId() {
         //given
+        Drink stella = Drink.from(
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink stella = Drink.create(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         Drink saveDrink = drinkRepository.save(stella);
@@ -144,6 +155,8 @@ public class ReviewRepositoryTest {
     @Test
     public void findFirstByDrinkIdAndMemberId() {
         //given
+        Drink stella = Drink.from(
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink stella = Drink.create(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         Drink saveDrink = drinkRepository.save(stella);

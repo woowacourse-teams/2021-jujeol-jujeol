@@ -13,7 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.jujeol.AcceptanceTest;
 import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.TestDataLoader;
-import com.jujeol.admin.ui.dto.AdminCategory;
 import com.jujeol.admin.ui.dto.AdminDrinkRequest;
 import com.jujeol.admin.ui.dto.AdminDrinkResponse;
 import com.jujeol.commons.exception.JujeolExceptionDto;
@@ -30,7 +29,7 @@ import org.springframework.http.HttpStatus;
 class AdminAcceptanceTest extends AcceptanceTest {
 
     @Autowired
-    TestDataLoader testDataLoader;
+    private TestDataLoader testDataLoader;
 
     @BeforeEach
     void setUp() {
@@ -70,8 +69,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         //given
         final List<AdminDrinkRequest> request =
                 Collections.singletonList(
-                        new AdminDrinkRequest("", "test", 2.0, "test",
-                                new AdminCategory(1L, "beer"))
+                        new AdminDrinkRequest("", "test", 2.0, "test", 1L)
                 );
 
         //when
@@ -88,9 +86,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         //given
         final List<AdminDrinkRequest> request =
                 Collections.singletonList(
-                        new AdminDrinkRequest("test", "test", 2.0, "test",
-                                new AdminCategory(1L, "bear"))
-                );
+                        new AdminDrinkRequest("test", "test", 2.0, "test", Long.MAX_VALUE));
 
         //when
         final HttpResponse httpResponse = request().post("/admin/drinks", request).build();
@@ -108,8 +104,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         final Long stellaId = 주류_아이디_조회(stella().getName());
 
         final AdminDrinkRequest newStella =
-                new AdminDrinkRequest("스텔라2", "stella2", 2.0, "test",
-                        new AdminCategory(1L, "BEER"));
+                new AdminDrinkRequest("스텔라2", "stella2", 2.0, "test", 2L);
         //when
         final HttpResponse httpResponse =
                 request().put("/admin/drinks/" + stellaId, newStella).build();
@@ -121,6 +116,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         assertThat(newStellaResponse.getName()).isEqualTo(newStella.getName());
         assertThat(newStellaResponse.getEnglishName()).isEqualTo(newStella.getEnglishName());
         assertThat(newStellaResponse.getAlcoholByVolume()).isEqualTo(newStella.getAlcoholByVolume());
+        assertThat(newStellaResponse.getCategory().getId()).isEqualTo(newStella.getCategoryId());
     }
 
     @Test

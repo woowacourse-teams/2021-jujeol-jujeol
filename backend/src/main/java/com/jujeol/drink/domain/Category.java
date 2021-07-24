@@ -1,28 +1,34 @@
 package com.jujeol.drink.domain;
 
-import com.jujeol.drink.exception.NotFoundCategoryException;
-import java.util.Arrays;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public enum Category {
+@EqualsAndHashCode(of = "id")
+public class Category {
 
-    BEER("맥주"),
-    SOJU("소주"),
-    WINE("와인"),
-    MAKGEOLLI("막걸리");
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column
+    private String name;
 
-    private final String name;
-
-    Category(String name) {
-        this.name = name;
+    public static Category create(String name) {
+        return new Category(null, name);
     }
 
-    public static Category matches(String category) {
-        return Arrays.stream(values())
-                .filter(cat -> cat.toString().equalsIgnoreCase(category) || cat.getName()
-                        .equalsIgnoreCase(category))
-                .findAny()
-                .orElseThrow(NotFoundCategoryException::new);
+    public static Category create(Long id, String name) {
+        return new Category(id, name);
     }
 }

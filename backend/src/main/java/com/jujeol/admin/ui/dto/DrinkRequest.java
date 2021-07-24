@@ -12,6 +12,6 @@ public class DrinkRequest {
     private String name;
     private String englishName;
     private String imageUrl;
-    private CategoryRequest category;
+    private CategoryRequestDto category;
     private Double alcoholByVolume;
 }
