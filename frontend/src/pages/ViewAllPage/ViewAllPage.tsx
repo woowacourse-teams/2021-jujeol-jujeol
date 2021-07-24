@@ -40,7 +40,9 @@ const ViewAllPage = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
 
+  useEffect(() => {
     if (infinityPollRef.current) {
       observer.observe(infinityPollRef.current);
     }
