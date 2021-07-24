@@ -1,11 +1,30 @@
 import styled from '@emotion/styled';
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-
+  width: 100%;
+  height: 100%;
+  font-size: 0;
   margin-left: 1rem;
+
+  position: relative;
+
+  button {
+    position: absolute;
+    right: -1.2rem;
+    bottom: 0.1rem;
+  }
+`;
+
+const Header = styled.div`
+  position: relative;
+  margin-right: -0.1rem;
+
+  button {
+    position: absolute;
+    top: -1rem;
+    background-color: transparent;
+    border: none;
+  }
 `;
 
 const Title = styled.p`
@@ -30,4 +49,4 @@ const Content = styled.p`
   text-overflow: ellipsis;
 `;
 
-export { Container, Title, Content };
+export { Container, Header, Title, Content };
