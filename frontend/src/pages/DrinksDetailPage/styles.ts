@@ -13,6 +13,7 @@ const Section = styled.section`
   transform: translateY(-6rem);
   padding: 2rem 1.5rem;
   text-align: center;
+  position: relative;
 `;
 
 const PreferenceSection = styled.section`
@@ -56,4 +57,13 @@ const DescriptionSection = styled.section`
   }
 `;
 
-export { Section, PreferenceSection, Image, DescriptionSection };
+const InfinityScrollPoll = styled.div`
+  width: 100%;
+  height: 13rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: transparent;
+`;
+
+export { Section, PreferenceSection, Image, DescriptionSection, InfinityScrollPoll };

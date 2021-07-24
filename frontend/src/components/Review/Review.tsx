@@ -2,10 +2,10 @@ import ReviewCard from '../Card/ReviewCard';
 import ReviewCreateForm from './ReviewCreateForm';
 import { Wrapper, ReviewList } from './Review.styles';
 
-const Review = ({ reviews }: Review.ReviewList) => {
+const Review = ({ reviews, totalSize }: Review.ReviewList & { totalSize: number }) => {
   return (
     <Wrapper>
-      <h2>리뷰 {reviews.length}개</h2>
+      <h2>리뷰 {totalSize}개</h2>
       <ReviewCreateForm />
 
       <ReviewList>

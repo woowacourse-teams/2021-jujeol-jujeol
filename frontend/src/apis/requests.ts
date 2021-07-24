@@ -51,8 +51,8 @@ const API = {
     return request({ method: 'GET' as Method, url: `${REQUEST_URL.GET_DRINK}/${id}` });
   },
 
-  getReview: <T>(id: T, params: URLSearchParams) => {
-    return request({ method: 'GET' as Method, url: `/drinks/${id}/reviews?` + params.toString() });
+  getReview: <T>({ id, page }: { id: T; page: number }) => {
+    return request({ method: 'GET' as Method, url: `/drinks/${id}/reviews` + '?page=' + page });
   },
   postReview: <I, D>(id: I, data: D) => {
     return request({ method: 'POST' as Method, url: `/drinks/${id}/reviews`, data });
