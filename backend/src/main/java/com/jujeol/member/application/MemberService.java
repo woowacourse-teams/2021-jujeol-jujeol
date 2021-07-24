@@ -76,18 +76,15 @@ public class MemberService {
                 );
     }
 
-    public Page<ReviewDto> findReviews(Long id, Pageable pageable) {
-        return reviewRepository.findAll(pageable)
+    public Page<ReviewDto> findReviews(Long memberId, Pageable pageable) {
+        return reviewRepository.findUsingMemberIdOrderByCreatedAtDesc(memberId, pageable)
                 .map(review -> ReviewDto.create(
-                        review.getId(),
+                        review,
                         DrinkDto.from(
                                 review.getDrink(),
                                 Preference.from(review.getDrink(), 3.5),
                                 fileServerUrl
-                        ),
-                        review.getContent(),
-                        review.getCreatedAt(),
-                        review.getModifiedAt()
+                        )
                 ));
     }
 }

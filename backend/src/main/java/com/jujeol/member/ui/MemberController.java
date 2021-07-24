@@ -1,7 +1,6 @@
 package com.jujeol.member.ui;
 
 import com.jujeol.commons.dto.CommonResponse;
-import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.application.dto.DrinkDto;
 import com.jujeol.drink.application.dto.ReviewDto;
@@ -78,16 +77,10 @@ public class MemberController {
         Page<ReviewDto> reviews = memberService.findReviews(loginMember.getId(), pageable);
         Page<MemberReviewResponse> responses = reviews
                 .map(reviewDto -> MemberReviewResponse.create(
-                        reviewDto.getId(),
-                        reviewDto.getContent(),
-                        reviewDto.getCreatedAt(),
-                        reviewDto.getModifiedAt(),
-                        ReviewDrinkResponse.create(
-                                reviewDto.getDrinkDto().getId(),
-                                reviewDto.getDrinkDto().getName(),
-                                reviewDto.getDrinkDto().getImageUrl()
-                        )
+                        reviewDto,
+                        ReviewDrinkResponse.create(reviewDto.getDrinkDto())
                 ));
+
         return ResponseEntity.ok(PageResponseAssembler.assemble(responses));
     }
 }
