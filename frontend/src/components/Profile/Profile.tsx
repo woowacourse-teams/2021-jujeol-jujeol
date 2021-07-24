@@ -10,7 +10,7 @@ interface Props extends ImgHTMLAttributes<HTMLImageElement> {
 const Profile = ({ src, nickname, bio }: Props) => {
   return (
     <Container>
-      <Img src={src} alt="프로필 사진" shape="CIRCLE" size="SMALL" />
+      <Img src={src} alt="프로필 사진" shape="CIRCLE" size="X_SMALL" />
 
       <div>
         <h3>{nickname}</h3>

@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 
 const SIZE = {
-  SMALL: '4.5rem',
+  X_SMALL: '4.5rem',
+  SMALL: '5.5rem',
   MEDIUM: '6.5rem',
   LARGE: '7rem',
   X_LARGE: '8.5rem',
