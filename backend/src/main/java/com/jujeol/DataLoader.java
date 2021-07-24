@@ -58,22 +58,22 @@ public class DataLoader implements CommandLineRunner {
         memberRepository.save(member);
 
         // Review Data
-        reviewRepository.save(Review.from("정말 맛있어요! - 소롱", stella, member));
-        reviewRepository.save(Review.from("평범해요 - 크로플", stella, member));
-        reviewRepository.save(Review.from("전 이건 좀.. - 나봄", stella, member));
-        reviewRepository.save(Review.from("ㅋㅋ 리뷰 - 웨지", stella, member));
-        reviewRepository.save(Review.from("너무 비싸요 - 피카", stella, member));
-        reviewRepository.save(Review.from("내가 대장이다 - 서니", stella, member));
-        reviewRepository.save(Review.from("나는 행운의 여신 - 티케", stella, member));
-        reviewRepository.save(Review.from("나는 프의백 - 소롱", stella, member));
-        reviewRepository.save(Review.from("배고파 - 피카", stella, member));
-        reviewRepository.save(Review.from("오늘도 멋진하루 - 웨지", stella, member));
-        reviewRepository.save(Review.from("멀티 모듈 - 나봄", stella, member));
-        reviewRepository.save(Review.from("정말 맛있어요! - 소롱", stella, member));
+        reviewRepository.save(Review.create("정말 맛있어요! - 소롱", stella, member));
+        reviewRepository.save(Review.create("평범해요 - 크로플", stella, member));
+        reviewRepository.save(Review.create("전 이건 좀.. - 나봄", stella, member));
+        reviewRepository.save(Review.create("ㅋㅋ 리뷰 - 웨지", stella, member));
+        reviewRepository.save(Review.create("너무 비싸요 - 피카", stella, member));
+        reviewRepository.save(Review.create("내가 대장이다 - 서니", stella, member));
+        reviewRepository.save(Review.create("나는 행운의 여신 - 티케", stella, member));
+        reviewRepository.save(Review.create("나는 프의백 - 소롱", stella, member));
+        reviewRepository.save(Review.create("배고파 - 피카", stella, member));
+        reviewRepository.save(Review.create("오늘도 멋진하루 - 웨지", stella, member));
+        reviewRepository.save(Review.create("멀티 모듈 - 나봄", stella, member));
+        reviewRepository.save(Review.create("정말 맛있어요! - 소롱", stella, member));
 
-        reviewRepository.save(Review.from("난 너무 예뼈 - 소롱", kgb, member));
-        reviewRepository.save(Review.from("나도 이뻐 - 티케", kgb, member));
-        reviewRepository.save(Review.from(" ㅋ - 서니", kgb, member));
-        reviewRepository.save(Review.from("정말 맛있어요! - 소롱", kgb, member));
+        reviewRepository.save(Review.create("난 너무 예뼈 - 소롱", kgb, member));
+        reviewRepository.save(Review.create("나도 이뻐 - 티케", kgb, member));
+        reviewRepository.save(Review.create(" ㅋ - 서니", kgb, member));
+        reviewRepository.save(Review.create("정말 맛있어요! - 소롱", kgb, member));
     }
 }

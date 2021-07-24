@@ -49,11 +49,11 @@ public class MemberInfoRepositoryTest {
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         Drink drink = drinkRepository.save(stella);
 
-        Review review1 = Review.from("리뷰 1", drink, savedMember);
-        Review review2 = Review.from("리븊 2", drink, savedMember);
-        Review review3 = Review.from("리븊 3", drink, savedMember);
-        Review review4 = Review.from("리뷰 4", drink, savedMember);
-        Review review5 = Review.from("리뷰 5", drink, savedMember);
+        Review review1 = Review.create("리뷰 1", drink, savedMember);
+        Review review2 = Review.create("리븊 2", drink, savedMember);
+        Review review3 = Review.create("리븊 3", drink, savedMember);
+        Review review4 = Review.create("리뷰 4", drink, savedMember);
+        Review review5 = Review.create("리뷰 5", drink, savedMember);
         List<Review> reviews = reviewRepository
                 .saveAll(List.of(review1, review2, review3, review4, review5));
 
