@@ -17,6 +17,6 @@ public class AdminDrinkRequest {
     private Long categoryId;
 
     public DrinkRequestDto toDto() {
-        return DrinkRequestDto.of(name, englishName, alcoholByVolume, imageUrl, categoryId);
+        return DrinkRequestDto.create(name, englishName, alcoholByVolume, imageUrl, categoryId);
     }
 }

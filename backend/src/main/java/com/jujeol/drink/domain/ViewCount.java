@@ -1,6 +1,5 @@
 package com.jujeol.drink.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,6 +31,10 @@ public class ViewCount {
         return new ViewCount(null, viewCount, null);
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public Long getViewCount() {
         return viewCount;
     }
@@ -40,7 +43,7 @@ public class ViewCount {
         return drink;
     }
 
-    public void updateViewCount(){
+    public void updateViewCount() {
         viewCount += 1;
     }
 }

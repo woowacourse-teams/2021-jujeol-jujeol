@@ -1,8 +1,9 @@
-package com.jujeol.drink.domain;
+package com.jujeol.drink.domain.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.jujeol.drink.domain.repository.DrinkRepository;
+import com.jujeol.drink.domain.Category;
+import com.jujeol.drink.domain.Drink;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
@@ -21,14 +22,18 @@ public class DrinkRepositoryTest {
     @Autowired
     private DrinkRepository drinkRepository;
     @Autowired
+    private CategoryRepository categoryRepository;
+    @Autowired
     private TestEntityManager testEntityManager;
+
 
     @Test
     void findAllOrderByViewCountTest() {
+        Category BEER = categoryRepository.save(Category.create("맥주"));
         Drink stella = Drink.create(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", BEER);
         Drink kgb = Drink.create(
-                "KGB", "", 3.5, "KakaoTalk_Image_2021-07-08-19-58-09_002.png", Category.BEER);
+                "KGB", "", 3.5, "KakaoTalk_Image_2021-07-08-19-58-09_002.png", BEER);
         Drink saveStella = drinkRepository.save(stella);
         Drink saveKgb = drinkRepository.save(kgb);
 

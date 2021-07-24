@@ -1,6 +1,7 @@
 package com.jujeol.drink.application;
 
 import com.jujeol.drink.domain.Drink;
+import com.jujeol.drink.domain.ViewCount;
 import com.jujeol.drink.domain.repository.ViewCountRepository;
 import com.jujeol.drink.exception.NotFoundViewCountException;
 import lombok.AllArgsConstructor;
@@ -20,4 +21,10 @@ public class ViewCountService {
                 .orElseThrow(NotFoundViewCountException::new);
         drink.updateViewCount();
     }
+
+    @Transactional
+    public ViewCount insert(ViewCount viewCount) {
+        return viewCountRepository.save(viewCount);
+    }
 }
+

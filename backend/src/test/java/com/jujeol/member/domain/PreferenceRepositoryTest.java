@@ -40,15 +40,13 @@ public class PreferenceRepositoryTest {
 
     private Drink savedDrink;
     private Member savedMember;
+    private Category BEER;
 
     @BeforeEach
     void setUp() {
-
-        Category BEER = categoryRepository.save(Category.create("맥주"));
-        Drink stella = Drink.from(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
+        BEER = categoryRepository.save(Category.create("맥주"));
         Drink stella = Drink.create(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", BEER);
         savedDrink = drinkRepository.save(stella);
 
         Member member = Member.from(Provider.of("1234", ProviderName.TEST));
@@ -111,7 +109,7 @@ public class PreferenceRepositoryTest {
         Member member = Member.from(Provider.of("5678", ProviderName.TEST));
         Member savedMember2 = memberRepository.save(member);
         Drink apple = Drink.create(
-                "애플", "Apple", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", Category.BEER);
+                "애플", "Apple", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", BEER);
         Drink savedDrink2 = drinkRepository.save(apple);
 
         Preference preference1 = Preference.from(savedMember, savedDrink, 2.0);

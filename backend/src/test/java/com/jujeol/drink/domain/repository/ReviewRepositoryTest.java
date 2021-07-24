@@ -54,8 +54,8 @@ public class ReviewRepositoryTest {
     @Test
     void saveDrinkAndReview() {
         //given
-        Drink stella = Drink.from(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
+        Drink stella = Drink.create(
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
         Review review = Review.create("아주 맛있네요!", stella, member);
@@ -76,10 +76,8 @@ public class ReviewRepositoryTest {
     @Test
     public void delete() {
         //given
-        Drink stella = Drink.from(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink stella = Drink.create(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
         Review review = Review.create("아주 맛있네요!", stella, member);
@@ -103,10 +101,8 @@ public class ReviewRepositoryTest {
     @Test
     public void update() {
         //given
-        Drink stella = Drink.from(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink stella = Drink.create(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
         Review review = Review.create("아주 맛있네요!", stella, member);
@@ -129,10 +125,8 @@ public class ReviewRepositoryTest {
     @Test
     void findAllByDrinkId() {
         //given
-        Drink stella = Drink.from(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink stella = Drink.create(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
         Review saveReview1 = reviewRepository.save(Review.create("아주 맛있네요!", stella, member));
@@ -155,10 +149,8 @@ public class ReviewRepositoryTest {
     @Test
     public void findFirstByDrinkIdAndMemberId() {
         //given
-        Drink stella = Drink.from(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink stella = Drink.create(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
         Member member2 = Member.from(Provider.of("1234", ProviderName.TEST));
@@ -175,6 +167,6 @@ public class ReviewRepositoryTest {
                 .findByDrinkIdAndMemberId(saveDrink.getId(), member.getId(), Pageable.ofSize(1));
 
         //then
-        assertThat(byDrinkIdAndMemberId).containsExactly(saveReview2);
+        assertThat(byDrinkIdAndMemberId).containsExactly(saveReview1);
     }
 }

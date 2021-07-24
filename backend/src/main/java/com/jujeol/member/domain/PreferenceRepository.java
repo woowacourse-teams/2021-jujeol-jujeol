@@ -15,7 +15,9 @@ public interface PreferenceRepository extends JpaRepository<Preference, Long> {
     @Modifying
     void deleteByMemberIdAndDrinkId(Long memberId, Long drinkId);
 
-    @Query("select distinct d from Preference p join p.drink d "
-            + "where (select avg(p.rate) from p where p.drink = d) > 2")
+    @Query(value = "select distinct d from Preference p join p.drink d "
+            + "where (select avg(p.rate) from p where p.drink = d) > 2",
+            countQuery = "select distinct d from Preference p join p.drink d "
+                    + "where (select avg(p.rate) from p where p.drink = d) > 2")
     Page<Drink> findAllOrderByPreference(Pageable pageable);
 }

@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -55,6 +54,26 @@ public class Drink {
             String englishName,
             Double alcoholByVolume,
             String imageUrl,
+            Category category
+    ) {
+        return new Drink(
+                null,
+                new DrinkName(name),
+                new DrinkEnglishName(englishName),
+                new AlcoholByVolume(alcoholByVolume),
+                new ImageFilePath(imageUrl),
+                category,
+                0.0,
+                new ArrayList<>(),
+                ViewCount.create(0L)
+        );
+    }
+
+    public static Drink create(
+            String name,
+            String englishName,
+            Double alcoholByVolume,
+            String imageUrl,
             Double preferenceAvg,
             Category category
     ) {
@@ -71,6 +90,28 @@ public class Drink {
         );
     }
 
+    public static Drink create(
+            String name,
+            String englishName,
+            Double alcoholByVolume,
+            String imageUrl,
+            Double preferenceAvg,
+            Category category,
+            ViewCount viewCount
+    ) {
+        return new Drink(
+                null,
+                new DrinkName(name),
+                new DrinkEnglishName(englishName),
+                new AlcoholByVolume(alcoholByVolume),
+                new ImageFilePath(imageUrl),
+                category,
+                preferenceAvg,
+                new ArrayList<>(),
+                viewCount
+        );
+    }
+
     public void addReview(Review review) {
         review.toDrink(this);
         reviews.add(review);
@@ -80,7 +121,7 @@ public class Drink {
         reviews.remove(review);
     }
 
-    public void updateViewCount(){
+    public void updateViewCount() {
         viewCount.updateViewCount();
     }
 

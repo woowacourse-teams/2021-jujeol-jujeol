@@ -1,6 +1,5 @@
 package com.jujeol.drink.application;
 
-import com.jujeol.admin.ui.dto.CategoryRequestDto;
 import static com.jujeol.drink.domain.RecommendationTheme.PREFERENCE;
 import static com.jujeol.drink.domain.RecommendationTheme.VIEW_COUNT;
 
@@ -8,8 +7,9 @@ import com.jujeol.drink.application.dto.DrinkDto;
 import com.jujeol.drink.application.dto.DrinkRequestDto;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.RecommendationTheme;
+import com.jujeol.drink.domain.ViewCount;
+import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.exception.NotFoundCategoryException;
 import com.jujeol.drink.exception.NotFoundDrinkException;
@@ -18,7 +18,6 @@ import com.jujeol.member.domain.Preference;
 import com.jujeol.member.domain.PreferenceRepository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -79,10 +78,11 @@ public class DrinkService {
         final List<Drink> drinks = new ArrayList<>();
 
         for (DrinkRequestDto drinkRequest : drinkRequests) {
-            Category category = categoryRepository.findById(drinkRequest.getCategoryId()).orElseThrow(NotFoundCategoryException::new);
-            drinks.add(drinkRequest.toEntity(category));
+            Category category = categoryRepository.findById(drinkRequest.getCategoryId())
+                    .orElseThrow(NotFoundCategoryException::new);
+            ViewCount viewCount = viewCountService.insert(ViewCount.create(0L));
+            drinks.add(drinkRequest.toEntity(category, viewCount));
         }
-
         drinkRepository.batchInsert(drinks);
     }
 
@@ -90,7 +90,8 @@ public class DrinkService {
     public void updateDrink(Long id, DrinkRequestDto drinkRequest) {
         final Drink drink = drinkRepository.findById(id).orElseThrow(NotFoundDrinkException::new);
 
-        Category category = categoryRepository.findById(drinkRequest.getCategoryId()).orElseThrow(NotFoundCategoryException::new);
+        Category category = categoryRepository.findById(drinkRequest.getCategoryId())
+                .orElseThrow(NotFoundCategoryException::new);
 
         drink.updateInfo(
                 drinkRequest.getName(),
