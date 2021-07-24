@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
 import { useHistory, useParams } from 'react-router-dom';
 import API from 'src/apis/requests';
 import Property from 'src/components/Property/Property';
@@ -20,6 +20,7 @@ const defaultDrinkDetail = {
   },
   alcoholByVolume: 0,
   preferenceRate: 0.0,
+  preferenceAvg: 0.0,
 };
 
 const DrinksDetailPage = () => {
@@ -38,6 +39,7 @@ const DrinksDetailPage = () => {
     category: { id: categoryId, name: categoryName },
     alcoholByVolume,
     preferenceRate,
+    preferenceAvg,
   } = drinkInfo;
 
   const DrinkQuery = useQuery('drink-detail', () => API.getDrink<string>(drinkId), {
@@ -115,6 +117,9 @@ const DrinksDetailPage = () => {
             onClick={onCheckLoggedIn}
             onTouchEnd={onUpdatePreference}
           />
+          <p>
+            다른 사람들은 평균적으로 <span>{preferenceAvg ?? '0'}</span>점을 줬어요
+          </p>
         </PreferenceSection>
 
         <DescriptionSection>

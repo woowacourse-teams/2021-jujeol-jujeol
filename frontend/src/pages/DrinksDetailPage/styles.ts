@@ -29,6 +29,10 @@ const PreferenceSection = styled.section`
       font-size: 1.4rem;
     }
   }
+
+  p {
+    margin-top: 1rem;
+  }
 `;
 
 const DescriptionSection = styled.section`
