@@ -61,12 +61,20 @@ public class DrinkService {
     public void insertDrinks(List<AdminDrinkRequestDto> drinkRequests) {
         final List<Drink> drinks = new ArrayList<>();
 
+        List<Category> categories = categoryRepository.findAll();
         for (AdminDrinkRequestDto drinkRequest : drinkRequests) {
-            Category category = categoryRepository.findById(drinkRequest.getCategoryId()).orElseThrow(NotFoundCategoryException::new);
+            Category category = findCategory(categories, drinkRequest.getCategoryId());
             drinks.add(drinkRequest.toEntity(category));
         }
 
         drinkRepository.batchInsert(drinks);
+    }
+
+    private Category findCategory(List<Category> categories, Long categoryId) {
+        return categories.stream()
+                .filter(category -> category.isEqual(categoryId))
+                .findAny()
+                .orElseThrow(NotFoundCategoryException::new);
     }
 
     @Transactional
