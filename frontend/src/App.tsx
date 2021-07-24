@@ -10,6 +10,7 @@ import MyPage from './pages/MyPage';
 import ViewAllPage from './pages/ViewAllPage/ViewAllPage';
 import MyDrinksPage from './pages/MyDrinksPage';
 import { MainContainer } from './styles';
+import MyReviewsPage from './pages/MyReviewsPage';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
               <Route exact path={`${PATH.DRINKS}/:id`} component={DrinksDetailPage} />
               <Route exact path={[PATH.MYPAGE]} component={MyPage} />
               <Route exact path={[PATH.MY_DRINKS]} component={MyDrinksPage} />
+              <Route exact path={[PATH.MY_REVIEWS]} component={MyReviewsPage} />
               <Redirect to={PATH.ROOT} />
             </Switch>
           </MainContainer>
