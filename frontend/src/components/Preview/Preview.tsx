@@ -1,12 +1,16 @@
+import { useHistory } from 'react-router-dom';
 import ArrowButton from '../@shared/ArrowButton/ArrowButton';
 import { PreviewSection } from './Preview.styles';
 
 interface Props {
   title: string;
+  path: string;
   children: React.ReactNode;
 }
 
-const Preview = ({ title, children }: Props) => {
+const Preview = ({ title, path, children }: Props) => {
+  const history = useHistory();
+
   return (
     <PreviewSection>
       <div>
@@ -17,6 +21,7 @@ const Preview = ({ title, children }: Props) => {
           dir="RIGHT"
           size="0.4rem"
           borderSize="0.0625rem"
+          onClick={() => history.push(path)}
         />
       </div>
       {children}

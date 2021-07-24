@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import Flex from 'src/styles/Flex';
 
 const PreviewSection = styled.section`
   width: 100%;
@@ -8,9 +9,7 @@ const PreviewSection = styled.section`
   margin: 0.5rem 0;
 
   div {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
+    ${Flex({ justifyContent: 'space-between', alignItems: 'start' })};
 
     h3 {
       font-size: 1.1rem;
