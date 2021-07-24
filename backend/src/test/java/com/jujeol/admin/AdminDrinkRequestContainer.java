@@ -42,7 +42,6 @@ public class AdminDrinkRequestContainer {
     }
 
     public static AdminDrinkRequest tsingtao() {
-
         return TSINGTAO;
     }
 

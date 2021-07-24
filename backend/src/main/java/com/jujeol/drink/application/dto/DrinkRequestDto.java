@@ -23,6 +23,7 @@ public class DrinkRequestDto {
     }
 
     public Drink toEntity() {
-        return Drink.from(name, englishName, alcoholByVolume, imageUrl, Category.matches(category));
+        return Drink
+                .from(name, englishName, alcoholByVolume, imageUrl, Category.matches(category), 0L);
     }
 }

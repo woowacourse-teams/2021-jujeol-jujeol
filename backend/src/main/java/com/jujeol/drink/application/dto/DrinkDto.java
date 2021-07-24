@@ -20,6 +20,7 @@ public class DrinkDto {
     private String imageUrl;
     private String category;
     private double preferenceRate;
+    private Long viewCount;
 
     public static DrinkDto from(
             Drink drink,
@@ -32,7 +33,8 @@ public class DrinkDto {
                 drink.getAlcoholByVolume(),
                 fileServerUrl + "/" + drink.getImageFilePath(),
                 drink.getCategory(),
-                preference.getRate()
+                preference.getRate(),
+                drink.getViewCount().getViewCount()
         );
     }
 }

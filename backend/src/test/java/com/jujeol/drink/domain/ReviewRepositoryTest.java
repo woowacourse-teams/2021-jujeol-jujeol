@@ -41,7 +41,6 @@ public class ReviewRepositoryTest {
 
     @BeforeEach
     void setUp() {
-
         Member createMember = Member.from(Provider.of("1234", ProviderName.TEST));
         member = memberRepository.save(createMember);
     }
@@ -51,7 +50,8 @@ public class ReviewRepositoryTest {
     void saveDrinkAndReview() {
         //given
         Drink stella = Drink.from(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER,
+                0L);
         Drink saveDrink = drinkRepository.save(stella);
 
         Review review = Review.from("아주 맛있네요!", stella, member);
@@ -73,7 +73,8 @@ public class ReviewRepositoryTest {
     public void delete() {
         //given
         Drink stella = Drink.from(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER,
+                0L);
         Drink saveDrink = drinkRepository.save(stella);
 
         Review review = Review.from("아주 맛있네요!", stella, member);
@@ -98,7 +99,8 @@ public class ReviewRepositoryTest {
     public void update() {
         //given
         Drink stella = Drink.from(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER,
+                0L);
         Drink saveDrink = drinkRepository.save(stella);
 
         Review review = Review.from("아주 맛있네요!", stella, member);
@@ -122,7 +124,8 @@ public class ReviewRepositoryTest {
     void findAllByDrinkId() {
         //given
         Drink stella = Drink.from(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER,
+                0L);
         Drink saveDrink = drinkRepository.save(stella);
 
         Review saveReview1 = reviewRepository.save(Review.from("아주 맛있네요!", stella, member));
@@ -152,8 +155,8 @@ public class ReviewRepositoryTest {
         Member member2 = Member.from(Provider.of("1234", ProviderName.TEST));
         Member saveMember2 = memberRepository.save(memberRepository.save(member2));
 
-        Review saveReview1 = reviewRepository.save(Review.from("아주 맛있네요!", stella, member));
-        Review saveReview2 = reviewRepository.save(Review.from("평범해요.", stella, member));
+        Review saveReview1 = reviewRepository.save(Review.from("아주 맛있네요!", saveDrink, member));
+        Review saveReview2 = reviewRepository.save(Review.from("평범해요.", saveDrink, member));
         Review saveReview3 = reviewRepository.save(
                 Review.from("이건 좀...", stella, saveMember2)
         );

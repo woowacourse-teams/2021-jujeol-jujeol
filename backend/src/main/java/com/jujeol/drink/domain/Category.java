@@ -3,7 +3,6 @@ package com.jujeol.drink.domain;
 import com.jujeol.drink.exception.NotFoundCategoryException;
 import java.util.Arrays;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public enum Category {
@@ -21,7 +20,8 @@ public enum Category {
 
     public static Category matches(String category) {
         return Arrays.stream(values())
-                .filter(cat -> cat.toString().equalsIgnoreCase(category) || cat.getName().equalsIgnoreCase(category))
+                .filter(cat -> cat.toString().equalsIgnoreCase(category) || cat.getName()
+                        .equalsIgnoreCase(category))
                 .findAny()
                 .orElseThrow(NotFoundCategoryException::new);
     }
