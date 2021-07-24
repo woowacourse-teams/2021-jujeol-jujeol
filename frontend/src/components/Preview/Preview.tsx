@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router-dom';
 import ArrowButton from '../@shared/ArrowButton/ArrowButton';
-import { PreviewSection } from './Preview.styles';
+import { PreviewSection, Header } from './Preview.styles';
 
 interface Props {
   title: string;
@@ -13,7 +13,7 @@ const Preview = ({ title, path, children }: Props) => {
 
   return (
     <PreviewSection>
-      <div>
+      <Header>
         <h3>{title}</h3>
         <ArrowButton
           name="더보기"
@@ -23,7 +23,7 @@ const Preview = ({ title, path, children }: Props) => {
           borderSize="0.0625rem"
           onClick={() => history.push(path)}
         />
-      </div>
+      </Header>
       {children}
     </PreviewSection>
   );
