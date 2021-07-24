@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 
-const Horizontal = styled.div<{ marginLeft: string; paddingLeft: string }>`
-  ${({ marginLeft }) => marginLeft && `margin-left: ${marginLeft}`};
-  ${({ paddingLeft }) => paddingLeft && `padding-left: ${paddingLeft}`};
+const Horizontal = styled.div<{ margin: string; padding: string }>`
+  ${({ margin }) => margin && `margin: ${margin}`};
+  ${({ padding }) => padding && `padding: ${padding}`};
 
   overflow-x: auto;
   scroll-behavior: smooth;
