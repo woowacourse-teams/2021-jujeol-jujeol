@@ -39,6 +39,8 @@ const Title = styled.p`
 `;
 
 const Content = styled.p`
+  margin-top: 0.3rem;
+
   font-size: 0.9rem;
   line-height: 1.5;
 

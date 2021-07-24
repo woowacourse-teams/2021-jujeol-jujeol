@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { useContext } from 'react';
-import { useQuery } from 'react-query';
+import { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useQuery } from 'react-query';
+
 import API from 'src/apis/requests';
 import ArrowButton from 'src/components/@shared/ArrowButton/ArrowButton';
 import Grid from 'src/components/@shared/Grid/Grid';
@@ -17,7 +17,30 @@ import { Header, Statistics } from './styles';
 
 const MyPage = () => {
   const history = useHistory();
+
   const { userData, isLoggedIn, getUser } = useContext(UserContext);
+
+  const [myDrinks, setMyDrinks] = useState([]);
+  const [myReviews, setMyReviews] = useState([]);
+  const [totalMyDrinks, setTotalMyDrinks] = useState(0);
+  const [totalReviews, setTotalReviews] = useState(0);
+
+  const myDrinksQuery = useQuery('my-drinks', API.getMyDrinks, {
+    retry: 0,
+    onSuccess: ({ data, pageInfo }) => {
+      console.log(data);
+      setMyDrinks(data);
+      setTotalMyDrinks(pageInfo.totalSize);
+    },
+  });
+
+  const myReviewsQuery = useQuery('my-reviews', API.getMyReviews, {
+    retry: 0,
+    onSuccess: ({ data, pageInfo }) => {
+      setMyReviews(data);
+      setTotalReviews(pageInfo.totalSize);
+    },
+  });
 
   useEffect(() => {
     getUser();
@@ -38,11 +61,11 @@ const MyPage = () => {
 
       <Statistics>
         <li>
-          <p>43개</p>
+          <p>{totalMyDrinks}개</p>
           <p>내가 마신 술</p>
         </li>
         <li>
-          <p>15개</p>
+          <p>{totalReviews}개</p>
           <p>내가 남긴 리뷰</p>
         </li>
       </Statistics>
@@ -50,8 +73,8 @@ const MyPage = () => {
       <Preview title="내가 마신 술" path={PATH.MY_DRINKS}>
         <Horizontal margin="0 -1.5rem" padding="0 1.5rem">
           <Grid col={7} colGap="1rem">
-            {Array.from({ length: 7 }).map((_, index) => (
-              <MyDrinkItem key={index} size="LARGE" />
+            {myDrinks?.map((myDrink: MyDrink.MyDrinkItem) => (
+              <MyDrinkItem key={myDrink.id} size="LARGE" drink={myDrink} />
             ))}
           </Grid>
         </Horizontal>
@@ -59,8 +82,8 @@ const MyPage = () => {
 
       <Preview title="내가 남긴 리뷰" path={PATH.MY_REVIEWS}>
         <ul>
-          {Array.from({ length: 3 }).map((_, index) => (
-            <MyReviewItem key={index} />
+          {myReviews?.map((myReview: MyReview.MyReviewItem) => (
+            <MyReviewItem key={myReview.id} review={myReview} />
           ))}
         </ul>
       </Preview>

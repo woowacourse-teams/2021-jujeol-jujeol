@@ -1,11 +1,14 @@
-import React from 'react';
 import PersonalReviewCard from 'src/components/Card/PersonalReviewCard';
 import { Item } from './MyReviewItem.styles';
 
-const MyReviewItem = () => {
+interface Props {
+  review: MyReview.MyReviewItem;
+}
+
+const MyReviewItem = ({ review }: Props) => {
   return (
     <Item>
-      <PersonalReviewCard />
+      <PersonalReviewCard review={review} />
     </Item>
   );
 };

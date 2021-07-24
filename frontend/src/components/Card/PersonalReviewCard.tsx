@@ -3,7 +3,13 @@ import Card from '../@shared/Card/Card';
 import { Img } from '../@shared/Image/Image';
 import TextReview from '../Review/TextReview';
 
-const PersonalReviewCard = () => {
+interface Props {
+  review: MyReview.MyReviewItem;
+}
+
+const PersonalReviewCard = ({ review }: Props) => {
+  const { drink } = review;
+
   return (
     <Card
       width="100%"
@@ -11,13 +17,8 @@ const PersonalReviewCard = () => {
       padding="0.6rem 1.3rem 0.6rem 0.6rem"
       border={`1px solid ${COLOR.PURPLE_100}`}
     >
-      <Img
-        src="http://placehold.it/100x100"
-        alt="리뷰를 입력한 술"
-        shape="ROUND_SQUARE"
-        size="SMALL"
-      />
-      <TextReview />
+      <Img src={drink.imageUrl} alt={drink.name} shape="ROUND_SQUARE" size="SMALL" />
+      <TextReview review={review} />
     </Card>
   );
 };

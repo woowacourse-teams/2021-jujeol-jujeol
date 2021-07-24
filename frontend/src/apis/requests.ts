@@ -74,6 +74,19 @@ const API = {
   deletePreference: <I>(id: I) => {
     return request({ method: 'DELETE' as Method, url: `/members/me/drinks/${id}/preference` });
   },
+
+  getMyReviews: () => {
+    return request({
+      method: 'GET' as Method,
+      url: `/members/me/reviews?size=3`,
+    });
+  },
+  getMyDrinks: () => {
+    return request({
+      method: 'GET' as Method,
+      url: `/members/me/drinks?size=7`,
+    });
+  },
 };
 
 export default API;

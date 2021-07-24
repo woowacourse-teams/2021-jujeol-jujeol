@@ -5,8 +5,9 @@ const Description = styled.div`
   ${Flex({ justifyContent: 'center', alignItems: 'center' })};
 
   span {
-    font-size: 0.8rem;
     margin-left: 0.3rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
   }
 `;
 
