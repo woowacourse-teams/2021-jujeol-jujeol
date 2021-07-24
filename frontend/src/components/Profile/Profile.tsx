@@ -3,11 +3,11 @@ import { Img } from '../@shared/Image/Image';
 import { Container } from './Profile.styles';
 
 interface Props extends ImgHTMLAttributes<HTMLImageElement> {
-  nickname: string;
-  bio: string;
+  nickname?: string;
+  bio?: string;
 }
 
-const Profile = ({ src, nickname, bio }: Props) => {
+const Profile = ({ src, nickname = '', bio = '' }: Props) => {
   return (
     <Container>
       <Img src={src} alt="프로필 사진" shape="CIRCLE" size="X_SMALL" />

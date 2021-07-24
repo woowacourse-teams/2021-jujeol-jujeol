@@ -1,10 +1,15 @@
+import { useEffect } from 'react';
+import { useContext } from 'react';
+import { useQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
+import API from 'src/apis/requests';
 import ArrowButton from 'src/components/@shared/ArrowButton/ArrowButton';
 import Grid from 'src/components/@shared/Grid/Grid';
 import Preview from 'src/components/Preview/Preview';
 import Profile from 'src/components/Profile/Profile';
 import { Horizontal } from 'src/components/Scroll/Horizontal';
 import { PATH } from 'src/constants';
+import UserContext from 'src/contexts/UserContext';
 import MyDrinkItem from '../MyDrinksPage/MyDrinkItem';
 import MyReviewItem from '../MyReviewsPage/MyReviewItem';
 
@@ -12,6 +17,15 @@ import { Header, Statistics } from './styles';
 
 const MyPage = () => {
   const history = useHistory();
+  const { userData, isLoggedIn, getUser } = useContext(UserContext);
+
+  useEffect(() => {
+    getUser();
+
+    if (!isLoggedIn) {
+      history.push(PATH.LOGIN);
+    }
+  }, []);
 
   return (
     <>
@@ -20,7 +34,7 @@ const MyPage = () => {
         <h2>내정보</h2>
       </Header>
 
-      <Profile src="http://placehold.it/72x72" nickname="청바지_122" bio="청춘은 바로 지금" />
+      <Profile src="http://placehold.it/72x72" nickname={userData?.nickname} bio={userData?.bio} />
 
       <Statistics>
         <li>
