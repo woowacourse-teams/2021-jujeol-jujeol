@@ -38,33 +38,34 @@ public class DrinkService {
         RecommendationTheme recommendationTheme = RecommendationTheme.matches(theme);
         if (PREFERENCE.equals(recommendationTheme)) {
             return preferenceRepository.findAllOrderByPreference(pageable)
-                    .map(drink -> DrinkDto.from(drink, Preference.from(drink, 0), fileServerUrl));
+                    .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), fileServerUrl));
         }
         if (VIEW_COUNT.equals(recommendationTheme)) {
             return drinkRepository.findAllOrderByViewCount(pageable)
-                    .map(drink -> DrinkDto.from(drink, Preference.from(drink, 0), fileServerUrl));
+                    .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), fileServerUrl));
         }
         return drinkRepository.findAll(pageable)
-                .map(drink -> DrinkDto.from(drink, Preference.from(drink, 0), fileServerUrl));
+                .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), fileServerUrl));
     }
 
+    @Transactional
     public DrinkDto showDrinkDetail(Long id) {
         Drink drink = drinkRepository.findById(id)
                 .orElseThrow(NotFoundDrinkException::new);
         Preference preference = Preference.from(drink, 0.0);
         viewCountService.updateViewCount(drink);
-        return DrinkDto.from(drink, preference, fileServerUrl);
+        return DrinkDto.create(drink, preference, fileServerUrl);
     }
 
+    @Transactional
     public DrinkDto showDrinkDetail(Long drinkId, Long memberId) {
         Drink drink = drinkRepository.findById(drinkId)
                 .orElseThrow(NotFoundDrinkException::new);
-
         Preference preference = preferenceRepository
                 .findByMemberIdAndDrinkId(memberId, drinkId)
                 .orElseGet(() -> Preference.from(Member.from(memberId), drink, 0.0));
         viewCountService.updateViewCount(drink);
-        return DrinkDto.from(drink, preference, fileServerUrl);
+        return DrinkDto.create(drink, preference, fileServerUrl);
     }
 
     @Transactional

@@ -46,27 +46,7 @@ public class Drink {
     @JoinColumn(name = "view_count_id")
     private ViewCount viewCount;
 
-    public static Drink from(
-            String name,
-            String englishName,
-            Double alcoholByVolume,
-            String imageUrl,
-            Category category,
-            Long viewCount
-    ) {
-        return new Drink(
-                null,
-                new DrinkName(name),
-                new DrinkEnglishName(englishName),
-                new AlcoholByVolume(alcoholByVolume),
-                new ImageFilePath(imageUrl),
-                category,
-                new ArrayList<>(),
-                ViewCount.create(viewCount)
-        );
-    }
-
-    public static Drink from(
+    public static Drink create(
             String name,
             String englishName,
             Double alcoholByVolume,
@@ -94,9 +74,8 @@ public class Drink {
         reviews.remove(review);
     }
 
-    public void updateViewCount(ViewCount viewCount){
+    public void updateViewCount(){
         viewCount.updateViewCount();
-        this.viewCount.updateViewCount();
     }
 
     public String getName() {

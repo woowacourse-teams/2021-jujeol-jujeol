@@ -2,8 +2,8 @@ package com.jujeol;
 
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.domain.Review;
+import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.domain.repository.ReviewRepository;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
@@ -46,25 +46,25 @@ public class TestDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Drink stella = Drink.from(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER, 0L);
-        Drink kgb = Drink.from(
-                "KGB", "", 3.5, "KakaoTalk_Image_2021-07-08-19-58-09_002.png", Category.BEER, 0L);
-        Drink estp = Drink.from(
-                "ESTP", "", 7.5, "KakaoTalk_Image_2021-07-08-19-58-11_003.png", Category.BEER, 0L);
-        Drink tiger_rad = Drink.from(
+        Drink stella = Drink.create(
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+        Drink kgb = Drink.create(
+                "KGB", "", 3.5, "KakaoTalk_Image_2021-07-08-19-58-09_002.png", Category.BEER);
+        Drink estp = Drink.create(
+                "ESTP", "", 7.5, "KakaoTalk_Image_2021-07-08-19-58-11_003.png", Category.BEER);
+        Drink tiger_rad = Drink.create(
                 "타이거 라들러 자몽", "Tiger_Rad", 9.5, "KakaoTalk_Image_2021-07-08-19-58-15_004.png",
-                Category.BEER, 0L);
-        Drink tsingtao = Drink.from(
+                Category.BEER);
+        Drink tsingtao = Drink.create(
                 "칭따오", "TSINGTAO", 12.0, "KakaoTalk_Image_2021-07-08-19-58-18_005.png",
-                Category.BEER, 0L);
-        Drink apple = Drink.from(
-                "애플", "Apple", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", Category.BEER, 0L);
-        Drink ob = Drink.from(
-                "오비", "OB", 85.0, "KakaoTalk_Image_2021-07-08-19-58-22_007.png", Category.BEER, 0L);
-        Drink tigerLemon = Drink.from(
+                Category.BEER);
+        Drink apple = Drink.create(
+                "애플", "Apple", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", Category.BEER);
+        Drink ob = Drink.create(
+                "오비", "OB", 85.0, "KakaoTalk_Image_2021-07-08-19-58-22_007.png", Category.BEER);
+        Drink tigerLemon = Drink.create(
                 "타이거 라들러 레몬", "Tiger_Lemon", 4.5, "KakaoTalk_Image_2021-07-08-19-58-22_008.png",
-                Category.BEER, 0L);
+                Category.BEER);
 
         List<Drink> beers = Arrays.asList(
                 stella, kgb, estp, tiger_rad, tsingtao, apple, ob, tigerLemon);
@@ -81,19 +81,19 @@ public class TestDataLoader implements CommandLineRunner {
 
         PREFERENCE = preferenceRepository.save(Preference.from(MEMBER, stella, 3.5));
 
-        Review review1 = Review.from("천재 윤피카", stella, MEMBER);
-        Review review2 = Review.from("천재 크로플", stella, MEMBER);
-        Review review3 = Review.from("천재 나봄", stella, MEMBER);
-        Review review4 = Review.from("천재 소롱", stella, MEMBER);
-        Review review5 = Review.from("천재 소롱", stella, MEMBER);
-        Review review6 = Review.from("천재 소롱", stella, MEMBER);
-        Review review7 = Review.from("천재 소롱", stella, MEMBER);
-        Review review8 = Review.from("천재 소롱", stella, MEMBER);
-        Review review9 = Review.from("천재 소롱", stella, MEMBER);
-        Review review10 = Review.from("바보 피카", stella, MEMBER2);
-        Review review11 = Review.from("바보 피카", stella, MEMBER2);
-        Review review12 = Review.from("바보 피카", stella, MEMBER2);
-        Review review13 = Review.from("이제.. 끝낼래...", estp, MEMBER);
+        Review review1 = Review.create("천재 윤피카", stella, MEMBER);
+        Review review2 = Review.create("천재 크로플", stella, MEMBER);
+        Review review3 = Review.create("천재 나봄", stella, MEMBER);
+        Review review4 = Review.create("천재 소롱", stella, MEMBER);
+        Review review5 = Review.create("천재 소롱", stella, MEMBER);
+        Review review6 = Review.create("천재 소롱", stella, MEMBER);
+        Review review7 = Review.create("천재 소롱", stella, MEMBER);
+        Review review8 = Review.create("천재 소롱", stella, MEMBER);
+        Review review9 = Review.create("천재 소롱", stella, MEMBER);
+        Review review10 = Review.create("바보 피카", stella, MEMBER2);
+        Review review11 = Review.create("바보 피카", stella, MEMBER2);
+        Review review12 = Review.create("바보 피카", stella, MEMBER2);
+        Review review13 = Review.create("이제.. 끝낼래...", estp, MEMBER);
 
         List<Review> reviews = List.of(
                 review1, review2, review3, review4,

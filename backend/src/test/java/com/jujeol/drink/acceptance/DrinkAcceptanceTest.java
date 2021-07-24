@@ -35,7 +35,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         //then
         List<DrinkSimpleResponse> expectedResult = BEERS.stream()
                 .filter(drink -> drink.getId() < 8)
-                .map(drink -> DrinkDto.from(drink, Preference.from(drink, 0), ""))
+                .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), ""))
                 .map(DrinkSimpleResponse::from)
                 .collect(Collectors.toList());
 
@@ -63,7 +63,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         //then
         List<DrinkSimpleResponse> expectedResult = BEERS.stream()
                 .filter(drink -> drink.getId() == 1)
-                .map(drink -> DrinkDto.from(drink, Preference.from(drink, 0), ""))
+                .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), ""))
                 .map(DrinkSimpleResponse::from)
                 .collect(Collectors.toList());
 
@@ -85,7 +85,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
 
         //then
         DrinkDetailResponse expectedResult = DrinkDetailResponse.from(
-                DrinkDto.from(BEERS.get(0), PREFERENCE, "")
+                DrinkDto.create(BEERS.get(0), PREFERENCE, "")
         );
 
         assertThat(expectedResult).isEqualTo(drinkDetailResponse);
@@ -108,23 +108,5 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         assertThat(body.getCode()).isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getCode());
         assertThat(body.getMessage())
                 .isEqualTo(ExceptionCodeAndDetails.NOT_FOUND_DRINK.getMessage());
-    }
-
-    @DisplayName("단일 조회(조회수 포함) - 성공")
-    @Test
-    public void showDrinkViewCountTest() {
-        //when
-        request()
-                .get("/drinks/1")
-                .build();
-
-        DrinkDetailResponse drinkDetailResponse = request()
-                .get("/drinks/1")
-                .withUser()
-                .build()
-                .convertBody(DrinkDetailResponse.class);
-
-        //then
-        assertThat(drinkDetailResponse.getViewCount()).isEqualTo(2L);
     }
 }

@@ -17,13 +17,13 @@ public class DrinkRequestDto {
     private String imageUrl;
     private String category;
 
-    public static DrinkRequestDto of(String name, String englishName, Double alcoholByVolume,
+    public static DrinkRequestDto create(String name, String englishName, Double alcoholByVolume,
             String imageUrl, String category) {
         return new DrinkRequestDto(name, englishName, alcoholByVolume, imageUrl, category);
     }
 
     public Drink toEntity() {
         return Drink
-                .from(name, englishName, alcoholByVolume, imageUrl, Category.matches(category), 0L);
+                .create(name, englishName, alcoholByVolume, imageUrl, Category.matches(category));
     }
 }

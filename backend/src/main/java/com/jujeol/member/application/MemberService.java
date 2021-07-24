@@ -68,7 +68,7 @@ public class MemberService {
 
     public Page<DrinkDto> findDrinks(Long id, Pageable pageable) {
         return drinkRepository.findAll(pageable)
-                .map(drink -> DrinkDto.from(
+                .map(drink -> DrinkDto.create(
                         drink,
                         Preference.from(drink, 3.5),
                         fileServerUrl
@@ -80,7 +80,7 @@ public class MemberService {
         return reviewRepository.findAll(pageable)
                 .map(review -> ReviewDto.create(
                         review.getId(),
-                        DrinkDto.from(
+                        DrinkDto.create(
                                 review.getDrink(),
                                 Preference.from(review.getDrink(), 3.5),
                                 fileServerUrl

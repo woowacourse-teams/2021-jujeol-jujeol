@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface DrinkRepository extends JpaRepository<Drink, Long>, DrinkCustomRepository {
 
-    @Query("select d from Drink d order by d.viewCount.viewCount")
+    @Query("select d from Drink d order by d.viewCount.viewCount desc")
     Page<Drink> findAllOrderByViewCount(Pageable pageable);
 
 }

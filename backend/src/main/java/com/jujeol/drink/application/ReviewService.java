@@ -40,7 +40,7 @@ public class ReviewService {
 
         validateCreateReviewLimit(loginMemberId, drinkId);
 
-        Review review = Review.from(reviewRequest.getContent(), drink, member);
+        Review review = Review.create(reviewRequest.getContent(), drink, member);
         Review saveReview = reviewRepository.save(review);
         drink.addReview(saveReview);
     }
@@ -61,9 +61,9 @@ public class ReviewService {
 
     public Page<ReviewResponse> showReviews(Long drinkId, Pageable pageable) {
         return reviewRepository.findAllByDrinkId(drinkId, pageable)
-                .map(review -> ReviewResponse.from(
+                .map(review -> ReviewResponse.create(
                         review.getId(),
-                        MemberDto.from(review.getMemberId()),
+                        MemberDto.create(review.getMemberId()),
                         review.getContent(),
                         review.getCreatedAt(),
                         review.getModifiedAt()

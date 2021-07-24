@@ -22,7 +22,7 @@ public class DrinkDto {
     private double preferenceRate;
     private Long viewCount;
 
-    public static DrinkDto from(
+    public static DrinkDto create(
             Drink drink,
             Preference preference,
             String fileServerUrl

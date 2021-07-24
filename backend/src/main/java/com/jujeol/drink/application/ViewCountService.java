@@ -1,28 +1,23 @@
 package com.jujeol.drink.application;
 
 import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.ViewCount;
 import com.jujeol.drink.domain.repository.ViewCountRepository;
+import com.jujeol.drink.exception.NotFoundViewCountException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
-@Transactional(readOnly = true)
 public class ViewCountService {
 
     private final ViewCountRepository viewCountRepository;
 
-    @Transactional
-    public void insertViewCount(ViewCount viewCount) {
-        viewCountRepository.save(viewCount);
-    }
-
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void updateViewCount(Drink drink) {
-        ViewCount viewCount = viewCountRepository.findByDrinkId(drink.getId())
-                .orElseThrow(IllegalArgumentException::new);
-        drink.updateViewCount(viewCount);
+        viewCountRepository.findByDrinkId(drink.getId())
+                .orElseThrow(NotFoundViewCountException::new);
+        drink.updateViewCount();
     }
 }

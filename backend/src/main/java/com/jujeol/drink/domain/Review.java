@@ -42,7 +42,7 @@ public class Review {
 
     private LocalDateTime modifiedAt;
 
-    public static Review from(String content, Drink drink, Member member) {
+    public static Review create(String content, Drink drink, Member member) {
         return new Review(null, new ReviewContent(content), drink, member, null, null);
     }
 

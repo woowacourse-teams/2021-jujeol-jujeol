@@ -1,7 +1,6 @@
 package com.jujeol.drink.domain;
 
 import java.util.Arrays;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter

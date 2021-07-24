@@ -7,7 +7,6 @@ import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.domain.repository.ReviewRepository;
-import com.jujeol.drink.exception.NotFoundDrinkException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,7 +40,7 @@ public class PreferenceRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        Drink stella = Drink.from(
+        Drink stella = Drink.create(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
         savedDrink = drinkRepository.save(stella);
 
@@ -104,7 +103,7 @@ public class PreferenceRepositoryTest {
         //given
         Member member = Member.from(Provider.of("5678", ProviderName.TEST));
         Member savedMember2 = memberRepository.save(member);
-        Drink apple = Drink.from(
+        Drink apple = Drink.create(
                 "애플", "Apple", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", Category.BEER);
         Drink savedDrink2 = drinkRepository.save(apple);
 
@@ -115,9 +114,9 @@ public class PreferenceRepositoryTest {
         preference1 = Preference.from(savedMember, savedDrink2, 2.0);
         preferenceRepository.save(preference1);
 
-        Review review1 = Review.from("아주 맛있네요1", savedDrink2, savedMember);
-        Review review2 = Review.from("아주 맛있네요2", savedDrink2, savedMember2);
-        Review review3 = Review.from("아주 맛있네요3", savedDrink, savedMember);
+        Review review1 = Review.create("아주 맛있네요1", savedDrink2, savedMember);
+        Review review2 = Review.create("아주 맛있네요2", savedDrink2, savedMember2);
+        Review review3 = Review.create("아주 맛있네요3", savedDrink, savedMember);
         Review saveReview1 = reviewRepository.save(review1);
         Review saveReview2 = reviewRepository.save(review2);
         Review saveReview3 = reviewRepository.save(review3);
