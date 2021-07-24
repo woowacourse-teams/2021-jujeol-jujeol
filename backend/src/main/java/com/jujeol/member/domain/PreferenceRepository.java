@@ -3,6 +3,7 @@ package com.jujeol.member.domain;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 public interface PreferenceRepository extends JpaRepository<Preference, Long> {
 
@@ -10,4 +11,7 @@ public interface PreferenceRepository extends JpaRepository<Preference, Long> {
 
     @Modifying
     void deleteByMemberIdAndDrinkId(Long memberId, Long drinkId);
+
+    @Query("SELECT AVG(p.rate) FROM Preference p WHERE p.drink.id = :drinkId")
+    Optional<Double> averageOfPreferenceRate(Long drinkId);
 }

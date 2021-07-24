@@ -29,17 +29,20 @@ public class PreferenceRepositoryTest {
 
     private Drink savedDrink;
     private Member savedMember;
+    private Member savedMember2;
 
     @BeforeEach
     void setUp() {
 
         Category BEER = categoryRepository.save(Category.create("맥주"));
-        Drink stella = Drink.from(
+        Drink stella = Drink.create(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         savedDrink = drinkRepository.save(stella);
 
         Member member = Member.from(Provider.of("1234", ProviderName.TEST));
         savedMember = memberRepository.save(member);
+        Member member2 = Member.from(Provider.of("1234", ProviderName.TEST));
+        savedMember2 = memberRepository.save(member2);
     }
 
     @Test
@@ -90,5 +93,19 @@ public class PreferenceRepositoryTest {
 
         //then
         assertThat(expect.getRate()).isEqualTo(0.0);
+    }
+
+    @DisplayName("선호도 평균 - 성공")
+    @Test
+    void averageOfPreferenceRate() {
+        //given
+        Preference preference1 = Preference.from(savedMember, savedDrink, 2.0);
+        preferenceRepository.save(preference1);
+        Preference preference2 = Preference.from(savedMember2, savedDrink, 4.0);
+        preferenceRepository.save(preference2);
+        //when
+        //then
+        assertThat(preferenceRepository.averageOfPreferenceRate(savedDrink.getId()).get())
+                .isEqualTo(3.0);
     }
 }

@@ -6,6 +6,7 @@ import com.jujeol.AcceptanceTest;
 import com.jujeol.commons.exception.ExceptionCodeAndDetails;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.exception.NotFoundDrinkException;
+import com.jujeol.drink.ui.dto.DrinkDetailResponse;
 import com.jujeol.member.application.dto.MemberResponse;
 import com.jujeol.member.application.dto.PreferenceRequest;
 import com.jujeol.member.exception.UnauthorizedUserException;
@@ -65,8 +66,14 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .build()
                 .totalResponse();
 
+        DrinkDetailResponse drinkDetailResponse = request()
+                .get("/drinks/1")
+                .withUser()
+                .build().convertBody(DrinkDetailResponse.class);
+
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(drinkDetailResponse.getPreferenceAvg()).isEqualTo(4.5);
     }
 
     @Test
@@ -90,8 +97,14 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .build()
                 .totalResponse();
 
+        DrinkDetailResponse drinkDetailResponse = request()
+                .get("/drinks/1")
+                .withUser()
+                .build().convertBody(DrinkDetailResponse.class);
+
         //then
         assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(drinkDetailResponse.getPreferenceAvg()).isEqualTo(3.0);
     }
 
     @Test
@@ -162,8 +175,14 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .build()
                 .totalResponse();
 
+        DrinkDetailResponse drinkDetailResponse = request()
+                .get("/drinks/1")
+                .withUser()
+                .build().convertBody(DrinkDetailResponse.class);
+
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(drinkDetailResponse.getPreferenceAvg()).isEqualTo(0.0);
     }
 
     @Test

@@ -1,8 +1,8 @@
 package com.jujeol.member.config;
 
-import com.jujeol.member.ui.interceptor.LoginInterceptor;
 import com.jujeol.commons.interceptor.PathMatcherInterceptor;
 import com.jujeol.commons.interceptor.PathMethod;
+import com.jujeol.member.ui.interceptor.LoginInterceptor;
 import com.jujeol.member.util.AuthenticationPrincipalArgumentResolver;
 import com.jujeol.member.util.JwtTokenProvider;
 import java.util.List;

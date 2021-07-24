@@ -1,8 +1,7 @@
 package com.jujeol.drink.application;
 
-import com.jujeol.admin.ui.dto.CategoryRequestDto;
+import com.jujeol.drink.application.dto.AdminDrinkRequestDto;
 import com.jujeol.drink.application.dto.DrinkDto;
-import com.jujeol.drink.application.dto.DrinkRequestDto;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.repository.CategoryRepository;
@@ -14,7 +13,6 @@ import com.jujeol.member.domain.Preference;
 import com.jujeol.member.domain.PreferenceRepository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -60,10 +58,10 @@ public class DrinkService {
     }
 
     @Transactional
-    public void insertDrinks(List<DrinkRequestDto> drinkRequests) {
+    public void insertDrinks(List<AdminDrinkRequestDto> drinkRequests) {
         final List<Drink> drinks = new ArrayList<>();
 
-        for (DrinkRequestDto drinkRequest : drinkRequests) {
+        for (AdminDrinkRequestDto drinkRequest : drinkRequests) {
             Category category = categoryRepository.findById(drinkRequest.getCategoryId()).orElseThrow(NotFoundCategoryException::new);
             drinks.add(drinkRequest.toEntity(category));
         }
@@ -72,7 +70,7 @@ public class DrinkService {
     }
 
     @Transactional
-    public void updateDrink(Long id, DrinkRequestDto drinkRequest) {
+    public void updateDrink(Long id, AdminDrinkRequestDto drinkRequest) {
         final Drink drink = drinkRepository.findById(id).orElseThrow(NotFoundDrinkException::new);
 
         Category category = categoryRepository.findById(drinkRequest.getCategoryId()).orElseThrow(NotFoundCategoryException::new);

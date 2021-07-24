@@ -1,7 +1,6 @@
 package com.jujeol.member.ui;
 
 import com.jujeol.commons.dto.CommonResponse;
-import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.application.dto.DrinkDto;
 import com.jujeol.drink.application.dto.ReviewDto;

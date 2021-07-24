@@ -54,7 +54,7 @@ public class ReviewRepositoryTest {
     @Test
     void saveDrinkAndReview() {
         //given
-        Drink stella = Drink.from(
+        Drink stella = Drink.create(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
@@ -76,7 +76,7 @@ public class ReviewRepositoryTest {
     @Test
     public void delete() {
         //given
-        Drink stella = Drink.from(
+        Drink stella = Drink.create(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
@@ -101,7 +101,7 @@ public class ReviewRepositoryTest {
     @Test
     public void update() {
         //given
-        Drink stella = Drink.from(
+        Drink stella = Drink.create(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
@@ -125,7 +125,7 @@ public class ReviewRepositoryTest {
     @Test
     void findAllByDrinkId() {
         //given
-        Drink stella = Drink.from(
+        Drink stella = Drink.create(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
@@ -149,7 +149,7 @@ public class ReviewRepositoryTest {
     @Test
     public void findFirstByDrinkIdAndMemberId() {
         //given
-        Drink stella = Drink.from(
+        Drink stella = Drink.create(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
