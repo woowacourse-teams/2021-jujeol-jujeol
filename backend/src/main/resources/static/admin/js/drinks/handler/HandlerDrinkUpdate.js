@@ -1,6 +1,6 @@
 import {putRequest} from "../../utils/methodFetches.js";
 import drinkTableColumns from "../component/drinkTableColumns.js";
-import {renderDrinksTable, getDrinkDetail} from "../view/drinkTable.js";
+import {getDrinkDetail, renderDrinksTable} from "../view/drinkTable.js";
 import {isEmptyObject} from "../../utils/validator.js";
 
 export const handlerDrinkUpdate = ({target}, drinks) => {

@@ -28,7 +28,7 @@ public class DrinkDetailResponse {
                 drinkDto.getEnglishName(),
                 drinkDto.getAlcoholByVolume(),
                 drinkDto.getImageUrl(),
-                new CategoryResponse(1L, drinkDto.getCategory()),
+                new CategoryResponse(drinkDto.getCategoryId(), drinkDto.getCategory()),
                 drinkDto.getPreferenceRate(),
                 drinkDto.getPreferenceAvg()
         );

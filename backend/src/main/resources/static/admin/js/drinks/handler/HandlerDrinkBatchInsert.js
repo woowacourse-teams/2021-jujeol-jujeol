@@ -1,6 +1,6 @@
 import {postRequest} from "../../utils/methodFetches.js";
 import {$$} from "../../utils/querySelector.js";
-import {renderDrinksTable, getDrinkDetail} from "../view/drinkTable.js";
+import {getDrinkDetail, renderDrinksTable} from "../view/drinkTable.js";
 import {isEmptyObject} from "../../utils/validator.js";
 
 export const HandlerDrinkBatchInsert = ({target}, drinks) => {
