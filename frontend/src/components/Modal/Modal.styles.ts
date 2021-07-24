@@ -20,18 +20,20 @@ const popUp = keyframes`
 `;
 
 const Container = styled.div<{ isOpened: boolean }>`
-  width: 100vw;
+  max-width: 100%;
+  min-width: 100%;
+
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  position: relative;
   visibility: ${({ isOpened }) => (isOpened ? 'visible' : 'hidden')};
   z-index: ${Z_INDEX.MODAL};
 `;
 
 const Content = styled.div<{ isOpened: boolean }>`
-  width: 100vw;
+  max-width: 100%;
+  min-width: 100%;
+
   height: 80vh;
   border-top-right-radius: 1.5rem;
   border-top-left-radius: 1.5rem;

@@ -5,6 +5,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
+import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,14 +29,18 @@ public class PreferenceRepositoryTest {
     private DrinkRepository drinkRepository;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     private Drink savedDrink;
     private Member savedMember;
 
     @BeforeEach
     void setUp() {
+
+        Category BEER = categoryRepository.save(Category.create("맥주"));
         Drink stella = Drink.from(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         savedDrink = drinkRepository.save(stella);
 
         Member member = Member.from(Provider.of("1234", ProviderName.TEST));

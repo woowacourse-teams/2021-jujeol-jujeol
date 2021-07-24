@@ -2,13 +2,14 @@ package com.jujeol.drink.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -34,8 +35,11 @@ public class Drink {
     private AlcoholByVolume alcoholByVolume;
     @Embedded
     private ImageFilePath imageFilePath;
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
+    @Column
+    private Double preferenceAvg;
 
     @OneToMany(mappedBy = "drink")
     private List<Review> reviews = new ArrayList<>();
@@ -45,6 +49,7 @@ public class Drink {
             String englishName,
             Double alcoholByVolume,
             String imageUrl,
+            Double preferenceAvg,
             Category category
     ) {
         return new Drink(
@@ -54,6 +59,7 @@ public class Drink {
                 new AlcoholByVolume(alcoholByVolume),
                 new ImageFilePath(imageUrl),
                 category,
+                preferenceAvg,
                 new ArrayList<>()
         );
     }
@@ -83,8 +89,12 @@ public class Drink {
         return imageFilePath.getImageFilePath();
     }
 
-    public String getCategory() {
-        return category.toString();
+    public Category getCategory() {
+        return category;
+    }
+
+    public Double getPreferenceAvg() {
+        return preferenceAvg;
     }
 
     public List<Review> getReviews() {
@@ -94,12 +104,12 @@ public class Drink {
     public void updateInfo(String name,
             String englishName,
             String imageUrl,
-            String category,
+            Category category,
             Double alcoholByVolume) {
         this.name = new DrinkName(name);
         this.englishName = new DrinkEnglishName(englishName);
         this.imageFilePath = new ImageFilePath(imageUrl);
-        this.category = Category.matches(category);
+        this.category = category;
         this.alcoholByVolume = new AlcoholByVolume(alcoholByVolume);
     }
 }
