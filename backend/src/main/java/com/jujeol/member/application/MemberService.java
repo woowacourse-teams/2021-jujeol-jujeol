@@ -68,7 +68,7 @@ public class MemberService {
 
     public Page<DrinkDto> findDrinks(Long memberId, Pageable pageable) {
         return preferenceRepository.findDrinkUsingPreference(memberId, pageable)
-                .map(drink -> DrinkDto.from(
+                .map(drink -> DrinkDto.create(
                         drink,
                         Preference.from(drink, 3.5),
                         fileServerUrl
@@ -80,7 +80,7 @@ public class MemberService {
         return reviewRepository.findUsingMemberIdOrderByCreatedAtDesc(memberId, pageable)
                 .map(review -> ReviewDto.create(
                         review,
-                        DrinkDto.from(
+                        DrinkDto.create(
                                 review.getDrink(),
                                 Preference.from(review.getDrink(), 3.5),
                                 fileServerUrl

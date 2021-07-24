@@ -1,10 +1,13 @@
 package com.jujeol.member.acceptance;
 
 import static com.jujeol.TestDataLoader.BEERS;
+import static com.jujeol.TestDataLoader.MEMBER;
+import static com.jujeol.TestDataLoader.REVIEWS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
 import com.jujeol.drink.domain.Drink;
+import com.jujeol.drink.domain.Review;
 import com.jujeol.member.application.dto.PreferenceRequest;
 import com.jujeol.member.ui.dto.MemberDrinkResponse;
 import com.jujeol.member.ui.dto.MemberReviewResponse;
@@ -65,6 +68,10 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
     @Test
     public void showReviewsOfMine() {
         //given
+        List<Review> reviews = REVIEWS.stream()
+                .filter(review -> review.getMemberId().equals(MEMBER.getId()))
+                .collect(Collectors.toList());
+
         //when
         List<MemberReviewResponse> responses = request().get("/members/me/reviews")
                 .withDocument("member/info/reviews")
@@ -73,6 +80,7 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
                 .convertBodyToList(MemberReviewResponse.class);
 
         //then
+        assertThat(responses).hasSize(reviews.size());
     }
 
 }
