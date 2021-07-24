@@ -43,7 +43,7 @@ public class MemberInfoRepositoryTest {
 
     @DisplayName("내가 남긴 리뷰 모아보기")
     @Test
-    public void findReviewsByMemberId(){
+    public void findReviewsByMemberId() {
         //given
         Drink stella = Drink.from(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", Category.BEER);
@@ -59,7 +59,7 @@ public class MemberInfoRepositoryTest {
 
         //when
         Page<Review> actualReviews = reviewRepository
-                .findUsingMemberIdOrderByCreatedAtDesc(savedMember.getId(), Pageable.ofSize(10));
+                .findReviewsOfMine(savedMember.getId(), Pageable.ofSize(10));
 
         //then
         List<Long> expectedIds = reviews.stream()
@@ -73,7 +73,7 @@ public class MemberInfoRepositoryTest {
 
     @DisplayName("선호도로 내가 마신 술 모아보기")
     @Test
-    public void findDrinkUsingPreference(){
+    public void findDrinkUsingPreference() {
         //given
         Drink kgb = Drink.from(
                 "KGB", "", 3.5, "KakaoTalk_Image_2021-07-08-19-58-09_002.png", Category.BEER);
@@ -93,11 +93,12 @@ public class MemberInfoRepositoryTest {
 
         //when
         Page<Drink> drinkResponses = preferenceRepository
-                .findDrinkUsingPreference(savedMember.getId(), Pageable.ofSize(10));
+                .findDrinksOfMineWithPreference(savedMember.getId(), Pageable.ofSize(10));
 
         //then
         List<Long> drinkIds = drinks.stream().map(Drink::getId).collect(Collectors.toList());
-        List<Long> actualIds = drinkResponses.stream().map(Drink::getId).collect(Collectors.toList());
+        List<Long> actualIds = drinkResponses.stream().map(Drink::getId)
+                .collect(Collectors.toList());
 
         assertThat(drinkResponses).hasSize(drinks.size());
         assertThat(actualIds).isEqualTo(drinkIds);

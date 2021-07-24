@@ -17,5 +17,5 @@ public interface PreferenceRepository extends JpaRepository<Preference, Long> {
 
     @Query(value = "select p.drink from Preference p inner join Drink d on d.id = p.drink.id where p.member.id = :memberId",
             countQuery = "select p.drink from Preference p inner join Drink d on d.id = p.drink.id where p.member.id = :memberId")
-    Page<Drink> findDrinkUsingPreference(Long memberId, Pageable pageable);
+    Page<Drink> findDrinksOfMineWithPreference(Long memberId, Pageable pageable);
 }
