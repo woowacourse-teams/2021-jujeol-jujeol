@@ -6,6 +6,9 @@ import static com.jujeol.TestDataLoader.REVIEWS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
+import com.jujeol.RequestBuilder.HttpResponse;
+import com.jujeol.commons.dto.CommonResponse;
+import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.Review;
 import com.jujeol.member.application.dto.PreferenceRequest;
@@ -69,13 +72,18 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
                 .collect(Collectors.toList());
 
         //when
-        List<MemberReviewResponse> responses = request().get("/members/me/reviews")
+        HttpResponse response = request().get("/members/me/reviews")
                 .withDocument("member/info/reviews")
                 .withUser()
-                .build()
-                .convertBodyToList(MemberReviewResponse.class);
+                .build();
 
         //then
-        assertThat(responses).hasSize(reviews.size());
+        CommonResponse commonResponse = response.totalResponse().as(CommonResponse.class);
+        PageInfo pageInfo = commonResponse.getPageInfo();
+        List<MemberReviewResponse> reviewResponses = response
+                .convertBodyToList(MemberReviewResponse.class);
+
+        assertThat(pageInfo.getTotalSize()).isEqualTo(reviews.size());
+        assertThat(reviewResponses).hasSize(3);
     }
 }
