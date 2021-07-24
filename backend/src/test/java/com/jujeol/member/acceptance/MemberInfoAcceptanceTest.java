@@ -28,20 +28,9 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
         Drink drink3 = drinks.get(2);
         PreferenceRequest preferenceRequest = new PreferenceRequest(3.5);
 
-        request()
-                .put("/members/me/drinks/" + drink1.getId() + "/preference", preferenceRequest)
-                .withUser()
-                .build();
-
-        request()
-                .put("/members/me/drinks/" + drink2.getId() + "/preference", preferenceRequest)
-                .withUser()
-                .build();
-
-        request()
-                .put("/members/me/drinks/" + drink3.getId() + "/preference", preferenceRequest)
-                .withUser()
-                .build();
+        선호도를_등록한다(drink1, preferenceRequest);
+        선호도를_등록한다(drink2, preferenceRequest);
+        선호도를_등록한다(drink3, preferenceRequest);
 
         //when
         List<MemberDrinkResponse> responses = request().get("/members/me/drinks")
@@ -64,6 +53,13 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
         assertThat(actualIds).isEqualTo(expectedIds);
     }
 
+    private void 선호도를_등록한다(Drink drink1, PreferenceRequest preferenceRequest) {
+        request()
+                .put("/members/me/drinks/" + drink1.getId() + "/preference", preferenceRequest)
+                .withUser()
+                .build();
+    }
+
     @DisplayName("내가 남긴 리뷰 모아보기 - 성공")
     @Test
     public void showReviewsOfMine() {
@@ -82,5 +78,4 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(responses).hasSize(reviews.size());
     }
-
 }
