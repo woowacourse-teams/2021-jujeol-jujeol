@@ -1,13 +1,14 @@
 import { useHistory } from 'react-router-dom';
 import ArrowButton from 'src/components/@shared/ArrowButton/ArrowButton';
-import { Img } from 'src/components/@shared/Image/Image';
-import PersonalReviewCard from 'src/components/Card/PersonalReviewCard';
-import StarIcon from 'src/components/Icons/star';
+import Grid from 'src/components/@shared/Grid/Grid';
 import Preview from 'src/components/Preview/Preview';
 import Profile from 'src/components/Profile/Profile';
-import Horizontal from 'src/components/ScrollList/Horizontal';
+import { Horizontal } from 'src/components/Scroll/Horizontal';
+import { PATH } from 'src/constants';
+import MyDrinkItem from '../MyDrinksPage/MyDrinkItem';
+import MyReviewItem from '../MyReviewsPage/MyReviewItem';
 
-import { Header, Statistics, VerticalItem, VerticalScrollList } from './styles';
+import { Header, Statistics } from './styles';
 
 const MyPage = () => {
   const history = useHistory();
@@ -32,34 +33,22 @@ const MyPage = () => {
         </li>
       </Statistics>
 
-      <Preview title="내가 마신 술">
-        <Horizontal count={7}>
-          {Array.from({ length: 7 }).map((_, index) => (
-            <VerticalItem key={index}>
-              <Img
-                src="http://placehold.it/120x120"
-                alt="호감도를 입력한 술"
-                shape="ROUND_SQUARE"
-                size="LARGE"
-              />
-              <p>KGB 라임</p>
-              <div>
-                <StarIcon width="0.8rem" color="yellow" />
-                <span>3.5</span>
-              </div>
-            </VerticalItem>
-          ))}
+      <Preview title="내가 마신 술" path={PATH.MY_DRINKS}>
+        <Horizontal margin="0 -1.5rem" padding="0 1.5rem">
+          <Grid col={7} colGap="1rem">
+            {Array.from({ length: 7 }).map((_, index) => (
+              <MyDrinkItem key={index} size="LARGE" />
+            ))}
+          </Grid>
         </Horizontal>
       </Preview>
 
-      <Preview title="내가 남긴 리뷰">
-        <VerticalScrollList>
+      <Preview title="내가 남긴 리뷰" path={PATH.MY_REVIEWS}>
+        <ul>
           {Array.from({ length: 3 }).map((_, index) => (
-            <li key={index}>
-              <PersonalReviewCard />
-            </li>
+            <MyReviewItem key={index} />
           ))}
-        </VerticalScrollList>
+        </ul>
       </Preview>
     </>
   );
