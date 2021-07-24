@@ -8,6 +8,8 @@ import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.domain.repository.ReviewRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +17,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -136,15 +137,11 @@ public class PreferenceRepositoryTest {
         testEntityManager.clear();
 
         //when
-        Page<Drink> allOrderByPreference = preferenceRepository.findAllOrderByPreference(pageable);
+        List<Drink> drinks = preferenceRepository.findAllOrderByPreference(pageable)
+                .stream()
+                .collect(Collectors.toList());
 
         //then
-        System.out.println("======================");
-        allOrderByPreference.forEach(it -> {
-//            it.getReviews().forEach(review ->{
-//                System.out.println(review.getContent());
-//            });
-            System.out.println("술 이름 : " + it.getName());
-        });
+        assertThat(drinks.get(0).getName()).isEqualTo("스텔라");
     }
 }
