@@ -18,6 +18,7 @@ public class DrinkDto {
     private String englishName;
     private Double alcoholByVolume;
     private String imageUrl;
+    private Long categoryId;
     private String category;
     private double preferenceRate;
     private double preferenceAvg;
@@ -32,7 +33,8 @@ public class DrinkDto {
                 drink.getEnglishName(),
                 drink.getAlcoholByVolume(),
                 fileServerUrl + "/" + drink.getImageFilePath(),
-                drink.getCategory(),
+                drink.getCategory().getId(),
+                drink.getCategory().getName(),
                 preference.getRate(),
                 drink.getPreferenceAvg()
         );
