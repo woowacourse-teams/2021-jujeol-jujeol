@@ -16,8 +16,17 @@ const Container = styled.li`
   }
 
   p {
-    margin: 0.5rem 0 0.3rem;
+    margin-top: 0.5rem;
+
     font-size: 0.95rem;
+    line-height: 1.5;
+
+    overflow: hidden;
+    display: -webkit-box;
+
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
   }
 `;
 
