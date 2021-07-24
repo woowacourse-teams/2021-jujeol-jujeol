@@ -1,8 +1,8 @@
 import { useHistory } from 'react-router-dom';
 import ArrowButton from 'src/components/@shared/ArrowButton/ArrowButton';
 import Grid from 'src/components/@shared/Grid/Grid';
-import { Header } from '../MyPage/styles';
 import MyDrinkItem from './MyDrinkItem';
+import { Header, Container } from './styles';
 
 const MyDrinks = () => {
   const history = useHistory();
@@ -15,7 +15,7 @@ const MyDrinks = () => {
         <h2>내가 마신 술</h2>
       </Header>
 
-      <section style={{ padding: '1rem' }}>
+      <Container>
         {matches ? (
           <Grid col={2} rowGap="1.5rem">
             {Array.from({ length: 15 }).map((_, index) => (
@@ -29,7 +29,7 @@ const MyDrinks = () => {
             ))}
           </Grid>
         )}
-      </section>
+      </Container>
     </>
   );
 };

@@ -14,4 +14,9 @@ const Header = styled.header`
   }
 `;
 
-export { Header };
+const Container = styled.section`
+  width: 100%;
+  padding: 1rem;
+`;
+
+export { Header, Container };
