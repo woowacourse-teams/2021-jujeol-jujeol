@@ -14,6 +14,7 @@ import com.jujeol.drink.domain.Review;
 import com.jujeol.member.application.dto.PreferenceRequest;
 import com.jujeol.member.ui.dto.MemberDrinkResponse;
 import com.jujeol.member.ui.dto.MemberReviewResponse;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
@@ -46,6 +47,7 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
         List<Long> expectedIds = List.of(drink1, drink2, drink3)
                 .stream()
                 .map(Drink::getId)
+                .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
 
         List<Long> actualIds = responses.stream()

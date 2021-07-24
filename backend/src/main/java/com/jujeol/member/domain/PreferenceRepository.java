@@ -15,7 +15,15 @@ public interface PreferenceRepository extends JpaRepository<Preference, Long> {
     @Modifying
     void deleteByMemberIdAndDrinkId(Long memberId, Long drinkId);
 
-    @Query(value = "select p.drink from Preference p inner join Drink d on d.id = p.drink.id where p.member.id = :memberId",
-            countQuery = "select p.drink from Preference p inner join Drink d on d.id = p.drink.id where p.member.id = :memberId")
+    @Query(value = ""
+            + "select p.drink from Preference p "
+            + "inner join Drink d on d.id = p.drink.id "
+            + "where p.member.id = :memberId "
+            + "order by p.createdAt desc",
+            countQuery = ""
+                    + "select p.drink from Preference p "
+                    + "inner join Drink d on d.id = p.drink.id "
+                    + "where p.member.id = :memberId "
+                    + "order by p.createdAt desc")
     Page<Drink> findDrinksOfMineWithPreference(Long memberId, Pageable pageable);
 }

@@ -96,7 +96,10 @@ public class MemberInfoRepositoryTest {
                 .findDrinksOfMineWithPreference(savedMember.getId(), Pageable.ofSize(10));
 
         //then
-        List<Long> drinkIds = drinks.stream().map(Drink::getId).collect(Collectors.toList());
+        List<Long> drinkIds = drinks.stream()
+                .map(Drink::getId)
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
         List<Long> actualIds = drinkResponses.stream().map(Drink::getId)
                 .collect(Collectors.toList());
 
