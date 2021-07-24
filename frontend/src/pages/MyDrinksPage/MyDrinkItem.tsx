@@ -1,15 +1,20 @@
+import { ImageSizeType } from 'src/components/@shared/Image/Image';
 import StarIcon from 'src/components/Icons/star';
 import VerticalItem from 'src/components/Item/VerticalItem';
 import { COLOR } from 'src/constants';
 import { Description } from './MyDrinkItem.styles';
 
-const MyDrinkItem = () => {
+interface Props {
+  size: ImageSizeType;
+}
+
+const MyDrinkItem = ({ size }: Props) => {
   return (
     <VerticalItem
       src="http://placehold.it/120x120"
       alt="호감도를 입력한 술"
       shape="ROUND_SQUARE"
-      size="LARGE"
+      size={size}
       title="KGB 라임"
     >
       <Description>
