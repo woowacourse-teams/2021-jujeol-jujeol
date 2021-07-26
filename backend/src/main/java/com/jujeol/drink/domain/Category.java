@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 @Entity
@@ -29,5 +30,9 @@ public class Category {
 
     public static Category create(Long id, String name) {
         return new Category(id, name);
+    }
+
+    public boolean isEqual(Long id) {
+        return this.id == id;
     }
 }

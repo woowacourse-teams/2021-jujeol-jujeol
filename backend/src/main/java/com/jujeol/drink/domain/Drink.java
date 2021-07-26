@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,7 +36,7 @@ public class Drink {
     private AlcoholByVolume alcoholByVolume;
     @Embedded
     private ImageFilePath imageFilePath;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
     @Column
@@ -44,7 +45,7 @@ public class Drink {
     @OneToMany(mappedBy = "drink")
     private List<Review> reviews = new ArrayList<>();
 
-    public static Drink from(
+    public static Drink create(
             String name,
             String englishName,
             Double alcoholByVolume,
@@ -111,5 +112,9 @@ public class Drink {
         this.imageFilePath = new ImageFilePath(imageUrl);
         this.category = category;
         this.alcoholByVolume = new AlcoholByVolume(alcoholByVolume);
+    }
+
+    public void updateAverage(Double average) {
+        this.preferenceAvg = average;
     }
 }

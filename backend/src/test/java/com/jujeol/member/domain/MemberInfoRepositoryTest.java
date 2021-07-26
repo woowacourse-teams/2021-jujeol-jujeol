@@ -8,6 +8,7 @@ import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.domain.repository.ReviewRepository;
+import com.jujeol.member.domain.nickname.Nickname;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,7 +42,10 @@ public class MemberInfoRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        Member member = Member.from(Provider.of("1234", ProviderName.TEST));
+        Member member = Member.create(Provider.of("1234", ProviderName.TEST)
+                                        , Nickname.create("물욕녀_1234")
+                                        , Biography.create("물건 욕심이 많은 물욕녀"));
+
         savedMember = memberRepository.save(member);
 
         Category beer = Category.create("맥주");

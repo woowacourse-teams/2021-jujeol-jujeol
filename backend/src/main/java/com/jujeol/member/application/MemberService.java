@@ -69,11 +69,20 @@ public class MemberService {
                             preferenceRepository.save(newPreference);
                         }
                 );
+
+        Double average = preferenceRepository.averageOfPreferenceRate(drinkId).orElseGet(() -> Double.valueOf(0));
+        drink.updateAverage(average);
     }
 
     @Transactional
     public void deletePreference(Long memberId, Long drinkId) {
+        Drink drink = drinkRepository.findById(drinkId)
+                .orElseThrow(NotFoundDrinkException::new);
+
         preferenceRepository.deleteByMemberIdAndDrinkId(memberId, drinkId);
+
+        Double average = preferenceRepository.averageOfPreferenceRate(drinkId).orElseGet(() -> Double.valueOf(0));
+        drink.updateAverage(average);
     }
 
     public Page<DrinkDto> findDrinks(Long memberId, Pageable pageable) {

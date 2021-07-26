@@ -15,6 +15,9 @@ public interface PreferenceRepository extends JpaRepository<Preference, Long> {
     @Modifying
     void deleteByMemberIdAndDrinkId(Long memberId, Long drinkId);
 
+    @Query("SELECT AVG(p.rate) FROM Preference p WHERE p.drink.id = :drinkId")
+    Optional<Double> averageOfPreferenceRate(Long drinkId);
+
     @Query(value = ""
             + "select p.drink from Preference p "
             + "inner join Drink d on d.id = p.drink.id "

@@ -5,7 +5,7 @@ import com.jujeol.admin.ui.dto.AdminDrinkResponse;
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.application.DrinkService;
-import com.jujeol.drink.application.dto.DrinkRequestDto;
+import com.jujeol.drink.application.dto.AdminDrinkRequestDto;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class AdminController {
 
     @PostMapping("/drinks")
     public CommonResponse<?> insertDrinks(@RequestBody List<AdminDrinkRequest> adminDrinkRequests) {
-        final List<DrinkRequestDto> drinkRequests = adminDrinkRequests.stream()
+        final List<AdminDrinkRequestDto> drinkRequests = adminDrinkRequests.stream()
                 .map(AdminDrinkRequest::toDto).collect(Collectors.toList());
         drinkService.insertDrinks(drinkRequests);
         return CommonResponse.ok();
