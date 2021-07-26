@@ -1,5 +1,5 @@
 package com.jujeol.member.domain.nickname;
 
-public interface NicknameFactory {
+public interface NicknameCreator {
     Nickname createNickname(String nickname);
 }

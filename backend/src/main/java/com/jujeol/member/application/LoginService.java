@@ -4,11 +4,11 @@ import com.jujeol.member.application.dto.SocialProviderCodeDto;
 import com.jujeol.member.application.dto.TokenDto;
 import com.jujeol.member.domain.Biography;
 import com.jujeol.member.domain.nickname.CheersExpression;
-import com.jujeol.member.domain.nickname.CheersExpressionsFactory;
+import com.jujeol.member.domain.nickname.CheersExpressionsRepository;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
 import com.jujeol.member.domain.nickname.Nickname;
-import com.jujeol.member.domain.nickname.NicknameFactory;
+import com.jujeol.member.domain.nickname.NicknameCreator;
 import com.jujeol.member.domain.Provider;
 import com.jujeol.member.util.JwtTokenProvider;
 import lombok.AllArgsConstructor;
@@ -23,8 +23,8 @@ public class LoginService {
     private final SocialLoginStrategyFactory socialLoginStrategyFactory;
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final CheersExpressionsFactory cheersExpressionsFactory;
-    private final NicknameFactory nicknameFactory;
+    private final CheersExpressionsRepository cheersExpressionsRepository;
+    private final NicknameCreator nicknameCreator;
 
     @Transactional
     public TokenDto createToken(SocialProviderCodeDto socialProviderCodeDto) {
@@ -49,10 +49,10 @@ public class LoginService {
     }
 
     private Member createMember(Provider provider) {
-        final CheersExpression cheersExpression = cheersExpressionsFactory
+        final CheersExpression cheersExpression = cheersExpressionsRepository
                 .getRandomCheersExpression();
 
-        final Nickname nickname = nicknameFactory.createNickname(cheersExpression.getAbbreviation());
+        final Nickname nickname = nicknameCreator.createNickname(cheersExpression.getAbbreviation());
         final Biography biography = Biography.create(cheersExpression.getExpression());
 
         return Member.create(provider, nickname, biography);

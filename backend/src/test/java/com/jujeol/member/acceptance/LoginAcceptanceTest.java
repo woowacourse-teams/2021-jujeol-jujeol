@@ -1,6 +1,6 @@
 package com.jujeol.member.acceptance;
 
-import static com.jujeol.member.fixture.TestsCheersExpressionFactory.TEST_NICKNAME_PREFIX;
+import static com.jujeol.member.fixture.TestsCheersExpressionRepository.TEST_NICKNAME_PREFIX;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;

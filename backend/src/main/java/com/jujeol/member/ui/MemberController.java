@@ -1,7 +1,6 @@
 package com.jujeol.member.ui;
 
 import com.jujeol.commons.dto.CommonResponse;
-import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.application.dto.DrinkDto;
 import com.jujeol.drink.application.dto.ReviewDto;
@@ -21,7 +20,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,7 +39,7 @@ public class MemberController {
     ) {
         MemberDto member = memberService.findMember(loginMember.getId());
         return ResponseEntity
-                .ok(CommonResponse.from(MemberResponse.from(member)));
+                .ok(CommonResponse.from(MemberResponse.create(member)));
     }
 
     @PutMapping

@@ -15,7 +15,7 @@ public class MemberResponse {
     private String nickname;
     private String bio;
 
-    public static MemberResponse from(MemberDto memberDto) {
+    public static MemberResponse create(MemberDto memberDto) {
         return new MemberResponse(memberDto.getId(), memberDto.getNickname(), memberDto.getBio());
     }
 }

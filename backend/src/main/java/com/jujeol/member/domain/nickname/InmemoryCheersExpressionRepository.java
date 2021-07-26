@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Profile({"dev", "prod", "local"})
-public class InmemoryCheersExpressionFactory implements CheersExpressionsFactory {
+public class InmemoryCheersExpressionRepository implements CheersExpressionsRepository {
     private static final Random random = new Random();
 
     @Override

@@ -1,6 +1,6 @@
 package com.jujeol.member.domain.nickname;
 
-public interface CheersExpressionsFactory {
+public interface CheersExpressionsRepository {
 
     CheersExpression getRandomCheersExpression();
 }
