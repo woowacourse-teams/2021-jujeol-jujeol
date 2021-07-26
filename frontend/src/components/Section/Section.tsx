@@ -26,7 +26,7 @@ const Section = ({
           <h2>{title}</h2>
           {subTitle && <p>{subTitle}</p>}
         </div>
-        {isShowMoreEnabled && showMoreLink && <Link to={showMoreLink}>더보기 +</Link>}
+        {isShowMoreEnabled && showMoreLink && <Link to={showMoreLink}>{'더보기 >'}</Link>}
       </Title>
       {children}
     </section>
