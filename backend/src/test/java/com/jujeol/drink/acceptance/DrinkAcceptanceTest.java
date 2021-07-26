@@ -64,6 +64,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         List<DrinkSimpleResponse> expectedResult = BEERS.stream()
                 .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), ""))
                 .map(DrinkSimpleResponse::from)
+                .limit(7)
                 .collect(Collectors.toList());
 
         assertThat(drinkSimpleResponses).usingRecursiveComparison()

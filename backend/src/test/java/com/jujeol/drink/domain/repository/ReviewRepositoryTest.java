@@ -49,8 +49,8 @@ public class ReviewRepositoryTest {
     void setUp() {
         BEER = categoryRepository.save(Category.create("맥주"));
         Member createMember = Member.create(Provider.of("1234", ProviderName.TEST),
-                                            Nickname.create("주류의신소롱"),
-                                            Biography.create("누가 날 막을쏘냐"));
+                Nickname.create("주류의신소롱"),
+                Biography.create("누가 날 막을쏘냐"));
         member = memberRepository.save(createMember);
     }
 
@@ -160,11 +160,10 @@ public class ReviewRepositoryTest {
         Member member2 = Member.create(Provider.of("1234", ProviderName.TEST), null, null);
         Member saveMember2 = memberRepository.save(memberRepository.save(member2));
 
-        Review saveReview1 = reviewRepository.save(Review.create("아주 맛있네요!", stella, member));
-        Review saveReview2 = reviewRepository.save(Review.create("평범해요.", stella, member));
-        Review saveReview3 = reviewRepository.save(
-                Review.create("이건 좀...", stella, saveMember2)
-        );
+        Review saveReview1 = reviewRepository.save(Review.create("아주 맛있네요!", saveDrink, member));
+        Review saveReview2 = reviewRepository.save(Review.create("평범해요.", saveDrink, member));
+        Review saveReview3 = reviewRepository
+                .save(Review.create("이건 좀...", saveDrink, saveMember2));
 
         //when
         List<Review> byDrinkIdAndMemberId = reviewRepository
