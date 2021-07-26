@@ -38,6 +38,10 @@ public class RequestBuilder {
         this.accessToken = accessToken;
     }
 
+    public RequestBuilder changeAccessToken(String accessToken){
+        return new RequestBuilder(restDocumentation, accessToken, objectMapper);
+    }
+
     public Function builder() {
         return new Function();
     }

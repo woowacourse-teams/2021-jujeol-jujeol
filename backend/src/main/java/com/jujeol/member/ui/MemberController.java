@@ -5,9 +5,11 @@ import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.application.dto.DrinkDto;
 import com.jujeol.drink.application.dto.ReviewDto;
 import com.jujeol.member.application.MemberService;
-import com.jujeol.member.application.dto.MemberResponse;
-import com.jujeol.member.application.dto.PreferenceRequest;
+import com.jujeol.member.application.dto.MemberDto;
+import com.jujeol.member.application.dto.PreferenceDto;
 import com.jujeol.member.ui.dto.MemberDrinkResponse;
+import com.jujeol.member.ui.dto.MemberRequest;
+import com.jujeol.member.ui.dto.MemberResponse;
 import com.jujeol.member.ui.dto.MemberReviewResponse;
 import com.jujeol.member.ui.dto.ReviewDrinkResponse;
 import java.util.List;
@@ -35,15 +37,28 @@ public class MemberController {
     public ResponseEntity<CommonResponse<MemberResponse>> findMemberOfMine(
             @AuthenticationPrincipal LoginMember loginMember
     ) {
+        MemberDto member = memberService.findMember(loginMember.getId());
         return ResponseEntity
-                .ok(CommonResponse.from(memberService.findMember(loginMember.getId())));
+                .ok(CommonResponse.from(MemberResponse.create(member)));
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> updateMember(
+            @AuthenticationPrincipal LoginMember loginMember,
+            @RequestBody MemberRequest memberRequest
+    ) {
+
+        memberService.updateMember(
+                MemberDto.create(loginMember.getId(), memberRequest.getNickname(), memberRequest.getBio())
+        );
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/drinks/{id}/preference")
     public ResponseEntity<Void> createOrUpdatePreference(
             @AuthenticationPrincipal LoginMember loginMember,
             @PathVariable(name = "id") Long drinkId,
-            @RequestBody PreferenceRequest preferenceRequest
+            @RequestBody PreferenceDto preferenceRequest
     ) {
         memberService.createOrUpdatePreference(loginMember.getId(), drinkId, preferenceRequest);
         return ResponseEntity.ok().build();
@@ -61,7 +76,7 @@ public class MemberController {
     @GetMapping("/drinks")
     public ResponseEntity<CommonResponse<List<MemberDrinkResponse>>> showDrinksOfMine(
             @AuthenticationPrincipal LoginMember loginMember,
-            @PageableDefault Pageable pageable
+            @PageableDefault(size = 7) Pageable pageable
     ) {
         Page<DrinkDto> drinks = memberService.findDrinks(loginMember.getId(), pageable);
         Page<MemberDrinkResponse> responses = drinks.map(MemberDrinkResponse::from);
@@ -72,21 +87,15 @@ public class MemberController {
     @GetMapping("/reviews")
     public ResponseEntity<CommonResponse<List<MemberReviewResponse>>> showReviewsOfMine(
             @AuthenticationPrincipal LoginMember loginMember,
-            @PageableDefault Pageable pageable
+            @PageableDefault(size = 3) Pageable pageable
     ) {
         Page<ReviewDto> reviews = memberService.findReviews(loginMember.getId(), pageable);
         Page<MemberReviewResponse> responses = reviews
                 .map(reviewDto -> MemberReviewResponse.create(
-                        reviewDto.getId(),
-                        reviewDto.getContent(),
-                        reviewDto.getCreatedAt(),
-                        reviewDto.getModifiedAt(),
-                        ReviewDrinkResponse.create(
-                                reviewDto.getDrinkDto().getId(),
-                                reviewDto.getDrinkDto().getName(),
-                                reviewDto.getDrinkDto().getImageUrl()
-                        )
+                        reviewDto,
+                        ReviewDrinkResponse.create(reviewDto.getDrinkDto())
                 ));
+
         return ResponseEntity.ok(PageResponseAssembler.assemble(responses));
     }
 }

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import API from 'src/apis/requests';
@@ -5,28 +6,47 @@ import Header from 'src/components/@shared/Header/Header';
 import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';
 import { PATH } from 'src/constants';
-import { Title } from './ViewAllPage.styles';
+import { Container, Title, InfinityScrollPoll } from './ViewAllPage.styles';
 
 const ViewAllPage = () => {
   const history = useHistory();
+  const infinityPollRef = useRef<HTMLDivElement>(null);
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<{
-    data: ItemList.Drinks[];
-    pageInfo: { currentPage: number; lastPage: number; countPerPage: number; totalSize: number };
-  }>('drinks', ({ pageParam = 1 }) => API.getDrinks({ page: pageParam }), {
-    getNextPageParam: ({ pageInfo }) => {
-      return pageInfo.currentPage < pageInfo.lastPage ? pageInfo.currentPage + 1 : undefined;
-    },
-    retry: 1,
-  });
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    'drinks',
+    ({ pageParam = 1 }) => API.getDrinks({ page: pageParam }),
+    {
+      getNextPageParam: ({ pageInfo }) => {
+        return pageInfo.currentPage < pageInfo.lastPage ? pageInfo.currentPage + 1 : undefined;
+      },
+    }
+  );
   const drinks = data?.pages?.map((page) => page.data).flat() ?? [];
 
   const goBack = () => {
     history.goBack();
   };
 
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
+    });
+  });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    if (infinityPollRef.current) {
+      observer.observe(infinityPollRef.current);
+    }
+  }, [infinityPollRef.current]);
+
   return (
-    <div>
+    <Container>
       <Header>
         <Title>
           <button type="button" onClick={goBack}>
@@ -48,21 +68,8 @@ const ViewAllPage = () => {
           />
         ))}
       </List>
-
-      {hasNextPage ? (
-        <button
-          type="button"
-          onClick={() => fetchNextPage()}
-          style={{ width: '100%', marginTop: '1rem' }}
-        >
-          더보기
-        </button>
-      ) : (
-        <p style={{ width: '100%', marginTop: '1rem', padding: '1rem' }}>
-          끝! 새로운 술이 추가 될 테니 기대해 주세요
-        </p>
-      )}
-    </div>
+      <InfinityScrollPoll ref={infinityPollRef} />
+    </Container>
   );
 };
 

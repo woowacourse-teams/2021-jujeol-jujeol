@@ -50,6 +50,35 @@ include::{snippets}/member/show/me-fail/http-request.adoc[]
 
 include::{snippets}/member/show/me-fail/http-response.adoc[]
 
+=== 멤버 수정
+
+- Request
+
+include::{snippets}/member/update/me/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/update/me/http-response.adoc[]
+
+=== 멤버 수정 (실패_1)
+
+- Request
+
+include::{snippets}/member/update/me-fail-nickname/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/update/me-fail-nickname/http-response.adoc[]
+
+=== 멤버 수정 (실패_2)
+
+- Request
+
+include::{snippets}/member/update/me-fail-bio/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/update/me-fail-bio/http-response.adoc[]
 
 === 내가 마신 술 조회
 ==== 마이 페이지에서 (선호도 기반) 내가 마신 술 목록 조회
