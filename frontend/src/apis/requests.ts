@@ -75,16 +75,16 @@ const API = {
     return request({ method: 'DELETE' as Method, url: `/members/me/drinks/${id}/preference` });
   },
 
-  getMyReviews: () => {
+  getPersonalReviews: <P, S>({ page, size }: { page?: P; size?: S }) => {
     return request({
       method: 'GET' as Method,
-      url: `/members/me/reviews?size=3`,
+      url: `/members/me/reviews?page=${page ?? ''}&size=${size ?? ''}`,
     });
   },
-  getMyDrinks: () => {
+  getPersonalDrinks: <P, S>({ page, size }: { page?: P; size?: S }) => {
     return request({
       method: 'GET' as Method,
-      url: `/members/me/drinks?size=7`,
+      url: `/members/me/drinks?page=${page ?? ''}&size=${size ?? ''}`,
     });
   },
 };
