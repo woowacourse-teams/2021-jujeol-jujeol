@@ -33,11 +33,6 @@ public class PreferenceRepositoryTest {
     private MemberRepository memberRepository;
     @Autowired
     private CategoryRepository categoryRepository;
-    @Autowired
-    private ReviewRepository reviewRepository;
-
-    @Autowired
-    private TestEntityManager testEntityManager;
 
     private Drink savedDrink;
     private Member savedMember;
@@ -82,6 +77,7 @@ public class PreferenceRepositoryTest {
         Preference findPreference = preferenceRepository
                 .findByMemberIdAndDrinkId(savedMember.getId(), savedDrink.getId())
                 .orElseGet(() -> Preference.from(savedMember, savedDrink, 0.0));
+
         //then
         assertThat(findPreference.getRate()).isEqualTo(4.0);
     }
@@ -102,46 +98,5 @@ public class PreferenceRepositoryTest {
 
         //then
         assertThat(expect.getRate()).isEqualTo(0.0);
-    }
-
-    @Test
-    void drinksByPreferenceAvgTest() {
-        //given
-        Member member = Member.from(Provider.of("5678", ProviderName.TEST));
-        Member savedMember2 = memberRepository.save(member);
-        Drink apple = Drink.create(
-                "애플", "Apple", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", BEER);
-        Drink savedDrink2 = drinkRepository.save(apple);
-
-        Preference preference1 = Preference.from(savedMember, savedDrink, 2.0);
-        Preference preference2 = Preference.from(savedMember2, savedDrink, 4.0);
-        preferenceRepository.save(preference1);
-        preferenceRepository.save(preference2);
-        preference1 = Preference.from(savedMember, savedDrink2, 2.0);
-        preferenceRepository.save(preference1);
-
-        Review review1 = Review.create("아주 맛있네요1", savedDrink2, savedMember);
-        Review review2 = Review.create("아주 맛있네요2", savedDrink2, savedMember2);
-        Review review3 = Review.create("아주 맛있네요3", savedDrink, savedMember);
-        Review saveReview1 = reviewRepository.save(review1);
-        Review saveReview2 = reviewRepository.save(review2);
-        Review saveReview3 = reviewRepository.save(review3);
-
-        savedDrink2.addReview(saveReview1);
-        savedDrink2.addReview(saveReview2);
-        savedDrink.addReview(saveReview3);
-
-        Pageable pageable = PageRequest.of(0, 10);
-
-        testEntityManager.flush();
-        testEntityManager.clear();
-
-        //when
-        List<Drink> drinks = preferenceRepository.findAllOrderByPreference(pageable)
-                .stream()
-                .collect(Collectors.toList());
-
-        //then
-        assertThat(drinks.get(0).getName()).isEqualTo("스텔라");
     }
 }

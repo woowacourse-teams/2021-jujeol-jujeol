@@ -42,7 +42,7 @@ public class DrinkService {
     public Page<DrinkDto> showDrinks(String theme, Pageable pageable) {
         RecommendationTheme recommendationTheme = RecommendationTheme.matches(theme);
         if (PREFERENCE.equals(recommendationTheme)) {
-            return preferenceRepository.findAllOrderByPreference(pageable)
+            return drinkRepository.findAllOrderByPreferenceAvg(pageable)
                     .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), fileServerUrl));
         }
         if (VIEW_COUNT.equals(recommendationTheme)) {

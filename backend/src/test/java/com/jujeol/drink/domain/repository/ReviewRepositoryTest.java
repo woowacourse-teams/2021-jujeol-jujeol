@@ -167,6 +167,6 @@ public class ReviewRepositoryTest {
                 .findByDrinkIdAndMemberId(saveDrink.getId(), member.getId(), Pageable.ofSize(1));
 
         //then
-        assertThat(byDrinkIdAndMemberId).containsExactly(saveReview1);
+        assertThat(byDrinkIdAndMemberId).containsExactly(saveReview2);
     }
 }
