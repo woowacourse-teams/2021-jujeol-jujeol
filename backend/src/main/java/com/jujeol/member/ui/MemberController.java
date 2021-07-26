@@ -76,7 +76,7 @@ public class MemberController {
     @GetMapping("/drinks")
     public ResponseEntity<CommonResponse<List<MemberDrinkResponse>>> showDrinksOfMine(
             @AuthenticationPrincipal LoginMember loginMember,
-            @PageableDefault Pageable pageable
+            @PageableDefault(size = 7) Pageable pageable
     ) {
         Page<DrinkDto> drinks = memberService.findDrinks(loginMember.getId(), pageable);
         Page<MemberDrinkResponse> responses = drinks.map(MemberDrinkResponse::from);
@@ -87,21 +87,15 @@ public class MemberController {
     @GetMapping("/reviews")
     public ResponseEntity<CommonResponse<List<MemberReviewResponse>>> showReviewsOfMine(
             @AuthenticationPrincipal LoginMember loginMember,
-            @PageableDefault Pageable pageable
+            @PageableDefault(size = 3) Pageable pageable
     ) {
         Page<ReviewDto> reviews = memberService.findReviews(loginMember.getId(), pageable);
         Page<MemberReviewResponse> responses = reviews
                 .map(reviewDto -> MemberReviewResponse.create(
-                        reviewDto.getId(),
-                        reviewDto.getContent(),
-                        reviewDto.getCreatedAt(),
-                        reviewDto.getModifiedAt(),
-                        ReviewDrinkResponse.create(
-                                reviewDto.getDrinkDto().getId(),
-                                reviewDto.getDrinkDto().getName(),
-                                reviewDto.getDrinkDto().getImageUrl()
-                        )
+                        reviewDto,
+                        ReviewDrinkResponse.create(reviewDto.getDrinkDto())
                 ));
+
         return ResponseEntity.ok(PageResponseAssembler.assemble(responses));
     }
 }

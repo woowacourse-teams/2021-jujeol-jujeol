@@ -90,19 +90,19 @@ public class TestDataLoader implements CommandLineRunner {
 
         PREFERENCE = preferenceRepository.save(Preference.from(MEMBER, stella, 3.5));
 
-        Review review1 = Review.from("천재 윤피카", stella, MEMBER);
-        Review review2 = Review.from("천재 크로플", stella, MEMBER);
-        Review review3 = Review.from("천재 나봄", stella, MEMBER);
-        Review review4 = Review.from("천재 소롱", stella, MEMBER);
-        Review review5 = Review.from("천재 소롱", stella, MEMBER);
-        Review review6 = Review.from("천재 소롱", stella, MEMBER);
-        Review review7 = Review.from("천재 소롱", stella, MEMBER);
-        Review review8 = Review.from("천재 소롱", stella, MEMBER);
-        Review review9 = Review.from("천재 소롱", stella, MEMBER);
-        Review review10 = Review.from("바보 피카", stella, MEMBER2);
-        Review review11 = Review.from("바보 피카", stella, MEMBER2);
-        Review review12 = Review.from("바보 피카", stella, MEMBER2);
-        Review review13 = Review.from("이제.. 끝낼래...", estp, MEMBER);
+        Review review1 = Review.create("천재 윤피카", stella, MEMBER);
+        Review review2 = Review.create("천재 크로플", stella, MEMBER);
+        Review review3 = Review.create("천재 나봄", stella, MEMBER);
+        Review review4 = Review.create("천재 소롱", stella, MEMBER);
+        Review review5 = Review.create("천재 소롱", stella, MEMBER);
+        Review review6 = Review.create("천재 소롱", stella, MEMBER);
+        Review review7 = Review.create("천재 소롱", stella, MEMBER);
+        Review review8 = Review.create("천재 소롱", stella, MEMBER);
+        Review review9 = Review.create("천재 소롱", stella, MEMBER);
+        Review review10 = Review.create("바보 피카", stella, MEMBER2);
+        Review review11 = Review.create("바보 피카", stella, MEMBER2);
+        Review review12 = Review.create("바보 피카", stella, MEMBER2);
+        Review review13 = Review.create("이제.. 끝낼래...", estp, MEMBER);
 
         List<Review> reviews = List.of(
                 review1, review2, review3, review4,

@@ -35,7 +35,7 @@ public class DrinkService {
 
     public Page<DrinkDto> showDrinks(Pageable pageable) {
         return drinkRepository.findAll(pageable)
-                .map(drink -> DrinkDto.from(drink, Preference.from(drink, 0), fileServerUrl));
+                .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), fileServerUrl));
     }
 
     public DrinkDto showDrinkDetail(Long id) {
@@ -44,7 +44,7 @@ public class DrinkService {
 
         Preference preference = Preference.from(drink, 0.0);
 
-        return DrinkDto.from(drink, preference, fileServerUrl);
+        return DrinkDto.create(drink, preference, fileServerUrl);
     }
 
     public DrinkDto showDrinkDetail(Long drinkId, Long memberId) {
@@ -55,7 +55,7 @@ public class DrinkService {
                 .findByMemberIdAndDrinkId(memberId, drinkId)
                 .orElseGet(() -> Preference.anonymousPreference(drink));
 
-        return DrinkDto.from(drink, preference, fileServerUrl);
+        return DrinkDto.create(drink, preference, fileServerUrl);
     }
 
     @Transactional

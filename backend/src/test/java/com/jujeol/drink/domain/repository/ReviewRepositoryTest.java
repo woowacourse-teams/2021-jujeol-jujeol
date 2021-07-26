@@ -58,7 +58,7 @@ public class ReviewRepositoryTest {
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
-        Review review = Review.from("아주 맛있네요!", stella, member);
+        Review review = Review.create("아주 맛있네요!", stella, member);
         Review saveReview = reviewRepository.save(review);
 
         saveDrink.addReview(saveReview);
@@ -80,7 +80,7 @@ public class ReviewRepositoryTest {
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
-        Review review = Review.from("아주 맛있네요!", stella, member);
+        Review review = Review.create("아주 맛있네요!", stella, member);
         Review saveReview = reviewRepository.save(review);
 
         saveDrink.addReview(saveReview);
@@ -105,7 +105,7 @@ public class ReviewRepositoryTest {
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
-        Review review = Review.from("아주 맛있네요!", stella, member);
+        Review review = Review.create("아주 맛있네요!", stella, member);
         Review saveReview = reviewRepository.save(review);
 
         saveDrink.addReview(saveReview);
@@ -129,9 +129,9 @@ public class ReviewRepositoryTest {
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink saveDrink = drinkRepository.save(stella);
 
-        Review saveReview1 = reviewRepository.save(Review.from("아주 맛있네요!", stella, member));
-        Review saveReview2 = reviewRepository.save(Review.from("평범해요.", stella, member));
-        Review saveReview3 = reviewRepository.save(Review.from("이건 좀...", stella, member));
+        Review saveReview1 = reviewRepository.save(Review.create("아주 맛있네요!", stella, member));
+        Review saveReview2 = reviewRepository.save(Review.create("평범해요.", stella, member));
+        Review saveReview3 = reviewRepository.save(Review.create("이건 좀...", stella, member));
 
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -156,10 +156,10 @@ public class ReviewRepositoryTest {
         Member member2 = Member.create(Provider.of("1234", ProviderName.TEST), null, null);
         Member saveMember2 = memberRepository.save(memberRepository.save(member2));
 
-        Review saveReview1 = reviewRepository.save(Review.from("아주 맛있네요!", stella, member));
-        Review saveReview2 = reviewRepository.save(Review.from("평범해요.", stella, member));
+        Review saveReview1 = reviewRepository.save(Review.create("아주 맛있네요!", stella, member));
+        Review saveReview2 = reviewRepository.save(Review.create("평범해요.", stella, member));
         Review saveReview3 = reviewRepository.save(
-                Review.from("이건 좀...", stella, saveMember2)
+                Review.create("이건 좀...", stella, saveMember2)
         );
 
         //when

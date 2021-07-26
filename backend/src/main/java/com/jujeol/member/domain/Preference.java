@@ -1,5 +1,6 @@
 package com.jujeol.member.domain;
 
+import com.jujeol.commons.domain.BaseEntity;
 import com.jujeol.drink.domain.Drink;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Preference {
+public class Preference extends BaseEntity {
 
     private static final int ANONYMOUS_USER_RATE = 0;
 

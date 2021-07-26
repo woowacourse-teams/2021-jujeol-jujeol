@@ -40,7 +40,7 @@ public class ReviewService {
 
         validateCreateReviewLimit(loginMemberId, drinkId);
 
-        Review review = Review.from(reviewRequest.getContent(), drink, member);
+        Review review = Review.create(reviewRequest.getContent(), drink, member);
         Review saveReview = reviewRepository.save(review);
         drink.addReview(saveReview);
     }
