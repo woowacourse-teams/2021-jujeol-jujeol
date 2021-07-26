@@ -1,21 +1,21 @@
-package com.jujeol.member.application.dto;
+package com.jujeol.member.ui.dto;
 
-import com.jujeol.member.domain.Member;
+import com.jujeol.member.application.dto.MemberDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class MemberResponse {
 
     private Long id;
     private String nickname;
     private String bio;
 
-    public static MemberResponse from(Member member) {
-        return new MemberResponse(member.getId(), "청바지_123", "청춘은 바로 지금!");
+    public static MemberResponse create(MemberDto memberDto) {
+        return new MemberResponse(memberDto.getId(), memberDto.getNickname(), memberDto.getBio());
     }
 }

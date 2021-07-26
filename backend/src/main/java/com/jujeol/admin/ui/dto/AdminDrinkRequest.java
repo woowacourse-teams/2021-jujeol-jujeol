@@ -1,6 +1,6 @@
 package com.jujeol.admin.ui.dto;
 
-import com.jujeol.drink.application.dto.DrinkRequestDto;
+import com.jujeol.drink.application.dto.AdminDrinkRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ public class AdminDrinkRequest {
     private String imageUrl;
     private Long categoryId;
 
-    public DrinkRequestDto toDto() {
-        return DrinkRequestDto.create(name, englishName, alcoholByVolume, imageUrl, categoryId);
+    public AdminDrinkRequestDto toDto() {
+        return AdminDrinkRequestDto.create(name, englishName, alcoholByVolume, imageUrl, categoryId);
     }
 }

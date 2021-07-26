@@ -1,6 +1,7 @@
 package com.jujeol.member.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
@@ -8,6 +9,8 @@ import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.domain.repository.ReviewRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -36,17 +41,21 @@ public class PreferenceRepositoryTest {
 
     private Drink savedDrink;
     private Member savedMember;
+    private Member savedMember2;
     private Category BEER;
 
     @BeforeEach
     void setUp() {
-        BEER = categoryRepository.save(Category.create("맥주"));
+
+        Category BEER = categoryRepository.save(Category.create("맥주"));
         Drink stella = Drink.create(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", BEER);
+                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         savedDrink = drinkRepository.save(stella);
 
-        Member member = Member.from(Provider.of("1234", ProviderName.TEST));
+        Member member = Member.create(Provider.of("1234", ProviderName.TEST), null, null);
         savedMember = memberRepository.save(member);
+        Member member2 = Member.create(Provider.of("1234", ProviderName.TEST), null, null);
+        savedMember2 = memberRepository.save(member2);
     }
 
     @Test
@@ -98,5 +107,19 @@ public class PreferenceRepositoryTest {
 
         //then
         assertThat(expect.getRate()).isEqualTo(0.0);
+    }
+
+    @DisplayName("선호도 평균 - 성공")
+    @Test
+    void averageOfPreferenceRate() {
+        //given
+        Preference preference1 = Preference.from(savedMember, savedDrink, 2.0);
+        preferenceRepository.save(preference1);
+        Preference preference2 = Preference.from(savedMember2, savedDrink, 4.0);
+        preferenceRepository.save(preference2);
+        //when
+        //then
+        assertThat(preferenceRepository.averageOfPreferenceRate(savedDrink.getId()).get())
+                .isEqualTo(3.0);
     }
 }

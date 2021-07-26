@@ -42,26 +42,25 @@ public class DataLoader implements CommandLineRunner {
         Category BEER = categoryRepository.save(Category.create("맥주"));
         Category SOJU = categoryRepository.save(Category.create("소주"));
         Category WINE = categoryRepository.save(Category.create("와인"));
-        Category Makgeolli = categoryRepository.save(Category.create("막걸리"));
+        Category MAKGEOLLI = categoryRepository.save(Category.create("막걸리"));
 
         // Drink Data
-        Drink stella = Drink.create("스텔라", "stella", 5.5, "stella_artois.png", BEER);
-        Drink kgb = Drink.create("KGB", "", 3.5, "kgb.png", BEER);
-        Drink efes = Drink.create("EFES", "", 7.5, "efes.png", BEER);
-        Drink tiger_rad = Drink
-                .create("타이거 라들러 자몽", "Tiger_Rad", 9.5, "tiger_raddler_grapefruit.png", BEER);
-        Drink tsingtao = Drink.create("칭따오", "TSINGTAO", 12.0, "tsingtao.png", BEER);
-        Drink gom_pyo = Drink.create("곰표", "gom_pyo", 8.2, "gom_pyo.png", BEER);
-        Drink ob = Drink.create("오비", "OB", 85.0, "ob_lager.png", BEER);
-        Drink tigerLemon = Drink
-                .create("타이거 라들러 레몬", "Tiger_Lemon", 4.5, "tiger_raddler_lemon.png", BEER);
+        Drink stella = Drink.create("스텔라", "stella", 5.5, "stella_artois.png", 0.0, BEER);
+        Drink kgb = Drink.create("KGB", "", 3.5, "kgb.png", 0.0, BEER);
+        Drink efes = Drink.create("EFES", "",7.5, "efes.png", 0.0, BEER);
+        Drink tiger_rad = Drink.create("타이거 라들러 자몽", "Tiger_Rad", 9.5, "tiger_raddler_grapefruit.png", 0.0, BEER);
+        Drink tsingtao = Drink.create("칭따오", "TSINGTAO", 12.0, "tsingtao.png", 0.0, BEER);
+        Drink gom_pyo = Drink.create("곰표", "gom_pyo", 8.2, "gom_pyo.png", 0.0, BEER);
+        Drink ob = Drink.create("오비", "OB", 85.0, "ob_lager.png", 0.0, BEER);
+        Drink tigerLemon = Drink.create("타이거 라들러 레몬", "Tiger_Lemon", 4.5, "tiger_raddler_lemon.png", 0.0, BEER);
+
         List<Drink> beers = List
                 .of(stella, kgb, efes, tiger_rad, tsingtao, gom_pyo, ob, tigerLemon);
         drinkRepository.saveAll(beers);
 
         // Member Data
         Provider provider = Provider.of("1234", ProviderName.TEST);
-        Member member = Member.from(provider);
+        Member member = Member.createAnonymousMember();
 
         memberRepository.save(member);
 

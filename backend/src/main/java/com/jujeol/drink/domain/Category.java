@@ -31,4 +31,8 @@ public class Category {
     public static Category create(Long id, String name) {
         return new Category(id, name);
     }
+
+    public boolean isEqual(Long id) {
+        return this.id == id;
+    }
 }

@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +38,7 @@ public class Drink {
     private AlcoholByVolume alcoholByVolume;
     @Embedded
     private ImageFilePath imageFilePath;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
     @Column
@@ -48,26 +49,6 @@ public class Drink {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "view_count_id")
     private ViewCount viewCount;
-
-    public static Drink create(
-            String name,
-            String englishName,
-            Double alcoholByVolume,
-            String imageUrl,
-            Category category
-    ) {
-        return new Drink(
-                null,
-                new DrinkName(name),
-                new DrinkEnglishName(englishName),
-                new AlcoholByVolume(alcoholByVolume),
-                new ImageFilePath(imageUrl),
-                category,
-                0.0,
-                new ArrayList<>(),
-                ViewCount.create(0L)
-        );
-    }
 
     public static Drink create(
             String name,
@@ -167,5 +148,9 @@ public class Drink {
         this.imageFilePath = new ImageFilePath(imageUrl);
         this.category = category;
         this.alcoholByVolume = new AlcoholByVolume(alcoholByVolume);
+    }
+
+    public void updateAverage(Double average) {
+        this.preferenceAvg = average;
     }
 }

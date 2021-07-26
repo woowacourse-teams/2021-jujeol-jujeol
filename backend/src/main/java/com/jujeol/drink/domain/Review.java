@@ -1,8 +1,7 @@
 package com.jujeol.drink.domain;
 
+import com.jujeol.commons.domain.BaseEntity;
 import com.jujeol.member.domain.Member;
-import java.time.LocalDateTime;
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Review {
+public class Review extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,13 +34,8 @@ public class Review {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-
-    private LocalDateTime modifiedAt;
-
     public static Review create(String content, Drink drink, Member member) {
-        return new Review(null, new ReviewContent(content), drink, member, null, null);
+        return new Review(null, new ReviewContent(content), drink, member);
     }
 
     public void toDrink(Drink drink) {
@@ -60,17 +52,6 @@ public class Review {
 
     public boolean isAuthor(Member member) {
         return this.member.equals(member);
-    }
-
-    @PrePersist
-    public void prePersist() {
-        createdAt = LocalDateTime.now();
-        modifiedAt = null;
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        modifiedAt = LocalDateTime.now();
     }
 
     public String getContent() {

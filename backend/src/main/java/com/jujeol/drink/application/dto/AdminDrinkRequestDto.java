@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DrinkRequestDto {
+public class AdminDrinkRequestDto {
 
     private String name;
     private String englishName;
@@ -18,11 +18,11 @@ public class DrinkRequestDto {
     private String imageUrl;
     private Long categoryId;
 
-    public static DrinkRequestDto create(
+    public static AdminDrinkRequestDto create(
             String name, String englishName, Double alcoholByVolume,
             String imageUrl, Long categoryId
     ) {
-        return new DrinkRequestDto(
+        return new AdminDrinkRequestDto(
                 name,
                 englishName,
                 alcoholByVolume,
@@ -32,16 +32,14 @@ public class DrinkRequestDto {
     }
 
     public Drink toEntity(Category category, ViewCount viewCount) {
-        // todo preferenceAvg 변경
         return Drink.create(
                 name,
                 englishName,
                 alcoholByVolume,
                 imageUrl,
-                3.8,
+                0.0,
                 category,
                 viewCount
         );
     }
-
 }

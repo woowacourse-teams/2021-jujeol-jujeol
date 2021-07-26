@@ -2,16 +2,18 @@ package com.jujeol;
 
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
+import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.repository.ReviewRepository;
+import com.jujeol.member.domain.Biography;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
 import com.jujeol.member.domain.Preference;
 import com.jujeol.member.domain.PreferenceRepository;
 import com.jujeol.member.domain.Provider;
 import com.jujeol.member.domain.ProviderName;
+import com.jujeol.member.domain.nickname.Nickname;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
@@ -71,11 +73,9 @@ public class TestDataLoader implements CommandLineRunner {
                 "애플", "Apple", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", 0.0,
                 BEER_CATEGORY);
         Drink ob = Drink.create(
-                "오비", "OB", 85.0, "KakaoTalk_Image_2021-07-08-19-58-22_007.png", 0.0,
-                BEER_CATEGORY);
+                "오비", "OB", 85.0, "KakaoTalk_Image_2021-07-08-19-58-22_007.png", 0.0, BEER_CATEGORY);
         Drink tigerLemon = Drink.create(
-                "타이거 라들러 레몬", "Tiger_Lemon", 4.5, "KakaoTalk_Image_2021-07-08-19-58-22_008.png",
-                0.0,
+                "타이거 라들러 레몬", "Tiger_Lemon", 4.5, "KakaoTalk_Image_2021-07-08-19-58-22_008.png", 0.0,
                 BEER_CATEGORY);
 
         List<Drink> beers = Arrays.asList(
@@ -84,9 +84,9 @@ public class TestDataLoader implements CommandLineRunner {
         BEERS = drinkRepository.saveAll(beers);
 
         Provider provider1 = Provider.of("1234", ProviderName.TEST);
-        Member member1 = Member.from(provider1);
+        Member member1 = Member.create(provider1, Nickname.create("아무닉네임"), Biography.create("아무자기소개"));
         Provider provider2 = Provider.of("5678", ProviderName.TEST);
-        Member member2 = Member.from(provider2);
+        Member member2 = Member.create(provider2, Nickname.create("아무닉네임2"), Biography.create("아무자기소개"));
 
         MEMBER = memberRepository.save(member1);
         MEMBER2 = memberRepository.save(member2);

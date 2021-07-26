@@ -3,8 +3,8 @@ package com.jujeol.drink.application;
 import static com.jujeol.drink.domain.RecommendationTheme.PREFERENCE;
 import static com.jujeol.drink.domain.RecommendationTheme.VIEW_COUNT;
 
+import com.jujeol.drink.application.dto.AdminDrinkRequestDto;
 import com.jujeol.drink.application.dto.DrinkDto;
-import com.jujeol.drink.application.dto.DrinkRequestDto;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.RecommendationTheme;
@@ -13,7 +13,6 @@ import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.exception.NotFoundCategoryException;
 import com.jujeol.drink.exception.NotFoundDrinkException;
-import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.Preference;
 import com.jujeol.member.domain.PreferenceRepository;
 import java.util.ArrayList;
@@ -68,26 +67,33 @@ public class DrinkService {
                 .orElseThrow(NotFoundDrinkException::new);
         Preference preference = preferenceRepository
                 .findByMemberIdAndDrinkId(memberId, drinkId)
-                .orElseGet(() -> Preference.from(Member.from(memberId), drink, 0.0));
+                .orElseGet(() -> Preference.anonymousPreference(drink));
         viewCountService.updateViewCount(drink);
         return DrinkDto.create(drink, preference, fileServerUrl);
     }
 
     @Transactional
-    public void insertDrinks(List<DrinkRequestDto> drinkRequests) {
+    public void insertDrinks(List<AdminDrinkRequestDto> drinkRequests) {
         final List<Drink> drinks = new ArrayList<>();
 
-        for (DrinkRequestDto drinkRequest : drinkRequests) {
-            Category category = categoryRepository.findById(drinkRequest.getCategoryId())
-                    .orElseThrow(NotFoundCategoryException::new);
+        List<Category> categories = categoryRepository.findAll();
+        for (AdminDrinkRequestDto drinkRequest : drinkRequests) {
+            Category category = findCategory(categories, drinkRequest.getCategoryId());
             ViewCount viewCount = viewCountService.insert(ViewCount.create(0L));
             drinks.add(drinkRequest.toEntity(category, viewCount));
         }
         drinkRepository.batchInsert(drinks);
     }
 
+    private Category findCategory(List<Category> categories, Long categoryId) {
+        return categories.stream()
+                .filter(category -> category.isEqual(categoryId))
+                .findAny()
+                .orElseThrow(NotFoundCategoryException::new);
+    }
+
     @Transactional
-    public void updateDrink(Long id, DrinkRequestDto drinkRequest) {
+    public void updateDrink(Long id, AdminDrinkRequestDto drinkRequest) {
         final Drink drink = drinkRepository.findById(id).orElseThrow(NotFoundDrinkException::new);
 
         Category category = categoryRepository.findById(drinkRequest.getCategoryId())
