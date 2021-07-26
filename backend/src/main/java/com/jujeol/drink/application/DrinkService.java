@@ -9,7 +9,6 @@ import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.exception.NotFoundCategoryException;
 import com.jujeol.drink.exception.NotFoundDrinkException;
-import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.Preference;
 import com.jujeol.member.domain.PreferenceRepository;
 import java.util.ArrayList;
@@ -54,7 +53,7 @@ public class DrinkService {
 
         Preference preference = preferenceRepository
                 .findByMemberIdAndDrinkId(memberId, drinkId)
-                .orElseGet(() -> Preference.from(Member.from(memberId), drink, 0.0));
+                .orElseGet(() -> Preference.anonymousPreference(drink));
 
         return DrinkDto.create(drink, preference, fileServerUrl);
     }

@@ -8,7 +8,6 @@ import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.domain.repository.ReviewRepository;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
-import com.jujeol.member.domain.PreferenceRepository;
 import com.jujeol.member.domain.Provider;
 import com.jujeol.member.domain.ProviderName;
 import java.util.List;
@@ -28,7 +27,6 @@ public class DataLoader implements CommandLineRunner {
     public DataLoader(DrinkRepository drinkRepository,
             ReviewRepository reviewRepository,
             MemberRepository memberRepository,
-            PreferenceRepository preferenceRepository,
             CategoryRepository categoryRepository) {
         this.drinkRepository = drinkRepository;
         this.reviewRepository = reviewRepository;
@@ -42,7 +40,7 @@ public class DataLoader implements CommandLineRunner {
         Category BEER = categoryRepository.save(Category.create("맥주"));
         Category SOJU = categoryRepository.save(Category.create("소주"));
         Category WINE = categoryRepository.save(Category.create("와인"));
-        Category Makgeolli = categoryRepository.save(Category.create("막걸리"));
+        Category MAKGEOLLI = categoryRepository.save(Category.create("막걸리"));
 
         // Drink Data
         Drink stella = Drink.from("스텔라", "stella", 5.5, "stella_artois.png", 0.0, BEER);
@@ -60,7 +58,7 @@ public class DataLoader implements CommandLineRunner {
 
         // Member Data
         Provider provider = Provider.of("1234", ProviderName.TEST);
-        Member member = Member.from(provider);
+        Member member = Member.createAnonymousMember();
 
         memberRepository.save(member);
 

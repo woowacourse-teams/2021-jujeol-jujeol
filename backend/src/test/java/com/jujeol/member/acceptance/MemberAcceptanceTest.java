@@ -3,12 +3,14 @@ package com.jujeol.member.acceptance;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
+import com.jujeol.RequestBuilder.Option;
 import com.jujeol.commons.exception.ExceptionCodeAndDetails;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.exception.NotFoundDrinkException;
-import com.jujeol.member.application.dto.MemberResponse;
-import com.jujeol.member.application.dto.PreferenceRequest;
+import com.jujeol.member.application.dto.PreferenceDto;
 import com.jujeol.member.exception.UnauthorizedUserException;
+import com.jujeol.member.ui.dto.MemberRequest;
+import com.jujeol.member.ui.dto.MemberResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
@@ -20,13 +22,9 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     @Test
     @DisplayName("멤버 조회 - 성공")
     public void findMember() {
+        //given
         //when
-        Long id = request().get("/members/me")
-                .withDocument("member/show/me")
-                .withUser()
-                .build()
-                .convertBody(MemberResponse.class)
-                .getId();
+        Long id = 내_정보를_조회한다("member/show/me").getId();
 
         //then
         assertThat(id).isEqualTo(1L);
@@ -51,15 +49,63 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    @DisplayName("멤버 수정 - 성공")
+    public void updateMember() {
+        //when
+        String updateNickname = "열글자_닉네임_쁘이";
+        String updateBiography = "적절한 길이의 자기소개가 필요합니다. 적절한 길이가 몇글자?35";
+
+        ExtractableResponse<Response> response = 내_정보를_수정한다(
+                new MemberRequest(updateNickname, updateBiography), "member/update/me");
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+
+        MemberResponse memberResponse = 내_정보를_조회한다();
+
+        //then
+        assertThat(memberResponse.getNickname()).isEqualTo(updateNickname);
+        assertThat(memberResponse.getBio()).isEqualTo(updateBiography);
+    }
+
+    @Test
+    @DisplayName("멤버 수정 - 실패 (부적절한 닉네임)")
+    public void updateMember_fail_InvalidNickname() {
+        //when
+        String updateNickname = "딱_열글자_넘기는_놈";
+        String updateBiography = "적절한 길이의 자기소개가 필요합니다. 적절한 길이가 몇글자?35";
+
+        ExtractableResponse<Response> response = 내_정보를_수정한다(
+                new MemberRequest(updateNickname, updateBiography),
+                "member/update/me-fail-nickname");
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    @DisplayName("멤버 수정 - 실패 (부적절한 자기소개)")
+    public void updateMember_InvalidBio() {
+        //when
+        String updateNickname = "열글자_닉네임_쁘이";
+        String updateBiography = "제가 LA 에인절스에 있을 때가 생각나는군요. 그떄는 36글자를 ";
+
+        ExtractableResponse<Response> response = 내_정보를_수정한다(
+                new MemberRequest(updateNickname, updateBiography), "member/update/me-fail-bio");
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
     @DisplayName("선호도 등록 - 성공")
     public void createPreference() {
         //given
         Long drinkId = 1L;
-        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
+        PreferenceDto preferenceDto = PreferenceDto.of(4.5);
 
         //when
         ExtractableResponse<Response> response = request()
-                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceDto)
                 .withDocument("member/preference/create")
                 .withUser()
                 .build()
@@ -74,17 +120,17 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     public void updatePreference() {
         //given
         Long drinkId = 1L;
-        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
+        PreferenceDto preferenceDto = PreferenceDto.of(4.5);
         request()
-                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceDto)
                 .withUser()
                 .build()
                 .totalResponse();
-        preferenceRequest = new PreferenceRequest(3.0);
+        preferenceDto = PreferenceDto.of(3.0);
 
         //when
         ExtractableResponse<Response> updateResponse = request()
-                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceDto)
                 .withDocument("member/preference/update")
                 .withUser()
                 .build()
@@ -99,11 +145,11 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     public void createPreference_fail_unauthorizedUser() {
         //given
         Long drinkId = 1L;
-        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
+        PreferenceDto preferenceDto = PreferenceDto.of(4.5);
 
         //when
         ExtractableResponse<Response> response = request()
-                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceDto)
                 .withDocument("member/preference/create-fail-user")
                 .build()
                 .totalResponse();
@@ -122,11 +168,11 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     public void createPreference_fail_notFound() {
         //given
         Long drinkId = 100L;
-        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
+        PreferenceDto preferenceDto = PreferenceDto.of(4.5);
 
         //when
         ExtractableResponse<Response> response = request()
-                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceDto)
                 .withDocument("member/preference/create-fail-drink")
                 .withUser()
                 .build()
@@ -146,10 +192,10 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     public void deletePreference() {
         //given
         Long drinkId = 1L;
-        PreferenceRequest preferenceRequest = new PreferenceRequest(4.5);
+        PreferenceDto preferenceDto = PreferenceDto.of(4.5);
 
         request()
-                .put("/members/me/drinks/" + drinkId + "/preference", preferenceRequest)
+                .put("/members/me/drinks/" + drinkId + "/preference", preferenceDto)
                 .withUser()
                 .build()
                 .totalResponse();
@@ -186,5 +232,36 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(exception.getCode()).isEqualTo(codeAndDetails.getCode());
         assertThat(exception.getMessage()).isEqualTo(codeAndDetails.getMessage());
+    }
+
+    private ExtractableResponse<Response> 내_정보를_수정한다(MemberRequest memberRequest) {
+        return 내_정보를_수정한다(memberRequest, "");
+    }
+
+    private ExtractableResponse<Response> 내_정보를_수정한다(MemberRequest memberRequest,
+            String documentPath) {
+        Option updateRequest = request().put("/members/me", memberRequest);
+
+        if (!documentPath.isBlank()) {
+            updateRequest.withDocument(documentPath);
+        }
+
+        return updateRequest.withUser()
+                .build()
+                .totalResponse();
+    }
+
+    private MemberResponse 내_정보를_조회한다() {
+        return 내_정보를_조회한다("");
+    }
+
+    private MemberResponse 내_정보를_조회한다(String documentPath) {
+        Option getRequest = request().get("/members/me");
+        if (!documentPath.isBlank()) {
+            getRequest.withDocument(documentPath);
+        }
+        return getRequest.withUser()
+                .build()
+                .convertBody(MemberResponse.class);
     }
 }

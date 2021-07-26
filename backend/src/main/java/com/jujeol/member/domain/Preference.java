@@ -19,6 +19,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Preference extends BaseEntity {
 
+    private static final int ANONYMOUS_USER_RATE = 0;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,6 +47,10 @@ public class Preference extends BaseEntity {
 
     public static Preference from(Member member, Drink drink, double rate) {
         return new Preference(member, drink, rate);
+    }
+
+    public static Preference anonymousPreference(Drink drink) {
+        return new Preference(null, drink, ANONYMOUS_USER_RATE);
     }
 
     public void updateRate(double rate) {

@@ -2,9 +2,8 @@ package com.jujeol;
 
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.Review;
-import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
+import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.repository.ReviewRepository;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
@@ -82,9 +81,9 @@ public class TestDataLoader implements CommandLineRunner {
         BEERS = drinkRepository.saveAll(beers);
 
         Provider provider1 = Provider.of("1234", ProviderName.TEST);
-        Member member1 = Member.from(provider1);
+        Member member1 = Member.create(provider1, Nickname.create("아무닉네임"), Biography.create("아무자기소개"));
         Provider provider2 = Provider.of("5678", ProviderName.TEST);
-        Member member2 = Member.from(provider2);
+        Member member2 = Member.create(provider2, Nickname.create("아무닉네임2"), Biography.create("아무자기소개"));
 
         MEMBER = memberRepository.save(member1);
         MEMBER2 = memberRepository.save(member2);
