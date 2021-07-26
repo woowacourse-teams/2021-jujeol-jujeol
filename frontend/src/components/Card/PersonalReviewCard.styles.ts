@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const Container = styled.div`
+const TextContainer = styled.div`
   width: 100%;
   height: 100%;
   font-size: 0;
@@ -13,17 +13,18 @@ const Container = styled.div`
     right: -1.2rem;
     bottom: 0.1rem;
   }
-`;
 
-const Header = styled.div`
-  position: relative;
-  margin-right: -0.1rem;
+  > div {
+    position: relative;
+    margin-right: -0.1rem;
 
-  button {
-    position: absolute;
-    top: -1rem;
-    background-color: transparent;
-    border: none;
+    button {
+      border: 1px solid red;
+      position: absolute;
+      top: -1rem;
+      background-color: transparent;
+      border: none;
+    }
   }
 `;
 
@@ -51,4 +52,4 @@ const Content = styled.p`
   text-overflow: ellipsis;
 `;
 
-export { Container, Header, Title, Content };
+export { TextContainer, Title, Content };
