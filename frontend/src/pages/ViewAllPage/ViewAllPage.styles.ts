@@ -1,6 +1,10 @@
 import styled from '@emotion/styled';
 import { COLOR } from 'src/constants';
 
+const Container = styled.div`
+  position: relative;
+`;
+
 const Title = styled.div`
   width: 100%;
   display: flex;
@@ -31,4 +35,4 @@ const InfinityScrollPoll = styled.div`
   background-color: transparent;
 `;
 
-export { Title, InfinityScrollPoll };
+export { Container, Title, InfinityScrollPoll };
