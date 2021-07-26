@@ -23,7 +23,7 @@ public class DrinkDto {
     private double preferenceRate;
     private double preferenceAvg;
 
-    public static DrinkDto from(
+    public static DrinkDto create(
             Drink drink,
             Preference preference,
             String fileServerUrl

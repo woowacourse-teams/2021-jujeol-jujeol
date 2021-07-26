@@ -1,5 +1,6 @@
 package com.jujeol.member.ui.dto;
 
+import com.jujeol.drink.application.dto.DrinkDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,10 +15,12 @@ public class ReviewDrinkResponse {
     private String imageUrl;
 
     public static ReviewDrinkResponse create(
-            Long id,
-            String name,
-            String imageUrl
+            DrinkDto drinkDto
     ) {
-        return new ReviewDrinkResponse(id, name, imageUrl);
+        return new ReviewDrinkResponse(
+                drinkDto.getId(),
+                drinkDto.getName(),
+                drinkDto.getImageUrl()
+        );
     }
 }

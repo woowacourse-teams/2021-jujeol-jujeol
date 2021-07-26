@@ -2,8 +2,8 @@ package com.jujeol.member.ui;
 
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.member.application.LoginService;
-import com.jujeol.member.application.dto.TokenRequest;
-import com.jujeol.member.application.dto.TokenResponse;
+import com.jujeol.member.application.dto.TokenDto;
+import com.jujeol.member.ui.dto.SocialProviderCodeRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +17,9 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping("/login/token")
-    public ResponseEntity<CommonResponse<TokenResponse>> login(
-            @RequestBody TokenRequest tokenRequest) {
-        return ResponseEntity.ok(CommonResponse.from(loginService.createToken(tokenRequest)));
+    public ResponseEntity<CommonResponse<TokenDto>> login(
+            @RequestBody SocialProviderCodeRequest socialProviderCodeRequest) {
+        return ResponseEntity.ok(CommonResponse.from(loginService.createToken(
+                socialProviderCodeRequest.toDto())));
     }
 }

@@ -1,6 +1,7 @@
 package com.jujeol.member.ui.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.jujeol.drink.application.dto.ReviewDto;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,12 +20,14 @@ public class MemberReviewResponse {
     private ReviewDrinkResponse reviewDrinkResponse;
 
     public static MemberReviewResponse create(
-            Long id,
-            String content,
-            LocalDateTime createdAt,
-            LocalDateTime modifiedAt,
+            ReviewDto reviewDto,
             ReviewDrinkResponse reviewDrinkResponse
     ) {
-        return new MemberReviewResponse(id, content, createdAt, modifiedAt, reviewDrinkResponse);
+        return new MemberReviewResponse(
+                reviewDto.getId(),
+                reviewDto.getContent(),
+                reviewDto.getCreatedAt(),
+                reviewDto.getModifiedAt(),
+                reviewDrinkResponse);
     }
 }

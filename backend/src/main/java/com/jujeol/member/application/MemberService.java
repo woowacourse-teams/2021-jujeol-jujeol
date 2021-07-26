@@ -6,12 +6,14 @@ import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.domain.repository.ReviewRepository;
 import com.jujeol.drink.exception.NotFoundDrinkException;
-import com.jujeol.member.application.dto.MemberResponse;
-import com.jujeol.member.application.dto.PreferenceRequest;
+import com.jujeol.member.application.dto.MemberDto;
+import com.jujeol.member.application.dto.PreferenceDto;
+import com.jujeol.member.domain.Biography;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
 import com.jujeol.member.domain.Preference;
 import com.jujeol.member.domain.PreferenceRepository;
+import com.jujeol.member.domain.nickname.Nickname;
 import com.jujeol.member.exception.NoSuchMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,17 +35,25 @@ public class MemberService {
     private final DrinkRepository drinkRepository;
     private final ReviewRepository reviewRepository;
 
-    public MemberResponse findMember(Long id) {
+    public MemberDto findMember(Long id) {
         Member member = memberRepository.findById(id)
                 .orElseThrow(NoSuchMemberException::new);
-        return MemberResponse.from(member);
+        return MemberDto.from(member);
+    }
+
+    @Transactional
+    public void updateMember(MemberDto memberDto) {
+        Member member = memberRepository.findById(memberDto.getId())
+                .orElseThrow(NoSuchMemberException::new);
+
+        member.updateNicknameAndBiography(Nickname.create(memberDto.getNickname()), Biography.create(memberDto.getBio()));
     }
 
     @Transactional
     public void createOrUpdatePreference(
             Long memberId,
             Long drinkId,
-            PreferenceRequest preferenceRequest
+            PreferenceDto preferenceDto
     ) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoSuchMemberException::new);
@@ -52,10 +62,10 @@ public class MemberService {
 
         preferenceRepository
                 .findByMemberIdAndDrinkId(member.getId(), drink.getId())
-                .ifPresentOrElse(exist -> exist.updateRate(preferenceRequest.getPreferenceRate()),
+                .ifPresentOrElse(exist -> exist.updateRate(preferenceDto.getPreferenceRate()),
                         () -> {
                             Preference newPreference = Preference
-                                    .from(member, drink, preferenceRequest.getPreferenceRate());
+                                    .from(member, drink, preferenceDto.getPreferenceRate());
                             preferenceRepository.save(newPreference);
                         }
                 );
@@ -66,9 +76,9 @@ public class MemberService {
         preferenceRepository.deleteByMemberIdAndDrinkId(memberId, drinkId);
     }
 
-    public Page<DrinkDto> findDrinks(Long id, Pageable pageable) {
-        return drinkRepository.findAll(pageable)
-                .map(drink -> DrinkDto.from(
+    public Page<DrinkDto> findDrinks(Long memberId, Pageable pageable) {
+        return preferenceRepository.findDrinksOfMineWithPreference(memberId, pageable)
+                .map(drink -> DrinkDto.create(
                         drink,
                         Preference.from(drink, 3.5),
                         fileServerUrl
@@ -76,18 +86,15 @@ public class MemberService {
                 );
     }
 
-    public Page<ReviewDto> findReviews(Long id, Pageable pageable) {
-        return reviewRepository.findAll(pageable)
+    public Page<ReviewDto> findReviews(Long memberId, Pageable pageable) {
+        return reviewRepository.findReviewsOfMine(memberId, pageable)
                 .map(review -> ReviewDto.create(
-                        review.getId(),
-                        DrinkDto.from(
+                        review,
+                        DrinkDto.create(
                                 review.getDrink(),
                                 Preference.from(review.getDrink(), 3.5),
                                 fileServerUrl
-                        ),
-                        review.getContent(),
-                        review.getCreatedAt(),
-                        review.getModifiedAt()
+                        )
                 ));
     }
 }
