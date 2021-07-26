@@ -5,9 +5,9 @@ interface Props extends ArrowButtonStyle {
   onClick?: () => void;
 }
 
-const ArrowButton = ({ name, fontSize, size, borderSize, dir, onClick }: Props) => {
+const ArrowButton = ({ name, fontSize, size, borderWidth, dir, onClick }: Props) => {
   return (
-    <Button fontSize={fontSize} size={size} borderSize={borderSize} dir={dir} onClick={onClick}>
+    <Button fontSize={fontSize} size={size} borderWidth={borderWidth} dir={dir} onClick={onClick}>
       {name ?? ''}
     </Button>
   );

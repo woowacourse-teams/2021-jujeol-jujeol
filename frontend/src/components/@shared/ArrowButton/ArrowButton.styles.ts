@@ -11,7 +11,7 @@ const DIRECTION = {
 interface ArrowButtonStyle {
   fontSize?: string;
   size: string;
-  borderSize: string;
+  borderWidth: string;
   dir: keyof typeof DIRECTION;
 }
 
@@ -29,8 +29,8 @@ const Button = styled.button<Omit<ArrowButtonStyle, 'translate'>>`
     width: ${({ size }) => size ?? '0.7rem'};
     height: ${({ size }) => size ?? '0.7rem'};
 
-    border-top: ${({ borderSize }) => borderSize ?? '0.125rem'} solid ${COLOR.WHITE_200};
-    border-right: ${({ borderSize }) => borderSize ?? '0.125rem'} solid ${COLOR.WHITE_200};
+    border-top: ${({ borderWidth }) => borderWidth ?? '0.125rem'} solid ${COLOR.WHITE_200};
+    border-right: ${({ borderWidth }) => borderWidth ?? '0.125rem'} solid ${COLOR.WHITE_200};
     transform: ${({ dir }) => `rotate(${DIRECTION[dir]})`};
   }
 `;

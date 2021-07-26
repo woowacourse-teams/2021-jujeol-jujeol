@@ -20,7 +20,7 @@ const Preview = ({ title, path, children }: Props) => {
           fontSize=" 0.8rem"
           dir="RIGHT"
           size="0.4rem"
-          borderSize="0.0625rem"
+          borderWidth="0.0625rem"
           onClick={() => history.push(path)}
         />
       </Header>

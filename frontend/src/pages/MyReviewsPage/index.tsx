@@ -40,7 +40,7 @@ const MyReviewsPage = () => {
   return (
     <>
       <Header>
-        <ArrowButton size="0.7rem" borderSize="2px" dir="LEFT" onClick={() => history.goBack()} />
+        <ArrowButton size="0.7rem" borderWidth="2px" dir="LEFT" onClick={() => history.goBack()} />
         <h2>내가 남긴 리뷰</h2>
       </Header>
 

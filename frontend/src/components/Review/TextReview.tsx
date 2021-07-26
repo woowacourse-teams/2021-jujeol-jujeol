@@ -18,7 +18,7 @@ const TextReview = ({ review }: Props) => {
         <EditButton />
       </Header>
       <Content>{content}</Content>
-      {/* <ArrowButton size="0.4rem" borderSize="1.5px" dir="DOWN" /> */}
+      {/* <ArrowButton size="0.4rem" borderWidth="1.5px" dir="DOWN" /> */}
     </Container>
   );
 };
