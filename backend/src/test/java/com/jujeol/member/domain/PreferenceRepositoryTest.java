@@ -46,7 +46,7 @@ public class PreferenceRepositoryTest {
 
         Member member = Member.create(Provider.of("1234", ProviderName.TEST), null, null);
         savedMember = memberRepository.save(member);
-        Member member2 = Member.from(Provider.of("1234", ProviderName.TEST));
+        Member member2 = Member.create(Provider.of("1234", ProviderName.TEST), null, null);
         savedMember2 = memberRepository.save(member2);
     }
 
