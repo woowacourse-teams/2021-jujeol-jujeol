@@ -8,14 +8,15 @@ import { Wrapper, ReviewList, InfinityScrollPoll } from './Review.styles';
 const Review = ({ drinkId }: { drinkId: string }) => {
   const infinityPollRef = useRef<HTMLDivElement>(null);
 
-  const { data: reviewData, fetchNextPage } = useInfiniteQuery<{
-    data: Review.ReviewItem[];
-    pageInfo: { currentPage: number; lastPage: number; countPerPage: number; totalSize: number };
-  }>('reviews', ({ pageParam = 1 }) => API.getReview<string>({ id: drinkId, page: pageParam }), {
-    getNextPageParam: ({ pageInfo }) => {
-      return pageInfo.currentPage < pageInfo.lastPage ? pageInfo.currentPage + 1 : undefined;
-    },
-  });
+  const { data: reviewData, fetchNextPage } = useInfiniteQuery(
+    'reviews',
+    ({ pageParam = 1 }) => API.getReview<string>({ id: drinkId, page: pageParam }),
+    {
+      getNextPageParam: ({ pageInfo }) => {
+        return pageInfo.currentPage < pageInfo.lastPage ? pageInfo.currentPage + 1 : undefined;
+      },
+    }
+  );
   const reviews = reviewData?.pages?.map((page) => page.data).flat() ?? [];
   const [
     {

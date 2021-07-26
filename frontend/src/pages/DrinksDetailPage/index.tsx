@@ -109,9 +109,7 @@ const DrinksDetailPage = () => {
             onClick={onCheckLoggedIn}
             onTouchEnd={onUpdatePreference}
           />
-          <p>
-            다른 사람들은 평균적으로 <span>{preferenceAvg ?? '0'}</span>점을 줬어요
-          </p>
+          <p>다른 사람들은 평균적으로 {preferenceAvg ?? '0'}점을 줬어요</p>
         </PreferenceSection>
 
         <DescriptionSection>
