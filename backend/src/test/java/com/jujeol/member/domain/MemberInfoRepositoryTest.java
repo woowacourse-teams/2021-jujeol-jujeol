@@ -56,7 +56,7 @@ public class MemberInfoRepositoryTest {
     @Test
     public void findReviewsByMemberId() {
         //given
-        Drink stella = Drink.from(
+        Drink stella = Drink.create(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0,
                 savedCategory);
         Drink drink = drinkRepository.save(stella);
@@ -87,13 +87,13 @@ public class MemberInfoRepositoryTest {
     @Test
     public void findDrinkUsingPreference() {
         //given
-        Drink kgb = Drink.from(
+        Drink kgb = Drink.create(
                 "KGB", "", 3.5, "KakaoTalk_Image_2021-07-08-19-58-09_002.png", 0.0,
                 savedCategory);
-        Drink estp = Drink.from(
+        Drink estp = Drink.create(
                 "ESTP", "", 7.5, "KakaoTalk_Image_2021-07-08-19-58-11_003.png", 0.0,
                 savedCategory);
-        Drink tiger_rad = Drink.from(
+        Drink tiger_rad = Drink.create(
                 "타이거 라들러 자몽", "Tiger_Rad", 9.5, "KakaoTalk_Image_2021-07-08-19-58-15_004.png", 0.0,
                 savedCategory);
 
