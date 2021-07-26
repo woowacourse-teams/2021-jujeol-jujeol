@@ -122,6 +122,15 @@ include::{snippets}/drinks/show/all/http-response.adoc[]
 
 include::{snippets}/drinks/show/all-theme/http-request.adoc[]
 
+theme 종류
+[width="70%"]
+|===
+|추천 종류 |recommendation
+|선호도 |preference
+|조회수 |view-count
+|===
+
+
 - Response
 
 include::{snippets}/drinks/show/all-theme/http-response.adoc[]

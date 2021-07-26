@@ -21,6 +21,7 @@ public class DrinkDto {
     private Long categoryId;
     private String category;
     private double preferenceRate;
+    private Long viewCount;
     private double preferenceAvg;
 
     public static DrinkDto create(
@@ -36,6 +37,7 @@ public class DrinkDto {
                 drink.getCategory().getId(),
                 drink.getCategory().getName(),
                 preference.getRate(),
+                drink.getViewCount().getViewCount(),
                 drink.getPreferenceAvg()
         );
     }

@@ -5,8 +5,12 @@ import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
+import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
+import com.jujeol.drink.domain.repository.ReviewRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +19,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -35,6 +42,7 @@ public class PreferenceRepositoryTest {
     private Drink savedDrink;
     private Member savedMember;
     private Member savedMember2;
+    private Category BEER;
 
     @BeforeEach
     void setUp() {
@@ -78,6 +86,7 @@ public class PreferenceRepositoryTest {
         Preference findPreference = preferenceRepository
                 .findByMemberIdAndDrinkId(savedMember.getId(), savedDrink.getId())
                 .orElseGet(() -> Preference.from(savedMember, savedDrink, 0.0));
+
         //then
         assertThat(findPreference.getRate()).isEqualTo(4.0);
     }

@@ -61,9 +61,9 @@ public class ReviewService {
 
     public Page<ReviewResponse> showReviews(Long drinkId, Pageable pageable) {
         return reviewRepository.findAllByDrinkId(drinkId, pageable)
-                .map(review -> ReviewResponse.from(
+                .map(review -> ReviewResponse.create(
                         review.getId(),
-                        MemberDto.from(review.getMemberId()),
+                        MemberDto.create(review.getMemberId()),
                         review.getContent(),
                         review.getCreatedAt(),
                         review.getModifiedAt()

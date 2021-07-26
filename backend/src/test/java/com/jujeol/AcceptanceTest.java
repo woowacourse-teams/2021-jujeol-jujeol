@@ -11,6 +11,7 @@ import com.jujeol.member.application.LoginService;
 import com.jujeol.member.application.dto.TokenDto;
 import com.jujeol.member.fixture.SocialLoginMemberFixture;
 import io.restassured.RestAssured;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ExtendWith(RestDocumentationExtension.class)
 @ActiveProfiles("test")
 public class AcceptanceTest {
@@ -34,6 +35,8 @@ public class AcceptanceTest {
     private LoginService loginService;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private TestDataLoader testDataLoader;
 
     @BeforeEach
     public void setUp(RestDocumentationContextProvider restDocumentation) {
@@ -43,10 +46,11 @@ public class AcceptanceTest {
         request = new RequestBuilder(restDocumentation, token.getAccessToken(), objectMapper);
     }
 
-    /**
-     * use-example : request() .get("/path")                   http method .withoutLog() default :
-     * true .withDocument("identifier")     default : withoutDocument .build();
-     */
+    @AfterEach
+    void afterEach() {
+        testDataLoader.removeAll();
+    }
+
     protected Function request() {
         return request.builder();
     }

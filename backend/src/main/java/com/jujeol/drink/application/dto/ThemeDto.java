@@ -11,7 +11,7 @@ public class ThemeDto {
 
     private String theme;
 
-    public static ThemeDto from(String theme) {
+    public static ThemeDto create(String theme) {
         return new ThemeDto(theme);
     }
 }

@@ -2,9 +2,9 @@ package com.jujeol;
 
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
+import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
-import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.repository.ReviewRepository;
 import com.jujeol.member.domain.Biography;
 import com.jujeol.member.domain.Member;
@@ -19,6 +19,7 @@ import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Profile({"test"})
@@ -51,10 +52,10 @@ public class TestDataLoader implements CommandLineRunner {
     }
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
 
-        BEER_CATEGORY = categoryRepository.save(Category.create("맥주"));
-        SOJU_CATEGORY = categoryRepository.save(Category.create("소주"));
+        saveCategory();
 
         Drink stella = Drink.create(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0,
@@ -73,9 +74,11 @@ public class TestDataLoader implements CommandLineRunner {
                 "애플", "Apple", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", 0.0,
                 BEER_CATEGORY);
         Drink ob = Drink.create(
-                "오비", "OB", 85.0, "KakaoTalk_Image_2021-07-08-19-58-22_007.png", 0.0, BEER_CATEGORY);
+                "오비", "OB", 85.0, "KakaoTalk_Image_2021-07-08-19-58-22_007.png", 0.0,
+                BEER_CATEGORY);
         Drink tigerLemon = Drink.create(
-                "타이거 라들러 레몬", "Tiger_Lemon", 4.5, "KakaoTalk_Image_2021-07-08-19-58-22_008.png", 0.0,
+                "타이거 라들러 레몬", "Tiger_Lemon", 4.5, "KakaoTalk_Image_2021-07-08-19-58-22_008.png",
+                0.0,
                 BEER_CATEGORY);
 
         List<Drink> beers = Arrays.asList(
@@ -84,14 +87,31 @@ public class TestDataLoader implements CommandLineRunner {
         BEERS = drinkRepository.saveAll(beers);
 
         Provider provider1 = Provider.of("1234", ProviderName.TEST);
-        Member member1 = Member.create(provider1, Nickname.create("아무닉네임"), Biography.create("아무자기소개"));
+        Member member1 = Member
+                .create(provider1, Nickname.create("아무닉네임"), Biography.create("아무자기소개"));
         Provider provider2 = Provider.of("5678", ProviderName.TEST);
-        Member member2 = Member.create(provider2, Nickname.create("아무닉네임2"), Biography.create("아무자기소개"));
+        Member member2 = Member
+                .create(provider2, Nickname.create("아무닉네임2"), Biography.create("아무자기소개"));
 
         MEMBER = memberRepository.save(member1);
         MEMBER2 = memberRepository.save(member2);
 
-        PREFERENCE = preferenceRepository.save(Preference.from(MEMBER, stella, 3.5));
+        PREFERENCE = preferenceRepository.save(Preference.from(MEMBER, stella, 5));
+        stella.updateAverage(5.0);
+        preferenceRepository.save(Preference.from(MEMBER, kgb, 4.5));
+        kgb.updateAverage(4.5);
+        preferenceRepository.save(Preference.from(MEMBER, estp, 4));
+        estp.updateAverage(4.0);
+        preferenceRepository.save(Preference.from(MEMBER2, tiger_rad, 3.5));
+        tiger_rad.updateAverage(3.5);
+        preferenceRepository.save(Preference.from(MEMBER2, tsingtao, 3));
+        tsingtao.updateAverage(3.0);
+        preferenceRepository.save(Preference.from(MEMBER2, apple, 2.5));
+        apple.updateAverage(2.5);
+        preferenceRepository.save(Preference.from(MEMBER2, ob, 2));
+        ob.updateAverage(2.0);
+        preferenceRepository.save(Preference.from(MEMBER2, tigerLemon, 1.5));
+        tigerLemon.updateAverage(1.5);
 
         Review review1 = Review.create("천재 윤피카", stella, MEMBER);
         Review review2 = Review.create("천재 크로플", stella, MEMBER);
@@ -115,6 +135,11 @@ public class TestDataLoader implements CommandLineRunner {
         );
 
         REVIEWS = reviewRepository.saveAll(reviews);
+    }
+
+    public void saveCategory() {
+        BEER_CATEGORY = categoryRepository.save(Category.create("맥주"));
+        SOJU_CATEGORY = categoryRepository.save(Category.create("소주"));
     }
 
     public void removeAll() {

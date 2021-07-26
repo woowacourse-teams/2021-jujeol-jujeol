@@ -45,14 +45,14 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         assertThat(drinkSimpleResponses).usingRecursiveComparison()
                 .isEqualTo(expectedResult);
 
-        페이징_검증(httpResponse.pageInfo(), 1,2,7,8);
+        페이징_검증(httpResponse.pageInfo(), 1, 2, 7, 8);
     }
 
-    @DisplayName("추천 조회 - 성공")
+    @DisplayName("추천 조회(선호도) - 성공")
     @Test
-    public void showDrinksByThemeTest() {
+    public void showDrinksByPreferenceTest() {
         //given
-        String theme = "recommendation";
+        String theme = "preference";
 
         //when
         List<DrinkSimpleResponse> drinkSimpleResponses = request()
@@ -62,7 +62,33 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
 
         //then
         List<DrinkSimpleResponse> expectedResult = BEERS.stream()
-                .filter(drink -> drink.getId() < 8)
+                .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), ""))
+                .map(DrinkSimpleResponse::from)
+                .limit(7)
+                .collect(Collectors.toList());
+
+        assertThat(drinkSimpleResponses).usingRecursiveComparison()
+                .isEqualTo(expectedResult);
+    }
+
+    @DisplayName("추천 조회(조회수) - 성공")
+    @Test
+    public void showDrinksByViewCountTest() {
+        //given
+        String theme = "view-count";
+        request()
+                .get("/drinks/1")
+                .build();
+
+        //when
+        List<DrinkSimpleResponse> drinkSimpleResponses = request()
+                .get("/drinks?theme=" + theme + "&page=1")
+                .build().convertBodyToList(DrinkSimpleResponse.class);
+
+        //then
+
+        List<DrinkSimpleResponse> expectedResult = BEERS.stream()
+                .filter(drink -> drink.getId() == 1)
                 .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), ""))
                 .map(DrinkSimpleResponse::from)
                 .collect(Collectors.toList());

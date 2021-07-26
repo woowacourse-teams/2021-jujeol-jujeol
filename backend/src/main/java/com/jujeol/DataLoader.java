@@ -24,10 +24,12 @@ public class DataLoader implements CommandLineRunner {
     private final MemberRepository memberRepository;
     private final CategoryRepository categoryRepository;
 
-    public DataLoader(DrinkRepository drinkRepository,
+    public DataLoader(
+            DrinkRepository drinkRepository,
             ReviewRepository reviewRepository,
             MemberRepository memberRepository,
-            CategoryRepository categoryRepository) {
+            CategoryRepository categoryRepository
+    ) {
         this.drinkRepository = drinkRepository;
         this.reviewRepository = reviewRepository;
         this.memberRepository = memberRepository;

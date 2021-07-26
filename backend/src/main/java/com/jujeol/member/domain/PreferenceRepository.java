@@ -24,9 +24,8 @@ public interface PreferenceRepository extends JpaRepository<Preference, Long> {
             + "where p.member.id = :memberId "
             + "order by p.createdAt desc",
             countQuery = ""
-                    + "select p.drink from Preference p "
+                    + "select count(p.drink) from Preference p "
                     + "inner join Drink d on d.id = p.drink.id "
-                    + "where p.member.id = :memberId "
-                    + "order by p.createdAt desc")
+                    + "where p.member.id = :memberId ")
     Page<Drink> findDrinksOfMineWithPreference(Long memberId, Pageable pageable);
 }
