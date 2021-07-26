@@ -1,20 +1,14 @@
-import { useContext, useEffect, useRef, useState } from 'react';
-import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
+import { useContext, useEffect, useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
 import { useHistory, useParams } from 'react-router-dom';
+import UserContext from 'src/contexts/UserContext';
 import API from 'src/apis/requests';
 import Property from 'src/components/Property/Property';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import Review from 'src/components/Review/Review';
 import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 import { properties, categoryIdType } from './propertyData';
-import {
-  Section,
-  PreferenceSection,
-  Image,
-  DescriptionSection,
-  InfinityScrollPoll,
-} from './styles';
-import UserContext from 'src/contexts/UserContext';
+import { Section, PreferenceSection, Image, DescriptionSection } from './styles';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -32,8 +26,6 @@ const defaultDrinkDetail = {
 const DrinksDetailPage = () => {
   const { id: drinkId } = useParams<{ id: string }>();
 
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const infinityPollRef = useRef<HTMLDivElement>(null);
   const [drinkInfo, setDrinkInfo] = useState(defaultDrinkDetail);
 
   const history = useHistory();
@@ -49,27 +41,12 @@ const DrinksDetailPage = () => {
     preferenceAvg,
   } = drinkInfo;
 
-  const DrinkQuery = useQuery('drink-detail', () => API.getDrink<string>(drinkId), {
+  const DrinkDetailQuery = useQuery('drink-detail', () => API.getDrink<string>(drinkId), {
     retry: 0,
     onSuccess: ({ data }) => {
       setDrinkInfo(data);
     },
   });
-
-  const { data: reviewData, fetchNextPage } = useInfiniteQuery<{
-    data: Review.ReviewItem[];
-    pageInfo: { currentPage: number; lastPage: number; countPerPage: number; totalSize: number };
-  }>('reviews', ({ pageParam = 1 }) => API.getReview<string>({ id: drinkId, page: pageParam }), {
-    getNextPageParam: ({ pageInfo }) => {
-      return pageInfo.currentPage < pageInfo.lastPage ? pageInfo.currentPage + 1 : undefined;
-    },
-  });
-  const reviews = reviewData?.pages?.map((page) => page.data).flat() ?? [];
-  const [
-    {
-      pageInfo: { totalSize: totalReviewSize },
-    },
-  ] = reviewData?.pages ?? [{ pageInfo: { totalSize: 0 } }];
 
   const { mutate: updatePreference } = useMutation(
     () => {
@@ -109,31 +86,14 @@ const DrinksDetailPage = () => {
     }
   };
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          fetchNextPage();
-        }
-      });
-    },
-    { root: scrollAreaRef.current }
-  );
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    if (infinityPollRef.current) {
-      observer.observe(infinityPollRef.current);
-    }
-  }, [infinityPollRef.current]);
-
   return (
     <>
       <Image src={imageUrl} alt={name} />
-      <Section ref={scrollAreaRef}>
+      <Section>
         <PreferenceSection>
           <h3>
             {preferenceRate ? `당신의 선호도는? ${preferenceRate} 점` : '선호도를 입력해주세요'}
@@ -176,9 +136,7 @@ const DrinksDetailPage = () => {
           </ul>
         </DescriptionSection>
 
-        <Review reviews={reviews} totalSize={totalReviewSize} />
-
-        <InfinityScrollPoll ref={infinityPollRef} />
+        <Review drinkId={drinkId} />
       </Section>
     </>
   );

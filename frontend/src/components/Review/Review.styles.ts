@@ -27,4 +27,13 @@ const ReviewList = styled.ul`
   }
 `;
 
-export { Wrapper, ReviewList };
+const InfinityScrollPoll = styled.div`
+  width: 100%;
+  height: 13rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: transparent;
+`;
+
+export { Wrapper, ReviewList, InfinityScrollPoll };
