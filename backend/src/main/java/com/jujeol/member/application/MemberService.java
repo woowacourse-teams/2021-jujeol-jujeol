@@ -66,9 +66,9 @@ public class MemberService {
         preferenceRepository.deleteByMemberIdAndDrinkId(memberId, drinkId);
     }
 
-    public Page<DrinkDto> findDrinks(Long id, Pageable pageable) {
-        return drinkRepository.findAll(pageable)
-                .map(drink -> DrinkDto.from(
+    public Page<DrinkDto> findDrinks(Long memberId, Pageable pageable) {
+        return preferenceRepository.findDrinksOfMineWithPreference(memberId, pageable)
+                .map(drink -> DrinkDto.create(
                         drink,
                         Preference.from(drink, 3.5),
                         fileServerUrl
@@ -76,18 +76,15 @@ public class MemberService {
                 );
     }
 
-    public Page<ReviewDto> findReviews(Long id, Pageable pageable) {
-        return reviewRepository.findAll(pageable)
+    public Page<ReviewDto> findReviews(Long memberId, Pageable pageable) {
+        return reviewRepository.findReviewsOfMine(memberId, pageable)
                 .map(review -> ReviewDto.create(
-                        review.getId(),
-                        DrinkDto.from(
+                        review,
+                        DrinkDto.create(
                                 review.getDrink(),
                                 Preference.from(review.getDrink(), 3.5),
                                 fileServerUrl
-                        ),
-                        review.getContent(),
-                        review.getCreatedAt(),
-                        review.getModifiedAt()
+                        )
                 ));
     }
 }
