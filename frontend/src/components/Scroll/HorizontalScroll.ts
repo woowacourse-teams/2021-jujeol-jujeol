@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const Horizontal = styled.div<{ margin: string; padding: string }>`
+const HorizontalScroll = styled.div<{ margin: string; padding: string }>`
   ${({ margin }) => margin && `margin: ${margin}`};
   ${({ padding }) => padding && `padding: ${padding}`};
 
@@ -13,4 +13,4 @@ const Horizontal = styled.div<{ margin: string; padding: string }>`
   }
 `;
 
-export { Horizontal };
+export { HorizontalScroll };
