@@ -2,15 +2,18 @@ package com.jujeol;
 
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
+import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.repository.ReviewRepository;
+import com.jujeol.member.domain.Biography;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
 import com.jujeol.member.domain.Preference;
 import com.jujeol.member.domain.PreferenceRepository;
 import com.jujeol.member.domain.Provider;
 import com.jujeol.member.domain.ProviderName;
+import com.jujeol.member.domain.nickname.Nickname;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;

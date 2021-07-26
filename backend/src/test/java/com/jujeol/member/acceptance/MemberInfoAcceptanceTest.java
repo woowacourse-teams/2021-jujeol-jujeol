@@ -11,7 +11,7 @@ import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.Review;
-import com.jujeol.member.application.dto.PreferenceRequest;
+import com.jujeol.member.application.dto.PreferenceDto;
 import com.jujeol.member.ui.dto.MemberDrinkResponse;
 import com.jujeol.member.ui.dto.MemberReviewResponse;
 import java.util.Comparator;
@@ -30,7 +30,7 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
         Drink drink1 = drinks.get(0);
         Drink drink2 = drinks.get(1);
         Drink drink3 = drinks.get(2);
-        PreferenceRequest preferenceRequest = new PreferenceRequest(3.5);
+        PreferenceDto preferenceRequest = PreferenceDto.of(3.5);
 
         선호도를_등록한다(drink1, preferenceRequest);
         선호도를_등록한다(drink2, preferenceRequest);
@@ -58,7 +58,7 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
         assertThat(actualIds).isEqualTo(expectedIds);
     }
 
-    private void 선호도를_등록한다(Drink drink1, PreferenceRequest preferenceRequest) {
+    private void 선호도를_등록한다(Drink drink1, PreferenceDto preferenceRequest) {
         request()
                 .put("/members/me/drinks/" + drink1.getId() + "/preference", preferenceRequest)
                 .withUser()

@@ -7,10 +7,12 @@ import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.exception.NotFoundReviewException;
+import com.jujeol.member.domain.Biography;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
 import com.jujeol.member.domain.Provider;
 import com.jujeol.member.domain.ProviderName;
+import com.jujeol.member.domain.nickname.Nickname;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,7 +48,9 @@ public class ReviewRepositoryTest {
     @BeforeEach
     void setUp() {
         BEER = categoryRepository.save(Category.create("맥주"));
-        Member createMember = Member.create(Provider.of("1234", ProviderName.TEST));
+        Member createMember = Member.create(Provider.of("1234", ProviderName.TEST),
+                                            Nickname.create("주류의신소롱"),
+                                            Biography.create("누가 날 막을쏘냐"));
         member = memberRepository.save(createMember);
     }
 
