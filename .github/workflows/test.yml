@@ -4,9 +4,12 @@ name: test
 on:
   push:
     branches:
-      - test/github-action-config    # master 브랜치에서 push 이벤트가 일어났을 때 실행
+      - test/github-action-config    # gitub-action-config 브랜치에서 push 이벤트가 일어났을 때 실행
 
 jobs:
+  defaults:
+    run:
+      working-directory: ./frontend
   build:
     runs-on: test-actions
     steps:
@@ -14,10 +17,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install Dependencies
-        run: cd frontend && npm install
+        run: npm install
 
       - name: Build
-        run: cd frontend && npm run build:dev
+        run: npm run build:dev
 
       - name: Deploy
-        run: aws s3 sync frontend/build s3://jujeol-dev-depoly
+        run: aws s3 sync ./build s3://jujeol-dev-depoly
