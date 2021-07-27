@@ -38,7 +38,7 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
+        //주석을 한줄 추가
         Category BEER = categoryRepository.save(Category.create("맥주"));
         Category SOJU = categoryRepository.save(Category.create("소주"));
         Category WINE = categoryRepository.save(Category.create("와인"));
