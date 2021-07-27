@@ -19,20 +19,23 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(of = "id")
 public class Category {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private String name;
+    @Column
+    private String key;
 
-    public static Category create(String name) {
-        return new Category(null, name);
+    public static Category create(String name, String key) {
+        return new Category(null, name, key);
     }
 
-    public static Category create(Long id, String name) {
-        return new Category(id, name);
+    public static Category create(Long id, String name, String key) {
+        return new Category(id, name, key);
     }
 
     public boolean isEqual(Long id) {
-        return this.id == id;
+        return this.id.equals(id);
     }
 }

@@ -39,10 +39,10 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Category BEER = categoryRepository.save(Category.create("맥주"));
-        Category SOJU = categoryRepository.save(Category.create("소주"));
-        Category WINE = categoryRepository.save(Category.create("와인"));
-        Category MAKGEOLLI = categoryRepository.save(Category.create("막걸리"));
+        Category BEER = categoryRepository.save(Category.create("맥주", "BEER"));
+        Category SOJU = categoryRepository.save(Category.create("소주", "SOJU"));
+        Category WINE = categoryRepository.save(Category.create("와인", "WINE"));
+        Category MAKGEOLLI = categoryRepository.save(Category.create("막걸리", "MAKGEOLLI"));
 
         // Drink Data
         Drink stella = Drink.create("스텔라", "stella", 5.5, "stella_artois.png", 0.0, BEER);

@@ -10,6 +10,7 @@ import com.jujeol.drink.application.dto.ReviewRequest;
 import com.jujeol.drink.application.dto.ReviewResponse;
 import com.jujeol.drink.ui.dto.DrinkDetailResponse;
 import com.jujeol.drink.ui.dto.DrinkSimpleResponse;
+import com.jujeol.drink.ui.dto.SearchRequest;
 import com.jujeol.drink.ui.dto.ThemeRequest;
 import com.jujeol.member.ui.AuthenticationPrincipal;
 import com.jujeol.member.ui.LoginMember;
@@ -38,6 +39,17 @@ public class DrinkController {
     private final ReviewService reviewService;
 
     @GetMapping("/drinks")
+    public ResponseEntity<CommonResponse<List<DrinkSimpleResponse>>> showDrinksBySearch(
+            @ModelAttribute SearchRequest searchRequest,
+            @PageableDefault Pageable pageable
+    ) {
+        Page<DrinkDto> drinkDtos = drinkService
+                .showDrinksBySearch(searchRequest.toDto(), pageable);
+        return ResponseEntity
+                .ok(PageResponseAssembler.assemble(drinkDtos.map(DrinkSimpleResponse::from)));
+    }
+
+    @GetMapping("/drinks/recommendation")
     public ResponseEntity<CommonResponse<List<DrinkSimpleResponse>>> showDrinks(
             @ModelAttribute ThemeRequest themeRequest,
             @PageableDefault(7) Pageable pageable
@@ -110,4 +122,6 @@ public class DrinkController {
         reviewService.deleteReview(loginMember.getId(), drinkId, reviewId);
         return ResponseEntity.ok().build();
     }
+
+
 }

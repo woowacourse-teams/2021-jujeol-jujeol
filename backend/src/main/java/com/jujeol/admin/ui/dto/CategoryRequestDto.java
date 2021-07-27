@@ -18,6 +18,6 @@ public class CategoryRequestDto {
     }
 
     public Category toEntity() {
-        return Category.create(this.id, this.name);
+        return Category.create(this.id, this.name, null);
     }
 }
