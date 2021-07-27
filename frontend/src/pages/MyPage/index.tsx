@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
@@ -7,7 +7,7 @@ import ArrowButton from 'src/components/@shared/ArrowButton/ArrowButton';
 import Grid from 'src/components/@shared/Grid/Grid';
 import Preview from 'src/components/Preview/Preview';
 import Profile from 'src/components/Profile/Profile';
-import { Horizontal } from 'src/components/Scroll/Horizontal';
+import { HorizontalScroll } from 'src/components/Scroll/HorizontalScroll';
 import { PATH } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
 import MyDrinkItem from '../MyDrinksPage/MyDrinkItem';
@@ -25,16 +25,15 @@ const MyPage = () => {
   const [totalMyDrinks, setTotalMyDrinks] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
 
-  const myDrinksQuery = useQuery('my-drinks', API.getMyDrinks, {
+  const myDrinksQuery = useQuery('my-drinks', () => API.getPersonalDrinks({}), {
     retry: 0,
     onSuccess: ({ data, pageInfo }) => {
-      console.log(data);
       setMyDrinks(data);
       setTotalMyDrinks(pageInfo.totalSize);
     },
   });
 
-  const myReviewsQuery = useQuery('my-reviews', API.getMyReviews, {
+  const myReviewsQuery = useQuery('my-reviews', () => API.getPersonalReviews({}), {
     retry: 0,
     onSuccess: ({ data, pageInfo }) => {
       setMyReviews(data);
@@ -53,10 +52,11 @@ const MyPage = () => {
   return (
     <>
       <Header>
-        <ArrowButton size="0.7rem" borderSize="2px" dir="LEFT" onClick={() => history.goBack()} />
+        <ArrowButton size="0.7rem" borderWidth="2px" dir="LEFT" onClick={() => history.goBack()} />
         <h2>내정보</h2>
       </Header>
 
+      {/* 에러처리 */}
       <Profile src="http://placehold.it/72x72" nickname={userData?.nickname} bio={userData?.bio} />
 
       <Statistics>
@@ -71,13 +71,13 @@ const MyPage = () => {
       </Statistics>
 
       <Preview title="내가 마신 술" path={PATH.MY_DRINKS}>
-        <Horizontal margin="0 -1.5rem" padding="0 1.5rem">
+        <HorizontalScroll margin="0 -1.5rem" padding="0 1.5rem">
           <Grid col={7} colGap="1rem">
             {myDrinks?.map((myDrink: MyDrink.MyDrinkItem) => (
               <MyDrinkItem key={myDrink.id} size="LARGE" drink={myDrink} />
             ))}
           </Grid>
-        </Horizontal>
+        </HorizontalScroll>
       </Preview>
 
       <Preview title="내가 남긴 리뷰" path={PATH.MY_REVIEWS}>
