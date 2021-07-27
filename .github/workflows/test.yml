@@ -1,0 +1,24 @@
+# test.yml
+name: test
+
+on:
+  push:
+    branches:
+      - test/frontend-distribution-test    # master 브랜치에서 push 이벤트가 일어났을 때 실행
+
+jobs:
+  build:
+    runs-on: jujeol-test-actions
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@test/frontend-distribution-test
+
+      - name: Install Dependencies
+        run: cd frontent && npm install
+
+      - name: Build
+        run: npm run build:dev
+
+      - name: Deploy
+        run: |
+          aws sync .build s3://jujeol-dev-depoly
