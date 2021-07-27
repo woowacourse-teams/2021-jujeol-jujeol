@@ -1,10 +1,10 @@
 package com.jujeol.admin.acceptance;
 
-import static com.jujeol.admin.AdminDrinkRequestContainer.apple;
-import static com.jujeol.admin.AdminDrinkRequestContainer.estp;
-import static com.jujeol.admin.AdminDrinkRequestContainer.kgb;
-import static com.jujeol.admin.AdminDrinkRequestContainer.stella;
-import static com.jujeol.admin.AdminDrinkRequestContainer.tsingtao;
+import static com.jujeol.drink.DrinkTestContainer.APPLE;
+import static com.jujeol.drink.DrinkTestContainer.ESTP;
+import static com.jujeol.drink.DrinkTestContainer.KGB;
+import static com.jujeol.drink.DrinkTestContainer.STELLA;
+import static com.jujeol.drink.DrinkTestContainer.TSINGTAO;
 import static com.jujeol.commons.exception.ExceptionCodeAndDetails.INVALID_DRINK_NAME;
 import static com.jujeol.commons.exception.ExceptionCodeAndDetails.NOT_EXIST_CATEGORY;
 import static com.jujeol.commons.exception.ExceptionCodeAndDetails.NOT_FOUND_DRINK;
@@ -16,7 +16,7 @@ import com.jujeol.TestDataLoader;
 import com.jujeol.admin.ui.dto.AdminDrinkRequest;
 import com.jujeol.admin.ui.dto.AdminDrinkResponse;
 import com.jujeol.commons.exception.JujeolExceptionDto;
-import com.jujeol.drink.exception.NotFoundDrinkException;
+import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.ui.dto.DrinkDetailResponse;
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +30,8 @@ class AdminAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private TestDataLoader testDataLoader;
+    @Autowired
+    private AdminAcceptanceApi adminAcceptanceApi;
 
     @BeforeEach
     void setUp() {
@@ -40,8 +42,8 @@ class AdminAcceptanceTest extends AcceptanceTest {
     @DisplayName("주류 대량 등록 - 성공")
     public void batchInsert_success() throws Exception {
         // given
-        final List<AdminDrinkRequest> adminDrinkRequests = List
-                .of(apple(), tsingtao(), kgb(), estp(), stella());
+        final List<AdminDrinkRequest> adminDrinkRequests =
+                DrinkTestContainer.asAdminRequestList(APPLE, TSINGTAO, KGB, ESTP, STELLA);
 
         // when
         final HttpResponse httpResponse = request()
@@ -49,15 +51,15 @@ class AdminAcceptanceTest extends AcceptanceTest {
                 .build();
 
         // then
-        final HttpResponse drinkHttpResponse = 어드민_주류_데이터_요청();
+        final HttpResponse drinkHttpResponse = adminAcceptanceApi.어드민_주류_데이터_요청();
         final List<AdminDrinkResponse> adminDrinkResponses =
                 drinkHttpResponse.convertBodyToList(AdminDrinkResponse.class);
 
         assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.OK);
         assertThat(adminDrinkResponses).extracting("name")
                 .containsExactlyInAnyOrder(
-                        apple().getName(), tsingtao().getName(), kgb().getName(),
-                        estp().getName(), stella().getName()
+                        APPLE.getName(), TSINGTAO.getName(), KGB.getName(),
+                        ESTP.getName(), STELLA.getName()
                 );
 
         페이징_검증(drinkHttpResponse.pageInfo(), 1, 1, 20, adminDrinkRequests.size());
@@ -100,8 +102,8 @@ class AdminAcceptanceTest extends AcceptanceTest {
     @DisplayName("상품 수정 - 성공")
     public void updateDrink_success() throws Exception {
         //given
-        어드민_주류_데이터_등록(kgb(), stella());
-        final Long stellaId = 주류_아이디_조회(stella().getName());
+        adminAcceptanceApi.어드민_주류_데이터_등록(KGB, STELLA);
+        final Long stellaId = adminAcceptanceApi.주류_아이디_조회(STELLA.getName());
 
         final AdminDrinkRequest newStella =
                 new AdminDrinkRequest("스텔라2", "stella2", 2.0, "test", 2L);
@@ -112,7 +114,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.OK);
 
-        final DrinkDetailResponse newStellaResponse = 단일_상품_조회(stellaId);
+        final DrinkDetailResponse newStellaResponse = adminAcceptanceApi.단일_상품_조회(stellaId);
         assertThat(newStellaResponse.getName()).isEqualTo(newStella.getName());
         assertThat(newStellaResponse.getEnglishName()).isEqualTo(newStella.getEnglishName());
         assertThat(newStellaResponse.getAlcoholByVolume()).isEqualTo(newStella.getAlcoholByVolume());
@@ -123,8 +125,8 @@ class AdminAcceptanceTest extends AcceptanceTest {
     @DisplayName("상품 삭제 - 성공")
     public void deleteDrink_success() throws Exception{
         //given
-        어드민_주류_데이터_등록(kgb(), stella());
-        final Long stellaId = 주류_아이디_조회(stella().getName());
+        adminAcceptanceApi.어드민_주류_데이터_등록(KGB, STELLA);
+        final Long stellaId = adminAcceptanceApi.주류_아이디_조회(STELLA.getName());
 
         //when
         final HttpResponse httpResponse =
@@ -132,32 +134,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
 
         //then
         assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.OK);
-        final JujeolExceptionDto error = 단일_상품_조회_실패(stellaId);
+        final JujeolExceptionDto error = adminAcceptanceApi.단일_상품_조회_실패(stellaId);
         예외_검증(error, NOT_FOUND_DRINK);
-    }
-
-    private HttpResponse 어드민_주류_데이터_요청() {
-        return request().get("/admin/drinks").withoutLog().build();
-    }
-
-    private void 어드민_주류_데이터_등록(AdminDrinkRequest... adminDrinkRequest) {
-        request().post("/admin/drinks", adminDrinkRequest).withoutLog().build();
-    }
-
-
-    private DrinkDetailResponse 단일_상품_조회(Long id) {
-        return request().get("/drinks/" + id).withoutLog().build().convertBody(DrinkDetailResponse.class);
-    }
-
-    private JujeolExceptionDto 단일_상품_조회_실패(Long id) {
-        return request().get("/drinks/" + id).withoutLog().build().errorResponse();
-    }
-
-    private Long 주류_아이디_조회(String drinkName) {
-        return 어드민_주류_데이터_요청().convertBodyToList(AdminDrinkResponse.class)
-                .stream().filter(drink -> drink.getName().equals(drinkName))
-                .findAny()
-                .orElseThrow(NotFoundDrinkException::new)
-                .getId();
     }
 }

@@ -8,7 +8,7 @@ import com.jujeol.member.domain.ProviderName;
 import java.util.Arrays;
 import java.util.List;
 
-public enum SocialLoginMemberFixture {
+public enum TestMember {
     SOLONG("1000", "short.middle.long", "1000"),
     SUNNY("1001", "sunny.sunny.sunny", "1001"),
     TIKE("1002", "tike.tike.tike", "1002"),
@@ -18,7 +18,7 @@ public enum SocialLoginMemberFixture {
     NABOM("1006", "nabom.summer.winter", "1006"),
     DEFAULT("1234", "this.is.default", "1234");
 
-    SocialLoginMemberFixture(String matchedCode, String accessToken,
+    TestMember(String matchedCode, String accessToken,
             String accountId) {
         this.matchedCode = matchedCode;
         this.accessToken = accessToken;
@@ -35,21 +35,21 @@ public enum SocialLoginMemberFixture {
         };
     }
 
-    private static List<SocialLoginMemberFixture> FIXTURES =
-            Arrays.stream(SocialLoginMemberFixture.values()).collect(toList());
+    private static List<TestMember> FIXTURES =
+            Arrays.stream(TestMember.values()).collect(toList());
 
     private String matchedCode;
     private String accessToken;
     private MemberDetails memberDetails;
 
-    public static SocialLoginMemberFixture findByCode(String code) {
+    public static TestMember findByCode(String code) {
         return FIXTURES.stream()
                 .filter(member -> member.getMatchedCode().equals(code))
                 .findAny()
                 .orElse(DEFAULT);
     }
 
-    public static SocialLoginMemberFixture findByToken(String accessToken) {
+    public static TestMember findByToken(String accessToken) {
         return FIXTURES.stream()
                 .filter(member -> member.getAccessToken().equals(accessToken))
                 .findAny()

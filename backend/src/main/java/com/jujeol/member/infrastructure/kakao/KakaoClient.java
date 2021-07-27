@@ -29,34 +29,9 @@ public class KakaoClient implements SocialClient {
     private final KakaoOauthInfo kakaoOauthInfo;
 
     @Override
-    public String getAccessToken(String code) {
+    public MemberDetails getDetails(String socialCode) {
+        final String accessToken = getAccessToken(socialCode);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(CONTENT_TYPE, DEFAULT_CHARSET);
-
-        final KakaoAccessTokenRequest kakaoAccessTokenRequest = new KakaoAccessTokenRequest(
-                GRANT_TYPE, kakaoOauthInfo.getClientId(), kakaoOauthInfo.getKakaoRedirectUrl(),
-                code,
-                kakaoOauthInfo.getClientSecret());
-
-        try {
-            ResponseEntity<String> response = restTemplate.exchange(
-                    kakaoOauthInfo.getKakaoTokenUrl(),
-                    HttpMethod.POST,
-                    new HttpEntity<>(
-                            clientResponseConverter.convertHttpBody(kakaoAccessTokenRequest),
-                            headers),
-                    String.class
-            );
-            return clientResponseConverter.extractDataAsString(response.getBody(), ACCESS_TOKEN);
-        } catch (HttpClientErrorException e) {
-            System.out.println(e.getMessage());
-            throw new KakaoAccessException();
-        }
-    }
-
-    @Override
-    public MemberDetails getDetails(String accessToken) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(AUTHORIZATION, String.format(BEARER_FORM, accessToken));
         final String body = restTemplate
@@ -75,5 +50,31 @@ public class KakaoClient implements SocialClient {
         httpHeaders.add(AUTHORIZATION, String.format(BEARER_FORM, accessToken));
         restTemplate.exchange(kakaoOauthInfo.getKakaoUnlinkUrl(), HttpMethod.GET,
                 new HttpEntity<>(httpHeaders), Void.class);
+    }
+
+    private String getAccessToken(String socialCode) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(CONTENT_TYPE, DEFAULT_CHARSET);
+
+        final KakaoAccessTokenRequest kakaoAccessTokenRequest = new KakaoAccessTokenRequest(
+                GRANT_TYPE, kakaoOauthInfo.getClientId(), kakaoOauthInfo.getKakaoRedirectUrl(),
+                socialCode,
+                kakaoOauthInfo.getClientSecret());
+
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(
+                    kakaoOauthInfo.getKakaoTokenUrl(),
+                    HttpMethod.POST,
+                    new HttpEntity<>(
+                            clientResponseConverter.convertHttpBody(kakaoAccessTokenRequest),
+                            headers),
+                    String.class
+            );
+            return clientResponseConverter.extractDataAsString(response.getBody(), ACCESS_TOKEN);
+        } catch (HttpClientErrorException e) {
+            System.out.println(e.getMessage());
+            throw new KakaoAccessException();
+        }
     }
 }

@@ -31,8 +31,7 @@ public class LoginService {
         final SocialClient socialClient =
                 socialLoginStrategyFactory.selectSocialClient(socialProviderCodeDto.getProviderName());
 
-        String accessToken = socialClient.getAccessToken(socialProviderCodeDto.getCode());
-        MemberDetails memberDetails = socialClient.getDetails(accessToken);
+        MemberDetails memberDetails = socialClient.getDetails(socialProviderCodeDto.getCode());
 
         Member member = findOrCreateMember(memberDetails);
         final String token = jwtTokenProvider.createToken(member.getId().toString());

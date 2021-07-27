@@ -2,9 +2,7 @@ package com.jujeol.member.application;
 
 public interface SocialClient {
 
-    String getAccessToken(String code);
-
-    MemberDetails getDetails(String accessToken);
+    MemberDetails getDetails(String socialCode);
 
     void unlink(String accessToken);
 }
