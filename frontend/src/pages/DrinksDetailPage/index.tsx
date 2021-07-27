@@ -108,6 +108,7 @@ const DrinksDetailPage = () => {
             onTouchStart={onCheckLoggedIn}
             onClick={onCheckLoggedIn}
             onTouchEnd={onUpdatePreference}
+            onMouseUp={onUpdatePreference}
           />
           <p>다른 사람들은 평균적으로 {preferenceAvg ?? '0'}점을 줬어요</p>
         </PreferenceSection>
