@@ -60,7 +60,6 @@ const MyPage = () => {
         <h2>내정보</h2>
       </Header>
 
-      {/* 에러처리 */}
       <Profile src="https://fakeimg.pl/72x72" nickname={userData?.nickname} bio={userData?.bio} />
 
       <Statistics>
