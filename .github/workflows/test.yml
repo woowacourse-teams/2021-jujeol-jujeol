@@ -20,5 +20,4 @@ jobs:
         run: cd frontend && npm run build:dev
 
       - name: Deploy
-        run: |
-          aws sync .build s3://jujeol-dev-depoly
+        run: aws s3 sync frontend/build s3://jujeol-dev-depoly
