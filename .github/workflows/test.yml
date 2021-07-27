@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: jujeol-test-actions
+    runs-on: test-actions
     steps:
       - name: Checkout source code
         uses: actions/checkout@test/frontend-distribution-test
