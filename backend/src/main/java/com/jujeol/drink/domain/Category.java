@@ -35,7 +35,7 @@ public class Category {
         return new Category(id, name, key);
     }
 
-    public boolean isEqual(Long id) {
-        return this.id.equals(id);
+    public boolean matchesKey(String key) {
+        return this.key.equals(key);
     }
 }

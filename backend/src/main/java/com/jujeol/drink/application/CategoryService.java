@@ -1,5 +1,6 @@
 package com.jujeol.drink.application;
 
+import com.jujeol.drink.application.dto.CategoryDto;
 import com.jujeol.drink.domain.repository.CategoryRepository;
 import java.util.List;
 import java.util.stream.Collectors;

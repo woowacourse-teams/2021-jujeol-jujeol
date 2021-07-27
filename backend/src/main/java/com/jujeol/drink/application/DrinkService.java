@@ -3,7 +3,7 @@ package com.jujeol.drink.application;
 import static com.jujeol.drink.domain.RecommendationTheme.PREFERENCE;
 import static com.jujeol.drink.domain.RecommendationTheme.VIEW_COUNT;
 
-import com.jujeol.drink.application.dto.AdminDrinkRequestDto;
+import com.jujeol.drink.application.dto.DrinkRequestDto;
 import com.jujeol.drink.application.dto.DrinkDto;
 import com.jujeol.drink.application.dto.SearchDto;
 import com.jujeol.drink.domain.Category;
@@ -91,30 +91,30 @@ public class DrinkService {
     }
 
     @Transactional
-    public void insertDrinks(List<AdminDrinkRequestDto> drinkRequests) {
+    public void insertDrinks(List<DrinkRequestDto> drinkRequests) {
         final List<Drink> drinks = new ArrayList<>();
 
         List<Category> categories = categoryRepository.findAll();
-        for (AdminDrinkRequestDto drinkRequest : drinkRequests) {
-            Category category = findCategory(categories, drinkRequest.getCategoryId());
+        for (DrinkRequestDto drinkRequest : drinkRequests) {
+            Category category = findCategory(categories, drinkRequest.getCategoryKey());
             ViewCount viewCount = viewCountService.insert(ViewCount.create(0L));
             drinks.add(drinkRequest.toEntity(category, viewCount));
         }
         drinkRepository.batchInsert(drinks);
     }
 
-    private Category findCategory(List<Category> categories, Long categoryId) {
+    private Category findCategory(List<Category> categories, String categoryKey) {
         return categories.stream()
-                .filter(category -> category.isEqual(categoryId))
+                .filter(category -> category.matchesKey(categoryKey))
                 .findAny()
                 .orElseThrow(NotFoundCategoryException::new);
     }
 
     @Transactional
-    public void updateDrink(Long id, AdminDrinkRequestDto drinkRequest) {
+    public void updateDrink(Long id, DrinkRequestDto drinkRequest) {
         final Drink drink = drinkRepository.findById(id).orElseThrow(NotFoundDrinkException::new);
 
-        Category category = categoryRepository.findById(drinkRequest.getCategoryId())
+        Category category = categoryRepository.findByKey(drinkRequest.getCategoryKey())
                 .orElseThrow(NotFoundCategoryException::new);
 
         drink.updateInfo(
