@@ -47,7 +47,7 @@ public class ReviewRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        BEER = categoryRepository.save(Category.create("맥주"));
+        BEER = categoryRepository.save(Category.create("맥주", "BEER"));
         Member createMember = Member.create(Provider.of("1234", ProviderName.TEST),
                 Nickname.create("주류의신소롱"),
                 Biography.create("누가 날 막을쏘냐"));

@@ -15,7 +15,7 @@ public class AdminDrinkResponse {
     private String englishName;
     private Double alcoholByVolume;
     private String imageUrl;
-    private AdminCategory category;
+    private AdminCategoryResponse category;
     private double preferenceRate;
 
     public static AdminDrinkResponse from(DrinkDto drinkDto) {
@@ -25,7 +25,7 @@ public class AdminDrinkResponse {
                 drinkDto.getEnglishName(),
                 drinkDto.getAlcoholByVolume(),
                 drinkDto.getImageUrl(),
-                new AdminCategory(drinkDto.getCategoryId(), drinkDto.getCategory()),
+                AdminCategoryResponse.create(drinkDto.getCategoryDto()),
                 drinkDto.getPreferenceRate()
         );
     }

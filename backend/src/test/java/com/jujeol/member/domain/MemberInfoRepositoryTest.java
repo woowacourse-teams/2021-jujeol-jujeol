@@ -48,7 +48,7 @@ public class MemberInfoRepositoryTest {
 
         savedMember = memberRepository.save(member);
 
-        Category beer = Category.create("맥주");
+        Category beer = Category.create("맥주", "BEER");
         savedCategory = categoryRepository.save(beer);
     }
 

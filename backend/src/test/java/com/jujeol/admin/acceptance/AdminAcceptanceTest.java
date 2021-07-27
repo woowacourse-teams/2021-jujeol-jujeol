@@ -71,7 +71,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         //given
         final List<AdminDrinkRequest> request =
                 Collections.singletonList(
-                        new AdminDrinkRequest("", "test", 2.0, "test", 1L)
+                        new AdminDrinkRequest("", "test", 2.0, "test", "BEER")
                 );
 
         //when
@@ -88,7 +88,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         //given
         final List<AdminDrinkRequest> request =
                 Collections.singletonList(
-                        new AdminDrinkRequest("test", "test", 2.0, "test", Long.MAX_VALUE));
+                        new AdminDrinkRequest("test", "test", 2.0, "test", Long.toString(Long.MAX_VALUE)));
 
         //when
         final HttpResponse httpResponse = request().post("/admin/drinks", request).build();
@@ -106,7 +106,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         final Long stellaId = adminAcceptanceApi.주류_아이디_조회(STELLA.getName());
 
         final AdminDrinkRequest newStella =
-                new AdminDrinkRequest("스텔라2", "stella2", 2.0, "test", 2L);
+                new AdminDrinkRequest("스텔라2", "stella2", 2.0, "test", "BEER");
         //when
         final HttpResponse httpResponse =
                 request().put("/admin/drinks/" + stellaId, newStella).build();
@@ -118,7 +118,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         assertThat(newStellaResponse.getName()).isEqualTo(newStella.getName());
         assertThat(newStellaResponse.getEnglishName()).isEqualTo(newStella.getEnglishName());
         assertThat(newStellaResponse.getAlcoholByVolume()).isEqualTo(newStella.getAlcoholByVolume());
-        assertThat(newStellaResponse.getCategory().getId()).isEqualTo(newStella.getCategoryId());
+        assertThat(newStellaResponse.getCategory().getKey()).isEqualTo(newStella.getCategoryKey());
     }
 
     @Test
