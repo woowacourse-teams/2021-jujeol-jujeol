@@ -7,6 +7,7 @@ import com.jujeol.RequestBuilder.Function;
 import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.commons.exception.ExceptionCodeAndDetails;
 import com.jujeol.commons.exception.JujeolExceptionDto;
+import com.jujeol.drink.acceptance.CategoryAcceptanceApi;
 import com.jujeol.member.application.LoginService;
 import com.jujeol.member.application.dto.TokenDto;
 import com.jujeol.member.fixture.TestMember;
@@ -34,16 +35,14 @@ public class AcceptanceTest {
     private RequestBuilder request;
     @Autowired
     private TestDataLoader testDataLoader;
+    @Autowired
+    private CategoryAcceptanceApi categoryAcceptanceApi;
 
     @BeforeEach
     public void setUp(RestDocumentationContextProvider restDocumentation) {
         RestAssured.port = port;
         request.setRestDocumentation(restDocumentation);
-    }
-
-    @AfterEach
-    void afterEach() {
-        testDataLoader.removeAll();
+        categoryAcceptanceApi.기본_카테고리_저장();
     }
 
     protected Function request() {

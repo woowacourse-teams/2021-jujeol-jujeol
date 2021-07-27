@@ -1,32 +1,35 @@
 package com.jujeol.drink.acceptance;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
-import com.jujeol.TestDataLoader;
-import com.jujeol.drink.application.dto.CategoryDto;
+import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.ui.dto.CategoryResponse;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class CategoryAcceptanceTest extends AcceptanceTest {
+
+    @Autowired
+    public CategoryAcceptanceApi categoryAcceptanceApi;
 
     @Test
     void showAll() {
         //when
-        List<CategoryResponse> expect = request().get("/categories")
+        List<CategoryResponse> actual = request().get("/categories")
                 .withDocument("category/show/all")
                 .build()
                 .convertBodyToList(CategoryResponse.class);
 
         //then
-        List<CategoryResponse> actual = List
-                .of(TestDataLoader.BEER_CATEGORY, TestDataLoader.SOJU_CATEGORY)
-                .stream()
-                .map(category -> CategoryResponse.create(CategoryDto.create(category)))
-                .collect(Collectors.toList());
+        final List<String> categoryNames =
+                categoryAcceptanceApi.기본_카테고리()
+                        .stream()
+                        .map(Category::getName)
+                        .collect(toList());
 
-        assertThat(expect).usingRecursiveComparison().isEqualTo(actual);
+        assertThat(actual).extracting("name").containsExactlyElementsOf(categoryNames);
     }
 }

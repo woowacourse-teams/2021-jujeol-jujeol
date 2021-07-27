@@ -28,21 +28,4 @@ public class AdminAcceptanceApi {
         final List<AdminDrinkRequest> adminDrinkRequests = DrinkTestContainer.asAdminRequestList(drinkTestContainers);
         requestBuilder.builder().post("/admin/drinks", adminDrinkRequests).withoutLog().build();
     }
-
-
-    public DrinkDetailResponse 단일_상품_조회(Long id) {
-        return requestBuilder.builder().get("/drinks/" + id).withoutLog().build().convertBody(DrinkDetailResponse.class);
-    }
-
-    public JujeolExceptionDto 단일_상품_조회_실패(Long id) {
-        return requestBuilder.builder().get("/drinks/" + id).withoutLog().build().errorResponse();
-    }
-
-    public Long 주류_아이디_조회(String drinkName) {
-        return 어드민_주류_데이터_요청().convertBodyToList(AdminDrinkResponse.class)
-                .stream().filter(drink -> drink.getName().equals(drinkName))
-                .findAny()
-                .orElseThrow(NotFoundDrinkException::new)
-                .getId();
-    }
 }
