@@ -116,7 +116,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         assertThat(newStellaResponse.getName()).isEqualTo(newStella.getName());
         assertThat(newStellaResponse.getEnglishName()).isEqualTo(newStella.getEnglishName());
         assertThat(newStellaResponse.getAlcoholByVolume()).isEqualTo(newStella.getAlcoholByVolume());
-        assertThat(newStellaResponse.getCategory().getCategoryKey()).isEqualTo(newStella.getCategoryKey());
+        assertThat(newStellaResponse.getCategory().getKey()).isEqualTo(newStella.getCategoryKey());
     }
 
     @Test
