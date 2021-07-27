@@ -25,7 +25,7 @@ const MyPage = () => {
   const [totalMyDrinks, setTotalMyDrinks] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
 
-  const myDrinksQuery = useQuery('my-drinks', () => API.getPersonalDrinks({}), {
+  const myDrinksQuery = useQuery('my-drinks', () => API.getPersonalDrinks({ page: 1, size: 7 }), {
     retry: 0,
     onSuccess: ({ data, pageInfo }) => {
       setMyDrinks(data);
@@ -33,13 +33,17 @@ const MyPage = () => {
     },
   });
 
-  const myReviewsQuery = useQuery('my-reviews', () => API.getPersonalReviews({}), {
-    retry: 0,
-    onSuccess: ({ data, pageInfo }) => {
-      setMyReviews(data);
-      setTotalReviews(pageInfo.totalSize);
-    },
-  });
+  const myReviewsQuery = useQuery(
+    'my-reviews',
+    () => API.getPersonalReviews({ page: 1, size: 3 }),
+    {
+      retry: 0,
+      onSuccess: ({ data, pageInfo }) => {
+        setMyReviews(data);
+        setTotalReviews(pageInfo.totalSize);
+      },
+    }
+  );
 
   useEffect(() => {
     getUser();
@@ -57,7 +61,7 @@ const MyPage = () => {
       </Header>
 
       {/* 에러처리 */}
-      <Profile src="http://placehold.it/72x72" nickname={userData?.nickname} bio={userData?.bio} />
+      <Profile src="https://fakeimg.pl/72x72" nickname={userData?.nickname} bio={userData?.bio} />
 
       <Statistics>
         <li>
