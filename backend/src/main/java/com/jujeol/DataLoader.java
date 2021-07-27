@@ -45,14 +45,14 @@ public class DataLoader implements CommandLineRunner {
         Category MAKGEOLLI = categoryRepository.save(Category.create("막걸리", "MAKGEOLLI"));
 
         // Drink Data
-        Drink stella = Drink.create("스텔라", "stella", 5.5, "stella_artois.png", 0.0, BEER);
-        Drink kgb = Drink.create("KGB", "", 3.5, "kgb.png", 0.0, BEER);
-        Drink efes = Drink.create("EFES", "",7.5, "efes.png", 0.0, BEER);
-        Drink tiger_rad = Drink.create("타이거 라들러 자몽", "Tiger_Rad", 9.5, "tiger_raddler_grapefruit.png", 0.0, BEER);
-        Drink tsingtao = Drink.create("칭따오", "TSINGTAO", 12.0, "tsingtao.png", 0.0, BEER);
-        Drink gom_pyo = Drink.create("곰표", "gom_pyo", 8.2, "gom_pyo.png", 0.0, BEER);
-        Drink ob = Drink.create("오비", "OB", 85.0, "ob_lager.png", 0.0, BEER);
-        Drink tigerLemon = Drink.create("타이거 라들러 레몬", "Tiger_Lemon", 4.5, "tiger_raddler_lemon.png", 0.0, BEER);
+        Drink stella = Drink.create("스텔라", "stella", 5.5, "w_400/stella_artois_w400.png", 0.0, BEER);
+        Drink kgb = Drink.create("KGB", "", 3.5, "w_400/kgb_w400.png", 0.0, BEER);
+        Drink efes = Drink.create("EFES", "",7.5, "w_400/efes_w400.png", 0.0, BEER);
+        Drink tiger_rad = Drink.create("타이거 라들러 자몽", "Tiger_Rad", 9.5, "w_400/tiger_raddler_grapefruit_w400.png", 0.0, BEER);
+        Drink tsingtao = Drink.create("칭따오", "TSINGTAO", 12.0, "w_400/tsingtao_w400.png", 0.0, BEER);
+        Drink gom_pyo = Drink.create("곰표", "gom_pyo", 8.2, "w_400/gom_pyo_w400.png", 0.0, BEER);
+        Drink ob = Drink.create("오비", "OB", 5.5, "w_400/ob_lager_w400.png", 0.0, BEER);
+        Drink tigerLemon = Drink.create("타이거 라들러 레몬", "Tiger_Lemon", 4.5, "w_400/tiger_raddler_lemon_w400.png", 0.0, BEER);
 
         List<Drink> beers = List
                 .of(stella, kgb, efes, tiger_rad, tsingtao, gom_pyo, ob, tigerLemon);
