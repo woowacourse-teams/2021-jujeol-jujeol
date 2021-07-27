@@ -6,10 +6,11 @@ on:
     branches:
       - test/github-action-config    # gitub-action-config 브랜치에서 push 이벤트가 일어났을 때 실행
 
+defaults:
+  run:
+    working-directory: ./frontend
+
 jobs:
-  defaults:
-    run:
-      working-directory: ./frontend
   build:
     runs-on: test-actions
     steps:
