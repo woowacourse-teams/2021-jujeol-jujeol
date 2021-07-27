@@ -17,7 +17,7 @@ jobs:
         run: cd frontend && npm install
 
       - name: Build
-        run: npm run build:dev
+        run: cd frontend && npm run build:dev
 
       - name: Deploy
         run: |
