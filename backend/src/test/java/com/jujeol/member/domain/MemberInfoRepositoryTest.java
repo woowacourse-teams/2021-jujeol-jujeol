@@ -43,12 +43,12 @@ public class MemberInfoRepositoryTest {
     @BeforeEach
     void setUp() {
         Member member = Member.create(Provider.of("1234", ProviderName.TEST)
-                                        , Nickname.create("물욕녀_1234")
-                                        , Biography.create("물건 욕심이 많은 물욕녀"));
+                , Nickname.create("물욕녀_1234")
+                , Biography.create("물건 욕심이 많은 물욕녀"));
 
         savedMember = memberRepository.save(member);
 
-        Category beer = Category.create("맥주");
+        Category beer = Category.create("맥주", "BEER");
         savedCategory = categoryRepository.save(beer);
     }
 
@@ -62,12 +62,14 @@ public class MemberInfoRepositoryTest {
         Drink drink = drinkRepository.save(stella);
 
         Review review1 = Review.create("리뷰 1", drink, savedMember);
-        Review review2 = Review.create("리븊 2", drink, savedMember);
+        Review review2 = Review.create("리뷰 2", drink, savedMember);
         Review review3 = Review.create("리븊 3", drink, savedMember);
         Review review4 = Review.create("리뷰 4", drink, savedMember);
         Review review5 = Review.create("리뷰 5", drink, savedMember);
-        List<Review> reviews = reviewRepository
-                .saveAll(List.of(review1, review2, review3, review4, review5));
+        List<Review> reviews = List.of(review1, review2, review3, review4, review5)
+                .stream()
+                .map(review -> reviewRepository.save(review))
+                .collect(Collectors.toList());
 
         //when
         Page<Review> actualReviews = reviewRepository
@@ -103,7 +105,10 @@ public class MemberInfoRepositoryTest {
         Preference preference2 = Preference.from(savedMember, estp, 5.0);
         Preference preference3 = Preference.from(savedMember, tiger_rad, 2.5);
 
-        preferenceRepository.saveAll(List.of(preference1, preference2, preference3));
+        List.of(preference1, preference2, preference3)
+                .stream()
+                .map(preference -> preferenceRepository.save(preference))
+                .collect(Collectors.toList());
 
         //when
         Page<Drink> drinkResponses = preferenceRepository

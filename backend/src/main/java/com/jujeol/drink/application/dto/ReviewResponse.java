@@ -18,7 +18,7 @@ public class ReviewResponse {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public static ReviewResponse from(
+    public static ReviewResponse create(
             Long id,
             MemberDto memberDto,
             String content,

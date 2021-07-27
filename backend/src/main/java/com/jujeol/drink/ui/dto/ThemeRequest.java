@@ -15,6 +15,6 @@ public class ThemeRequest {
     private String theme;
 
     public ThemeDto toDto() {
-        return ThemeDto.from(theme);
+        return ThemeDto.create(theme);
     }
 }

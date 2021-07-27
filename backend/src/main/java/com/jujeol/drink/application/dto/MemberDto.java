@@ -14,7 +14,7 @@ public class MemberDto {
 
     private Long id;
 
-    public static MemberDto from(Long id) {
+    public static MemberDto create(Long id) {
         return new MemberDto(id);
     }
 }

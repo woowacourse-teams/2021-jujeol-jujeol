@@ -21,8 +21,8 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
     public DrinkRepositoryImpl(DataSource dataSource) {
         this.jdbcInsert =
                 new SimpleJdbcInsert(dataSource)
-                .withTableName("drink")
-                .usingGeneratedKeyColumns("id");
+                        .withTableName("drink")
+                        .usingGeneratedKeyColumns("id");
     }
 
     @Override
@@ -39,6 +39,7 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
     @AllArgsConstructor
     @Getter
     static class DrinkDto {
+
         private final Long id;
         private final String name;
         private final String englishName;
@@ -46,6 +47,7 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
         private final String imageFilePath;
         private final Long categoryId;
         private final Double preferenceAvg;
+        private final Long viewCountId;
 
         public static DrinkDto create(Drink drink) {
             return new DrinkDto(
@@ -55,9 +57,9 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
                     drink.getAlcoholByVolume(),
                     drink.getImageFilePath(),
                     drink.getCategory().getId(),
-                    drink.getPreferenceAvg()
+                    drink.getPreferenceAvg(),
+                    drink.getViewCount().getId()
             );
         }
     }
-
 }

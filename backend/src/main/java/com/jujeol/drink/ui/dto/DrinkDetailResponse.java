@@ -19,6 +19,7 @@ public class DrinkDetailResponse {
     private String imageUrl;
     private CategoryResponse category;
     private double preferenceRate;
+    private Long viewCount;
     private double preferenceAvg;
 
     public static DrinkDetailResponse from(DrinkDto drinkDto) {
@@ -28,8 +29,9 @@ public class DrinkDetailResponse {
                 drinkDto.getEnglishName(),
                 drinkDto.getAlcoholByVolume(),
                 drinkDto.getImageUrl(),
-                new CategoryResponse(drinkDto.getCategoryId(), drinkDto.getCategory()),
+                CategoryResponse.create(drinkDto.getCategoryDto()),
                 drinkDto.getPreferenceRate(),
+                drinkDto.getViewCount(),
                 drinkDto.getPreferenceAvg()
         );
     }

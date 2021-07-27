@@ -2,6 +2,7 @@ package com.jujeol.drink.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -21,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(of = "id")
 public class Drink {
 
     @Id
@@ -44,6 +46,9 @@ public class Drink {
 
     @OneToMany(mappedBy = "drink")
     private List<Review> reviews = new ArrayList<>();
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "view_count_id")
+    private ViewCount viewCount;
 
     public static Drink create(
             String name,
@@ -61,7 +66,30 @@ public class Drink {
                 new ImageFilePath(imageUrl),
                 category,
                 preferenceAvg,
-                new ArrayList<>()
+                new ArrayList<>(),
+                ViewCount.create(0L)
+        );
+    }
+
+    public static Drink create(
+            String name,
+            String englishName,
+            Double alcoholByVolume,
+            String imageUrl,
+            Double preferenceAvg,
+            Category category,
+            ViewCount viewCount
+    ) {
+        return new Drink(
+                null,
+                new DrinkName(name),
+                new DrinkEnglishName(englishName),
+                new AlcoholByVolume(alcoholByVolume),
+                new ImageFilePath(imageUrl),
+                category,
+                preferenceAvg,
+                new ArrayList<>(),
+                viewCount
         );
     }
 
@@ -72,6 +100,10 @@ public class Drink {
 
     public void removeReview(Review review) {
         reviews.remove(review);
+    }
+
+    public void updateViewCount() {
+        viewCount.updateViewCount();
     }
 
     public String getName() {
@@ -96,6 +128,10 @@ public class Drink {
 
     public Double getPreferenceAvg() {
         return preferenceAvg;
+    }
+
+    public ViewCount getViewCount() {
+        return viewCount;
     }
 
     public List<Review> getReviews() {
