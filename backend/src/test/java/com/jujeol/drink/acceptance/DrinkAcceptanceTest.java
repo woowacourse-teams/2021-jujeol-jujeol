@@ -40,12 +40,44 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .collect(Collectors.toList());
 
         final List<DrinkSimpleResponse> drinkSimpleResponses =
-                httpResponse.convertBodyToList(DrinkSimpleResponse.class);
+                httpResponse.convertBodyToList(DrinkSimpleResponse.class)
+                .stream()
+                .limit(7)
+                .collect(Collectors.toList());
 
         assertThat(drinkSimpleResponses).usingRecursiveComparison()
                 .isEqualTo(expectedResult);
 
-        페이징_검증(httpResponse.pageInfo(), 1, 2, 7, 8);
+        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 8);
+    }
+
+    @DisplayName("검색 조회 - 성공")
+    @Test
+    public void showDrinksBySearchTest() {
+        //given
+        String search = "OB";
+        String category = "BEER";
+        int page = 1;
+        //when
+        final HttpResponse httpResponse = request()
+                .get("/drinks?search=" + search + "&category=" + category + "&page=" + page)
+                .withDocument("drinks/show/search")
+                .build();
+
+        //then
+        List<DrinkSimpleResponse> expectedResult = BEERS.stream()
+                .filter(drink -> "오비".equals(drink.getName()))
+                .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), ""))
+                .map(DrinkSimpleResponse::from)
+                .collect(Collectors.toList());
+
+        final List<DrinkSimpleResponse> drinkSimpleResponses =
+                httpResponse.convertBodyToList(DrinkSimpleResponse.class);
+
+        assertThat(drinkSimpleResponses.get(0).getName())
+                .isEqualTo(expectedResult.get(0).getName());
+
+        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 1);
     }
 
     @DisplayName("추천 조회(선호도) - 성공")
@@ -56,7 +88,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
 
         //when
         List<DrinkSimpleResponse> drinkSimpleResponses = request()
-                .get("/drinks?theme=" + theme + "&page=1")
+                .get("/drinks/recommendation?theme=" + theme + "&page=1")
                 .withDocument("drinks/show/all-theme")
                 .build().convertBodyToList(DrinkSimpleResponse.class);
 
@@ -82,7 +114,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
 
         //when
         List<DrinkSimpleResponse> drinkSimpleResponses = request()
-                .get("/drinks?theme=" + theme + "&page=1")
+                .get("/drinks/recommendation?theme=" + theme + "&page=1")
                 .build().convertBodyToList(DrinkSimpleResponse.class);
 
         //then

@@ -1,29 +1,17 @@
 package com.jujeol.member.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
-import com.jujeol.drink.domain.repository.ReviewRepository;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
@@ -47,7 +35,7 @@ public class PreferenceRepositoryTest {
     @BeforeEach
     void setUp() {
 
-        Category BEER = categoryRepository.save(Category.create("맥주"));
+        Category BEER = categoryRepository.save(Category.create("맥주", "BEER"));
         Drink stella = Drink.create(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         savedDrink = drinkRepository.save(stella);

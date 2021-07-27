@@ -10,24 +10,24 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminDrinkRequestDto {
+public class DrinkRequestDto {
 
     private String name;
     private String englishName;
     private Double alcoholByVolume;
     private String imageUrl;
-    private Long categoryId;
+    private String categoryKey;
 
-    public static AdminDrinkRequestDto create(
+    public static DrinkRequestDto create(
             String name, String englishName, Double alcoholByVolume,
-            String imageUrl, Long categoryId
+            String imageUrl, String categoryKey
     ) {
-        return new AdminDrinkRequestDto(
+        return new DrinkRequestDto(
                 name,
                 englishName,
                 alcoholByVolume,
                 imageUrl,
-                categoryId
+                categoryKey
         );
     }
 

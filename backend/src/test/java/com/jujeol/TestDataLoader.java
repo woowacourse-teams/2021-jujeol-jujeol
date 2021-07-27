@@ -138,8 +138,8 @@ public class TestDataLoader implements CommandLineRunner {
     }
 
     public void saveCategory() {
-        BEER_CATEGORY = categoryRepository.save(Category.create("맥주"));
-        SOJU_CATEGORY = categoryRepository.save(Category.create("소주"));
+        BEER_CATEGORY = categoryRepository.save(Category.create("맥주", "BEER"));
+        SOJU_CATEGORY = categoryRepository.save(Category.create("소주", "SOJU"));
     }
 
     public void removeAll() {
