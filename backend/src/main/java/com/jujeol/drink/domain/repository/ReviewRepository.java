@@ -13,4 +13,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query("select r from Review r where r.drink.id = :drinkId and r.member.id = :memberId order by r.createdAt desc")
     List<Review> findByDrinkIdAndMemberId(Long drinkId, Long memberId, Pageable pageable);
+
+    @Query("select r from Review r where r.member.id = :memberId order by r.createdAt desc")
+    Page<Review> findReviewsOfMine(Long memberId, Pageable pageable);
 }

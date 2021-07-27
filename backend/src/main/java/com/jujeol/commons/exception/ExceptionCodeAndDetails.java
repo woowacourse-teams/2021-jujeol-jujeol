@@ -9,7 +9,11 @@ import com.jujeol.drink.exception.NotExistReviewInDrinkException;
 import com.jujeol.drink.exception.NotFoundCategoryException;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.exception.NotFoundReviewException;
+import com.jujeol.drink.exception.NotFoundViewCountException;
 import com.jujeol.member.exception.InvalidTokenException;
+import com.jujeol.member.exception.InvalidUserBiographyLengthException;
+import com.jujeol.member.exception.InvalidUserNicknameCharacterException;
+import com.jujeol.member.exception.InvalidUserNicknameLengthException;
 import com.jujeol.member.exception.KakaoAccessException;
 import com.jujeol.member.exception.NoSuchMemberException;
 import com.jujeol.member.exception.UnauthorizedUserException;
@@ -28,6 +32,9 @@ public enum ExceptionCodeAndDetails {
     INVALID_TOKEN("1003", "access token이 유효하지 않습니다.", InvalidTokenException.class),
     NO_SUCH_MEMBER("1004", "해당 id의 유저가 없습니다.", NoSuchMemberException.class),
     UNAUTHORIZED_USER("1005", "권한이 없는 유저입니다.", UnauthorizedUserException.class),
+    INVALID_USER_NICKNAME_LENGTH("1006", "닉네임이 비어있거나 너무 깁니다.", InvalidUserNicknameLengthException.class),
+    INVALID_USER_NICKNAME_CHARACTER("1007", "닉네임에 잘 못 된 문자가 들어있습니다.", InvalidUserNicknameCharacterException.class),
+    INVALID_USER_BIOGRAPHY_LENGTH("1008", "자기 소개가 너무 깁니다.", InvalidUserBiographyLengthException.class),
 
     INVALID_ALCOHOL_BY_VOLUME("2001", "해당 주류의 도수가 잘 못 되었습니다.",
             InvalidAlcoholByVolumeException.class),
@@ -40,7 +47,10 @@ public enum ExceptionCodeAndDetails {
             NotExistReviewInDrinkException.class),
     CREATE_REVIEW_LIMIT	("2007",	"동일 상품에 대한 리뷰는 하루에 하나만 작성할 수 있습니다.", CreateReviewLimitException.class),
     INVALID_CONTENT_LENGTH("2008", "리뷰는 빈 공백이거나 300자를 넘을 수 없습니다.", InvalidReviewContentException.class),
-    NOT_EXIST_CATEGORY("2009", "해당 카테고리가 존재하지 않습니다.", NotFoundCategoryException.class);
+    NOT_EXIST_CATEGORY("2009", "해당 카테고리가 존재하지 않습니다.", NotFoundCategoryException.class),
+
+    NOT_FOUND_VIEW_COUNT("2011", "해당 주류에 대한 조회수를 찾을 수 없습니다.", NotFoundViewCountException.class);
+
 
     private String code;
     private String message;

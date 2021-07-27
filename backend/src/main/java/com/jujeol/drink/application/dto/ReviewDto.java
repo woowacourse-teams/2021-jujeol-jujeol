@@ -1,6 +1,7 @@
 package com.jujeol.drink.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.jujeol.drink.domain.Review;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,12 +20,15 @@ public class ReviewDto {
     private LocalDateTime modifiedAt;
 
     public static ReviewDto create(
-            Long id,
-            DrinkDto drinkDto,
-            String content,
-            LocalDateTime createdAt,
-            LocalDateTime modifiedAt
+            Review review,
+            DrinkDto drinkDto
     ) {
-        return new ReviewDto(id, drinkDto, content, createdAt, modifiedAt);
+        return new ReviewDto(
+                review.getId(),
+                drinkDto,
+                review.getContent(),
+                review.getCreatedAt(),
+                review.getModifiedAt()
+        );
     }
 }

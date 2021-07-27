@@ -2,12 +2,12 @@ package com.jujeol;
 
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.domain.Review;
+import com.jujeol.drink.domain.repository.CategoryRepository;
+import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.domain.repository.ReviewRepository;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
-import com.jujeol.member.domain.PreferenceRepository;
 import com.jujeol.member.domain.Provider;
 import com.jujeol.member.domain.ProviderName;
 import java.util.List;
@@ -22,30 +22,37 @@ public class DataLoader implements CommandLineRunner {
     private final DrinkRepository drinkRepository;
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
-    private final PreferenceRepository preferenceRepository;
+    private final CategoryRepository categoryRepository;
 
-    public DataLoader(DrinkRepository drinkRepository,
+    public DataLoader(
+            DrinkRepository drinkRepository,
             ReviewRepository reviewRepository,
             MemberRepository memberRepository,
-            PreferenceRepository preferenceRepository) {
+            CategoryRepository categoryRepository
+    ) {
         this.drinkRepository = drinkRepository;
         this.reviewRepository = reviewRepository;
         this.memberRepository = memberRepository;
-        this.preferenceRepository = preferenceRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
+        Category BEER = categoryRepository.save(Category.create("맥주"));
+        Category SOJU = categoryRepository.save(Category.create("소주"));
+        Category WINE = categoryRepository.save(Category.create("와인"));
+        Category MAKGEOLLI = categoryRepository.save(Category.create("막걸리"));
+
         // Drink Data
-        Drink stella = Drink.from("스텔라", "stella", 5.5, "stella_artois.png", 0.0, Category.BEER);
-        Drink kgb = Drink.from("KGB", "", 3.5, "kgb.png", 0.0, Category.BEER);
-        Drink efes = Drink.from("EFES", "",7.5, "efes.png", 0.0, Category.BEER);
-        Drink tiger_rad = Drink.from("타이거 라들러 자몽", "Tiger_Rad", 9.5, "tiger_raddler_grapefruit.png", 0.0, Category.BEER);
-        Drink tsingtao = Drink.from("칭따오", "TSINGTAO", 12.0, "tsingtao.png", 0.0, Category.BEER);
-        Drink gom_pyo = Drink.from("곰표", "gom_pyo", 8.2, "gom_pyo.png", 0.0, Category.BEER);
-        Drink ob = Drink.from("오비", "OB", 85.0, "ob_lager.png", 0.0, Category.BEER);
-        Drink tigerLemon = Drink.from("타이거 라들러 레몬", "Tiger_Lemon", 4.5, "tiger_raddler_lemon.png", 0.0, Category.BEER);
+        Drink stella = Drink.create("스텔라", "stella", 5.5, "stella_artois.png", 0.0, BEER);
+        Drink kgb = Drink.create("KGB", "", 3.5, "kgb.png", 0.0, BEER);
+        Drink efes = Drink.create("EFES", "",7.5, "efes.png", 0.0, BEER);
+        Drink tiger_rad = Drink.create("타이거 라들러 자몽", "Tiger_Rad", 9.5, "tiger_raddler_grapefruit.png", 0.0, BEER);
+        Drink tsingtao = Drink.create("칭따오", "TSINGTAO", 12.0, "tsingtao.png", 0.0, BEER);
+        Drink gom_pyo = Drink.create("곰표", "gom_pyo", 8.2, "gom_pyo.png", 0.0, BEER);
+        Drink ob = Drink.create("오비", "OB", 85.0, "ob_lager.png", 0.0, BEER);
+        Drink tigerLemon = Drink.create("타이거 라들러 레몬", "Tiger_Lemon", 4.5, "tiger_raddler_lemon.png", 0.0, BEER);
 
         List<Drink> beers = List
                 .of(stella, kgb, efes, tiger_rad, tsingtao, gom_pyo, ob, tigerLemon);
@@ -53,27 +60,27 @@ public class DataLoader implements CommandLineRunner {
 
         // Member Data
         Provider provider = Provider.of("1234", ProviderName.TEST);
-        Member member = Member.from(provider);
+        Member member = Member.createAnonymousMember();
 
         memberRepository.save(member);
 
         // Review Data
-        reviewRepository.save(Review.from("정말 맛있어요! - 소롱", stella, member));
-        reviewRepository.save(Review.from("평범해요 - 크로플", stella, member));
-        reviewRepository.save(Review.from("전 이건 좀.. - 나봄", stella, member));
-        reviewRepository.save(Review.from("ㅋㅋ 리뷰 - 웨지", stella, member));
-        reviewRepository.save(Review.from("너무 비싸요 - 피카", stella, member));
-        reviewRepository.save(Review.from("내가 대장이다 - 서니", stella, member));
-        reviewRepository.save(Review.from("나는 행운의 여신 - 티케", stella, member));
-        reviewRepository.save(Review.from("나는 프의백 - 소롱", stella, member));
-        reviewRepository.save(Review.from("배고파 - 피카", stella, member));
-        reviewRepository.save(Review.from("오늘도 멋진하루 - 웨지", stella, member));
-        reviewRepository.save(Review.from("멀티 모듈 - 나봄", stella, member));
-        reviewRepository.save(Review.from("정말 맛있어요! - 소롱", stella, member));
+        reviewRepository.save(Review.create("정말 맛있어요! - 소롱", stella, member));
+        reviewRepository.save(Review.create("평범해요 - 크로플", stella, member));
+        reviewRepository.save(Review.create("전 이건 좀.. - 나봄", stella, member));
+        reviewRepository.save(Review.create("ㅋㅋ 리뷰 - 웨지", stella, member));
+        reviewRepository.save(Review.create("너무 비싸요 - 피카", stella, member));
+        reviewRepository.save(Review.create("내가 대장이다 - 서니", stella, member));
+        reviewRepository.save(Review.create("나는 행운의 여신 - 티케", stella, member));
+        reviewRepository.save(Review.create("나는 프의백 - 소롱", stella, member));
+        reviewRepository.save(Review.create("배고파 - 피카", stella, member));
+        reviewRepository.save(Review.create("오늘도 멋진하루 - 웨지", stella, member));
+        reviewRepository.save(Review.create("멀티 모듈 - 나봄", stella, member));
+        reviewRepository.save(Review.create("정말 맛있어요! - 소롱", stella, member));
 
-        reviewRepository.save(Review.from("난 너무 예뼈 - 소롱", kgb, member));
-        reviewRepository.save(Review.from("나도 이뻐 - 티케", kgb, member));
-        reviewRepository.save(Review.from(" ㅋ - 서니", kgb, member));
-        reviewRepository.save(Review.from("정말 맛있어요! - 소롱", kgb, member));
+        reviewRepository.save(Review.create("난 너무 예뼈 - 소롱", kgb, member));
+        reviewRepository.save(Review.create("나도 이뻐 - 티케", kgb, member));
+        reviewRepository.save(Review.create(" ㅋ - 서니", kgb, member));
+        reviewRepository.save(Review.create("정말 맛있어요! - 소롱", kgb, member));
     }
 }

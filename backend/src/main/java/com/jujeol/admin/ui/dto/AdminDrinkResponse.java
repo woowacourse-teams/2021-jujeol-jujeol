@@ -25,7 +25,7 @@ public class AdminDrinkResponse {
                 drinkDto.getEnglishName(),
                 drinkDto.getAlcoholByVolume(),
                 drinkDto.getImageUrl(),
-                new AdminCategory(1L, drinkDto.getCategory()),
+                new AdminCategory(drinkDto.getCategoryId(), drinkDto.getCategory()),
                 drinkDto.getPreferenceRate()
         );
     }
