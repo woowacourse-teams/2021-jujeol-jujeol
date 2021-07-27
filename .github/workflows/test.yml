@@ -11,7 +11,7 @@ jobs:
     runs-on: test-actions
     steps:
       - name: Checkout source code
-        uses: actions/checkout@test/github-action-config
+        uses: actions/checkout@v2
 
       - name: Install Dependencies
         run: cd frontent && npm install
