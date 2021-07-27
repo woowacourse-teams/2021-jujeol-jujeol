@@ -1,5 +1,7 @@
+import { useRef, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { COLOR, PATH } from 'src/constants';
+import ArrowButton from '../@shared/ArrowButton/ArrowButton';
 import Card from '../@shared/Card/Card';
 import { Img } from '../@shared/Image/Image';
 import EditButton from '../EditButton/EditButton';
@@ -14,8 +16,25 @@ const PersonalReviewCard = ({ review }: Props) => {
 
   const history = useHistory();
 
+  const [isShowMore, setIsShowMore] = useState(false);
+  const [isContentOpen, setIsContentOpen] = useState(false);
+
+  const contentRef = useRef<HTMLDivElement>(null);
+
   const onMoveDrinkDetailPage = () => {
     history.push(`${PATH.DRINKS}/${review.drink.drinkId}`);
+  };
+
+  useEffect(() => {
+    const content = contentRef.current;
+    if (content) {
+      setIsShowMore(content.clientHeight < content.scrollHeight);
+    }
+  }, [contentRef, review.content]);
+
+  const onShowMore = () => {
+    setIsShowMore(false);
+    setIsContentOpen(true);
   };
 
   return (
@@ -38,8 +57,12 @@ const PersonalReviewCard = ({ review }: Props) => {
           <span>{new Date(review.createdAt).toLocaleDateString()}</span>
           <EditButton />
         </div>
-        <Content>{review.content}</Content>
-        {/* <ArrowButton size="0.4rem" borderWidth="1.5px" dir="DOWN" /> */}
+        <Content ref={contentRef} isContentOpen={isContentOpen}>
+          {review.content}
+        </Content>
+        {isShowMore && (
+          <ArrowButton size="0.4rem" borderWidth="1.5px" dir="DOWN" onClick={onShowMore} />
+        )}
       </TextContainer>
     </Card>
   );
