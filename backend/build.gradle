@@ -44,7 +44,7 @@ ext {
 processResources.dependsOn('copySecret')
 
 task copySecret(type: Copy) {
-    from '../auth/application-oauth.yml'
+    from '../jujeol-auth/application-oauth.yml'
     into 'src/main/resources'
 }
 
