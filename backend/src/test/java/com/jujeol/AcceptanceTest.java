@@ -2,17 +2,12 @@ package com.jujeol;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jujeol.RequestBuilder.Function;
 import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.commons.exception.ExceptionCodeAndDetails;
 import com.jujeol.commons.exception.JujeolExceptionDto;
-import com.jujeol.drink.acceptance.CategoryAcceptanceApi;
-import com.jujeol.member.application.LoginService;
-import com.jujeol.member.application.dto.TokenDto;
-import com.jujeol.member.fixture.TestMember;
+import com.jujeol.drink.acceptance.CategoryAcceptanceTool;
 import io.restassured.RestAssured;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +29,13 @@ public class AcceptanceTest {
     @Autowired
     private RequestBuilder request;
     @Autowired
-    private TestDataLoader testDataLoader;
-    @Autowired
-    private CategoryAcceptanceApi categoryAcceptanceApi;
+    private CategoryAcceptanceTool categoryAcceptanceTool;
 
     @BeforeEach
     public void setUp(RestDocumentationContextProvider restDocumentation) {
         RestAssured.port = port;
         request.setRestDocumentation(restDocumentation);
-        categoryAcceptanceApi.기본_카테고리_저장();
+        categoryAcceptanceTool.기본_카테고리_저장();
     }
 
     protected Function request() {

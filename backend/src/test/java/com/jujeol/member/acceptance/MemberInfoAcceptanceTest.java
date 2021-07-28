@@ -1,29 +1,18 @@
 package com.jujeol.member.acceptance;
 
-import static com.jujeol.TestDataLoader.BEERS;
-import static com.jujeol.TestDataLoader.MEMBER;
-import static com.jujeol.TestDataLoader.REVIEWS;
 import static com.jujeol.drink.DrinkTestContainer.*;
 import static com.jujeol.member.fixture.TestMember.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
 import com.jujeol.RequestBuilder.HttpResponse;
-import com.jujeol.admin.acceptance.AdminAcceptanceApi;
-import com.jujeol.commons.dto.CommonResponse;
-import com.jujeol.commons.dto.PageInfo;
+import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.drink.DrinkTestContainer;
-import com.jujeol.drink.acceptance.DrinkAcceptanceApi;
-import com.jujeol.drink.acceptance.ReviewAcceptanceApi;
-import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.Review;
-import com.jujeol.member.application.dto.PreferenceDto;
-import com.jujeol.member.fixture.TestMember;
+import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
+import com.jujeol.drink.acceptance.ReviewAcceptanceTool;
 import com.jujeol.member.ui.dto.MemberDrinkResponse;
 import com.jujeol.member.ui.dto.MemberReviewResponse;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MemberInfoAcceptanceTest extends AcceptanceTest {
 
     @Autowired
-    private DrinkAcceptanceApi drinkAcceptanceApi;
+    private DrinkAcceptanceTool drinkAcceptanceTool;
     @Autowired
-    private AdminAcceptanceApi adminAcceptanceApi;
+    private AdminAcceptanceTool adminAcceptanceTool;
     @Autowired
-    private MemberAcceptanceApi memberAcceptanceApi;
+    private MemberAcceptanceTool memberAcceptanceTool;
     @Autowired
-    private ReviewAcceptanceApi reviewAcceptanceApi;
+    private ReviewAcceptanceTool reviewAcceptanceTool;
 
     @DisplayName("내가 마신 술 모아보기 - 성공")
     @Test
@@ -47,9 +36,9 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
         final Long stellaId = 주류_등록(STELLA);
         final Long tigerLemonId = 주류_등록(TIGER_LEMON);
 
-        memberAcceptanceApi.선호도_등록(obId, 2.4, CROFFLE);
-        memberAcceptanceApi.선호도_등록(stellaId, 2.4, CROFFLE);
-        memberAcceptanceApi.선호도_등록(tigerLemonId, 2.4, CROFFLE);
+        memberAcceptanceTool.선호도_등록(obId, 2.4, CROFFLE);
+        memberAcceptanceTool.선호도_등록(stellaId, 2.4, CROFFLE);
+        memberAcceptanceTool.선호도_등록(tigerLemonId, 2.4, CROFFLE);
 
         //when
         List<MemberDrinkResponse> responses = request().get("/members/me/drinks")
@@ -73,9 +62,9 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
         String content1 = "크으 맛난다잉~>?";
         String content2 = "워메 맛있는 거~";
         String content3 = "아따! 맛있구마잉";
-        reviewAcceptanceApi.리뷰_등록(CROFFLE, content1, obId);
-        reviewAcceptanceApi.리뷰_등록(CROFFLE, content2, appleId);
-        reviewAcceptanceApi.리뷰_등록(CROFFLE, content3, stellaId);
+        reviewAcceptanceTool.리뷰_등록(CROFFLE, content1, obId);
+        reviewAcceptanceTool.리뷰_등록(CROFFLE, content2, appleId);
+        reviewAcceptanceTool.리뷰_등록(CROFFLE, content3, stellaId);
 
         //when
         HttpResponse response = request().get("/members/me/reviews")
@@ -93,7 +82,7 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
     }
 
     private Long 주류_등록(DrinkTestContainer drinkTestContainer) {
-        adminAcceptanceApi.어드민_주류_데이터_등록(drinkTestContainer);
-        return drinkAcceptanceApi.주류_아이디_조회(drinkTestContainer.getName());
+        adminAcceptanceTool.어드민_주류_데이터_등록(drinkTestContainer);
+        return drinkAcceptanceTool.주류_아이디_조회(drinkTestContainer.getName());
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @Component
 @ActiveProfiles("test")
-public class MemberAcceptanceApi {
+public class MemberAcceptanceTool {
 
     @Autowired
     private RequestBuilder requestBuilder;

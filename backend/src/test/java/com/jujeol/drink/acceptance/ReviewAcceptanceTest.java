@@ -15,14 +15,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
 import com.jujeol.RequestBuilder.HttpResponse;
-import com.jujeol.admin.acceptance.AdminAcceptanceApi;
+import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.application.dto.ReviewRequest;
 import com.jujeol.drink.application.dto.ReviewResponse;
 import com.jujeol.member.fixture.TestMember;
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,11 +30,11 @@ import org.springframework.http.HttpStatus;
 public class ReviewAcceptanceTest extends AcceptanceTest {
 
     @Autowired
-    private AdminAcceptanceApi adminAcceptanceApi;
+    private AdminAcceptanceTool adminAcceptanceTool;
     @Autowired
-    private DrinkAcceptanceApi drinkAcceptanceApi;
+    private DrinkAcceptanceTool drinkAcceptanceTool;
     @Autowired
-    private ReviewAcceptanceApi reviewAcceptanceApi;
+    private ReviewAcceptanceTool reviewAcceptanceTool;
 
     @DisplayName("리뷰 생성 - 성공")
     @Test
@@ -56,7 +54,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(httpStatus).isEqualTo(HttpStatus.OK);
 
-        List<ReviewResponse> reviewResponses = reviewAcceptanceApi.리뷰_조회(obId);
+        List<ReviewResponse> reviewResponses = reviewAcceptanceTool.리뷰_조회(obId);
         assertThat(reviewResponses).extracting("content").contains(content);
     }
 
@@ -75,7 +73,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(httpStatus).isEqualTo(HttpStatus.OK);
 
-        List<ReviewResponse> reviewResponses = reviewAcceptanceApi.리뷰_조회(obId);
+        List<ReviewResponse> reviewResponses = reviewAcceptanceTool.리뷰_조회(obId);
         assertThat(reviewResponses).extracting("content").contains(content);
     }
 
@@ -160,7 +158,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         int totalSize = 30;
         for (int i = 0; i < totalSize; i++) {
-            reviewAcceptanceApi.리뷰_등록(RANDOM_MEMBER, "리뷰" + i, obId);
+            reviewAcceptanceTool.리뷰_등록(RANDOM_MEMBER, "리뷰" + i, obId);
         }
 
         //when
@@ -198,7 +196,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(httpStatus).isEqualTo(HttpStatus.OK);
 
-        final List<ReviewResponse> reviews = reviewAcceptanceApi.리뷰_조회(obId);
+        final List<ReviewResponse> reviews = reviewAcceptanceTool.리뷰_조회(obId);
         assertThat(reviews).extracting("content").contains(content);
         assertThat(reviews).extracting("content").doesNotContain(originalContent);
     }
@@ -350,7 +348,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
                 .build();
         //then
         assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(reviewAcceptanceApi.리뷰_조회(obId)).isEmpty();
+        assertThat(reviewAcceptanceTool.리뷰_조회(obId)).isEmpty();
     }
 
     @DisplayName("리뷰 삭제 - 실패(잘못된 Drink id)")
@@ -433,12 +431,12 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
     }
 
     private Long 주류_등록(DrinkTestContainer drinkTestContainer) {
-        adminAcceptanceApi.어드민_주류_데이터_등록(drinkTestContainer);
-        return drinkAcceptanceApi.주류_아이디_조회(drinkTestContainer.getName());
+        adminAcceptanceTool.어드민_주류_데이터_등록(drinkTestContainer);
+        return drinkAcceptanceTool.주류_아이디_조회(drinkTestContainer.getName());
     }
 
     private Long 리뷰_등록(TestMember testMember, String content, Long drinkId) {
-        reviewAcceptanceApi.리뷰_등록(testMember, content, drinkId);
-        return reviewAcceptanceApi.리뷰_조회(drinkId, content).getId();
+        reviewAcceptanceTool.리뷰_등록(testMember, content, drinkId);
+        return reviewAcceptanceTool.리뷰_조회(drinkId, content).getId();
     }
 }

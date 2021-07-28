@@ -15,7 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @Component
 @ActiveProfiles("test")
-public class AdminAcceptanceApi {
+public class AdminAcceptanceTool {
 
     @Autowired
     private RequestBuilder requestBuilder;

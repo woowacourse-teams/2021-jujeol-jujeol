@@ -21,12 +21,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
 import com.jujeol.RequestBuilder.HttpResponse;
-import com.jujeol.admin.acceptance.AdminAcceptanceApi;
+import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.ui.dto.DrinkDetailResponse;
 import com.jujeol.drink.ui.dto.DrinkSimpleResponse;
-import com.jujeol.member.acceptance.MemberAcceptanceApi;
+import com.jujeol.member.acceptance.MemberAcceptanceTool;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,15 +37,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class DrinkAcceptanceTest extends AcceptanceTest {
 
     @Autowired
-    private AdminAcceptanceApi adminAcceptanceApi;
+    private AdminAcceptanceTool adminAcceptanceTool;
     @Autowired
-    private DrinkAcceptanceApi drinkAcceptanceApi;
+    private DrinkAcceptanceTool drinkAcceptanceTool;
     @Autowired
-    private MemberAcceptanceApi memberAcceptanceApi;
+    private MemberAcceptanceTool memberAcceptanceTool;
 
     @BeforeEach
     void setUp() {
-        adminAcceptanceApi.어드민_주류_데이터_등록(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
+        adminAcceptanceTool
+                .어드민_주류_데이터_등록(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
     }
 
     @DisplayName("전체 조회 - 성공")
@@ -95,13 +96,13 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     public void showDrinksByPreferenceTest() {
         //given
         String theme = "preference";
-        memberAcceptanceApi.선호도_등록(주류_아이디(ESTP), 4.5, WEDGE);
-        memberAcceptanceApi.선호도_등록(주류_아이디(ESTP), 5.0, SUNNY);
-        memberAcceptanceApi.선호도_등록(주류_아이디(ESTP), 4.6, TIKE);
-        memberAcceptanceApi.선호도_등록(주류_아이디(KGB), 3.5, CROFFLE);
-        memberAcceptanceApi.선호도_등록(주류_아이디(TIGER_LEMON), 3.3, NABOM);
-        memberAcceptanceApi.선호도_등록(주류_아이디(TSINGTAO), 2.5, PIKA);
-        memberAcceptanceApi.선호도_등록(주류_아이디(STELLA), 2.3, SOLONG);
+        memberAcceptanceTool.선호도_등록(주류_아이디(ESTP), 4.5, WEDGE);
+        memberAcceptanceTool.선호도_등록(주류_아이디(ESTP), 5.0, SUNNY);
+        memberAcceptanceTool.선호도_등록(주류_아이디(ESTP), 4.6, TIKE);
+        memberAcceptanceTool.선호도_등록(주류_아이디(KGB), 3.5, CROFFLE);
+        memberAcceptanceTool.선호도_등록(주류_아이디(TIGER_LEMON), 3.3, NABOM);
+        memberAcceptanceTool.선호도_등록(주류_아이디(TSINGTAO), 2.5, PIKA);
+        memberAcceptanceTool.선호도_등록(주류_아이디(STELLA), 2.3, SOLONG);
 
         //when
         List<DrinkSimpleResponse> drinkSimpleResponses = request()
@@ -123,9 +124,9 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         String theme = "view-count";
         final Long obId = 주류_아이디(OB);
         final Long stellaId = 주류_아이디(STELLA);
-        drinkAcceptanceApi.단일_상품_조회(obId);
-        drinkAcceptanceApi.단일_상품_조회(obId);
-        drinkAcceptanceApi.단일_상품_조회(stellaId);
+        drinkAcceptanceTool.단일_상품_조회(obId);
+        drinkAcceptanceTool.단일_상품_조회(obId);
+        drinkAcceptanceTool.단일_상품_조회(stellaId);
 
         //when
         List<DrinkSimpleResponse> drinkSimpleResponses = request()
@@ -168,6 +169,6 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     }
 
     private Long 주류_아이디(DrinkTestContainer drinkTestContainer) {
-        return drinkAcceptanceApi.주류_아이디_조회(drinkTestContainer.getName());
+        return drinkAcceptanceTool.주류_아이디_조회(drinkTestContainer.getName());
     }
 }

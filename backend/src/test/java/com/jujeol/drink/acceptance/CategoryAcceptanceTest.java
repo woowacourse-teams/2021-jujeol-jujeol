@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CategoryAcceptanceTest extends AcceptanceTest {
 
     @Autowired
-    public CategoryAcceptanceApi categoryAcceptanceApi;
+    public CategoryAcceptanceTool categoryAcceptanceTool;
 
     @Test
     void showAll() {
@@ -25,7 +25,7 @@ public class CategoryAcceptanceTest extends AcceptanceTest {
 
         //then
         final List<String> categoryNames =
-                categoryAcceptanceApi.기본_카테고리()
+                categoryAcceptanceTool.기본_카테고리()
                         .stream()
                         .map(Category::getName)
                         .collect(toList());

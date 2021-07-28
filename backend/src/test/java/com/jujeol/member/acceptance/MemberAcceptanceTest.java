@@ -8,15 +8,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.jujeol.AcceptanceTest;
 import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.RequestBuilder.Option;
-import com.jujeol.admin.acceptance.AdminAcceptanceApi;
-import com.jujeol.commons.exception.ExceptionCodeAndDetails;
-import com.jujeol.commons.exception.JujeolExceptionDto;
+import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.drink.DrinkTestContainer;
-import com.jujeol.drink.acceptance.DrinkAcceptanceApi;
-import com.jujeol.drink.exception.NotFoundDrinkException;
+import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
 import com.jujeol.drink.ui.dto.DrinkDetailResponse;
 import com.jujeol.member.application.dto.PreferenceDto;
-import com.jujeol.member.exception.UnauthorizedUserException;
 import com.jujeol.member.fixture.TestMember;
 import com.jujeol.member.ui.dto.MemberRequest;
 import com.jujeol.member.ui.dto.MemberResponse;
@@ -30,11 +26,11 @@ import org.springframework.http.HttpStatus;
 public class MemberAcceptanceTest extends AcceptanceTest {
 
     @Autowired
-    private AdminAcceptanceApi adminAcceptanceApi;
+    private AdminAcceptanceTool adminAcceptanceTool;
     @Autowired
-    private DrinkAcceptanceApi drinkAcceptanceApi;
+    private DrinkAcceptanceTool drinkAcceptanceTool;
     @Autowired
-    private MemberAcceptanceApi memberAcceptanceApi;
+    private MemberAcceptanceTool memberAcceptanceTool;
 
     @Test
     @DisplayName("멤버 조회 - 성공")
@@ -122,7 +118,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .totalResponse();
 
         //then
-        final DrinkDetailResponse drinkDetailResponse = drinkAcceptanceApi.단일_상품_조회(obId);
+        final DrinkDetailResponse drinkDetailResponse = drinkAcceptanceTool.단일_상품_조회(obId);
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         assertThat(drinkDetailResponse.getPreferenceAvg()).isEqualTo(4.5);
     }
@@ -132,7 +128,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     public void updatePreference() {
         //given
         final Long obId = 주류_등록(OB);
-        memberAcceptanceApi.선호도_등록(obId, 4.5, CROFFLE);
+        memberAcceptanceTool.선호도_등록(obId, 4.5, CROFFLE);
         PreferenceDto newPreference = PreferenceDto.of(3.0);
 
         //when
@@ -144,7 +140,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .totalResponse();
 
         //then
-        final DrinkDetailResponse drinkDetailResponse = drinkAcceptanceApi.단일_상품_조회(obId);
+        final DrinkDetailResponse drinkDetailResponse = drinkAcceptanceTool.단일_상품_조회(obId);
         assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
         assertThat(drinkDetailResponse.getPreferenceAvg()).isEqualTo(3.0);
     }
@@ -154,7 +150,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     public void createPreference_fail_unauthorizedUser() {
         //given
         final Long obId = 주류_등록(OB);
-        memberAcceptanceApi.선호도_등록(obId, 3.5, CROFFLE);
+        memberAcceptanceTool.선호도_등록(obId, 3.5, CROFFLE);
         PreferenceDto preferenceDto = PreferenceDto.of(4.5);
 
         //when
@@ -172,7 +168,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     public void createPreference_fail_notFound() {
         //given
         final Long obId = 주류_등록(OB);
-        memberAcceptanceApi.선호도_등록(obId, 3.5, CROFFLE);
+        memberAcceptanceTool.선호도_등록(obId, 3.5, CROFFLE);
         PreferenceDto preferenceDto = PreferenceDto.of(4.5);
 
         //when
@@ -191,7 +187,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     public void deletePreference() {
         //given
         final Long obId = 주류_등록(OB);
-        memberAcceptanceApi.선호도_등록(obId, 3.5, CROFFLE);
+        memberAcceptanceTool.선호도_등록(obId, 3.5, CROFFLE);
 
         //when
         final HttpResponse httpResponse = request()
@@ -201,7 +197,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .build();
 
         //then
-        final DrinkDetailResponse drinkDetailResponse = drinkAcceptanceApi.단일_상품_조회(obId);
+        final DrinkDetailResponse drinkDetailResponse = drinkAcceptanceTool.단일_상품_조회(obId);
 
         assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.OK);
         assertThat(drinkDetailResponse.getPreferenceAvg()).isEqualTo(0.0);
@@ -213,7 +209,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         //given
 
         final Long obId = 주류_등록(OB);
-        memberAcceptanceApi.선호도_등록(obId, 3.5, CROFFLE);
+        memberAcceptanceTool.선호도_등록(obId, 3.5, CROFFLE);
 
         //when
         final HttpResponse httpResponse = request()
@@ -257,7 +253,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     private Long 주류_등록(DrinkTestContainer drinkTestContainer) {
-        adminAcceptanceApi.어드민_주류_데이터_등록(drinkTestContainer);
-        return drinkAcceptanceApi.주류_아이디_조회(drinkTestContainer.getName());
+        adminAcceptanceTool.어드민_주류_데이터_등록(drinkTestContainer);
+        return drinkAcceptanceTool.주류_아이디_조회(drinkTestContainer.getName());
     }
 }

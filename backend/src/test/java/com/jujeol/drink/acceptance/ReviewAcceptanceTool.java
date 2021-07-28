@@ -12,7 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @Component
 @ActiveProfiles("test")
-public class ReviewAcceptanceApi {
+public class ReviewAcceptanceTool {
 
     @Autowired
     private RequestBuilder requestBuilder;

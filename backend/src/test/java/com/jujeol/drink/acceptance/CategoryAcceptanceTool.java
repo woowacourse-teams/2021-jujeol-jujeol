@@ -10,7 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @Component
 @ActiveProfiles("test")
-public class CategoryAcceptanceApi {
+public class CategoryAcceptanceTool {
 
     @Autowired
     private CategoryRepository categoryRepository;
