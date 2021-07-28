@@ -177,4 +177,11 @@ describe('로그인 되지 않은 사용자가 상세페이지를 이용한다.'
     fireEvent.click(preferenceInput);
     expect(window.confirm).toBeCalled();
   });
+
+  it('로그인 되지 않은 사용자가 상세페이지에서 리뷰를 남기려고 할 때 로그인하라는 창이 뜬다.', async () => {
+    const reviewInput = screen.getByRole('textbox');
+
+    fireEvent.click(reviewInput);
+    expect(window.confirm).toBeCalled();
+  });
 });
