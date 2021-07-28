@@ -59,4 +59,12 @@ describe('사용자는 상세페이지에서 주류 정보를 확인할 수 있�
     fireEvent.change(preferenceInput, { target: { value: preferenceRate } });
     expect(screen.getByText(`당신의 선호도는? ${preferenceRate} 점`)).toBeVisible();
   });
+
+  it('로그인 된 사용자는 상세페이지에서 선호도를 삭제할 수 있다.', async () => {
+    const preferenceRate = 0;
+    const preferenceInput = screen.getByRole('slider');
+
+    fireEvent.change(preferenceInput, { target: { value: preferenceRate } });
+    expect(screen.getByText(`선호도를 입력해주세요`)).toBeVisible();
+  });
 });
