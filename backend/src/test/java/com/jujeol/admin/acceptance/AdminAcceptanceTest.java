@@ -106,7 +106,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
                 new AdminDrinkRequest("스텔라2", "stella2", 2.0, "test", "BEER");
         //when
         final HttpResponse httpResponse =
-                request().put("/admin/drinks/" + stellaId, newStella).build();
+                request().put("/admin/drinks/{id}", newStella, stellaId).build();
 
         //then
         assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.OK);
@@ -127,7 +127,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
 
         //when
         final HttpResponse httpResponse =
-                request().delete("/admin/drinks/" + stellaId).build();
+                request().delete("/admin/drinks/{id}", stellaId).build();
 
         //then
         assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.OK);

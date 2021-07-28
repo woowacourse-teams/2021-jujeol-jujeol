@@ -61,16 +61,16 @@ public class RequestBuilder {
             return new Option(new GetRequest(path, pathParams));
         }
 
-        public <T> Option post(String path, T data) {
-            return new Option(new PostRequest<>(path, data));
+        public <T> Option post(String path, T data, Object... pathParams) {
+            return new Option(new PostRequest<>(path, data, pathParams));
         }
 
-        public <T> Option put(String path, T data) {
-            return new Option(new PutRequest<>(path, data));
+        public <T> Option put(String path, T data, Object... pathParams) {
+            return new Option(new PutRequest<>(path, data, pathParams));
         }
 
-        public <T> Option delete(String path) {
-            return new Option(new DeleteRequest<>(path));
+        public <T> Option delete(String path, Object... pathParams) {
+            return new Option(new DeleteRequest<>(path, pathParams));
         }
     }
 
@@ -99,7 +99,7 @@ public class RequestBuilder {
         }
 
         public Option withUser() {
-            userHelper.withUser(TestMember.DEFAULT);
+            userHelper.withUser(TestMember.RANDOM_MEMBER);
             return this;
         }
 
@@ -264,16 +264,18 @@ public class RequestBuilder {
 
         private final String path;
         private final T data;
+        private final Object[] pathParams;
 
-        public PostRequest(String path, T data) {
+        public PostRequest(String path, T data, Object[] pathParams) {
             this.path = path;
             this.data = data;
+            this.pathParams = pathParams;
         }
 
         @Override
         public ValidatableResponse doAction(RequestSpecification spec) {
             return spec.body(data).contentType(ContentType.JSON)
-                    .post(path)
+                    .post(path, pathParams)
                     .then();
         }
     }
@@ -282,16 +284,18 @@ public class RequestBuilder {
 
         private final String path;
         private final T data;
+        private final Object[] pathParams;
 
-        public PutRequest(String path, T data) {
+        public PutRequest(String path, T data, Object[] pathParams) {
             this.path = path;
             this.data = data;
+            this.pathParams = pathParams;
         }
 
         @Override
         public ValidatableResponse doAction(RequestSpecification spec) {
             return spec.body(data).contentType(ContentType.JSON)
-                    .put(path)
+                    .put(path, pathParams)
                     .then();
         }
     }
@@ -299,15 +303,17 @@ public class RequestBuilder {
     private static class DeleteRequest<T> implements RestAssuredRequest {
 
         private final String path;
+        private final Object[] pathParams;
 
-        public DeleteRequest(String path) {
+        public DeleteRequest(String path, Object[] pathParams) {
             this.path = path;
+            this.pathParams = pathParams;
         }
 
         @Override
         public ValidatableResponse doAction(RequestSpecification spec) {
             return spec.contentType(ContentType.JSON)
-                    .delete(path)
+                    .delete(path, pathParams)
                     .then();
         }
     }

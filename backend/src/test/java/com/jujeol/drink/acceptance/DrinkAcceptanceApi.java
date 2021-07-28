@@ -26,11 +26,11 @@ public class DrinkAcceptanceApi {
     private DrinkRepository drinkRepository;
 
     public DrinkDetailResponse 단일_상품_조회(Long id) {
-        return requestBuilder.builder().get("/drinks/" + id).withoutLog().build().convertBody(DrinkDetailResponse.class);
+        return requestBuilder.builder().get("/drinks/{id}", id).withoutLog().build().convertBody(DrinkDetailResponse.class);
     }
 
     public JujeolExceptionDto 단일_상품_조회_실패(Long id) {
-        return requestBuilder.builder().get("/drinks/" + id).withoutLog().build().errorResponse();
+        return requestBuilder.builder().get("/drinks/{id}", id).withoutLog().build().errorResponse();
     }
 
     public Long 주류_아이디_조회(String drinkName) {

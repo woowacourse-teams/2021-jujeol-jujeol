@@ -19,7 +19,7 @@ public class LoginAcceptanceTest extends AcceptanceTest {
         //given
         //when
         final String accessToken = request()
-                .post("login/token", TestMember.DEFAULT.toDto())
+                .post("login/token", TestMember.RANDOM_MEMBER.toDto())
                 .withDocument("member/login/token")
                 .build()
                 .convertBody(TokenDto.class)

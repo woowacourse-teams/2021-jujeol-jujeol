@@ -144,7 +144,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         final Long obId = 주류_아이디(OB);
         //when
         DrinkDetailResponse drinkDetailResponse = request()
-                .get("/drinks/" + obId)
+                .get("/drinks/{id}", obId)
                 .withDocument("drinks/show/detail")
                 .withUser()
                 .build()
@@ -159,7 +159,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     public void showDrinkDetailTest_fail() {
         //when
         final JujeolExceptionDto errorResponse = request()
-                .get("drinks/" + Long.MAX_VALUE)
+                .get("drinks/{id}", Long.MAX_VALUE)
                 .withDocument("drinks/show/detail-fail")
                 .build().errorResponse();
 

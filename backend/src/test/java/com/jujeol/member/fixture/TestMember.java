@@ -7,6 +7,7 @@ import com.jujeol.member.application.dto.SocialProviderCodeDto;
 import com.jujeol.member.domain.ProviderName;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public enum TestMember {
     SOLONG("1000", "short.middle.long", "1000"),
@@ -16,7 +17,7 @@ public enum TestMember {
     WEDGE("1004", "potato.potato.potato", "1004"),
     PIKA("1005", "pika.pika.pika", "1005"),
     NABOM("1006", "nabom.summer.winter", "1006"),
-    DEFAULT("1234", "this.is.default", "1234");
+    RANDOM_MEMBER("1234", "this.is.default", "random");
 
     TestMember(String matchedCode, String accessToken,
             String accountId) {
@@ -25,6 +26,9 @@ public enum TestMember {
         this.memberDetails = new MemberDetails() {
             @Override
             public String accountId() {
+                if(accountId.equals("random")) {
+                    return UUID.randomUUID().toString();
+                }
                 return accountId;
             }
 
@@ -46,14 +50,14 @@ public enum TestMember {
         return FIXTURES.stream()
                 .filter(member -> member.getMatchedCode().equals(code))
                 .findAny()
-                .orElse(DEFAULT);
+                .orElse(RANDOM_MEMBER);
     }
 
     public static TestMember findByToken(String accessToken) {
         return FIXTURES.stream()
                 .filter(member -> member.getAccessToken().equals(accessToken))
                 .findAny()
-                .orElse(DEFAULT);
+                .orElse(RANDOM_MEMBER);
     }
 
     public String getMatchedCode() {
