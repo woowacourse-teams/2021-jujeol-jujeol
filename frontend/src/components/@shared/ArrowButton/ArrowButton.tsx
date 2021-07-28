@@ -1,14 +1,21 @@
 import { ArrowButtonStyle, Button } from './ArrowButton.styles';
 
 interface Props extends ArrowButtonStyle {
-  name?: string;
+  children?: React.ReactNode;
   onClick?: () => void;
 }
 
-const ArrowButton = ({ name, fontSize, size, borderWidth, dir, onClick }: Props) => {
+const ArrowButton = ({ fontSize, size, borderWidth, dir, onClick, children }: Props) => {
   return (
-    <Button fontSize={fontSize} size={size} borderWidth={borderWidth} dir={dir} onClick={onClick}>
-      {name ?? ''}
+    <Button
+      type="button"
+      fontSize={fontSize}
+      size={size}
+      borderWidth={borderWidth}
+      dir={dir}
+      onClick={onClick}
+    >
+      {children}
     </Button>
   );
 };
