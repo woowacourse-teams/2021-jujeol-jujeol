@@ -37,10 +37,12 @@ const MyReviewsPage = () => {
 
   const personalReviews = pages?.map((page) => page.data).flat();
 
+  const onMoveGoBackPage = () => history.goBack();
+
   return (
     <>
       <Header>
-        <ArrowButton size="0.7rem" borderWidth="2px" dir="LEFT" onClick={() => history.goBack()} />
+        <ArrowButton size="0.7rem" borderWidth="2px" dir="LEFT" onClick={onMoveGoBackPage} />
         <h2>내가 남긴 리뷰</h2>
       </Header>
 
