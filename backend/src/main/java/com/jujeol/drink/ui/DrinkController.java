@@ -51,7 +51,7 @@ public class DrinkController {
 
     @GetMapping("/drinks/recommendation")
     public ResponseEntity<CommonResponse<List<DrinkSimpleResponse>>> showDrinks(
-            @ModelAttribute ThemeRequest themeRequest,
+            @ModelAttribute(name = "theme") ThemeRequest themeRequest,
             @PageableDefault(7) Pageable pageable
     ) {
         Page<DrinkDto> drinkDtos = drinkService.showDrinks(themeRequest.getTheme(), pageable);

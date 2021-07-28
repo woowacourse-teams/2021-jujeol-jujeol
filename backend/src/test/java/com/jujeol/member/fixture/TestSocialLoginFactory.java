@@ -14,22 +14,15 @@ public class TestSocialLoginFactory implements SocialLoginStrategyFactory {
     @Override
     public SocialClient selectSocialClient(ProviderName providerName) {
         return new SocialClient() {
-            @Override
-            public String getAccessToken(String code) {
-                return SocialLoginMemberFixture
-                        .findByCode(code)
-                        .getAccessToken();
-            }
 
             @Override
-            public MemberDetails getDetails(String accessToken) {
-                return SocialLoginMemberFixture
-                        .findByToken(accessToken)
-                        .getMemberDetails();
+            public MemberDetails getDetails(String socialCode) {
+             return TestMember.findByCode(socialCode).getMemberDetails();
             }
 
             @Override
             public void unlink(String accessToken) {
+
             }
         };
     }
