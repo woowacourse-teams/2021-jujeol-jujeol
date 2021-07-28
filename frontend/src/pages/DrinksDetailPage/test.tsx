@@ -32,6 +32,9 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
       value: MockIntersectionObserver,
     });
 
+    jest.spyOn(window, 'alert').mockImplementation(() => {
+      return;
+    });
     jest.spyOn(window, 'confirm').mockImplementation(() => {
       return true;
     });
@@ -41,6 +44,7 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
     API.getReview = jest
       .fn()
       .mockReturnValue({ data: drinksReviews.data, pageInfo: drinksReviews.pageInfo });
+    API.postReview = jest.fn().mockReturnValue(true);
 
     customRender({ initialEntries: [`/drinks/0`], children: <DrinksDetailPage /> });
 
@@ -81,6 +85,63 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
 
     fireEvent.change(preferenceInput, { target: { value: preferenceRate } });
     expect(screen.getByText(`선호도를 입력해주세요`)).toBeVisible();
+  });
+
+  it('사용자는 리뷰를 조회할 수 있다.', async () => {
+    expect(screen.getByText(`리뷰 ${drinksReviews.pageInfo.totalSize}개`)).toBeVisible();
+
+    // TODO: user API 변경에 따른 테스트 코드 추가
+    drinksReviews.data.every((review) => {
+      expect(screen.getByText(review.content)).toBeVisible();
+    });
+  });
+
+  it('로그인 된 사용자는 상세페이지에서 리뷰를 남길 수 있다.', async () => {
+    const review = 'good12312341234';
+    API.getReview = jest.fn().mockReturnValue({
+      data: [
+        {
+          id: 4,
+          author: {
+            id: 3,
+            name: 'perenok',
+          },
+          content: review,
+          createdAt: new Date(),
+          modifiedAt: null,
+        },
+        ...drinksReviews.data,
+      ],
+      pageInfo: drinksReviews.pageInfo,
+    });
+
+    const reviewInput = screen.getByRole('textbox');
+    const submitButton = screen.getByRole('button', { name: '작성 완료' });
+
+    fireEvent.change(reviewInput, { target: { value: review } });
+    fireEvent.click(submitButton);
+
+    await waitFor(() => expect(API.getReview).toBeCalledTimes(1));
+
+    expect(reviewInput).toHaveDisplayValue('');
+    expect(screen.getByText(review)).toBeVisible();
+  });
+
+  it('로그인 된 사용자는 하루에 두 번이상 리뷰를 작성할 수 없다.', async () => {
+    API.postReview = jest.fn().mockImplementation(() => {
+      throw new Error();
+    });
+
+    const review = 'good12312341234';
+
+    const reviewInput = screen.getByRole('textbox');
+    const submitButton = screen.getByRole('button', { name: '작성 완료' });
+
+    fireEvent.change(reviewInput, { target: { value: review } });
+    fireEvent.click(submitButton);
+
+    await waitFor(() => expect(API.postReview).toBeCalledTimes(1));
+    expect(window.alert).toBeCalled();
   });
 });
 
