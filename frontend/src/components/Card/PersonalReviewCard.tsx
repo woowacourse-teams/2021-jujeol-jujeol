@@ -4,7 +4,6 @@ import { COLOR, PATH } from 'src/constants';
 import Arrow from '../@shared/Arrow/Arrow';
 import Card from '../@shared/Card/Card';
 import { Img } from '../@shared/Image/Image';
-import EditButton from '../EditButton/EditButton';
 import { TextContainer, Title, Content, ShowMoreButton } from './PersonalReviewCard.styles';
 
 interface Props {
@@ -56,7 +55,6 @@ const PersonalReviewCard = ({ review }: Props) => {
         <div>
           <Title onClick={onMoveToDrinkDetail}>{drink?.name}</Title>
           <span>{new Date(review.createdAt).toLocaleDateString()}</span>
-          <EditButton />
         </div>
 
         <Content ref={contentRef} isContentOpen={isContentOpen}>
