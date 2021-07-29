@@ -12,9 +12,9 @@ import Profile from 'src/components/Profile/Profile';
 import { HorizontalScroll } from 'src/components/Scroll/HorizontalScroll';
 import Status from './Status';
 import Arrow from 'src/components/@shared/Arrow/Arrow';
+import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
 
 import MyDrinkItem from '../MyDrinksPage/MyDrinkItem';
-import MyReviewItem from '../MyReviewsPage/MyReviewItem';
 
 import { PATH } from 'src/constants';
 import { Header } from './styles';
@@ -58,7 +58,6 @@ const MyPage = () => {
   }, []);
 
   const onMoveGoBackPage = () => history.goBack();
-
   return (
     <>
       <Header>
@@ -67,9 +66,7 @@ const MyPage = () => {
         </button>
         <h2>내정보</h2>
       </Header>
-
       <Profile src="https://fakeimg.pl/72x72" nickname={userData?.nickname} bio={userData?.bio} />
-
       <Status
         myDrinksCount={myDrinksData?.pageInfo?.totalSize}
         myReviewsCount={myReviewsData?.pageInfo?.totalSize}
@@ -87,8 +84,8 @@ const MyPage = () => {
 
       <Preview title="내가 남긴 리뷰" path={PATH.MY_REVIEWS}>
         <ul>
-          {myReviews?.map((myReview: MyReview.MyReviewItem) => (
-            <MyReviewItem key={myReview.id} review={myReview} />
+          {myReviews?.map((myReview: PersonalReview.PersonalReviewItem) => (
+            <PersonalReviewItem key={myReview.id} review={myReview} />
           ))}
         </ul>
       </Preview>

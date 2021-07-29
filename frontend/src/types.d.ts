@@ -36,8 +36,8 @@ declare namespace MyDrink {
   }
 }
 
-declare namespace MyReview {
-  interface MyReviewItem {
+declare namespace PersonalReview {
+  interface PersonalReviewItem {
     id: number;
     drink: {
       drinkId: number;

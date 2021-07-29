@@ -1,8 +1,8 @@
 import PersonalReviewCard from 'src/components/Card/PersonalReviewCard';
-import { Item } from './MyReviewItem.styles';
+import { Item } from './PersonalReviewItem.styles';
 
 interface Props {
-  review: MyReview.MyReviewItem;
+  review: PersonalReview.PersonalReviewItem;
 }
 
 const MyReviewItem = ({ review }: Props) => {

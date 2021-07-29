@@ -4,8 +4,8 @@ import { useHistory } from 'react-router-dom';
 import API from 'src/apis/requests';
 import Arrow from 'src/components/@shared/Arrow/Arrow';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
+import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
 import useIntersectionObserver from 'src/hooks/useIntersectionObserver';
-import MyReviewItem from './MyReviewItem';
 import { Container, Header } from './styles';
 
 const MyReviewsPage = () => {
@@ -50,7 +50,7 @@ const MyReviewsPage = () => {
 
       <Container>
         {personalReviews?.map((review) => (
-          <MyReviewItem key={review.id} review={review} />
+          <PersonalReviewItem key={review.id} review={review} />
         ))}
         <InfinityScrollPoll ref={observerTargetRef} />
       </Container>

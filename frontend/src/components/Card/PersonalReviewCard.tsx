@@ -8,7 +8,7 @@ import EditButton from '../EditButton/EditButton';
 import { TextContainer, Title, Content, ShowMoreButton } from './PersonalReviewCard.styles';
 
 interface Props {
-  review: MyReview.MyReviewItem;
+  review: PersonalReview.PersonalReviewItem;
 }
 
 const PersonalReviewCard = ({ review }: Props) => {
