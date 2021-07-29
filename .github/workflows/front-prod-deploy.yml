@@ -27,4 +27,4 @@ jobs:
         run: npm run build:dev
 
       - name: Deploy
-        run: aws s3 sync ./build s3://jujeol-dev-deploy
+        run: aws s3 sync ./build s3://jujeol-prod-deploy
