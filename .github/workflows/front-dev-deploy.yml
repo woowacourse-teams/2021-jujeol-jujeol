@@ -18,7 +18,7 @@ env:
 jobs:
   build:
     # close 이벤트 중 merge일 때만 동작 && label이 [front] 일때만 동작
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.id, ${{FRONT_LABEL}})
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.id, 3141723409)
     runs-on: deploy-runner
     steps:        
     - name: Checkout source code
