@@ -14,7 +14,7 @@ const TextContainer = styled.div`
       border: 1px solid red;
       position: absolute;
       right: -1rem;
-      top: -1rem;
+      top: -0.5rem;
       background-color: transparent;
       border: none;
     }
@@ -37,6 +37,7 @@ const Content = styled.div<{ isContentOpen: boolean }>`
 
   text-align: justify;
   white-space: break-spaces;
+  word-break: break-word;
   font-size: 0.9rem;
   line-height: 1.5;
 
