@@ -19,7 +19,7 @@ jobs:
   build:
     # close 이벤트 중 merge일 때만 동작 && label이 [front] 일때만 동작
     if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.id, ${FRONT_LABEL})
-    runs-on: test-actions
+    runs-on: deploy-runner
     steps:        
     - name: Checkout source code
       uses: actions/checkout@v2
@@ -31,4 +31,4 @@ jobs:
       run: npm run build:dev
 
     - name: Deploy
-      run: aws s3 sync ./build s3://jujeol-dev-deploy
+      run: aws s3 sync --delete ./build s3://jujeol-dev-deploy
