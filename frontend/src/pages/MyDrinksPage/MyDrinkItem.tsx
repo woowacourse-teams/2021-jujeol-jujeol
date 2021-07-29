@@ -7,7 +7,6 @@ import { Container, Description } from './MyDrinkItem.styles';
 interface Props {
   size: ImageSizeType;
   drink: MyDrink.MyDrinkItem;
-  onClick?: () => void;
 }
 
 const MyDrinkItem = ({ size, drink }: Props) => {
@@ -15,12 +14,10 @@ const MyDrinkItem = ({ size, drink }: Props) => {
 
   const history = useHistory();
 
+  const onMoveToDrinkDetail = () => history.push(`${PATH.DRINKS}/${drink.id}`);
+
   return (
-    <Container
-      onClick={() => {
-        history.push(`${PATH.DRINKS}/${drink.id}`);
-      }}
-    >
+    <Container onClick={onMoveToDrinkDetail}>
       <Img src={imageUrl} alt={name} shape="ROUND_SQUARE" size={size} />
       <p>{name}</p>
       <Description>

@@ -21,7 +21,7 @@ const PersonalReviewCard = ({ review }: Props) => {
 
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const onMoveDrinkDetailPage = () => {
+  const onMoveToDrinkDetail = () => {
     history.push(`${PATH.DRINKS}/${review.drink.drinkId}`);
   };
 
@@ -49,12 +49,12 @@ const PersonalReviewCard = ({ review }: Props) => {
         alt={drink.name}
         shape="ROUND_SQUARE"
         size="SMALL"
-        onClick={onMoveDrinkDetailPage}
+        onClick={onMoveToDrinkDetail}
       />
 
       <TextContainer>
         <div>
-          <Title onClick={onMoveDrinkDetailPage}>{drink?.name}</Title>
+          <Title onClick={onMoveToDrinkDetail}>{drink?.name}</Title>
           <span>{new Date(review.createdAt).toLocaleDateString()}</span>
           <EditButton />
         </div>

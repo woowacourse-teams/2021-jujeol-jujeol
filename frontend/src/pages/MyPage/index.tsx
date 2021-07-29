@@ -57,11 +57,11 @@ const MyPage = () => {
     }
   }, []);
 
-  const onMoveGoBackPage = () => history.goBack();
+  const onMoveGoBack = () => history.goBack();
   return (
     <>
       <Header>
-        <button type="button" onClick={onMoveGoBackPage}>
+        <button type="button" onClick={onMoveGoBack}>
           <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
         </button>
         <h2>내정보</h2>
