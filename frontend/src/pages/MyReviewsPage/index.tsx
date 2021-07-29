@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import API from 'src/apis/requests';
-import ArrowButton from 'src/components/@shared/ArrowButton/ArrowButton';
+import Arrow from 'src/components/@shared/Arrow/Arrow';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
 import useIntersectionObserver from 'src/hooks/useIntersectionObserver';
 import MyReviewItem from './MyReviewItem';
@@ -42,7 +42,9 @@ const MyReviewsPage = () => {
   return (
     <>
       <Header>
-        <ArrowButton size="0.7rem" borderWidth="2px" dir="LEFT" onClick={onMoveGoBackPage} />
+        <button type="button" onClick={onMoveGoBackPage}>
+          <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
+        </button>
         <h2>내가 남긴 리뷰</h2>
       </Header>
 

@@ -1,11 +1,11 @@
 import { useRef, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { COLOR, PATH } from 'src/constants';
-import ArrowButton from '../@shared/ArrowButton/ArrowButton';
+import Arrow from '../@shared/Arrow/Arrow';
 import Card from '../@shared/Card/Card';
 import { Img } from '../@shared/Image/Image';
 import EditButton from '../EditButton/EditButton';
-import { TextContainer, Title, Content } from './PersonalReviewCard.styles';
+import { TextContainer, Title, Content, ShowMoreButton } from './PersonalReviewCard.styles';
 
 interface Props {
   review: MyReview.MyReviewItem;
@@ -51,17 +51,21 @@ const PersonalReviewCard = ({ review }: Props) => {
         size="SMALL"
         onClick={onMoveDrinkDetailPage}
       />
+
       <TextContainer>
         <div>
           <Title onClick={onMoveDrinkDetailPage}>{drink?.name}</Title>
           <span>{new Date(review.createdAt).toLocaleDateString()}</span>
           <EditButton />
         </div>
+
         <Content ref={contentRef} isContentOpen={isContentOpen}>
           {review.content}
         </Content>
         {isShowMore && (
-          <ArrowButton size="0.4rem" borderWidth="1.5px" dir="DOWN" onClick={onShowMore} />
+          <ShowMoreButton onClick={onShowMore}>
+            <Arrow size="0.4rem" borderWidth="1.5px" dir="DOWN" />
+          </ShowMoreButton>
         )}
       </TextContainer>
     </Card>

@@ -2,19 +2,22 @@ import { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
+import UserContext from 'src/contexts/UserContext';
+
 import API from 'src/apis/requests';
-import ArrowButton from 'src/components/@shared/ArrowButton/ArrowButton';
+
 import Grid from 'src/components/@shared/Grid/Grid';
 import Preview from 'src/components/Preview/Preview';
 import Profile from 'src/components/Profile/Profile';
 import { HorizontalScroll } from 'src/components/Scroll/HorizontalScroll';
-import { PATH } from 'src/constants';
-import UserContext from 'src/contexts/UserContext';
+import Status from './Status';
+import Arrow from 'src/components/@shared/Arrow/Arrow';
+
 import MyDrinkItem from '../MyDrinksPage/MyDrinkItem';
 import MyReviewItem from '../MyReviewsPage/MyReviewItem';
 
+import { PATH } from 'src/constants';
 import { Header } from './styles';
-import Status from './Status';
 
 const MyPage = () => {
   const history = useHistory();
@@ -59,15 +62,17 @@ const MyPage = () => {
   return (
     <>
       <Header>
-        <ArrowButton size="0.7rem" borderWidth="2px" dir="LEFT" onClick={onMoveGoBackPage} />
+        <button type="button" onClick={onMoveGoBackPage}>
+          <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
+        </button>
         <h2>내정보</h2>
       </Header>
 
       <Profile src="https://fakeimg.pl/72x72" nickname={userData?.nickname} bio={userData?.bio} />
 
       <Status
-        myDrinksCount={myDrinksData?.pageInfo.totalSize}
-        myReviewsCount={myReviewsData?.pageInfo.totalSize}
+        myDrinksCount={myDrinksData?.pageInfo?.totalSize}
+        myReviewsCount={myReviewsData?.pageInfo?.totalSize}
       />
 
       <Preview title="내가 마신 술" path={PATH.MY_DRINKS}>

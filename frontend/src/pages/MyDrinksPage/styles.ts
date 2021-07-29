@@ -12,6 +12,12 @@ const Header = styled.header`
     font-size: 1.3rem;
     font-weight: 700;
   }
+
+  button {
+    background-color: transparent;
+    border: 0;
+    margin-left: 0.5rem;
+  }
 `;
 
 const Container = styled.section`

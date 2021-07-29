@@ -9,19 +9,11 @@ const TextContainer = styled.div`
 
   position: relative;
 
-  button {
-    position: absolute;
-    right: -1.2rem;
-    bottom: 0.1rem;
-  }
-
   > div {
-    position: relative;
-    margin-right: -0.1rem;
-
     button {
       border: 1px solid red;
       position: absolute;
+      right: -1rem;
       top: -1rem;
       background-color: transparent;
       border: none;
@@ -40,9 +32,11 @@ const Title = styled.p`
   }
 `;
 
-const Content = styled.p<{ isContentOpen: boolean }>`
+const Content = styled.div<{ isContentOpen: boolean }>`
   margin-top: 0.3rem;
 
+  text-align: justify;
+  white-space: break-spaces;
   font-size: 0.9rem;
   line-height: 1.5;
 
@@ -57,4 +51,13 @@ const Content = styled.p<{ isContentOpen: boolean }>`
     `}
 `;
 
-export { TextContainer, Title, Content };
+const ShowMoreButton = styled.button`
+  background-color: transparent;
+  border: 0;
+
+  position: absolute;
+  right: -1rem;
+  bottom: 0.1rem;
+`;
+
+export { TextContainer, Title, Content, ShowMoreButton };

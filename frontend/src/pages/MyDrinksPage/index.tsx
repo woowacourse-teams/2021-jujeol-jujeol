@@ -3,13 +3,13 @@ import { useHistory } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 
 import API from 'src/apis/requests';
-import ArrowButton from 'src/components/@shared/ArrowButton/ArrowButton';
 import Grid from 'src/components/@shared/Grid/Grid';
 import MyDrinkItem from './MyDrinkItem';
 
 import { Header, Container } from './styles';
 import useIntersectionObserver from 'src/hooks/useIntersectionObserver';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
+import Arrow from 'src/components/@shared/Arrow/Arrow';
 
 const MyDrinks = () => {
   const history = useHistory();
@@ -47,7 +47,9 @@ const MyDrinks = () => {
   return (
     <>
       <Header>
-        <ArrowButton size="0.7rem" borderWidth="2px" dir="LEFT" onClick={onMoveGoBackPage} />
+        <button type="button" onClick={onMoveGoBackPage}>
+          <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
+        </button>
         <h2>내가 마신 술</h2>
       </Header>
 
