@@ -13,7 +13,8 @@ import UserContext from 'src/contexts/UserContext';
 import MyDrinkItem from '../MyDrinksPage/MyDrinkItem';
 import MyReviewItem from '../MyReviewsPage/MyReviewItem';
 
-import { Header, Statistics } from './styles';
+import { Header } from './styles';
+import Status from './Status';
 
 const MyPage = () => {
   const history = useHistory();
@@ -22,25 +23,25 @@ const MyPage = () => {
 
   const [myDrinks, setMyDrinks] = useState([]);
   const [myReviews, setMyReviews] = useState([]);
-  const [totalMyDrinks, setTotalMyDrinks] = useState(0);
-  const [totalReviews, setTotalReviews] = useState(0);
 
-  const myDrinksQuery = useQuery('my-drinks', () => API.getPersonalDrinks({ page: 1, size: 7 }), {
-    retry: 0,
-    onSuccess: ({ data, pageInfo }) => {
-      setMyDrinks(data);
-      setTotalMyDrinks(pageInfo.totalSize);
-    },
-  });
+  const { data: myDrinksData } = useQuery(
+    'my-drinks',
+    () => API.getPersonalDrinks({ page: 1, size: 7 }),
+    {
+      retry: 0,
+      onSuccess: ({ data }) => {
+        setMyDrinks(data);
+      },
+    }
+  );
 
-  const myReviewsQuery = useQuery(
+  const { data: myReviewsData } = useQuery(
     'my-reviews',
     () => API.getPersonalReviews({ page: 1, size: 3 }),
     {
       retry: 0,
-      onSuccess: ({ data, pageInfo }) => {
+      onSuccess: ({ data }) => {
         setMyReviews(data);
-        setTotalReviews(pageInfo.totalSize);
       },
     }
   );
@@ -64,16 +65,10 @@ const MyPage = () => {
 
       <Profile src="https://fakeimg.pl/72x72" nickname={userData?.nickname} bio={userData?.bio} />
 
-      <Statistics>
-        <li>
-          <p>{totalMyDrinks}개</p>
-          <p>내가 마신 술</p>
-        </li>
-        <li>
-          <p>{totalReviews}개</p>
-          <p>내가 남긴 리뷰</p>
-        </li>
-      </Statistics>
+      <Status
+        myDrinksCount={myDrinksData?.pageInfo.totalSize}
+        myReviewsCount={myReviewsData?.pageInfo.totalSize}
+      />
 
       <Preview title="내가 마신 술" path={PATH.MY_DRINKS}>
         <HorizontalScroll margin="0 -1.5rem" padding="0 1.5rem">
