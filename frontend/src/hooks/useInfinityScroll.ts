@@ -1,6 +1,6 @@
 import { RefObject, useEffect } from 'react';
 
-const useIntersectionObserver = ({
+const useInfinityScroll = ({
   target,
   fetchNextPage,
   hasNextPage,
@@ -32,4 +32,4 @@ const useIntersectionObserver = ({
   }, [target.current]);
 };
 
-export default useIntersectionObserver;
+export default useInfinityScroll;

@@ -5,7 +5,7 @@ import API from 'src/apis/requests';
 import Arrow from 'src/components/@shared/Arrow/Arrow';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
 import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
-import useIntersectionObserver from 'src/hooks/useIntersectionObserver';
+import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import { Container, Header } from './styles';
 
 const MyReviewsPage = () => {
@@ -33,7 +33,7 @@ const MyReviewsPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  useIntersectionObserver({ target: observerTargetRef, fetchNextPage, hasNextPage });
+  useInfinityScroll({ target: observerTargetRef, fetchNextPage, hasNextPage });
 
   const personalReviews = pages?.map((page) => page.data).flat();
 

@@ -7,7 +7,7 @@ import Grid from 'src/components/@shared/Grid/Grid';
 import MyDrinkItem from './MyDrinkItem';
 
 import { Header, Container } from './styles';
-import useIntersectionObserver from 'src/hooks/useIntersectionObserver';
+import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
 import Arrow from 'src/components/@shared/Arrow/Arrow';
 
@@ -36,7 +36,7 @@ const MyDrinks = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  useIntersectionObserver({ target: observerTargetRef, fetchNextPage, hasNextPage });
+  useInfinityScroll({ target: observerTargetRef, fetchNextPage, hasNextPage });
 
   const { matches } = window.matchMedia('screen and (max-width:380px)');
 
