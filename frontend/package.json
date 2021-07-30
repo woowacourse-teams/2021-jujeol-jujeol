@@ -9,9 +9,9 @@
     "start:dev": "cp ./env/.env.development ./.env && snowpack dev",
     "start:prod": "cp ./env/.env.prod ./.env && snowpack dev",
     "build": "snowpack build",
-    "build:local": "cp ./env/.env.local ./.env && snowpack build",
-    "build:dev": "cp ./env/.env.development ./.env && snowpack build",
-    "build:prod": "cp ./env/.env.prod ./.env && snowpack build",
+    "build:local": "cp ./env/.env.local ./.env && jest src && snowpack build",
+    "build:dev": "cp ./env/.env.development ./.env && jest src && snowpack build",
+    "build:prod": "cp ./env/.env.prod ./.env && jest src && snowpack build",
     "test": "jest src --watch",
     "type-check": "tsc"
   },
