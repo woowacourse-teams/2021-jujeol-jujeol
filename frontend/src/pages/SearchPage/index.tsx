@@ -8,7 +8,7 @@ import { Container, Categories, CategoryItem } from './styles';
 const SearchPage = () => {
   return (
     <Container>
-      <SearchBar />
+      <SearchBar placeholder="검색어를 입력해주세요" />
 
       <Categories>
         <h3>카테고리</h3>
