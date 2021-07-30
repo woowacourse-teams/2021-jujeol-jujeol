@@ -1,4 +1,4 @@
-import { FormEventHandler, useContext, useState } from 'react';
+import { ChangeEventHandler, FormEventHandler, useContext, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useParams, useHistory } from 'react-router-dom';
 import API from 'src/apis/requests';
@@ -32,6 +32,10 @@ const ReviewCreateForm = () => {
     }
   );
 
+  const onContentChange: ChangeEventHandler<HTMLTextAreaElement> = ({ target }) => {
+    setContent(target.value);
+  };
+
   const onCreate: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
@@ -57,7 +61,7 @@ const ReviewCreateForm = () => {
           readOnly={!isLoggedIn}
           maxLength={REVIEW.MAX_LENGTH}
           onClick={onCheckLoggedIn}
-          onChange={({ target }) => setContent(target.value)}
+          onChange={onContentChange}
           required
         />
         <p>{`${content.length}/${REVIEW.MAX_LENGTH}`}</p>
