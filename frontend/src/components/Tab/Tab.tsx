@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { COLOR, PATH } from 'src/constants';
@@ -38,8 +39,25 @@ const tabConfig = (isLoggedIn: boolean) => {
 const Tab = () => {
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
+  const initWindowHeight = window.innerHeight;
+  const [keyboardUp, setKeyboardUp] = useState(false);
+
+  useEffect(() => {
+    const checkResizeWindow = () => {
+      if (initWindowHeight > window.visualViewport.height) {
+        setKeyboardUp(true);
+      } else {
+        setKeyboardUp(false);
+      }
+    };
+
+    window.visualViewport.addEventListener('resize', checkResizeWindow);
+
+    return () => window.visualViewport.removeEventListener('resize', checkResizeWindow);
+  });
+
   return (
-    <Nav>
+    <Nav keyboardUp={keyboardUp}>
       <ul>
         {tabConfig(isLoggedIn).map(({ mainPath, path, title, Icon }) => (
           <li key={title}>
