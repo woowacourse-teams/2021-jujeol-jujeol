@@ -11,13 +11,13 @@ interface Props {
 const Preview = ({ title, path, children }: Props) => {
   const history = useHistory();
 
-  const onMoveToPath = () => history.push(path);
+  const onMoveToShowMore = () => history.push(path);
 
   return (
     <PreviewSection>
       <Header>
         <h3>{title}</h3>
-        <MoveViewAllPageButton fontSize="0.8rem" onClick={onMoveToPath}>
+        <MoveViewAllPageButton fontSize="0.8rem" onClick={onMoveToShowMore}>
           <span>더보기</span>
           <Arrow dir="RIGHT" size="0.4rem" borderWidth="0.0625rem" />
         </MoveViewAllPageButton>
