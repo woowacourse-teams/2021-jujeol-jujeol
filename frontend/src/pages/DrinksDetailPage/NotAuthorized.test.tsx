@@ -7,7 +7,7 @@ import API from 'src/apis/requests';
 import { drinksDetail } from 'src/mocks/drinksDetail';
 import drinksReviews from 'src/mocks/drinksReviews';
 import DrinksDetailPage from '.';
-import { MockIntersectionObserver, mockScrollTo } from 'src/mocks/test';
+import { MockIntersectionObserver, mockScrollTo } from 'src/mocks/mockTestFunction';
 import { UserProvider } from 'src/contexts/UserContext';
 
 interface Props {
