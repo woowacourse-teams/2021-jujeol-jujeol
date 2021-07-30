@@ -13,7 +13,7 @@ spring:
       "dev": "file-logging,http-file-logging"
       "prod": "file-logging,http-file-logging"
       "test": "console-logging"
-    include: oauth
+    include: oauth, datasource
   data:
     web:
       pageable:
