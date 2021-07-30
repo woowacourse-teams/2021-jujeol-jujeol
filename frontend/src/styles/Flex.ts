@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import css from '@emotion/css';
 
 const Flex = ({ flexDirection, justifyContent, flexWrap, alignItems }: React.CSSProperties) => css`
   display: flex;
