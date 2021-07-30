@@ -19,6 +19,9 @@ const GlobalStyle = () => (
         height: 100%;
         background-color: ${COLOR.PURPLE_900};
         font-size: 16px;
+
+        position: fixed;
+        overflow: hidden;
       }
 
       #root {
