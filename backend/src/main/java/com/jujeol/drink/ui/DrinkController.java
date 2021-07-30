@@ -50,13 +50,13 @@ public class DrinkController {
     }
 
     @GetMapping("/drinks/recommendation")
-    public ResponseEntity<CommonResponse<List<DrinkSimpleResponse>>> showDrinks(
+    public CommonResponse<List<DrinkSimpleResponse>> showDrinks(
+            @AuthenticationPrincipal LoginMember loginMember,
             @ModelAttribute(name = "theme") ThemeRequest themeRequest,
             @PageableDefault(7) Pageable pageable
     ) {
-        Page<DrinkDto> drinkDtos = drinkService.showDrinks(themeRequest.getTheme(), pageable);
-        return ResponseEntity
-                .ok(PageResponseAssembler.assemble(drinkDtos.map(DrinkSimpleResponse::from)));
+        final Page<DrinkDto> drinkDtos = drinkService.showDrinks(themeRequest.getTheme(), pageable, loginMember);
+        return PageResponseAssembler.assemble(drinkDtos.map(DrinkSimpleResponse::from));
     }
 
     @GetMapping("/drinks/{id}")

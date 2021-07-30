@@ -27,6 +27,7 @@ import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.ui.dto.DrinkDetailResponse;
 import com.jujeol.drink.ui.dto.DrinkSimpleResponse;
 import com.jujeol.member.acceptance.MemberAcceptanceTool;
+import com.jujeol.member.fixture.TestMember;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -115,6 +116,56 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 Arrays.asList(ESTP.getName(), KGB.getName(), TIGER_LEMON.getName(), TSINGTAO.getName(), STELLA.getName());
 
         assertThat(drinkSimpleResponses).extracting("name").containsExactlyElementsOf(drinksByPreferences);
+    }
+
+    @DisplayName("추천 조회(협업필터링) - 성공")
+    @Test
+    public void showDrinksByUserPreferenceTest() {
+        //given
+        협업_필터링_데이터_등록();
+        String theme = "preference";
+
+        //when
+        List<DrinkSimpleResponse> drinkSimpleResponses = request()
+                .get("/drinks/recommendation?theme=" + theme + "&page=1")
+//                .withDocument("drinks/show/recommend")
+                .withUser(PIKA)
+                .build().convertBodyToList(DrinkSimpleResponse.class);
+
+        //then
+        drinkSimpleResponses.forEach(drink -> System.out.println(drink.getName()));
+    }
+
+    private void 협업_필터링_데이터_등록() {
+        final Long obId = drinkAcceptanceTool.주류_아이디_조회(OB.getName());
+        final Long stellaId = drinkAcceptanceTool.주류_아이디_조회(STELLA.getName());
+        final Long kgbId = drinkAcceptanceTool.주류_아이디_조회(KGB.getName());
+        final Long tigerId = drinkAcceptanceTool.주류_아이디_조회(TIGER_LEMON.getName());
+        final Long appleId = drinkAcceptanceTool.주류_아이디_조회(APPLE.getName());
+        final Long tigerRadId = drinkAcceptanceTool.주류_아이디_조회(TIGER_RAD.getName());
+
+        memberAcceptanceTool.선호도_등록(obId, 2.0, TestMember.PIKA);
+        memberAcceptanceTool.선호도_등록(stellaId, 5.0, TestMember.PIKA);
+        memberAcceptanceTool.선호도_등록(kgbId, 4.5, TestMember.PIKA);
+
+        memberAcceptanceTool.선호도_등록(obId, 1.5, TestMember.SOLONG);
+        memberAcceptanceTool.선호도_등록(stellaId, 4.5, TestMember.SOLONG);
+        memberAcceptanceTool.선호도_등록(kgbId, 4.2, TestMember.SOLONG);
+        memberAcceptanceTool.선호도_등록(tigerId, 5.0, TestMember.SOLONG);
+        memberAcceptanceTool.선호도_등록(appleId, 4.5, TestMember.SOLONG);
+        memberAcceptanceTool.선호도_등록(tigerRadId, 4.5, TestMember.SOLONG);
+
+        memberAcceptanceTool.선호도_등록(obId, 5.0, TestMember.WEDGE);
+        memberAcceptanceTool.선호도_등록(kgbId, 4.5, TestMember.WEDGE);
+        memberAcceptanceTool.선호도_등록(tigerId, 4.7, TestMember.WEDGE);
+        memberAcceptanceTool.선호도_등록(appleId, 2.5, TestMember.WEDGE);
+        memberAcceptanceTool.선호도_등록(tigerRadId, 4.5, WEDGE);
+
+
+        memberAcceptanceTool.선호도_등록(obId, 4.7, TestMember.CROFFLE);
+        memberAcceptanceTool.선호도_등록(kgbId, 1.5, TestMember.CROFFLE);
+        memberAcceptanceTool.선호도_등록(stellaId, 2.4, TestMember.CROFFLE);
+        memberAcceptanceTool.선호도_등록(tigerId, 2.1, TestMember.CROFFLE);
     }
 
     @DisplayName("추천 조회(조회수) - 성공")

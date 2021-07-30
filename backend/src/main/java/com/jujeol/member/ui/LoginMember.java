@@ -16,6 +16,10 @@ public class LoginMember {
         this(null, authority);
     }
 
+    public static LoginMember anonymous() {
+        return new LoginMember(null, Authority.ANONYMOUS);
+    }
+
     public boolean isMember() {
         return authority.isMember();
     }
