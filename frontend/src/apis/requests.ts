@@ -74,6 +74,19 @@ const API = {
   deletePreference: <I>(id: I) => {
     return request({ method: 'DELETE' as Method, url: `/members/me/drinks/${id}/preference` });
   },
+
+  getPersonalReviews: <T>({ page, size }: { page?: T; size?: T }) => {
+    return request({
+      method: 'GET' as Method,
+      url: `/members/me/reviews?page=${page ?? ''}&size=${size ?? ''}`,
+    });
+  },
+  getPersonalDrinks: <T>({ page, size }: { page?: T; size?: T }) => {
+    return request({
+      method: 'GET' as Method,
+      url: `/members/me/drinks?page=${page ?? ''}&size=${size ?? ''}`,
+    });
+  },
 };
 
 export default API;
