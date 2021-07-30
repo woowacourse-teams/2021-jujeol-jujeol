@@ -23,7 +23,6 @@ const Categories = styled.section`
 const CategoryItem = styled.li`
   ${Flex({ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' })}
   padding: 0 0.5rem;
-  margin-bottom: 1rem;
   width: 4.5rem;
   height: 4.5rem;
   border-radius: 50%;

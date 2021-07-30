@@ -12,7 +12,7 @@ const SearchPage = () => {
 
       <Categories>
         <h3>카테고리</h3>
-        <Grid col={4} colGap="0.5rem">
+        <Grid col={4} colGap="0.5rem" rowGap="1rem" justifyItems="center">
           {Array.from({ length: 7 }).map((_, index) => {
             return (
               <CategoryItem key={index}>
