@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import css from '@emotion/css';
-import { keyframes } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 import { COLOR, Z_INDEX } from 'src/constants';
 
 const popUp = keyframes`
