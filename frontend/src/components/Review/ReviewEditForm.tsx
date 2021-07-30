@@ -25,6 +25,7 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries('reviews');
+        setEditContent('');
         closeModal?.();
       },
       onError: () => {
