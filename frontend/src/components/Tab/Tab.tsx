@@ -5,6 +5,7 @@ import { COLOR, PATH } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
 import HomeIcon from '../Icons/home';
 import HumanIcon from '../Icons/human';
+import SearchIcon from '../Icons/search';
 import { Nav } from './Tab.styles';
 
 const tabConfig = (isLoggedIn: boolean) => {
@@ -14,6 +15,12 @@ const tabConfig = (isLoggedIn: boolean) => {
       path: [PATH.ROOT, PATH.HOME],
       title: '홈',
       Icon: HomeIcon,
+    },
+    {
+      mainPath: PATH.SEARCH,
+      path: [PATH.SEARCH],
+      title: '검색',
+      Icon: SearchIcon,
     },
   ];
 
@@ -62,7 +69,7 @@ const Tab = () => {
         {tabConfig(isLoggedIn).map(({ mainPath, path, title, Icon }) => (
           <li key={title}>
             <NavLink exact to={mainPath} isActive={() => path.includes(location.pathname)}>
-              <Icon color={COLOR.BLACK_900} />
+              <Icon color={COLOR.BLACK_900} width="2rem" />
               <p>{title}</p>
             </NavLink>
           </li>
