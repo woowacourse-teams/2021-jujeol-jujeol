@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { screen, render, waitFor, fireEvent } from '@testing-library/react';
+import { screen, render, waitFor, fireEvent, getByLabelText } from '@testing-library/react';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { LocationDescriptor } from 'history';
 import APIProvider from 'src/apis/APIProvider';
@@ -9,6 +9,7 @@ import drinksReviews from 'src/mocks/drinksReviews';
 import DrinksDetailPage from '.';
 import { MockIntersectionObserver, mockScrollTo } from 'src/mocks/test';
 import { UserProvider } from 'src/contexts/UserContext';
+import ModalProvider from 'src/components/Modal/ModalProvider';
 
 interface Props {
   initialEntries: LocationDescriptor[];
@@ -19,14 +20,21 @@ const customRender = ({ initialEntries, children }: Props) => {
   render(
     <APIProvider>
       <UserProvider>
-        <Router initialEntries={initialEntries}>{children}</Router>
+        <ModalProvider>
+          <Router initialEntries={initialEntries}>{children}</Router>
+        </ModalProvider>
       </UserProvider>
     </APIProvider>
   );
 };
 
 describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
-  beforeEach(async () => {
+  const modalPortalRoot = document.createElement('div');
+  modalPortalRoot.setAttribute('id', 'modal');
+  modalPortalRoot.setAttribute('role', 'dialog');
+  document.body.appendChild(modalPortalRoot);
+
+  beforeAll(async () => {
     Object.defineProperty(global.window, 'scrollTo', { value: mockScrollTo });
     Object.defineProperty(global.window, 'IntersectionObserver', {
       value: MockIntersectionObserver,
@@ -45,12 +53,15 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
       .fn()
       .mockReturnValue({ data: drinksReviews.data, pageInfo: drinksReviews.pageInfo });
     API.postReview = jest.fn().mockReturnValue(true);
+    API.editReview = jest.fn().mockReturnValue(true);
+  });
 
+  beforeEach(async () => {
     customRender({ initialEntries: [`/drinks/0`], children: <DrinksDetailPage /> });
 
-    await waitFor(() => expect(API.getUserInfo).toBeCalledTimes(1));
-    await waitFor(() => expect(API.getDrink).toBeCalledTimes(1));
-    await waitFor(() => expect(API.getReview).toBeCalledTimes(1));
+    await waitFor(() => expect(API.getUserInfo).toBeCalled());
+    await waitFor(() => expect(API.getDrink).toBeCalled());
+    await waitFor(() => expect(API.getReview).toBeCalled());
   });
 
   it('사용자는 상세페이지에서 주류 정보를 확인할 수 있다.', async () => {
@@ -121,6 +132,7 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
     fireEvent.change(reviewInput, { target: { value: review } });
     fireEvent.click(submitButton);
 
+    await waitFor(() => expect(API.postReview).toBeCalledTimes(1));
     await waitFor(() => expect(API.getReview).toBeCalledTimes(1));
 
     expect(reviewInput).toHaveDisplayValue('');
@@ -142,6 +154,53 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
 
     await waitFor(() => expect(API.postReview).toBeCalledTimes(1));
     expect(window.alert).toBeCalled();
+  });
+
+  it('로그인 된 사용자는 상세페이지에서 리뷰를 수정할 수 있다.', async () => {
+    // 글 작성
+    const review = 'good12312341234';
+    const reviewInput = screen.getByRole('textbox');
+    const submitButton = screen.getByRole('button', { name: '작성 완료' });
+
+    fireEvent.change(reviewInput, { target: { value: review } });
+    fireEvent.click(submitButton);
+
+    await waitFor(() => expect(API.postReview).toBeCalledTimes(1));
+
+    // 작성완료
+    const editButton = screen.getByLabelText('내 리뷰 글 수정하기 버튼');
+
+    fireEvent.click(editButton);
+
+    // 수정모달
+    const editTextBox = screen.getByPlaceholderText('리뷰를 작성해 주세요');
+    const editedReview = "oh, that's so delicious";
+    const editSubmitButton = screen.getByRole('button', { name: '수정하기' });
+
+    API.getReview = jest.fn().mockReturnValue({
+      data: [
+        {
+          id: 4,
+          author: {
+            id: 3,
+            name: 'perenok',
+          },
+          content: editedReview,
+          createdAt: new Date(),
+          modifiedAt: null,
+        },
+        ...drinksReviews.data,
+      ],
+      pageInfo: drinksReviews.pageInfo,
+    });
+
+    fireEvent.change(editTextBox, { target: { value: editedReview } });
+    fireEvent.click(editSubmitButton);
+
+    await waitFor(() => expect(API.editReview).toBeCalledTimes(1));
+    await waitFor(() => expect(API.getReview).toBeCalledTimes(1));
+
+    expect(screen.getByText(editedReview)).toBeVisible();
   });
 });
 
