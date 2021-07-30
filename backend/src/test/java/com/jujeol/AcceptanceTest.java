@@ -2,16 +2,12 @@ package com.jujeol;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jujeol.RequestBuilder.Function;
 import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.commons.exception.ExceptionCodeAndDetails;
 import com.jujeol.commons.exception.JujeolExceptionDto;
-import com.jujeol.member.application.LoginService;
-import com.jujeol.member.application.dto.TokenDto;
-import com.jujeol.member.fixture.SocialLoginMemberFixture;
+import com.jujeol.drink.acceptance.CategoryAcceptanceTool;
 import io.restassured.RestAssured;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,44 +26,20 @@ public class AcceptanceTest {
 
     @LocalServerPort
     private int port;
+    @Autowired
     private RequestBuilder request;
     @Autowired
-    private LoginService loginService;
-    @Autowired
-    private ObjectMapper objectMapper;
-    @Autowired
-    private TestDataLoader testDataLoader;
+    private CategoryAcceptanceTool categoryAcceptanceTool;
 
     @BeforeEach
     public void setUp(RestDocumentationContextProvider restDocumentation) {
         RestAssured.port = port;
-        TokenDto token = loginService.createToken(SocialLoginMemberFixture.DEFAULT.toDto());
-
-        request = new RequestBuilder(restDocumentation, token.getAccessToken(), objectMapper);
-    }
-
-    @AfterEach
-    void afterEach() {
-        testDataLoader.removeAll();
+        request.setRestDocumentation(restDocumentation);
+        categoryAcceptanceTool.기본_카테고리_저장();
     }
 
     protected Function request() {
         return request.builder();
-    }
-
-    protected Function requestWithOtherUser(String accessToken) {
-        return request.changeAccessToken(accessToken).builder();
-    }
-
-    protected String 회원가입을_하고(SocialLoginMemberFixture socialLoginMemberFixture) {
-        final String accessToken = request()
-                .post("login/token", socialLoginMemberFixture.toDto())
-                .withDocument("member/login/token")
-                .build()
-                .convertBody(TokenDto.class)
-                .getAccessToken();
-
-        return accessToken;
     }
 
     protected void 페이징_검증(

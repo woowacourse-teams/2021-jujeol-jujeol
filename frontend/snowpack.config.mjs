@@ -8,8 +8,13 @@ export default {
   routes: [{ match: 'routes', src: '.*', dest: '/index.html' }],
   optimize: {
     bundle: true,
+    minify: true,
+    splitting: true,
+    treeshake: true,
   },
-  packageOptions: {},
+  packageOptions: {
+    polyfillNode: true,
+  },
   devOptions: {
     port: 3000,
   },
@@ -18,4 +23,6 @@ export default {
     src: './src',
     public: './public',
   },
+  extends: './tsconfig.json',
+  exclude: ['**/test.tsx'],
 };

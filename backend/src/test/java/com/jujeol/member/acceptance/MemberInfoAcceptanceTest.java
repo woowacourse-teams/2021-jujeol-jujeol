@@ -1,91 +1,88 @@
 package com.jujeol.member.acceptance;
 
-import static com.jujeol.TestDataLoader.BEERS;
-import static com.jujeol.TestDataLoader.MEMBER;
-import static com.jujeol.TestDataLoader.REVIEWS;
+import static com.jujeol.drink.DrinkTestContainer.*;
+import static com.jujeol.member.fixture.TestMember.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
 import com.jujeol.RequestBuilder.HttpResponse;
-import com.jujeol.commons.dto.CommonResponse;
-import com.jujeol.commons.dto.PageInfo;
-import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.Review;
-import com.jujeol.member.application.dto.PreferenceDto;
+import com.jujeol.admin.acceptance.AdminAcceptanceTool;
+import com.jujeol.drink.DrinkTestContainer;
+import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
+import com.jujeol.drink.acceptance.ReviewAcceptanceTool;
 import com.jujeol.member.ui.dto.MemberDrinkResponse;
 import com.jujeol.member.ui.dto.MemberReviewResponse;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class MemberInfoAcceptanceTest extends AcceptanceTest {
+
+    @Autowired
+    private DrinkAcceptanceTool drinkAcceptanceTool;
+    @Autowired
+    private AdminAcceptanceTool adminAcceptanceTool;
+    @Autowired
+    private MemberAcceptanceTool memberAcceptanceTool;
+    @Autowired
+    private ReviewAcceptanceTool reviewAcceptanceTool;
 
     @DisplayName("내가 마신 술 모아보기 - 성공")
     @Test
     public void showDrinksOfMine() {
         //given
-        List<Drink> drinks = BEERS;
-        Drink drink1 = drinks.get(0);
-        Drink drink2 = drinks.get(1);
-        Drink drink3 = drinks.get(2);
-        PreferenceDto preferenceRequest = PreferenceDto.of(3.5);
+        final Long obId = 주류_등록(OB);
+        final Long stellaId = 주류_등록(STELLA);
+        final Long tigerLemonId = 주류_등록(TIGER_LEMON);
 
-        선호도를_등록한다(drink1, preferenceRequest);
-        선호도를_등록한다(drink2, preferenceRequest);
-        선호도를_등록한다(drink3, preferenceRequest);
+        memberAcceptanceTool.선호도_등록(obId, 2.4, CROFFLE);
+        memberAcceptanceTool.선호도_등록(stellaId, 2.4, CROFFLE);
+        memberAcceptanceTool.선호도_등록(tigerLemonId, 2.4, CROFFLE);
 
         //when
         List<MemberDrinkResponse> responses = request().get("/members/me/drinks")
                 .withDocument("member/info/drinks")
-                .withUser()
+                .withUser(CROFFLE)
                 .build()
                 .convertBodyToList(MemberDrinkResponse.class);
 
         //then
-        List<Long> expectedIds = List.of(drink1, drink2, drink3)
-                .stream()
-                .map(Drink::getId)
-                .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toList());
-
-        List<Long> actualIds = responses.stream()
-                .map(MemberDrinkResponse::getId)
-                .collect(Collectors.toList());
-
         assertThat(responses).hasSize(3);
-        assertThat(actualIds).isEqualTo(expectedIds);
-    }
-
-    private void 선호도를_등록한다(Drink drink1, PreferenceDto preferenceRequest) {
-        request()
-                .put("/members/me/drinks/" + drink1.getId() + "/preference", preferenceRequest)
-                .withUser()
-                .build();
+        assertThat(responses).extracting("id").containsExactlyInAnyOrder(obId, stellaId, tigerLemonId);
     }
 
     @DisplayName("내가 남긴 리뷰 모아보기 - 성공")
     @Test
     public void showReviewsOfMine() {
         //given
-        List<Review> reviews = REVIEWS.stream()
-                .filter(review -> review.getMemberId().equals(MEMBER.getId()))
-                .collect(Collectors.toList());
+        final Long obId = 주류_등록(OB);
+        final Long stellaId = 주류_등록(STELLA);
+        final Long appleId = 주류_등록(APPLE);
+        String content1 = "크으 맛난다잉~>?";
+        String content2 = "워메 맛있는 거~";
+        String content3 = "아따! 맛있구마잉";
+        reviewAcceptanceTool.리뷰_등록(CROFFLE, content1, obId);
+        reviewAcceptanceTool.리뷰_등록(CROFFLE, content2, appleId);
+        reviewAcceptanceTool.리뷰_등록(CROFFLE, content3, stellaId);
 
         //when
         HttpResponse response = request().get("/members/me/reviews")
                 .withDocument("member/info/reviews")
-                .withUser()
+                .withUser(CROFFLE)
                 .build();
 
         //then
-        CommonResponse commonResponse = response.totalResponse().as(CommonResponse.class);
-        PageInfo pageInfo = commonResponse.getPageInfo();
-        List<MemberReviewResponse> reviewResponses = response
-                .convertBodyToList(MemberReviewResponse.class);
+        페이징_검증(response.pageInfo(), 1,1,3,3);
 
-        assertThat(pageInfo.getTotalSize()).isEqualTo(reviews.size());
-        assertThat(reviewResponses).hasSize(3);
+        final List<MemberReviewResponse> memberReviewResponses = response
+                .convertBodyToList(MemberReviewResponse.class);
+        assertThat(memberReviewResponses).extracting("content")
+                .containsExactlyInAnyOrder(content1, content2, content3);
+    }
+
+    private Long 주류_등록(DrinkTestContainer drinkTestContainer) {
+        adminAcceptanceTool.어드민_주류_데이터_등록(drinkTestContainer);
+        return drinkAcceptanceTool.주류_아이디_조회(drinkTestContainer.getName());
     }
 }

@@ -12,6 +12,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.commons.exception.JujeolExceptionDto;
+import com.jujeol.member.application.LoginService;
+import com.jujeol.member.application.dto.SocialProviderCodeDto;
+import com.jujeol.member.application.dto.TokenDto;
+import com.jujeol.member.domain.ProviderName;
+import com.jujeol.member.fixture.TestMember;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
@@ -25,21 +30,25 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.stereotype.Component;
+import org.springframework.test.context.ActiveProfiles;
 
+@Component
+@ActiveProfiles("test")
 public class RequestBuilder {
 
-    private final RestDocumentationContextProvider restDocumentation;
     private final ObjectMapper objectMapper;
-    private final String accessToken;
+    private final LoginService loginService;
 
-    public RequestBuilder(RestDocumentationContextProvider restDocumentation, String accessToken, ObjectMapper objectMapper) {
-        this.restDocumentation = restDocumentation;
+    private RestDocumentationContextProvider restDocumentation;
+
+    public RequestBuilder(ObjectMapper objectMapper, LoginService loginService) {
         this.objectMapper = objectMapper;
-        this.accessToken = accessToken;
+        this.loginService = loginService;
     }
 
-    public RequestBuilder changeAccessToken(String accessToken){
-        return new RequestBuilder(restDocumentation, accessToken, objectMapper);
+    public void setRestDocumentation(RestDocumentationContextProvider restDocumentation) {
+        this.restDocumentation = restDocumentation;
     }
 
     public Function builder() {
@@ -52,16 +61,16 @@ public class RequestBuilder {
             return new Option(new GetRequest(path, pathParams));
         }
 
-        public <T> Option post(String path, T data) {
-            return new Option(new PostRequest<>(path, data));
+        public <T> Option post(String path, T data, Object... pathParams) {
+            return new Option(new PostRequest<>(path, data, pathParams));
         }
 
-        public <T> Option put(String path, T data) {
-            return new Option(new PutRequest<>(path, data));
+        public <T> Option put(String path, T data, Object... pathParams) {
+            return new Option(new PutRequest<>(path, data, pathParams));
         }
 
-        public <T> Option delete(String path) {
-            return new Option(new DeleteRequest<>(path));
+        public <T> Option delete(String path, Object... pathParams) {
+            return new Option(new DeleteRequest<>(path, pathParams));
         }
     }
 
@@ -69,18 +78,18 @@ public class RequestBuilder {
 
         private final RestAssuredRequest request;
         private boolean logFlag;
-        private boolean withUserFlag;
-        private DocumentConfig documentConfig;
+        private DocumentHelper documentHelper;
+        private UserHelper userHelper;
 
         public Option(RestAssuredRequest request) {
             this.request = request;
             this.logFlag = true;
-            this.withUserFlag = false;
-            this.documentConfig = new DocumentConfig();
+            this.documentHelper = new DocumentHelper();
+            this.userHelper = new UserHelper();
         }
 
         public Option withDocument(String identifier) {
-            documentConfig.createDocument(identifier);
+            documentHelper.createDocument(identifier);
             return this;
         }
 
@@ -90,21 +99,18 @@ public class RequestBuilder {
         }
 
         public Option withUser() {
-            this.withUserFlag = true;
+            userHelper.withUser(TestMember.RANDOM_MEMBER);
+            return this;
+        }
+
+        public Option withUser(TestMember testMember) {
+            userHelper.withUser(testMember);
             return this;
         }
 
         public HttpResponse build() {
-            RequestSpecification requestSpec;
-            if (documentConfig.documentFlag) {
-                requestSpec = requestWithDocument();
-            } else {
-                requestSpec = RestAssured.given();
-            }
-
-            if (withUserFlag) {
-                requestSpec.header("Authorization", "Bearer " + accessToken);
-            }
+            RequestSpecification requestSpec = documentHelper.startRequest();
+            userHelper.addRequest(requestSpec);
 
             if (logFlag) {
                 requestSpec = requestSpec.log().all();
@@ -119,29 +125,59 @@ public class RequestBuilder {
             return new HttpResponse(validatableResponse.extract());
         }
 
-        private RequestSpecification requestWithDocument() {
-            final RequestSpecification spec = new RequestSpecBuilder()
-                    .addFilter(documentationConfiguration(restDocumentation))
-                    .build();
-
-            return RestAssured.given(spec)
-                    .filter(document(documentConfig.identifier,
-                            preprocessRequest(prettyPrint()),
-                            preprocessResponse(prettyPrint())));
-        }
-
-        private class DocumentConfig {
+        private class DocumentHelper {
 
             private boolean documentFlag;
             private String identifier;
 
-            public DocumentConfig() {
+            public DocumentHelper() {
                 this.documentFlag = false;
             }
 
             void createDocument(String identifier) {
                 this.identifier = identifier;
                 this.documentFlag = true;
+            }
+
+            public RequestSpecification startRequest() {
+                if (documentHelper.documentFlag) {
+                    return requestWithDocument();
+                }
+
+                return RestAssured.given();
+            }
+
+            private RequestSpecification requestWithDocument() {
+                final RequestSpecification spec = new RequestSpecBuilder()
+                        .addFilter(documentationConfiguration(restDocumentation))
+                        .build();
+
+                return RestAssured.given(spec)
+                        .filter(document(documentHelper.identifier,
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint())));
+            }
+        }
+
+        private class UserHelper {
+            private boolean userFlag;
+            private TestMember member;
+
+            public UserHelper() {
+                this.userFlag = false;
+            }
+
+            public void withUser(TestMember testMember) {
+                userFlag = true;
+                this.member = testMember;
+            }
+
+            public void addRequest(RequestSpecification requestSpec) {
+                if(userFlag) {
+                    final TokenDto token = 
+                            loginService.createToken(SocialProviderCodeDto.of(member.getMatchedCode(), ProviderName.TEST));
+                    requestSpec.header("Authorization", "Bearer " + token.getAccessToken());
+                }
             }
         }
     }
@@ -228,16 +264,18 @@ public class RequestBuilder {
 
         private final String path;
         private final T data;
+        private final Object[] pathParams;
 
-        public PostRequest(String path, T data) {
+        public PostRequest(String path, T data, Object[] pathParams) {
             this.path = path;
             this.data = data;
+            this.pathParams = pathParams;
         }
 
         @Override
         public ValidatableResponse doAction(RequestSpecification spec) {
             return spec.body(data).contentType(ContentType.JSON)
-                    .post(path)
+                    .post(path, pathParams)
                     .then();
         }
     }
@@ -246,16 +284,18 @@ public class RequestBuilder {
 
         private final String path;
         private final T data;
+        private final Object[] pathParams;
 
-        public PutRequest(String path, T data) {
+        public PutRequest(String path, T data, Object[] pathParams) {
             this.path = path;
             this.data = data;
+            this.pathParams = pathParams;
         }
 
         @Override
         public ValidatableResponse doAction(RequestSpecification spec) {
             return spec.body(data).contentType(ContentType.JSON)
-                    .put(path)
+                    .put(path, pathParams)
                     .then();
         }
     }
@@ -263,15 +303,17 @@ public class RequestBuilder {
     private static class DeleteRequest<T> implements RestAssuredRequest {
 
         private final String path;
+        private final Object[] pathParams;
 
-        public DeleteRequest(String path) {
+        public DeleteRequest(String path, Object[] pathParams) {
             this.path = path;
+            this.pathParams = pathParams;
         }
 
         @Override
         public ValidatableResponse doAction(RequestSpecification spec) {
             return spec.contentType(ContentType.JSON)
-                    .delete(path)
+                    .delete(path, pathParams)
                     .then();
         }
     }
