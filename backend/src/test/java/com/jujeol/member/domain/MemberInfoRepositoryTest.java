@@ -2,6 +2,7 @@ package com.jujeol.member.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.jujeol.TestConfig;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.Review;
@@ -18,10 +19,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@Import(TestConfig.class)
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class MemberInfoRepositoryTest {
@@ -101,9 +104,9 @@ public class MemberInfoRepositoryTest {
 
         List<Drink> drinks = drinkRepository.saveAll(List.of(kgb, estp, tiger_rad));
 
-        Preference preference1 = Preference.from(savedMember, kgb, 3.0);
-        Preference preference2 = Preference.from(savedMember, estp, 5.0);
-        Preference preference3 = Preference.from(savedMember, tiger_rad, 2.5);
+        Preference preference1 = Preference.create(savedMember, kgb, 3.0);
+        Preference preference2 = Preference.create(savedMember, estp, 5.0);
+        Preference preference3 = Preference.create(savedMember, tiger_rad, 2.5);
 
         List.of(preference1, preference2, preference3)
                 .stream()

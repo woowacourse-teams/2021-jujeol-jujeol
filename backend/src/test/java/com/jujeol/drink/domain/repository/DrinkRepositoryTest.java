@@ -2,8 +2,10 @@ package com.jujeol.drink.domain.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.jujeol.TestConfig;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
+import com.jujeol.drink.domain.RecommendationTheme;
 import com.jujeol.drink.domain.Review;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
@@ -19,14 +21,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@Import(TestConfig.class)
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class DrinkRepositoryTest {
-
     @Autowired
     private DrinkRepository drinkRepository;
     @Autowired
@@ -56,7 +59,7 @@ public class DrinkRepositoryTest {
     }
 
     @Test
-    void findAllOrderByViewCountTest() {
+    void findByRecommendationTest_ViewCount() {
         Drink stella = Drink.create(
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         Drink kgb = Drink.create(
@@ -74,7 +77,8 @@ public class DrinkRepositoryTest {
 
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<Drink> drinks = drinkRepository.findAllOrderByViewCount(pageable)
+        List<Drink> drinks = drinkRepository
+                .findByRecommendation(RecommendationTheme.VIEW_COUNT, pageable)
                 .stream()
                 .collect(Collectors.toList());
 
@@ -93,13 +97,13 @@ public class DrinkRepositoryTest {
                 "애플", "Apple", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", 0.0, BEER);
         Drink savedDrink2 = drinkRepository.save(apple);
 
-        Preference preference1 = Preference.from(savedMember, savedDrink, 2.0);
+        Preference preference1 = Preference.create(savedMember, savedDrink, 2.0);
         savedDrink.updateAverage(2.0);
-        Preference preference2 = Preference.from(savedMember2, savedDrink, 4.0);
+        Preference preference2 = Preference.create(savedMember2, savedDrink, 4.0);
         savedDrink.updateAverage(4.0);
         preferenceRepository.save(preference1);
         preferenceRepository.save(preference2);
-        preference1 = Preference.from(savedMember, savedDrink2, 5.0);
+        preference1 = Preference.create(savedMember, savedDrink2, 5.0);
         savedDrink2.updateAverage(5.0);
         preferenceRepository.save(preference1);
 
@@ -120,7 +124,8 @@ public class DrinkRepositoryTest {
         testEntityManager.clear();
 
         //when
-        List<Drink> drinks = drinkRepository.findAllOrderByPreferenceAvg(pageable)
+        List<Drink> drinks = drinkRepository
+                .findByRecommendation(RecommendationTheme.PREFERENCE, pageable)
                 .stream()
                 .collect(Collectors.toList());
 

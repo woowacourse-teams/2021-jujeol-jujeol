@@ -1,14 +1,12 @@
 package com.jujeol.drink.application;
 
-import static com.jujeol.drink.domain.RecommendationTheme.PREFERENCE;
-import static com.jujeol.drink.domain.RecommendationTheme.VIEW_COUNT;
-
-import com.jujeol.drink.application.dto.DrinkRequestDto;
 import com.jujeol.drink.application.dto.DrinkDto;
+import com.jujeol.drink.application.dto.DrinkRequestDto;
 import com.jujeol.drink.application.dto.SearchDto;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.RecommendationTheme;
+import com.jujeol.drink.domain.Search;
 import com.jujeol.drink.domain.ViewCount;
 import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
@@ -21,7 +19,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,40 +38,25 @@ public class DrinkService {
     private final ViewCountService viewCountService;
 
     public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, Pageable pageable) {
-        if(searchDto.getSearch()==null){
-            return drinkRepository.findAll(pageable)
-                    .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), fileServerUrl));
-        }
-        Category category = categoryRepository.findByKey(searchDto.getCategoryKey())
-                .orElseThrow(NotFoundCategoryException::new);
-        Drink OB = Drink.create(
-                "오비", "OB", 85.0,
-                "KakaoTalk_Image_2021-07-08-19-58-22_007.png",
-                0.0, category);
-
-        DrinkDto OBDto = DrinkDto.create(OB, Preference.anonymousPreference(OB), fileServerUrl);
-        return new PageImpl<>(List.of(OBDto), pageable, 1L);
+        Search search = searchDto.toDomain();
+        validateCategoryKey(search);
+        return drinkRepository.findBySearch(search, pageable)
+                .map(drink -> DrinkDto
+                        .create(drink, Preference.create(drink, 0), fileServerUrl));
     }
 
-    public Page<DrinkDto> showDrinks(String theme, Pageable pageable) {
+    public Page<DrinkDto> showDrinksByRecommendation(String theme, Pageable pageable) {
         RecommendationTheme recommendationTheme = RecommendationTheme.matches(theme);
-        if (PREFERENCE.equals(recommendationTheme)) {
-            return drinkRepository.findAllOrderByPreferenceAvg(pageable)
-                    .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), fileServerUrl));
-        }
-        if (VIEW_COUNT.equals(recommendationTheme)) {
-            return drinkRepository.findAllOrderByViewCount(pageable)
-                    .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), fileServerUrl));
-        }
-        return drinkRepository.findAll(pageable)
-                .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), fileServerUrl));
+        return drinkRepository.findByRecommendation(recommendationTheme, pageable)
+                .map(drink -> DrinkDto
+                        .create(drink, Preference.create(drink, 0), fileServerUrl));
     }
 
     @Transactional
     public DrinkDto showDrinkDetail(Long id) {
         Drink drink = drinkRepository.findById(id)
                 .orElseThrow(NotFoundDrinkException::new);
-        Preference preference = Preference.from(drink, 0.0);
+        Preference preference = Preference.create(drink, 0.0);
         viewCountService.updateViewCount(drink);
         return DrinkDto.create(drink, preference, fileServerUrl);
     }
@@ -129,5 +111,12 @@ public class DrinkService {
     @Transactional
     public void removeDrink(Long id) {
         drinkRepository.deleteById(id);
+    }
+
+    private void validateCategoryKey(Search search) {
+        if (search.hasCategoryKey()) {
+            categoryRepository.findByKey(search.getCategoryKey())
+                    .orElseThrow(NotFoundCategoryException::new);
+        }
     }
 }

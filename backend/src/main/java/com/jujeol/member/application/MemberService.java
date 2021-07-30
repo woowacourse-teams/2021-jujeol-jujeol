@@ -65,7 +65,7 @@ public class MemberService {
                 .ifPresentOrElse(exist -> exist.updateRate(preferenceDto.getPreferenceRate()),
                         () -> {
                             Preference newPreference = Preference
-                                    .from(member, drink, preferenceDto.getPreferenceRate());
+                                    .create(member, drink, preferenceDto.getPreferenceRate());
                             preferenceRepository.save(newPreference);
                         }
                 );
@@ -89,7 +89,7 @@ public class MemberService {
         return preferenceRepository.findDrinksOfMineWithPreference(memberId, pageable)
                 .map(drink -> DrinkDto.create(
                         drink,
-                        Preference.from(drink, 3.5),
+                        Preference.create(drink, 3.5),
                         fileServerUrl
                         )
                 );
@@ -101,7 +101,7 @@ public class MemberService {
                         review,
                         DrinkDto.create(
                                 review.getDrink(),
-                                Preference.from(review.getDrink(), 3.5),
+                                Preference.create(review.getDrink(), 3.5),
                                 fileServerUrl
                         )
                 ));

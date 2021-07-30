@@ -2,6 +2,7 @@ package com.jujeol.member.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.jujeol.TestConfig;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.repository.CategoryRepository;
@@ -12,8 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@Import(TestConfig.class)
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class PreferenceRepositoryTest {
@@ -50,13 +53,13 @@ public class PreferenceRepositoryTest {
     @DisplayName("memberId와 drinkId를 통한 조회 테스트")
     public void findByMemberIdAndDrinkIdTest() {
         //given
-        Preference preference = Preference.from(savedMember, savedDrink, 2.0);
+        Preference preference = Preference.create(savedMember, savedDrink, 2.0);
         Preference savedPreference = preferenceRepository.save(preference);
 
         //when
         Preference actual = preferenceRepository
                 .findByMemberIdAndDrinkId(savedMember.getId(), savedDrink.getId())
-                .orElseGet(() -> Preference.from(savedMember, savedDrink, 0.0));
+                .orElseGet(() -> Preference.create(savedMember, savedDrink, 0.0));
 
         //then
         assertThat(savedPreference.getRate()).isEqualTo(actual.getRate());
@@ -66,14 +69,14 @@ public class PreferenceRepositoryTest {
     @DisplayName("선호도 수정 테스트")
     public void updateTest() {
         //given
-        Preference preference = Preference.from(savedMember, savedDrink, 2.0);
+        Preference preference = Preference.create(savedMember, savedDrink, 2.0);
         Preference savedPreference = preferenceRepository.save(preference);
 
         //when
         savedPreference.updateRate(4.0);
         Preference findPreference = preferenceRepository
                 .findByMemberIdAndDrinkId(savedMember.getId(), savedDrink.getId())
-                .orElseGet(() -> Preference.from(savedMember, savedDrink, 0.0));
+                .orElseGet(() -> Preference.create(savedMember, savedDrink, 0.0));
 
         //then
         assertThat(findPreference.getRate()).isEqualTo(4.0);
@@ -83,7 +86,7 @@ public class PreferenceRepositoryTest {
     @DisplayName("memberId와 drinkId를 통한 삭제 테스트")
     public void deleteByMemberIdAndDrinkIdTest() {
         //given
-        Preference preference = Preference.from(savedMember, savedDrink, 3.0);
+        Preference preference = Preference.create(savedMember, savedDrink, 3.0);
         preferenceRepository.save(preference);
 
         //when
@@ -91,7 +94,7 @@ public class PreferenceRepositoryTest {
                 .deleteByMemberIdAndDrinkId(savedMember.getId(), savedDrink.getId());
         Preference expect = preferenceRepository
                 .findByMemberIdAndDrinkId(savedMember.getId(), savedDrink.getId())
-                .orElseGet(() -> Preference.from(savedMember, savedDrink, 0.0));
+                .orElseGet(() -> Preference.create(savedMember, savedDrink, 0.0));
 
         //then
         assertThat(expect.getRate()).isEqualTo(0.0);
@@ -101,9 +104,9 @@ public class PreferenceRepositoryTest {
     @Test
     void averageOfPreferenceRate() {
         //given
-        Preference preference1 = Preference.from(savedMember, savedDrink, 2.0);
+        Preference preference1 = Preference.create(savedMember, savedDrink, 2.0);
         preferenceRepository.save(preference1);
-        Preference preference2 = Preference.from(savedMember2, savedDrink, 4.0);
+        Preference preference2 = Preference.create(savedMember2, savedDrink, 4.0);
         preferenceRepository.save(preference2);
         //when
         //then

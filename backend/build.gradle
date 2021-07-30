@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.5.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id "org.asciidoctor.jvm.convert" version "3.3.2"
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
     id 'java'
 }
 
@@ -35,6 +36,7 @@ dependencies {
     implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
     testImplementation 'io.rest-assured:rest-assured:3.3.0'
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'com.querydsl:querydsl-jpa'
 }
 
 ext {
@@ -74,3 +76,25 @@ bootJar {
         into 'static'
     }
 }
+
+//querydsl 추가 시작
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+    main.java.srcDir querydslDir
+}
+
+configurations {
+    //아래를 지정하지 않으면, compile 로 걸린 JPA 의존성에 접근하지 못한다.
+    querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+//querydsl 추가 끝

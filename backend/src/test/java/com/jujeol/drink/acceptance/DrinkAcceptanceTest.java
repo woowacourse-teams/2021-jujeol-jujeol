@@ -91,6 +91,65 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 1);
     }
 
+    @DisplayName("검색 조회(검색어만 존재) - 성공")
+    @Test
+    public void showDrinksBySearchWithoutCategoryTest() {
+        //given
+        String search = "ste";
+        int page = 1;
+        //when
+        final HttpResponse httpResponse = request()
+                .get("/drinks?search=" + search + "&page=" + page)
+                .build();
+
+        //then
+        final List<DrinkSimpleResponse> drinkSimpleResponses =
+                httpResponse.convertBodyToList(DrinkSimpleResponse.class);
+
+        assertThat(drinkSimpleResponses).extracting("name").contains(STELLA.getName());
+
+        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 1);
+    }
+
+    @DisplayName("추천 조회(커스텀) - 성공")
+    @Test
+    public void showDrinksByCustomConditionTest() {
+        //given
+        String theme = "best";
+        memberAcceptanceTool.선호도_등록(주류_아이디(ESTP), 4.5, WEDGE);
+        memberAcceptanceTool.선호도_등록(주류_아이디(ESTP), 5.0, SUNNY);
+        memberAcceptanceTool.선호도_등록(주류_아이디(ESTP), 4.6, TIKE);
+        memberAcceptanceTool.선호도_등록(주류_아이디(KGB), 3.5, CROFFLE);
+        memberAcceptanceTool.선호도_등록(주류_아이디(TIGER_LEMON), 3.3, NABOM);
+        memberAcceptanceTool.선호도_등록(주류_아이디(TSINGTAO), 2.5, PIKA);
+        memberAcceptanceTool.선호도_등록(주류_아이디(STELLA), 2.3, SOLONG);
+
+        drinkAcceptanceTool.단일_상품_조회(주류_아이디(ESTP));
+
+        drinkAcceptanceTool.단일_상품_조회(주류_아이디(KGB));
+        drinkAcceptanceTool.단일_상품_조회(주류_아이디(KGB));
+        drinkAcceptanceTool.단일_상품_조회(주류_아이디(KGB));
+        drinkAcceptanceTool.단일_상품_조회(주류_아이디(KGB));
+        drinkAcceptanceTool.단일_상품_조회(주류_아이디(KGB));
+        drinkAcceptanceTool.단일_상품_조회(주류_아이디(KGB));
+
+        drinkAcceptanceTool.단일_상품_조회(주류_아이디(TIGER_LEMON));
+        drinkAcceptanceTool.단일_상품_조회(주류_아이디(TIGER_LEMON));
+
+
+        //when
+        List<DrinkSimpleResponse> drinkSimpleResponses = request()
+                .get("/drinks/recommendation?theme=" + theme + "&page=1")
+                .withDocument("drinks/show/all-theme")
+                .build().convertBodyToList(DrinkSimpleResponse.class);
+
+        //then
+        final List<String> drinksByCustom =
+                Arrays.asList(ESTP.getName(), KGB.getName(), TIGER_LEMON.getName());
+
+        assertThat(drinkSimpleResponses).extracting("name").containsExactlyElementsOf(drinksByCustom);
+    }
+
     @DisplayName("추천 조회(선호도) - 성공")
     @Test
     public void showDrinksByPreferenceTest() {
