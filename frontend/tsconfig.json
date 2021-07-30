@@ -22,6 +22,5 @@
       "public/*": ["./public/*"]
     }
   },
-  "include": ["src", "config.d.ts"],
-  "types": ["@emotion/react/types/css-prop"]
+  "include": ["src", "config.d.ts"]
 }
