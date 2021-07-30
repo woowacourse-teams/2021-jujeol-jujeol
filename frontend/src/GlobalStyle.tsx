@@ -105,6 +105,14 @@ const GlobalStyle = () => (
 
       input {
         -webkit-tap-highlight-color: transparent;
+
+        @media screen and (max-width: 320px) {
+          html,
+          body,
+          #root {
+            font-size: 14px;
+          }
+        }
       }
     `}
   />
