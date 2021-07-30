@@ -15,7 +15,7 @@ interface ArrowStyle {
   dir: keyof typeof DIRECTION;
 }
 
-const ArrowShape = styled.div<Omit<ArrowStyle, 'translate'>>`
+const Arrow = styled.div<Omit<ArrowStyle, 'translate'>>`
   line-height: 1.5;
 
   display: inline-block;
@@ -28,5 +28,4 @@ const ArrowShape = styled.div<Omit<ArrowStyle, 'translate'>>`
   transform: ${({ dir }) => `rotate(${DIRECTION[dir]})`};
 `;
 
-export { ArrowShape };
-export type { ArrowStyle };
+export default Arrow;
