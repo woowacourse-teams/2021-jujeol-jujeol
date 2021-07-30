@@ -103,8 +103,8 @@ const GlobalStyle = () => (
         -webkit-tap-highlight-color: transparent;
 
         :disabled {
-          color: ${COLOR.GRAY_300};
-          filter: grayscale(100%);
+          color: ${COLOR.GRAY_400};
+          filter: brightness(80%);
         }
       }
 
