@@ -11,6 +11,7 @@ import ViewAllPage from './pages/ViewAllPage/ViewAllPage';
 import MyDrinksPage from './pages/MyDrinksPage';
 import { MainContainer } from './styles';
 import MyReviewsPage from './pages/MyReviewsPage';
+import SearchPage from './pages/SearchPage';
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
               <Route exact path={[PATH.MYPAGE]} component={MyPage} />
               <Route exact path={[PATH.MY_DRINKS]} component={MyDrinksPage} />
               <Route exact path={[PATH.MY_REVIEWS]} component={MyReviewsPage} />
+              <Route exact path={[PATH.SEARCH]} component={SearchPage} />
               <Redirect to={PATH.ROOT} />
             </Switch>
           </MainContainer>

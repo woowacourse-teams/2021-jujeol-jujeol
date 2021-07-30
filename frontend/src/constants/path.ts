@@ -8,6 +8,7 @@ const PATH: { [key: string]: string } = {
   MY_REVIEWS: '/mypage/reviews',
   DRINKS: '/drinks',
   VIEW_ALL: '/drinks/all',
+  SEARCH: '/search',
 };
 
 export default PATH;
