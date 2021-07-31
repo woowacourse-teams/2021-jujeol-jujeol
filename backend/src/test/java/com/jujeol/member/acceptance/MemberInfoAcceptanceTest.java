@@ -1,7 +1,10 @@
 package com.jujeol.member.acceptance;
 
-import static com.jujeol.drink.DrinkTestContainer.*;
-import static com.jujeol.member.fixture.TestMember.*;
+import static com.jujeol.drink.DrinkTestContainer.APPLE;
+import static com.jujeol.drink.DrinkTestContainer.OB;
+import static com.jujeol.drink.DrinkTestContainer.STELLA;
+import static com.jujeol.drink.DrinkTestContainer.TIGER_LEMON;
+import static com.jujeol.member.fixture.TestMember.CROFFLE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;

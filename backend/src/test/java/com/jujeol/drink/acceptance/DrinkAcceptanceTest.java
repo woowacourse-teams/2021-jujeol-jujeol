@@ -10,12 +10,7 @@ import static com.jujeol.drink.DrinkTestContainer.TIGER_LEMON;
 import static com.jujeol.drink.DrinkTestContainer.TIGER_RAD;
 import static com.jujeol.drink.DrinkTestContainer.TSINGTAO;
 import static com.jujeol.drink.DrinkTestContainer.asNames;
-import static com.jujeol.member.fixture.TestMember.CROFFLE;
-import static com.jujeol.member.fixture.TestMember.NABOM;
 import static com.jujeol.member.fixture.TestMember.PIKA;
-import static com.jujeol.member.fixture.TestMember.SOLONG;
-import static com.jujeol.member.fixture.TestMember.SUNNY;
-import static com.jujeol.member.fixture.TestMember.TIKE;
 import static com.jujeol.member.fixture.TestMember.WEDGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,7 +23,6 @@ import com.jujeol.drink.ui.dto.DrinkDetailResponse;
 import com.jujeol.drink.ui.dto.DrinkSimpleResponse;
 import com.jujeol.member.acceptance.MemberAcceptanceTool;
 import com.jujeol.member.fixture.TestMember;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -50,9 +44,9 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .어드민_주류_데이터_등록(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
     }
 
-    @DisplayName("전체 조회 - 성공")
+    @DisplayName("전체 추천 조회 - 성공(비로그인 시 선호도 순서)")
     @Test
-    public void showDrinksTest() {
+    public void showRecommendDrinksTest() {
         //when
         final HttpResponse httpResponse = request()
                 .get("/drinks")
@@ -92,32 +86,6 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 1);
     }
 
-    @DisplayName("추천 조회(선호도) - 성공")
-    @Test
-    public void showDrinksByPreferenceTest() {
-        //given
-        String theme = "preference";
-        memberAcceptanceTool.선호도_등록(주류_아이디(ESTP), 4.5, WEDGE);
-        memberAcceptanceTool.선호도_등록(주류_아이디(ESTP), 5.0, SUNNY);
-        memberAcceptanceTool.선호도_등록(주류_아이디(ESTP), 4.6, TIKE);
-        memberAcceptanceTool.선호도_등록(주류_아이디(KGB), 3.5, CROFFLE);
-        memberAcceptanceTool.선호도_등록(주류_아이디(TIGER_LEMON), 3.3, NABOM);
-        memberAcceptanceTool.선호도_등록(주류_아이디(TSINGTAO), 2.5, PIKA);
-        memberAcceptanceTool.선호도_등록(주류_아이디(STELLA), 2.3, SOLONG);
-
-        //when
-        List<DrinkSimpleResponse> drinkSimpleResponses = request()
-                .get("/drinks/recommendation?theme=" + theme + "&page=1")
-                .withDocument("drinks/show/all-theme")
-                .build().convertBodyToList(DrinkSimpleResponse.class);
-
-        //then
-        final List<String> drinksByPreferences =
-                Arrays.asList(ESTP.getName(), KGB.getName(), TIGER_LEMON.getName(), TSINGTAO.getName(), STELLA.getName());
-
-        assertThat(drinkSimpleResponses).extracting("name").containsExactlyElementsOf(drinksByPreferences);
-    }
-
     @DisplayName("추천 조회(협업필터링) - 성공")
     @Test
     public void showDrinksByUserPreferenceTest() {
@@ -127,13 +95,15 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
 
         //when
         List<DrinkSimpleResponse> drinkSimpleResponses = request()
-                .get("/drinks/recommendation?theme=" + theme + "&page=1")
-//                .withDocument("drinks/show/recommend")
+                .get("/drinks/recommendation")
+                .withDocument("drinks/show/recommend")
                 .withUser(PIKA)
                 .build().convertBodyToList(DrinkSimpleResponse.class);
 
         //then
-        drinkSimpleResponses.forEach(drink -> System.out.println(drink.getName()));
+        assertThat(drinkSimpleResponses.get(0).getName()).isEqualTo("애플");
+        assertThat(drinkSimpleResponses.get(1).getName()).isEqualTo("타이거 라들러 레몬");
+        assertThat(drinkSimpleResponses.get(2).getName()).isEqualTo("타이거 라들러 자몽");
     }
 
     private void 협업_필터링_데이터_등록() {
@@ -143,6 +113,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         final Long tigerId = drinkAcceptanceTool.주류_아이디_조회(TIGER_LEMON.getName());
         final Long appleId = drinkAcceptanceTool.주류_아이디_조회(APPLE.getName());
         final Long tigerRadId = drinkAcceptanceTool.주류_아이디_조회(TIGER_RAD.getName());
+        final Long tsingatoId = drinkAcceptanceTool.주류_아이디_조회(TSINGTAO.getName());
 
         memberAcceptanceTool.선호도_등록(obId, 2.0, TestMember.PIKA);
         memberAcceptanceTool.선호도_등록(stellaId, 5.0, TestMember.PIKA);
@@ -155,38 +126,17 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         memberAcceptanceTool.선호도_등록(appleId, 4.5, TestMember.SOLONG);
         memberAcceptanceTool.선호도_등록(tigerRadId, 4.5, TestMember.SOLONG);
 
-        memberAcceptanceTool.선호도_등록(obId, 5.0, TestMember.WEDGE);
+        memberAcceptanceTool.선호도_등록(obId, 1.0, TestMember.WEDGE);
         memberAcceptanceTool.선호도_등록(kgbId, 4.5, TestMember.WEDGE);
         memberAcceptanceTool.선호도_등록(tigerId, 4.7, TestMember.WEDGE);
-        memberAcceptanceTool.선호도_등록(appleId, 2.5, TestMember.WEDGE);
+        memberAcceptanceTool.선호도_등록(appleId, 4.5, TestMember.WEDGE);
         memberAcceptanceTool.선호도_등록(tigerRadId, 4.5, WEDGE);
-
 
         memberAcceptanceTool.선호도_등록(obId, 4.7, TestMember.CROFFLE);
         memberAcceptanceTool.선호도_등록(kgbId, 1.5, TestMember.CROFFLE);
         memberAcceptanceTool.선호도_등록(stellaId, 2.4, TestMember.CROFFLE);
         memberAcceptanceTool.선호도_등록(tigerId, 2.1, TestMember.CROFFLE);
-    }
-
-    @DisplayName("추천 조회(조회수) - 성공")
-    @Test
-    public void showDrinksByViewCountTest() {
-        //given
-        String theme = "view-count";
-        final Long obId = 주류_아이디(OB);
-        final Long stellaId = 주류_아이디(STELLA);
-        drinkAcceptanceTool.단일_상품_조회(obId);
-        drinkAcceptanceTool.단일_상품_조회(obId);
-        drinkAcceptanceTool.단일_상품_조회(stellaId);
-
-        //when
-        List<DrinkSimpleResponse> drinkSimpleResponses = request()
-                .get("/drinks/recommendation?theme=" + theme + "&page=1")
-                .build().convertBodyToList(DrinkSimpleResponse.class);
-
-        //then
-        assertThat(drinkSimpleResponses).extracting("name")
-                .containsExactly(OB.getName(), STELLA.getName());
+        memberAcceptanceTool.선호도_등록(tsingatoId, 1.1, TestMember.CROFFLE);
     }
 
     @DisplayName("단일 조회 - 성공")

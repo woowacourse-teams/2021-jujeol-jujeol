@@ -1,14 +1,11 @@
 package com.jujeol.drink.application;
 
-import static com.jujeol.drink.domain.RecommendationTheme.PREFERENCE;
-import static com.jujeol.drink.domain.RecommendationTheme.VIEW_COUNT;
-
-import com.jujeol.drink.application.dto.DrinkRequestDto;
 import com.jujeol.drink.application.dto.DrinkDto;
+import com.jujeol.drink.application.dto.DrinkRequestDto;
 import com.jujeol.drink.application.dto.SearchDto;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.RecommendationTheme;
+import com.jujeol.drink.domain.RecommendState;
 import com.jujeol.drink.domain.ViewCount;
 import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
@@ -16,7 +13,6 @@ import com.jujeol.drink.exception.NotFoundCategoryException;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.member.domain.Preference;
 import com.jujeol.member.domain.PreferenceRepository;
-import com.jujeol.drink.infrastructure.recommend.RecommendationSystem;
 import com.jujeol.member.ui.LoginMember;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +36,6 @@ public class DrinkService {
     private final DrinkRepository drinkRepository;
     private final PreferenceRepository preferenceRepository;
     private final CategoryRepository categoryRepository;
-    private final RecommendationSystem recommendationSystem;
 
     private final ViewCountService viewCountService;
 
@@ -60,35 +55,23 @@ public class DrinkService {
         return new PageImpl<>(List.of(OBDto), pageable, 1L);
     }
 
-    public Page<DrinkDto> showDrinks(String theme, Pageable pageable, LoginMember loginMember) {
-        RecommendationTheme recommendationTheme = RecommendationTheme.matches(theme);
-        // TODO : 회원 비회원
+    public Page<DrinkDto> showAllDrinksByPage(Pageable pageable) {
+        List<DrinkDto> drinkDtos = drinkRepository.findAll(pageable).stream()
+                .map(drink -> DrinkDto.create(
+                        drink, Preference.from(drink, 0), fileServerUrl))
+        .collect(Collectors.toList());
 
-        // TODO : 어떤 추천?
+        return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
+    }
+    public Page<DrinkDto> showRecommendDrinks(RecommendState recommendState, Pageable pageable, LoginMember loginMember) {
+        List<Drink> recommendDrinks = recommendState.recommend(loginMember.getId(), pageable.getPageSize());
 
-        if (PREFERENCE.equals(recommendationTheme)) {
-            if(loginMember.isMember()) {
-                final List<Long> itemIds = recommendationSystem.recommend(loginMember.getId(), pageable.getPageSize());
-                final List<DrinkDto> drinkDtos = drinkRepository.findAllById(itemIds)
-                        .stream()
-                        .map(drink -> DrinkDto
-                                .create(drink, Preference.from(drink, 0), fileServerUrl))
-                        .collect(Collectors.toList());
-                if(drinkDtos.size() < pageable.getPageSize()) {
-                    return drinkRepository.findAllOrderByPreferenceAvg(pageable)
-                            .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), fileServerUrl));
-                }
-                return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
-            }
-            return drinkRepository.findAllOrderByPreferenceAvg(pageable)
-                    .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), fileServerUrl));
-        }
-        if (VIEW_COUNT.equals(recommendationTheme)) {
-            return drinkRepository.findAllOrderByViewCount(pageable)
-                    .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), fileServerUrl));
-        }
-        return drinkRepository.findAll(pageable)
-                .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), fileServerUrl));
+        List<DrinkDto> drinkDtos = recommendDrinks.stream()
+                .map(drink -> DrinkDto.create(
+                        drink, Preference.from(drink, 0), fileServerUrl))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
     }
 
     @Transactional

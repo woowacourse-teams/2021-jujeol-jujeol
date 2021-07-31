@@ -2,7 +2,6 @@ package com.jujeol.drink.infrastructure.recommend;
 
 import static java.util.stream.Collectors.toList;
 
-import com.jujeol.drink.infrastructure.recommend.RecommendationDataModel;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.apache.mahout.cf.taste.common.TasteException;
