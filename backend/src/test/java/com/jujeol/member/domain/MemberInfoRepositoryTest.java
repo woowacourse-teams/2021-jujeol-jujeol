@@ -9,6 +9,7 @@ import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.domain.repository.ReviewRepository;
 import com.jujeol.member.domain.nickname.Nickname;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -111,18 +112,17 @@ public class MemberInfoRepositoryTest {
                 .collect(Collectors.toList());
 
         //when
-        Page<Drink> drinkResponses = preferenceRepository
-                .findDrinksOfMineWithPreference(savedMember.getId(), Pageable.ofSize(10));
+        Page<Preference> responses = preferenceRepository
+                .findByMemberIdOrderByCreatedAtDesc(savedMember.getId(), Pageable.ofSize(10));
 
         //then
-        List<Long> drinkIds = drinks.stream()
-                .map(Drink::getId)
-                .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toList());
-        List<Long> actualIds = drinkResponses.stream().map(Drink::getId)
+        Collections.reverse(drinks);
+
+        List<Drink> actualDrinks = responses.stream()
+                .map(Preference::getDrink)
                 .collect(Collectors.toList());
 
-        assertThat(drinkResponses).hasSize(drinks.size());
-        assertThat(actualIds).isEqualTo(drinkIds);
+        assertThat(responses).hasSize(drinks.size());
+        assertThat(actualDrinks).isEqualTo(drinks);
     }
 }
