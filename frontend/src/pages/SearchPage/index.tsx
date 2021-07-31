@@ -1,7 +1,7 @@
 import Grid from 'src/components/@shared/Grid/Grid';
+import { HumanIcon } from 'src/components/@shared/Icons';
 import SearchBar from 'src/components/@shared/SearchBar/SearchBar';
 import Banner from 'src/components/Banner/Banner';
-import HumanIcon from 'src/components/Icons/human';
 import { COLOR } from 'src/constants';
 import { Container, Categories, CategoryItem } from './styles';
 

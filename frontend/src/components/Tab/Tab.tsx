@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { COLOR, PATH } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
-import { HomeIcon, HumanIcon, LoginIcon, SearchIcon } from '../@shared/Icons';
+import { HomeIcon, HumanIcon, LoginIcon, SearchIconForTab } from '../@shared/Icons';
 import { Nav } from './Tab.styles';
 
 const tabConfig = (isLoggedIn: boolean) => {
@@ -18,7 +18,7 @@ const tabConfig = (isLoggedIn: boolean) => {
       mainPath: PATH.SEARCH,
       path: [PATH.SEARCH],
       title: '검색',
-      Icon: SearchIcon,
+      Icon: SearchIconForTab,
     },
   ];
 

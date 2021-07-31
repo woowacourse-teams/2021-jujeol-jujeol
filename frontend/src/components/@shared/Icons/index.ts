@@ -23,6 +23,7 @@ export { default as HomeIcon } from './HomeIcon';
 export { default as HumanIcon } from './HumanIcon';
 export { default as LoginIcon } from './LoginIcon';
 export { default as EditIcon } from './EditIcon';
+export { default as SearchIconForTab } from './SearchIconForTab';
 export { default as SearchIcon } from './SearchIcon';
 export { default as StarIcon } from './StarIcon';
 export { default as KakaoIcon } from './KakaoIcon';
