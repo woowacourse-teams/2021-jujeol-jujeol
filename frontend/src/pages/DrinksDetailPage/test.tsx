@@ -47,7 +47,9 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
       return true;
     });
 
-    API.getUserInfo = jest.fn().mockReturnValue({ data: { id: 0, nickname: '123', bio: '1234' } });
+    API.getUserInfo = jest
+      .fn()
+      .mockReturnValue({ data: { id: 0, nickname: '청바지_123', bio: '청춘은 바로 지금' } });
     API.getDrink = jest.fn().mockReturnValue({ data: drinksDetail });
     API.getReview = jest
       .fn()
