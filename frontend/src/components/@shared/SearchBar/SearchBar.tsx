@@ -13,21 +13,14 @@ const SearchBar = ({
   const history = useHistory();
   const location = useLocation();
 
-  const [isMainPage, setIsMainPage] = useState(true);
   const [value, setValue] = useState('');
 
   const onMoveGoBack = () => history.goBack();
 
-  useEffect(() => {
-    if (location.pathname === PATH.HOME || location.pathname == PATH.ROOT) {
-      setIsMainPage(true);
-    } else {
-      setIsMainPage(false);
-    }
-  }, []);
-
   const onInputWords = (event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
   const onResetInput = () => setValue('');
+
+  const isMainPage = location.pathname === (PATH.HOME || PATH.ROOT);
 
   const onSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
