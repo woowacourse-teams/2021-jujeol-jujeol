@@ -12,6 +12,7 @@ import MyDrinksPage from './pages/MyDrinksPage';
 import { MainContainer } from './styles';
 import MyReviewsPage from './pages/MyReviewsPage';
 import SearchPage from './pages/SearchPage';
+import SearchResultPage from './pages/SearchResultPage';
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
               <Route exact path={[PATH.MY_DRINKS]} component={MyDrinksPage} />
               <Route exact path={[PATH.MY_REVIEWS]} component={MyReviewsPage} />
               <Route exact path={[PATH.SEARCH]} component={SearchPage} />
+              <Route exact path={[PATH.SEARCH_RESULT]} component={SearchResultPage} />
               <Redirect to={PATH.ROOT} />
             </Switch>
           </MainContainer>

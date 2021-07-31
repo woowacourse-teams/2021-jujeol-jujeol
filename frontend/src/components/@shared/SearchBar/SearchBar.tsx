@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, ChangeEvent, useEffect, useState } from 'react';
+import { InputHTMLAttributes, ChangeEvent, useEffect, useState, FormEvent } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import SearchIcon from 'src/components/Icons/search';
@@ -7,7 +7,6 @@ import Arrow from '../Arrow/Arrow';
 import { Container, ResetButton, SearchButton, SearchInput } from './SearchBar.styles';
 
 const SearchBar = ({
-  onSubmit,
   onClick,
   placeholder,
 }: InputHTMLAttributes<HTMLInputElement | HTMLFormElement>) => {
@@ -30,11 +29,17 @@ const SearchBar = ({
   const onInputWords = (event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
   const onResetInput = () => setValue('');
 
+  const onSearch = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    history.push(`${PATH.SEARCH_RESULT}?words=${value}`);
+  };
+
   return (
     <Container
       width={isMainPage ? '80' : '90'}
       padding={isMainPage ? '0.5rem 1.5rem' : '0.5rem 1.5rem'}
-      onSubmit={onSubmit}
+      onSubmit={onSearch}
       onClick={onClick}
     >
       {isMainPage ? (
