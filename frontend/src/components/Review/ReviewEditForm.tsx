@@ -14,7 +14,7 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
-  const closeModal = useContext(modalContext)?.closeModal;
+  const { isModalOpened, closeModal } = useContext(modalContext) ?? {};
 
   const [editContent, setEditContent] = useState(content);
 
@@ -25,7 +25,6 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries('reviews');
-        setEditContent('');
         closeModal?.();
       },
       onError: () => {
@@ -42,7 +41,6 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries('reviews');
-        setEditContent('');
         closeModal?.();
       },
       onError: () => {
@@ -52,13 +50,18 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
   );
 
   useEffect(() => {
-    if (textAreaRef.current) {
-      textAreaRef.current.focus();
-      textAreaRef.current.setSelectionRange(review.content.length, review.content.length);
+    if (!isModalOpened) {
+      setEditContent('');
+      return;
     }
 
-    setEditContent(review.content);
-  }, [review]);
+    setEditContent(content);
+
+    if (textAreaRef.current) {
+      textAreaRef.current.focus();
+      textAreaRef.current.setSelectionRange(content.length, content.length);
+    }
+  }, [isModalOpened]);
 
   const onEdit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
