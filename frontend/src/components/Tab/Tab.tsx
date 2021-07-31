@@ -1,9 +1,9 @@
+import { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { COLOR, PATH } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
-import { HomeIcon, HumanIcon, LoginIcon } from '../@shared/Icons';
-
+import { HomeIcon, HumanIcon, LoginIcon, SearchIcon } from '../@shared/Icons';
 import { Nav } from './Tab.styles';
 
 const tabConfig = (isLoggedIn: boolean) => {
@@ -13,6 +13,12 @@ const tabConfig = (isLoggedIn: boolean) => {
       path: [PATH.ROOT, PATH.HOME],
       title: '홈',
       Icon: HomeIcon,
+    },
+    {
+      mainPath: PATH.SEARCH,
+      path: [PATH.SEARCH],
+      title: '검색',
+      Icon: SearchIcon,
     },
   ];
 
@@ -38,13 +44,30 @@ const tabConfig = (isLoggedIn: boolean) => {
 const Tab = () => {
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
+  const initWindowHeight = window.innerHeight;
+  const [keyboardUp, setKeyboardUp] = useState(false);
+
+  useEffect(() => {
+    const checkResizeWindow = () => {
+      if (initWindowHeight > window.visualViewport.height) {
+        setKeyboardUp(true);
+      } else {
+        setKeyboardUp(false);
+      }
+    };
+
+    window.visualViewport.addEventListener('resize', checkResizeWindow);
+
+    return () => window.visualViewport.removeEventListener('resize', checkResizeWindow);
+  });
+
   return (
-    <Nav>
+    <Nav keyboardUp={keyboardUp}>
       <ul>
         {tabConfig(isLoggedIn).map(({ mainPath, path, title, Icon }) => (
           <li key={title}>
             <NavLink exact to={mainPath} isActive={() => path.includes(location.pathname)}>
-              <Icon color={COLOR.BLACK_900} />
+              <Icon color={COLOR.BLACK_900} width="2rem" />
               <p>{title}</p>
             </NavLink>
           </li>
