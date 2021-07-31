@@ -4,7 +4,7 @@ import { COLOR } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
 import nicknameGenerator from 'src/utils/createNickname';
 import Card from '../@shared/Card/Card';
-import HumanIcon from '../Icons/human';
+import HumanIcon from '../@shared/Icons/HumanIcon';
 import { modalContext } from '../Modal/ModalProvider';
 import ReviewEditForm from '../Review/ReviewEditForm';
 import { Header, ReviewerInfo, Content, ShowMoreButton } from './ReviewCard.styles';

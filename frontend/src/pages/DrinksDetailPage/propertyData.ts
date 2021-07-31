@@ -1,5 +1,12 @@
 import React from 'react';
-import HumanIcon from 'src/components/Icons/human';
+import {
+  BeerIcon,
+  DizzyEmojiIcon,
+  ExcitedEmojiIcon,
+  MakgeolliIcon,
+  SmileEmojiIcon,
+  SojuIcon,
+} from 'src/components/@shared/Icons';
 
 interface Properties {
   content: string;
@@ -14,9 +21,9 @@ const CATEGORY_NAME = {
 };
 
 const CATEGORY_ICON = {
-  0: HumanIcon,
-  1: HumanIcon,
-  2: HumanIcon,
+  0: SojuIcon,
+  1: BeerIcon,
+  2: MakgeolliIcon,
 };
 
 type categoryIdType = keyof typeof CATEGORY_NAME;
@@ -28,18 +35,18 @@ const getCategoryProperty = (categoryId: categoryIdType): Properties => ({
 
 const getAbvIcon = (abv: number) => {
   if (abv <= 5) {
-    return HumanIcon;
+    return SmileEmojiIcon;
   }
 
   if (abv <= 20) {
-    return HumanIcon;
+    return ExcitedEmojiIcon;
   }
 
   if (abv <= 40) {
-    return HumanIcon;
+    return DizzyEmojiIcon;
   }
 
-  return HumanIcon;
+  return DizzyEmojiIcon;
 };
 
 const getAbvProperty = (abv: number) => ({

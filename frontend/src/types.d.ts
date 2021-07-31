@@ -49,3 +49,9 @@ declare namespace PersonalReview {
     modifiedAt: Date | null;
   }
 }
+
+declare interface IconProps {
+  color?: string;
+  width?: string;
+  height?: string;
+}

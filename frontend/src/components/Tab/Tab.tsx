@@ -2,8 +2,8 @@ import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { COLOR, PATH } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
-import HomeIcon from '../Icons/home';
-import HumanIcon from '../Icons/human';
+import { HomeIcon, HumanIcon, LoginIcon } from '../@shared/Icons';
+
 import { Nav } from './Tab.styles';
 
 const tabConfig = (isLoggedIn: boolean) => {
@@ -30,7 +30,7 @@ const tabConfig = (isLoggedIn: boolean) => {
           mainPath: PATH.LOGIN,
           path: [PATH.LOGIN],
           title: '로그인',
-          Icon: HumanIcon,
+          Icon: LoginIcon,
         },
       ]);
 };
