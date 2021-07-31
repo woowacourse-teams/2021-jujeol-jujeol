@@ -13,6 +13,7 @@ const Section = styled.section`
   transform: translateY(-6rem);
   padding: 2rem 1.5rem;
   text-align: center;
+  position: relative;
 `;
 
 const PreferenceSection = styled.section`
@@ -28,6 +29,10 @@ const PreferenceSection = styled.section`
       font-weight: 700;
       font-size: 1.4rem;
     }
+  }
+
+  p {
+    margin-top: 1rem;
   }
 `;
 

@@ -101,6 +101,11 @@ const GlobalStyle = () => (
         color: ${COLOR.BLACK_900};
         font-size: 16px;
         -webkit-tap-highlight-color: transparent;
+
+        :disabled {
+          color: ${COLOR.GRAY_400};
+          filter: brightness(80%);
+        }
       }
 
       input {

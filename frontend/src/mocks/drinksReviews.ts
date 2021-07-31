@@ -14,7 +14,7 @@ const drinksReviews = {
     {
       id: 1,
       author: {
-        id: 0,
+        id: 1,
         name: 'devhyun637',
       },
       content:
@@ -25,7 +25,7 @@ const drinksReviews = {
     {
       id: 2,
       author: {
-        id: 0,
+        id: 2,
         name: 'qhals93',
       },
       content: '너무 맛있어요',
@@ -35,7 +35,7 @@ const drinksReviews = {
     {
       id: 3,
       author: {
-        id: 0,
+        id: 3,
         name: 'perenok',
       },
       content: '별로에요 ㅠㅠ',
@@ -47,6 +47,7 @@ const drinksReviews = {
     currentPage: 1,
     lastPage: 1,
     countPerPage: 10,
+    totalSize: 4,
   },
 };
 

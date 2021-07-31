@@ -1,6 +1,7 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useHistory, useParams } from 'react-router-dom';
+import UserContext from 'src/contexts/UserContext';
 import API from 'src/apis/requests';
 import Property from 'src/components/Property/Property';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
@@ -8,7 +9,6 @@ import Review from 'src/components/Review/Review';
 import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 import { properties, categoryIdType } from './propertyData';
 import { Section, PreferenceSection, Image, DescriptionSection } from './styles';
-import UserContext from 'src/contexts/UserContext';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -20,15 +20,15 @@ const defaultDrinkDetail = {
   },
   alcoholByVolume: 0,
   preferenceRate: 0.0,
+  preferenceAvg: 0.0,
 };
 
 const DrinksDetailPage = () => {
   const { id: drinkId } = useParams<{ id: string }>();
+
   const [drinkInfo, setDrinkInfo] = useState(defaultDrinkDetail);
-  const [reviews, setReviews] = useState([]);
 
   const history = useHistory();
-  const reviewSearchParams = new URLSearchParams('?page=1');
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
   const {
@@ -38,25 +38,15 @@ const DrinksDetailPage = () => {
     category: { id: categoryId, name: categoryName },
     alcoholByVolume,
     preferenceRate,
+    preferenceAvg,
   } = drinkInfo;
 
-  const DrinkQuery = useQuery('drink-detail', () => API.getDrink<string>(drinkId), {
+  const DrinkDetailQuery = useQuery('drink-detail', () => API.getDrink<string>(drinkId), {
     retry: 0,
     onSuccess: ({ data }) => {
       setDrinkInfo(data);
     },
   });
-
-  const ReviewsQuery = useQuery(
-    'reviews',
-    () => API.getReview<string>(drinkId, reviewSearchParams),
-    {
-      retry: 0,
-      onSuccess: ({ data, pageInfo }) => {
-        setReviews(data);
-      },
-    }
-  );
 
   const { mutate: updatePreference } = useMutation(
     () => {
@@ -96,6 +86,10 @@ const DrinksDetailPage = () => {
     }
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <Image src={imageUrl} alt={name} />
@@ -114,7 +108,9 @@ const DrinksDetailPage = () => {
             onTouchStart={onCheckLoggedIn}
             onClick={onCheckLoggedIn}
             onTouchEnd={onUpdatePreference}
+            onMouseUp={onUpdatePreference}
           />
+          <p>다른 사람들은 평균적으로 {preferenceAvg ?? '0'}점을 줬어요</p>
         </PreferenceSection>
 
         <DescriptionSection>
@@ -139,7 +135,7 @@ const DrinksDetailPage = () => {
           </ul>
         </DescriptionSection>
 
-        <Review reviews={reviews} />
+        <Review drinkId={drinkId} />
       </Section>
     </>
   );
