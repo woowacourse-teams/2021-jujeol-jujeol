@@ -87,6 +87,13 @@ const API = {
       url: `/members/me/drinks?page=${page ?? ''}&size=${size ?? ''}`,
     });
   },
+
+  getCategories: () => {
+    return request({
+      method: 'GET' as Method,
+      url: `/categories`,
+    });
+  },
 };
 
 export default API;

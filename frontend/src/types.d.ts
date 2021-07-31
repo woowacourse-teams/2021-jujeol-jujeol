@@ -18,6 +18,14 @@ declare namespace Review {
   };
 }
 
+declare namespace Category {
+  export type CategoryItem = {
+    id: number;
+    name: string;
+    key: string;
+  };
+}
+
 declare namespace ItemList {
   interface Drinks {
     id: number;
