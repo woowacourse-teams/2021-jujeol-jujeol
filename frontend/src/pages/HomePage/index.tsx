@@ -10,12 +10,12 @@ import SearchBar from 'src/components/@shared/SearchBar/SearchBar';
 const HomePage = () => {
   const history = useHistory();
 
-  const onGoSearchPage = () => history.push(PATH.SEARCH);
+  const onMoveToSearchPage = () => history.push(PATH.SEARCH);
 
   return (
     <div>
       <MainHeader />
-      <SearchBar onClick={onGoSearchPage} placeholder="검색어를 입력해주세요" />
+      <SearchBar onClick={onMoveToSearchPage} placeholder="검색어를 입력해주세요" />
 
       <Grid rowGap="2rem" colMin="280px" colMax="480px">
         {config.map((section: ItemList | BannerType) => {
