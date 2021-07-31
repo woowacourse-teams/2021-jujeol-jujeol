@@ -59,7 +59,7 @@ const SearchBar = ({
             </ResetButton>
           )}
           <SearchButton type="submit">
-            <SearchIcon color={COLOR.GRAY_400} width="1.2rem" />
+            <SearchIcon color={COLOR.WHITE_200} width="1.4rem" />
           </SearchButton>
         </>
       )}

@@ -92,9 +92,8 @@ const SearchButton = styled.button`
 
   width: 2rem;
   height: 2rem;
-  border-radius: 50%;
   border: 0;
-  background-color: ${COLOR.GRAY_200};
+  background-color: transparent;
   position: absolute;
   right: 0.5rem;
   top: 50%;
