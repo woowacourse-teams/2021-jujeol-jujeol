@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import { screen, render, waitFor } from '@testing-library/react';
+import { MemoryRouter as Router } from 'react-router-dom';
 import APIProvider from 'src/apis/APIProvider';
 import HomePage from '.';
 import API from 'src/apis/requests';
@@ -7,20 +8,29 @@ import drinks from 'src/mocks/drinks';
 
 describe('사용자는 홈 화면에서 주류 목록을 조회할 수 있다.', () => {
   beforeAll(async () => {
-    API.getDrinks = jest.fn().mockReturnValue({ data: drinks, count: drinks.length });
+    API.getDrinks = jest.fn().mockReturnValue({ data: drinks });
 
     render(
       <APIProvider>
-        <HomePage />
+        <Router>
+          <HomePage />
+        </Router>
       </APIProvider>
     );
     await waitFor(() => expect(API.getDrinks).toBeCalledTimes(1));
   });
 
   it('사용자는 홈 화면에서 주류 목록을 조회할 수 있다.', async () => {
-    expect(screen.getByText('오늘 이런 술 어때요?')).toBeVisible();
-    expect(screen.getByText('회원님을 위해 준비했어요')).toBeVisible();
+    const recommendationSectionHeader = screen.getByRole('heading', {
+      name: /오늘 이런 술 어때요\?/i,
+    });
+    const recommendationSection = recommendationSectionHeader.closest('section');
+    const viewAllSectionHeader = screen.getByRole('heading', {
+      name: /전체보기/i,
+    });
+    const viewAllSection = viewAllSectionHeader.closest('section');
 
-    drinks.every((drink) => expect(screen.getByText(drink.name)).toBeVisible());
+    drinks.every((drink) => expect(recommendationSection).toHaveTextContent(drink.name));
+    drinks.slice(0, 3).every((drink) => expect(viewAllSection).toHaveTextContent(drink.name));
   });
 });

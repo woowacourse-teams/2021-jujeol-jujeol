@@ -24,7 +24,7 @@ public class Category {
     private Long id;
     @Column
     private String name;
-    @Column
+    @Column(name = "\"key\"")
     private String key;
 
     public static Category create(String name, String key) {

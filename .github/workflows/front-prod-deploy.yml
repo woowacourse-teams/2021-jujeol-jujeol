@@ -1,15 +1,15 @@
-name: front-dev-deploy
+name: front-prod-deploy
 
 # PR 요청에 대해
 on:
   pull_request:
     branches:
-      - main    # develop 브랜치에서 pr 이벤트가 일어났을 때 실행
-    types: [ closed ]    # PR이 closed 됐을 때에만 build 실행
+      - main # develop 브랜치에서 pr 이벤트가 일어났을 때 실행
+    types: [closed] # PR이 closed 됐을 때에만 build 실행
 
 defaults:
   run:
-    working-directory: ./frontend    # build steps의 run을 ./frontend 경로에서 실행
+    working-directory: ./frontend # build steps의 run을 ./frontend 경로에서 실행
 
 jobs:
   build:
