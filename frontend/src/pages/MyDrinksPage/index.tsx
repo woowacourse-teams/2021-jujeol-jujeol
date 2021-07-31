@@ -42,12 +42,12 @@ const MyDrinks = () => {
 
   const myDrinks = pages?.map((page) => page.data).flat();
 
-  const onMoveGoBack = () => history.goBack();
+  const onMoveToPrevPage = () => history.goBack();
 
   return (
     <>
       <Header>
-        <button type="button" onClick={onMoveGoBack}>
+        <button type="button" onClick={onMoveToPrevPage}>
           <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
         </button>
         <h2>내가 마신 술</h2>

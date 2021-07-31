@@ -26,13 +26,13 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
 
   const words = new URLSearchParams(location.search).get('words');
 
-  const onMoveGoBack = () => history.goBack();
+  const onMoveToPrevPage = () => history.goBack();
 
   return (
     <Container>
       <Header>
         <Title>
-          <button type="button" onClick={onMoveGoBack}>
+          <button type="button" onClick={onMoveToPrevPage}>
             <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
           </button>
           <h1>검색결과 {searchResult.length}건</h1>

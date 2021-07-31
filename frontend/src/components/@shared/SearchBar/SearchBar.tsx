@@ -15,7 +15,7 @@ const SearchBar = ({
 
   const [value, setValue] = useState('');
 
-  const onMoveGoBack = () => history.goBack();
+  const onMoveToPrevPage = () => history.goBack();
 
   const onInputWords = (event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
   const onResetInput = () => setValue('');
@@ -38,7 +38,7 @@ const SearchBar = ({
       {isMainPage ? (
         <SearchIcon color={COLOR.WHITE_200} width="1.2rem" />
       ) : (
-        <button type="button" onClick={onMoveGoBack}>
+        <button type="button" onClick={onMoveToPrevPage}>
           <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
         </button>
       )}
