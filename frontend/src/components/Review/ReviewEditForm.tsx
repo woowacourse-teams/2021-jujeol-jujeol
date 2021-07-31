@@ -66,6 +66,11 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
   const onEdit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
+    if (editContent === content) {
+      closeModal?.();
+      return;
+    }
+
     editReview();
   };
 
