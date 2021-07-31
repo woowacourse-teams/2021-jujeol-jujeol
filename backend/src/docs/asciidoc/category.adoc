@@ -1,0 +1,23 @@
+= 카테고리 API
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:nofooter:
+
+== 카테고리 조회
+
+=== 카테고리 전체 조회
+
+- Request
+
+include::{snippets}/category/show/all/http-request.adoc[]
+
+- Response
+
+include::{snippets}/category/show/all/http-response.adoc[]

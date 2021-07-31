@@ -1,0 +1,47 @@
+= 선호도 API
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:nofooter:
+
+== 선호도 생성
+
+=== 상세 화면에서 특정 상품에 대한 선호도 작성
+
+- Request
+
+include::{snippets}/member/preference/create/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/create/http-response.adoc[]
+
+== 선호도 수정
+
+=== 상세 화면에서 특정 상품에 대한 선호도 수정
+
+- Request
+
+include::{snippets}/member/preference/update/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/update/http-response.adoc[]
+
+== 선호도 삭제
+
+=== 상세 화면에서 특정 상품에 대한 선호도 삭제
+
+- Request
+
+include::{snippets}/member/preference/delete/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/delete/http-response.adoc[]
