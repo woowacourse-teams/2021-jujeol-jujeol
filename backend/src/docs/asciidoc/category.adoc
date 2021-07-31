@@ -10,6 +10,18 @@ endif::[]
 :sectlinks:
 :nofooter:
 
+== 카테고리 종류
+[width="70%"]
+|===
+|맥주|BEER
+|소주|SOJU
+|와인|WINE
+|막걸리|MAKGEOLLI
+|양주|LIQUOR
+|칵테일|COCKTAIL
+|기타|ETC
+|===
+
 == 카테고리 조회
 
 === 카테고리 전체 조회
