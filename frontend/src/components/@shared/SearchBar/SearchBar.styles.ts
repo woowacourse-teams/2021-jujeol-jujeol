@@ -4,7 +4,7 @@ import { COLOR } from 'src/constants';
 
 const Container = styled.form<Omit<React.CSSProperties, 'translate'>>`
   ${Flex({ justifyContent: 'center', alignItems: 'center' })};
-  width: ${({ width }) => width && `${width}%`};
+  width: ${({ width }) => width && `${width}`};
   height: 3rem;
   padding: ${({ padding }) => padding && `${padding}`};
   margin: 1.5rem auto;
@@ -12,17 +12,20 @@ const Container = styled.form<Omit<React.CSSProperties, 'translate'>>`
   border: 2px solid white;
   border-radius: 2rem;
   position: relative;
+
   button:first-of-type {
     background-color: transparent;
     border: 0;
     margin-left: -1rem;
   }
+
   > svg {
     position: absolute;
     left: 1rem;
     top: 50%;
     transform: translateY(-50%);
   }
+
   > div {
     position: absolute;
     right: 0.5rem;
@@ -42,12 +45,13 @@ const SearchInput = styled.input<Omit<React.CSSProperties, 'translate'>>`
   font-weight: 700;
   text-align: ${({ textAlign }) => textAlign && `${textAlign}`};
   color: ${COLOR.WHITE_100};
+
   ::placeholder {
     font-size: 1rem;
     line-height: 1.5;
     color: ${COLOR.GRAY_200};
   }
-  // search type일 때 제공되는 reset 버튼을 삭제하는 코드
+  // input의 type이 search일 때 기본으로 제공되는 reset 버튼을 삭제하는 코드
   ::-ms-clear,
   ::-ms-reveal {
     display: none;
@@ -69,6 +73,7 @@ const ResetButton = styled.button`
   border: 0;
   position: absolute;
   right: 2.5rem;
+
   span {
     background-color: ${COLOR.GRAY_200};
     color: ${COLOR.WHITE_200};
@@ -84,6 +89,7 @@ const ResetButton = styled.button`
 
 const SearchButton = styled.button`
   ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })}
+
   width: 2rem;
   height: 2rem;
   border-radius: 50%;

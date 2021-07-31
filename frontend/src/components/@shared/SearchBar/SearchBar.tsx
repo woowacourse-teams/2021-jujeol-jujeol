@@ -37,7 +37,7 @@ const SearchBar = ({
 
   return (
     <Container
-      width={isMainPage ? '80' : '90'}
+      width={isMainPage ? '80%' : '90%'}
       padding={isMainPage ? '0.5rem 1.5rem' : '0.5rem 1.5rem'}
       onSubmit={onSearch}
       onClick={onClick}
