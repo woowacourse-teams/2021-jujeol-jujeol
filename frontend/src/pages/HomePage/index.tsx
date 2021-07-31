@@ -3,11 +3,20 @@ import Grid from 'src/components/@shared/Grid/Grid';
 import DrinkListSection from 'src/pages/HomePage/DrinkListSection';
 import config, { ItemList, Banner as BannerType } from './config';
 import Banner from 'src/components/Banner/Banner';
+import { useHistory } from 'react-router-dom';
+import { PATH } from 'src/constants';
+import SearchBar from 'src/components/@shared/SearchBar/SearchBar';
 
 const HomePage = () => {
+  const history = useHistory();
+
+  const onMoveToSearchPage = () => history.push(PATH.SEARCH);
+
   return (
     <div>
       <MainHeader />
+      <SearchBar onClick={onMoveToSearchPage} placeholder="검색어를 입력해주세요" />
+
       <Grid rowGap="2rem" colMin="280px" colMax="480px">
         {config.map((section: ItemList | BannerType) => {
           if (section.sectionType === 'ITEM_LIST') {

@@ -24,5 +24,5 @@ export default {
     public: './public',
   },
   extends: './tsconfig.json',
-  exclude: ['**/test.tsx'],
+  exclude: ['**/test.tsx', '**/*.test.tsx'],
 };
