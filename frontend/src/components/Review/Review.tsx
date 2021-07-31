@@ -1,14 +1,20 @@
+import { useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
-import { useEffect, useRef } from 'react';
 import API from 'src/apis/requests';
 import ReviewCreateForm from './ReviewCreateForm';
 import ReviewCard from '../Card/ReviewCard';
-import { Wrapper, ReviewList, InfinityScrollPoll } from './Review.styles';
+import { Wrapper, ReviewList } from './Review.styles';
+import useInfinityScroll from 'src/hooks/useInfinityScroll';
+import InfinityScrollPoll from '../@shared/InfinityScrollPoll/InfinityScrollPoll';
 
 const Review = ({ drinkId }: { drinkId: string }) => {
-  const infinityPollRef = useRef<HTMLDivElement>(null);
+  const observerTargetRef = useRef<HTMLDivElement>(null);
 
-  const { data: reviewData, fetchNextPage } = useInfiniteQuery(
+  const {
+    data: reviewData,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
     'reviews',
     ({ pageParam = 1 }) => API.getReview<string>({ id: drinkId, page: pageParam }),
     {
@@ -24,19 +30,7 @@ const Review = ({ drinkId }: { drinkId: string }) => {
     },
   ] = reviewData?.pages ?? [{ pageInfo: { totalSize: 0 } }];
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        fetchNextPage();
-      }
-    });
-  });
-
-  useEffect(() => {
-    if (infinityPollRef.current) {
-      observer.observe(infinityPollRef.current);
-    }
-  }, [infinityPollRef.current]);
+  useInfinityScroll({ target: observerTargetRef, fetchNextPage, hasNextPage });
 
   return (
     <Wrapper>
@@ -53,7 +47,7 @@ const Review = ({ drinkId }: { drinkId: string }) => {
         })}
       </ReviewList>
 
-      <InfinityScrollPoll ref={infinityPollRef} />
+      <InfinityScrollPoll ref={observerTargetRef} />
     </Wrapper>
   );
 };
