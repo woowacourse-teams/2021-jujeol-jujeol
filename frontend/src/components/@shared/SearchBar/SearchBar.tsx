@@ -20,7 +20,7 @@ const SearchBar = ({
   const onInputWords = (event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
   const onResetInput = () => setValue('');
 
-  const isMainPage = location.pathname === (PATH.HOME || PATH.ROOT);
+  const isMainPage = location.pathname === PATH.HOME || location.pathname === PATH.ROOT;
 
   const onSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
