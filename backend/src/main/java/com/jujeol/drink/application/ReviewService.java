@@ -1,8 +1,8 @@
 package com.jujeol.drink.application;
 
-import com.jujeol.drink.application.dto.MemberDto;
+import com.jujeol.drink.application.dto.MemberSimpleDto;
 import com.jujeol.drink.application.dto.ReviewRequest;
-import com.jujeol.drink.application.dto.ReviewResponse;
+import com.jujeol.drink.application.dto.ReviewWithAuthorDto;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.repository.DrinkRepository;
@@ -59,14 +59,11 @@ public class ReviewService {
         }
     }
 
-    public Page<ReviewResponse> showReviews(Long drinkId, Pageable pageable) {
+    public Page<ReviewWithAuthorDto> showReviews(Long drinkId, Pageable pageable) {
         return reviewRepository.findAllByDrinkId(drinkId, pageable)
-                .map(review -> ReviewResponse.create(
-                        review.getId(),
-                        MemberDto.create(review.getMemberId()),
-                        review.getContent(),
-                        review.getCreatedAt(),
-                        review.getModifiedAt()
+                .map(review -> ReviewWithAuthorDto.create(
+                        review,
+                        MemberSimpleDto.create(review.getMember())
                         )
                 );
     }
