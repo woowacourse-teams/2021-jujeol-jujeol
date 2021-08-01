@@ -4,8 +4,9 @@ interface ItemList {
   id: number;
   sectionType: 'ITEM_LIST';
   type: 'CARD' | 'LIST';
+  theme?: string;
   query: {
-    theme?: string;
+    category?: string;
   };
   title: string;
   titleAlign: 'left' | 'center' | 'right';
@@ -31,9 +32,8 @@ const config: HomePageConfig = [
     id: 0,
     sectionType: 'ITEM_LIST',
     type: 'CARD',
-    query: {
-      theme: 'recommendation',
-    },
+    theme: 'RECOMMEND',
+    query: {},
     title: '오늘 이런 술 어때요?',
     titleAlign: 'center',
     subTitle: '내 취향과 가까운 술을 준비했어요',
