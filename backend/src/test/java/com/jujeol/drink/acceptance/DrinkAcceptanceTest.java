@@ -74,7 +74,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     public void showDrinksBySearchTest() {
         //given
         String search = "OB";
-        String category = "BEER";
+        String category = "beer";
         int page = 1;
         //when
         final HttpResponse httpResponse = request()

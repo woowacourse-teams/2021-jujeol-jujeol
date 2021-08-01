@@ -115,7 +115,7 @@ public class DrinkService {
 
     private void validateCategoryKey(Search search) {
         if (search.hasCategoryKey()) {
-            categoryRepository.findByKey(search.getCategoryKey())
+            categoryRepository.findByKey(search.getUpperCategoryKey())
                     .orElseThrow(NotFoundCategoryException::new);
         }
     }

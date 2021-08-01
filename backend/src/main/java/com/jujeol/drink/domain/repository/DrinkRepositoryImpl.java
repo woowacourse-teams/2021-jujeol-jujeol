@@ -57,7 +57,7 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
             );
         }
         if (search.hasCategoryKey()) {
-            builder.and(drink.category.key.eq(search.getCategoryKey()));
+            builder.and(drink.category.key.equalsIgnoreCase(search.getCategoryKey()));
         }
         return builder;
     }

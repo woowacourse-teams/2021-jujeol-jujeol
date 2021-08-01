@@ -27,4 +27,8 @@ public class Search {
     public boolean hasCategoryKey() {
         return !categoryKey.isBlank();
     }
+
+    public String getUpperCategoryKey() {
+        return categoryKey.toUpperCase();
+    }
 }
