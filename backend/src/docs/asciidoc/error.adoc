@@ -1,9 +1,9 @@
 = 에러 문서
 :nofooter:
 
-== link:index.html[메인화면으로 돌아가기]
+*link:index.html[메인화면으로 돌아가기]*
 
-[width="1000%"]
+[width="100%"]
 |===
 |코드|타입|메세지
 |0001|NOT_FOUND_ERROR_CODE|"발생한 에러의 에러코드를 찾을 수 없습니다."
