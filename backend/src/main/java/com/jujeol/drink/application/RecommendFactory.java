@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile({"dev", "prod", "local"})
+@Profile({"dev", "prod", "local","test"})
 public class RecommendFactory {
 
     private final RecommendStrategy recommendStrategy;
