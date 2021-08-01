@@ -19,6 +19,9 @@ const GlobalStyle = () => (
         height: 100%;
         background-color: ${COLOR.PURPLE_900};
         font-size: 16px;
+
+        position: fixed;
+        overflow: hidden;
       }
 
       #root {
@@ -101,10 +104,23 @@ const GlobalStyle = () => (
         color: ${COLOR.BLACK_900};
         font-size: 16px;
         -webkit-tap-highlight-color: transparent;
+
+        :disabled {
+          color: ${COLOR.GRAY_400};
+          filter: brightness(80%);
+        }
       }
 
       input {
         -webkit-tap-highlight-color: transparent;
+
+        @media screen and (max-width: 320px) {
+          html,
+          body,
+          #root {
+            font-size: 14px;
+          }
+        }
       }
     `}
   />

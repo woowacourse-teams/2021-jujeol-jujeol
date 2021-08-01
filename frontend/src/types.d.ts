@@ -26,3 +26,26 @@ declare namespace ItemList {
     alcoholByVolume: number;
   }
 }
+
+declare namespace MyDrink {
+  interface MyDrinkItem {
+    id: number;
+    name: string;
+    imageUrl: string;
+    preferenceRate: number;
+  }
+}
+
+declare namespace PersonalReview {
+  interface PersonalReviewItem {
+    id: number;
+    drink: {
+      drinkId: number;
+      name: string;
+      imageUrl: string;
+    };
+    content: string;
+    createdAt: Date;
+    modifiedAt: Date | null;
+  }
+}

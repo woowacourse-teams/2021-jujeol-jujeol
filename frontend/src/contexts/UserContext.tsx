@@ -7,7 +7,8 @@ import { removeLocalStorageItem } from 'src/utils/localStorage';
 
 type UserData = {
   id: number;
-  name: string;
+  nickname: string;
+  bio: string;
 };
 
 interface UserContext {

@@ -1,6 +1,5 @@
 package com.jujeol.member.domain;
 
-import com.jujeol.drink.domain.Drink;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,14 +17,5 @@ public interface PreferenceRepository extends JpaRepository<Preference, Long> {
     @Query("SELECT AVG(p.rate) FROM Preference p WHERE p.drink.id = :drinkId")
     Optional<Double> averageOfPreferenceRate(Long drinkId);
 
-    @Query(value = ""
-            + "select p.drink from Preference p "
-            + "inner join Drink d on d.id = p.drink.id "
-            + "where p.member.id = :memberId "
-            + "order by p.createdAt desc",
-            countQuery = ""
-                    + "select count(p.drink) from Preference p "
-                    + "inner join Drink d on d.id = p.drink.id "
-                    + "where p.member.id = :memberId ")
-    Page<Drink> findDrinksOfMineWithPreference(Long memberId, Pageable pageable);
+    Page<Preference> findByMemberIdOrderByCreatedAtDesc(Long memberId, Pageable pageable);
 }

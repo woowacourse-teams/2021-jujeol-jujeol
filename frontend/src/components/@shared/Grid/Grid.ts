@@ -13,8 +13,6 @@ interface GridStyle extends Omit<React.CSSProperties, 'translate'> {
 
 const Grid = styled.ul<GridStyle>`
   display: grid;
-
-  ${({ padding }) => padding && `padding: ${padding};`}
   ${({ col }) => col && `grid-template-columns: repeat(${col}, 1fr);`}
   ${({ colGap }) => colGap && `grid-column-gap: ${colGap};`}
   ${({ colMin, colMax }) =>
@@ -24,6 +22,9 @@ const Grid = styled.ul<GridStyle>`
   ${({ rowGap }) => rowGap && `grid-row-gap: ${rowGap};`}
   ${({ rowMin, rowMax }) =>
     (rowMin || rowMax) && `grid-template-rows: minmax(${rowMin ?? 'auto'}, ${rowMax ?? 'auto'});`}
+    
+  ${({ padding }) => padding && `padding: ${padding};`}
+  ${({ justifyItems }) => justifyItems && `justify-items: ${justifyItems}`}
 `;
 
 export default Grid;
