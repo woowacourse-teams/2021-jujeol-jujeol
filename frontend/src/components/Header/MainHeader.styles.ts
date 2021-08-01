@@ -1,6 +1,11 @@
 import styled from '@emotion/styled';
 import { COLOR } from 'src/constants';
 
+const envContent =
+  process.env.SNOWPACK_PUBLIC_ENV === 'PROD'
+    ? 'beta'
+    : process.env.SNOWPACK_PUBLIC_ENV?.toLowerCase();
+
 const Logo = styled.h1`
   font-size: 1.4rem;
   font-weight: 700;
@@ -9,9 +14,7 @@ const Logo = styled.h1`
   position: relative;
 
   :after {
-    content: '${process.env.SNOWPACK_PUBLIC_ENV === 'PROD'
-      ? 'beta'
-      : process.env.SNOWPACK_PUBLIC_ENV?.toLowerCase()}';
+    content: '${envContent}';
     font-size: 0.8rem;
     padding: 0.2rem;
     position: absolute;
