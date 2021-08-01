@@ -20,7 +20,7 @@ endif::[]
 |소주|SOJU
 |와인|WINE
 |막걸리|MAKGEOLLI
-|양주|LIQUOR
+|양주|YANGJU
 |칵테일|COCKTAIL
 |기타|ETC
 |===
