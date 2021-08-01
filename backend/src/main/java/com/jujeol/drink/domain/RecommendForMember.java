@@ -1,14 +1,15 @@
 package com.jujeol.drink.domain;
 
+import com.jujeol.drink.application.RecommendStrategy;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.infrastructure.recommend.RecommendationSystem;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class RecommendMember implements RecommendState {
+public class RecommendForMember implements RecommendStrategy {
 
-    private final RecommendState recommendState;
+    private final RecommendStrategy recommendStrategy;
     private final RecommendationSystem recommendationSystem;
     private final DrinkRepository drinkRepository;
 
@@ -20,7 +21,7 @@ public class RecommendMember implements RecommendState {
         int remainCount = pageSize - itemIds.size();
 
         if (remainCount > 0) {
-            List<Drink> remainDrinks = recommendState.recommend(memberId, pageSize);
+            List<Drink> remainDrinks = recommendStrategy.recommend(memberId, pageSize);
             remainDrinks.removeAll(drinks);
             drinks.addAll(remainDrinks.subList(0, remainCount));
         }
