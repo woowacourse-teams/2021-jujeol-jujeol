@@ -1,0 +1,45 @@
+= 멤버 API
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:nofooter:
+
+*link:index.html[메인화면으로 돌아가기]*
+
+== 멤버 조회
+
+- Request
+
+include::{snippets}/member/show/me/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/show/me/http-response.adoc[]
+
+== 멤버 수정
+
+- Request
+
+include::{snippets}/member/update/me/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/update/me/http-response.adoc[]
+
+== 내가 마신 술 조회
+
+=== 마이 페이지에서 (선호도 기반) 내가 마신 술 목록 조회
+
+- Request
+
+include::{snippets}/member/info/drinks/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/info/drinks/http-response.adoc[]

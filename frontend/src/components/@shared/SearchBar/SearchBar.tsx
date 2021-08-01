@@ -1,9 +1,8 @@
-import { InputHTMLAttributes, ChangeEvent, useEffect, useState, FormEvent } from 'react';
+import { InputHTMLAttributes, ChangeEvent, useState, FormEvent } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-
-import SearchIcon from 'src/components/Icons/search';
 import { COLOR, PATH } from 'src/constants';
 import Arrow from '../Arrow/Arrow';
+import { SearchIcon } from '../Icons';
 import { Container, ResetButton, SearchButton, SearchInput } from './SearchBar.styles';
 
 const SearchBar = ({

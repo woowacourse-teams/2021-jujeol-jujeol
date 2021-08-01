@@ -1,4 +1,4 @@
-import KakaoIcon from '../Icons/symbol_kakao';
+import { KakaoIcon } from '../@shared/Icons';
 import { KakaoLoginButton } from './KakaoLogin.styles';
 
 const KAKA0_HOST = 'https://kauth.kakao.com/oauth/authorize';

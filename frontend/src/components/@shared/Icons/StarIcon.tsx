@@ -8,10 +8,8 @@ const FILL = {
 
 type fillStatus = keyof typeof FILL;
 
-interface Props {
-  color?: string;
+interface Props extends IconProps {
   status?: fillStatus;
-  width?: string;
 }
 
 const StarIcon = ({ color = COLOR.WHITE_100, status = 'FULL', width = '3rem' }: Props) => {
