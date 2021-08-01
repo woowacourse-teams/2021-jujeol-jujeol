@@ -36,6 +36,10 @@ const ReviewCard = ({ review }: Props) => {
     setIsContentOpen(true);
   };
 
+  const onOpenEditForm = () => {
+    openModal?.(<ReviewEditForm drinkId={drinkId} review={review} />);
+  };
+
   return (
     <Card padding="1rem" backgroundColor={COLOR.WHITE_200}>
       <Header>
@@ -45,11 +49,7 @@ const ReviewCard = ({ review }: Props) => {
           <time>{new Date(createdAt)?.toLocaleDateString()}</time>
         </ReviewerInfo>
         {userData?.id === author.id && (
-          <button
-            type="button"
-            onClick={() => openModal?.(<ReviewEditForm drinkId={drinkId} review={review} />)}
-            aria-label="내 리뷰 글 수정하기 버튼"
-          >
+          <button type="button" onClick={onOpenEditForm} aria-label="내 리뷰 글 수정하기 버튼">
             <svg width="32px" height="32px" viewBox="0 0 100 100" fill="grey">
               <circle cx="30" cy="50" r="6" />
               <circle cx="50" cy="50" r="6" />

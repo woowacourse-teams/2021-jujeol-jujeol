@@ -10,7 +10,12 @@ import static com.jujeol.drink.DrinkTestContainer.TIGER_LEMON;
 import static com.jujeol.drink.DrinkTestContainer.TIGER_RAD;
 import static com.jujeol.drink.DrinkTestContainer.TSINGTAO;
 import static com.jujeol.drink.DrinkTestContainer.asNames;
+import static com.jujeol.member.fixture.TestMember.CROFFLE;
+import static com.jujeol.member.fixture.TestMember.NABOM;
 import static com.jujeol.member.fixture.TestMember.PIKA;
+import static com.jujeol.member.fixture.TestMember.SOLONG;
+import static com.jujeol.member.fixture.TestMember.SUNNY;
+import static com.jujeol.member.fixture.TestMember.TIKE;
 import static com.jujeol.member.fixture.TestMember.WEDGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,7 +27,7 @@ import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.ui.dto.DrinkDetailResponse;
 import com.jujeol.drink.ui.dto.DrinkSimpleResponse;
 import com.jujeol.member.acceptance.MemberAcceptanceTool;
-import com.jujeol.member.fixture.TestMember;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -44,7 +49,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .어드민_주류_데이터_등록(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
     }
 
-    @DisplayName("전체 추천 조회 - 성공(비로그인 시 선호도 순서)")
+    @DisplayName("추천 조회 - 성공(비로그인 시 선호도 순서)")
     @Test
     public void showRecommendDrinksTest() {
         //when
@@ -64,29 +69,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 8);
     }
 
-    @DisplayName("검색 조회 - 성공")
-    @Test
-    public void showDrinksBySearchTest() {
-        //given
-        String search = "OB";
-        String category = "BEER";
-        int page = 1;
-        //when
-        final HttpResponse httpResponse = request()
-                .get("/drinks?search=" + search + "&category=" + category + "&page=" + page)
-                .withDocument("drinks/show/search")
-                .build();
-
-        //then
-        final List<DrinkSimpleResponse> drinkSimpleResponses =
-                httpResponse.convertBodyToList(DrinkSimpleResponse.class);
-
-        assertThat(drinkSimpleResponses).extracting("name").contains(OB.getName());
-
-        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 1);
-    }
-
-    @DisplayName("추천 조회(협업필터링) - 성공")
+    @DisplayName("추천 조회 - 성공(로그인 시 협업필터링)")
     @Test
     public void showDrinksByUserPreferenceTest() {
         //given
@@ -115,28 +98,70 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         final Long tigerRadId = drinkAcceptanceTool.주류_아이디_조회(TIGER_RAD.getName());
         final Long tsingatoId = drinkAcceptanceTool.주류_아이디_조회(TSINGTAO.getName());
 
-        memberAcceptanceTool.선호도_등록(obId, 2.0, TestMember.PIKA);
-        memberAcceptanceTool.선호도_등록(stellaId, 5.0, TestMember.PIKA);
-        memberAcceptanceTool.선호도_등록(kgbId, 4.5, TestMember.PIKA);
+        memberAcceptanceTool.선호도_등록(obId, 2.0, PIKA);
+        memberAcceptanceTool.선호도_등록(stellaId, 5.0, PIKA);
+        memberAcceptanceTool.선호도_등록(kgbId, 4.5, PIKA);
 
-        memberAcceptanceTool.선호도_등록(obId, 1.5, TestMember.SOLONG);
-        memberAcceptanceTool.선호도_등록(stellaId, 4.5, TestMember.SOLONG);
-        memberAcceptanceTool.선호도_등록(kgbId, 4.2, TestMember.SOLONG);
-        memberAcceptanceTool.선호도_등록(tigerId, 5.0, TestMember.SOLONG);
-        memberAcceptanceTool.선호도_등록(appleId, 4.5, TestMember.SOLONG);
-        memberAcceptanceTool.선호도_등록(tigerRadId, 4.5, TestMember.SOLONG);
+        memberAcceptanceTool.선호도_등록(obId, 1.5, SOLONG);
+        memberAcceptanceTool.선호도_등록(stellaId, 4.5, SOLONG);
+        memberAcceptanceTool.선호도_등록(kgbId, 4.2, SOLONG);
+        memberAcceptanceTool.선호도_등록(tigerId, 5.0, SOLONG);
+        memberAcceptanceTool.선호도_등록(appleId, 4.5, SOLONG);
+        memberAcceptanceTool.선호도_등록(tigerRadId, 4.5, SOLONG);
 
-        memberAcceptanceTool.선호도_등록(obId, 1.0, TestMember.WEDGE);
-        memberAcceptanceTool.선호도_등록(kgbId, 4.5, TestMember.WEDGE);
-        memberAcceptanceTool.선호도_등록(tigerId, 4.7, TestMember.WEDGE);
-        memberAcceptanceTool.선호도_등록(appleId, 4.5, TestMember.WEDGE);
+        memberAcceptanceTool.선호도_등록(obId, 1.0, WEDGE);
+        memberAcceptanceTool.선호도_등록(kgbId, 4.5, WEDGE);
+        memberAcceptanceTool.선호도_등록(tigerId, 4.7, WEDGE);
+        memberAcceptanceTool.선호도_등록(appleId, 4.5, WEDGE);
         memberAcceptanceTool.선호도_등록(tigerRadId, 4.5, WEDGE);
 
-        memberAcceptanceTool.선호도_등록(obId, 4.7, TestMember.CROFFLE);
-        memberAcceptanceTool.선호도_등록(kgbId, 1.5, TestMember.CROFFLE);
-        memberAcceptanceTool.선호도_등록(stellaId, 2.4, TestMember.CROFFLE);
-        memberAcceptanceTool.선호도_등록(tigerId, 2.1, TestMember.CROFFLE);
-        memberAcceptanceTool.선호도_등록(tsingatoId, 1.1, TestMember.CROFFLE);
+        memberAcceptanceTool.선호도_등록(obId, 4.7, CROFFLE);
+        memberAcceptanceTool.선호도_등록(kgbId, 1.5, CROFFLE);
+        memberAcceptanceTool.선호도_등록(stellaId, 2.4, CROFFLE);
+        memberAcceptanceTool.선호도_등록(tigerId, 2.1, CROFFLE);
+        memberAcceptanceTool.선호도_등록(tsingatoId, 1.1, CROFFLE);
+    }
+
+    @DisplayName("검색 조회 - 성공")
+    @Test
+    public void showDrinksBySearchTest() {
+        //given
+        String search = "OB";
+        String category = "beer";
+        int page = 1;
+        //when
+        final HttpResponse httpResponse = request()
+                .get("/drinks?search=" + search + "&category=" + category + "&page=" + page)
+                .withDocument("drinks/show/search")
+                .build();
+
+        //then
+        final List<DrinkSimpleResponse> drinkSimpleResponses =
+                httpResponse.convertBodyToList(DrinkSimpleResponse.class);
+
+        assertThat(drinkSimpleResponses).extracting("name").contains(OB.getName());
+
+        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 1);
+    }
+
+    @DisplayName("검색 조회(검색어만 존재) - 성공")
+    @Test
+    public void showDrinksBySearchWithoutCategoryTest() {
+        //given
+        String search = "ste";
+        int page = 1;
+        //when
+        final HttpResponse httpResponse = request()
+                .get("/drinks?search=" + search + "&page=" + page)
+                .build();
+
+        //then
+        final List<DrinkSimpleResponse> drinkSimpleResponses =
+                httpResponse.convertBodyToList(DrinkSimpleResponse.class);
+
+        assertThat(drinkSimpleResponses).extracting("name").contains(STELLA.getName());
+
+        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 1);
     }
 
     @DisplayName("단일 조회 - 성공")

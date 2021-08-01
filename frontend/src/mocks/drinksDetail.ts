@@ -9,6 +9,7 @@ const drinksDetail = {
   },
   alcoholByVolume: 3.4,
   preferenceRate: 3.5,
+  preferenceAvg: 2.5,
 };
 
 export { drinksDetail };

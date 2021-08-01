@@ -40,8 +40,8 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
         final Long tigerLemonId = 주류_등록(TIGER_LEMON);
 
         memberAcceptanceTool.선호도_등록(obId, 2.4, CROFFLE);
-        memberAcceptanceTool.선호도_등록(stellaId, 2.4, CROFFLE);
-        memberAcceptanceTool.선호도_등록(tigerLemonId, 2.4, CROFFLE);
+        memberAcceptanceTool.선호도_등록(stellaId, 3.0, CROFFLE);
+        memberAcceptanceTool.선호도_등록(tigerLemonId, 4.5, CROFFLE);
 
         //when
         List<MemberDrinkResponse> responses = request().get("/members/me/drinks")
@@ -52,7 +52,9 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
 
         //then
         assertThat(responses).hasSize(3);
-        assertThat(responses).extracting("id").containsExactlyInAnyOrder(obId, stellaId, tigerLemonId);
+        assertThat(responses).extracting("id")
+                .containsExactlyInAnyOrder(obId, stellaId, tigerLemonId);
+        assertThat(responses).extracting("preferenceRate").containsExactlyInAnyOrder(2.4, 3.0, 4.5);
     }
 
     @DisplayName("내가 남긴 리뷰 모아보기 - 성공")
@@ -76,7 +78,7 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
                 .build();
 
         //then
-        페이징_검증(response.pageInfo(), 1,1,3,3);
+        페이징_검증(response.pageInfo(), 1, 1, 3, 3);
 
         final List<MemberReviewResponse> memberReviewResponses = response
                 .convertBodyToList(MemberReviewResponse.class);

@@ -2,6 +2,7 @@ package com.jujeol.drink.ui.dto;
 
 import com.jujeol.drink.application.dto.SearchDto;
 import lombok.AllArgsConstructor;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

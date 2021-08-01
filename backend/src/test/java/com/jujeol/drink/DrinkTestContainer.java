@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum DrinkTestContainer {
-    OB(new AdminDrinkRequest("오비", "OB", 85.0, "KakaoTalk_Image_2021-07-08-19-58-22_007.png", "BEER")),
+    OB(new AdminDrinkRequest("오비", "OB", 8.5, "KakaoTalk_Image_2021-07-08-19-58-22_007.png", "BEER")),
     TIGER_LEMON(new AdminDrinkRequest("타이거 라들러 레몬", "Tiger_Lemon", 4.5, "KakaoTalk_Image_2021-07-08-19-58-22_008.png", "BEER")),
     STELLA(new AdminDrinkRequest("스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", "BEER")),
     KGB(new AdminDrinkRequest("KGB", "", 3.5, "KakaoTalk_Image_2021-07-08-19-58-09_002.png", "BEER")),

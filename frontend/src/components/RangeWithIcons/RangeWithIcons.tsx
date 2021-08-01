@@ -21,6 +21,7 @@ const RangeWithIcons = ({
   onClick,
   onTouchStart,
   onTouchEnd,
+  onMouseUp,
 }: Props) => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(Number(event.target.value));
@@ -53,6 +54,7 @@ const RangeWithIcons = ({
         disabled={disabled}
         onChange={onChange}
         onTouchEnd={onTouchEnd}
+        onMouseUp={onMouseUp}
       />
       <div>
         {Array.from({ length: max as number }).map((_, index) => {

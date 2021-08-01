@@ -6,6 +6,7 @@ import com.jujeol.drink.application.dto.SearchDto;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.RecommendState;
+import com.jujeol.drink.domain.Search;
 import com.jujeol.drink.domain.ViewCount;
 import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
@@ -40,25 +41,17 @@ public class DrinkService {
     private final ViewCountService viewCountService;
 
     public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, Pageable pageable) {
-        if(searchDto.getSearch()==null){
-            return drinkRepository.findAll(pageable)
-                    .map(drink -> DrinkDto.create(drink, Preference.from(drink, 0), fileServerUrl));
-        }
-        Category category = categoryRepository.findByKey(searchDto.getCategoryKey())
-                .orElseThrow(NotFoundCategoryException::new);
-        Drink OB = Drink.create(
-                "오비", "OB", 85.0,
-                "KakaoTalk_Image_2021-07-08-19-58-22_007.png",
-                0.0, category);
-
-        DrinkDto OBDto = DrinkDto.create(OB, Preference.anonymousPreference(OB), fileServerUrl);
-        return new PageImpl<>(List.of(OBDto), pageable, 1L);
+        Search search = searchDto.toDomain();
+        validateCategoryKey(search);
+        return drinkRepository.findBySearch(search, pageable)
+                .map(drink -> DrinkDto
+                        .create(drink, Preference.create(drink, 0), fileServerUrl));
     }
 
     public Page<DrinkDto> showAllDrinksByPage(Pageable pageable) {
         List<DrinkDto> drinkDtos = drinkRepository.findAll(pageable).stream()
                 .map(drink -> DrinkDto.create(
-                        drink, Preference.from(drink, 0), fileServerUrl))
+                        drink, Preference.create(drink, 0), fileServerUrl))
         .collect(Collectors.toList());
 
         return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
@@ -68,7 +61,7 @@ public class DrinkService {
 
         List<DrinkDto> drinkDtos = recommendDrinks.stream()
                 .map(drink -> DrinkDto.create(
-                        drink, Preference.from(drink, 0), fileServerUrl))
+                        drink, Preference.create(drink, 0), fileServerUrl))
                 .collect(Collectors.toList());
 
         return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
@@ -78,7 +71,7 @@ public class DrinkService {
     public DrinkDto showDrinkDetail(Long id) {
         Drink drink = drinkRepository.findById(id)
                 .orElseThrow(NotFoundDrinkException::new);
-        Preference preference = Preference.from(drink, 0.0);
+        Preference preference = Preference.create(drink, 0.0);
         viewCountService.updateViewCount(drink);
         return DrinkDto.create(drink, preference, fileServerUrl);
     }
@@ -133,5 +126,12 @@ public class DrinkService {
     @Transactional
     public void removeDrink(Long id) {
         drinkRepository.deleteById(id);
+    }
+
+    private void validateCategoryKey(Search search) {
+        if (search.hasCategoryKey()) {
+            categoryRepository.findByKey(search.getUpperCategoryKey())
+                    .orElseThrow(NotFoundCategoryException::new);
+        }
     }
 }

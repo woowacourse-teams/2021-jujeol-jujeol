@@ -1,61 +1,93 @@
-import { Img } from 'src/components/@shared/Image/Image';
-import PersonalReviewCard from 'src/components/Card/PersonalReviewCard';
-import StarIcon from 'src/components/Icons/star';
+import { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useQuery } from 'react-query';
+
+import UserContext from 'src/contexts/UserContext';
+
+import API from 'src/apis/requests';
+
+import Grid from 'src/components/@shared/Grid/Grid';
 import Preview from 'src/components/Preview/Preview';
 import Profile from 'src/components/Profile/Profile';
-import Horizontal from 'src/components/ScrollList/Horizontal';
+import { HorizontalScroll } from 'src/components/Scroll/HorizontalScroll';
+import Status from './Status';
+import Arrow from 'src/components/@shared/Arrow/Arrow';
+import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
 
-import { Header, Statistics, VerticalItem, VerticalScrollList } from './styles';
+import MyDrinkItem from '../MyDrinksPage/MyDrinkItem';
+
+import { PATH } from 'src/constants';
+import { Header } from './styles';
 
 const MyPage = () => {
+  const history = useHistory();
+
+  const { userData, isLoggedIn, getUser } = useContext(UserContext);
+
+  const [myDrinks, setMyDrinks] = useState([]);
+  const [myReviews, setMyReviews] = useState([]);
+
+  const { data: myDrinksData } = useQuery(
+    'my-drinks',
+    () => API.getPersonalDrinks({ page: 1, size: 7 }),
+    {
+      retry: 0,
+      onSuccess: ({ data }) => {
+        setMyDrinks(data);
+      },
+    }
+  );
+
+  const { data: myReviewsData } = useQuery(
+    'my-reviews',
+    () => API.getPersonalReviews({ page: 1, size: 3 }),
+    {
+      retry: 0,
+      onSuccess: ({ data }) => {
+        setMyReviews(data);
+      },
+    }
+  );
+
+  useEffect(() => {
+    getUser();
+
+    if (!isLoggedIn) {
+      history.push(PATH.LOGIN);
+    }
+  }, []);
+
+  const onMoveToPrevPage = () => history.goBack();
   return (
     <>
       <Header>
-        <button />
+        <button type="button" onClick={onMoveToPrevPage}>
+          <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
+        </button>
         <h2>내정보</h2>
       </Header>
+      <Profile src="https://fakeimg.pl/72x72" nickname={userData?.nickname} bio={userData?.bio} />
+      <Status
+        myDrinksCount={myDrinksData?.pageInfo?.totalSize}
+        myReviewsCount={myReviewsData?.pageInfo?.totalSize}
+      />
 
-      <Profile src="http://placehold.it/72x72" nickname="청바지_122" bio="청춘은 바로 지금" />
-
-      <Statistics>
-        <li>
-          <p>43개</p>
-          <p>내가 마신 술</p>
-        </li>
-        <li>
-          <p>15개</p>
-          <p>내가 남긴 리뷰</p>
-        </li>
-      </Statistics>
-
-      <Preview title="내가 마신 술">
-        <Horizontal count={7}>
-          {Array.from({ length: 7 }).map((_, index) => (
-            <VerticalItem key={index}>
-              <Img
-                src="http://placehold.it/120x120"
-                alt="호감도를 입력한 술"
-                shape="ROUND_SQUARE"
-                size="LARGE"
-              />
-              <p>KGB 라임</p>
-              <div>
-                <StarIcon width="0.8rem" color="yellow" />
-                <span>3.5</span>
-              </div>
-            </VerticalItem>
-          ))}
-        </Horizontal>
+      <Preview title="내가 마신 술" path={PATH.MY_DRINKS}>
+        <HorizontalScroll margin="0 -1.5rem" padding="0 1.5rem">
+          <Grid col={7} colGap="1rem">
+            {myDrinks?.map((myDrink: MyDrink.MyDrinkItem) => (
+              <MyDrinkItem key={myDrink.id} size="LARGE" drink={myDrink} />
+            ))}
+          </Grid>
+        </HorizontalScroll>
       </Preview>
 
-      <Preview title="내가 남긴 리뷰">
-        <VerticalScrollList>
-          {Array.from({ length: 3 }).map((_, index) => (
-            <li key={index}>
-              <PersonalReviewCard />
-            </li>
+      <Preview title="내가 남긴 리뷰" path={PATH.MY_REVIEWS}>
+        <ul>
+          {myReviews?.map((myReview: PersonalReview.PersonalReviewItem) => (
+            <PersonalReviewItem key={myReview.id} review={myReview} />
           ))}
-        </VerticalScrollList>
+        </ul>
       </Preview>
     </>
   );
