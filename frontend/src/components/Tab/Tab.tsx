@@ -67,7 +67,7 @@ const Tab = () => {
         {tabConfig(isLoggedIn).map(({ mainPath, path, title, Icon }) => (
           <li key={title}>
             <NavLink exact to={mainPath} isActive={() => path.includes(location.pathname)}>
-              <Icon color={COLOR.BLACK_900} width="2rem" />
+              <Icon />
               <p>{title}</p>
             </NavLink>
           </li>

@@ -1,5 +1,4 @@
 import { ImgHTMLAttributes } from 'react';
-import { Img } from '../@shared/Image/Image';
 import { Container } from './Profile.styles';
 
 interface Props extends ImgHTMLAttributes<HTMLImageElement> {
