@@ -6,6 +6,18 @@ const Logo = styled.h1`
   font-weight: 700;
   color: ${COLOR.WHITE_100};
   text-align: center;
+  position: relative;
+
+  :after {
+    content: '${process.env.SNOWPACK_PUBLIC_ENV === 'PROD'
+      ? 'beta'
+      : process.env.SNOWPACK_PUBLIC_ENV?.toLowerCase()}';
+    font-size: 0.8rem;
+    padding: 0.2rem;
+    position: absolute;
+    left: 100%;
+    top: 0;
+  }
 `;
 
 export { Logo };
