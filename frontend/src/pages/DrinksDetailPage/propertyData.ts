@@ -1,37 +1,51 @@
 import React from 'react';
 import {
   BeerIcon,
+  CategoryEtcIcon,
+  CocktailIcon,
   DizzyEmojiIcon,
   ExcitedEmojiIcon,
   MakgeolliIcon,
   SmileEmojiIcon,
   SojuIcon,
+  WineIcon,
+  YangjuIcon,
 } from 'src/components/@shared/Icons';
 
-interface Properties {
-  content: string;
-  Icon: ({ color }: { color: string }) => React.ReactElement;
-}
-
-// TODO: 어플리케이션이 시작될 때, 전체 categories를 불러오는 기능 필요
-const CATEGORY_NAME = {
-  0: '소주',
-  1: '맥주',
-  2: '막걸리',
+const categories: {
+  [key: string]: { content: string; Icon: (props: IconProps) => React.ReactElement };
+} = {
+  BEER: {
+    content: '맥주',
+    Icon: BeerIcon,
+  },
+  SOJU: {
+    content: '소주',
+    Icon: SojuIcon,
+  },
+  MAKGEOLLI: {
+    content: '막걸리',
+    Icon: MakgeolliIcon,
+  },
+  WINE: {
+    content: '와인',
+    Icon: WineIcon,
+  },
+  YANGJU: {
+    content: '양주',
+    Icon: YangjuIcon,
+  },
+  COCKTAIL: {
+    content: '칵테일',
+    Icon: CocktailIcon,
+  },
+  ETC: {
+    content: '기타',
+    Icon: CategoryEtcIcon,
+  },
 };
 
-const CATEGORY_ICON = {
-  0: SojuIcon,
-  1: BeerIcon,
-  2: MakgeolliIcon,
-};
-
-type categoryIdType = keyof typeof CATEGORY_NAME;
-
-const getCategoryProperty = (categoryId: categoryIdType): Properties => ({
-  content: CATEGORY_NAME[categoryId],
-  Icon: CATEGORY_ICON[categoryId],
-});
+const getCategoryProperty = (key: string) => categories[key] ?? categories.ETC;
 
 const getAbvIcon = (abv: number) => {
   if (abv <= 5) {
@@ -58,8 +72,7 @@ const properties = [
   {
     id: 0,
     name: '주종',
-    getProperty: ({ categoryId }: { categoryId: categoryIdType }) =>
-      getCategoryProperty(categoryId),
+    getProperty: ({ categoryKey }: { categoryKey: string }) => getCategoryProperty(categoryKey),
   },
   {
     id: 1,
@@ -70,4 +83,3 @@ const properties = [
 ];
 
 export { properties };
-export type { categoryIdType };

@@ -17,6 +17,7 @@ const defaultDrinkDetail = {
   category: {
     id: 0,
     name: '',
+    key: '',
   },
   alcoholByVolume: 0,
   preferenceRate: 0.0,
@@ -35,7 +36,7 @@ const DrinksDetailPage = () => {
     name,
     englishName,
     imageUrl,
-    category: { id: categoryId, name: categoryName },
+    category: { id: categoryId, key: categoryKey, name: categoryName },
     alcoholByVolume,
     preferenceRate,
     preferenceAvg,
@@ -122,7 +123,7 @@ const DrinksDetailPage = () => {
           <ul>
             {properties.map((property) => {
               const { Icon, content } = property.getProperty({
-                categoryId: categoryId as categoryIdType,
+                categoryKey,
                 alcoholByVolume,
               });
 
