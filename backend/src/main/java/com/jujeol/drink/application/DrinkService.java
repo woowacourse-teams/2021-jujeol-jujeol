@@ -5,7 +5,6 @@ import com.jujeol.drink.application.dto.DrinkRequestDto;
 import com.jujeol.drink.application.dto.SearchDto;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.RecommendState;
 import com.jujeol.drink.domain.Search;
 import com.jujeol.drink.domain.ViewCount;
 import com.jujeol.drink.domain.repository.CategoryRepository;
@@ -56,8 +55,8 @@ public class DrinkService {
 
         return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
     }
-    public Page<DrinkDto> showRecommendDrinks(RecommendState recommendState, Pageable pageable, LoginMember loginMember) {
-        List<Drink> recommendDrinks = recommendState.recommend(loginMember.getId(), pageable.getPageSize());
+    public Page<DrinkDto> showRecommendDrinks(RecommendStrategy recommendStrategy, Pageable pageable, LoginMember loginMember) {
+        List<Drink> recommendDrinks = recommendStrategy.recommend(loginMember.getId(), pageable.getPageSize());
 
         List<DrinkDto> drinkDtos = recommendDrinks.stream()
                 .map(drink -> DrinkDto.create(
