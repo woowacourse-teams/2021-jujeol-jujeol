@@ -48,21 +48,41 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     @DisplayName("추천 조회 - 성공(비로그인 시 선호도 순서)")
     @Test
     public void showRecommendDrinksTest() {
-        //when
+// given
+        final Long obId = drinkAcceptanceTool.주류_아이디_조회(OB.getName());
+        final Long stellaId = drinkAcceptanceTool.주류_아이디_조회(STELLA.getName());
+        final Long kgbId = drinkAcceptanceTool.주류_아이디_조회(KGB.getName());
+        final Long tigerId = drinkAcceptanceTool.주류_아이디_조회(TIGER_LEMON.getName());
+        final Long appleId = drinkAcceptanceTool.주류_아이디_조회(APPLE.getName());
+        final Long tigerRadId = drinkAcceptanceTool.주류_아이디_조회(TIGER_RAD.getName());
+        final Long tsingatoId = drinkAcceptanceTool.주류_아이디_조회(TSINGTAO.getName());
+        final Long estpId = drinkAcceptanceTool.주류_아이디_조회(ESTP.getName());
+
+        memberAcceptanceTool.선호도_등록(obId, 5.0, PIKA);
+        memberAcceptanceTool.선호도_등록(stellaId, 4.5, PIKA);
+        memberAcceptanceTool.선호도_등록(kgbId, 4.0, PIKA);
+        memberAcceptanceTool.선호도_등록(tigerId, 3.5, PIKA);
+        memberAcceptanceTool.선호도_등록(appleId, 3.0, PIKA);
+        memberAcceptanceTool.선호도_등록(tigerRadId, 2.5, PIKA);
+        memberAcceptanceTool.선호도_등록(tsingatoId, 2.0, PIKA);
+        memberAcceptanceTool.선호도_등록(estpId, 1.0, PIKA);
+
+        // when
         final HttpResponse httpResponse = request()
-                .get("/drinks")
+                .get("/drinks/recommendation")
+                .withUser(CROFFLE)
                 .withDocument("drinks/show/all")
                 .build();
 
         //then
         final List<String> drinkNames =
-                asNames(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
+                asNames(OB, STELLA, KGB, TIGER_LEMON, APPLE, TIGER_RAD, TSINGTAO);
 
         assertThat(httpResponse.convertBodyToList(DrinkSimpleResponse.class))
                 .extracting("name")
                 .containsExactlyElementsOf(drinkNames);
 
-        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 8);
+        페이징_검증(httpResponse.pageInfo(), 1, 1, 7, 7);
     }
 
     @DisplayName("추천 조회 - 성공(로그인 시 협업필터링)")

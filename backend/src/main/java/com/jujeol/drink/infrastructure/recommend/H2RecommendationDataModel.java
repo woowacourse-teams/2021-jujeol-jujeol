@@ -14,7 +14,7 @@ public class H2RecommendationDataModel implements RecommendationDataModel {
     private final DataModel dataModel;
 
     public H2RecommendationDataModel(DataSource dataSource) {
-        dataModel = new SQL92JDBCDataModel(dataSource, Preference.class.getSimpleName(), "member_id", "drink_id", "rate", null);
+        dataModel = new SQL92JDBCDataModel(dataSource, Preference.class.getSimpleName().toLowerCase(), "member_id", "drink_id", "rate", null);
     }
 
     @Override

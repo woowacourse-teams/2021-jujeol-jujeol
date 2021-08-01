@@ -14,7 +14,7 @@ public class MySqlRecommendationDataModel implements RecommendationDataModel {
     private final DataModel dataModel;
 
     public MySqlRecommendationDataModel(DataSource dataSource) {
-        this.dataModel = new MySQLJDBCDataModel(dataSource, Preference.class.getSimpleName(),
+        this.dataModel = new MySQLJDBCDataModel(dataSource, Preference.class.getSimpleName().toLowerCase(),
                 "member_id", "drink_id", "rate", null);
     }
 
