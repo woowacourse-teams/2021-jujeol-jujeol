@@ -18,6 +18,12 @@ declare namespace Review {
   };
 }
 
+declare interface Category {
+  key: string;
+  name: string;
+  Icon: (props: IconProps) => React.ReactElement;
+}
+
 declare namespace ItemList {
   interface Drinks {
     id: number;
@@ -50,6 +56,16 @@ declare namespace PersonalReview {
   }
 }
 
+declare namespace SearchResult {
+  interface SearchResultItem {
+    id: number;
+    name: string;
+    alcoholByVolume: number;
+    imageUrl: string;
+  }
+
+  type SearchResultList = SearchResultItem[];
+}
 declare interface IconProps {
   color?: string;
   width?: string;
