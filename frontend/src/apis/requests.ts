@@ -88,17 +88,10 @@ const API = {
     });
   },
 
-  getCategories: () => {
-    return request({
-      method: 'GET' as Method,
-      url: `/categories`,
-    });
-  },
-
   getSearchResult: <S>({
     words: search,
     category,
-    page = 1,
+    page,
   }: {
     words?: S;
     category?: string;
@@ -106,7 +99,7 @@ const API = {
   }) => {
     return request({
       method: 'GET' as Method,
-      url: `/drinks?search=${search ?? ''}&category=${category ?? ''}&page=${page}`,
+      url: `/drinks?search=${search ?? ''}&category=${category ?? ''}&page=${page ?? 1}`,
     });
   },
 };
