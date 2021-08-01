@@ -3,6 +3,7 @@ package com.jujeol.drink.domain;
 import com.jujeol.drink.application.RecommendStrategy;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.infrastructure.recommend.RecommendationSystem;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 
@@ -17,7 +18,12 @@ public class RecommendForMember implements RecommendStrategy {
     public List<Drink> recommend(Long memberId, int pageSize) {
         final List<Long> itemIds = recommendationSystem.recommend(memberId, pageSize);
 
-        final List<Drink> drinks = drinkRepository.findAllById(itemIds);
+        List<Drink> drinks = drinkRepository.findAllById(itemIds);
+
+        if(drinks.size() == 0) {
+            drinks = new ArrayList<>();
+        }
+
         int remainCount = pageSize - itemIds.size();
 
         if (remainCount > 0) {
