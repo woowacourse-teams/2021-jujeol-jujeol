@@ -43,6 +43,9 @@ public class DataLoader implements CommandLineRunner {
         Category SOJU = categoryRepository.save(Category.create("소주", "SOJU"));
         Category WINE = categoryRepository.save(Category.create("와인", "WINE"));
         Category MAKGEOLLI = categoryRepository.save(Category.create("막걸리", "MAKGEOLLI"));
+        Category YANGJU = categoryRepository.save(Category.create("양주", "YANGJU"));
+        Category COCKTAIL = categoryRepository.save(Category.create("칵테일", "COCKTAIL"));
+        Category ETC = categoryRepository.save(Category.create("기타", "ETC"));
 
         // Drink Data
         Drink stella = Drink.create("스텔라", "stella", 5.5, "w_400/stella_artois_w400.png", 0.0, BEER);
