@@ -57,8 +57,4 @@ public class Review extends BaseEntity {
     public String getContent() {
         return content.getContent();
     }
-
-    public Long getMemberId() {
-        return member.getId();
-    }
 }

@@ -19,7 +19,7 @@ import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.application.dto.ReviewRequest;
-import com.jujeol.drink.application.dto.ReviewResponse;
+import com.jujeol.drink.application.dto.ReviewWithAuthorDto;
 import com.jujeol.member.fixture.TestMember;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -54,7 +54,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(httpStatus).isEqualTo(HttpStatus.OK);
 
-        List<ReviewResponse> reviewResponses = reviewAcceptanceTool.리뷰_조회(obId);
+        List<ReviewWithAuthorDto> reviewResponses = reviewAcceptanceTool.리뷰_조회(obId);
         assertThat(reviewResponses).extracting("content").contains(content);
     }
 
@@ -73,7 +73,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(httpStatus).isEqualTo(HttpStatus.OK);
 
-        List<ReviewResponse> reviewResponses = reviewAcceptanceTool.리뷰_조회(obId);
+        List<ReviewWithAuthorDto> reviewResponses = reviewAcceptanceTool.리뷰_조회(obId);
         assertThat(reviewResponses).extracting("content").contains(content);
     }
 
@@ -188,7 +188,8 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //when
         final HttpStatus httpStatus = request()
-                .put("/drinks/{drinkId}/reviews/{reviewId}", new ReviewRequest(content), obId, reviewId)
+                .put("/drinks/{drinkId}/reviews/{reviewId}", new ReviewRequest(content), obId,
+                        reviewId)
                 .withUser(PIKA)
                 .withDocument("reviews/update")
                 .build().statusCode();
@@ -196,7 +197,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(httpStatus).isEqualTo(HttpStatus.OK);
 
-        final List<ReviewResponse> reviews = reviewAcceptanceTool.리뷰_조회(obId);
+        final List<ReviewWithAuthorDto> reviews = reviewAcceptanceTool.리뷰_조회(obId);
         assertThat(reviews).extracting("content").contains(content);
         assertThat(reviews).extracting("content").doesNotContain(originalContent);
     }
@@ -213,7 +214,8 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //when
         final JujeolExceptionDto errorResponse = request()
-                .put("/drinks/{drinkId}/reviews/{reviewId}", new ReviewRequest(content), Long.MAX_VALUE,
+                .put("/drinks/{drinkId}/reviews/{reviewId}", new ReviewRequest(content),
+                        Long.MAX_VALUE,
                         reviewId)
                 .withUser(PIKA)
                 .withDocument("reviews/update-fail-drink")
@@ -279,7 +281,8 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //when
         final HttpResponse httpResponse = request()
-                .put("/drinks/{drinkId}/reviews/{reviewId}", new ReviewRequest(content), obId, reviewId)
+                .put("/drinks/{drinkId}/reviews/{reviewId}", new ReviewRequest(content), obId,
+                        reviewId)
                 .withUser(SOLONG)
                 .withDocument("reviews/update-fail-author")
                 .build();
