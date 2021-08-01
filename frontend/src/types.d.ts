@@ -66,9 +66,7 @@ declare namespace SearchResult {
     imageUrl: string;
   }
 
-  interface SearchResultList {
-    searchResults: SearchResultItem[];
-  }
+  type SearchResultList = SearchResultItem[];
 }
 declare interface IconProps {
   color?: string;
