@@ -20,9 +20,9 @@ declare namespace Review {
 
 declare namespace Category {
   interface CategoryItem {
-    id: number;
-    name: string;
     key: string;
+    name: string;
+    Icon: (props: IconProps) => React.ReactElement;
   }
 }
 
