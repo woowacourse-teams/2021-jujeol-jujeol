@@ -1,3 +1,4 @@
+import { RouteComponentProps } from 'react-router-dom';
 import Grid from 'src/components/@shared/Grid/Grid';
 import {
   BeerColorIcon,
@@ -10,48 +11,54 @@ import {
 } from 'src/components/@shared/Icons';
 import SearchBar from 'src/components/@shared/SearchBar/SearchBar';
 import Banner from 'src/components/Banner/Banner';
+import { PATH } from 'src/constants';
 import { Container, Categories, CategoryItem } from './styles';
 
-const categories: { key: string; name: string; Icon: (props: IconProps) => React.ReactElement }[] =
-  [
-    {
-      key: 'BEER',
-      name: '맥주',
-      Icon: BeerColorIcon,
-    },
-    {
-      key: 'SOJU',
-      name: '소주',
-      Icon: SojuColorIcon,
-    },
-    {
-      key: 'MAKGEOLLI',
-      name: '막걸리',
-      Icon: MakgeolliColorIcon,
-    },
-    {
-      key: 'WINE',
-      name: '와인',
-      Icon: WineColorIcon,
-    },
-    {
-      key: 'YANGJU',
-      name: '양주',
-      Icon: YangjuColorIcon,
-    },
-    {
-      key: 'COCKTAIL',
-      name: '칵테일',
-      Icon: CocktailColorIcon,
-    },
-    {
-      key: 'ETC',
-      name: '기타',
-      Icon: CategoryEtcColorIcon,
-    },
-  ];
+const categories: Category.CategoryItem[] = [
+  {
+    key: 'BEER',
+    name: '맥주',
+    Icon: BeerColorIcon,
+  },
+  {
+    key: 'SOJU',
+    name: '소주',
+    Icon: SojuColorIcon,
+  },
+  {
+    key: 'MAKGEOLLI',
+    name: '막걸리',
+    Icon: MakgeolliColorIcon,
+  },
+  {
+    key: 'WINE',
+    name: '와인',
+    Icon: WineColorIcon,
+  },
+  {
+    key: 'YANGJU',
+    name: '양주',
+    Icon: YangjuColorIcon,
+  },
+  {
+    key: 'COCKTAIL',
+    name: '칵테일',
+    Icon: CocktailColorIcon,
+  },
+  {
+    key: 'ETC',
+    name: '기타',
+    Icon: CategoryEtcColorIcon,
+  },
+];
 
-const SearchPage = () => {
+export { categories };
+
+const SearchPage = ({ history }: RouteComponentProps) => {
+  const onMoveToSearchResult = (key: string) => {
+    history.push(`${PATH.SEARCH_RESULT}?category=${key}`);
+  };
+
   return (
     <Container>
       <SearchBar placeholder="검색어를 입력해주세요" />
@@ -61,7 +68,7 @@ const SearchPage = () => {
         <Grid col={4} colGap="0.5rem" rowGap="1rem" justifyItems="center">
           {categories.map(({ key, name, Icon }) => {
             return (
-              <CategoryItem key={key}>
+              <CategoryItem key={key} onClick={() => onMoveToSearchResult(key)}>
                 <Icon />
                 <span>{name}</span>
               </CategoryItem>

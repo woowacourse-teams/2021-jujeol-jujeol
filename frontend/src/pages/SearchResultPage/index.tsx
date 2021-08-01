@@ -10,6 +10,7 @@ import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';
 import { PATH } from 'src/constants';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
+import { categories } from '../SearchPage';
 
 import { Container, Title, Section } from './styles';
 
@@ -17,7 +18,10 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
   const words = new URLSearchParams(location.search).get('words');
-  const category = new URLSearchParams(location.search).get('category');
+  const categoryKey = new URLSearchParams(location.search).get('category');
+
+  const categoryName =
+    categoryKey && categories.find((category) => category.key === categoryKey)?.name;
 
   const {
     isLoading,
@@ -27,7 +31,7 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
   } = useInfiniteQuery(
     'search-results',
     ({ pageParam = 1 }) =>
-      API.getSearchResult({ words: words ?? '', category: category ?? '', page: pageParam }),
+      API.getSearchResult({ words: words ?? '', category: categoryKey ?? '', page: pageParam }),
     {
       retry: 0,
       getNextPageParam: ({ pageInfo }) => {
@@ -64,7 +68,7 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
         ) : (
           <>
             <h2>
-              <strong>{words || category}</strong>로 검색한 결과입니다.
+              <strong>{words || categoryName}</strong>로 검색한 결과입니다.
             </h2>
 
             <List count={searchResultList?.length || 0}>
