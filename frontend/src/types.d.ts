@@ -19,11 +19,11 @@ declare namespace Review {
 }
 
 declare namespace Category {
-  export type CategoryItem = {
+  interface CategoryItem {
     id: number;
     name: string;
     key: string;
-  };
+  }
 }
 
 declare namespace ItemList {
@@ -55,5 +55,18 @@ declare namespace PersonalReview {
     content: string;
     createdAt: Date;
     modifiedAt: Date | null;
+  }
+}
+
+declare namespace SearchResult {
+  interface SearchResultItem {
+    id: number;
+    name: string;
+    alcoholByVolume: number;
+    imageUrl: string;
+  }
+
+  interface SearchResultList {
+    searchResults: SearchResultItem[];
   }
 }

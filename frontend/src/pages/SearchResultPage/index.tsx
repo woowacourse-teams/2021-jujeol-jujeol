@@ -1,5 +1,7 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { useInfiniteQuery } from 'react-query';
 import { RouteComponentProps } from 'react-router-dom';
+import API from 'src/apis/requests';
 import Arrow from 'src/components/@shared/Arrow/Arrow';
 
 import Header from 'src/components/@shared/Header/Header';
@@ -7,24 +9,41 @@ import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/Infini
 import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';
 import { PATH } from 'src/constants';
+import useInfinityScroll from 'src/hooks/useInfinityScroll';
 
 import { Container, Title, Section } from './styles';
 
-const defaultSearchResult = [
-  {
-    id: 0,
-    name: 'name',
-    alcoholByVolume: 0,
-    imageUrl: 'https://fakeimg.pl/88x88',
-  },
-];
-
 const SearchResultPage = ({ history, location }: RouteComponentProps) => {
-  const infinityPollRef = useRef(null);
-
-  const [searchResult, setSearchResult] = useState(defaultSearchResult);
+  const observerTargetRef = useRef<HTMLDivElement>(null);
 
   const words = new URLSearchParams(location.search).get('words');
+  const category = new URLSearchParams(location.search).get('category');
+
+  const {
+    isLoading,
+    data: { pages } = {},
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
+    'search-results',
+    ({ pageParam = 1 }) =>
+      API.getSearchResult({ words: words ?? '', category: category ?? '', page: pageParam }),
+    {
+      retry: 0,
+      getNextPageParam: ({ pageInfo }) => {
+        const { currentPage, lastPage } = pageInfo;
+
+        return currentPage < lastPage ? currentPage + 1 : undefined;
+      },
+    }
+  );
+
+  const searchResultList = pages?.map((page) => page.data).flat();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  useInfinityScroll({ target: observerTargetRef, fetchNextPage, hasNextPage });
 
   const onMoveToPrevPage = () => history.goBack();
 
@@ -35,29 +54,35 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
           <button type="button" onClick={onMoveToPrevPage}>
             <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
           </button>
-          <h1>검색결과 {searchResult.length}건</h1>
+          <h1>검색결과 {searchResultList?.length || 0}건</h1>
         </Title>
       </Header>
 
       <Section>
-        <h2>
-          <strong>{words}</strong>로 검색한 결과입니다.
-        </h2>
+        {isLoading ? (
+          <p>Loading..</p>
+        ) : (
+          <>
+            <h2>
+              <strong>{words || category}</strong>로 검색한 결과입니다.
+            </h2>
 
-        <List count={searchResult?.length}>
-          {searchResult?.map((item: ItemList.Drinks) => (
-            <ListItem
-              key={item?.id}
-              imageUrl={item?.imageUrl}
-              title={item?.name}
-              description={`도수: ${item?.alcoholByVolume}%`}
-              onClick={() => {
-                history.push(`${PATH.DRINKS}/${item?.id}`);
-              }}
-            />
-          ))}
-        </List>
-        <InfinityScrollPoll ref={infinityPollRef} />
+            <List count={searchResultList?.length || 0}>
+              {searchResultList?.map((item: SearchResult.SearchResultItem) => (
+                <ListItem
+                  key={item?.id}
+                  imageUrl={item?.imageUrl}
+                  title={item?.name}
+                  description={`도수: ${item?.alcoholByVolume}%`}
+                  onClick={() => {
+                    history.push(`${PATH.DRINKS}/${item?.id}`);
+                  }}
+                />
+              ))}
+            </List>
+            <InfinityScrollPoll ref={observerTargetRef} />
+          </>
+        )}
       </Section>
     </Container>
   );

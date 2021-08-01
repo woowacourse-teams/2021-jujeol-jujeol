@@ -94,6 +94,20 @@ const API = {
       url: `/categories`,
     });
   },
-};
 
+  getSearchResult: <S>({
+    words: search,
+    category,
+    page = 1,
+  }: {
+    words?: S;
+    category?: string;
+    page?: number;
+  }) => {
+    return request({
+      method: 'GET' as Method,
+      url: `/drinks?search=${search ?? ''}&category=${category ?? ''}&page=${page}`,
+    });
+  },
+};
 export default API;
