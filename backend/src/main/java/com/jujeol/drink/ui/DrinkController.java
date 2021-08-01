@@ -7,10 +7,12 @@ import com.jujeol.drink.application.DrinkService;
 import com.jujeol.drink.application.ReviewService;
 import com.jujeol.drink.application.dto.DrinkDto;
 import com.jujeol.drink.application.dto.ReviewRequest;
-import com.jujeol.drink.application.dto.ReviewResponse;
+import com.jujeol.drink.application.dto.ReviewWithAuthorDto;
 import com.jujeol.drink.domain.RecommendFactory;
 import com.jujeol.drink.ui.dto.DrinkDetailResponse;
 import com.jujeol.drink.ui.dto.DrinkSimpleResponse;
+import com.jujeol.drink.ui.dto.MemberSimpleResponse;
+import com.jujeol.drink.ui.dto.ReviewResponse;
 import com.jujeol.drink.ui.dto.SearchRequest;
 import com.jujeol.member.ui.AuthenticationPrincipal;
 import com.jujeol.member.ui.LoginMember;
@@ -57,12 +59,14 @@ public class DrinkController {
     ) {
         final Page<DrinkDto> drinkDtos;
 
-        if(loginMember.isMember()) {
-            drinkDtos = drinkService.showRecommendDrinks(recommendFactory.member(), pageable, loginMember);
+        if (loginMember.isMember()) {
+            drinkDtos = drinkService
+                    .showRecommendDrinks(recommendFactory.member(), pageable, loginMember);
             return PageResponseAssembler.assemble(drinkDtos.map(DrinkSimpleResponse::from));
         }
 
-        drinkDtos = drinkService.showRecommendDrinks(recommendFactory.anonymous(), pageable, loginMember);
+        drinkDtos = drinkService
+                .showRecommendDrinks(recommendFactory.anonymous(), pageable, loginMember);
         return PageResponseAssembler.assemble(drinkDtos.map(DrinkSimpleResponse::from));
     }
 
@@ -87,8 +91,13 @@ public class DrinkController {
             @PathVariable Long id,
             @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable
     ) {
-        Page<ReviewResponse> pageResponses = reviewService.showReviews(id, pageable);
-        List<ReviewResponse> reviewResponses = pageResponses.stream().collect(Collectors.toList());
+        Page<ReviewWithAuthorDto> pageResponses = reviewService.showReviews(id, pageable);
+        List<ReviewResponse> reviewResponses = pageResponses.stream()
+                .map(reviewWithAuthorDto -> ReviewResponse.create(
+                        reviewWithAuthorDto,
+                        MemberSimpleResponse.create(reviewWithAuthorDto.getMemberSimpleDto())
+                ))
+                .collect(Collectors.toList());
 
         PageInfo pageInfo = PageInfo.from(
                 pageable.getPageNumber(),
@@ -129,6 +138,4 @@ public class DrinkController {
         reviewService.deleteReview(loginMember.getId(), drinkId, reviewId);
         return ResponseEntity.ok().build();
     }
-
-
 }

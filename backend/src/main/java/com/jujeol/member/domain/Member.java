@@ -47,7 +47,8 @@ public class Member {
         modifiedAt = null;
     }
 
-    public static Member create(Long id, Provider provider, Nickname nickname, Biography biography) {
+    public static Member create(Long id, Provider provider, Nickname nickname,
+            Biography biography) {
         return new Member(id, provider, nickname, biography, null, null);
     }
 
@@ -67,5 +68,9 @@ public class Member {
     public void updateNicknameAndBiography(Nickname nickname, Biography biography) {
         this.nickname = nickname;
         this.biography = biography;
+    }
+
+    public String getStringNickname() {
+        return nickname.getNickname();
     }
 }
