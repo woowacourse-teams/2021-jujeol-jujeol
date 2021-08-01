@@ -6,10 +6,12 @@ import com.jujeol.drink.domain.Review;
 import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.domain.repository.ReviewRepository;
+import com.jujeol.member.domain.Biography;
 import com.jujeol.member.domain.Member;
 import com.jujeol.member.domain.MemberRepository;
 import com.jujeol.member.domain.Provider;
 import com.jujeol.member.domain.ProviderName;
+import com.jujeol.member.domain.nickname.Nickname;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
@@ -138,7 +140,7 @@ public class DataLoader implements CommandLineRunner {
 
         // Member Data
         Provider provider = Provider.of("1234", ProviderName.TEST);
-        Member member = Member.createAnonymousMember();
+        Member member = Member.create(provider, Nickname.create("익명의_인물"), Biography.create("익명이라는 의미의 익명의 사람"));
 
         memberRepository.save(member);
 
