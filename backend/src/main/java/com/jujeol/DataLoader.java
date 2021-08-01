@@ -23,19 +23,13 @@ import org.springframework.stereotype.Component;
 public class DataLoader implements CommandLineRunner {
 
     private final DrinkRepository drinkRepository;
-    private final ReviewRepository reviewRepository;
-    private final MemberRepository memberRepository;
     private final CategoryRepository categoryRepository;
 
     public DataLoader(
             DrinkRepository drinkRepository,
-            ReviewRepository reviewRepository,
-            MemberRepository memberRepository,
             CategoryRepository categoryRepository
     ) {
         this.drinkRepository = drinkRepository;
-        this.reviewRepository = reviewRepository;
-        this.memberRepository = memberRepository;
         this.categoryRepository = categoryRepository;
     }
 
@@ -68,16 +62,16 @@ public class DataLoader implements CommandLineRunner {
                 Drink.create("금성맥주", "Gold Star Beer", 5.1, "w_400/Gold_Star_Beer_w400.png", 0.0, BEER),
                 Drink.create("제주 거멍 에일", "Jeju Geomeong Ale", 4.3, "w_400/Jeju_Geomeong_Ale_w400.png", 0.0, BEER),
                 Drink.create("에페스 필스너", "EFES Pilsner", 5.0, "w_400/EFES_Pilsner_w400.png", 0.0, BEER),
-                Drink.create("오드 괴즈 틸퀸 아렌시아", "Oude Gueze Tilquin a L'Ancienne", 7.0, "Oude_Gueze_Tilquin_a_L'w_400/Ancienne_w400.png", 0.0, BEER),
+                Drink.create("오드 괴즈 틸퀸 아렌시아", "Oude Gueze Tilquin a L'Ancienne", 7.0, "w_400/Oude_Gueze_Tilquin_a_L'Ancienne_w400.png", 0.0, BEER),
                 Drink.create("제주 백록담 에일", "Jeju Baengnokdam Ale", 4.3, "w_400/Jeju_Baengnokdam_Ale_w400.png", 0.0, BEER),
 
                 // 소주
                 Drink.create("시원한청풍소주", "C1Soju", 17.2, "w_400/c1soju_w400.png", 0.0, SOJU),
-                Drink.create("참이슬", "Chamisul Soju", 16.9, "w_400/charm-i-sel-soju_w400.png", 0.0, SOJU),
-                Drink.create("처음처럼", "cheo-um-cheo-rum Soju", 16.5, "w_400/cheo-um-cheo-rum-soju_w400.png", 0.0, SOJU),
-                Drink.create("자몽에이슬", "jamong-eh-i-sul-soju", 13.0, "w_400/jamong-eh-i-sul-soju_w400.png", 0.0, SOJU),
-                Drink.create("참이슬 오리지날", "charm-i-sel-soju", 20.1, "w_400/charm-i-sel-original-soju_w400.png", 0.0, SOJU),
-                Drink.create("진로", "jinro-soju", 16.5, "w_400/jinro-soju_w400.png", 0.0, SOJU),
+                Drink.create("참이슬", "Chamisul Soju", 16.9, "w_400/charm_i_sel_soju_w400.png", 0.0, SOJU),
+                Drink.create("처음처럼", "cheo-um-cheo-rum Soju", 16.5, "w_400/cheo_um_cheo_rum_soju_w400.png", 0.0, SOJU),
+                Drink.create("자몽에이슬", "jamong-eh-i-sul-soju", 13.0, "w_400/jamong_eh_i_sul_soju_w400.png", 0.0, SOJU),
+                Drink.create("참이슬 오리지날", "charm-i-sel-soju", 20.1, "w_400/charm_i_sel_original_soju_w400.png", 0.0, SOJU),
+                Drink.create("진로", "jinro-soju", 16.5, "w_400/jinro_soju_w400.png", 0.0, SOJU),
 
                 // 와인
                 Drink.create("탈로 프리미티보 디 만두리아", "Talo Primitivo Di Manduria", 14.0, "w_400/Talo_Primitivo_Di_Manduria_w400.png", 0.0, WINE),
@@ -91,7 +85,7 @@ public class DataLoader implements CommandLineRunner {
                 Drink.create("빈야드 샤도네이", "Vineyards Chardonnay", 13.0, "w_400/Vineyards_Chardonnay_w400.png", 0.0, WINE),
 
                 // 막걸리
-                Drink.create("느린마을 막걸리", "Slow City Makgeolli", 6.0, "w_400/Slow_City_Makgeolli_w400.png", 0.0, MAKGEOLLI),
+                Drink.create("느린마을 막걸리", "Slow City Makgeolli", 6.0, "w_400/slowbrew_makgeulli_w400.png", 0.0, MAKGEOLLI),
                 Drink.create("과천미주", "Gwacheon Mijoo", 9.0, "w_400/Gwacheon_Mijoo_w400.png", 0.0, MAKGEOLLI),
                 Drink.create("관악산 생막걸리", "Gwanak Mountain Makgeolli", 6.0, "w_400/Gwanak_Mountain_Makgeolli_w400.png", 0.0, MAKGEOLLI),
                 Drink.create("국순당생막걸리", "Guksundang Makgeolli", 6.0, "w_400/Guksundang_Makgeolli_w400.png", 0.0, MAKGEOLLI),
@@ -123,13 +117,13 @@ public class DataLoader implements CommandLineRunner {
                 Drink.create("마티니", "Martini", 0.0, "w_400/martini_w400.png", 0.0, COCKTAIL),
 
                 // 기타
-                Drink.create("심술", "grumpy", 7.0, "w_400/grumpy_w400.png", 0.0, ETC),
+                Drink.create("심술", "grumpy", 7.0, "w_400/simsul_w400.png", 0.0, ETC),
                 Drink.create("써머스비", "SomersBy", 4.5, "w_400/SomersBy_w400.png", 0.0, ETC),
                 Drink.create("템트 세븐", "Tempt 7", 4.5, "w_400/Tempt_7_w400.png", 0.0, ETC),
                 Drink.create("템트 9", "Tempt 9", 4.5, "w_400/Tempt_9_w400.png", 0.0, ETC),
                 Drink.create("복숭아 소다", "Peach Soda", 3.0, "w_400/Peach_Soda_w400.png", 0.0, ETC),
-                Drink.create("이슬 톡톡", "Jinro TokTok", 3.0, "w_400/Jinro_TokTok_w400.png", 0.0, ETC),
-                Drink.create("좋은데이 민트초코", "jot-eun-day-mint-choco", 12.5, "w_400/jot-eun-day-mint-choco_w400.png", 0.0, ETC)
+                Drink.create("이슬 톡톡", "Jinro TokTok", 3.0, "w_400/Jinro_Tok_Tok_w400.png", 0.0, ETC),
+                Drink.create("좋은데이 민트초코", "jot-eun-day-mint-choco", 12.5, "w_400/jo_eun_day_mint_choco_w400.png", 0.0, ETC)
 
         );
 
@@ -137,30 +131,5 @@ public class DataLoader implements CommandLineRunner {
                 .of(stella, kgb, efes, tiger_rad, tsingtao, gom_pyo, ob, tigerLemon);
         drinkRepository.saveAll(beers);
         drinkRepository.saveAll(drinks_spread);
-
-        // Member Data
-        Provider provider = Provider.of("1234", ProviderName.TEST);
-        Member member = Member.create(provider, Nickname.create("익명의_인물"), Biography.create("익명이라는 의미의 익명의 사람"));
-
-        memberRepository.save(member);
-
-        // Review Data
-        reviewRepository.save(Review.create("정말 맛있어요! - 소롱", stella, member));
-        reviewRepository.save(Review.create("평범해요 - 크로플", stella, member));
-        reviewRepository.save(Review.create("전 이건 좀.. - 나봄", stella, member));
-        reviewRepository.save(Review.create("ㅋㅋ 리뷰 - 웨지", stella, member));
-        reviewRepository.save(Review.create("너무 비싸요 - 피카", stella, member));
-        reviewRepository.save(Review.create("내가 대장이다 - 서니", stella, member));
-        reviewRepository.save(Review.create("나는 행운의 여신 - 티케", stella, member));
-        reviewRepository.save(Review.create("나는 프의백 - 소롱", stella, member));
-        reviewRepository.save(Review.create("배고파 - 피카", stella, member));
-        reviewRepository.save(Review.create("오늘도 멋진하루 - 웨지", stella, member));
-        reviewRepository.save(Review.create("멀티 모듈 - 나봄", stella, member));
-        reviewRepository.save(Review.create("정말 맛있어요! - 소롱", stella, member));
-
-        reviewRepository.save(Review.create("난 너무 예뼈 - 소롱", kgb, member));
-        reviewRepository.save(Review.create("나도 이뻐 - 티케", kgb, member));
-        reviewRepository.save(Review.create(" ㅋ - 서니", kgb, member));
-        reviewRepository.save(Review.create("정말 맛있어요! - 소롱", kgb, member));
     }
 }
