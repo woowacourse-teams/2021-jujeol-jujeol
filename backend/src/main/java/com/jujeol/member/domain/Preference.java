@@ -42,11 +42,11 @@ public class Preference extends BaseEntity {
         this.rate = rate;
     }
 
-    public static Preference from(Drink drink, double rate) {
+    public static Preference create(Drink drink, double rate) {
         return new Preference(null, drink, rate);
     }
 
-    public static Preference from(Member member, Drink drink, double rate) {
+    public static Preference create(Member member, Drink drink, double rate) {
         return new Preference(member, drink, rate);
     }
 

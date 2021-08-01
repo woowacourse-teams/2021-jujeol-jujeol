@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 public enum RecommendationTheme {
 
-    ALL("all"),
+    BEST("best"),
     PREFERENCE("preference"),
-    WEATHER("weather"),
-    VIEW_COUNT("view-count");
+    VIEW_COUNT("view-count"),
+    DEFAULT("default");
 
     private final String theme;
 
@@ -22,6 +22,22 @@ public enum RecommendationTheme {
                 .filter(it -> it.toString().equalsIgnoreCase(theme) || it.getTheme()
                         .equalsIgnoreCase(theme))
                 .findAny()
-                .orElse(RecommendationTheme.ALL);
+                .orElse(RecommendationTheme.DEFAULT);
+    }
+
+    public boolean isBest() {
+        return BEST.equals(this);
+    }
+
+    public boolean isPreference() {
+        return PREFERENCE.equals(this);
+    }
+
+    public boolean isViewCount() {
+        return VIEW_COUNT.equals(this);
+    }
+
+    public boolean isDefault() {
+        return DEFAULT.equals(this);
     }
 }
