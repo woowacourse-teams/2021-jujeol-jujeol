@@ -7,6 +7,8 @@ on:
       - main # develop 브랜치에서 pr 이벤트가 일어났을 때 실행
     types: [closed] # PR이 closed 됐을 때에만 build 실행
 
+  workflow_dispatch:
+
 defaults:
   run:
     working-directory: ./frontend # build steps의 run을 ./frontend 경로에서 실행
@@ -14,7 +16,8 @@ defaults:
 jobs:
   build:
     # close 이벤트 중 merge일 때만 동작 && label이 [front] (id: 3141723409) 일때만 동작
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.id, 3141723409)
+    if: (github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.id, 3141723409))
+        || github.event_name == 'workflow_dispatch'
     runs-on: deploy-runner
     steps:
       - name: Checkout source code
