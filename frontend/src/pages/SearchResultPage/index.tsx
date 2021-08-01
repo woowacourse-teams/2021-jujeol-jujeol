@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { RouteComponentProps } from 'react-router-dom';
 import API from 'src/apis/requests';
@@ -23,12 +23,9 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
   const categoryName =
     categoryKey && categories.find((category) => category.key === categoryKey)?.name;
 
-  const {
-    isLoading,
-    data: { pages } = {},
-    fetchNextPage,
-    hasNextPage,
-  } = useInfiniteQuery(
+  const [searchResultList, setSearchResultList] = useState<SearchResult.SearchResultList>([]);
+
+  const { isLoading, fetchNextPage, hasNextPage } = useInfiniteQuery(
     'search-results',
     ({ pageParam = 1 }) =>
       API.getSearchResult({ words: words ?? '', category: categoryKey ?? '', page: pageParam }),
@@ -39,13 +36,17 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
 
         return currentPage < lastPage ? currentPage + 1 : undefined;
       },
+      onSuccess: (data) => {
+        const { pages } = data;
+        setSearchResultList(pages?.map((page) => page.data).flat());
+      },
     }
   );
 
-  const searchResultList = pages?.map((page) => page.data).flat();
-
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    return () => setSearchResultList([]);
   }, []);
   useInfinityScroll({ target: observerTargetRef, fetchNextPage, hasNextPage });
 
