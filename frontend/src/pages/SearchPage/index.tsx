@@ -73,7 +73,7 @@ const SearchPage = () => {
       <Banner
         type="IMAGE"
         title="프로모션 배너"
-        src="https://github.com/sunhpark42/test_asset/blob/master/jujeol-promotion-cheers.png?raw=true"
+        src="https://dmaxaug2ve9od.cloudfront.net/promotion_banner/jujeol-promotion-cheers.png"
         alt="이 건배사 어때요? 이멤버 리멤버!"
       />
     </Container>
