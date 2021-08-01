@@ -7,7 +7,7 @@ import Property from 'src/components/Property/Property';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import Review from 'src/components/Review/Review';
 import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
-import { properties, categoryIdType } from './propertyData';
+import { properties } from './propertyData';
 import { Section, PreferenceSection, Image, DescriptionSection } from './styles';
 
 const defaultDrinkDetail = {
@@ -17,6 +17,7 @@ const defaultDrinkDetail = {
   category: {
     id: 0,
     name: '',
+    key: '',
   },
   alcoholByVolume: 0,
   preferenceRate: 0.0,
@@ -35,7 +36,7 @@ const DrinksDetailPage = () => {
     name,
     englishName,
     imageUrl,
-    category: { id: categoryId, name: categoryName },
+    category: { key: categoryKey },
     alcoholByVolume,
     preferenceRate,
     preferenceAvg,
@@ -122,7 +123,7 @@ const DrinksDetailPage = () => {
           <ul>
             {properties.map((property) => {
               const { Icon, content } = property.getProperty({
-                categoryId: categoryId as categoryIdType,
+                categoryKey,
                 alcoholByVolume,
               });
 

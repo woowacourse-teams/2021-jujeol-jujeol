@@ -3,9 +3,7 @@ import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { COLOR, PATH } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
-import HomeIcon from '../Icons/home';
-import HumanIcon from '../Icons/human';
-import SearchIcon from '../Icons/search';
+import { HomeIcon, HumanIcon, LoginIcon, SearchIconForTab } from '../@shared/Icons';
 import { Nav } from './Tab.styles';
 
 const tabConfig = (isLoggedIn: boolean) => {
@@ -20,7 +18,7 @@ const tabConfig = (isLoggedIn: boolean) => {
       mainPath: PATH.SEARCH,
       path: [PATH.SEARCH],
       title: '검색',
-      Icon: SearchIcon,
+      Icon: SearchIconForTab,
     },
   ];
 
@@ -38,7 +36,7 @@ const tabConfig = (isLoggedIn: boolean) => {
           mainPath: PATH.LOGIN,
           path: [PATH.LOGIN],
           title: '로그인',
-          Icon: HumanIcon,
+          Icon: LoginIcon,
         },
       ]);
 };
@@ -69,7 +67,7 @@ const Tab = () => {
         {tabConfig(isLoggedIn).map(({ mainPath, path, title, Icon }) => (
           <li key={title}>
             <NavLink exact to={mainPath} isActive={() => path.includes(location.pathname)}>
-              <Icon color={COLOR.BLACK_900} width="2rem" />
+              <Icon />
               <p>{title}</p>
             </NavLink>
           </li>

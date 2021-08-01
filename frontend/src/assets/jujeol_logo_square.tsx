@@ -1,6 +1,12 @@
 const JujeolLogoSquare = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 101.92 86.92" width="180px">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 101.92 86.92"
+      width="180px"
+      aria-labelledby="jujeol-logo-square-title"
+    >
+      <title id="jujeol-logo-square-title">주절주절 사각형 로고</title>
       <polygon
         fill="#ffd400"
         points="31.68 14.43 26.21 56.94 5.47 56.94 5.15 54.65 0 17.47 2.23 17.25 6.97 54.65 6.98 54.72 24.59 54.72 28.75 14.71 31.68 14.43"

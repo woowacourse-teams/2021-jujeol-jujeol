@@ -1,8 +1,13 @@
-type Props = React.CSSProperties;
-
-const SearchIcon = ({ color, width }: Props) => {
+const SearchIcon = ({ color, width }: IconProps) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283.46 283.46" width={width} fill={color}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 283.46 283.46"
+      width={width}
+      fill={color}
+      aria-labelledby="search-icon-title"
+    >
+      <title id="search-icon-title">검색</title>
       <polygon className="st0" points="443.58,285.8 445.82,285.8 445.82,285.8 443.58,285.8 " />
       <path
         className="st1"
