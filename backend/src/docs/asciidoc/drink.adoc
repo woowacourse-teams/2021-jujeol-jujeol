@@ -10,6 +10,8 @@ endif::[]
 :sectlinks:
 :nofooter:
 
+== link:index.html[메인화면으로 돌아가기]
+
 == 전체 정보 조회
 
 === 전체 화면에서 주류 정보 조회

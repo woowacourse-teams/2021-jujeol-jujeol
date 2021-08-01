@@ -10,6 +10,8 @@ endif::[]
 :sectlinks:
 :nofooter:
 
+== link:index.html[메인화면으로 돌아가기]
+
 == 선호도 생성
 
 === 상세 화면에서 특정 상품에 대한 선호도 작성
