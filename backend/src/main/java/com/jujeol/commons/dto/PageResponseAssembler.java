@@ -1,0 +1,16 @@
+package com.jujeol.commons.dto;
+
+import java.util.List;
+import org.springframework.data.domain.Page;
+
+public class PageResponseAssembler {
+
+    public static <T> CommonResponse<List<T>> assemble(Page<T> data) {
+        PageInfo pageInfo = PageInfo.from(
+                data.getPageable().getPageNumber(),
+                data.getTotalPages(),
+                data.getPageable().getPageSize(),
+                data.getTotalElements());
+        return CommonResponse.from(data.getContent(), pageInfo);
+    }
+}

@@ -1,0 +1,4 @@
+[submodule "jujeol-auth"]
+	path = jujeol-auth
+	url = https://github.com/jujeol-jujeol/jujeol-auth.git
+	branch = main

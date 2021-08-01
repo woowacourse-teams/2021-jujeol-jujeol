@@ -1,0 +1,75 @@
+= 주류 API
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:nofooter:
+
+*link:index.html[메인화면으로 돌아가기]*
+
+== 전체 정보 조회
+
+=== 전체 화면에서 주류 정보 조회
+
+- Request
+
+include::{snippets}/drinks/show/all/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/all/http-response.adoc[]
+
+== 검색 정보 조회
+
+=== 검색으로 특정 단어와 카테고리 조회
+
+- Request
+
+include::{snippets}/drinks/show/search/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/search/http-response.adoc[]
+
+== 추천 정보 조회
+
+=== 전체 화면에서 추천 주류 정보 조회 (협업필터링)
+
+- Request
+
+include::{snippets}/drinks/show/recommend/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/recommend/http-response.adoc[]
+
+== 단일 상품 조회
+
+=== 상세 화면에서 단일 상품 정보 조회
+
+- Request
+
+include::{snippets}/drinks/show/detail/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/detail/http-response.adoc[]
+
+
+
+== 추천 정보 조회
+
+=== 전체 화면에서 추천 주류 정보 조회(협업 필터링)
+
+- Request
+
+include::{snippets}/drinks/show/recommend/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/recommend/http-response.adoc[]

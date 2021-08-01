@@ -1,0 +1,108 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+    id 'java'
+}
+
+group = 'com.jujeol.'
+version = '1.0.0-beta'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation('org.apache.mahout:mahout-integration:0.13.0') {
+        exclude group: 'log4j', module: 'log4j'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    }
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'mysql:mysql-connector-java'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
+    implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
+    testImplementation 'io.rest-assured:rest-assured:3.3.0'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'com.querydsl:querydsl-jpa'
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+processResources.dependsOn('copySecret')
+
+task copySecret(type: Copy) {
+    from '../jujeol-auth/application-oauth.yml'
+    into 'src/main/resources'
+
+    from '../jujeol-auth/application-datasource.yml'
+    into 'src/main/resources'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+asciidoctor {
+    dependsOn test
+    inputs.dir snippetsDir
+}
+
+task createDocument(type: Copy) {
+    dependsOn asciidoctor
+    delete file('src/main/resources/static/index.html')
+    from file("build/docs/asciidoc/index.html")
+    into file("src/main/resources/static")
+}
+
+build {
+    dependsOn createDocument
+}
+
+bootJar {
+    dependsOn createDocument
+    from("${asciidoctor.outputDir}") {
+        into 'static'
+    }
+}
+
+//querydsl 추가 시작
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+    main.java.srcDir querydslDir
+}
+
+configurations {
+    //아래를 지정하지 않으면, compile 로 걸린 JPA 의존성에 접근하지 못한다.
+    querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+//querydsl 추가 끝

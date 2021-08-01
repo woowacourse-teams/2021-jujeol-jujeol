@@ -1,0 +1,18 @@
+spring:
+  jpa:
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+        use_sql_commets: true
+        ddl-auto: create-drop
+  output:
+    ansi:
+      enabled: always
+logging:
+  level:
+    root: info
+file-server:
+  url: https://dmaxaug2ve9od.cloudfront.net
