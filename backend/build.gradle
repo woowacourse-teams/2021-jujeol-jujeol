@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.jujeol.'
-version = '1.0.0-beta'
+version = '1.0.1-beta'
 sourceCompatibility = '11'
 
 configurations {
