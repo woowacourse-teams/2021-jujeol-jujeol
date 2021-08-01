@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface PreferenceRepository extends JpaRepository<Preference, Long> {
 
+
     Optional<Preference> findByMemberIdAndDrinkId(Long memberId, Long drinkId);
 
     @Modifying
