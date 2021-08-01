@@ -38,15 +38,15 @@ public class Drink {
     private AlcoholByVolume alcoholByVolume;
     @Embedded
     private ImageFilePath imageFilePath;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
     @Column
     private Double preferenceAvg;
 
-    @OneToMany(mappedBy = "drink")
+    @OneToMany(mappedBy = "drink", fetch = FetchType.EAGER)
     private List<Review> reviews = new ArrayList<>();
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "view_count_id")
     private ViewCount viewCount;
 

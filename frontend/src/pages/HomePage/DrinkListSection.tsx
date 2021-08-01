@@ -10,8 +10,9 @@ import ListItem from 'src/components/Item/ListItem';
 
 interface Props {
   type: 'CARD' | 'LIST';
+  theme?: string;
   query: {
-    theme?: string;
+    category?: string;
   };
   title: string;
   titleAlign?: 'left' | 'center' | 'right';
@@ -23,6 +24,7 @@ interface Props {
 
 const DrinkListSection = ({
   type,
+  theme,
   query,
   title,
   titleAlign = 'left',
@@ -32,8 +34,16 @@ const DrinkListSection = ({
   showMoreLink,
 }: Props) => {
   const queryParams = new URLSearchParams(query);
-  const { data: { data: drinks } = [] } = useQuery('drinks', () =>
-    API.getDrinks({ page: 1, params: queryParams })
+
+  const { data: { data: drinks } = [] } = useQuery(
+    theme === 'RECOMMEND' ? 'recommendedDrinks' : 'drinks',
+    () => {
+      if (theme === 'RECOMMEND') {
+        return API.getRecommendedDrinks();
+      }
+
+      return API.getDrinks({ page: 1, params: queryParams });
+    }
   );
   const history = useHistory();
 

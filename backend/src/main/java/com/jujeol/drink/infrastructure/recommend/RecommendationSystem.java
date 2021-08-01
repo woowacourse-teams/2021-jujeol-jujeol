@@ -2,6 +2,7 @@ package com.jujeol.drink.infrastructure.recommend;
 
 import static java.util.stream.Collectors.toList;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.apache.mahout.cf.taste.common.TasteException;
@@ -27,7 +28,7 @@ public class RecommendationSystem {
         try {
             recommend = recommender.recommend(memberId, howMany);
         } catch (TasteException e) {
-            throw new IllegalStateException();
+            return new ArrayList<>();
         }
 
         final List<Long> itemList =

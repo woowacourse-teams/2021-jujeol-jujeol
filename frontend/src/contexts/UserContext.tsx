@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import API from 'src/apis/requests';
 import { LOCAL_STORAGE_KEY } from 'src/constants';
 import nicknameGenerator from 'src/utils/createNickname';
@@ -26,11 +26,10 @@ const UserContext = createContext<UserContext>({
 });
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const queryClient = useQueryClient();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
 
-  const query = useQuery('user-info', API.getUserInfo, {
+  const { refetch } = useQuery('user-info', API.getUserInfo, {
     retry: 0,
     onSuccess: ({ data }) => {
       setIsLoggedIn(true);
@@ -42,8 +41,8 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
     },
   });
 
-  const getUser = () => {
-    queryClient.invalidateQueries('user-info');
+  const getUser = async () => {
+    await refetch();
   };
 
   return (

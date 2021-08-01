@@ -47,10 +47,15 @@ const API = {
       url: REQUEST_URL.GET_DRINKS + '?page=' + page + (params ? '&' + params.toString() : ''),
     });
   },
+  getRecommendedDrinks: () => {
+    return request({
+      method: 'GET' as Method,
+      url: REQUEST_URL.GET_RECOMMENDED_DRINKS,
+    });
+  },
   getDrink: <T>(id: T) => {
     return request({ method: 'GET' as Method, url: `${REQUEST_URL.GET_DRINK}/${id}` });
   },
-
   getReview: <T>({ id, page }: { id: T; page: number }) => {
     return request({ method: 'GET' as Method, url: `/drinks/${id}/reviews` + '?page=' + page });
   },
@@ -87,6 +92,20 @@ const API = {
       url: `/members/me/drinks?page=${page ?? ''}&size=${size ?? ''}`,
     });
   },
-};
 
+  getSearchResult: <S>({
+    words: search,
+    category,
+    page,
+  }: {
+    words?: S;
+    category?: string;
+    page?: number;
+  }) => {
+    return request({
+      method: 'GET' as Method,
+      url: `/drinks?search=${search ?? ''}&category=${category ?? ''}&page=${page ?? 1}`,
+    });
+  },
+};
 export default API;

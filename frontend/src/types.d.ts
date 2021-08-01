@@ -4,6 +4,7 @@ declare namespace Review {
     content: string;
     author: {
       id: number;
+      name: string;
     };
     createdAt: Date;
     modifiedAt: Date | null;
@@ -16,6 +17,12 @@ declare namespace Review {
   export type ReviewRequestData = {
     content: string;
   };
+}
+
+declare interface Category {
+  key: string;
+  name: string;
+  Icon: (props: IconProps) => React.ReactElement;
 }
 
 declare namespace ItemList {
@@ -50,6 +57,16 @@ declare namespace PersonalReview {
   }
 }
 
+declare namespace SearchResult {
+  interface SearchResultItem {
+    id: number;
+    name: string;
+    alcoholByVolume: number;
+    imageUrl: string;
+  }
+
+  type SearchResultList = SearchResultItem[];
+}
 declare interface IconProps {
   color?: string;
   width?: string;
