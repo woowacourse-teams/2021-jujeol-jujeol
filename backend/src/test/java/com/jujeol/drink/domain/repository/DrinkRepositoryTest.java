@@ -59,36 +59,6 @@ public class DrinkRepositoryTest {
     }
 
     @Test
-    void findByRecommendationTest_ViewCount() {
-        Drink stella = Drink.create(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
-        Drink kgb = Drink.create(
-                "KGB", "", 3.5, "KakaoTalk_Image_2021-07-08-19-58-09_002.png", 0.0, BEER);
-        Drink saveStella = drinkRepository.save(stella);
-        Drink saveKgb = drinkRepository.save(kgb);
-
-        saveStella.updateViewCount();
-        saveStella.updateViewCount();
-        saveStella.updateViewCount();
-        saveKgb.updateViewCount();
-
-        testEntityManager.flush();
-        testEntityManager.clear();
-
-        Pageable pageable = PageRequest.of(0, 10);
-
-        List<Drink> drinks = drinkRepository
-                .findByRecommendation(RecommendationTheme.VIEW_COUNT, pageable)
-                .stream()
-                .collect(Collectors.toList());
-
-        assertThat(drinks.get(0)).isEqualTo(saveStella);
-        assertThat(drinks.get(0).getViewCount().getViewCount()).isEqualTo(3L);
-        assertThat(drinks.get(1)).isEqualTo(saveKgb);
-        assertThat(drinks.get(1).getViewCount().getViewCount()).isEqualTo(1L);
-    }
-
-    @Test
     void drinksByPreferenceAvgTest() {
         //given
         Member member = Member.create(Provider.of("5678", ProviderName.TEST), null, null);
