@@ -47,6 +47,10 @@ public class Member {
         modifiedAt = null;
     }
 
+    public static Member create(Long memberId) {
+        return create(memberId, null, null, null);
+    }
+
     public static Member create(Long id, Provider provider, Nickname nickname,
             Biography biography) {
         return new Member(id, provider, nickname, biography, null, null);

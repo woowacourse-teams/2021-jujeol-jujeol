@@ -52,6 +52,7 @@ public class DrinkService {
 
         return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
     }
+
     public Page<DrinkDto> showRecommendDrinks(RecommendStrategy recommendStrategy, Pageable pageable, LoginMember loginMember) {
         List<Drink> recommendDrinks = recommendStrategy.recommend(loginMember.getId(), pageable.getPageSize());
 
@@ -65,7 +66,7 @@ public class DrinkService {
 
     @Transactional
     public DrinkDto showDrinkDetail(Long id) {
-        Drink drink = drinkRepository.findById(id)
+        Drink drink = drinkRepository.findByIdWithFetch(id)
                 .orElseThrow(NotFoundDrinkException::new);
         Preference preference = Preference.create(drink, 0.0);
         return DrinkDto.create(drink, preference, fileServerUrl);
@@ -73,7 +74,7 @@ public class DrinkService {
 
     @Transactional
     public DrinkDto showDrinkDetail(Long drinkId, Long memberId) {
-        Drink drink = drinkRepository.findById(drinkId)
+        Drink drink = drinkRepository.findByIdWithFetch(drinkId)
                 .orElseThrow(NotFoundDrinkException::new);
         Preference preference = preferenceRepository
                 .findByMemberIdAndDrinkId(memberId, drinkId)

@@ -26,11 +26,11 @@ public class Preference extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "drink_id")
     private Drink drink;
 
@@ -48,6 +48,10 @@ public class Preference extends BaseEntity {
 
     public static Preference create(Member member, Drink drink, double rate) {
         return new Preference(member, drink, rate);
+    }
+
+    public static Preference create(Long memberId, Drink drink, double rate) {
+        return new Preference(Member.create(memberId), drink, rate);
     }
 
     public static Preference anonymousPreference(Drink drink) {

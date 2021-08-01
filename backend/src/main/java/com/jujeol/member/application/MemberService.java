@@ -55,22 +55,19 @@ public class MemberService {
             Long drinkId,
             PreferenceDto preferenceDto
     ) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(NoSuchMemberException::new);
         Drink drink = drinkRepository.findById(drinkId)
                 .orElseThrow(NotFoundDrinkException::new);
 
         preferenceRepository
-                .findByMemberIdAndDrinkId(member.getId(), drink.getId())
+                .findByMemberIdAndDrinkId(memberId, drink.getId())
                 .ifPresentOrElse(exist -> exist.updateRate(preferenceDto.getPreferenceRate()),
                         () -> {
-                            Preference newPreference = Preference
-                                    .create(member, drink, preferenceDto.getPreferenceRate());
+                            Preference newPreference = Preference.create(memberId, drink, preferenceDto.getPreferenceRate());
                             preferenceRepository.save(newPreference);
                         }
                 );
 
-        Double average = preferenceRepository.averageOfPreferenceRate(drinkId).orElseGet(() -> Double.valueOf(0));
+        Double average = preferenceRepository.averageOfPreferenceRate(drinkId).orElse(0.0);
         drink.updateAverage(average);
     }
 
