@@ -7,12 +7,12 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import OauthPage from './pages/OauthPage';
 import MyPage from './pages/MyPage';
-import ViewAllPage from './pages/ViewAllPage/ViewAllPage';
+import ViewAllPage from './pages/ViewAllPage';
 import MyDrinksPage from './pages/MyDrinksPage';
-import { MainContainer } from './styles';
 import MyReviewsPage from './pages/MyReviewsPage';
 import SearchPage from './pages/SearchPage';
 import SearchResultPage from './pages/SearchResultPage';
+import { MainContainer } from './styles';
 
 const App = () => {
   return (

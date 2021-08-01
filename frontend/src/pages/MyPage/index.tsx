@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 import UserContext from 'src/contexts/UserContext';
 
@@ -40,6 +40,8 @@ const MyPage = () => {
   const [myDrinks, setMyDrinks] = useState([]);
   const [myReviews, setMyReviews] = useState([]);
 
+  const queryClient = useQueryClient();
+
   const UserProfileIcon = userProfileIcons[(userData?.id ?? 0) % 4];
 
   const { data: myDrinksData } = useQuery(
@@ -65,12 +67,17 @@ const MyPage = () => {
   );
 
   useEffect(() => {
-    getUser();
+    const getFetch = async () => {
+      await getUser();
 
-    if (!isLoggedIn) {
-      history.push(PATH.LOGIN);
-    }
-  }, []);
+      if (!queryClient.isFetching('user-info') && !isLoggedIn) {
+        alert('마이페이지를 이용하시려면 로그인 해주세요');
+        history.push(PATH.LOGIN);
+      }
+    };
+
+    getFetch();
+  }, [isLoggedIn]);
 
   const onMoveToPrevPage = () => history.goBack();
   return (

@@ -38,7 +38,7 @@ const GlobalStyle = () => (
         height: 100vh;
         position: fixed;
         left: 50%;
-        top: 0;
+        bottom: 0;
         transform: translateX(-50%);
         visibility: hidden;
         z-index: 10;

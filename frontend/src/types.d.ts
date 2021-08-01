@@ -4,6 +4,7 @@ declare namespace Review {
     content: string;
     author: {
       id: number;
+      name: string;
     };
     createdAt: Date;
     modifiedAt: Date | null;

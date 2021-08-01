@@ -23,6 +23,7 @@ const HomePage = () => {
             const {
               id,
               type,
+              theme,
               title,
               titleAlign,
               subTitle,
@@ -36,6 +37,7 @@ const HomePage = () => {
               <li key={id}>
                 <DrinkListSection
                   type={type as 'CARD' | 'LIST'}
+                  theme={theme}
                   title={title}
                   titleAlign={titleAlign}
                   subTitle={subTitle}

@@ -59,7 +59,7 @@ const ReviewCard = ({ review }: Props) => {
       <Header>
         <UserProfileIcon />
         <ReviewerInfo>
-          <span>{nicknameGenerator(author.id.toString())}</span>
+          <span>{author.name}</span>
           <time>{new Date(createdAt)?.toLocaleDateString()}</time>
         </ReviewerInfo>
         {userData?.id === author.id && (
