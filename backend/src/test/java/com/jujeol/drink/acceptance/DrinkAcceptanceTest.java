@@ -73,7 +73,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     @Test
     public void showDrinksBySearchTest() {
         //given
-        String search = "OB";
+        String search = "ob";
         String category = "beer";
         int page = 1;
         //when
@@ -91,7 +91,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 1);
     }
 
-    @DisplayName("검색 조회(검색어만 존재) - 성공")
+    @DisplayName("검색 조회(검색어 일부만 존재) - 성공")
     @Test
     public void showDrinksBySearchWithoutCategoryTest() {
         //given
