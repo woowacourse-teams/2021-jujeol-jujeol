@@ -1,8 +1,10 @@
 package com.jujeol.member.acceptance;
 
-import static com.jujeol.commons.exception.ExceptionCodeAndDetails.*;
+import static com.jujeol.commons.exception.ExceptionCodeAndDetails.NOT_FOUND_DRINK;
+import static com.jujeol.commons.exception.ExceptionCodeAndDetails.UNAUTHORIZED_USER;
 import static com.jujeol.drink.DrinkTestContainer.OB;
-import static com.jujeol.member.fixture.TestMember.*;
+import static com.jujeol.member.fixture.TestMember.CROFFLE;
+import static com.jujeol.member.fixture.TestMember.WEDGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;

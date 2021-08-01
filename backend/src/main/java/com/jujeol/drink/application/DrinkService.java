@@ -5,7 +5,7 @@ import com.jujeol.drink.application.dto.DrinkRequestDto;
 import com.jujeol.drink.application.dto.SearchDto;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.RecommendationTheme;
+import com.jujeol.drink.domain.RecommendState;
 import com.jujeol.drink.domain.Search;
 import com.jujeol.drink.domain.ViewCount;
 import com.jujeol.drink.domain.repository.CategoryRepository;
@@ -14,11 +14,14 @@ import com.jujeol.drink.exception.NotFoundCategoryException;
 import com.jujeol.drink.exception.NotFoundDrinkException;
 import com.jujeol.member.domain.Preference;
 import com.jujeol.member.domain.PreferenceRepository;
+import com.jujeol.member.ui.LoginMember;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,11 +48,23 @@ public class DrinkService {
                         .create(drink, Preference.create(drink, 0), fileServerUrl));
     }
 
-    public Page<DrinkDto> showDrinksByRecommendation(String theme, Pageable pageable) {
-        RecommendationTheme recommendationTheme = RecommendationTheme.matches(theme);
-        return drinkRepository.findByRecommendation(recommendationTheme, pageable)
-                .map(drink -> DrinkDto
-                        .create(drink, Preference.create(drink, 0), fileServerUrl));
+    public Page<DrinkDto> showAllDrinksByPage(Pageable pageable) {
+        List<DrinkDto> drinkDtos = drinkRepository.findAll(pageable).stream()
+                .map(drink -> DrinkDto.create(
+                        drink, Preference.create(drink, 0), fileServerUrl))
+        .collect(Collectors.toList());
+
+        return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
+    }
+    public Page<DrinkDto> showRecommendDrinks(RecommendState recommendState, Pageable pageable, LoginMember loginMember) {
+        List<Drink> recommendDrinks = recommendState.recommend(loginMember.getId(), pageable.getPageSize());
+
+        List<DrinkDto> drinkDtos = recommendDrinks.stream()
+                .map(drink -> DrinkDto.create(
+                        drink, Preference.create(drink, 0), fileServerUrl))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
     }
 
     @Transactional
