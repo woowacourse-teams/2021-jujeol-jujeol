@@ -2,6 +2,7 @@ package com.jujeol.drink.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,7 +25,7 @@ public class ViewCount {
     private Long id;
     @Column
     private Long viewCount;
-    @OneToOne(mappedBy = "viewCount")
+    @OneToOne(mappedBy = "viewCount", fetch = FetchType.EAGER)
     private Drink drink;
 
     public static ViewCount create(Long viewCount) {
