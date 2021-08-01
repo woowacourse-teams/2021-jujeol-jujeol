@@ -1,4 +1,4 @@
-const MackgeolliColorIcon = () => {
+const MakgeolliColorIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -28,4 +28,4 @@ const MackgeolliColorIcon = () => {
   );
 };
 
-export default MackgeolliColorIcon;
+export default MakgeolliColorIcon;

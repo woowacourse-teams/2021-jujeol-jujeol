@@ -14,7 +14,7 @@ export { default as CocktailColorIcon } from './CocktailColorIcon';
 export { default as SojuColorIcon } from './SojuColorIcon';
 export { default as WineColorIcon } from './WineColorIcon';
 export { default as YangjuColorIcon } from './YangjuColorIcon';
-export { default as MackgeolliColorIcon } from './MakgeolliColorIcon';
+export { default as MakgeolliColorIcon } from './MakgeolliColorIcon';
 export { default as CategoryEtcColorIcon } from './CategoryEtcColorIcon';
 export { default as SmileEmojiColorIcon } from './SmileEmojiColorIcon';
 export { default as LoveEmojiColorIcon } from './LoveEmojiColorIcon';
