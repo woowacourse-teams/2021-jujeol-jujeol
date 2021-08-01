@@ -9,6 +9,7 @@ import drinks from 'src/mocks/drinks';
 describe('사용자는 홈 화면에서 주류 목록을 조회할 수 있다.', () => {
   beforeAll(async () => {
     API.getDrinks = jest.fn().mockReturnValue({ data: drinks });
+    API.getRecommendedDrinks = jest.fn().mockReturnValue({ data: drinks });
 
     render(
       <APIProvider>
@@ -17,7 +18,8 @@ describe('사용자는 홈 화면에서 주류 목록을 조회할 수 있다.',
         </Router>
       </APIProvider>
     );
-    await waitFor(() => expect(API.getDrinks).toBeCalledTimes(1));
+    await waitFor(() => expect(API.getDrinks).toBeCalled());
+    await waitFor(() => expect(API.getRecommendedDrinks).toBeCalled());
   });
 
   it('사용자는 홈 화면에서 주류 목록을 조회할 수 있다.', async () => {
