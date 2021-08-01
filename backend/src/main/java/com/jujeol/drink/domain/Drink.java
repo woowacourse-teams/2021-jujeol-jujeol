@@ -38,17 +38,14 @@ public class Drink {
     private AlcoholByVolume alcoholByVolume;
     @Embedded
     private ImageFilePath imageFilePath;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
     @Column
     private Double preferenceAvg;
 
-    @OneToMany(mappedBy = "drink", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "drink", fetch = FetchType.LAZY)
     private List<Review> reviews = new ArrayList<>();
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "view_count_id")
-    private ViewCount viewCount;
 
     public static Drink create(
             String name,
@@ -66,30 +63,7 @@ public class Drink {
                 new ImageFilePath(imageUrl),
                 category,
                 preferenceAvg,
-                new ArrayList<>(),
-                ViewCount.create(0L)
-        );
-    }
-
-    public static Drink create(
-            String name,
-            String englishName,
-            Double alcoholByVolume,
-            String imageUrl,
-            Double preferenceAvg,
-            Category category,
-            ViewCount viewCount
-    ) {
-        return new Drink(
-                null,
-                new DrinkName(name),
-                new DrinkEnglishName(englishName),
-                new AlcoholByVolume(alcoholByVolume),
-                new ImageFilePath(imageUrl),
-                category,
-                preferenceAvg,
-                new ArrayList<>(),
-                viewCount
+                new ArrayList<>()
         );
     }
 
@@ -100,10 +74,6 @@ public class Drink {
 
     public void removeReview(Review review) {
         reviews.remove(review);
-    }
-
-    public void updateViewCount() {
-        viewCount.updateViewCount();
     }
 
     public String getName() {
@@ -128,10 +98,6 @@ public class Drink {
 
     public Double getPreferenceAvg() {
         return preferenceAvg;
-    }
-
-    public ViewCount getViewCount() {
-        return viewCount;
     }
 
     public List<Review> getReviews() {

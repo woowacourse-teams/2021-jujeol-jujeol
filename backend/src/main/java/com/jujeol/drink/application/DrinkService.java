@@ -6,7 +6,6 @@ import com.jujeol.drink.application.dto.SearchDto;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.Search;
-import com.jujeol.drink.domain.ViewCount;
 import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.exception.NotFoundCategoryException;
@@ -36,8 +35,6 @@ public class DrinkService {
     private final DrinkRepository drinkRepository;
     private final PreferenceRepository preferenceRepository;
     private final CategoryRepository categoryRepository;
-
-    private final ViewCountService viewCountService;
 
     public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, Pageable pageable) {
         Search search = searchDto.toDomain();
@@ -71,7 +68,6 @@ public class DrinkService {
         Drink drink = drinkRepository.findById(id)
                 .orElseThrow(NotFoundDrinkException::new);
         Preference preference = Preference.create(drink, 0.0);
-        viewCountService.updateViewCount(drink);
         return DrinkDto.create(drink, preference, fileServerUrl);
     }
 
@@ -82,7 +78,6 @@ public class DrinkService {
         Preference preference = preferenceRepository
                 .findByMemberIdAndDrinkId(memberId, drinkId)
                 .orElseGet(() -> Preference.anonymousPreference(drink));
-        viewCountService.updateViewCount(drink);
         return DrinkDto.create(drink, preference, fileServerUrl);
     }
 
@@ -93,8 +88,7 @@ public class DrinkService {
         List<Category> categories = categoryRepository.findAll();
         for (DrinkRequestDto drinkRequest : drinkRequests) {
             Category category = findCategory(categories, drinkRequest.getCategoryKey());
-            ViewCount viewCount = viewCountService.insert(ViewCount.create(0L));
-            drinks.add(drinkRequest.toEntity(category, viewCount));
+            drinks.add(drinkRequest.toEntity(category));
         }
         drinkRepository.batchInsert(drinks);
     }

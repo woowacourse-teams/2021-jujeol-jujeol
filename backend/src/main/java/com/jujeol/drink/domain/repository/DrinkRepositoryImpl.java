@@ -44,6 +44,7 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
                 .where(searchCondition(search))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .innerJoin(drink.category)
                 .fetchResults();
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());
     }
@@ -81,12 +82,8 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
         if (recommendationTheme.isPreference()) {
             builder.and(drink.preferenceAvg.gt(0));
         }
-        if (recommendationTheme.isViewCount()) {
-            builder.and(drink.viewCount.viewCount.gt(0));
-        }
         if (recommendationTheme.isBest()) {
             builder.and(drink.preferenceAvg.gt(0));
-            builder.and(drink.viewCount.viewCount.gt(0));
         }
         return builder;
     }
@@ -95,12 +92,8 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
         if (recommendationTheme.isPreference()) {
             return drink.preferenceAvg.desc();
         }
-        if (recommendationTheme.isViewCount()) {
-            return drink.viewCount.viewCount.desc();
-        }
         if (recommendationTheme.isBest()) {
             return drink.preferenceAvg.multiply(0.7)
-                    .add(drink.viewCount.viewCount.multiply(0.3))
                     .desc();
         }
         return drink.id.asc();
@@ -128,7 +121,6 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
         private final String imageFilePath;
         private final Long categoryId;
         private final Double preferenceAvg;
-        private final Long viewCountId;
 
         public static DrinkDto create(Drink drink) {
             return new DrinkDto(
@@ -138,8 +130,7 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
                     drink.getAlcoholByVolume(),
                     drink.getImageFilePath(),
                     drink.getCategory().getId(),
-                    drink.getPreferenceAvg(),
-                    drink.getViewCount().getId()
+                    drink.getPreferenceAvg()
             );
         }
     }

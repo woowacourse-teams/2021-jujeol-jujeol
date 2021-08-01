@@ -20,7 +20,6 @@ public class DrinkDto {
     private String imageUrl;
     private CategoryDto categoryDto;
     private double preferenceRate;
-    private Long viewCount;
     private double preferenceAvg;
 
     public static DrinkDto create(
@@ -35,7 +34,6 @@ public class DrinkDto {
                 fileServerUrl + "/" + drink.getImageFilePath(),
                 CategoryDto.create(drink.getCategory()),
                 preference.getRate(),
-                drink.getViewCount().getViewCount(),
                 drink.getPreferenceAvg()
         );
     }
