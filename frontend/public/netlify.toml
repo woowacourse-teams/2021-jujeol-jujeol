@@ -1,9 +1,0 @@
-[build]
-  base = "/"
-  publish = "/"
-  command = ""
-
-[[redirects]]
-  from = "/*"
-  to = "/index"
-  status = 200
