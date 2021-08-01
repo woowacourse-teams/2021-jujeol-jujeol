@@ -1,7 +1,6 @@
 package com.jujeol.member.acceptance;
 
 import com.jujeol.RequestBuilder;
-import com.jujeol.drink.domain.Drink;
 import com.jujeol.member.application.dto.PreferenceDto;
 import com.jujeol.member.fixture.TestMember;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -29,6 +29,11 @@ const Container = styled.section`
       font-weight: 400;
     }
   }
+
+  svg {
+    width: 72px;
+    height: 72px;
+  }
 `;
 
 export { Container };

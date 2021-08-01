@@ -13,7 +13,14 @@ public enum DrinkTestContainer {
     ESTP(new AdminDrinkRequest("ESTP", "", 7.5, "KakaoTalk_Image_2021-07-08-19-58-11_003.png", "BEER")),
     TIGER_RAD(new AdminDrinkRequest("타이거 라들러 자몽", "Tiger_Rad", 9.5, "KakaoTalk_Image_2021-07-08-19-58-15_004.png", "BEER")),
     TSINGTAO(new AdminDrinkRequest("칭따오", "TSINGTAO", 12.0, "KakaoTalk_Image_2021-07-08-19-58-18_005.png", "BEER")),
-    APPLE(new AdminDrinkRequest("애플", "Apple", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", "BEER"));
+    APPLE(new AdminDrinkRequest("애플", "Apple", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", "BEER")),
+    TEST_ONE(new AdminDrinkRequest("테스트1", "Test1", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", "BEER")),
+    TEST_TWO(new AdminDrinkRequest("테스트2", "Test2", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", "BEER")),
+    TEST_THREE(new AdminDrinkRequest("테스트3", "Test3", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", "BEER")),
+    TEST_FOUR(new AdminDrinkRequest("테스트4", "Test4", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", "BEER")),
+    TEST_FIVE(new AdminDrinkRequest("테스트5", "Test5", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", "BEER")),
+    TEST_SIX(new AdminDrinkRequest("테스트6", "Test6", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", "BEER")),
+    ;
 
     private final AdminDrinkRequest adminDrinkRequest;
 

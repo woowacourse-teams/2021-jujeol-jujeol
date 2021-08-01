@@ -70,3 +70,8 @@ declare namespace SearchResult {
     searchResults: SearchResultItem[];
   }
 }
+declare interface IconProps {
+  color?: string;
+  width?: string;
+  height?: string;
+}

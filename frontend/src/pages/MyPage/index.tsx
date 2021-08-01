@@ -18,6 +18,19 @@ import MyDrinkItem from '../MyDrinksPage/MyDrinkItem';
 
 import { PATH } from 'src/constants';
 import { Header } from './styles';
+import {
+  SmileEmojiColorIcon,
+  LoveEmojiColorIcon,
+  DizzyEmojiColorIcon,
+  ExcitedEmojiColorIcon,
+} from 'src/components/@shared/Icons';
+
+const userProfileIcons = [
+  SmileEmojiColorIcon,
+  LoveEmojiColorIcon,
+  DizzyEmojiColorIcon,
+  ExcitedEmojiColorIcon,
+];
 
 const MyPage = () => {
   const history = useHistory();
@@ -26,6 +39,8 @@ const MyPage = () => {
 
   const [myDrinks, setMyDrinks] = useState([]);
   const [myReviews, setMyReviews] = useState([]);
+
+  const UserProfileIcon = userProfileIcons[(userData?.id ?? 0) % 4];
 
   const { data: myDrinksData } = useQuery(
     'my-drinks',
@@ -66,7 +81,7 @@ const MyPage = () => {
         </button>
         <h2>내정보</h2>
       </Header>
-      <Profile src="https://fakeimg.pl/72x72" nickname={userData?.nickname} bio={userData?.bio} />
+      <Profile ProfileIcon={UserProfileIcon} nickname={userData?.nickname} bio={userData?.bio} />
       <Status
         myDrinksCount={myDrinksData?.pageInfo?.totalSize}
         myReviewsCount={myReviewsData?.pageInfo?.totalSize}

@@ -35,10 +35,11 @@ const Nav = styled.nav<{ keyboardUp: boolean }>`
       a.active {
         color: ${COLOR.PURPLE_200};
         font-weight: 700;
+
         svg {
           transform: scale(1.3) translateY(-10%);
           fill: ${COLOR.PURPLE_200};
-          stroke-width: 0.5rem;
+          stroke-width: 0.1rem;
           stroke: ${COLOR.WHITE_100};
         }
       }

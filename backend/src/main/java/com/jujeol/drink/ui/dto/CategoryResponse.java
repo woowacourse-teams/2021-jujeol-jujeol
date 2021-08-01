@@ -1,7 +1,6 @@
 package com.jujeol.drink.ui.dto;
 
 import com.jujeol.drink.application.dto.CategoryDto;
-import com.jujeol.drink.domain.Category;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
