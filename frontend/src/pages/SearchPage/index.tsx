@@ -14,7 +14,7 @@ import Banner from 'src/components/Banner/Banner';
 import { PATH } from 'src/constants';
 import { Container, Categories, CategoryItem } from './styles';
 
-const categories: Category.CategoryItem[] = [
+const categories: Category[] = [
   {
     key: 'BEER',
     name: '맥주',

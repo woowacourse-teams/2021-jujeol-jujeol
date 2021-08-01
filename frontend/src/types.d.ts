@@ -18,12 +18,10 @@ declare namespace Review {
   };
 }
 
-declare namespace Category {
-  interface CategoryItem {
-    key: string;
-    name: string;
-    Icon: (props: IconProps) => React.ReactElement;
-  }
+declare interface Category {
+  key: string;
+  name: string;
+  Icon: (props: IconProps) => React.ReactElement;
 }
 
 declare namespace ItemList {
