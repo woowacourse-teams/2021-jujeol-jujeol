@@ -15,7 +15,7 @@ public class MemberRepositoryImpl implements MemberCustomRepository {
     @Override
     public boolean isExists(String nickname) {
         long memberCount = queryFactory.selectFrom(member)
-                .where(member.nickname.isNotNull())
+                .where(member.nickname.nickname.eq(nickname))
                 .fetchCount();
         return memberCount > 0;
     }
