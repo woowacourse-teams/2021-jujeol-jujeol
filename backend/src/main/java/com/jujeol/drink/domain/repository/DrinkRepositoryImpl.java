@@ -52,8 +52,8 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
         BooleanBuilder builder = new BooleanBuilder();
         if (search.hasSearch()) {
             builder.and(
-                    drink.name.name.like("%" + search.getSearch() + "%")
-                            .or(drink.englishName.englishName.like("%" + search.getSearch() + "%"))
+                    drink.name.name.likeIgnoreCase("%" + search.getSearch() + "%")
+                            .or(drink.englishName.englishName.likeIgnoreCase("%" + search.getSearch() + "%"))
             );
         }
         if (search.hasCategoryKey()) {

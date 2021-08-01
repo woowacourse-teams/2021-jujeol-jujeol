@@ -12,6 +12,6 @@ public interface DrinkRepository extends JpaRepository<Drink, Long>, DrinkCustom
     @Query("select d from Drink d where d.name.name = :drinkName")
     Optional<Drink> findByName(String drinkName);
 
-    @Query("select d from Drink d where d.preferenceAvg > 0 order by d.preferenceAvg desc")
+    @Query("select d from Drink d where d.preferenceAvg >= 0 order by d.preferenceAvg desc")
     Page<Drink> findAllOrderByPreferenceAvg(Pageable pageable);
 }
