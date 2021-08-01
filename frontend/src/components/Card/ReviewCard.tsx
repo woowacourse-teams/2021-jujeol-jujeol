@@ -4,7 +4,12 @@ import { COLOR } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
 import nicknameGenerator from 'src/utils/createNickname';
 import Card from '../@shared/Card/Card';
-import HumanIcon from '../@shared/Icons/HumanIcon';
+import {
+  LoveEmojiColorIcon,
+  SmileEmojiColorIcon,
+  DizzyEmojiColorIcon,
+  ExcitedEmojiColorIcon,
+} from '../@shared/Icons';
 import { modalContext } from '../Modal/ModalProvider';
 import ReviewEditForm from '../Review/ReviewEditForm';
 import { Header, ReviewerInfo, Content, ShowMoreButton } from './ReviewCard.styles';
@@ -12,6 +17,13 @@ import { Header, ReviewerInfo, Content, ShowMoreButton } from './ReviewCard.styl
 interface Props {
   review: Review.ReviewItem;
 }
+
+const userProfileIcons = [
+  SmileEmojiColorIcon,
+  LoveEmojiColorIcon,
+  DizzyEmojiColorIcon,
+  ExcitedEmojiColorIcon,
+];
 
 const ReviewCard = ({ review }: Props) => {
   const { author, content, createdAt, modifiedAt } = review;
@@ -23,6 +35,8 @@ const ReviewCard = ({ review }: Props) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const [isShowMore, setIsShowMore] = useState(false);
   const [isContentOpen, setIsContentOpen] = useState(false);
+
+  const UserProfileIcon = userProfileIcons[author.id % 4];
 
   useEffect(() => {
     const content = contentRef.current;
@@ -43,7 +57,7 @@ const ReviewCard = ({ review }: Props) => {
   return (
     <Card padding="1rem" backgroundColor={COLOR.WHITE_200}>
       <Header>
-        <HumanIcon color={COLOR.YELLOW_300} />
+        <UserProfileIcon />
         <ReviewerInfo>
           <span>{nicknameGenerator(author.id.toString())}</span>
           <time>{new Date(createdAt)?.toLocaleDateString()}</time>

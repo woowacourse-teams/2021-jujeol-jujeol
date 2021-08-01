@@ -7,7 +7,7 @@ import Property from 'src/components/Property/Property';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import Review from 'src/components/Review/Review';
 import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
-import { properties, categoryIdType } from './propertyData';
+import { properties } from './propertyData';
 import { Section, PreferenceSection, Image, DescriptionSection } from './styles';
 
 const defaultDrinkDetail = {
@@ -36,7 +36,7 @@ const DrinksDetailPage = () => {
     name,
     englishName,
     imageUrl,
-    category: { id: categoryId, key: categoryKey, name: categoryName },
+    category: { key: categoryKey },
     alcoholByVolume,
     preferenceRate,
     preferenceAvg,

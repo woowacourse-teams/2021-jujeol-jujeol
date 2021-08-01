@@ -19,6 +19,7 @@ export { default as CategoryEtcColorIcon } from './CategoryEtcColorIcon';
 export { default as SmileEmojiColorIcon } from './SmileEmojiColorIcon';
 export { default as LoveEmojiColorIcon } from './LoveEmojiColorIcon';
 export { default as ExcitedEmojiColorIcon } from './ExcitedEmojiColorIcon';
+export { default as DizzyEmojiColorIcon } from './DizzyEmojiColorIcon';
 export { default as HomeIcon } from './HomeIcon';
 export { default as HumanIcon } from './HumanIcon';
 export { default as LoginIcon } from './LoginIcon';
