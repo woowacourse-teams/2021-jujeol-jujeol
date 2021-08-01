@@ -38,24 +38,15 @@ include::{snippets}/drinks/show/search/http-response.adoc[]
 
 == 추천 정보 조회
 
-=== 전체 화면에서 추천 주류 정보 조회
+=== 전체 화면에서 추천 주류 정보 조회 (협업필터링)
 
 - Request
 
-include::{snippets}/drinks/show/all-theme/http-request.adoc[]
-
-theme 종류
-
-[width="70%"]
-|===
-|추천 종류 |recommendation
-|선호도 |preference
-|조회수 |view-count
-|===
+include::{snippets}/drinks/show/recommend/http-request.adoc[]
 
 - Response
 
-include::{snippets}/drinks/show/all-theme/http-response.adoc[]
+include::{snippets}/drinks/show/recommend/http-response.adoc[]
 
 == 단일 상품 조회
 
@@ -68,3 +59,17 @@ include::{snippets}/drinks/show/detail/http-request.adoc[]
 - Response
 
 include::{snippets}/drinks/show/detail/http-response.adoc[]
+
+
+
+== 추천 정보 조회
+
+=== 전체 화면에서 추천 주류 정보 조회(협업 필터링)
+
+- Request
+
+include::{snippets}/drinks/show/recommend/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/recommend/http-response.adoc[]
