@@ -1,5 +1,27 @@
-= 주절주절 API 문서
-:nofooter:
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+= 주절주절 API Document
+
+== 멤버
+
+=== 로그인
+
+==== 토큰 발급
+
+- Request
+
+include::{snippets}/member/login/token/http-request.adoc[]
+
+providerName 규칙
 
 [width="70%"]
 |===
@@ -11,3 +33,489 @@
 |link:category.html[카테고리 api]
 |link:error.html[에러 문서]
 |===
+|로그인 서버 종류 |providerName
+|카카오 | KAKAO
+|네이버 |NAVER
+|===
+
+- Response
+
+include::{snippets}/member/login/token/http-response.adoc[]
+
+=== 멤버 조회
+
+- Request
+
+include::{snippets}/member/show/me/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/show/me/http-response.adoc[]
+
+=== 멤버 조회 (실패)
+
+- Request
+
+include::{snippets}/member/show/me-fail/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/show/me-fail/http-response.adoc[]
+
+=== 멤버 수정
+
+- Request
+
+include::{snippets}/member/update/me/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/update/me/http-response.adoc[]
+
+=== 멤버 수정 (실패_1)
+
+- Request
+
+include::{snippets}/member/update/me-fail-nickname/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/update/me-fail-nickname/http-response.adoc[]
+
+=== 멤버 수정 (실패_2)
+
+- Request
+
+include::{snippets}/member/update/me-fail-bio/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/update/me-fail-bio/http-response.adoc[]
+
+=== 내가 마신 술 조회
+
+==== 마이 페이지에서 (선호도 기반) 내가 마신 술 목록 조회
+
+- Request
+
+include::{snippets}/member/info/drinks/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/info/drinks/http-response.adoc[]
+
+=== 내가 남긴 리뷰 조회
+
+==== 마이 페이지에서 내가 남긴 리뷰 목록 조회
+
+- Request
+
+include::{snippets}/member/info/reviews/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/info/reviews/http-response.adoc[]
+
+== 주류
+
+=== 전체 정보 조회
+
+==== 전체 화면에서 주류 정보 조회
+
+- Request
+
+include::{snippets}/drinks/show/all/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/all/http-response.adoc[]
+
+=== 검색 정보 조회
+
+==== 검색으로 특정 단어와 카테고리 조회
+
+- Request
+
+include::{snippets}/drinks/show/search/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/search/http-response.adoc[]
+
+=== 추천 정보 조회
+
+==== 전체 화면에서 추천 주류 정보 조회(협업 필터링)
+
+- Request
+
+include::{snippets}/drinks/show/recommend/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/recommend/http-response.adoc[]
+
+=== 단일 상품 조회
+
+==== 상세 화면에서 단일 상품 정보 조회
+
+- Request
+
+include::{snippets}/drinks/show/detail/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/detail/http-response.adoc[]
+
+=== 단일 상품 조회 (실패)
+
+==== 상세 화면에서 단일 상품 조회 시 해당하는 id가 없는 경우
+
+- Request
+
+include::{snippets}/drinks/show/detail-fail/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/detail-fail/http-response.adoc[]
+
+== 카테고리
+
+=== 카테고리 조회
+
+==== 카테고리 전체 조회
+
+- Request
+
+include::{snippets}/category/show/all/http-request.adoc[]
+
+- Response
+
+include::{snippets}/category/show/all/http-response.adoc[]
+
+== 선호도
+
+=== 선호도 생성
+
+==== 상세 화면에서 특정 상품에 대한 선호도 작성
+
+- Request
+
+include::{snippets}/member/preference/create/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/create/http-response.adoc[]
+
+=== 선호도 생성 (실패_1)
+
+==== 비회원이 선호도를 생성하려 할 때
+
+- Request
+
+include::{snippets}/member/preference/create-fail-user/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/create-fail-user/http-response.adoc[]
+
+=== 선호도 생성 (실패_2)
+
+==== 해당 주류가 존재하지 않을 때
+
+- Request
+
+include::{snippets}/member/preference/create-fail-drink/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/create-fail-drink/http-response.adoc[]
+
+=== 선호도 수정
+
+==== 상세 화면에서 특정 상품에 대한 선호도 수정
+
+- Request
+
+include::{snippets}/member/preference/update/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/update/http-response.adoc[]
+
+=== 선호도 수정 (실패_1)
+
+==== 비회원이 선호도를 수정하려고 할 때
+
+- Request
+
+include::{snippets}/member/preference/create-fail-user/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/create-fail-user/http-response.adoc[]
+
+=== 선호도 수정 (실패_2)
+
+==== 해당 주류가 존재하지 않을 때
+
+- Request
+
+include::{snippets}/member/preference/create-fail-drink/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/create-fail-drink/http-response.adoc[]
+
+=== 선호도 삭제
+
+==== 상세 화면에서 특정 상품에 대한 선호도 삭제
+
+- Request
+
+include::{snippets}/member/preference/delete/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/delete/http-response.adoc[]
+
+=== 선호도 삭제 (실패)
+
+==== 비회원이 선호도를 삭제하려고 할 때
+
+- Request
+
+include::{snippets}/member/preference/delete-fail-user/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/preference/delete-fail-user/http-response.adoc[]
+
+== 리뷰
+
+=== 리뷰 생성
+
+==== 상세 화면에서 특정 상품에 대한 리뷰를 작성
+
+- Request
+
+include::{snippets}/reviews/create/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/create/http-response.adoc[]
+
+=== 리뷰 생성(실패_1)
+
+==== 리뷰를 작성하려는 대상 상품의 id가 없을 경우
+
+- Request
+
+include::{snippets}/reviews/create-fail/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/create-fail/http-response.adoc[]
+
+=== 리뷰 생성(실패_2)
+
+==== 동일 상품에 대해 하루 두 개 이상의 리뷰를 작성하려고 할 경우
+
+- Request
+
+include::{snippets}/reviews/create-fail-limit/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/create-fail-limit/http-response.adoc[]
+
+=== 리뷰 생성(실패_3)
+
+==== 리뷰 내용이 비어있을 경우
+
+- Request
+
+include::{snippets}/reviews/create-fail-emptyContent/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/create-fail-emptyContent/http-response.adoc[]
+
+=== 리뷰 생성(실패_4)
+
+==== 리뷰 내용이 300자 이상일 경우
+
+- Request
+
+include::{snippets}/reviews/create-fail-contentOver300/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/create-fail-contentOver300/http-response.adoc[]
+
+=== 리뷰 조회
+
+==== 상세 화면에서 특정 상품에 대한 리뷰를 조회
+
+- Request
+
+include::{snippets}/reviews/show/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/show/http-response.adoc[]
+
+=== 리뷰 수정
+
+==== 선택한 리뷰를 수정
+
+- Request
+
+include::{snippets}/reviews/update/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/update/http-response.adoc[]
+
+=== 리뷰 수정(실패_1)
+
+==== 리뷰 수정 시 해당하는 id의 상품이 없는 경우
+
+- Request
+
+include::{snippets}/reviews/update-fail-drink/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/update-fail-drink/http-response.adoc[]
+
+=== 리뷰 수정(실패_2)
+
+==== 리뷰 수정 시 해당하는 id의 리뷰가 없는 경우
+
+- Request
+
+include::{snippets}/reviews/update-fail-review/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/update-fail-review/http-response.adoc[]
+
+=== 리뷰 수정(실패_3)
+
+==== 수정하려는 리뷰가 주류 정보와 일치하지 않는 경우
+
+- Request
+
+include::{snippets}/reviews/update-fail-match/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/update-fail-match/http-response.adoc[]
+
+=== 리뷰 수정(실패_4)
+
+==== 리뷰를 수정하려는 사용자가 리뷰를 작성한 사용자와 다른 경우
+
+- Request
+
+include::{snippets}/reviews/update-fail-author/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/update-fail-author/http-response.adoc[]
+
+=== 리뷰 수정(실패_5)
+
+==== 리뷰 수정할 때 빈 내용으로 수정할 경우
+
+- Request
+
+include::{snippets}/reviews/update-fail-emptyContent/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/update-fail-emptyContent/http-response.adoc[]
+
+=== 리뷰 수정(실패_6)
+
+==== 리뷰를 수정할 때 리뷰 내용이 300자 이상일 경우
+
+- Request
+
+include::{snippets}/reviews/update-fail-contentOver300/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/update-fail-contentOver300/http-response.adoc[]
+
+=== 리뷰 식제
+
+==== 선택한 리뷰를 삭제
+
+- Request
+
+include::{snippets}/reviews/delete/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/delete/http-response.adoc[]
+
+=== 리뷰 식제(실패_1)
+
+==== 리뷰 삭제 시 해당하는 id의 상품이 없는 경우
+
+- Request
+
+include::{snippets}/reviews/delete-fail-drink/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/delete-fail-drink/http-response.adoc[]
+
+=== 리뷰 식제(실패_2)
+
+==== 리뷰 삭제 시 해당하는 id의 리뷰가 없는 경우
+
+- Request
+
+include::{snippets}/reviews/delete-fail-review/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/delete-fail-review/http-response.adoc[]
+
+=== 리뷰 삭제(실패_3)
+
+==== 삭제하려는 리뷰가 주류 정보와 일치하지 않는 경우
+
+- Request
+
+include::{snippets}/reviews/delete-fail-match/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/delete-fail-match/http-response.adoc[]
+
+=== 리뷰 삭제(실패_4)
+
+==== 리뷰를 삭제하려는 사용자가 리뷰를 작성한 사용자와 다른 경우
+
+- Request
+
+include::{snippets}/reviews/delete-fail-author/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/delete-fail-author/http-response.adoc[]
+
+== 예외
+
+=== 404 예외
+
+- Request
+
+include::{snippets}/exception/notfound/http-request.adoc[]
+
+- Response
+
+include::{snippets}/exception/notfound/http-response.adoc[]
