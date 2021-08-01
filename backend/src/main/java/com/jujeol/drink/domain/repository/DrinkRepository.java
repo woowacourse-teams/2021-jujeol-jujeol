@@ -1,6 +1,7 @@
 package com.jujeol.drink.domain.repository;
 
 import com.jujeol.drink.domain.Drink;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,6 @@ public interface DrinkRepository extends JpaRepository<Drink, Long>, DrinkCustom
     @Query("select d from Drink d where d.name.name = :drinkName")
     Optional<Drink> findByName(String drinkName);
 
-    @Query("select d from Drink d where d.preferenceAvg >= 0 order by d.preferenceAvg desc")
-    Page<Drink> findAllOrderByPreferenceAvg(Pageable pageable);
+    @Query(value = "select d from Drink d join fetch d.category where d.preferenceAvg >= 0 order by d.preferenceAvg desc")
+    List<Drink> findDrinks(Pageable pageable);
 }

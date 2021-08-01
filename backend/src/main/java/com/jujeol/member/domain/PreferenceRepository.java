@@ -17,5 +17,7 @@ public interface PreferenceRepository extends JpaRepository<Preference, Long> {
     @Query("SELECT AVG(p.rate) FROM Preference p WHERE p.drink.id = :drinkId")
     Optional<Double> averageOfPreferenceRate(Long drinkId);
 
+    @Query(value = "Select p From Preference p join fetch p.drink d join fetch p.member join fetch d.category where p.member.id = :memberId order by p.createdAt desc",
+            countQuery = "Select count(p) From Preference p where p.member.id = :memberId")
     Page<Preference> findByMemberIdOrderByCreatedAtDesc(Long memberId, Pageable pageable);
 }

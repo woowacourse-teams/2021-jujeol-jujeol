@@ -86,13 +86,15 @@ public class MemberService {
     }
 
     public Page<DrinkDto> findDrinks(Long memberId, Pageable pageable) {
-        return preferenceRepository.findByMemberIdOrderByCreatedAtDesc(memberId, pageable)
+        final Page<DrinkDto> map = preferenceRepository
+                .findByMemberIdOrderByCreatedAtDesc(memberId, pageable)
                 .map(preference -> DrinkDto.create(
                         preference.getDrink(),
                         preference,
                         fileServerUrl
                         )
                 );
+        return map;
     }
 
     public Page<ReviewDto> findReviews(Long memberId, Pageable pageable) {
