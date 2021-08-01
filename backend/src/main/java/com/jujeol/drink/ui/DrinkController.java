@@ -8,7 +8,7 @@ import com.jujeol.drink.application.ReviewService;
 import com.jujeol.drink.application.dto.DrinkDto;
 import com.jujeol.drink.application.dto.ReviewRequest;
 import com.jujeol.drink.application.dto.ReviewResponse;
-import com.jujeol.drink.domain.RecommendFactory;
+import com.jujeol.drink.application.RecommendFactory;
 import com.jujeol.drink.ui.dto.DrinkDetailResponse;
 import com.jujeol.drink.ui.dto.DrinkSimpleResponse;
 import com.jujeol.drink.ui.dto.SearchRequest;
@@ -56,13 +56,8 @@ public class DrinkController {
             @PageableDefault(7) Pageable pageable
     ) {
         final Page<DrinkDto> drinkDtos;
+        drinkDtos = drinkService.showRecommendDrinks(recommendFactory.create(loginMember), pageable, loginMember);
 
-        if(loginMember.isMember()) {
-            drinkDtos = drinkService.showRecommendDrinks(recommendFactory.member(), pageable, loginMember);
-            return PageResponseAssembler.assemble(drinkDtos.map(DrinkSimpleResponse::from));
-        }
-
-        drinkDtos = drinkService.showRecommendDrinks(recommendFactory.anonymous(), pageable, loginMember);
         return PageResponseAssembler.assemble(drinkDtos.map(DrinkSimpleResponse::from));
     }
 
