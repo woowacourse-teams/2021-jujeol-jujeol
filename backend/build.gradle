@@ -105,8 +105,4 @@ configurations {
 compileQuerydsl {
     options.annotationProcessorPath = configurations.querydsl
 }
-<<<<<<< HEAD
 //querydsl 추가 끝
-=======
-//querydsl 추가 끝
->>>>>>> origin/main
