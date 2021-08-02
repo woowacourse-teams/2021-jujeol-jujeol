@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.jujeol.'
-version = '1.0.0-beta'
+version = '1.0.2-beta'
 sourceCompatibility = '11'
 
 configurations {
@@ -105,4 +105,8 @@ configurations {
 compileQuerydsl {
     options.annotationProcessorPath = configurations.querydsl
 }
+<<<<<<< HEAD
 //querydsl 추가 끝
+=======
+//querydsl 추가 끝
+>>>>>>> origin/main
