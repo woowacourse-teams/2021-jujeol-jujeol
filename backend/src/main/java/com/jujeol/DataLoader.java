@@ -46,14 +46,14 @@ public class DataLoader implements CommandLineRunner {
 
         // Drink Data
         // 첫 데이터
-        Drink stella = Drink.create("스텔라", "stella", 5.5, "w_400/stella_artois_w400.png", 0.0, BEER);
-        Drink kgb = Drink.create("KGB", "", 3.5, "w_400/kgb_w400.png", 0.0, BEER);
-        Drink efes = Drink.create("EFES", "",7.5, "w_400/efes_w400.png", 0.0, BEER);
-        Drink tiger_rad = Drink.create("타이거 라들러 자몽", "Tiger_Rad", 9.5, "w_400/tiger_raddler_grapefruit_w400.png", 0.0, BEER);
-        Drink tsingtao = Drink.create("칭따오", "TSINGTAO", 12.0, "w_400/tsingtao_w400.png", 0.0, BEER);
-        Drink gom_pyo = Drink.create("곰표", "gom_pyo", 8.2, "w_400/gom_pyo_w400.png", 0.0, BEER);
-        Drink ob = Drink.create("오비", "OB", 5.5, "w_400/ob_lager_w400.png", 0.0, BEER);
-        Drink tigerLemon = Drink.create("타이거 라들러 레몬", "Tiger_Lemon", 4.5, "w_400/tiger_raddler_lemon_w400.png", 0.0, BEER);
+        Drink stella = Drink.create("스텔라 아르투아", "STELLA ARTOIS ", 5.0, "w_400/stella_artois_w400.png", 0.0, BEER);
+        Drink kgb = Drink.create("KGB 레몬", "KGB Lemon", 5.0, "w_400/kgb_w400.png", 0.0, BEER);
+        Drink efes = Drink.create("에페스", "EFES",5.0, "w_400/efes_w400.png", 0.0, BEER);
+        Drink tiger_rad = Drink.create("타이거 라들러 자몽", "Tiger Rad", 2.0, "w_400/tiger_raddler_grapefruit_w400.png", 0.0, BEER);
+        Drink tsingtao = Drink.create("칭따오 스타우트", "TSINGTAO STOUT", 4.8, "w_400/tsingtao_w400.png", 0.0, BEER);
+        Drink gom_pyo = Drink.create("세븐브로이 곰표 밀맥주", "7brau Gompyo wheatbear", 4.5, "w_400/gom_pyo_w400.png", 0.0, BEER);
+        Drink ob = Drink.create("오비 라거", "OB Lager", 4.6, "w_400/ob_lager_w400.png", 0.0, BEER);
+        Drink tigerLemon = Drink.create("타이거 라들러 레몬", "Tiger Lemon", 2.0, "w_400/tiger_raddler_lemon_w400.png", 0.0, BEER);
 
         // 스프리드 시트 데이터 추가
         final List<Drink> drinks_spread = Arrays.asList(
@@ -63,7 +63,6 @@ public class DataLoader implements CommandLineRunner {
                 Drink.create("제주 거멍 에일", "Jeju Geomeong Ale", 4.3, "w_400/Jeju_Geomeong_Ale_w400.png", 0.0, BEER),
                 Drink.create("에페스 필스너", "EFES Pilsner", 5.0, "w_400/EFES_Pilsner_w400.png", 0.0, BEER),
                 Drink.create("오드 괴즈 틸퀸 아렌시아", "Oude Gueze Tilquin a L'Ancienne", 7.0, "w_400/Oude_Gueze_Tilquin_a_L'Ancienne_w400.png", 0.0, BEER),
-                Drink.create("제주 백록담 에일", "Jeju Baengnokdam Ale", 4.3, "w_400/Jeju_Baengnokdam_Ale_w400.png", 0.0, BEER),
 
                 // 소주
                 Drink.create("시원한청풍소주", "C1Soju", 17.2, "w_400/c1soju_w400.png", 0.0, SOJU),
