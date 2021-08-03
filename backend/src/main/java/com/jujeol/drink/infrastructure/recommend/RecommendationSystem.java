@@ -2,8 +2,11 @@ package com.jujeol.drink.infrastructure.recommend;
 
 import static java.util.stream.Collectors.toList;
 
+import com.jujeol.member.domain.Preference;
+import com.jujeol.member.domain.PreferenceRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.neighborhood.ThresholdUserNeighborhood;
@@ -20,7 +23,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RecommendationSystem {
 
-    private final RecommendationDataModel recommendationDataModel;
+    private final PreferenceRepository preferenceRepository;
 
     public List<Long> recommend(Long memberId, int howMany) {
         final UserBasedRecommender recommender = getRecommender();
@@ -41,7 +44,10 @@ public class RecommendationSystem {
     }
 
     private UserBasedRecommender getRecommender() {
-        final DataModel dataModel = recommendationDataModel.dataModel();
+        final List<Preference> preferences = preferenceRepository.findAll();
+        final List<org.apache.mahout.cf.taste.model.Preference> datas = preferences.stream().map(TestPreference::new)
+                .collect(Collectors.toList());
+        final DataModel dataModel = new TestDataModel(datas);
         final UserSimilarity similarity = getSimilarity(dataModel);
         return new GenericUserBasedRecommender(dataModel, getUserNeighborhood(0.1, similarity, dataModel),
                 similarity);

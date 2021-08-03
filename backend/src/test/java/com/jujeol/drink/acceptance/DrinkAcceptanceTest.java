@@ -24,6 +24,7 @@ import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.ui.dto.DrinkDetailResponse;
 import com.jujeol.drink.ui.dto.DrinkSimpleResponse;
 import com.jujeol.member.acceptance.MemberAcceptanceTool;
+import com.jujeol.member.domain.PreferenceRepository;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -38,6 +39,8 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     private DrinkAcceptanceTool drinkAcceptanceTool;
     @Autowired
     private MemberAcceptanceTool memberAcceptanceTool;
+    @Autowired
+    private PreferenceRepository preferenceRepository;
 
     @BeforeEach
     void setUp() {
@@ -90,7 +93,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     public void showDrinksByUserPreferenceTest() {
         //given
         협업_필터링_데이터_등록();
-        String theme = "preference";
+        preferenceRepository.findAll();
 
         //when
         List<DrinkSimpleResponse> drinkSimpleResponses = request()
@@ -100,9 +103,8 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .build().convertBodyToList(DrinkSimpleResponse.class);
 
         //then
-        assertThat(drinkSimpleResponses.get(0).getName()).isEqualTo("애플");
-        assertThat(drinkSimpleResponses.get(1).getName()).isEqualTo("타이거 라들러 레몬");
-        assertThat(drinkSimpleResponses.get(2).getName()).isEqualTo("타이거 라들러 자몽");
+        drinkSimpleResponses.stream().forEach(response -> System.out.println(response.getName()));
+//        assertThat(drinkSimpleResponses).extracting("name").containsExactlyInAnyOrder("애플", "타이거 라들러 레몬", "");
     }
 
     private void 협업_필터링_데이터_등록() {
