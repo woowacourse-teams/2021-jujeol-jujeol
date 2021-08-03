@@ -8,7 +8,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./backend # build steps의 run을 ./frontend 경로에서 실행
+    working-directory: ./backend # build steps의 run을 ./backend 경로에서 실행
 
 jobs:
   build:
