@@ -185,6 +185,80 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 1);
     }
 
+    @DisplayName("검색 조회(검색어가 카테고리 이름과 동일할 때) - 성공")
+    @Test
+    public void showDrinksBySearchWithCategoryNameTest() {
+        //given
+        String search = "맥주";
+        int page = 1;
+        //when
+        final HttpResponse httpResponse = request()
+                .get("/drinks?search=" + search + "&page=" + page)
+                .build();
+
+        //then
+        final List<DrinkSimpleResponse> drinkSimpleResponses =
+                httpResponse.convertBodyToList(DrinkSimpleResponse.class);
+
+        final List<String> drinkNames =
+                asNames(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
+
+        assertThat(httpResponse.convertBodyToList(DrinkSimpleResponse.class))
+                .extracting("name")
+                .containsExactlyElementsOf(drinkNames);
+
+        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 8);
+    }
+
+    @DisplayName("검색 조회(카테고리 KEY가 주어졌을때) - 성공")
+    @Test
+    public void showDrinksByCategoryWithoutSearchTest() {
+        //given
+        String categoryKey = "BEER";
+        int page = 1;
+        //when
+        final HttpResponse httpResponse = request()
+                .get("/drinks?category=" + categoryKey + "&page=" + page)
+                .build();
+
+        //then
+        final List<DrinkSimpleResponse> drinkSimpleResponses =
+                httpResponse.convertBodyToList(DrinkSimpleResponse.class);
+
+        final List<String> drinkNames =
+                asNames(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
+
+        assertThat(drinkSimpleResponses)
+                .extracting("name")
+                .containsExactlyElementsOf(drinkNames);
+
+        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 8);
+    }
+
+    @DisplayName("검색 조회(아무것도 주어지지 않았을 때) - 성공")
+    @Test
+    public void showDrinksWithoutAnythingTest() {
+        //given
+        int page = 1;
+        //when
+        final HttpResponse httpResponse = request()
+                .get("/drinks?page=" + page)
+                .build();
+
+        //then
+        final List<DrinkSimpleResponse> drinkSimpleResponses =
+                httpResponse.convertBodyToList(DrinkSimpleResponse.class);
+
+        final List<String> drinkNames =
+                asNames(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
+
+        assertThat(drinkSimpleResponses)
+                .extracting("name")
+                .containsExactlyElementsOf(drinkNames);
+
+        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 8);
+    }
+
     @DisplayName("단일 조회 - 성공")
     @Test
     public void showDrinkDetailTest() {
