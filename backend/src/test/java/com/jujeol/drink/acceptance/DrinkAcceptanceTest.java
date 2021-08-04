@@ -259,6 +259,24 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 8);
     }
 
+    @DisplayName("검색 조회(일치하는 정보가 없는 검색어) - 성공")
+    @Test
+    public void showDrinksWithInvalidTest(){
+        //given
+        String search = "이상한이름의검색어";
+        //when
+        final HttpResponse httpResponse = request()
+                .get("/drinks?search=" + search)
+                .withDocument("drinks/show/search-nothing")
+                .build();
+
+        //then
+        List<DrinkSimpleResponse> drinkSimpleResponses = httpResponse
+                .convertBodyToList(DrinkSimpleResponse.class);
+
+        assertThat(drinkSimpleResponses).hasSize(0);
+    }
+
     @DisplayName("단일 조회 - 성공")
     @Test
     public void showDrinkDetailTest() {
