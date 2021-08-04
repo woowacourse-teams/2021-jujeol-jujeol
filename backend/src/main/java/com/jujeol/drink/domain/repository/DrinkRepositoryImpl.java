@@ -5,9 +5,11 @@ import static com.jujeol.drink.domain.QDrink.drink;
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.RecommendationTheme;
 import com.jujeol.drink.domain.Search;
+import com.jujeol.member.domain.Preference;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,10 +43,10 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
     @Override
     public Page<Drink> findBySearch(Search search, Pageable pageable) {
         QueryResults<Drink> result = queryFactory.selectFrom(drink)
+                .innerJoin(drink.category)
                 .where(searchCondition(search))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .innerJoin(drink.category)
                 .fetchResults();
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());
     }
@@ -52,10 +54,13 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
     private BooleanBuilder searchCondition(Search search) {
         BooleanBuilder builder = new BooleanBuilder();
         if (search.hasSearch()) {
-            builder.and(
-                    drink.name.name.likeIgnoreCase("%" + search.getSearch() + "%")
-                            .or(drink.englishName.englishName.likeIgnoreCase("%" + search.getSearch() + "%"))
-            );
+            for (String searchWord : search.getSearch()) {
+                builder.or(
+                        drink.name.name.likeIgnoreCase("%" + searchWord + "%")
+                        .or(drink.englishName.englishName.likeIgnoreCase("%" + searchWord + "%"))
+                        .or(drink.category.name.likeIgnoreCase("%" + searchWord + "%"))
+                );
+            }
         }
         if (search.hasCategoryKey()) {
             builder.and(drink.category.key.equalsIgnoreCase(search.getCategoryKey()));

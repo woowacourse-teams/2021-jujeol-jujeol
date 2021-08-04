@@ -21,9 +21,11 @@ import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
+import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.ui.dto.DrinkDetailResponse;
 import com.jujeol.drink.ui.dto.DrinkSimpleResponse;
 import com.jujeol.member.acceptance.MemberAcceptanceTool;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -39,10 +41,13 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     @Autowired
     private MemberAcceptanceTool memberAcceptanceTool;
 
+    List<DrinkTestContainer> drinks = new ArrayList<>();
+
     @BeforeEach
     void setUp() {
         adminAcceptanceTool
                 .어드민_주류_데이터_등록(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
+        drinks = List.of(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
     }
 
     @DisplayName("추천 조회 - 성공(비로그인 시 선호도 순서)")
@@ -142,7 +147,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     @Test
     public void showDrinksBySearchTest() {
         //given
-        String search = "ob";
+        String search = "ob 맥주";
         String category = "beer";
         int page = 1;
         //when
@@ -157,7 +162,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
 
         assertThat(drinkSimpleResponses).extracting("name").contains(OB.getName());
 
-        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 1);
+        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, drinks.size());
     }
 
     @DisplayName("검색 조회(검색어 일부만 존재) - 성공")

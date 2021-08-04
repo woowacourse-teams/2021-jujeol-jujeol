@@ -1,5 +1,6 @@
 package com.jujeol.drink.domain;
 
+import java.util.List;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -9,19 +10,18 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Search {
 
-    private final String search;
+    private final List<String> search;
     private final String categoryKey;
-
 
     public static Search create(String search, String categoryKey) {
         return new Search(
-                Objects.requireNonNullElse(search, ""),
+                List.of(search.split("\\s")),
                 Objects.requireNonNullElse(categoryKey, "")
         );
     }
 
     public boolean hasSearch() {
-        return !search.isBlank();
+        return !search.isEmpty();
     }
 
     public boolean hasCategoryKey() {

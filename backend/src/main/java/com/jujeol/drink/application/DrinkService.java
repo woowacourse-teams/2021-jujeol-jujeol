@@ -39,6 +39,8 @@ public class DrinkService {
     public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, Pageable pageable) {
         Search search = searchDto.toDomain();
         validateCategoryKey(search);
+        // TODO: 검색할 때 카테고리 테이블도 포함하기
+        // TODO: 띄어쓰기로 잘라서 검색하기
         return drinkRepository.findBySearch(search, pageable)
                 .map(drink -> DrinkDto
                         .create(drink, Preference.create(drink, 0), fileServerUrl));
