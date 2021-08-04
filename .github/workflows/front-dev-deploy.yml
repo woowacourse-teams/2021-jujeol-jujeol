@@ -20,7 +20,7 @@ jobs:
         || github.event_name == 'workflow_dispatch'
     runs-on: deploy-runner
     steps:
-      - name: Checkout source code
+      - name: Checkout Source Code
         uses: actions/checkout@v2
 
       - name: Install Dependencies
@@ -31,3 +31,6 @@ jobs:
 
       - name: Deploy
         run: aws s3 sync --delete ./build s3://jujeol-dev-deploy
+
+      - name: Cloud Front Caching Invalid
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.DEV_DISTRIBUTION_ID }} --paths "/*"
