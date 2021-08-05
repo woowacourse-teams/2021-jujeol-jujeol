@@ -22,7 +22,6 @@ const MyDrinks = () => {
     'my-drinks',
     ({ pageParam = 1 }) => API.getPersonalDrinks({ page: pageParam, size: 10 }),
     {
-      retry: 0,
       getNextPageParam: ({ pageInfo }) => {
         const { currentPage, lastPage } = pageInfo;
 
@@ -59,7 +58,7 @@ const MyDrinks = () => {
             <MyDrinkItem key={myDrink.id} size={matches ? 'X_LARGE' : 'LARGE'} drink={myDrink} />
           ))}
         </Grid>
-        <InfinityScrollPoll />
+        <InfinityScrollPoll ref={observerTargetRef} />
       </Container>
     </>
   );
