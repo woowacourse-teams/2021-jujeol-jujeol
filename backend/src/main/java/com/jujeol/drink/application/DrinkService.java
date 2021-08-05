@@ -48,13 +48,15 @@ public class DrinkService {
         List<DrinkDto> drinkDtos = drinkRepository.findAll(pageable).stream()
                 .map(drink -> DrinkDto.create(
                         drink, Preference.create(drink, 0), fileServerUrl))
-        .collect(Collectors.toList());
+                .collect(Collectors.toList());
 
         return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
     }
 
-    public Page<DrinkDto> showRecommendDrinks(RecommendStrategy recommendStrategy, Pageable pageable, LoginMember loginMember) {
-        List<Drink> recommendDrinks = recommendStrategy.recommend(loginMember.getId(), pageable.getPageSize());
+    public Page<DrinkDto> showRecommendDrinks(RecommendStrategy recommendStrategy,
+            Pageable pageable, LoginMember loginMember) {
+        List<Drink> recommendDrinks = recommendStrategy
+                .recommend(loginMember.getId(), pageable.getPageSize());
 
         List<DrinkDto> drinkDtos = recommendDrinks.stream()
                 .map(drink -> DrinkDto.create(

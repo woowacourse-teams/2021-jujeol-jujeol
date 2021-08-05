@@ -21,4 +21,12 @@ public class SearchDto {
     public Search toDomain() {
         return Search.create(search, categoryKey);
     }
+
+    @Override
+    public String toString() {
+        return "SearchDto{" +
+                "search='" + search + '\'' +
+                ", categoryKey='" + categoryKey + '\'' +
+                '}';
+    }
 }
