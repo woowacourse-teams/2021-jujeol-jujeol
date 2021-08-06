@@ -16,9 +16,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogAop {
 
-    //TODO: 그리고 start, end할 때 쓰레드도 표시 해주라 Thread.currentThread().getName()
     //TODO: p6spy로 쿼리 세팅이 나도도록, 커넥션 풀 사용현황도 로그로 찍힌다.
-    //TODO: 모든 패키지 적용 : 정상작동, 에러 발생 시, 쿼리 체크 / 어노테이션 : 시간 측정
+    //TODO: 모든 패키지 적용 : 쿼리 체크
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 

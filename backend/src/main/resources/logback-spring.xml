@@ -5,7 +5,7 @@
   <!-- log file name -->
   <property name="LOG_FILE_NAME" value="jujeol"/>
   <!-- pattern -->
-  <property name="LOG_PATTERN" value="%white(%d{HH:mm:ss.SSS}) %highlight([%-5level]) %yellow([%logger{0}]) - %boldWhite(%m%n)"/>
+  <property name="LOG_PATTERN" value="%white(%d{HH:mm:ss.SSS}) %cyan([%thread]) %highlight([%-5level]) %yellow([%logger{0}]) - %boldWhite(%m%n)"/>
 
   <springProfile name="console-logging">
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
