@@ -9,7 +9,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@ToString
 public class ReviewDrinkResponse {
 
     private Long drinkId;

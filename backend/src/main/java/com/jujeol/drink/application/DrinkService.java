@@ -1,5 +1,8 @@
 package com.jujeol.drink.application;
 
+import com.jujeol.commons.aop.LogWithException;
+import com.jujeol.commons.aop.LogWithSuccess;
+import com.jujeol.commons.aop.LogWithTime;
 import com.jujeol.drink.application.dto.DrinkDto;
 import com.jujeol.drink.application.dto.DrinkRequestDto;
 import com.jujeol.drink.application.dto.SearchDto;
@@ -36,6 +39,10 @@ public class DrinkService {
     private final PreferenceRepository preferenceRepository;
     private final CategoryRepository categoryRepository;
 
+
+    @LogWithTime
+    @LogWithSuccess
+    @LogWithException
     public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, Pageable pageable) {
         Search search = searchDto.toDomain();
         validateCategoryKey(search);

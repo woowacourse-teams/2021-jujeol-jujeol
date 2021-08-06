@@ -9,7 +9,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@ToString
 public class MemberDrinkResponse {
 
     private Long id;
@@ -17,7 +16,7 @@ public class MemberDrinkResponse {
     private String imageUrl;
     private double preferenceRate;
 
-    public static MemberDrinkResponse from(DrinkDto drinkDto) {
+    public static MemberDrinkResponse create(DrinkDto drinkDto) {
         return new MemberDrinkResponse(
                 drinkDto.getId(),
                 drinkDto.getName(),

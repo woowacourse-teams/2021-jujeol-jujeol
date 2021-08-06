@@ -35,7 +35,7 @@ public class LoginService {
 
         Member member = findOrCreateMember(memberDetails);
         final String token = jwtTokenProvider.createToken(member.getId().toString());
-        return TokenDto.from(token);
+        return TokenDto.create(token);
     }
 
     private Member findOrCreateMember(MemberDetails memberDetails) {

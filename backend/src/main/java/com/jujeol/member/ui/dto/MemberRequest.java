@@ -8,7 +8,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@ToString
 public class MemberRequest {
 
     private String nickname;

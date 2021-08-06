@@ -5,10 +5,12 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@ToString
 public class SearchDto {
 
     private String search;
@@ -20,13 +22,5 @@ public class SearchDto {
 
     public Search toDomain() {
         return Search.create(search, categoryKey);
-    }
-
-    @Override
-    public String toString() {
-        return "SearchDto{" +
-                "search='" + search + '\'' +
-                ", categoryKey='" + categoryKey + '\'' +
-                '}';
     }
 }

@@ -16,7 +16,7 @@ public class SocialProviderCodeDto {
     private String code;
     private ProviderName providerName;
 
-    public static SocialProviderCodeDto of(String code, ProviderName providerName){
+    public static SocialProviderCodeDto create(String code, ProviderName providerName){
         return new SocialProviderCodeDto(code, providerName);
     }
 }

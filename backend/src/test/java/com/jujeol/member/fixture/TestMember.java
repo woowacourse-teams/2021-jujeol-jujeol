@@ -73,6 +73,6 @@ public enum TestMember {
     }
 
     public SocialProviderCodeDto toDto(){
-        return SocialProviderCodeDto.of(matchedCode, ProviderName.TEST);
+        return SocialProviderCodeDto.create(matchedCode, ProviderName.TEST);
     }
 }

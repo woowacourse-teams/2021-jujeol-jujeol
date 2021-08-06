@@ -10,7 +10,6 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@ToString
 public class CategoryResponse {
 
     private Long id;

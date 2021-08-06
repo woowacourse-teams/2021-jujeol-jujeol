@@ -16,7 +16,7 @@ public class MemberAcceptanceTool {
 
     public void 선호도_등록(Long drinkId, double preferenceRate, TestMember testMember) {
         requestBuilder.builder()
-                .put("/members/me/drinks/" + drinkId + "/preference", PreferenceDto.of(preferenceRate))
+                .put("/members/me/drinks/" + drinkId + "/preference", PreferenceDto.create(preferenceRate))
                 .withUser(testMember)
                 .build();
     }
