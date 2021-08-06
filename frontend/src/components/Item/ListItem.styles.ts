@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { COLOR } from 'src/constants';
+import LineClamp from 'src/styles/LineClamp';
 
 const Item = styled.li`
   width: 100%;
@@ -26,17 +27,10 @@ const ItemInfo = styled.div`
   h3 {
     font-size: 1.25rem;
     font-weight: 600;
-    line-height: 1.5;
-
-    overflow: hidden;
-    display: -webkit-box;
-
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-
     line-height: 1.3;
     margin-bottom: 0.3rem;
+
+    ${LineClamp({ lineClamp: 2 })}
   }
 
   p {

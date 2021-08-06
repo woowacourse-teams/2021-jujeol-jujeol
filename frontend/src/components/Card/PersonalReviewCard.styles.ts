@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
+import LineClamp from 'src/styles/LineClamp';
 
 const TextContainer = styled.div`
   width: 100%;
@@ -41,15 +41,7 @@ const Content = styled.div<{ isContentOpen: boolean }>`
   font-size: 0.9rem;
   line-height: 1.5;
 
-  ${({ isContentOpen }) =>
-    !isContentOpen &&
-    css`
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    `}
+  ${({ isContentOpen }) => !isContentOpen && LineClamp({ lineClamp: 2 })}
 `;
 
 const ShowMoreButton = styled.button`
