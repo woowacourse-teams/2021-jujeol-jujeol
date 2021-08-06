@@ -30,7 +30,7 @@ const NoSearchResults = ({ search }: { search: string }) => {
 
       <Section title="이런 술은 어때요?" titleAlign="left">
         <CardList count={7} colGap="1rem">
-          {drinks?.map(({ id, name, imageUrl }: { id: number; name: string; imageUrl: string }) => (
+          {drinks?.map(({ id, name, imageUrl }: Pick<Drink.Item, 'id' | 'name' | 'imageUrl'>) => (
             <Item key={id} onClick={onMoveToDrinkDetail(id)}>
               <Img src={imageUrl} alt={name} size="MEDIUM" shape="CIRCLE" />
               <p>{name}</p>

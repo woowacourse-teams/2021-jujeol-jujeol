@@ -15,7 +15,7 @@ import ReviewEditForm from '../Review/ReviewEditForm';
 import { Header, ReviewerInfo, Content, ShowMoreButton } from './ReviewCard.styles';
 
 interface Props {
-  review: Review.ReviewItem;
+  review: Review.Item;
 }
 
 const userProfileIcons = [

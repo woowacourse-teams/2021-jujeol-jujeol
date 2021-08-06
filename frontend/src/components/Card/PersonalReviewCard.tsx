@@ -7,7 +7,7 @@ import { Img } from '../@shared/Image/Image';
 import { TextContainer, Title, Content, ShowMoreButton } from './PersonalReviewCard.styles';
 
 interface Props {
-  review: PersonalReview.PersonalReviewItem;
+  review: Review.PersonalReviewItem;
 }
 
 const PersonalReviewCard = ({ review }: Props) => {

@@ -24,7 +24,7 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
   const categoryName =
     categoryKey && categories.find((category) => category.key === categoryKey)?.name;
 
-  const [searchResultList, setSearchResultList] = useState<SearchResult.SearchResultList>([]);
+  const [searchResultList, setSearchResultList] = useState<Drink.List>([]);
 
   const { isLoading, fetchNextPage, hasNextPage } = useInfiniteQuery(
     'search-results',
@@ -73,7 +73,7 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
               <strong>{words || categoryName}</strong>로 검색한 결과입니다.
             </ResultHeading>
             <List count={searchResultList?.length || 0}>
-              {searchResultList?.map((item: SearchResult.SearchResultItem) => (
+              {searchResultList?.map((item: Drink.Item) => (
                 <ListItem
                   key={item?.id}
                   imageUrl={item?.imageUrl}

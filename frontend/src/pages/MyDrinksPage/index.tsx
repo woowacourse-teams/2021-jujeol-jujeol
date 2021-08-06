@@ -54,7 +54,7 @@ const MyDrinks = () => {
 
       <Container>
         <Grid col={matches ? 2 : 3} rowGap="1.5rem">
-          {myDrinks?.map((myDrink: MyDrink.MyDrinkItem) => (
+          {myDrinks?.map((myDrink: Drink.MyDrinkItem) => (
             <MyDrinkItem key={myDrink.id} size={matches ? 'X_LARGE' : 'LARGE'} drink={myDrink} />
           ))}
         </Grid>
