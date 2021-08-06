@@ -8,7 +8,6 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class ReviewRequest {
 
     private String content;

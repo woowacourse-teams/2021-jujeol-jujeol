@@ -12,7 +12,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode(of = "id")
-@ToString
 public class DrinkDto {
 
     private Long id;

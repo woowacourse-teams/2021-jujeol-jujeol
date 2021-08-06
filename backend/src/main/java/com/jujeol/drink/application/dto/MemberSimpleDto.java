@@ -12,7 +12,6 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-@ToString
 public class MemberSimpleDto {
 
     private Long id;

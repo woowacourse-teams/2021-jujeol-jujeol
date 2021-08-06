@@ -10,7 +10,6 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class DrinkRequestDto {
 
     private String name;

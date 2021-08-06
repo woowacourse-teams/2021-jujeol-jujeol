@@ -71,7 +71,6 @@ public class DrinkService {
         return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
     }
 
-    @Transactional
     public DrinkDto showDrinkDetail(Long id) {
         Drink drink = drinkRepository.findByIdWithFetch(id)
                 .orElseThrow(NotFoundDrinkException::new);
@@ -79,7 +78,6 @@ public class DrinkService {
         return DrinkDto.create(drink, preference, fileServerUrl);
     }
 
-    @Transactional
     public DrinkDto showDrinkDetail(Long drinkId, Long memberId) {
         Drink drink = drinkRepository.findByIdWithFetch(drinkId)
                 .orElseThrow(NotFoundDrinkException::new);

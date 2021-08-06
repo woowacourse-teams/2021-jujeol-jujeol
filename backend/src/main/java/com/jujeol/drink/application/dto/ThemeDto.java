@@ -8,7 +8,6 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class ThemeDto {
 
     private String theme;

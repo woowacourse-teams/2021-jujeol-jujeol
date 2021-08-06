@@ -11,7 +11,6 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class ReviewDto {
 
     private Long id;
