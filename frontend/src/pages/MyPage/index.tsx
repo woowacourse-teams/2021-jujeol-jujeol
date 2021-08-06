@@ -6,12 +6,12 @@ import UserContext from 'src/contexts/UserContext';
 
 import API from 'src/apis/requests';
 
+import NavigationHeader from 'src/components/Header/NavigationHeader';
 import Grid from 'src/components/@shared/Grid/Grid';
 import Preview from 'src/components/Preview/Preview';
 import Profile from 'src/components/Profile/Profile';
 import { HorizontalScroll } from 'src/components/Scroll/HorizontalScroll';
 import Status from './Status';
-import Arrow from 'src/components/@shared/Arrow/Arrow';
 import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
 
 import MyDrinkItem from '../MyDrinksPage/MyDrinkItem';
@@ -19,7 +19,6 @@ import NoPreference from './NoPreference';
 import NoReview from './NoReview';
 
 import { PATH } from 'src/constants';
-import { Header } from './styles';
 import {
   SmileEmojiColorIcon,
   LoveEmojiColorIcon,
@@ -81,15 +80,9 @@ const MyPage = () => {
     getFetch();
   }, [isLoggedIn]);
 
-  const onMoveToPrevPage = () => history.goBack();
   return (
     <>
-      <Header>
-        <button type="button" onClick={onMoveToPrevPage}>
-          <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
-        </button>
-        <h2>내정보</h2>
-      </Header>
+      <NavigationHeader title="내 정보" />
       <Profile ProfileIcon={UserProfileIcon} nickname={userData?.nickname} bio={userData?.bio} />
       <Status
         myDrinksCount={myDrinksData?.pageInfo?.totalSize}
