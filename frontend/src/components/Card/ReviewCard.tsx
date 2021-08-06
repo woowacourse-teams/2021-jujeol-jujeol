@@ -2,7 +2,6 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { COLOR } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
-import nicknameGenerator from 'src/utils/createNickname';
 import Card from '../@shared/Card/Card';
 import {
   LoveEmojiColorIcon,

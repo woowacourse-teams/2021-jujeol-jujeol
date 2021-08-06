@@ -2,7 +2,6 @@ import { createContext, useState } from 'react';
 import { useQuery } from 'react-query';
 import API from 'src/apis/requests';
 import { LOCAL_STORAGE_KEY } from 'src/constants';
-import nicknameGenerator from 'src/utils/createNickname';
 import { removeLocalStorageItem } from 'src/utils/localStorage';
 
 type UserData = {
@@ -33,7 +32,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
     retry: 0,
     onSuccess: ({ data }) => {
       setIsLoggedIn(true);
-      setUserData({ ...data, name: nicknameGenerator(data.id) });
+      setUserData(data);
     },
     onError: () => {
       removeLocalStorageItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);

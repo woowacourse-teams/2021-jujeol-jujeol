@@ -159,7 +159,6 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
   });
 
   it('로그인 된 사용자는 상세페이지에서 리뷰를 수정할 수 있다.', async () => {
-    // 글 작성
     const review = 'good12312341234';
     const reviewInput = screen.getByRole('textbox');
     const submitButton = screen.getByRole('button', { name: '작성 완료' });
@@ -169,12 +168,10 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
 
     await waitFor(() => expect(API.postReview).toBeCalled());
 
-    // 작성완료
     const editButton = screen.getByLabelText('내 리뷰 글 수정하기 버튼');
 
     fireEvent.click(editButton);
 
-    // 수정모달
     const editTextBox = screen.getByPlaceholderText('리뷰를 작성해 주세요');
     const editedReview = "oh, that's so delicious";
     const editSubmitButton = screen.getByRole('button', { name: '수정하기' });
@@ -206,7 +203,6 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
   });
 
   it('로그인 된 사용자는 상세페이지에서 리뷰를 삭제할 수 있다.', async () => {
-    // 글 작성
     const review = 'good12312341234';
     const reviewInput = screen.getByRole('textbox');
     const submitButton = screen.getByRole('button', { name: '작성 완료' });
@@ -216,12 +212,10 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
 
     await waitFor(() => expect(API.postReview).toBeCalled());
 
-    // 작성완료
     const editButton = screen.getByLabelText('내 리뷰 글 수정하기 버튼');
 
     fireEvent.click(editButton);
 
-    // 모달
     const deleteButton = screen.getByRole('button', { name: '삭제하기' });
 
     fireEvent.click(deleteButton);
