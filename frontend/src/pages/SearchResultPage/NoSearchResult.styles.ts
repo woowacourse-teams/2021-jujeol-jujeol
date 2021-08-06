@@ -17,6 +17,7 @@ const NotificationSection = styled.section`
     font-size: 1rem;
     text-align: center;
     font-weight: 600;
+    line-height: 1.25;
   }
 `;
 
