@@ -4,15 +4,17 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@ToString
 public class TokenDto {
 
     private String accessToken;
 
-    public static TokenDto from(String accessToken) {
+    public static TokenDto create(String accessToken) {
         return new TokenDto(accessToken);
     }
 }

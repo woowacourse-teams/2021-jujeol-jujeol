@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -13,7 +14,7 @@ public class PreferenceResponse {
 
     private double preferenceRate;
 
-    public static PreferenceResponse from(PreferenceDto preferenceDto) {
+    public static PreferenceResponse create(PreferenceDto preferenceDto) {
         return new PreferenceResponse(preferenceDto.getPreferenceRate());
     }
 }

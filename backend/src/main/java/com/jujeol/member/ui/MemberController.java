@@ -79,7 +79,7 @@ public class MemberController {
             @PageableDefault(size = 7) Pageable pageable
     ) {
         Page<DrinkDto> drinks = memberService.findDrinks(loginMember.getId(), pageable);
-        Page<MemberDrinkResponse> responses = drinks.map(MemberDrinkResponse::from);
+        Page<MemberDrinkResponse> responses = drinks.map(MemberDrinkResponse::create);
 
         return ResponseEntity.ok(PageResponseAssembler.assemble(responses));
     }

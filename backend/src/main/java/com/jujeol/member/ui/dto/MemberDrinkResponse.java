@@ -4,6 +4,7 @@ import com.jujeol.drink.application.dto.DrinkDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,7 +16,7 @@ public class MemberDrinkResponse {
     private String imageUrl;
     private double preferenceRate;
 
-    public static MemberDrinkResponse from(DrinkDto drinkDto) {
+    public static MemberDrinkResponse create(DrinkDto drinkDto) {
         return new MemberDrinkResponse(
                 drinkDto.getId(),
                 drinkDto.getName(),
