@@ -9,8 +9,10 @@ const Card = ({
   width = '100%',
   height,
   padding,
+  color,
   backgroundColor,
   border,
+  flexDirection,
   children,
   onClick,
 }: Props) => {
@@ -19,8 +21,10 @@ const Card = ({
       width={width}
       height={height}
       padding={padding}
+      color={color}
       backgroundColor={backgroundColor}
       border={border}
+      flexDirection={flexDirection}
       onClick={onClick}
     >
       {children}
