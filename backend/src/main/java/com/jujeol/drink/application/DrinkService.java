@@ -41,8 +41,6 @@ public class DrinkService {
 
 
     @LogWithTime
-    @LogWithSuccess
-    @LogWithException
     public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, Pageable pageable) {
         Search search = searchDto.toDomain();
         validateCategoryKey(search);
