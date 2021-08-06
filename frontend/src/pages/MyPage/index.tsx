@@ -43,6 +43,8 @@ const MyPage = () => {
 
   const queryClient = useQueryClient();
 
+  const isMyDrinksShowMoreEnabled = myDrinks.length > 2;
+  const isMyReviewsShowMoreEnabled = myReviews.length > 3;
   const UserProfileIcon = userProfileIcons[(userData?.id ?? 0) % 4];
 
   const { data: myDrinksData } = useQuery(
@@ -92,7 +94,7 @@ const MyPage = () => {
       <Preview
         title="선호도를 남긴 술"
         path={PATH.MY_DRINKS}
-        isShowMoreEnabled={myDrinks?.length > 2}
+        isShowMoreEnabled={isMyDrinksShowMoreEnabled}
       >
         {myDrinks?.length ? (
           <HorizontalScroll margin="0 -1.5rem" padding="0 1.5rem">
@@ -110,7 +112,7 @@ const MyPage = () => {
       <Preview
         title="내가 남긴 리뷰"
         path={PATH.MY_REVIEWS}
-        isShowMoreEnabled={myReviews?.length > 3}
+        isShowMoreEnabled={isMyReviewsShowMoreEnabled}
       >
         {myReviews?.length ? (
           <ul>

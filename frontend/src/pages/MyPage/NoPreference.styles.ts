@@ -8,7 +8,7 @@ const Header = styled.div`
 
 const Content = styled.div`
   display: flex;
-  column-gap: 1rem;
+  column-gap: 0.5rem;
   justify-content: center;
 
   p {
