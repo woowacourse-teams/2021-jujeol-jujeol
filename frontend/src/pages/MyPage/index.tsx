@@ -15,6 +15,8 @@ import Arrow from 'src/components/@shared/Arrow/Arrow';
 import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
 
 import MyDrinkItem from '../MyDrinksPage/MyDrinkItem';
+import NoPreference from './NoPreference';
+import NoReview from './NoReview';
 
 import { PATH } from 'src/constants';
 import { Header } from './styles';
@@ -57,7 +59,7 @@ const MyPage = () => {
 
   const { data: myReviewsData } = useQuery(
     'my-reviews',
-    () => API.getPersonalReviews({ page: 1, size: 3 }),
+    () => API.getPersonalReviews({ page: 1, size: 4 }),
     {
       retry: 0,
       onSuccess: ({ data }) => {
@@ -94,22 +96,38 @@ const MyPage = () => {
         myReviewsCount={myReviewsData?.pageInfo?.totalSize}
       />
 
-      <Preview title="내가 마신 술" path={PATH.MY_DRINKS}>
-        <HorizontalScroll margin="0 -1.5rem" padding="0 1.5rem">
-          <Grid col={7} colGap="1rem">
-            {myDrinks?.map((myDrink: MyDrink.MyDrinkItem) => (
-              <MyDrinkItem key={myDrink.id} size="LARGE" drink={myDrink} />
-            ))}
-          </Grid>
-        </HorizontalScroll>
+      <Preview
+        title="선호도를 남긴 술"
+        path={PATH.MY_DRINKS}
+        isShowMoreEnabled={myDrinks?.length > 2}
+      >
+        {myDrinks?.length ? (
+          <HorizontalScroll margin="0 -1.5rem" padding="0 1.5rem">
+            <Grid col={7} colGap="1rem">
+              {myDrinks.map((myDrink: MyDrink.MyDrinkItem) => (
+                <MyDrinkItem key={myDrink.id} size="LARGE" drink={myDrink} />
+              ))}
+            </Grid>
+          </HorizontalScroll>
+        ) : (
+          <NoPreference />
+        )}
       </Preview>
 
-      <Preview title="내가 남긴 리뷰" path={PATH.MY_REVIEWS}>
-        <ul>
-          {myReviews?.map((myReview: PersonalReview.PersonalReviewItem) => (
-            <PersonalReviewItem key={myReview.id} review={myReview} />
-          ))}
-        </ul>
+      <Preview
+        title="내가 남긴 리뷰"
+        path={PATH.MY_REVIEWS}
+        isShowMoreEnabled={myReviews?.length > 3}
+      >
+        {myReviews?.length ? (
+          <ul>
+            {myReviews.slice(0, 3).map((myReview: PersonalReview.PersonalReviewItem) => (
+              <PersonalReviewItem key={myReview.id} review={myReview} />
+            ))}
+          </ul>
+        ) : (
+          <NoReview myDrinks={myDrinks} />
+        )}
       </Preview>
     </>
   );
