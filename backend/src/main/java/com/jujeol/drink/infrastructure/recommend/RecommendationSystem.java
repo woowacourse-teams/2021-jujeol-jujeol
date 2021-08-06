@@ -26,28 +26,29 @@ public class RecommendationSystem {
     private final PreferenceRepository preferenceRepository;
 
     public List<Long> recommend(Long memberId, int howMany) {
-        final UserBasedRecommender recommender = getRecommender();
-        final List<RecommendedItem> recommend;
+        final List<Preference> preferences = preferenceRepository.findAll();
+        final UserBasedRecommender recommender = getRecommender(preferences);
         try {
-            recommend = recommender.recommend(memberId, howMany);
+            return recommender.recommend(memberId, howMany, false)
+                    .stream()
+                    .mapToLong(RecommendedItem::getItemID)
+                    .boxed()
+                    .collect(toList());
         } catch (TasteException e) {
             return new ArrayList<>();
         }
-
-        final List<Long> itemList =
-                recommend.stream().mapToLong(RecommendedItem::getItemID).boxed().collect(toList());
-        return itemList;
     }
 
     private UserNeighborhood getUserNeighborhood(double threshold, UserSimilarity similarity, DataModel dataModel) {
         return new ThresholdUserNeighborhood(threshold, similarity, dataModel);
     }
 
-    private UserBasedRecommender getRecommender() {
-        final List<Preference> preferences = preferenceRepository.findAll();
-        final List<org.apache.mahout.cf.taste.model.Preference> datas = preferences.stream().map(TestPreference::new)
+    private UserBasedRecommender getRecommender(List<Preference> preferences) {
+        final List<org.apache.mahout.cf.taste.model.Preference> data = preferences.stream().map(
+                MemberPreference::new)
                 .collect(Collectors.toList());
-        final DataModel dataModel = new TestDataModel(datas);
+        
+        final DataModel dataModel = new PreferenceDataModel(data);
         final UserSimilarity similarity = getSimilarity(dataModel);
         return new GenericUserBasedRecommender(dataModel, getUserNeighborhood(0.1, similarity, dataModel),
                 similarity);

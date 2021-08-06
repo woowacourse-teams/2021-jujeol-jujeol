@@ -16,63 +16,53 @@ import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.model.Preference;
 import org.apache.mahout.cf.taste.model.PreferenceArray;
 
-public class TestDataModel implements DataModel {
+public class PreferenceDataModel implements DataModel {
 
     private final List<Preference> userItems;
 
-    public TestDataModel(List<Preference> userItems) {
+    public PreferenceDataModel(List<Preference> userItems) {
         this.userItems = userItems;
     }
 
     @Override
     public LongPrimitiveIterator getUserIDs() {
-        final LongPrimitiveArrayIterator result = new LongPrimitiveArrayIterator(
+        return new LongPrimitiveArrayIterator(
                 userItems.stream()
                         .mapToLong(Preference::getUserID)
                         .distinct()
                         .toArray());
-        return result;
     }
 
     @Override
     public int getNumItems() {
-        final int count = (int) userItems.stream()
+        return (int) userItems.stream()
                 .mapToLong(Preference::getItemID)
                 .distinct()
                 .count();
-        return count;
     }
 
     @Override
     public int getNumUsers() {
-        final int result = (int) userItems.stream()
+        return (int) userItems.stream()
                 .mapToLong(Preference::getUserID)
                 .distinct()
                 .count();
-        return result;
     }
 
     @Override
     public float getMaxPreference() {
-        final float result = (float) userItems.stream().mapToDouble(Preference::getValue)
+        return (float) userItems.stream().mapToDouble(Preference::getValue)
                 .max().orElse(0.0);
-        return result;
     }
 
     @Override
     public float getMinPreference() {
-        final float result = (float) userItems.stream().mapToDouble(Preference::getValue)
+        return (float) userItems.stream().mapToDouble(Preference::getValue)
                 .filter(num -> num > 0.0)
                 .min().orElse(0.0);
-        return result;
     }
 
-
-
-
-
-
-
+    // 여기서부턴 안 씀
     @Override
     public PreferenceArray getPreferencesFromUser(long userID) {
         return new GenericUserPreferenceArray(userItems.stream()
@@ -153,7 +143,5 @@ public class TestDataModel implements DataModel {
     }
 
     @Override
-    public void refresh(Collection<Refreshable> alreadyRefreshed) {
-        System.out.println("hello");
-    }
+    public void refresh(Collection<Refreshable> alreadyRefreshed) {}
 }

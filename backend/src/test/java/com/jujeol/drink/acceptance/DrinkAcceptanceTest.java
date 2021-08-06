@@ -95,7 +95,6 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     public void showDrinksByUserPreferenceTest() {
         //given
         협업_필터링_데이터_등록();
-        String theme = "preference";
 
         //when
         List<DrinkSimpleResponse> drinkSimpleResponses = request()
@@ -105,6 +104,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .build().convertBodyToList(DrinkSimpleResponse.class);
 
         //then
+        drinkSimpleResponses.forEach(drinkSimpleResponse -> System.out.println(drinkSimpleResponse.getName()));
         assertThat(drinkSimpleResponses.get(0).getName()).isEqualTo("애플");
         assertThat(drinkSimpleResponses.get(1).getName()).isEqualTo("타이거 라들러 레몬");
         assertThat(drinkSimpleResponses.get(2).getName()).isEqualTo("타이거 라들러 자몽");
@@ -132,6 +132,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
 
         memberAcceptanceTool.선호도_등록(obId, 1.0, WEDGE);
         memberAcceptanceTool.선호도_등록(kgbId, 4.5, WEDGE);
+        memberAcceptanceTool.선호도_등록(stellaId, 5.0, WEDGE);
         memberAcceptanceTool.선호도_등록(tigerId, 4.7, WEDGE);
         memberAcceptanceTool.선호도_등록(appleId, 4.5, WEDGE);
         memberAcceptanceTool.선호도_등록(tigerRadId, 4.5, WEDGE);

@@ -2,13 +2,13 @@ package com.jujeol.drink.infrastructure.recommend;
 
 import org.apache.mahout.cf.taste.model.Preference;
 
-public class TestPreference implements Preference {
+public class MemberPreference implements Preference {
 
     private Long userId;
     private Long itemId;
     private Float value;
 
-    public TestPreference(com.jujeol.member.domain.Preference preference) {
+    public MemberPreference(com.jujeol.member.domain.Preference preference) {
         this.userId = preference.getMember().getId();
         this.itemId = preference.getDrink().getId();
         this.value = (float) preference.getRate();
