@@ -23,11 +23,9 @@ const Title = styled.div`
   }
 `;
 
-const Section = styled.section`
-  h2 {
-    margin: 1rem 2rem;
-    color: ${COLOR.WHITE_200};
-  }
+const ResultHeading = styled.h2`
+  margin: 1rem 2rem;
+  color: ${COLOR.WHITE_200};
 `;
 
-export { Container, Title, Section };
+export { Container, Title, ResultHeading };

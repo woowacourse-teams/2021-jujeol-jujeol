@@ -11,8 +11,9 @@ import List from 'src/components/List/List';
 import { PATH } from 'src/constants';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import { categories } from '../SearchPage';
+import NoSearchResults from './NoSearchResults';
 
-import { Container, Title, Section } from './styles';
+import { Container, Title, ResultHeading } from './styles';
 
 const SearchResultPage = ({ history, location }: RouteComponentProps) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
@@ -63,15 +64,14 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
         </Title>
       </Header>
 
-      <Section>
+      <section>
         {isLoading ? (
           <p>Loading..</p>
-        ) : (
+        ) : searchResultList?.length ? (
           <>
-            <h2>
+            <ResultHeading>
               <strong>{words || categoryName}</strong>로 검색한 결과입니다.
-            </h2>
-
+            </ResultHeading>
             <List count={searchResultList?.length || 0}>
               {searchResultList?.map((item: SearchResult.SearchResultItem) => (
                 <ListItem
@@ -87,8 +87,10 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
             </List>
             <InfinityScrollPoll ref={observerTargetRef} />
           </>
+        ) : (
+          <NoSearchResults search={words || categoryName || ''} />
         )}
-      </Section>
+      </section>
     </Container>
   );
 };
