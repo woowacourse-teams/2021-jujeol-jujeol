@@ -4,7 +4,7 @@ import static com.jujeol.drink.domain.QDrink.drink;
 
 import com.jujeol.drink.domain.Drink;
 import com.jujeol.drink.domain.RecommendationTheme;
-import com.jujeol.drink.domain.Search;
+import com.jujeol.drink.domain.SearchWords;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.OrderSpecifier;
@@ -39,27 +39,45 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
     }
 
     @Override
-    public Page<Drink> findBySearch(Search search, Pageable pageable) {
-        QueryResults<Drink> result = queryFactory.selectFrom(drink)
-                .where(searchCondition(search))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+    public List<Drink> findBySearch(SearchWords searchWords) {
+        return queryFactory.selectFrom(drink)
                 .innerJoin(drink.category)
-                .fetchResults();
-        return new PageImpl<>(result.getResults(), pageable, result.getTotal());
+                .where(searchCondition(searchWords))
+                .fetchJoin()
+                .fetch();
     }
 
-    private BooleanBuilder searchCondition(Search search) {
+    private BooleanBuilder searchCondition(SearchWords searchWords) {
         BooleanBuilder builder = new BooleanBuilder();
-        if (search.hasSearch()) {
-            builder.and(
-                    drink.name.name.likeIgnoreCase("%" + search.getSearch() + "%")
-                            .or(drink.englishName.englishName.likeIgnoreCase("%" + search.getSearch() + "%"))
-            );
+        if (searchWords.hasSearchWords()) {
+            for (String word : searchWords.getSearchWords()) {
+                builder.or(drink.name.name.likeIgnoreCase("%" + word + "%"));
+                builder.or(drink.englishName.englishName.likeIgnoreCase("%" + word + "%"));
+            }
         }
-        if (search.hasCategoryKey()) {
-            builder.and(drink.category.key.equalsIgnoreCase(search.getCategoryKey()));
+        return builder;
+    }
+
+    @Override
+    public List<Drink> findByCategory(SearchWords searchWords, String categoryKey) {
+        return queryFactory.selectFrom(drink)
+                .innerJoin(drink.category)
+                .where(categorySearchCondition(searchWords, categoryKey))
+                .fetchJoin()
+                .fetch();
+    }
+
+    private BooleanBuilder categorySearchCondition(SearchWords searchWords, String categoryKey) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if (searchWords.hasSearchWords()) {
+            for (String word : searchWords.getSearchWords()) {
+                builder.or(drink.category.name.eq(word));
+            }
         }
+        if (categoryKey != null) {
+            builder.or(drink.category.key.eq(categoryKey));
+        }
+
         return builder;
     }
 
