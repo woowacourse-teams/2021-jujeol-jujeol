@@ -1,3 +1,12 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0"
+    }
+}
+
 plugins {
     id 'org.springframework.boot' version '2.5.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -5,6 +14,9 @@ plugins {
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
     id 'java'
 }
+
+apply plugin: 'org.sonarqube'
+apply plugin: 'jacoco'
 
 group = 'com.jujeol.'
 version = '1.0.2-beta'
@@ -42,6 +54,9 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured:3.3.0'
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'com.querydsl:querydsl-jpa'
+    implementation 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
+    implementation 'org.springframework.boot:spring-boot-gradle-plugin:2.5.2'
+    implementation 'io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE'
 }
 
 ext {
@@ -60,6 +75,32 @@ task copySecret(type: Copy) {
 
 test {
     useJUnitPlatform()
+    finalizedBy 'jacocoTestReport'
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.enabled false
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.login", "e74f66ccdd54082c53592463f2132ff75cbd3723"
+        property "sonar.sources", "src"
+        property "sonar.language", "java"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.profile", "Sonar way"
+        property "sonar.test.inclusions", "**/*Test.java"
+        property 'sonar.coverage.jacoco.xmlReportPaths', "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+    }
 }
 
 asciidoctor {
