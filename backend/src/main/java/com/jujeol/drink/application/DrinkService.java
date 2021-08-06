@@ -8,7 +8,7 @@ import com.jujeol.drink.application.dto.DrinkRequestDto;
 import com.jujeol.drink.application.dto.SearchDto;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.Search;
+import com.jujeol.drink.domain.SearchWords;
 import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.exception.NotFoundCategoryException;
@@ -42,11 +42,23 @@ public class DrinkService {
 
     @LogWithTime
     public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, Pageable pageable) {
-        Search search = searchDto.toDomain();
-        validateCategoryKey(search);
-        return drinkRepository.findBySearch(search, pageable)
-                .map(drink -> DrinkDto
-                        .create(drink, Preference.create(drink, 0), fileServerUrl));
+        SearchWords searchWords = SearchWords.create(searchDto.getSearch());
+
+        List<Drink> drinksBySearch = new ArrayList<>();
+
+        if (searchWords.hasSearchWords()) {
+            drinksBySearch.addAll(drinkRepository.findBySearch(searchWords));
+        }
+        drinksBySearch
+                .addAll(drinkRepository.findByCategory(searchWords, searchDto.getCategoryKey()));
+
+        List<DrinkDto> drinkDtos = drinksBySearch.stream()
+                .distinct()
+                .map(drink -> DrinkDto.create(
+                        drink, Preference.create(drink, 0), fileServerUrl))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(drinkDtos, pageable, drinksBySearch.size());
     }
 
     public Page<DrinkDto> showAllDrinksByPage(Pageable pageable) {
@@ -125,12 +137,5 @@ public class DrinkService {
     @Transactional
     public void removeDrink(Long id) {
         drinkRepository.deleteById(id);
-    }
-
-    private void validateCategoryKey(Search search) {
-        if (search.hasCategoryKey()) {
-            categoryRepository.findByKey(search.getUpperCategoryKey())
-                    .orElseThrow(NotFoundCategoryException::new);
-        }
     }
 }
