@@ -46,7 +46,7 @@ const Modal = ({ isOpened, setIsOpened, children }: Props) => {
       });
     }
 
-    if (changeYPosition > modalPosition.contentHeight * 0.5) {
+    if (changeYPosition > modalPosition.contentHeight * 0.4) {
       closeModalByTouch();
     }
   };
