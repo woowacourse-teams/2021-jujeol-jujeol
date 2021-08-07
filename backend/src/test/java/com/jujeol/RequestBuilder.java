@@ -175,7 +175,7 @@ public class RequestBuilder {
             public void addRequest(RequestSpecification requestSpec) {
                 if(userFlag) {
                     final TokenDto token = 
-                            loginService.createToken(SocialProviderCodeDto.of(member.getMatchedCode(), ProviderName.TEST));
+                            loginService.createToken(SocialProviderCodeDto.create(member.getMatchedCode(), ProviderName.TEST));
                     requestSpec.header("Authorization", "Bearer " + token.getAccessToken());
                 }
             }

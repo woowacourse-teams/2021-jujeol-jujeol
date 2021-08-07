@@ -38,7 +38,7 @@ public class MemberService {
     public MemberDto findMember(Long id) {
         Member member = memberRepository.findById(id)
                 .orElseThrow(NoSuchMemberException::new);
-        return MemberDto.from(member);
+        return MemberDto.create(member);
     }
 
     @Transactional

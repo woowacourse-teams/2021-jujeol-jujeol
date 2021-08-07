@@ -12,7 +12,7 @@ public class TokenDto {
 
     private String accessToken;
 
-    public static TokenDto from(String accessToken) {
+    public static TokenDto create(String accessToken) {
         return new TokenDto(accessToken);
     }
 }

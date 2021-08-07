@@ -1,7 +1,4 @@
 spring:
-  jpa:
-    show-sql: true
-    open-in-view: false
   mvc:
     throw-exception-if-no-handler-found: true
   web:
