@@ -1,5 +1,5 @@
 import { TouchEventHandler, MouseEventHandler, useState } from 'react';
-import { Container, Content } from './Modal.styles';
+import { Container, Content, CloseButton } from './Modal.styles';
 
 interface Props {
   isOpened: boolean;
@@ -20,6 +20,10 @@ const Modal = ({ isOpened, setIsOpened, children }: Props) => {
     if (event.currentTarget === event.target) {
       setIsOpened(false);
     }
+  };
+
+  const onModalCloseButton = () => {
+    setIsOpened(false);
   };
 
   const onTouchStart: TouchEventHandler<HTMLDivElement> = (event) => {
@@ -61,6 +65,14 @@ const Modal = ({ isOpened, setIsOpened, children }: Props) => {
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
       >
+        <CloseButton
+          type="button"
+          onClick={onModalCloseButton}
+          aria-label="모달 닫기 버튼"
+          aria-disable="false"
+        >
+          X
+        </CloseButton>
         {children}
       </Content>
     </Container>

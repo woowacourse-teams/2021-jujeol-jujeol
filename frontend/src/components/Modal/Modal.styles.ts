@@ -81,4 +81,11 @@ const Content = styled.div<{ isOpened: boolean; isTouchDown: boolean }>`
   }
 `;
 
-export { Container, Content };
+const CloseButton = styled.button`
+  opacity: 0;
+  position: absolute;
+  top: -1rem;
+  left: 1rem;
+`;
+
+export { Container, Content, CloseButton };
