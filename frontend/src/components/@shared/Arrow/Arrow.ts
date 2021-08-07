@@ -10,8 +10,8 @@ const DIRECTION = {
 
 interface ArrowStyle {
   fontSize?: string;
-  size: string;
-  borderWidth: string;
+  size?: string;
+  borderWidth?: string;
   dir: keyof typeof DIRECTION;
 }
 
