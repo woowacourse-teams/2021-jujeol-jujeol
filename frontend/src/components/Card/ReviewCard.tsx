@@ -63,7 +63,7 @@ const ReviewCard = ({ review }: Props) => {
           <time>{new Date(createdAt)?.toLocaleDateString()}</time>
         </ReviewerInfo>
         {userData?.id === author.id && (
-          <EditButton ariaLabel="내 리뷰 수정하기 버튼" onClick={onOpenEditForm} />
+          <EditButton ariaLabel="내 리뷰 글 수정하기 버튼" onClick={onOpenEditForm} />
         )}
       </Header>
       <Content ref={contentRef} isContentOpen={isContentOpen}>
