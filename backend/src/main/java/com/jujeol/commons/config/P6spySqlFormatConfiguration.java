@@ -10,8 +10,7 @@ public class P6spySqlFormatConfiguration implements MessageFormattingStrategy {
     @Override
     public String formatMessage(int connectionId, String now, long elapsed, String category,
             String prepared, String sql, String url) {
-        sql = formatSql(category, sql);
-        return sql;
+        return formatSql(category, sql);
     }
 
     private String formatSql(String category, String sql) {
