@@ -1,7 +1,5 @@
 package com.jujeol.drink.application;
 
-import com.jujeol.commons.aop.LogWithException;
-import com.jujeol.commons.aop.LogWithSuccess;
 import com.jujeol.commons.aop.LogWithTime;
 import com.jujeol.drink.application.dto.DrinkDto;
 import com.jujeol.drink.application.dto.DrinkRequestDto;
