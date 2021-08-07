@@ -26,6 +26,12 @@ const Modal = ({ isOpened, setIsOpened, children }: Props) => {
     setIsOpened(false);
   };
 
+  window.addEventListener('keyup', (event) => {
+    if (event.key !== 'Escape') return;
+
+    setIsOpened(false);
+  });
+
   const onTouchStart: TouchEventHandler<HTMLDivElement> = (event) => {
     modalPosition.currentYPosition = event.touches[0].clientY;
   };
@@ -69,7 +75,7 @@ const Modal = ({ isOpened, setIsOpened, children }: Props) => {
           type="button"
           onClick={onModalCloseButton}
           aria-label="모달 닫기 버튼"
-          aria-disable="false"
+          aria-disabled="false"
         >
           X
         </CloseButton>
