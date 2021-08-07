@@ -5,7 +5,6 @@ import com.jujeol.drink.domain.RecommendForMember;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.infrastructure.recommend.RecommendationSystem;
 import com.jujeol.member.ui.LoginMember;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,7 +22,7 @@ public class RecommendFactory {
     }
 
     public RecommendStrategy create(LoginMember loginMember) {
-        if(loginMember.isMember()) {
+        if (loginMember.isMember()) {
             return new RecommendForMember(recommendStrategy, recommendationSystem, drinkRepository);
         }
         return new RecommendForAnonymous(drinkRepository);

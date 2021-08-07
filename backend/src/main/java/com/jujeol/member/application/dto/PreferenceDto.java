@@ -12,7 +12,7 @@ public class PreferenceDto {
 
     private double preferenceRate;
 
-    public static PreferenceDto of(double preferenceRate) {
+    public static PreferenceDto create(double preferenceRate) {
         return new PreferenceDto(preferenceRate);
     }
 }
