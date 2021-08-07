@@ -1,14 +1,16 @@
 import { useContext, useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useHistory, useParams } from 'react-router-dom';
+
 import UserContext from 'src/contexts/UserContext';
 import API from 'src/apis/requests';
-import Property from 'src/components/Property/Property';
+import Arrow from 'src/components/@shared/Arrow/Arrow';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import Review from 'src/components/Review/Review';
-import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
+import Property from 'src/components/Property/Property';
 import { properties } from './propertyData';
-import { Section, PreferenceSection, Image, DescriptionSection } from './styles';
+import { Section, PreferenceSection, Image, DescriptionSection, Container } from './styles';
+import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -27,11 +29,11 @@ const defaultDrinkDetail = {
 const DrinksDetailPage = () => {
   const { id: drinkId } = useParams<{ id: string }>();
 
-  const [drinkInfo, setDrinkInfo] = useState(defaultDrinkDetail);
-
   const history = useHistory();
+
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
+  const [drinkInfo, setDrinkInfo] = useState(defaultDrinkDetail);
   const {
     name,
     englishName,
@@ -41,6 +43,10 @@ const DrinksDetailPage = () => {
     preferenceRate,
     preferenceAvg,
   } = drinkInfo;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const DrinkDetailQuery = useQuery('drink-detail', () => API.getDrink<string>(drinkId), {
     retry: 0,
@@ -87,12 +93,15 @@ const DrinksDetailPage = () => {
     }
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const onMoveToPrevPage = () => {
+    history.goBack();
+  };
 
   return (
-    <>
+    <Container>
+      <button type="button" onClick={onMoveToPrevPage}>
+        <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" color={COLOR.BLACK_900} />
+      </button>
       <Image src={imageUrl} alt={name} />
       <Section>
         <PreferenceSection>
@@ -138,7 +147,7 @@ const DrinksDetailPage = () => {
 
         <Review drinkId={drinkId} />
       </Section>
-    </>
+    </Container>
   );
 };
 
