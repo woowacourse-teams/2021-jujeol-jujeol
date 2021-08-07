@@ -7,13 +7,15 @@ import ReviewCard from '../Card/ReviewCard';
 import InfinityScrollPoll from '../@shared/InfinityScrollPoll/InfinityScrollPoll';
 import NoReviews from './NoReviews';
 import { Wrapper, ReviewList } from './Review.styles';
+import DisableWriteReview from './DisableWriteReview';
 
 interface Props {
   drinkId: string;
   drinkName: string;
+  preferenceRate: number;
 }
 
-const Review = ({ drinkId, drinkName }: Props) => {
+const Review = ({ drinkId, drinkName, preferenceRate }: Props) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
   const { totalSize, reviews } = useReviews({ drinkId, observerTargetRef });
@@ -21,7 +23,7 @@ const Review = ({ drinkId, drinkName }: Props) => {
   return (
     <Wrapper>
       <h2>리뷰 {totalSize}개</h2>
-      <ReviewCreateForm />
+      {preferenceRate ? <ReviewCreateForm /> : <DisableWriteReview />}
 
       {totalSize === 0 ? (
         <NoReviews drinkName={drinkName} />

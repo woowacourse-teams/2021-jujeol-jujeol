@@ -136,7 +136,7 @@ const DrinksDetailPage = () => {
           </ul>
         </DescriptionSection>
 
-        <Review drinkId={drinkId} drinkName={name} />
+        <Review drinkId={drinkId} drinkName={name} preferenceRate={preferenceRate} />
       </Section>
     </>
   );
