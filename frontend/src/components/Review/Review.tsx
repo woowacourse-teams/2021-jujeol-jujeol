@@ -1,37 +1,22 @@
 import { useRef } from 'react';
-import { useInfiniteQuery } from 'react-query';
-import API from 'src/apis/requests';
+
+import useReviews from 'src/hooks/useReviews';
+
 import ReviewCreateForm from './ReviewCreateForm';
 import ReviewCard from '../Card/ReviewCard';
-import { Wrapper, ReviewList } from './Review.styles';
-import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import InfinityScrollPoll from '../@shared/InfinityScrollPoll/InfinityScrollPoll';
 import NoReviews from './NoReviews';
+import { Wrapper, ReviewList } from './Review.styles';
 
-const Review = ({ drinkId, drinkName }: { drinkId: string; drinkName: string }) => {
+interface Props {
+  drinkId: string;
+  drinkName: string;
+}
+
+const Review = ({ drinkId, drinkName }: Props) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
-  const {
-    data: reviewData,
-    fetchNextPage,
-    hasNextPage,
-  } = useInfiniteQuery(
-    'reviews',
-    ({ pageParam = 1 }) => API.getReview<string>({ id: drinkId, page: pageParam }),
-    {
-      getNextPageParam: ({ pageInfo }) => {
-        return pageInfo.currentPage < pageInfo.lastPage ? pageInfo.currentPage + 1 : undefined;
-      },
-    }
-  );
-  const reviews = reviewData?.pages?.map((page) => page.data).flat() ?? [];
-  const [
-    {
-      pageInfo: { totalSize },
-    },
-  ] = reviewData?.pages ?? [{ pageInfo: { totalSize: 0 } }];
-
-  useInfinityScroll({ target: observerTargetRef, fetchNextPage, hasNextPage });
+  const { totalSize, reviews } = useReviews({ drinkId, observerTargetRef });
 
   return (
     <Wrapper>
@@ -41,18 +26,19 @@ const Review = ({ drinkId, drinkName }: { drinkId: string; drinkName: string }) 
       {totalSize === 0 ? (
         <NoReviews drinkName={drinkName} />
       ) : (
-        <ReviewList>
-          {reviews?.map((review) => {
-            return (
-              <li key={review.id}>
-                <ReviewCard review={review} />
-              </li>
-            );
-          })}
-        </ReviewList>
+        <>
+          <ReviewList>
+            {reviews?.map((review) => {
+              return (
+                <li key={review.id}>
+                  <ReviewCard review={review} />
+                </li>
+              );
+            })}
+          </ReviewList>
+          <InfinityScrollPoll ref={observerTargetRef} />
+        </>
       )}
-
-      <InfinityScrollPoll ref={observerTargetRef} />
     </Wrapper>
   );
 };
