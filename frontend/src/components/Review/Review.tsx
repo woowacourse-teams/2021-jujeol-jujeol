@@ -6,8 +6,9 @@ import ReviewCard from '../Card/ReviewCard';
 import { Wrapper, ReviewList } from './Review.styles';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import InfinityScrollPoll from '../@shared/InfinityScrollPoll/InfinityScrollPoll';
+import NoReviews from './NoReviews';
 
-const Review = ({ drinkId }: { drinkId: string }) => {
+const Review = ({ drinkId, drinkName }: { drinkId: string; drinkName: string }) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -37,15 +38,19 @@ const Review = ({ drinkId }: { drinkId: string }) => {
       <h2>리뷰 {totalSize}개</h2>
       <ReviewCreateForm />
 
-      <ReviewList>
-        {reviews?.map((review) => {
-          return (
-            <li key={review.id}>
-              <ReviewCard review={review} />
-            </li>
-          );
-        })}
-      </ReviewList>
+      {totalSize === 0 ? (
+        <NoReviews drinkName={drinkName} />
+      ) : (
+        <ReviewList>
+          {reviews?.map((review) => {
+            return (
+              <li key={review.id}>
+                <ReviewCard review={review} />
+              </li>
+            );
+          })}
+        </ReviewList>
+      )}
 
       <InfinityScrollPoll ref={observerTargetRef} />
     </Wrapper>
