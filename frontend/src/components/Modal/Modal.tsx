@@ -1,4 +1,4 @@
-import { TouchEventHandler, MouseEventHandler } from 'react';
+import { TouchEventHandler, MouseEventHandler, useState } from 'react';
 import { Container, Content } from './Modal.styles';
 
 interface Props {
@@ -14,6 +14,8 @@ const modalPosition = {
 };
 
 const Modal = ({ isOpened, setIsOpened, children }: Props) => {
+  const [isTouchDown, setIsTouchDown] = useState(false);
+
   const onClose: MouseEventHandler<HTMLDivElement> = (event) => {
     if (event.currentTarget === event.target) {
       setIsOpened(false);
@@ -41,10 +43,12 @@ const Modal = ({ isOpened, setIsOpened, children }: Props) => {
 
   const closeModalByTouch = () => {
     setIsOpened(false);
+    setIsTouchDown(true);
     cancelAnimationFrame(modalPosition.requestAnimationFrameKey);
   };
 
   const onTouchEnd: TouchEventHandler<HTMLDivElement> = (event) => {
+    setIsTouchDown(false);
     event.currentTarget.style.transform = 'none';
   };
 
@@ -52,6 +56,7 @@ const Modal = ({ isOpened, setIsOpened, children }: Props) => {
     <Container isOpened={isOpened} onClick={onClose}>
       <Content
         isOpened={isOpened}
+        isTouchDown={isTouchDown}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
