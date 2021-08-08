@@ -18,9 +18,10 @@ const Container = styled.div`
       ${Flex({ justifyContent: 'center', alignItems: 'center' })}
       position: relative;
 
-      width: 70%;
+      width: fit-content;
       height: 2.5rem;
       margin: 0.5rem auto;
+      padding: 0 1rem;
 
       font-weight: 700;
       background-color: ${COLOR.YELLOW_300};

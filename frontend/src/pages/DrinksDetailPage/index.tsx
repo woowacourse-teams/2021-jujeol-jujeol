@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { MouseEventHandler, useContext, useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useHistory, useParams } from 'react-router-dom';
+
 import UserContext from 'src/contexts/UserContext';
 import API from 'src/apis/requests';
 import Property from 'src/components/Property/Property';
@@ -27,7 +28,14 @@ const defaultDrinkDetail = {
 const DrinksDetailPage = () => {
   const { id: drinkId } = useParams<{ id: string }>();
 
+  const preferenceRef = useRef<HTMLDivElement>(null);
+
   const [drinkInfo, setDrinkInfo] = useState(defaultDrinkDetail);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const history = useHistory();
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
@@ -87,15 +95,20 @@ const DrinksDetailPage = () => {
     }
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const onMoveToPreferenceSection: MouseEventHandler<HTMLButtonElement> = () => {
+    setIsScrolled(true);
+    preferenceRef.current?.scrollIntoView({ behavior: 'smooth' });
+
+    setTimeout(() => {
+      setIsScrolled(false);
+    }, 3000);
+  };
 
   return (
     <>
       <Image src={imageUrl} alt={name} />
       <Section>
-        <PreferenceSection>
+        <PreferenceSection ref={preferenceRef} isScrolled={isScrolled}>
           <h3>
             {preferenceRate ? `당신의 선호도는? ${preferenceRate} 점` : '선호도를 입력해주세요'}
           </h3>
@@ -136,7 +149,12 @@ const DrinksDetailPage = () => {
           </ul>
         </DescriptionSection>
 
-        <Review drinkId={drinkId} drinkName={name} preferenceRate={preferenceRate} />
+        <Review
+          drinkId={drinkId}
+          drinkName={name}
+          preferenceRate={preferenceRate}
+          onMoveToPreferenceSection={onMoveToPreferenceSection}
+        />
       </Section>
     </>
   );

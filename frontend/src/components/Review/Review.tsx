@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { MouseEventHandler, useRef } from 'react';
 
 import useReviews from 'src/hooks/useReviews';
 
@@ -13,9 +13,10 @@ interface Props {
   drinkId: string;
   drinkName: string;
   preferenceRate: number;
+  onMoveToPreferenceSection: MouseEventHandler<HTMLButtonElement>;
 }
 
-const Review = ({ drinkId, drinkName, preferenceRate }: Props) => {
+const Review = ({ drinkId, drinkName, preferenceRate, onMoveToPreferenceSection }: Props) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
   const { totalSize, reviews } = useReviews({ drinkId, observerTargetRef });
@@ -23,7 +24,11 @@ const Review = ({ drinkId, drinkName, preferenceRate }: Props) => {
   return (
     <Wrapper>
       <h2>리뷰 {totalSize}개</h2>
-      {preferenceRate ? <ReviewCreateForm /> : <DisableWriteReview />}
+      {preferenceRate ? (
+        <ReviewCreateForm />
+      ) : (
+        <DisableWriteReview onClick={onMoveToPreferenceSection} />
+      )}
 
       {totalSize === 0 ? (
         <NoReviews drinkName={drinkName} />

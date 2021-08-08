@@ -1,5 +1,12 @@
 import styled from '@emotion/styled';
+import { css, keyframes } from '@emotion/react';
 import { COLOR } from 'src/constants';
+
+const blinkEffect = keyframes`
+  50% {
+    opacity: 0;
+  }
+`;
 
 const Image = styled.img`
   width: 100%;
@@ -16,8 +23,9 @@ const Section = styled.section`
   position: relative;
 `;
 
-const PreferenceSection = styled.section`
+const PreferenceSection = styled.section<{ isScrolled: boolean }>`
   margin-bottom: 2rem;
+  padding: 2rem 0;
 
   h3 {
     margin-bottom: 0.8rem;
@@ -33,6 +41,14 @@ const PreferenceSection = styled.section`
 
   p {
     margin-top: 1rem;
+  }
+
+  div {
+    ${({ isScrolled }) =>
+      isScrolled &&
+      css`
+        animation: ${blinkEffect} 0.8s step-end 3;
+      `}
   }
 `;
 

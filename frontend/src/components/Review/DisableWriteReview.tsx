@@ -1,9 +1,11 @@
+import { MouseEventHandler } from 'react';
+
 import Card from '../@shared/Card/Card';
 import { Container } from './DisableWriteReview.styles';
 import { COLOR } from 'src/constants';
 import Arrow from '../@shared/Arrow/Arrow';
 
-const DisableWriteReview = () => {
+const DisableWriteReview = ({ onClick }: { onClick: MouseEventHandler<HTMLButtonElement> }) => {
   return (
     <Container>
       <Card
@@ -15,7 +17,7 @@ const DisableWriteReview = () => {
         <p>
           먼저 <strong>선호도</strong>를 입력해주세요!
         </p>
-        <button type="button">
+        <button type="button" onClick={onClick}>
           선호도 입력하러 가기
           <Arrow size="0.5rem" dir="UP" color={`${COLOR.BLACK_900}`} />
         </button>
