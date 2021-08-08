@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -29,14 +28,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class DrinkService {
-
-    @Value("${file-server.url:}")
-    private String fileServerUrl;
-
     private final DrinkRepository drinkRepository;
     private final PreferenceRepository preferenceRepository;
     private final CategoryRepository categoryRepository;
-
 
     @LogWithTime
     public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, Pageable pageable) {
@@ -53,7 +47,7 @@ public class DrinkService {
         List<DrinkDto> drinkDtos = drinksBySearch.stream()
                 .distinct()
                 .map(drink -> DrinkDto.create(
-                        drink, Preference.create(drink, 0), fileServerUrl))
+                        drink, Preference.create(drink, 0)))
                 .collect(Collectors.toList());
 
         return new PageImpl<>(drinkDtos, pageable, drinksBySearch.size());
@@ -62,7 +56,7 @@ public class DrinkService {
     public Page<DrinkDto> showAllDrinksByPage(Pageable pageable) {
         List<DrinkDto> drinkDtos = drinkRepository.findAll(pageable).stream()
                 .map(drink -> DrinkDto.create(
-                        drink, Preference.create(drink, 0), fileServerUrl))
+                        drink, Preference.create(drink, 0)))
                 .collect(Collectors.toList());
 
         return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
@@ -75,7 +69,7 @@ public class DrinkService {
 
         List<DrinkDto> drinkDtos = recommendDrinks.stream()
                 .map(drink -> DrinkDto.create(
-                        drink, Preference.create(drink, 0), fileServerUrl))
+                        drink, Preference.create(drink, 0)))
                 .collect(Collectors.toList());
 
         return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
@@ -85,7 +79,7 @@ public class DrinkService {
         Drink drink = drinkRepository.findByIdWithFetch(id)
                 .orElseThrow(NotFoundDrinkException::new);
         Preference preference = Preference.create(drink, 0.0);
-        return DrinkDto.create(drink, preference, fileServerUrl);
+        return DrinkDto.create(drink, preference);
     }
 
     public DrinkDto showDrinkDetail(Long drinkId, Long memberId) {
@@ -94,7 +88,7 @@ public class DrinkService {
         Preference preference = preferenceRepository
                 .findByMemberIdAndDrinkId(memberId, drinkId)
                 .orElseGet(() -> Preference.anonymousPreference(drink));
-        return DrinkDto.create(drink, preference, fileServerUrl);
+        return DrinkDto.create(drink, preference);
     }
 
     @Transactional
