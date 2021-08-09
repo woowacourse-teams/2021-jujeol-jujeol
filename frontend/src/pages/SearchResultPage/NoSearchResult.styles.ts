@@ -5,8 +5,12 @@ import LineClamp from 'src/styles/LineClamp';
 const NotificationSection = styled.section`
   padding: 7rem 2rem;
 
-  ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })}
-  row-gap: 2rem;
+  ${Flex({
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    rowGap: '2rem',
+  })}
 
   svg {
     width: 5rem;
