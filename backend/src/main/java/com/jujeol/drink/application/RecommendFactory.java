@@ -5,26 +5,29 @@ import com.jujeol.drink.domain.RecommendForMember;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.infrastructure.recommend.RecommendationSystem;
 import com.jujeol.member.ui.LoginMember;
+import java.util.EnumMap;
+import java.util.Map;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RecommendFactory {
 
-    private final RecommendStrategy recommendStrategy;
-    private final RecommendationSystem recommendationSystem;
-    private final DrinkRepository drinkRepository;
+    private enum MemberStatus {
+        ANONYMOUS, MEMBER
+    }
+    private final Map<MemberStatus, RecommendStrategy> recommendStrategyMap;
 
     public RecommendFactory(RecommendationSystem recommendationSystem,
             DrinkRepository drinkRepository) {
-        this.recommendStrategy = new RecommendForAnonymous(drinkRepository);
-        this.recommendationSystem = recommendationSystem;
-        this.drinkRepository = drinkRepository;
+        this.recommendStrategyMap = new EnumMap<>(MemberStatus.class);
+        this.recommendStrategyMap.put(MemberStatus.ANONYMOUS, new RecommendForAnonymous(drinkRepository));
+        this.recommendStrategyMap.put(MemberStatus.MEMBER, new RecommendForMember(recommendationSystem, drinkRepository));
     }
 
     public RecommendStrategy create(LoginMember loginMember) {
         if (loginMember.isMember()) {
-            return new RecommendForMember(recommendStrategy, recommendationSystem, drinkRepository);
+            return recommendStrategyMap.get(MemberStatus.MEMBER);
         }
-        return new RecommendForAnonymous(drinkRepository);
+        return recommendStrategyMap.get(MemberStatus.ANONYMOUS);
     }
 }
