@@ -18,8 +18,15 @@ import { Container, Title, ResultHeading } from './styles';
 const SearchResultPage = ({ history, location }: RouteComponentProps) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
-  const words = new URLSearchParams(location.search).get('words');
-  const categoryKey = new URLSearchParams(location.search).get('category');
+  const words = new URLSearchParams(location.search).get('words') ?? '';
+  const categoryKey = new URLSearchParams(location.search).get('category') ?? '';
+
+  const params = new URLSearchParams({ search: words, category: categoryKey });
+  params.forEach((value, key) => {
+    if (value === '') {
+      params.delete(key);
+    }
+  });
 
   const categoryName =
     categoryKey && categories.find((category) => category.key === categoryKey)?.name;
@@ -28,8 +35,7 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
 
   const { isLoading, fetchNextPage, hasNextPage } = useInfiniteQuery(
     'search-results',
-    ({ pageParam = 1 }) =>
-      API.getSearchResult({ words: words ?? '', category: categoryKey ?? '', page: pageParam }),
+    ({ pageParam = 1 }) => API.getDrinks({ params, page: pageParam }),
     {
       retry: 0,
       getNextPageParam: ({ pageInfo }) => {
