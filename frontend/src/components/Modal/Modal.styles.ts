@@ -62,7 +62,7 @@ const Content = styled.div<{ isOpened: boolean; isTouchDown: boolean }>`
       : !isTouchDown &&
         css`
           animation: ${fadeOut} 1s ease-out;
-          transition: all 1s;
+          transition: visibility 1s;
         `};
 
   transform: translateY(1%);
