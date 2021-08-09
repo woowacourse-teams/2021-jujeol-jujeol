@@ -6,6 +6,7 @@ const LineClamp = ({ lineClamp }: React.CSSProperties) => css`
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.25;
 `;
 
 export default LineClamp;

@@ -24,6 +24,8 @@ const Title = styled.div`
 `;
 
 const ResultHeading = styled.h2`
+  line-break: anywhere;
+  line-height: 1.25;
   margin: 1rem 2rem;
   color: ${COLOR.WHITE_200};
 `;
