@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { RouteComponentProps } from 'react-router-dom';
 import API from 'src/apis/requests';
@@ -31,9 +31,12 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
   const categoryName =
     categoryKey && categories.find((category) => category.key === categoryKey)?.name;
 
-  const [searchResultList, setSearchResultList] = useState<Drink.List>([]);
-
-  const { isLoading, fetchNextPage, hasNextPage } = useInfiniteQuery(
+  const {
+    data: resultsData,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
     'search-results',
     ({ pageParam = 1 }) => API.getDrinks({ params, page: pageParam }),
     {
@@ -43,17 +46,18 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
 
         return currentPage < lastPage ? currentPage + 1 : undefined;
       },
-      onSuccess: (data) => {
-        const { pages } = data;
-        setSearchResultList(pages?.map((page) => page.data).flat());
-      },
     }
   );
 
+  const searchResult = resultsData?.pages?.map((page) => page.data).flat() ?? [];
+  const [
+    {
+      pageInfo: { totalSize },
+    },
+  ] = resultsData?.pages ?? [{ pageInfo: { totalSize: 0 } }];
+
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    return () => setSearchResultList([]);
   }, []);
   useInfinityScroll({ target: observerTargetRef, fetchNextPage, hasNextPage });
 
@@ -66,20 +70,20 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
           <button type="button" onClick={onMoveToPrevPage}>
             <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
           </button>
-          <h1>검색결과 {searchResultList?.length || 0}건</h1>
+          <h1>검색결과 {totalSize || 0}건</h1>
         </Title>
       </Header>
 
       <section>
         {isLoading ? (
           <p>Loading..</p>
-        ) : searchResultList?.length ? (
+        ) : searchResult?.length ? (
           <>
             <ResultHeading>
               <strong>{words || categoryName}</strong>로 검색한 결과입니다.
             </ResultHeading>
-            <List count={searchResultList?.length || 0}>
-              {searchResultList?.map((item: Drink.Item) => (
+            <List count={searchResult?.length || 0}>
+              {searchResult?.map((item: Drink.Item) => (
                 <ListItem
                   key={item?.id}
                   imageUrl={item?.imageUrl}
