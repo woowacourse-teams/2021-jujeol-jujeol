@@ -86,6 +86,10 @@ const CloseButton = styled.button`
   position: absolute;
   top: -1rem;
   left: 1rem;
+
+  :focus {
+    opacity: 0.5;
+  }
 `;
 
 export { Container, Content, CloseButton };

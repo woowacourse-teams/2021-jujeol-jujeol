@@ -77,7 +77,7 @@ const Modal = ({ isOpened, setIsOpened, children }: Props) => {
           aria-label="모달 닫기 버튼"
           aria-disabled="false"
         >
-          X
+          닫기
         </CloseButton>
         {children}
       </Content>
