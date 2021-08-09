@@ -1,7 +1,7 @@
 package com.jujeol.drink.acceptance;
 
 import com.jujeol.RequestBuilder;
-import com.jujeol.drink.application.dto.ReviewRequest;
+import com.jujeol.drink.application.dto.ReviewCreateRequest;
 import com.jujeol.drink.application.dto.ReviewWithAuthorDto;
 import com.jujeol.drink.exception.NotExistReviewInDrinkException;
 import com.jujeol.member.fixture.TestMember;
@@ -19,7 +19,7 @@ public class ReviewAcceptanceTool {
 
     public List<ReviewWithAuthorDto> 리뷰_조회(Long drinkId) {
         return requestBuilder.builder()
-                .get("/drinks/{id}/reviews", drinkId)
+                .get("/reviews?drink=" + drinkId)
                 .withoutLog()
                 .build()
                 .convertBodyToList(ReviewWithAuthorDto.class);
@@ -27,7 +27,7 @@ public class ReviewAcceptanceTool {
 
     public void 리뷰_등록(TestMember testMember, String content, Long drinkId) {
         requestBuilder.builder()
-                .post("/drinks/{id}/reviews", new ReviewRequest(content), drinkId)
+                .post("/reviews", new ReviewCreateRequest(content, drinkId))
                 .withoutLog()
                 .withUser(testMember)
                 .build().totalResponse();
@@ -35,7 +35,7 @@ public class ReviewAcceptanceTool {
 
     public ReviewWithAuthorDto 리뷰_조회(Long drinkId, String content) {
         return requestBuilder.builder()
-                .get("/drinks/{id}/reviews", drinkId)
+                .get("/reviews?drink=" + drinkId)
                 .withoutLog()
                 .build()
                 .convertBodyToList(ReviewWithAuthorDto.class)

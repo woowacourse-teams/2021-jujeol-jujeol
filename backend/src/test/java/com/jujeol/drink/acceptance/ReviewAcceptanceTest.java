@@ -18,7 +18,8 @@ import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
-import com.jujeol.drink.application.dto.ReviewRequest;
+import com.jujeol.drink.application.dto.ReviewCreateRequest;
+import com.jujeol.drink.application.dto.ReviewUpdateRequest;
 import com.jujeol.drink.application.dto.ReviewWithAuthorDto;
 import com.jujeol.member.fixture.TestMember;
 import java.util.List;
@@ -42,11 +43,11 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //given
         Long obId = 주류_등록(OB);
         String content = "너무 맛있어요 - 소롱";
-        ReviewRequest reviewRequest = new ReviewRequest(content);
+        ReviewCreateRequest reviewCreateRequest = new ReviewCreateRequest(content, obId);
 
         //when
         final HttpStatus httpStatus =
-                request().post("/drinks/{id}/reviews", reviewRequest, obId)
+                request().post("/reviews", reviewCreateRequest)
                         .withUser(SOLONG)
                         .withDocument("reviews/create")
                         .build().statusCode();
@@ -66,7 +67,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         String content = "이 내용은 정확히 300자입니다. 300자 까지 뭐라고 쓸지 모르겠네요.. 자소서 쓰는 기분... 저희팀 소개를 하자면 일단 저 웨지 나봄 크로플 피카 소롱 서니 티케 이렇게 7명으로 이루어져있구요! 모두 한명 한명 맡은바 임무를 잘 수행하고 있습니다. 저는 여기 팀에 들어오게 되어서 얼마나 좋은지 몰라요 다들 너무 잘 챙겨주시고 잘 이끌어주셔서 감사합니다. 코로나 또한 빨리 종식되었으면 좋겠어요 다들 못보니까 너무 아쉽고 힘드네요 ㅠㅠ  다들 건강 챙기시구 코로나 조심하세요 그럼 이만 줄이겠습니다. 이부분은300자를맞추기위한몸부림";
         //when
         final HttpStatus httpStatus = request()
-                .post("/drinks/{id}/reviews", new ReviewRequest(content), obId)
+                .post("/reviews", new ReviewCreateRequest(content, obId))
                 .withUser()
                 .withDocument("reviews/create-succeed300")
                 .build().statusCode();
@@ -85,7 +86,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //when
         final JujeolExceptionDto errorResponse = request()
-                .post("/drinks/{id}/reviews", new ReviewRequest(content), Long.MAX_VALUE)
+                .post("/reviews", new ReviewCreateRequest(content, Long.MAX_VALUE))
                 .withUser(PIKA)
                 .withDocument("reviews/create-fail")
                 .build().errorResponse();
@@ -105,7 +106,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         String content2 = "너무 맛있어요2 - 피카";
         //when
         final JujeolExceptionDto errorResponse = request()
-                .post("/drinks/{id}/reviews", new ReviewRequest(content2), obId)
+                .post("/reviews", new ReviewCreateRequest(content2, obId))
                 .withUser(PIKA)
                 .withDocument("reviews/create-fail-limit")
                 .build().errorResponse();
@@ -123,7 +124,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //when
         final JujeolExceptionDto errorResponse = request()
-                .post("/drinks/{id}/reviews", new ReviewRequest(content), obId)
+                .post("/reviews", new ReviewCreateRequest(content, obId))
                 .withUser()
                 .withDocument("reviews/create-fail-emptyContent")
                 .build().errorResponse();
@@ -141,7 +142,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //when
         final JujeolExceptionDto errorResponse = request()
-                .post("/drinks/{id}/reviews", new ReviewRequest(content), obId)
+                .post("/reviews", new ReviewCreateRequest(content, obId))
                 .withUser()
                 .withDocument("reviews/create-fail-contentOver300")
                 .build().errorResponse();
@@ -163,12 +164,11 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //when
         final HttpResponse httpResponsePageOne = request()
-                .get("/drinks/{id}/reviews?page=1", obId)
+                .get("/reviews?page=1&drink=" + obId)
                 .withDocument("reviews/show")
                 .build();
-
         final HttpResponse httpResponsePageTwo = request()
-                .get("/drinks/{id}/reviews?page=2", obId)
+                .get("/reviews?page=2&drink=" + obId)
                 .build();
 
         //then
@@ -188,8 +188,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //when
         final HttpStatus httpStatus = request()
-                .put("/drinks/{drinkId}/reviews/{reviewId}", new ReviewRequest(content), obId,
-                        reviewId)
+                .put("/reviews/{reviewId}", new ReviewUpdateRequest(content), reviewId)
                 .withUser(PIKA)
                 .withDocument("reviews/update")
                 .build().statusCode();
@@ -200,29 +199,6 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         final List<ReviewWithAuthorDto> reviews = reviewAcceptanceTool.리뷰_조회(obId);
         assertThat(reviews).extracting("content").contains(content);
         assertThat(reviews).extracting("content").doesNotContain(originalContent);
-    }
-
-    @DisplayName("리뷰 수정 - 실패(잘못된 Drink id)")
-    @Test
-    public void updateReview_fail_notFoundDrink() {
-        //given
-        final String originalContent = "바보 윤지우";
-        String content = "천재 윤지우";
-
-        Long obId = 주류_등록(OB);
-        Long reviewId = 리뷰_등록(PIKA, originalContent, obId);
-
-        //when
-        final JujeolExceptionDto errorResponse = request()
-                .put("/drinks/{drinkId}/reviews/{reviewId}", new ReviewRequest(content),
-                        Long.MAX_VALUE,
-                        reviewId)
-                .withUser(PIKA)
-                .withDocument("reviews/update-fail-drink")
-                .build().errorResponse();
-
-        //then
-        예외_검증(errorResponse, NOT_FOUND_DRINK);
     }
 
     @DisplayName("리뷰 수정 - 실패(잘못된 Review id)")
@@ -237,37 +213,13 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //when
         final JujeolExceptionDto errorResponse = request()
-                .put("/drinks/{drinkId}/reviews/{reviewId}", new ReviewRequest(content), obId,
-                        Long.MAX_VALUE)
+                .put("/reviews/{reviewId}", new ReviewUpdateRequest(content), Long.MAX_VALUE)
                 .withUser(PIKA)
                 .withDocument("reviews/update-fail-review")
                 .build().errorResponse();
 
         //then
         예외_검증(errorResponse, NOT_FOUND_REVIEW);
-    }
-
-    @DisplayName("리뷰 수정 - 실패(리뷰와 주류 불일치)")
-    @Test
-    public void updateReviewTest_fail_notExistReviewInDrink() {
-        //given
-        String content = "천재 윤지우";
-
-        Long obId = 주류_등록(OB);
-        Long stellaId = 주류_등록(STELLA);
-        Long reviewId = 리뷰_등록(PIKA, content, obId);
-
-        //when
-        final HttpResponse httpResponse = request()
-                .put("/drinks/{drinkId}/reviews/{reviewId}", new ReviewRequest(content), stellaId,
-                        reviewId)
-                .withUser(PIKA)
-                .withDocument("reviews/update-fail-match")
-                .build();
-
-        //then
-        assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-        예외_검증(httpResponse.errorResponse(), NOT_EXIST_REVIEW_IN_DRINK);
     }
 
     @DisplayName("리뷰 수정 - 실패(다른 사용자가 수정할 경우)")
@@ -281,8 +233,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //when
         final HttpResponse httpResponse = request()
-                .put("/drinks/{drinkId}/reviews/{reviewId}", new ReviewRequest(content), obId,
-                        reviewId)
+                .put("/reviews/{reviewId}", new ReviewUpdateRequest(content), reviewId)
                 .withUser(SOLONG)
                 .withDocument("reviews/update-fail-author")
                 .build();
@@ -302,8 +253,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //when
         final HttpResponse httpResponse = request()
-                .put("/drinks/{drinkId}/reviews/{reviewId}", new ReviewRequest(""), obId,
-                        reviewId)
+                .put("/reviews/{reviewId}", new ReviewUpdateRequest(""), reviewId)
                 .withUser(PIKA)
                 .withDocument("reviews/update-fail-emptyContent")
                 .build();
@@ -325,8 +275,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //when
         final HttpResponse httpResponse = request()
-                .put("/drinks/{drinkId}/reviews/{reviewId}", new ReviewRequest(newContent), obId,
-                        reviewId)
+                .put("/reviews/{reviewId}", new ReviewUpdateRequest(newContent), reviewId)
                 .withUser(PIKA)
                 .withDocument("reviews/update-fail-contentOver300")
                 .build();
@@ -345,32 +294,13 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         Long reviewId = 리뷰_등록(SOLONG, content, obId);
         //when
         final HttpResponse httpResponse = request()
-                .delete("/drinks/{drinkId}/reviews/{reviewId}", obId, reviewId)
+                .delete("/reviews/{reviewId}", reviewId)
                 .withUser(SOLONG)
                 .withDocument("reviews/delete")
                 .build();
         //then
         assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.OK);
         assertThat(reviewAcceptanceTool.리뷰_조회(obId)).isEmpty();
-    }
-
-    @DisplayName("리뷰 삭제 - 실패(잘못된 Drink id)")
-    @Test
-    public void deleteReviewTest_fail_notFoundDrink() {
-        //given
-        String content = "hello";
-        Long obId = 주류_등록(OB);
-        Long reviewId = 리뷰_등록(SOLONG, content, obId);
-        //when
-        final HttpResponse httpResponse = request()
-                .delete("/drinks/{drinkId}/reviews/{reviewId}", Long.MAX_VALUE, reviewId)
-                .withUser(SOLONG)
-                .withDocument("reviews/delete-fail-drink")
-                .build();
-
-        //then
-        assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-        예외_검증(httpResponse.errorResponse(), NOT_FOUND_DRINK);
     }
 
     @DisplayName("리뷰 삭제 - 실패(잘못된 Review id)")
@@ -382,7 +312,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         리뷰_등록(SOLONG, content, obId);
         //when
         final HttpResponse httpResponse = request()
-                .delete("/drinks/{drinkId}/reviews/{reviewId}", obId, Long.MAX_VALUE)
+                .delete("/reviews/{reviewId}", Long.MAX_VALUE)
                 .withUser(SOLONG)
                 .withDocument("reviews/delete-fail-review")
                 .build();
@@ -390,27 +320,6 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         예외_검증(httpResponse.errorResponse(), NOT_FOUND_REVIEW);
-    }
-
-    @DisplayName("리뷰 삭제 - 실패(리뷰와 주류 불일치)")
-    @Test
-    public void deleteReviewTest_fail_notExistReviewInDrink() {
-        //given
-        String content = "hello";
-        Long obId = 주류_등록(OB);
-        final Long stellaId = 주류_등록(STELLA);
-        final Long reviewId = 리뷰_등록(SOLONG, content, obId);
-
-        //when
-        final HttpResponse httpResponse = request()
-                .delete("/drinks/{drinkId}/reviews/{reviewId}", stellaId, reviewId)
-                .withUser(SOLONG)
-                .withDocument("reviews/delete-fail-match")
-                .build();
-
-        //then
-        assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-        예외_검증(httpResponse.errorResponse(), NOT_EXIST_REVIEW_IN_DRINK);
     }
 
     @DisplayName("리뷰 삭제 - 실패(다른 사용자가 삭제할 경우)")
@@ -423,7 +332,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
 
         //when
         final HttpResponse httpResponse = request()
-                .delete("/drinks/{drinkId}/reviews/{reviewId}", obId, reviewId)
+                .delete("/reviews/{reviewId}", reviewId)
                 .withUser(PIKA)
                 .withDocument("reviews/delete-fail-author")
                 .build();
