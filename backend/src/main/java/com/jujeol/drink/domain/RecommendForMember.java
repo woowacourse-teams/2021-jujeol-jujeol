@@ -3,14 +3,14 @@ package com.jujeol.drink.domain;
 import com.jujeol.drink.application.RecommendStrategy;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.infrastructure.recommend.RecommendationSystem;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 
 @RequiredArgsConstructor
 public class RecommendForMember implements RecommendStrategy {
 
-    private final RecommendStrategy recommendStrategy;
     private final RecommendationSystem recommendationSystem;
     private final DrinkRepository drinkRepository;
 
@@ -20,18 +20,17 @@ public class RecommendForMember implements RecommendStrategy {
 
         List<Drink> drinks = drinkRepository.findAllById(itemIds);
 
-        if(drinks.size() == 0) {
-            drinks = new ArrayList<>();
-        }
-
-        int remainCount = pageSize - itemIds.size();
-
-        if (remainCount > 0) {
-            List<Drink> remainDrinks = recommendStrategy.recommend(memberId, pageSize);
-            remainDrinks.removeAll(drinks);
-            drinks.addAll(remainDrinks.subList(0, remainCount));
+        if (itemIds.size() < pageSize) {
+            return addDrinkByPreferenceAvg(drinks, memberId, pageSize);
         }
 
         return drinks;
+    }
+
+    private List<Drink> addDrinkByPreferenceAvg(List<Drink> drinks, Long memberId, int pageSize) {
+        drinks.addAll(drinkRepository.findDrinksForMember(memberId, Pageable.ofSize(pageSize)));
+        return drinks.stream().distinct()
+                .limit(pageSize)
+                .collect(Collectors.toList());
     }
 }
