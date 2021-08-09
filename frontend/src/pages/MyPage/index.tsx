@@ -97,7 +97,7 @@ const MyPage = () => {
       <Preview title="내가 마신 술" path={PATH.MY_DRINKS}>
         <HorizontalScroll margin="0 -1.5rem" padding="0 1.5rem">
           <Grid col={7} colGap="1rem">
-            {myDrinks?.map((myDrink: Drink.MyDrinkItem) => (
+            {myDrinks?.map((myDrink: Drink.PersonalDrinkItem) => (
               <MyDrinkItem key={myDrink.id} size="LARGE" drink={myDrink} />
             ))}
           </Grid>

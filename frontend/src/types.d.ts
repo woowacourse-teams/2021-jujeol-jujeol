@@ -22,7 +22,7 @@ declare namespace Drink {
     preferenceAvg: number;
   }
 
-  interface MyDrinkItem extends Pick<Item, 'id' | 'name' | 'imageUrl'> {
+  interface PersonalDrinkItem extends Pick<Item, 'id' | 'name' | 'imageUrl'> {
     preferenceRate: number;
   }
 
