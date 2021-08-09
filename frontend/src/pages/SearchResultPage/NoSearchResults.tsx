@@ -22,7 +22,7 @@ const NoSearchResults = ({ search }: { search: string }) => {
   };
 
   return (
-    <div>
+    <>
       <NotificationSection>
         <DizzyEmojiColorIcon />
         <h2>{`${search}에 대한 검색 결과가 없습니다.`}</h2>
@@ -38,7 +38,7 @@ const NoSearchResults = ({ search }: { search: string }) => {
           ))}
         </CardList>
       </Section>
-    </div>
+    </>
   );
 };
 
