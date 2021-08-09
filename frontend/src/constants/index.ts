@@ -7,3 +7,4 @@ export { LOCAL_STORAGE_KEY } from './localStorage';
 export { default as REQUEST_URL } from './requestUrl';
 export { MESSAGE, ERROR_MESSAGE } from './messages';
 export { default as REVIEW } from './review';
+export { default as SEARCH } from './search';
