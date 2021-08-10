@@ -16,8 +16,8 @@ const Container = styled.div`
 
   p {
     font-size: 1rem;
+    line-break: anywhere;
     line-height: 1.5;
-    word-break: keep-all;
 
     span {
       color: ${COLOR.WHITE_200};
