@@ -27,9 +27,13 @@ public class RecommendationSystem {
 
     public List<Long> recommend(Long memberId, int howMany) {
         final List<Preference> preferences = preferenceRepository.findAll();
+        return recommend(memberId, howMany, preferences);
+    }
+
+    public List<Long> recommend(Long memberId, int howMany, List<Preference> preferences) {
         final UserBasedRecommender recommender = getRecommender(preferences);
         try {
-            return recommender.recommend(memberId, howMany, false)
+            return recommender.recommend(memberId, howMany, true)
                     .stream()
                     .mapToLong(RecommendedItem::getItemID)
                     .boxed()
