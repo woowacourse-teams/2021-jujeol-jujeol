@@ -10,7 +10,7 @@ const Wrapper = styled.section`
     font-weight: 700;
     text-align: left;
     font-size: 1.25rem;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.5rem;
     padding-left: 0.75rem;
   }
 `;

@@ -4,7 +4,7 @@ import { COLOR } from 'src/constants';
 
 const blinkEffect = keyframes`
   50% {
-    opacity: 0;
+    opacity: 0.5;
   }
 `;
 
@@ -28,23 +28,15 @@ const Section = styled.section`
 `;
 
 const PreferenceSection = styled.section<{ isScrolled: boolean }>`
-  margin-bottom: 2rem;
-  padding: 2rem 0;
+  margin-bottom: 3rem;
+  padding: 1rem 0;
 
   h3 {
     margin-bottom: 0.8rem;
     font-size: 1.3rem;
     font-weight: 400;
+    line-height: 1.25;
     color: ${COLOR.WHITE_200};
-
-    span {
-      font-weight: 700;
-      font-size: 1.4rem;
-    }
-  }
-
-  p {
-    margin-top: 1rem;
   }
 
   div {
@@ -54,19 +46,26 @@ const PreferenceSection = styled.section<{ isScrolled: boolean }>`
         animation: ${blinkEffect} 0.8s step-end 3;
       `}
   }
+
+  p {
+    margin-top: 1rem;
+    line-height: 1.25;
+  }
 `;
 
 const DescriptionSection = styled.section`
-  margin-bottom: 1.5rem;
+  margin-bottom: 3rem;
 
   h2 {
     margin-bottom: 0.5rem;
     font-size: 1.5rem;
     font-weight: bold;
+    line-height: 1.25;
   }
 
   > p {
     margin-bottom: 2rem;
+    line-height: 1.25;
   }
 
   ul {

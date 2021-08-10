@@ -5,7 +5,7 @@ import Flex from 'src/styles/Flex';
 const Container = styled.div`
   div {
     ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })};
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 
     p {
       color: ${COLOR.WHITE_200};

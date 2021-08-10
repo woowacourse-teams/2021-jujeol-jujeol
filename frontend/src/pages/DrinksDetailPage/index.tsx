@@ -114,6 +114,7 @@ const DrinksDetailPage = () => {
     <Container>
       <GoBackButton color={COLOR.BLACK_900} />
       <Image src={imageUrl} alt={name} />
+
       <Section>
         <PreferenceSection ref={preferenceRef} isScrolled={isScrolled}>
           <h3>
