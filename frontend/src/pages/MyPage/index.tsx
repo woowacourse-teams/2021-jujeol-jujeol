@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useQuery, useQueryClient } from 'react-query';
 
@@ -18,7 +18,7 @@ import MyDrinkItem from '../MyDrinksPage/MyDrinkItem';
 import NoPreference from './NoPreference';
 import NoReview from './NoReview';
 
-import { PATH } from 'src/constants';
+import { PATH, VALUE } from 'src/constants';
 import {
   SmileEmojiColorIcon,
   LoveEmojiColorIcon,
@@ -33,41 +33,44 @@ const userProfileIcons = [
   ExcitedEmojiColorIcon,
 ];
 
+const defaultRequestData = { data: [], pageInfo: {} };
+
 const MyPage = () => {
   const history = useHistory();
 
   const { userData, isLoggedIn, getUser } = useContext(UserContext);
-
-  const [myDrinks, setMyDrinks] = useState([]);
-  const [myReviews, setMyReviews] = useState([]);
+  const UserProfileIcon = userProfileIcons[(userData?.id ?? 0) % VALUE.PROFILE_IMAGE_NUMBER];
 
   const queryClient = useQueryClient();
 
-  const isMyDrinksShowMoreEnabled = myDrinks.length > 2;
-  const isMyReviewsShowMoreEnabled = myReviews.length > 3;
-  const UserProfileIcon = userProfileIcons[(userData?.id ?? 0) % 4];
-
-  const { data: myDrinksData } = useQuery(
+  const {
+    data: {
+      data: myDrinks = [],
+      pageInfo: { totalSize: myDrinksCount } = { totalSize: 0 },
+    } = defaultRequestData,
+  } = useQuery(
     'my-drinks',
-    () => API.getPersonalDrinks({ page: 1, size: 7 }),
+    () => API.getPersonalDrinks({ page: 1, size: VALUE.MYPAGE_DRINKS_DISPLAY_NUMBER }),
     {
       retry: 0,
-      onSuccess: ({ data }) => {
-        setMyDrinks(data);
-      },
     }
   );
 
-  const { data: myReviewsData } = useQuery(
+  const {
+    data: {
+      data: myReviews,
+      pageInfo: { totalSize: myReviewsCount } = { totalSize: 0 },
+    } = defaultRequestData,
+  } = useQuery(
     'my-reviews',
-    () => API.getPersonalReviews({ page: 1, size: 4 }),
+    () => API.getPersonalReviews({ page: 1, size: VALUE.MYPAGE_REVIEWS_DISPLAY_NUMBER }),
     {
       retry: 0,
-      onSuccess: ({ data }) => {
-        setMyReviews(data);
-      },
     }
   );
+
+  const isMyDrinksShowMoreEnabled = myDrinksCount > VALUE.MYPAGE_DRINKS_DISPLAY_NUMBER;
+  const isMyReviewsShowMoreEnabled = myReviewsCount > VALUE.MYPAGE_REVIEWS_DISPLAY_NUMBER;
 
   useEffect(() => {
     const getFetch = async () => {
@@ -86,10 +89,7 @@ const MyPage = () => {
     <>
       <NavigationHeader title="내 정보" />
       <Profile ProfileIcon={UserProfileIcon} nickname={userData?.nickname} bio={userData?.bio} />
-      <Status
-        myDrinksCount={myDrinksData?.pageInfo?.totalSize}
-        myReviewsCount={myReviewsData?.pageInfo?.totalSize}
-      />
+      <Status myDrinksCount={myDrinksCount} myReviewsCount={myReviewsCount} />
 
       <Preview
         title="선호도를 남긴 술"
@@ -98,7 +98,7 @@ const MyPage = () => {
       >
         {myDrinks?.length ? (
           <HorizontalScroll margin="0 -1.5rem" padding="0 1.5rem">
-            <Grid col={7} colGap="1rem">
+            <Grid col={VALUE.MYPAGE_DRINKS_DISPLAY_NUMBER} colGap="1rem">
               {myDrinks.map((myDrink: Drink.PersonalDrinkItem) => (
                 <MyDrinkItem key={myDrink.id} size="LARGE" drink={myDrink} />
               ))}
@@ -116,7 +116,7 @@ const MyPage = () => {
       >
         {myReviews?.length ? (
           <ul>
-            {myReviews.slice(0, 3).map((myReview: Review.PersonalReviewItem) => (
+            {myReviews.map((myReview: Review.PersonalReviewItem) => (
               <PersonalReviewItem key={myReview.id} review={myReview} />
             ))}
           </ul>
