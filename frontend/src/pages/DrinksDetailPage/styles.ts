@@ -3,15 +3,6 @@ import { COLOR } from 'src/constants';
 
 const Container = styled.div`
   position: relative;
-
-  > button {
-    position: absolute;
-    top: 1rem;
-    left: 0.5rem;
-    background-color: transparent;
-    border: 0;
-    cursor: pointer;
-  }
 `;
 
 const Image = styled.img`

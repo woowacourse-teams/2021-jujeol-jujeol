@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import UserContext from 'src/contexts/UserContext';
 import API from 'src/apis/requests';
-import Arrow from 'src/components/@shared/Arrow/Arrow';
+import GoBackButton from 'src/components/@shared/GoBackButton/GoBackButton';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import Review from 'src/components/Review/Review';
 import Property from 'src/components/Property/Property';
@@ -93,15 +93,9 @@ const DrinksDetailPage = () => {
     }
   };
 
-  const onMoveToPrevPage = () => {
-    history.goBack();
-  };
-
   return (
     <Container>
-      <button type="button" onClick={onMoveToPrevPage}>
-        <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" color={COLOR.BLACK_900} />
-      </button>
+      <GoBackButton color={COLOR.BLACK_900} />
       <Image src={imageUrl} alt={name} />
       <Section>
         <PreferenceSection>
