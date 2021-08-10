@@ -56,7 +56,7 @@ const ViewAllPage = () => {
         </Title>
       </Header>
       <List count={drinks?.length}>
-        {drinks?.map((item: ItemList.Drinks) => (
+        {drinks?.map((item: Drink.Item) => (
           <ListItem
             key={item?.id}
             imageUrl={item?.imageUrl}

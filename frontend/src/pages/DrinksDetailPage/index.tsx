@@ -4,12 +4,13 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import UserContext from 'src/contexts/UserContext';
 import API from 'src/apis/requests';
-import Property from 'src/components/Property/Property';
+import GoBackButton from 'src/components/@shared/GoBackButton/GoBackButton';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import Review from 'src/components/Review/Review';
-import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
+import Property from 'src/components/Property/Property';
 import { properties } from './propertyData';
-import { Section, PreferenceSection, Image, DescriptionSection } from './styles';
+import { Section, PreferenceSection, Image, DescriptionSection, Container } from './styles';
+import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -38,6 +39,7 @@ const DrinksDetailPage = () => {
   }, []);
 
   const history = useHistory();
+
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
   const {
@@ -49,6 +51,10 @@ const DrinksDetailPage = () => {
     preferenceRate,
     preferenceAvg,
   } = drinkInfo;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const DrinkDetailQuery = useQuery('drink-detail', () => API.getDrink<string>(drinkId), {
     retry: 0,
@@ -105,7 +111,8 @@ const DrinksDetailPage = () => {
   };
 
   return (
-    <>
+    <Container>
+      <GoBackButton color={COLOR.BLACK_900} />
       <Image src={imageUrl} alt={name} />
       <Section>
         <PreferenceSection ref={preferenceRef} isScrolled={isScrolled}>
@@ -156,7 +163,7 @@ const DrinksDetailPage = () => {
           onMoveToPreferenceSection={onMoveToPreferenceSection}
         />
       </Section>
-    </>
+    </Container>
   );
 };
 

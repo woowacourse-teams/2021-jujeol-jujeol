@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { RouteComponentProps } from 'react-router-dom';
 import API from 'src/apis/requests';
@@ -11,24 +11,34 @@ import List from 'src/components/List/List';
 import { PATH } from 'src/constants';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import { categories } from '../SearchPage';
+import NoSearchResults from './NoSearchResults';
 
-import { Container, Title, Section } from './styles';
+import { Container, Title, ResultHeading } from './styles';
 
 const SearchResultPage = ({ history, location }: RouteComponentProps) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
-  const words = new URLSearchParams(location.search).get('words');
-  const categoryKey = new URLSearchParams(location.search).get('category');
+  const words = new URLSearchParams(location.search).get('words') ?? '';
+  const categoryKey = new URLSearchParams(location.search).get('category') ?? '';
+
+  const params = new URLSearchParams({ search: words, category: categoryKey });
+  params.forEach((value, key) => {
+    if (value === '') {
+      params.delete(key);
+    }
+  });
 
   const categoryName =
     categoryKey && categories.find((category) => category.key === categoryKey)?.name;
 
-  const [searchResultList, setSearchResultList] = useState<SearchResult.SearchResultList>([]);
-
-  const { isLoading, fetchNextPage, hasNextPage } = useInfiniteQuery(
+  const {
+    data: resultsData,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
     'search-results',
-    ({ pageParam = 1 }) =>
-      API.getSearchResult({ words: words ?? '', category: categoryKey ?? '', page: pageParam }),
+    ({ pageParam = 1 }) => API.getDrinks({ params, page: pageParam }),
     {
       retry: 0,
       getNextPageParam: ({ pageInfo }) => {
@@ -36,17 +46,18 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
 
         return currentPage < lastPage ? currentPage + 1 : undefined;
       },
-      onSuccess: (data) => {
-        const { pages } = data;
-        setSearchResultList(pages?.map((page) => page.data).flat());
-      },
     }
   );
 
+  const searchResult = resultsData?.pages?.map((page) => page.data).flat() ?? [];
+  const [
+    {
+      pageInfo: { totalSize },
+    },
+  ] = resultsData?.pages ?? [{ pageInfo: { totalSize: 0 } }];
+
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    return () => setSearchResultList([]);
   }, []);
   useInfinityScroll({ target: observerTargetRef, fetchNextPage, hasNextPage });
 
@@ -59,21 +70,20 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
           <button type="button" onClick={onMoveToPrevPage}>
             <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
           </button>
-          <h1>검색결과 {searchResultList?.length || 0}건</h1>
+          <h1>검색결과 {totalSize || 0}건</h1>
         </Title>
       </Header>
 
-      <Section>
+      <section>
         {isLoading ? (
           <p>Loading..</p>
-        ) : (
+        ) : searchResult?.length ? (
           <>
-            <h2>
+            <ResultHeading>
               <strong>{words || categoryName}</strong>로 검색한 결과입니다.
-            </h2>
-
-            <List count={searchResultList?.length || 0}>
-              {searchResultList?.map((item: SearchResult.SearchResultItem) => (
+            </ResultHeading>
+            <List count={searchResult?.length || 0}>
+              {searchResult?.map((item: Drink.Item) => (
                 <ListItem
                   key={item?.id}
                   imageUrl={item?.imageUrl}
@@ -87,8 +97,10 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
             </List>
             <InfinityScrollPoll ref={observerTargetRef} />
           </>
+        ) : (
+          <NoSearchResults search={words || categoryName || ''} />
         )}
-      </Section>
+      </section>
     </Container>
   );
 };

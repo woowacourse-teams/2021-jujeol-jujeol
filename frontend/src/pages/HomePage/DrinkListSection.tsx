@@ -57,7 +57,7 @@ const DrinkListSection = ({
     >
       {type === 'CARD' && (
         <CardList count={count ?? drinks?.length}>
-          {drinks?.slice(0, count ?? drinks.length).map((item: ItemList.Drinks) => (
+          {drinks?.slice(0, count ?? drinks.length).map((item: Drink.Item) => (
             <CardItem
               key={item?.id}
               imageUrl={item?.imageUrl}
@@ -73,7 +73,7 @@ const DrinkListSection = ({
 
       {type === 'LIST' && (
         <List count={count ?? drinks?.length}>
-          {drinks?.slice(0, count ?? drinks.length).map((item: ItemList.Drinks) => (
+          {drinks?.slice(0, count ?? drinks.length).map((item: Drink.Item) => (
             <ListItem
               key={item?.id}
               imageUrl={item?.imageUrl}

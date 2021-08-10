@@ -42,6 +42,19 @@ public class DrinkService {
     public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, Pageable pageable) {
         SearchWords searchWords = SearchWords.create(searchDto.getSearch());
 
+        List<DrinkDto> drinkDtos = drinksBySearch(searchDto, searchWords);
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min(start + pageable.getPageSize(), drinkDtos.size());
+
+        if (start > end) {
+            return new PageImpl<>(new ArrayList<>(), pageable, drinkDtos.size());
+        }
+
+        return new PageImpl<>(drinkDtos.subList(start, end), pageable, drinkDtos.size());
+    }
+
+    private List<DrinkDto> drinksBySearch(SearchDto searchDto, SearchWords searchWords) {
         List<Drink> drinksBySearch = new ArrayList<>();
 
         if (searchWords.hasSearchWords()) {
@@ -50,13 +63,11 @@ public class DrinkService {
         drinksBySearch
                 .addAll(drinkRepository.findByCategory(searchWords, searchDto.getCategoryKey()));
 
-        List<DrinkDto> drinkDtos = drinksBySearch.stream()
+        return drinksBySearch.stream()
                 .distinct()
                 .map(drink -> DrinkDto.create(
                         drink, Preference.create(drink, 0), fileServerUrl))
                 .collect(Collectors.toList());
-
-        return new PageImpl<>(drinkDtos, pageable, drinksBySearch.size());
     }
 
     public Page<DrinkDto> showAllDrinksByPage(Pageable pageable) {

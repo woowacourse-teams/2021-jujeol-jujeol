@@ -17,4 +17,7 @@ public interface DrinkRepository extends JpaRepository<Drink, Long>, DrinkCustom
 
     @Query(value = "select d from Drink d join fetch d.category where d.preferenceAvg >= 0 order by d.preferenceAvg desc")
     List<Drink> findDrinks(Pageable pageable);
+
+    @Query(value = "select d from Drink d join fetch d.category where d.id not in (select p.drink.id from Preference p where p.member.id = :memberId) order by d.preferenceAvg desc")
+    List<Drink> findDrinksForMember(Long memberId, Pageable pageable);
 }

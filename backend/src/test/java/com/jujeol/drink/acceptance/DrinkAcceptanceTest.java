@@ -75,7 +75,6 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         // when
         final HttpResponse httpResponse = request()
                 .get("/drinks/recommendation")
-                .withUser(CROFFLE)
                 .withDocument("drinks/show/all")
                 .build();
 
@@ -104,10 +103,9 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .build().convertBodyToList(DrinkSimpleResponse.class);
 
         //then
-        drinkSimpleResponses.forEach(drinkSimpleResponse -> System.out.println(drinkSimpleResponse.getName()));
-        assertThat(drinkSimpleResponses.get(0).getName()).isEqualTo("애플");
+        assertThat(drinkSimpleResponses.get(0).getName()).isEqualTo("타이거 라들러 자몽");
         assertThat(drinkSimpleResponses.get(1).getName()).isEqualTo("타이거 라들러 레몬");
-        assertThat(drinkSimpleResponses.get(2).getName()).isEqualTo("타이거 라들러 자몽");
+        assertThat(drinkSimpleResponses.get(2).getName()).isEqualTo("애플");
     }
 
     private void 협업_필터링_데이터_등록() {
