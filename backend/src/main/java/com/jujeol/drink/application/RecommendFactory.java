@@ -19,7 +19,9 @@ public class RecommendFactory {
     private final Map<MemberStatus, RecommendStrategy> recommendStrategyMap;
 
     public RecommendFactory(RecommendationSystem recommendationSystem,
-            DrinkRepository drinkRepository, PreferenceRepository preferenceRepository) {
+            DrinkRepository drinkRepository, 
+            PreferenceRepository preferenceRepository
+            ) {
         this.recommendStrategyMap = new EnumMap<>(MemberStatus.class);
         this.recommendStrategyMap.put(MemberStatus.ANONYMOUS, new RecommendForAnonymous(drinkRepository));
         this.recommendStrategyMap.put(MemberStatus.MEMBER, new RecommendForMember(recommendationSystem, drinkRepository, preferenceRepository));
