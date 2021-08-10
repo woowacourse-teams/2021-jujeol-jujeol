@@ -24,3 +24,36 @@ jobs:
 
       - name: Build Test
         run: ./gradlew bootJar
+
+  analysis:
+    if: contains(github.event.pull_request.labels.*.id, 3141722951)
+    runs-on: ubuntu-latest
+    env:
+      SONARQUBE_ID: jujeol-pr
+      SONARQUBE_URL: ${{ secrets.SONARQUBE_URL }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+          token: ${{ secrets.SUBMODULE_ACCESS_TOKEN }}
+
+      - name: Sonaqube Analysis
+        run: ./gradlew sonarqube
+             -Dsonar.projectKey=${{ env.SONARQUBE_ID }}
+             -Dsonar.projectName=${{ env.SONARQUBE_ID }}-${{ env.PR_NUMBER }}
+             -Dsonar.login=${{ secrets.SONARQUBE_ACCESS_TOKEN }}
+
+      - name: Comment Sonarqube URL
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const { SONARQUBE_ID, SONARQUBE_URL, PR_NUMBER } = process.env
+
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `📊 ${ SONARQUBE_ID }-${ PR_NUMBER } 분석 결과 확인하기 [링크](${SONARQUBE_URL})`
+            })
