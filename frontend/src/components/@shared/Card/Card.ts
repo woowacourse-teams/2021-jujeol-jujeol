@@ -1,9 +1,8 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
 
-const Container = styled.div<Omit<React.CSSProperties, 'translate'>>`
+const Card = styled.div<Omit<React.CSSProperties, 'translate'>>`
   background-color: ${({ backgroundColor }) => backgroundColor ?? COLOR.WHITE_100};
   color: ${({ color }) => color ?? COLOR.BLACK_900};
   width: ${({ width }) => width};
@@ -16,4 +15,4 @@ const Container = styled.div<Omit<React.CSSProperties, 'translate'>>`
   ${({ flexDirection }) => Flex({ flexDirection: flexDirection ?? 'column' })}
 `;
 
-export { Container };
+export default Card;
