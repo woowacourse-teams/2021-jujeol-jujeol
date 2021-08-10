@@ -22,12 +22,10 @@ const Arrow = styled.div<Omit<ArrowStyle, 'translate'>>`
   width: ${({ size }) => size ?? '0.7rem'};
   height: ${({ size }) => size ?? '0.7rem'};
 
-  border-top: ${({ borderWidth }) => borderWidth ?? '0.125rem'};
-  border-right: ${({ borderWidth }) => borderWidth ?? '0.125rem'};
-  border-top-color: ${({ color }) => color ?? `${COLOR.WHITE_200}`};
-  border-right-color: ${({ color }) => color ?? `${COLOR.WHITE_200}`};
-  border-top-style: solid;
-  border-right-style: solid;
+  border-top: ${({ borderWidth = '0.125rem', color = COLOR.WHITE_200 }) =>
+    `${borderWidth} solid ${color}`};
+  border-right: ${({ borderWidth = '0.125rem', color = COLOR.WHITE_200 }) =>
+    `${borderWidth} solid ${color}`};
   transform: ${({ dir }) => `rotate(${DIRECTION[dir]})`};
 `;
 
