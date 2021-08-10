@@ -4,6 +4,7 @@ import com.jujeol.drink.domain.RecommendForAnonymous;
 import com.jujeol.drink.domain.RecommendForMember;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.infrastructure.recommend.RecommendationSystem;
+import com.jujeol.member.domain.PreferenceRepository;
 import com.jujeol.member.ui.LoginMember;
 import java.util.EnumMap;
 import java.util.Map;
@@ -18,10 +19,10 @@ public class RecommendFactory {
     private final Map<MemberStatus, RecommendStrategy> recommendStrategyMap;
 
     public RecommendFactory(RecommendationSystem recommendationSystem,
-            DrinkRepository drinkRepository) {
+            DrinkRepository drinkRepository, PreferenceRepository preferenceRepository) {
         this.recommendStrategyMap = new EnumMap<>(MemberStatus.class);
         this.recommendStrategyMap.put(MemberStatus.ANONYMOUS, new RecommendForAnonymous(drinkRepository));
-        this.recommendStrategyMap.put(MemberStatus.MEMBER, new RecommendForMember(recommendationSystem, drinkRepository));
+        this.recommendStrategyMap.put(MemberStatus.MEMBER, new RecommendForMember(recommendationSystem, drinkRepository, preferenceRepository));
     }
 
     public RecommendStrategy create(LoginMember loginMember) {
