@@ -5,11 +5,11 @@ import { Img } from 'src/components/@shared/Image/Image';
 import { COLOR, PATH } from 'src/constants';
 import { Content, Description, Header } from './NoReview.styles';
 
-const NoReview = ({ myDrinks }: { myDrinks: MyDrink.MyDrinkItem[] }) => {
+const NoReview = ({ myDrinks }: { myDrinks: Drink.PersonalDrinkItem[] }) => {
   const history = useHistory();
 
   const onMoveToDrinkDetail =
-    ({ id }: Pick<MyDrink.MyDrinkItem, 'id'>) =>
+    ({ id }: Pick<Drink.PersonalDrinkItem, 'id'>) =>
     () => {
       history.push(`${PATH.DRINKS}/${id}`);
     };
