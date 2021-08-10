@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import Flex from 'src/styles/Flex';
 
 const Header = styled.div`
   text-align: center;
@@ -7,9 +8,7 @@ const Header = styled.div`
 `;
 
 const Content = styled.div`
-  display: flex;
-  column-gap: 0.5rem;
-  justify-content: center;
+  ${Flex({ columnGap: '0.5rem', justifyContent: 'center' })}
 
   p {
     margin-bottom: 0.5rem;

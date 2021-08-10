@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
+import LineClamp from 'src/styles/LineClamp';
 
 const Header = styled.div`
   text-align: center;
@@ -9,25 +10,18 @@ const Header = styled.div`
 `;
 
 const Content = styled.ul`
-  ${Flex({ flexDirection: 'column' })}
-
-  row-gap: 1rem;
+  ${Flex({ flexDirection: 'column', rowGap: '1rem' })}
 `;
 
 const Description = styled.div`
   width: 100%;
-  ${Flex({ flexDirection: 'column', justifyContent: 'space-between' })}
-  row-gap: 0.4rem;
+  ${Flex({ flexDirection: 'column', justifyContent: 'space-between', rowGap: '0.4rem' })}
   margin-left: 1rem;
 
   > p {
     font-weight: 600;
     width: 100%;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
+    ${LineClamp({ lineClamp: 1 })}
   }
 
   > div {
