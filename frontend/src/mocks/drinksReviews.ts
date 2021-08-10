@@ -51,4 +51,4 @@ const drinksReviews = {
   },
 };
 
-export default drinksReviews;
+export { drinksReviews };

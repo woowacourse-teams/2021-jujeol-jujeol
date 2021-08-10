@@ -1,39 +1,17 @@
 import '@testing-library/jest-dom';
-import { screen, render, waitFor, fireEvent } from '@testing-library/react';
-import { MemoryRouter as Router } from 'react-router-dom';
-import { LocationDescriptor } from 'history';
-import APIProvider from 'src/apis/APIProvider';
-import API from 'src/apis/requests';
+import { screen, waitFor, fireEvent } from '@testing-library/react';
+import { customRender } from 'src/tests/customRenderer';
+import { MockIntersectionObserver, mockScrollTo } from 'src/tests/mockTestFunction';
+import { validateMember } from 'src/mocks/member';
 import { drinksDetail } from 'src/mocks/drinksDetail';
-import drinksReviews from 'src/mocks/drinksReviews';
+import { drinksReviews } from 'src/mocks/drinksReviews';
+import API from 'src/apis/requests';
+
+import { PATH } from 'src/constants';
+
 import DrinksDetailPage from '.';
-import { MockIntersectionObserver, mockScrollTo } from 'src/mocks/mockTestFunction';
-import { UserProvider } from 'src/contexts/UserContext';
-import ModalProvider from 'src/components/Modal/ModalProvider';
-
-interface Props {
-  initialEntries: LocationDescriptor[];
-  children: React.ReactNode;
-}
-
-const customRender = ({ initialEntries, children }: Props) => {
-  render(
-    <APIProvider>
-      <UserProvider>
-        <ModalProvider>
-          <Router initialEntries={initialEntries}>{children}</Router>
-        </ModalProvider>
-      </UserProvider>
-    </APIProvider>
-  );
-};
 
 describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
-  const modalPortalRoot = document.createElement('div');
-  modalPortalRoot.setAttribute('id', 'modal');
-  modalPortalRoot.setAttribute('role', 'dialog');
-  document.body.appendChild(modalPortalRoot);
-
   beforeAll(async () => {
     Object.defineProperty(global.window, 'scrollTo', { value: mockScrollTo });
     Object.defineProperty(global.window, 'IntersectionObserver', {
@@ -47,20 +25,16 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
       return true;
     });
 
-    API.getUserInfo = jest
-      .fn()
-      .mockReturnValue({ data: { id: 0, nickname: '청바지_123', bio: '청춘은 바로 지금' } });
-    API.getDrink = jest.fn().mockReturnValue({ data: drinksDetail });
-    API.getReview = jest
-      .fn()
-      .mockReturnValue({ data: drinksReviews.data, pageInfo: drinksReviews.pageInfo });
+    API.getUserInfo = jest.fn().mockReturnValue(validateMember);
+    API.getDrink = jest.fn().mockReturnValue(drinksDetail);
+    API.getReview = jest.fn().mockReturnValue(drinksReviews);
     API.postReview = jest.fn().mockReturnValue(true);
     API.editReview = jest.fn().mockReturnValue(true);
     API.deleteReview = jest.fn().mockReturnValue(true);
   });
 
   beforeEach(async () => {
-    customRender({ initialEntries: [`/drinks/0`], children: <DrinksDetailPage /> });
+    customRender({ initialEntries: [`${PATH.DRINKS}/0`], children: <DrinksDetailPage /> });
 
     await waitFor(() => expect(API.getUserInfo).toBeCalled());
     await waitFor(() => expect(API.getDrink).toBeCalled());
@@ -68,14 +42,18 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
   });
 
   it('사용자는 상세페이지에서 주류 정보를 확인할 수 있다.', async () => {
-    expect(screen.getByAltText(drinksDetail.name).getAttribute('src')).toBe(drinksDetail.imageUrl);
-    expect(screen.getByText(drinksDetail.name)).toBeVisible();
+    expect(screen.getByAltText(drinksDetail.data.name).getAttribute('src')).toBe(
+      drinksDetail.data.imageUrl
+    );
+    expect(screen.getByText(drinksDetail.data.name)).toBeVisible();
     expect(
-      screen.getByText(`(${drinksDetail.englishName}, ${drinksDetail.alcoholByVolume}%)`)
+      screen.getByText(`(${drinksDetail.data.englishName}, ${drinksDetail.data.alcoholByVolume}%)`)
     ).toBeVisible();
-    expect(screen.getByText(`당신의 선호도는? ${drinksDetail.preferenceRate} 점`)).toBeVisible();
     expect(
-      screen.getByText(`다른 사람들은 평균적으로 ${drinksDetail.preferenceAvg}점을 줬어요`)
+      screen.getByText(`당신의 선호도는? ${drinksDetail.data.preferenceRate} 점`)
+    ).toBeVisible();
+    expect(
+      screen.getByText(`다른 사람들은 평균적으로 ${drinksDetail.data.preferenceAvg}점을 줬어요`)
     ).toBeVisible();
   });
 

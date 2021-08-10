@@ -1,34 +1,36 @@
 import '@testing-library/jest-dom';
+import { screen, waitFor, fireEvent } from '@testing-library/react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Location } from 'history';
-import { screen, waitFor, fireEvent } from '@testing-library/react';
 import { customRender } from 'src/tests/customRenderer';
+import { MockIntersectionObserver, mockScrollTo } from 'src/tests/mockTestFunction';
+import { validateMember } from 'src/mocks/member';
+import { noPersonalDrinks, personalDrinks } from 'src/mocks/personalDrinks';
+import { noPersonalReviews, personalReviews } from 'src/mocks/personalReview';
+import { drinks } from 'src/mocks/drinks';
+import API from 'src/apis/requests';
 
 import MyPage from '.';
-import API from 'src/apis/requests';
-import { MockIntersectionObserver, mockScrollTo } from 'src/mocks/mockTestFunction';
-import { noPersonalReviews, personalReviews } from 'src/mocks/personalReview';
-import { noPersonalDrinks, personalDrinks } from 'src/mocks/personalDrinks';
-import drinks from 'src/mocks/drinks';
+import { PATH } from 'src/constants';
 
 let testLocation: Location<unknown>;
 
 const renderMypage = async () => {
   await customRender({
-    initialEntries: [`/mypage`],
+    initialEntries: [PATH.MYPAGE],
     children: (
       <>
         <Switch>
-          <Route exact path="/mypage">
+          <Route exact path={PATH.MYPAGE}>
             <MyPage />
           </Route>
-          <Route exact path="/mypage/drinks">
+          <Route exact path={PATH.MY_DRINKS}>
             선호도 남긴 술
           </Route>
-          <Route exact path="/mypage/reviews">
+          <Route exact path={PATH.MY_REVIEWS}>
             내가 남긴 리뷰
           </Route>
-          <Redirect to="/mypage" />
+          <Redirect to={PATH.MYPAGE} />
         </Switch>
         <Route
           path="*"
@@ -46,8 +48,6 @@ const renderMypage = async () => {
   await waitFor(() => expect(API.getPersonalReviews).toBeCalled());
 };
 
-const userInfo = { data: { id: 0, nickname: '청바지_123', bio: '청춘은 바로 지금' } };
-
 describe('로그인 된 사용자가 마이페이지를 이용한다.', () => {
   beforeAll(async () => {
     Object.defineProperty(global.window, 'scrollTo', { value: mockScrollTo });
@@ -62,11 +62,8 @@ describe('로그인 된 사용자가 마이페이지를 이용한다.', () => {
       return true;
     });
 
-    API.getUserInfo = jest.fn().mockReturnValue(userInfo);
-    API.getDrinks = jest.fn().mockReturnValue({
-      data: drinks,
-      pageInfo: { currentPage: 1, lastPage: 1, countPerPage: 7, totalSize: 7 },
-    });
+    API.getUserInfo = jest.fn().mockReturnValue(validateMember);
+    API.getDrinks = jest.fn().mockReturnValue(drinks);
   });
 
   it('사용자는 마이페이지에서 닉네임, bio, 선호도를 남긴 술, 내가 남긴 리뷰를 확인할 수 있다.', async () => {
@@ -116,10 +113,12 @@ describe('로그인 된 사용자가 마이페이지를 이용한다.', () => {
       .getByRole('heading', { name: /선호도를 남긴 술/i })
       .closest('section');
 
+    const [recommendedDrink] = drinks.data;
+
     expect(MyDrinksSection).toHaveTextContent('선호도를 남긴 술이 없네요.');
     expect(MyDrinksSection).toHaveTextContent('선호도를 한 번 남겨보시는건 어떠세요?');
-    expect(MyDrinksSection).toHaveTextContent(drinks[0].name);
-    expect(MyDrinksSection?.querySelector('img')).toHaveAccessibleName(drinks[0].name);
+    expect(MyDrinksSection).toHaveTextContent(recommendedDrink.name);
+    expect(MyDrinksSection?.querySelector('img')).toHaveAccessibleName(recommendedDrink.name);
   });
 
   it('선호도를 남긴 술이 없고, 리뷰가 없는 경우, 리뷰를 남길 것을 안내한다.', async () => {
