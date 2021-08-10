@@ -15,7 +15,7 @@ public class MemberDto {
     private String nickname;
     private String bio;
 
-    public static MemberDto from(Member member) {
+    public static MemberDto create(Member member) {
         return new MemberDto(member.getId(), member.getNickname().getNickname(),
                 member.getBiography()
                         .getBiography());

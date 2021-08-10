@@ -1,11 +1,12 @@
 package com.jujeol.drink.application;
 
+import com.jujeol.commons.aop.LogWithTime;
 import com.jujeol.drink.application.dto.DrinkDto;
 import com.jujeol.drink.application.dto.DrinkRequestDto;
 import com.jujeol.drink.application.dto.SearchDto;
 import com.jujeol.drink.domain.Category;
 import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.Search;
+import com.jujeol.drink.domain.SearchWords;
 import com.jujeol.drink.domain.repository.CategoryRepository;
 import com.jujeol.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.exception.NotFoundCategoryException;
@@ -36,25 +37,41 @@ public class DrinkService {
     private final PreferenceRepository preferenceRepository;
     private final CategoryRepository categoryRepository;
 
+
+    @LogWithTime
     public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, Pageable pageable) {
-        Search search = searchDto.toDomain();
-        validateCategoryKey(search);
-        return drinkRepository.findBySearch(search, pageable)
-                .map(drink -> DrinkDto
-                        .create(drink, Preference.create(drink, 0), fileServerUrl));
+        SearchWords searchWords = SearchWords.create(searchDto.getSearch());
+
+        List<Drink> drinksBySearch = new ArrayList<>();
+
+        if (searchWords.hasSearchWords()) {
+            drinksBySearch.addAll(drinkRepository.findBySearch(searchWords));
+        }
+        drinksBySearch
+                .addAll(drinkRepository.findByCategory(searchWords, searchDto.getCategoryKey()));
+
+        List<DrinkDto> drinkDtos = drinksBySearch.stream()
+                .distinct()
+                .map(drink -> DrinkDto.create(
+                        drink, Preference.create(drink, 0), fileServerUrl))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(drinkDtos, pageable, drinksBySearch.size());
     }
 
     public Page<DrinkDto> showAllDrinksByPage(Pageable pageable) {
         List<DrinkDto> drinkDtos = drinkRepository.findAll(pageable).stream()
                 .map(drink -> DrinkDto.create(
                         drink, Preference.create(drink, 0), fileServerUrl))
-        .collect(Collectors.toList());
+                .collect(Collectors.toList());
 
         return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
     }
 
-    public Page<DrinkDto> showRecommendDrinks(RecommendStrategy recommendStrategy, Pageable pageable, LoginMember loginMember) {
-        List<Drink> recommendDrinks = recommendStrategy.recommend(loginMember.getId(), pageable.getPageSize());
+    public Page<DrinkDto> showRecommendDrinks(RecommendStrategy recommendStrategy,
+            Pageable pageable, LoginMember loginMember) {
+        List<Drink> recommendDrinks = recommendStrategy
+                .recommend(loginMember.getId(), pageable.getPageSize());
 
         List<DrinkDto> drinkDtos = recommendDrinks.stream()
                 .map(drink -> DrinkDto.create(
@@ -64,7 +81,6 @@ public class DrinkService {
         return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
     }
 
-    @Transactional
     public DrinkDto showDrinkDetail(Long id) {
         Drink drink = drinkRepository.findByIdWithFetch(id)
                 .orElseThrow(NotFoundDrinkException::new);
@@ -72,7 +88,6 @@ public class DrinkService {
         return DrinkDto.create(drink, preference, fileServerUrl);
     }
 
-    @Transactional
     public DrinkDto showDrinkDetail(Long drinkId, Long memberId) {
         Drink drink = drinkRepository.findByIdWithFetch(drinkId)
                 .orElseThrow(NotFoundDrinkException::new);
@@ -120,12 +135,5 @@ public class DrinkService {
     @Transactional
     public void removeDrink(Long id) {
         drinkRepository.deleteById(id);
-    }
-
-    private void validateCategoryKey(Search search) {
-        if (search.hasCategoryKey()) {
-            categoryRepository.findByKey(search.getUpperCategoryKey())
-                    .orElseThrow(NotFoundCategoryException::new);
-        }
     }
 }
