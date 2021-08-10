@@ -1,6 +1,10 @@
 import styled from '@emotion/styled';
 import { COLOR } from 'src/constants';
 
+const Container = styled.div`
+  position: relative;
+`;
+
 const Image = styled.img`
   width: 100%;
   background-color: ${COLOR.WHITE_100};
@@ -57,4 +61,4 @@ const DescriptionSection = styled.section`
   }
 `;
 
-export { Section, PreferenceSection, Image, DescriptionSection };
+export { Container, Section, PreferenceSection, Image, DescriptionSection };

@@ -19,12 +19,13 @@ const Arrow = styled.div<Omit<ArrowStyle, 'translate'>>`
   line-height: 1.5;
 
   display: inline-block;
-
   width: ${({ size }) => size ?? '0.7rem'};
   height: ${({ size }) => size ?? '0.7rem'};
 
-  border-top: ${({ borderWidth }) => borderWidth ?? '0.125rem'} solid ${COLOR.WHITE_200};
-  border-right: ${({ borderWidth }) => borderWidth ?? '0.125rem'} solid ${COLOR.WHITE_200};
+  border-top: ${({ borderWidth = '0.125rem', color = COLOR.WHITE_200 }) =>
+    `${borderWidth} solid ${color}`};
+  border-right: ${({ borderWidth = '0.125rem', color = COLOR.WHITE_200 }) =>
+    `${borderWidth} solid ${color}`};
   transform: ${({ dir }) => `rotate(${DIRECTION[dir]})`};
 `;
 
