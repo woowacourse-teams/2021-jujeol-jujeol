@@ -49,11 +49,11 @@ const personalReviews = {
     currentPage: 1,
     lastPage: 1,
     countPerPage: 10,
-    totalSize: 3,
+    totalSize: 4,
   },
 };
 
-const noPersonalReviews = {
+const noPersonalReview = {
   data: [],
   pageInfo: {
     currentPage: 1,
@@ -63,4 +63,4 @@ const noPersonalReviews = {
   },
 };
 
-export { personalReviews, noPersonalReviews };
+export { personalReviews, noPersonalReview };

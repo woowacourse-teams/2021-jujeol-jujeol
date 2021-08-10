@@ -5,8 +5,8 @@ import { Location } from 'history';
 import { customRender } from 'src/tests/customRenderer';
 import { MockIntersectionObserver, mockScrollTo } from 'src/tests/mockTestFunction';
 import { validateMember } from 'src/mocks/member';
-import { noPersonalDrinks, personalDrinks } from 'src/mocks/personalDrinks';
-import { noPersonalReviews, personalReviews } from 'src/mocks/personalReview';
+import { noPersonalDrink, personalDrinks } from 'src/mocks/personalDrinks';
+import { noPersonalReview, personalReviews } from 'src/mocks/personalReview';
 import { drinks } from 'src/mocks/drinks';
 import API from 'src/apis/requests';
 
@@ -105,8 +105,8 @@ describe('로그인 된 사용자가 마이페이지를 이용한다.', () => {
   });
 
   it('선호도를 남긴 술이 없는 경우, 선호도를 남길것을 안내한다.', async () => {
-    API.getPersonalDrinks = jest.fn().mockReturnValue(noPersonalDrinks);
-    API.getPersonalReviews = jest.fn().mockReturnValue(noPersonalReviews);
+    API.getPersonalDrinks = jest.fn().mockReturnValue(noPersonalDrink);
+    API.getPersonalReviews = jest.fn().mockReturnValue(noPersonalReview);
     await renderMypage();
 
     const MyDrinksSection = screen
@@ -122,8 +122,8 @@ describe('로그인 된 사용자가 마이페이지를 이용한다.', () => {
   });
 
   it('선호도를 남긴 술이 없고, 리뷰가 없는 경우, 리뷰를 남길 것을 안내한다.', async () => {
-    API.getPersonalDrinks = jest.fn().mockReturnValue(noPersonalDrinks);
-    API.getPersonalReviews = jest.fn().mockReturnValue(noPersonalReviews);
+    API.getPersonalDrinks = jest.fn().mockReturnValue(noPersonalDrink);
+    API.getPersonalReviews = jest.fn().mockReturnValue(noPersonalReview);
     await renderMypage();
 
     const MyReviewsSection = screen
@@ -138,7 +138,7 @@ describe('로그인 된 사용자가 마이페이지를 이용한다.', () => {
 
   it('선호도를 남긴 술이 있고, 리뷰가 없는 경우, 선호도를 남긴 술 기반으로(최근 3개) 리뷰 작성을 권한다.', async () => {
     API.getPersonalDrinks = jest.fn().mockReturnValue(personalDrinks);
-    API.getPersonalReviews = jest.fn().mockReturnValue(noPersonalReviews);
+    API.getPersonalReviews = jest.fn().mockReturnValue(noPersonalReview);
     await renderMypage();
 
     const MyReviewsListItems =
