@@ -5,7 +5,11 @@ import { Container } from './DisableWriteReview.styles';
 import { COLOR } from 'src/constants';
 import Arrow from '../@shared/Arrow/Arrow';
 
-const DisableWriteReview = ({ onClick }: { onClick: MouseEventHandler<HTMLButtonElement> }) => {
+interface Props {
+  onMoveToPreferenceSection: MouseEventHandler<HTMLButtonElement>;
+}
+
+const DisableWriteReview = ({ onMoveToPreferenceSection }: Props) => {
   return (
     <Container>
       <Card
@@ -17,7 +21,7 @@ const DisableWriteReview = ({ onClick }: { onClick: MouseEventHandler<HTMLButton
         <p>
           먼저 <strong>선호도</strong>를 입력해주세요!
         </p>
-        <button type="button" onClick={onClick}>
+        <button type="button" onClick={onMoveToPreferenceSection}>
           선호도 입력하러 가기
           <Arrow size="0.5rem" dir="UP" color={`${COLOR.BLACK_900}`} />
         </button>

@@ -27,7 +27,7 @@ const Review = ({ drinkId, drinkName, preferenceRate, onMoveToPreferenceSection 
       {preferenceRate ? (
         <ReviewCreateForm />
       ) : (
-        <DisableWriteReview onClick={onMoveToPreferenceSection} />
+        <DisableWriteReview onMoveToPreferenceSection={onMoveToPreferenceSection} />
       )}
 
       {totalSize === 0 ? (
