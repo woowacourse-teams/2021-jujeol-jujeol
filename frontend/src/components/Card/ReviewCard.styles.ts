@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
 import { COLOR } from 'src/constants';
+import LineClamp from 'src/styles/LineClamp';
 
 const Header = styled.div`
   display: flex;
@@ -38,15 +38,7 @@ const Content = styled.div<{ isContentOpen: boolean }>`
   text-align: justify;
   white-space: break-spaces;
 
-  ${({ isContentOpen }) =>
-    !isContentOpen &&
-    css`
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    `}
+  ${({ isContentOpen }) => !isContentOpen && LineClamp({ lineClamp: 3 })}
 `;
 
 const ShowMoreButton = styled.button`

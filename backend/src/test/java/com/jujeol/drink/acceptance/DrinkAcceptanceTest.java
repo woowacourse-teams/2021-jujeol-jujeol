@@ -75,7 +75,6 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         // when
         final HttpResponse httpResponse = request()
                 .get("/drinks/recommendation")
-                .withUser(CROFFLE)
                 .withDocument("drinks/show/all")
                 .build();
 

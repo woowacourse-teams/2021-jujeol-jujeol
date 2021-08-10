@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import Grid from '../@shared/Grid/Grid';
 
 const ItemList = styled(Grid)`
-  height: 20rem;
   overflow-x: auto;
   scroll-behavior: smooth;
 

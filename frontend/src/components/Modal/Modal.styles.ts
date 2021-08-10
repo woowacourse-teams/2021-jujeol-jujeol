@@ -19,6 +19,18 @@ const popUp = keyframes`
   }
 `;
 
+const fadeOut = keyframes`
+  50% {
+      transform: translateY(60%);
+      opacity: 0;
+    }
+  
+  100%  {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+`;
+
 const Container = styled.div<{ isOpened: boolean }>`
   max-width: 100%;
   min-width: 100%;
@@ -30,7 +42,7 @@ const Container = styled.div<{ isOpened: boolean }>`
   z-index: ${Z_INDEX.MODAL};
 `;
 
-const Content = styled.div<{ isOpened: boolean }>`
+const Content = styled.div<{ isOpened: boolean; isTouchDown: boolean }>`
   max-width: 100%;
   min-width: 100%;
 
@@ -42,11 +54,17 @@ const Content = styled.div<{ isOpened: boolean }>`
   bottom: 0;
   left: 0;
   background-color: ${COLOR.WHITE_100};
-  animation: ${({ isOpened }) =>
-    isOpened &&
-    css`
-      ${popUp} 0.6s ease-out
-    `};
+  ${({ isOpened, isTouchDown }) =>
+    isOpened
+      ? css`
+          animation: ${popUp} 0.6s ease-out;
+        `
+      : !isTouchDown &&
+        css`
+          animation: ${fadeOut} 1s ease-out;
+          transition: visibility 1s;
+        `};
+
   transform: translateY(1%);
 
   ::before {
@@ -63,4 +81,15 @@ const Content = styled.div<{ isOpened: boolean }>`
   }
 `;
 
-export { Container, Content };
+const CloseButton = styled.button`
+  opacity: 0;
+  position: absolute;
+  top: -1rem;
+  left: 1rem;
+
+  :focus {
+    opacity: 0.5;
+  }
+`;
+
+export { Container, Content, CloseButton };
