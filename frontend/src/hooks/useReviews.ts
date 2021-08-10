@@ -1,15 +1,7 @@
-import { RefObject } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import API from 'src/apis/requests';
-import useInfinityScroll from './useInfinityScroll';
 
-const useReviews = ({
-  drinkId,
-  observerTargetRef,
-}: {
-  drinkId: string;
-  observerTargetRef: RefObject<HTMLDivElement>;
-}) => {
+const useReviews = ({ drinkId }: { drinkId: string }) => {
   const {
     data: reviewData,
     fetchNextPage,
@@ -30,9 +22,7 @@ const useReviews = ({
     },
   ] = reviewData?.pages ?? [{ pageInfo: { totalSize: 0 } }];
 
-  useInfinityScroll({ target: observerTargetRef, fetchNextPage, hasNextPage });
-
-  return { reviews, totalSize };
+  return { reviews, totalSize, fetchNextPage, hasNextPage };
 };
 
 export default useReviews;

@@ -8,6 +8,7 @@ import InfinityScrollPoll from '../@shared/InfinityScrollPoll/InfinityScrollPoll
 import NoReviews from './NoReviews';
 import { Wrapper, ReviewList } from './Review.styles';
 import DisableWriteReview from './DisableWriteReview';
+import useInfinityScroll from 'src/hooks/useInfinityScroll';
 
 interface Props {
   drinkId: string;
@@ -19,7 +20,8 @@ interface Props {
 const Review = ({ drinkId, drinkName, preferenceRate, onMoveToPreferenceSection }: Props) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
-  const { totalSize, reviews } = useReviews({ drinkId, observerTargetRef });
+  const { reviews, totalSize, fetchNextPage, hasNextPage } = useReviews({ drinkId });
+  useInfinityScroll({ target: observerTargetRef, fetchNextPage, hasNextPage });
 
   return (
     <Wrapper>
