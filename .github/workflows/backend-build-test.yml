@@ -28,7 +28,6 @@ jobs:
   analysis:
     if: contains(github.event.pull_request.labels.*.id, 3141722951)
     runs-on: ubuntu-latest
-    needs: build
     env:
       SONARQUBE_ID: jujeol-pr
       SONARQUBE_URL: ${{ secrets.SONARQUBE_URL }}
