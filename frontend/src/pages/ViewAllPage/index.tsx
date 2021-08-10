@@ -49,7 +49,7 @@ const ViewAllPage = () => {
     <Container>
       <NavigationHeader title="전체보기" />
       <List count={drinks?.length}>
-        {drinks?.map((item: ItemList.Drinks) => (
+        {drinks?.map((item: Drink.Item) => (
           <ListItem
             key={item?.id}
             imageUrl={item?.imageUrl}

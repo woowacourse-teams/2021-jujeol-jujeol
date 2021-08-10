@@ -36,6 +36,17 @@ include::{snippets}/drinks/show/search/http-request.adoc[]
 
 include::{snippets}/drinks/show/search/http-response.adoc[]
 
+
+=== 특정 단어를 검색했지만 빈 검색 결과
+
+- Request
+
+include::{snippets}/drinks/show/search-nothing/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/search-nothing/http-response.adoc[]
+
 == 추천 정보 조회
 
 === 전체 화면에서 추천 주류 정보 조회 (협업필터링)

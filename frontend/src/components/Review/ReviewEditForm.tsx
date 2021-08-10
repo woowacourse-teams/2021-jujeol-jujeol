@@ -6,7 +6,7 @@ import { modalContext } from '../Modal/ModalProvider';
 import { Form, Content, EditButton, DeleteButton } from './ReviewEditForm.styles';
 interface Props {
   drinkId: string;
-  review: Review.ReviewItem;
+  review: Review.Item;
 }
 
 const ReviewEditForm = ({ drinkId, review }: Props) => {
@@ -35,7 +35,7 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
 
   const { mutate: editReview } = useMutation(
     () =>
-      API.editReview<string, Review.ReviewRequestData>(drinkId, reviewId.toString(), {
+      API.editReview<string, Review.PostRequestData>(drinkId, reviewId.toString(), {
         content: editContent,
       }),
     {

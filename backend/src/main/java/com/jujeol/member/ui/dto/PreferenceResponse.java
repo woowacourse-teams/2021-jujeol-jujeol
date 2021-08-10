@@ -13,7 +13,7 @@ public class PreferenceResponse {
 
     private double preferenceRate;
 
-    public static PreferenceResponse from(PreferenceDto preferenceDto) {
+    public static PreferenceResponse create(PreferenceDto preferenceDto) {
         return new PreferenceResponse(preferenceDto.getPreferenceRate());
     }
 }

@@ -16,10 +16,10 @@ public class SocialProviderCodeRequest {
     private ProviderName providerName;
 
     public SocialProviderCodeDto toDto() {
-        return SocialProviderCodeDto.of(code, providerName);
+        return SocialProviderCodeDto.create(code, providerName);
     }
 
-    public static SocialProviderCodeRequest of(String code, ProviderName providerName) {
+    public static SocialProviderCodeRequest create(String code, ProviderName providerName) {
         return new SocialProviderCodeRequest(code, providerName);
     }
 }

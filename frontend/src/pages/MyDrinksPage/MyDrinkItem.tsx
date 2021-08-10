@@ -6,7 +6,7 @@ import { Container, Description } from './MyDrinkItem.styles';
 
 interface Props {
   size: ImageSizeType;
-  drink: MyDrink.MyDrinkItem;
+  drink: Drink.PersonalDrinkItem;
 }
 
 const MyDrinkItem = ({ size, drink }: Props) => {

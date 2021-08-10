@@ -1,6 +1,5 @@
 package com.jujeol.drink.application.dto;
 
-import com.jujeol.drink.domain.Search;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,9 +15,5 @@ public class SearchDto {
 
     public static SearchDto create(String search, String categoryKey) {
         return new SearchDto(search, categoryKey);
-    }
-
-    public Search toDomain() {
-        return Search.create(search, categoryKey);
     }
 }

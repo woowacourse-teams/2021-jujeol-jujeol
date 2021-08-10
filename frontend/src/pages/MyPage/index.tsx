@@ -99,7 +99,7 @@ const MyPage = () => {
         {myDrinks?.length ? (
           <HorizontalScroll margin="0 -1.5rem" padding="0 1.5rem">
             <Grid col={7} colGap="1rem">
-              {myDrinks.map((myDrink: MyDrink.MyDrinkItem) => (
+              {myDrinks.map((myDrink: Drink.PersonalDrinkItem) => (
                 <MyDrinkItem key={myDrink.id} size="LARGE" drink={myDrink} />
               ))}
             </Grid>
@@ -116,7 +116,7 @@ const MyPage = () => {
       >
         {myReviews?.length ? (
           <ul>
-            {myReviews.slice(0, 3).map((myReview: PersonalReview.PersonalReviewItem) => (
+            {myReviews.slice(0, 3).map((myReview: Review.PersonalReviewItem) => (
               <PersonalReviewItem key={myReview.id} review={myReview} />
             ))}
           </ul>

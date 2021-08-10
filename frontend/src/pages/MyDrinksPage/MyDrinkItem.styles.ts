@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import Flex from 'src/styles/Flex';
+import LineClamp from 'src/styles/LineClamp';
 
 const Container = styled.li`
   ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })};
@@ -21,12 +22,7 @@ const Container = styled.li`
     font-size: 0.95rem;
     line-height: 1.5;
 
-    overflow: hidden;
-    display: -webkit-box;
-
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
+    ${LineClamp({ lineClamp: 1 })}
   }
 `;
 

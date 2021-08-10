@@ -1,6 +1,6 @@
 import { InputHTMLAttributes, ChangeEvent, useState, FormEvent } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { COLOR, PATH } from 'src/constants';
+import { COLOR, PATH, SEARCH } from 'src/constants';
 import Arrow from '../Arrow/Arrow';
 import { SearchIcon } from '../Icons';
 import { Container, ResetButton, SearchButton, SearchInput } from './SearchBar.styles';
@@ -48,7 +48,9 @@ const SearchBar = ({
         paddingRight={isMainPage ? '0' : '3.5rem'}
         textAlign={isMainPage ? 'center' : 'left'}
         onChange={onInputWords}
+        maxLength={SEARCH.MAX_LENGTH}
         required
+        autoFocus
       />
       {!isMainPage && (
         <>
