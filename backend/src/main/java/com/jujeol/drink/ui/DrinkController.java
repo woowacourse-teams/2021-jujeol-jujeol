@@ -83,7 +83,7 @@ public class DrinkController {
     @GetMapping("/reviews")
     public ResponseEntity<CommonResponse<List<ReviewResponse>>> showReviews(
             @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable,
-            @RequestParam("drink") Long drinkId
+            @RequestParam(required = false, name = "drink") Long drinkId
     ) {
         Page<ReviewWithAuthorDto> pageResponses = reviewService.showReviews(drinkId, pageable);
         List<ReviewResponse> reviewResponses = pageResponses.stream()
@@ -118,7 +118,7 @@ public class DrinkController {
             @PathVariable Long reviewId,
             @RequestBody ReviewUpdateRequest reviewUpdateRequest
     ) {
-        reviewService.updateReview(loginMember.getId(), reviewId, reviewUpdateRequest);
+        reviewService.updateReview(loginMember.getId(), reviewId, reviewUpdateRequest.getContent());
         return ResponseEntity.ok().build();
     }
 

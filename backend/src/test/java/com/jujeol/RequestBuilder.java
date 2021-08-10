@@ -108,6 +108,11 @@ public class RequestBuilder {
             return this;
         }
 
+        public Option withUser(String token) {
+            userHelper.withUser(token);
+            return this;
+        }
+
         public HttpResponse build() {
             RequestSpecification requestSpec = documentHelper.startRequest();
             userHelper.addRequest(requestSpec);
@@ -161,10 +166,12 @@ public class RequestBuilder {
 
         private class UserHelper {
             private boolean userFlag;
+            private String token;
             private TestMember member;
 
             public UserHelper() {
                 this.userFlag = false;
+                this.token = "";
             }
 
             public void withUser(TestMember testMember) {
@@ -172,7 +179,17 @@ public class RequestBuilder {
                 this.member = testMember;
             }
 
+            public void withUser(String token) {
+                userFlag = true;
+                this.token = token;
+            }
+
             public void addRequest(RequestSpecification requestSpec) {
+                if(token.length() != 0) {
+                    requestSpec.header("Authorization", "Bearer " + token);
+                    return;
+                }
+
                 if(userFlag) {
                     final TokenDto token = 
                             loginService.createToken(SocialProviderCodeDto.create(member.getMatchedCode(), ProviderName.TEST));
