@@ -49,7 +49,7 @@ const MyDrinks = () => {
         <button type="button" onClick={onMoveToPrevPage}>
           <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
         </button>
-        <h2>내가 마신 술</h2>
+        <h2>선호도를 남긴 술</h2>
       </Header>
 
       <Container>
