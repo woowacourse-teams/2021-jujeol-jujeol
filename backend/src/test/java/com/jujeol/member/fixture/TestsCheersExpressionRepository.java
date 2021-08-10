@@ -1,7 +1,7 @@
 package com.jujeol.member.fixture;
 
-import com.jujeol.member.domain.nickname.CheersExpression;
-import com.jujeol.member.domain.nickname.CheersExpressionsRepository;
+import com.jujeol.member.member.domain.nickname.CheersExpression;
+import com.jujeol.member.member.domain.nickname.CheersExpressionsRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 

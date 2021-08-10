@@ -2,9 +2,9 @@ package com.jujeol.member.fixture;
 
 import static java.util.stream.Collectors.toList;
 
-import com.jujeol.member.application.MemberDetails;
-import com.jujeol.member.application.dto.SocialProviderCodeDto;
-import com.jujeol.member.domain.ProviderName;
+import com.jujeol.member.auth.application.MemberDetails;
+import com.jujeol.member.auth.application.dto.SocialProviderCodeDto;
+import com.jujeol.member.auth.domain.ProviderName;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
