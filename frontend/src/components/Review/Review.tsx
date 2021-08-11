@@ -6,6 +6,7 @@ import ReviewCard from '../Card/ReviewCard';
 import { Wrapper, ReviewList } from './Review.styles';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import InfinityScrollPoll from '../@shared/InfinityScrollPoll/InfinityScrollPoll';
+import ReviewItemSkeleton from '../@shared/Skeleton/ReviewItemSkeleton';
 
 const Review = ({ drinkId }: { drinkId: string }) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
@@ -14,6 +15,7 @@ const Review = ({ drinkId }: { drinkId: string }) => {
     data: reviewData,
     fetchNextPage,
     hasNextPage,
+    isFetching,
   } = useInfiniteQuery(
     'reviews',
     ({ pageParam = 1 }) => API.getReview<string>({ id: drinkId, page: pageParam }),
@@ -45,6 +47,7 @@ const Review = ({ drinkId }: { drinkId: string }) => {
             </li>
           );
         })}
+        {isFetching && <ReviewItemSkeleton count={3} />}
       </ReviewList>
 
       <InfinityScrollPoll ref={observerTargetRef} />
