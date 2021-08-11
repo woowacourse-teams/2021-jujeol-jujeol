@@ -164,19 +164,18 @@ public class RequestBuilder {
             }
         }
 
-        private class UserHelper {
+private class UserHelper {
             private boolean userFlag;
             private String token;
-            private TestMember member;
 
             public UserHelper() {
                 this.userFlag = false;
-                this.token = "";
             }
 
-            public void withUser(TestMember testMember) {
-                userFlag = true;
-                this.member = testMember;
+             public void withUser(TestMember testMember) {
+                token = loginService.createToken(SocialProviderCodeDto.create(testMember.getMatchedCode(), 
+                                   ProviderName.TEST)).getAccessToken();
+                withUser(token);
             }
 
             public void withUser(String token) {
@@ -185,14 +184,11 @@ public class RequestBuilder {
             }
 
             public void addRequest(RequestSpecification requestSpec) {
-                if(token.length() != 0) {
-                    requestSpec.header("Authorization", "Bearer " + token);
-                    return;
-                }
-
                 if(userFlag) {
-                    final TokenDto token = 
-                            loginService.createToken(SocialProviderCodeDto.create(member.getMatchedCode(), ProviderName.TEST));
+                    requestSpec.header("Authorization", "Bearer " + token);
+                }
+            }
+        }
                     requestSpec.header("Authorization", "Bearer " + token.getAccessToken());
                 }
             }
