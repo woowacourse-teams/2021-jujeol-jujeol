@@ -3,6 +3,7 @@ import drinkTableRow from "../component/drinkTableRow.js";
 import {getRequest} from "../../utils/methodFetches.js";
 import {$} from "../../utils/querySelector.js";
 import DrinkRequest from "../dto/DrinkRequest.js";
+import drinkInsertModalRow from "../component/drinkInsertModalRow.js";
 
 export const renderDrinksTable = async (drinks) => {
   const response = await getRequest("/admin/drinks");
@@ -20,6 +21,20 @@ export const renderDrinksTable = async (drinks) => {
         drinkTableRow(element)
     )
   })
+}
+
+export const renderDrinksBatchInsertModal = async () => {
+  const $drinksTable = $("#dataInsertModal");
+  $drinksTable.querySelector('tbody').innerHTML = '';
+
+  const result = await getRequest('/categories');
+
+  const BATCH_SIZE = 10;
+  for (let i = 0; i < BATCH_SIZE; i++) {
+    $drinksTable.querySelector('tbody').insertAdjacentHTML('afterbegin',
+        drinkInsertModalRow(result.data)
+    )
+  }
 }
 
 function convertRequestToDrinkArray(drinkRequests) {
