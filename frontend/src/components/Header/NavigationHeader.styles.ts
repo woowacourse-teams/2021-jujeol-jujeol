@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import Flex from 'src/styles/Flex';
+import Header from '../@shared/Header/Header';
 
-const Header = styled.header`
+const NavHeader = styled(Header)`
   ${Flex({ alignItems: 'center' })};
 
   width: 100%;
-  height: 3.5em;
   position: relative;
 
   h2 {
@@ -20,4 +20,4 @@ const Header = styled.header`
   }
 `;
 
-export { Header };
+export { NavHeader };

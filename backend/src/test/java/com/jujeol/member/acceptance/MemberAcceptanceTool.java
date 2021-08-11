@@ -2,6 +2,7 @@ package com.jujeol.member.acceptance;
 
 import com.jujeol.RequestBuilder;
 import com.jujeol.member.application.dto.PreferenceDto;
+import com.jujeol.member.application.dto.TokenDto;
 import com.jujeol.member.fixture.TestMember;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,5 +20,13 @@ public class MemberAcceptanceTool {
                 .put("/members/me/drinks/" + drinkId + "/preference", PreferenceDto.create(preferenceRate))
                 .withUser(testMember)
                 .build();
+    }
+
+    public String 로그인_토큰_반환(TestMember testMember) {
+        return requestBuilder.builder()
+                .post("login/token", testMember.toDto())
+                .build()
+                .convertBody(TokenDto.class)
+                .getAccessToken();
     }
 }

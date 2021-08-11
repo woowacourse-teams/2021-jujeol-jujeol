@@ -12,5 +12,3 @@ spring:
 logging:
   level:
     root: info
-file-server:
-  url: https://dmaxaug2ve9od.cloudfront.net

@@ -1,0 +1,49 @@
+name: backend-dev-analysis
+
+# PR 요청에 대해 
+on:
+  pull_request:
+    branches:
+      - develop    # develop 브랜치에서 pr 이벤트가 일어났을 때 실행
+    types: [ closed ]    # PR이 closed 됐을 때에만 build 실행
+
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: ./backend    # build steps의 run을 ./frontend 경로에서 실행
+
+jobs:
+  analysis:
+    if: (github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.id, 3141722951))
+        || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    env:
+      SONARQUBE_ID: jujeol-devlop
+      SONARQUBE_URL: ${{ secrets.SONARQUBE_URL }}
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+          token: ${{ secrets.SUBMODULE_ACCESS_TOKEN }}
+
+      - name: Sonaqube Analysis
+        run: ./gradlew test sonarqube
+          -Dsonar.host.url=${{ env.SONARQUBE_URL }}
+          -Dsonar.projectKey=${{ env.SONARQUBE_ID }}
+          -Dsonar.projectName=${{ env.SONARQUBE_ID }}
+          -Dsonar.login=${{ secrets.SONARQUBE_ACCESS_TOKEN }}
+
+      - name: Comment Sonarqube URL
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const { SONARQUBE_ID, SONARQUBE_URL, PR_NUMBER } = process.env
+
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `📊 develop 브랜치 코드에 대한 분석결과 확인하기 [링크](${SONARQUBE_URL})`
+            })

@@ -49,10 +49,12 @@ const MyReviewsPage = () => {
       </Header>
 
       <Container>
-        {personalReviews?.map((review) => (
-          <PersonalReviewItem key={review.id} review={review} />
-        ))}
-        <InfinityScrollPoll ref={observerTargetRef} />
+        <ul title="내가 남긴 리뷰">
+          {personalReviews?.map((review) => (
+            <PersonalReviewItem key={review.id} review={review} />
+          ))}
+          <InfinityScrollPoll ref={observerTargetRef} />
+        </ul>
       </Container>
     </>
   );

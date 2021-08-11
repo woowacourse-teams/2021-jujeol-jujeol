@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ maxWidth?: string }>`
   width: 100%;
-  max-width: 280px;
+  max-width: ${({ maxWidth }) => maxWidth ?? '280px'};
   height: 3rem;
   margin: 0 auto;
   display: flex;

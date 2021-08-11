@@ -4,10 +4,11 @@ import StarIcon, { fillStatus } from '../@shared/Icons/StarIcon';
 import { Wrapper } from './RangeWithIcons.styles';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
-  color: string;
+  color?: string;
   value: number;
-  setValue: (value: number) => void;
-  onTouchEnd: () => void;
+  setValue?: (value: number) => void;
+  onTouchEnd?: () => void;
+  maxWidth?: string;
 }
 
 const RangeWithIcons = ({
@@ -17,6 +18,7 @@ const RangeWithIcons = ({
   step,
   value,
   disabled,
+  maxWidth,
   setValue,
   onClick,
   onTouchStart,
@@ -24,7 +26,7 @@ const RangeWithIcons = ({
   onMouseUp,
 }: Props) => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setValue(Number(event.target.value));
+    setValue?.(Number(event.target.value));
   };
 
   const getIconsStatus = (index: number): fillStatus => {
@@ -44,7 +46,7 @@ const RangeWithIcons = ({
   };
 
   return (
-    <Wrapper onClick={onClick} onTouchStart={onTouchStart}>
+    <Wrapper onClick={onClick} onTouchStart={onTouchStart} maxWidth={maxWidth}>
       <input
         type="range"
         min={min}
