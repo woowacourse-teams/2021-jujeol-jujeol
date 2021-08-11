@@ -97,7 +97,7 @@ const DrinksDetailPage = () => {
   const onCheckLoggedIn = () => {
     setIsBlinked(false);
     if (!isLoggedIn) {
-      moveToLoginPage;
+      moveToLoginPage();
     }
   };
 
@@ -109,7 +109,7 @@ const DrinksDetailPage = () => {
 
   const onMoveToPreferenceSection: MouseEventHandler<HTMLButtonElement> = () => {
     if (!isLoggedIn) {
-      moveToLoginPage;
+      moveToLoginPage();
     } else {
       setIsBlinked(true);
       preferenceRef.current?.scrollIntoView({ behavior: 'smooth' });
