@@ -12,8 +12,6 @@ const PreviewSection = styled.section`
 
 const Header = styled.div`
   ${Flex({ justifyContent: 'space-between', alignItems: 'flex-start' })};
-  margin-right: -1.3rem;
-  padding-right: 0.5rem;
 
   h3 {
     font-size: 1.1rem;
