@@ -20,22 +20,20 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
 
   const queryClient = useQueryClient();
 
-  const { mutate: deleteReview } = useMutation(
-    () => API.deleteReview<string>(drinkId, reviewId.toString()),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('reviews');
-        closeModal?.();
-      },
-      onError: () => {
-        alert(ERROR_MESSAGE.DEFAULT);
-      },
-    }
-  );
+  const { mutate: deleteReview } = useMutation(() => API.deleteReview<number>(reviewId), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('reviews');
+      closeModal?.();
+    },
+    onError: () => {
+      alert(ERROR_MESSAGE.DEFAULT);
+    },
+  });
 
   const { mutate: editReview } = useMutation(
     () =>
-      API.editReview<string, Review.PostRequestData>(drinkId, reviewId.toString(), {
+      API.editReview<Review.PostRequestData>(reviewId, {
+        drinkId: Number(drinkId),
         content: editContent,
       }),
     {

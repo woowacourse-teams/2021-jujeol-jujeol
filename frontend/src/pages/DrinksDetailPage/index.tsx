@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { MouseEventHandler, useContext, useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -31,9 +31,30 @@ const DrinksDetailPage = () => {
 
   const history = useHistory();
 
+  const preferenceRef = useRef<HTMLDivElement>(null);
+
+  const [isBlinked, setIsBlinked] = useState(false);
+  const [currentPreferenceRate, setCurrentPreferenceRate] = useState(
+    defaultDrinkDetail.preferenceRate
+  );
+
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
-  const [drinkInfo, setDrinkInfo] = useState(defaultDrinkDetail);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const { data: { data: drink = defaultDrinkDetail } = {} } = useQuery(
+    'drink-detail',
+    () => API.getDrink<string>(drinkId),
+    {
+      retry: 0,
+      onSuccess: ({ data }) => {
+        setCurrentPreferenceRate(data.preferenceRate);
+      },
+    }
+  );
+
   const {
     name,
     englishName,
@@ -42,31 +63,17 @@ const DrinksDetailPage = () => {
     alcoholByVolume,
     preferenceRate,
     preferenceAvg,
-  } = drinkInfo;
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  const DrinkDetailQuery = useQuery('drink-detail', () => API.getDrink<string>(drinkId), {
-    retry: 0,
-    onSuccess: ({ data }) => {
-      setDrinkInfo(data);
-    },
-  });
+  }: Drink.DetailItem = drink;
 
   const { mutate: updatePreference } = useMutation(
     () => {
-      if (preferenceRate === 0) {
+      if (currentPreferenceRate === 0) {
         return API.deletePreference<string>(drinkId);
       }
 
-      return API.postPreference<
-        string,
-        {
-          preferenceRate: number;
-        }
-      >(drinkId, { preferenceRate });
+      return API.postPreference<string, { preferenceRate: number }>(drinkId, {
+        preferenceRate: currentPreferenceRate,
+      });
     },
     {
       onError: (error: { code: number; message: string }) => {
@@ -76,10 +83,11 @@ const DrinksDetailPage = () => {
   );
 
   const setPreferenceRate = (value: number) => {
-    setDrinkInfo((prev) => ({ ...prev, preferenceRate: value }));
+    setCurrentPreferenceRate(value);
   };
 
   const onCheckLoggedIn = () => {
+    setIsBlinked(false);
     if (!isLoggedIn) {
       if (confirm(MESSAGE.LOGIN_REQUIRED_TO_UPDATE_PREFERENCE)) {
         history.push(PATH.LOGIN);
@@ -93,20 +101,34 @@ const DrinksDetailPage = () => {
     }
   };
 
+  const onMoveToPreferenceSection: MouseEventHandler<HTMLButtonElement> = () => {
+    onCheckLoggedIn();
+
+    setIsBlinked(true);
+    preferenceRef.current?.scrollIntoView({ behavior: 'smooth' });
+
+    setTimeout(() => {
+      setIsBlinked(false);
+    }, 3000);
+  };
+
   return (
     <Container>
       <GoBackButton color={COLOR.BLACK_900} />
       <Image src={imageUrl} alt={name} />
+
       <Section>
-        <PreferenceSection>
+        <PreferenceSection ref={preferenceRef} isBlinked={isBlinked}>
           <h3>
-            {preferenceRate ? `당신의 선호도는? ${preferenceRate} 점` : '선호도를 입력해주세요'}
+            {currentPreferenceRate
+              ? `당신의 선호도는? ${currentPreferenceRate} 점`
+              : '선호도를 입력해주세요'}
           </h3>
           <RangeWithIcons
             color={COLOR.YELLOW_300}
             max={PREFERENCE.MAX_VALUE}
             step={PREFERENCE.STEP}
-            value={preferenceRate}
+            value={currentPreferenceRate}
             setValue={setPreferenceRate}
             disabled={!isLoggedIn}
             onTouchStart={onCheckLoggedIn}
@@ -139,7 +161,12 @@ const DrinksDetailPage = () => {
           </ul>
         </DescriptionSection>
 
-        <Review drinkId={drinkId} />
+        <Review
+          drinkId={drinkId}
+          drinkName={name}
+          preferenceRate={currentPreferenceRate}
+          onMoveToPreferenceSection={onMoveToPreferenceSection}
+        />
       </Section>
     </Container>
   );
