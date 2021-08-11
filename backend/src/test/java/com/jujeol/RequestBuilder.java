@@ -164,7 +164,7 @@ public class RequestBuilder {
             }
         }
 
-private class UserHelper {
+    private class UserHelper {
             private boolean userFlag;
             private String token;
 
@@ -186,10 +186,6 @@ private class UserHelper {
             public void addRequest(RequestSpecification requestSpec) {
                 if(userFlag) {
                     requestSpec.header("Authorization", "Bearer " + token);
-                }
-            }
-        }
-                    requestSpec.header("Authorization", "Bearer " + token.getAccessToken());
                 }
             }
         }
