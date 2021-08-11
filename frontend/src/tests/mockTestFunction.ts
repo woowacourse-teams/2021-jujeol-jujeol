@@ -30,4 +30,13 @@ class MockIntersectionObserver {
 
 const mockScrollTo = jest.fn();
 
-export { MockIntersectionObserver, mockScrollTo };
+const mockMatchMedia = jest.fn().mockImplementation((query) => ({
+  matches: false,
+  media: query,
+  onchange: null,
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn(),
+  dispatchEvent: jest.fn(),
+}));
+
+export { MockIntersectionObserver, mockScrollTo, mockMatchMedia };

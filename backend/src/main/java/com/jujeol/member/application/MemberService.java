@@ -16,7 +16,6 @@ import com.jujeol.member.domain.PreferenceRepository;
 import com.jujeol.member.domain.nickname.Nickname;
 import com.jujeol.member.exception.NoSuchMemberException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,10 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MemberService {
-
-    @Value("${file-server.url:}")
-    private String fileServerUrl;
-
     private final MemberRepository memberRepository;
     private final PreferenceRepository preferenceRepository;
     private final DrinkRepository drinkRepository;
@@ -87,8 +82,7 @@ public class MemberService {
                 .findByMemberIdOrderByCreatedAtDesc(memberId, pageable)
                 .map(preference -> DrinkDto.create(
                         preference.getDrink(),
-                        preference,
-                        fileServerUrl
+                        preference
                         )
                 );
         return map;
@@ -100,8 +94,7 @@ public class MemberService {
                         review,
                         DrinkDto.create(
                                 review.getDrink(),
-                                Preference.create(review.getDrink(), 3.5),
-                                fileServerUrl
+                                Preference.create(review.getDrink(), 3.5)
                         )
                 ));
     }

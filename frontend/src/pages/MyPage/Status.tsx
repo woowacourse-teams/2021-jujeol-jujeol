@@ -8,7 +8,7 @@ interface Props {
 const stateConfig = ({ myDrinksCount, myReviewsCount }: Props) => [
   {
     count: myDrinksCount,
-    title: '내가 마신 술',
+    title: '선호도를 남긴 술',
   },
   {
     count: myReviewsCount,

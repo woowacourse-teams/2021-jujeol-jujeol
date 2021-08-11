@@ -51,7 +51,7 @@ const SearchInput = styled.input<Omit<React.CSSProperties, 'translate'>>`
     line-height: 1.5;
     color: ${COLOR.GRAY_200};
   }
-  // input의 type이 search일 때 기본으로 제공되는 reset 버튼을 삭제하는 코드
+
   ::-ms-clear,
   ::-ms-reveal {
     display: none;
