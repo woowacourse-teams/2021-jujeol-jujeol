@@ -6,10 +6,10 @@ import { COLOR } from 'src/constants';
 import Arrow from '../@shared/Arrow/Arrow';
 
 interface Props {
-  onMoveToPreferenceSection: MouseEventHandler<HTMLButtonElement>;
+  onNoticeToInputPreference: MouseEventHandler<HTMLButtonElement>;
 }
 
-const DisableWriteReview = ({ onMoveToPreferenceSection }: Props) => {
+const DisableWriteReview = ({ onNoticeToInputPreference }: Props) => {
   return (
     <Container>
       <Card
@@ -21,7 +21,7 @@ const DisableWriteReview = ({ onMoveToPreferenceSection }: Props) => {
         <p>
           먼저 <strong>선호도</strong>를 입력해주세요!
         </p>
-        <button type="button" onClick={onMoveToPreferenceSection}>
+        <button type="button" onClick={onNoticeToInputPreference}>
           선호도 입력하러 가기
           <Arrow size="0.5rem" dir="UP" color={`${COLOR.BLACK_900}`} />
         </button>

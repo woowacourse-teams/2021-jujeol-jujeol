@@ -13,6 +13,7 @@ import { Section, PreferenceSection, Image, DescriptionSection, Container } from
 import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 import DrinksDetailDescriptionSkeleton from 'src/components/Skeleton/DrinksDetailDescriptionSkeleton';
+import useNoticeToInputPreference from 'src/hooks/useInputPreference';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -36,7 +37,6 @@ const DrinksDetailPage = () => {
   const pageContainerRef = useRef<HTMLImageElement>(null);
   const preferenceRef = useRef<HTMLDivElement>(null);
 
-  const [isBlinked, setIsBlinked] = useState(false);
   const [currentPreferenceRate, setCurrentPreferenceRate] = useState(
     defaultDrinkDetail.preferenceRate
   );
@@ -84,6 +84,10 @@ const DrinksDetailPage = () => {
     }
   );
 
+  const { isBlinked, setIsBlinked, observePreferenceSection } = useNoticeToInputPreference({
+    targetRef: preferenceRef,
+  });
+
   const setPreferenceRate = (value: number) => {
     setCurrentPreferenceRate(value);
   };
@@ -107,17 +111,13 @@ const DrinksDetailPage = () => {
     }
   };
 
-  const onMoveToPreferenceSection: MouseEventHandler<HTMLButtonElement> = () => {
+  const onNoticeToInputPreference: MouseEventHandler<HTMLButtonElement> = () => {
     if (!isLoggedIn) {
       moveToLoginPage();
-    } else {
-      setIsBlinked(true);
-      preferenceRef.current?.scrollIntoView({ behavior: 'smooth' });
-
-      setTimeout(() => {
-        setIsBlinked(false);
-      }, 3000);
+      return;
     }
+
+    observePreferenceSection();
   };
 
   return (
@@ -177,7 +177,7 @@ const DrinksDetailPage = () => {
           drinkId={drinkId}
           drinkName={name}
           preferenceRate={currentPreferenceRate}
-          onMoveToPreferenceSection={onMoveToPreferenceSection}
+          onNoticeToInputPreference={onNoticeToInputPreference}
         />
       </Section>
     </Container>
