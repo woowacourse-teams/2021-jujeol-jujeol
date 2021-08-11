@@ -33,6 +33,7 @@ const DrinksDetailPage = () => {
 
   const history = useHistory();
 
+  const pageContainerRef = useRef<HTMLImageElement>(null);
   const preferenceRef = useRef<HTMLDivElement>(null);
 
   const [isBlinked, setIsBlinked] = useState(false);
@@ -43,7 +44,7 @@ const DrinksDetailPage = () => {
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    pageContainerRef.current?.scrollIntoView();
   }, []);
 
   const { data: { data: drink = defaultDrinkDetail } = {}, isLoading } = useQuery(
@@ -120,7 +121,7 @@ const DrinksDetailPage = () => {
   };
 
   return (
-    <Container>
+    <Container ref={pageContainerRef}>
       <GoBackButton color={COLOR.BLACK_900} />
       {isLoading ? (
         <Skeleton width="100" height="30rem" />
