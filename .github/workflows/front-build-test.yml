@@ -5,6 +5,7 @@ on:
   pull_request:
     branches:
       - develop # develop 브랜치에서 pr 이벤트가 일어났을 때 실행
+    types: [opened, assigned, synchronize, labeled]
 
 defaults:
   run:
