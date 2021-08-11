@@ -11,7 +11,7 @@ import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
 import Arrow from 'src/components/@shared/Arrow/Arrow';
 
-const MyDrinks = () => {
+const MyDrinksPage = () => {
   const history = useHistory();
 
   const {
@@ -49,11 +49,11 @@ const MyDrinks = () => {
         <button type="button" onClick={onMoveToPrevPage}>
           <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
         </button>
-        <h2>내가 마신 술</h2>
+        <h2>선호도를 남긴 술</h2>
       </Header>
 
       <Container>
-        <Grid col={matches ? 2 : 3} rowGap="1.5rem">
+        <Grid col={matches ? 2 : 3} rowGap="1.5rem" title="선호도를 남긴 술">
           {myDrinks?.map((myDrink: Drink.PersonalDrinkItem) => (
             <MyDrinkItem key={myDrink.id} size={matches ? 'X_LARGE' : 'LARGE'} drink={myDrink} />
           ))}
@@ -64,4 +64,4 @@ const MyDrinks = () => {
   );
 };
 
-export default MyDrinks;
+export default MyDrinksPage;

@@ -67,9 +67,10 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
         String content1 = "크으 맛난다잉~>?";
         String content2 = "워메 맛있는 거~";
         String content3 = "아따! 맛있구마잉";
-        reviewAcceptanceTool.리뷰_등록(CROFFLE, content1, obId);
-        reviewAcceptanceTool.리뷰_등록(CROFFLE, content2, appleId);
-        reviewAcceptanceTool.리뷰_등록(CROFFLE, content3, stellaId);
+        String token = memberAcceptanceTool.로그인_토큰_반환(CROFFLE);
+        reviewAcceptanceTool.리뷰_등록(token, content1, obId);
+        reviewAcceptanceTool.리뷰_등록(token, content2, appleId);
+        reviewAcceptanceTool.리뷰_등록(token, content3, stellaId);
 
         //when
         HttpResponse response = request().get("/members/me/reviews")

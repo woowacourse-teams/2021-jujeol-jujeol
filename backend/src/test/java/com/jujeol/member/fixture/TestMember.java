@@ -19,8 +19,7 @@ public enum TestMember {
     NABOM("1006", "nabom.summer.winter", "1006"),
     RANDOM_MEMBER("1234", "this.is.default", "random");
 
-    TestMember(String matchedCode, String accessToken,
-            String accountId) {
+    TestMember(String matchedCode, String accessToken, String accountId) {
         this.matchedCode = matchedCode;
         this.accessToken = accessToken;
         this.memberDetails = new MemberDetails() {

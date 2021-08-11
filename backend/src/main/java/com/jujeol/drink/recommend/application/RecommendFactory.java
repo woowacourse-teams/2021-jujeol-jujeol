@@ -5,6 +5,7 @@ import com.jujeol.drink.recommend.domain.RecommendForAnonymous;
 import com.jujeol.drink.recommend.domain.RecommendForMember;
 import com.jujeol.drink.recommend.infrastructure.RecommendationSystem;
 import com.jujeol.member.auth.ui.LoginMember;
+import com.jujeol.preference.domain.PreferenceRepository;
 import java.util.EnumMap;
 import java.util.Map;
 import org.springframework.stereotype.Component;
@@ -19,12 +20,12 @@ public class RecommendFactory {
     private final Map<MemberStatus, RecommendStrategy> recommendStrategyMap;
 
     public RecommendFactory(RecommendationSystem recommendationSystem,
-            DrinkRepository drinkRepository) {
+            DrinkRepository drinkRepository,
+            PreferenceRepository preferenceRepository
+            ) {
         this.recommendStrategyMap = new EnumMap<>(MemberStatus.class);
-        this.recommendStrategyMap
-                .put(MemberStatus.ANONYMOUS, new RecommendForAnonymous(drinkRepository));
-        this.recommendStrategyMap.put(MemberStatus.MEMBER,
-                new RecommendForMember(recommendationSystem, drinkRepository));
+        this.recommendStrategyMap.put(MemberStatus.ANONYMOUS, new RecommendForAnonymous(drinkRepository));
+        this.recommendStrategyMap.put(MemberStatus.MEMBER, new RecommendForMember(recommendationSystem, drinkRepository, preferenceRepository));
     }
 
     public RecommendStrategy create(LoginMember loginMember) {

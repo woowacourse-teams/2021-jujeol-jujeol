@@ -49,7 +49,8 @@ public enum ExceptionCodeAndDetails {
     INVALID_CONTENT_LENGTH("2008", "리뷰는 빈 공백이거나 300자를 넘을 수 없습니다.", InvalidReviewContentException.class),
     NOT_EXIST_CATEGORY("2009", "해당 카테고리가 존재하지 않습니다.", NotFoundCategoryException.class),
 
-    NOT_FOUND_VIEW_COUNT("2011", "해당 주류에 대한 조회수를 찾을 수 없습니다.", NotFoundViewCountException.class);
+    NOT_FOUND_VIEW_COUNT("2011", "해당 주류에 대한 조회수를 찾을 수 없습니다.", NotFoundViewCountException.class),
+    CREATE_REVIEW_NO_PREFERENCE("2012", "리뷰를 생성하려면 선호도를 입력해야합니다.", CreateReviewNoPreferenceException.class);
 
 
     private String code;

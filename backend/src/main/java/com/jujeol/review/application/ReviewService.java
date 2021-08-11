@@ -1,19 +1,21 @@
 package com.jujeol.review.application;
 
+import com.jujeol.drink.application.dto.ReviewCreateRequest;
 import com.jujeol.drink.drink.domain.Drink;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.drink.exception.NotFoundDrinkException;
+import com.jujeol.drink.exception.CreateReviewNoPreferenceException;
 import com.jujeol.member.auth.exception.UnauthorizedUserException;
+import com.jujeol.member.domain.Preference;
+import com.jujeol.member.domain.PreferenceRepository;
 import com.jujeol.member.member.domain.Member;
 import com.jujeol.member.member.domain.repository.MemberRepository;
 import com.jujeol.member.member.exception.NoSuchMemberException;
 import com.jujeol.review.application.dto.MemberSimpleDto;
-import com.jujeol.review.application.dto.ReviewRequest;
 import com.jujeol.review.application.dto.ReviewWithAuthorDto;
 import com.jujeol.review.domain.Review;
 import com.jujeol.review.domain.repository.ReviewRepository;
 import com.jujeol.review.exception.CreateReviewLimitException;
-import com.jujeol.review.exception.NotExistReviewInDrinkException;
 import com.jujeol.review.exception.NotFoundReviewException;
 import java.time.LocalDate;
 import java.util.List;
@@ -31,19 +33,33 @@ public class ReviewService {
     private final DrinkRepository drinkRepository;
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
+    private final PreferenceRepository preferenceRepository;
 
     @Transactional
-    public void createReview(Long loginMemberId, Long drinkId, ReviewRequest reviewRequest) {
+    public void createReview(Long loginMemberId, ReviewCreateRequest reviewCreateRequest) {
         Member member = memberRepository.findById(loginMemberId)
                 .orElseThrow(NoSuchMemberException::new);
-        Drink drink = drinkRepository.findById(drinkId).orElseThrow(NotFoundDrinkException::new);
+        Drink drink = drinkRepository.findById(reviewCreateRequest.getDrinkId())
+                .orElseThrow(NotFoundDrinkException::new);
 
-        validateCreateReviewLimit(loginMemberId, drinkId);
+        validateCreateReviewLimit(loginMemberId, reviewCreateRequest.getDrinkId());
+        validatePreferenceRate(member, drink);
 
-        Review review = Review.create(reviewRequest.getContent(), drink, member);
+        Review review = Review.create(reviewCreateRequest.getContent(), drink, member);
         Review saveReview = reviewRepository.save(review);
         drink.addReview(saveReview);
     }
+
+    private void validatePreferenceRate(Member member, Drink drink) {
+        Preference preference = preferenceRepository
+                .findByMemberIdAndDrinkId(member.getId(), drink.getId())
+                .orElseGet(() -> Preference.create(member, drink, 0.0));
+
+        if (preference.isZeroRate()) {
+            throw new CreateReviewNoPreferenceException();
+        }
+    }
+
 
     private void validateCreateReviewLimit(Long loginMemberId, Long drinkId) {
         List<Review> byDrinkIdAndMemberId = reviewRepository
@@ -69,38 +85,27 @@ public class ReviewService {
     }
 
     @Transactional
-    public void updateReview(Long loginMemberId, Long drinksId, Long reviewId,
-            ReviewRequest reviewRequest) {
+    public void updateReview(Long loginMemberId, Long reviewId,
+            String content) {
         Member member = memberRepository.findById(loginMemberId)
                 .orElseThrow(NoSuchMemberException::new);
-        Drink drink = drinkRepository.findById(drinksId).orElseThrow(NotFoundDrinkException::new);
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(NotFoundReviewException::new);
 
-        validateReviewWithDrink(drink, review);
         validateReviewWithMember(member, review);
 
-        review.editContent(reviewRequest.getContent());
+        review.editContent(content);
     }
 
     @Transactional
-    public void deleteReview(Long loginId, Long drinkId, Long reviewId) {
+    public void deleteReview(Long loginId, Long reviewId) {
         Member member = memberRepository.findById(loginId).orElseThrow(NoSuchMemberException::new);
-        Drink drink = drinkRepository.findById(drinkId).orElseThrow(NotFoundDrinkException::new);
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(NotFoundReviewException::new);
 
-        validateReviewWithDrink(drink, review);
         validateReviewWithMember(member, review);
 
         reviewRepository.delete(review);
-        drink.removeReview(review);
-    }
-
-    private void validateReviewWithDrink(Drink drink, Review review) {
-        if (!review.isReviewOf(drink)) {
-            throw new NotExistReviewInDrinkException();
-        }
     }
 
     private void validateReviewWithMember(Member member, Review review) {

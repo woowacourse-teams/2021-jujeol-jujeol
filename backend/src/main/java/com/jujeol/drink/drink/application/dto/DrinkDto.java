@@ -25,14 +25,13 @@ public class DrinkDto {
 
     public static DrinkDto create(
             Drink drink,
-            Preference preference,
-            String fileServerUrl
+            Preference preference
     ) {
         return new DrinkDto(drink.getId(),
                 drink.getName(),
                 drink.getEnglishName(),
                 drink.getAlcoholByVolume(),
-                fileServerUrl + "/" + drink.getImageFilePath(),
+                drink.getImageFilePath(),
                 CategoryDto.create(drink.getCategory()),
                 preference.getRate(),
                 drink.getPreferenceAvg()
