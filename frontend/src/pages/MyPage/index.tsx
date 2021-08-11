@@ -25,8 +25,8 @@ import {
   DizzyEmojiColorIcon,
   ExcitedEmojiColorIcon,
 } from 'src/components/@shared/Icons';
-import PersonalDrinkItemSkeleton from 'src/components/@shared/Skeleton/PersonalDrinkItemSkeleton';
-import PersonalReviewItemSkeleton from 'src/components/@shared/Skeleton/PersonalReviewItemSkeleton';
+import PersonalDrinkItemSkeleton from 'src/components/Skeleton/PersonalDrinkItemSkeleton';
+import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewItemSkeleton';
 
 const userProfileIcons = [
   SmileEmojiColorIcon,

@@ -10,7 +10,7 @@ import { Header, Container } from './styles';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
 import Arrow from 'src/components/@shared/Arrow/Arrow';
-import PersonalDrinkItemSkeleton from 'src/components/@shared/Skeleton/PersonalDrinkItemSkeleton';
+import PersonalDrinkItemSkeleton from 'src/components/Skeleton/PersonalDrinkItemSkeleton';
 
 const MyDrinksPage = () => {
   const history = useHistory();

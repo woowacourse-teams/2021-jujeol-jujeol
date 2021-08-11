@@ -12,7 +12,7 @@ import { properties } from './propertyData';
 import { Section, PreferenceSection, Image, DescriptionSection, Container } from './styles';
 import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
-import DrinksDetailDescriptionSkeleton from 'src/components/@shared/Skeleton/DrinksDetailDescriptionSkeleton';
+import DrinksDetailDescriptionSkeleton from 'src/components/Skeleton/DrinksDetailDescriptionSkeleton';
 
 const defaultDrinkDetail = {
   name: 'name',

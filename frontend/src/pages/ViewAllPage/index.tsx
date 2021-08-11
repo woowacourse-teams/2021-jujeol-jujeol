@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import API from 'src/apis/requests';
-import ListItemSkeleton from 'src/components/@shared/Skeleton/ListItemSkeleton';
+import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
 import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';

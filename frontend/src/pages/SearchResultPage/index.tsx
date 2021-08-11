@@ -6,7 +6,7 @@ import Arrow from 'src/components/@shared/Arrow/Arrow';
 
 import Header from 'src/components/@shared/Header/Header';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
-import ListItemSkeleton from 'src/components/@shared/Skeleton/ListItemSkeleton';
+import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
 import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';
 import { PATH } from 'src/constants';

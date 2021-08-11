@@ -8,7 +8,7 @@ import CardList from 'src/components/List/CardList';
 import CardItem from 'src/components/Item/CardItem';
 import ListItem from 'src/components/Item/ListItem';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
-import ListItemSkeleton from 'src/components/@shared/Skeleton/ListItemSkeleton';
+import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
 
 interface Props {
   type: 'CARD' | 'LIST';

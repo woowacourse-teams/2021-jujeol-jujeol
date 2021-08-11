@@ -6,7 +6,7 @@ import ReviewCard from '../Card/ReviewCard';
 import { Wrapper, ReviewList } from './Review.styles';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import InfinityScrollPoll from '../@shared/InfinityScrollPoll/InfinityScrollPoll';
-import ReviewItemSkeleton from '../@shared/Skeleton/ReviewItemSkeleton';
+import ReviewItemSkeleton from '../Skeleton/ReviewItemSkeleton';
 
 const Review = ({ drinkId }: { drinkId: string }) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);

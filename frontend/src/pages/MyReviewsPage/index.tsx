@@ -5,7 +5,7 @@ import API from 'src/apis/requests';
 import Arrow from 'src/components/@shared/Arrow/Arrow';
 import Grid from 'src/components/@shared/Grid/Grid';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
-import PersonalReviewItemSkeleton from 'src/components/@shared/Skeleton/PersonalReviewItemSkeleton';
+import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewItemSkeleton';
 import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import { Container, Header } from './styles';

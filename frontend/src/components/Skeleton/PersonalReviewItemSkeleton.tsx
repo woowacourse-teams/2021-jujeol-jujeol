@@ -1,7 +1,7 @@
-import FlexBox from 'src/components/FlexBox/FlexBox';
+import FlexBox from 'src/components/@shared/FlexBox/FlexBox';
 import { COLOR } from 'src/constants';
-import Card from '../Card/Card';
-import Skeleton from './Skeleton';
+import Card from '../@shared/Card/Card';
+import Skeleton from '../@shared/Skeleton/Skeleton';
 
 const PersonalReviewItemSkeleton = ({ count }: { count: number }) => {
   return (

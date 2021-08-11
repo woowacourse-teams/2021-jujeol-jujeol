@@ -1,6 +1,5 @@
-import FlexBox from 'src/components/FlexBox/FlexBox';
-import Skeleton from './Skeleton';
-
+import FlexBox from 'src/components/@shared/FlexBox/FlexBox';
+import Skeleton from '../@shared/Skeleton/Skeleton';
 const ListItemSkeleton = ({ count }: { count: number }) => {
   return (
     <FlexBox flexDirection="column" rowGap="1rem">
