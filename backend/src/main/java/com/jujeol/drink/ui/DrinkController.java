@@ -7,7 +7,8 @@ import com.jujeol.drink.application.DrinkService;
 import com.jujeol.drink.application.RecommendFactory;
 import com.jujeol.drink.application.ReviewService;
 import com.jujeol.drink.application.dto.DrinkDto;
-import com.jujeol.drink.application.dto.ReviewRequest;
+import com.jujeol.drink.application.dto.ReviewCreateRequest;
+import com.jujeol.drink.application.dto.ReviewUpdateRequest;
 import com.jujeol.drink.application.dto.ReviewWithAuthorDto;
 import com.jujeol.drink.ui.dto.DrinkDetailResponse;
 import com.jujeol.drink.ui.dto.DrinkSimpleResponse;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -78,12 +80,12 @@ public class DrinkController {
         return ResponseEntity.ok(CommonResponse.from(drinkDetailResponse));
     }
 
-    @GetMapping("/drinks/{id}/reviews")
+    @GetMapping("/reviews")
     public ResponseEntity<CommonResponse<List<ReviewResponse>>> showReviews(
-            @PathVariable Long id,
-            @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable
+            @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable,
+            @RequestParam(required = false, name = "drink") Long drinkId
     ) {
-        Page<ReviewWithAuthorDto> pageResponses = reviewService.showReviews(id, pageable);
+        Page<ReviewWithAuthorDto> pageResponses = reviewService.showReviews(drinkId, pageable);
         List<ReviewResponse> reviewResponses = pageResponses.stream()
                 .map(reviewWithAuthorDto -> ReviewResponse.create(
                         reviewWithAuthorDto,
@@ -101,33 +103,30 @@ public class DrinkController {
                 .ok(CommonResponse.from(reviewResponses, pageInfo));
     }
 
-    @PostMapping("/drinks/{id}/reviews")
+    @PostMapping("/reviews")
     public ResponseEntity<Void> createReview(
             @AuthenticationPrincipal LoginMember loginMember,
-            @PathVariable Long id,
-            @RequestBody ReviewRequest reviewRequest
+            @RequestBody ReviewCreateRequest reviewCreateRequest
     ) {
-        reviewService.createReview(loginMember.getId(), id, reviewRequest);
+        reviewService.createReview(loginMember.getId(), reviewCreateRequest);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/drinks/{drinkId}/reviews/{reviewId}")
+    @PutMapping("/reviews/{reviewId}")
     public ResponseEntity<Void> updateReview(
             @AuthenticationPrincipal LoginMember loginMember,
-            @PathVariable Long drinkId,
             @PathVariable Long reviewId,
-            @RequestBody ReviewRequest reviewRequest
+            @RequestBody ReviewUpdateRequest reviewUpdateRequest
     ) {
-        reviewService.updateReview(loginMember.getId(), drinkId, reviewId, reviewRequest);
+        reviewService.updateReview(loginMember.getId(), reviewId, reviewUpdateRequest.getContent());
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/drinks/{drinkId}/reviews/{reviewId}")
+    @DeleteMapping("/reviews/{reviewId}")
     public ResponseEntity<Void> deleteReview(
             @AuthenticationPrincipal LoginMember loginMember,
-            @PathVariable Long drinkId,
             @PathVariable Long reviewId) {
-        reviewService.deleteReview(loginMember.getId(), drinkId, reviewId);
+        reviewService.deleteReview(loginMember.getId(), reviewId);
         return ResponseEntity.ok().build();
     }
 }

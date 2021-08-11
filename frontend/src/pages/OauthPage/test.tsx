@@ -1,23 +1,11 @@
 import '@testing-library/jest-dom';
-import { MemoryRouter as Router, Route, Switch } from 'react-router-dom';
-import { Location, LocationDescriptor } from 'history';
-import { render, waitFor } from '@testing-library/react';
-import APIProvider from 'src/apis/APIProvider';
-import OauthPage from '.';
+import { waitFor } from '@testing-library/react';
+import { Route, Switch } from 'react-router-dom';
+import { Location } from 'history';
+import { customRender } from 'src/tests/customRenderer';
 import API from 'src/apis/requests';
 
-interface Props {
-  initialEntries: LocationDescriptor[];
-  children: React.ReactNode;
-}
-
-const customRender = ({ initialEntries, children }: Props) => {
-  render(
-    <APIProvider>
-      <Router initialEntries={initialEntries}>{children}</Router>
-    </APIProvider>
-  );
-};
+import OauthPage from '.';
 
 const code = 'afadd123fiwelrjkaaaaafjfghkddltrkl34jk';
 const accessToken = 'afadd123fiwelrjkaaaaafjfghkddltrkl34jk';

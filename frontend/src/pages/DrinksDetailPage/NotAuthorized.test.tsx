@@ -1,29 +1,14 @@
 import '@testing-library/jest-dom';
-import { screen, render, waitFor, fireEvent } from '@testing-library/react';
-import { MemoryRouter as Router } from 'react-router-dom';
-import { LocationDescriptor } from 'history';
-import APIProvider from 'src/apis/APIProvider';
-import API from 'src/apis/requests';
+import { screen, waitFor, fireEvent } from '@testing-library/react';
+import { customRender } from 'src/tests/customRenderer';
+import { MockIntersectionObserver, mockScrollTo } from 'src/tests/mockTestFunction';
 import { drinksDetail } from 'src/mocks/drinksDetail';
-import drinksReviews from 'src/mocks/drinksReviews';
+import { drinksReviews } from 'src/mocks/drinksReviews';
+import API from 'src/apis/requests';
+
+import { PATH } from 'src/constants';
+
 import DrinksDetailPage from '.';
-import { MockIntersectionObserver, mockScrollTo } from 'src/mocks/mockTestFunction';
-import { UserProvider } from 'src/contexts/UserContext';
-
-interface Props {
-  initialEntries: LocationDescriptor[];
-  children: React.ReactNode;
-}
-
-const customRender = ({ initialEntries, children }: Props) => {
-  render(
-    <APIProvider>
-      <UserProvider>
-        <Router initialEntries={initialEntries}>{children}</Router>
-      </UserProvider>
-    </APIProvider>
-  );
-};
 
 describe('로그인 되지 않은 사용자가 상세페이지를 이용한다.', () => {
   beforeEach(async () => {
@@ -39,12 +24,10 @@ describe('로그인 되지 않은 사용자가 상세페이지를 이용한다.'
     API.getUserInfo = jest.fn().mockImplementation(() => {
       throw new Error();
     });
-    API.getDrink = jest.fn().mockReturnValue({ data: drinksDetail });
-    API.getReview = jest
-      .fn()
-      .mockReturnValue({ data: drinksReviews.data, pageInfo: drinksReviews.pageInfo });
+    API.getDrink = jest.fn().mockReturnValue(drinksDetail);
+    API.getReview = jest.fn().mockReturnValue(drinksReviews);
 
-    customRender({ initialEntries: [`/drinks/0`], children: <DrinksDetailPage /> });
+    customRender({ initialEntries: [`${PATH.DRINKS}/0`], children: <DrinksDetailPage /> });
 
     await waitFor(() => expect(API.getUserInfo).toBeCalled());
     await waitFor(() => expect(API.getDrink).toBeCalled());
