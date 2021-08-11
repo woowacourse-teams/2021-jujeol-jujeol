@@ -20,7 +20,7 @@ const ReviewCreateForm = () => {
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
   const { mutate } = useMutation(
-    () => API.postReview<string, Review.PostRequestData>(drinkId, { content }),
+    () => API.postReview<Review.PostRequestData>({ drinkId: Number(drinkId), content }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('reviews');

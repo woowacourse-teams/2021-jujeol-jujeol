@@ -1,3 +1,7 @@
 logging:
   level:
     root: info
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false

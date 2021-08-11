@@ -3,10 +3,16 @@ package com.jujeol.member.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.TestConfig;
-import com.jujeol.drink.domain.Category;
-import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.repository.CategoryRepository;
-import com.jujeol.drink.domain.repository.DrinkRepository;
+import com.jujeol.drink.category.domain.Category;
+import com.jujeol.drink.drink.domain.Drink;
+import com.jujeol.drink.category.domain.CategoryRepository;
+import com.jujeol.drink.drink.domain.repository.DrinkRepository;
+import com.jujeol.member.auth.domain.Provider;
+import com.jujeol.member.auth.domain.ProviderName;
+import com.jujeol.member.member.domain.Member;
+import com.jujeol.preference.domain.Preference;
+import com.jujeol.preference.domain.PreferenceRepository;
+import com.jujeol.member.member.domain.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,9 +49,9 @@ public class PreferenceRepositoryTest {
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         savedDrink = drinkRepository.save(stella);
 
-        Member member = Member.create(Provider.of("1234", ProviderName.TEST), null, null);
+        Member member = Member.create(Provider.create("1234", ProviderName.TEST), null, null);
         savedMember = memberRepository.save(member);
-        Member member2 = Member.create(Provider.of("1234", ProviderName.TEST), null, null);
+        Member member2 = Member.create(Provider.create("1234", ProviderName.TEST), null, null);
         savedMember2 = memberRepository.save(member2);
     }
 

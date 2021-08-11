@@ -3,7 +3,12 @@ package com.jujeol.member.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.TestConfig;
-import com.jujeol.member.domain.nickname.Nickname;
+import com.jujeol.member.auth.domain.Provider;
+import com.jujeol.member.auth.domain.ProviderName;
+import com.jujeol.member.member.domain.Biography;
+import com.jujeol.member.member.domain.Member;
+import com.jujeol.member.member.domain.nickname.Nickname;
+import com.jujeol.member.member.domain.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public class MemberRepositoryTest {
     private final static String TEST_PROVIDER_ID = "1";
 
-    private final Provider testProvider = Provider.of(TEST_PROVIDER_ID, ProviderName.TEST);
+    private final Provider testProvider = Provider.create(TEST_PROVIDER_ID, ProviderName.TEST);
 
     @Autowired
     private MemberRepository memberRepository;

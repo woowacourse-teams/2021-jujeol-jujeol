@@ -1,6 +1,6 @@
 package com.jujeol.admin.ui.dto;
 
-import com.jujeol.drink.application.dto.DrinkRequestDto;
+import com.jujeol.drink.drink.application.dto.DrinkRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -3,16 +3,19 @@ package com.jujeol.drink.domain.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.TestConfig;
-import com.jujeol.drink.domain.Category;
-import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.RecommendationTheme;
-import com.jujeol.drink.domain.Review;
-import com.jujeol.member.domain.Member;
-import com.jujeol.member.domain.MemberRepository;
-import com.jujeol.member.domain.Preference;
-import com.jujeol.member.domain.PreferenceRepository;
-import com.jujeol.member.domain.Provider;
-import com.jujeol.member.domain.ProviderName;
+import com.jujeol.drink.category.domain.Category;
+import com.jujeol.drink.category.domain.CategoryRepository;
+import com.jujeol.drink.drink.domain.Drink;
+import com.jujeol.drink.drink.domain.repository.DrinkRepository;
+import com.jujeol.drink.recommend.domain.RecommendationTheme;
+import com.jujeol.review.domain.Review;
+import com.jujeol.member.member.domain.Member;
+import com.jujeol.member.member.domain.repository.MemberRepository;
+import com.jujeol.preference.domain.Preference;
+import com.jujeol.preference.domain.PreferenceRepository;
+import com.jujeol.member.auth.domain.Provider;
+import com.jujeol.member.auth.domain.ProviderName;
+import com.jujeol.review.domain.repository.ReviewRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,14 +57,14 @@ public class DrinkRepositoryTest {
                 "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
         savedDrink = drinkRepository.save(stella);
 
-        Member member = Member.create(Provider.of("1234", ProviderName.TEST), null, null);
+        Member member = Member.create(Provider.create("1234", ProviderName.TEST), null, null);
         savedMember = memberRepository.save(member);
     }
 
     @Test
     void drinksByPreferenceAvgTest() {
         //given
-        Member member = Member.create(Provider.of("5678", ProviderName.TEST), null, null);
+        Member member = Member.create(Provider.create("5678", ProviderName.TEST), null, null);
         Member savedMember2 = memberRepository.save(member);
         Drink apple = Drink.create(
                 "애플", "Apple", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", 0.0, BEER);

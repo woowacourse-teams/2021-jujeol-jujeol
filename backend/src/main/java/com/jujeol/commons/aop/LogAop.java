@@ -27,7 +27,7 @@ public class LogAop {
 
     @AfterThrowing(value = "execution(* com.jujeol..*Service.*(..))", throwing = "e")
     public void checkException(JoinPoint joinPoint, Exception e) {
-        log.info("예외 발생지점 : {}", joinPoint.getSignature().toString());
+        log.warn("예외 발생지점 : {}", joinPoint.getSignature().toString());
         if (e instanceof JujeolException) {
             return;
         }

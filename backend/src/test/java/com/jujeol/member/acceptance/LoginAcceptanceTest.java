@@ -5,8 +5,8 @@ import static com.jujeol.member.fixture.TestsCheersExpressionRepository.TEST_NIC
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
-import com.jujeol.member.application.dto.MemberDto;
-import com.jujeol.member.application.dto.TokenDto;
+import com.jujeol.member.member.application.dto.MemberDto;
+import com.jujeol.member.auth.application.dto.TokenDto;
 import com.jujeol.member.fixture.TestMember;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

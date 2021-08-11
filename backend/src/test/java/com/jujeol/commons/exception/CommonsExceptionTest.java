@@ -3,8 +3,8 @@ package com.jujeol.commons.exception;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.jujeol.drink.exception.InvalidAlcoholByVolumeException;
-import com.jujeol.drink.exception.InvalidDrinkNameException;
+import com.jujeol.drink.drink.exception.InvalidAlcoholByVolumeException;
+import com.jujeol.drink.drink.exception.InvalidDrinkNameException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

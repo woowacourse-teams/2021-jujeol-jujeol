@@ -1,9 +1,9 @@
 package com.jujeol.member.fixture;
 
-import com.jujeol.member.application.MemberDetails;
-import com.jujeol.member.application.SocialClient;
-import com.jujeol.member.application.SocialLoginStrategyFactory;
-import com.jujeol.member.domain.ProviderName;
+import com.jujeol.member.auth.application.MemberDetails;
+import com.jujeol.member.auth.application.SocialClient;
+import com.jujeol.member.auth.application.SocialLoginStrategyFactory;
+import com.jujeol.member.auth.domain.ProviderName;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
