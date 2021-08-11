@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class DrinkService {
+
     private final DrinkRepository drinkRepository;
     private final CategoryRepository categoryRepository;
     private final PreferenceService preferenceService;
@@ -51,9 +52,10 @@ public class DrinkService {
 
     private List<DrinkDto> drinksBySearch(SearchDto searchDto, SearchWords searchWords) {
         List<Drink> drinksBySearch = new ArrayList<>();
+        List<String> categoryNames = categoryRepository.findAllName();
 
         if (searchWords.hasSearchWords()) {
-            drinksBySearch.addAll(drinkRepository.findBySearch(searchWords));
+            drinksBySearch.addAll(drinkRepository.findBySearch(searchWords, categoryNames));
         }
         drinksBySearch
                 .addAll(drinkRepository.findByCategory(searchWords, searchDto.getCategoryKey()));
