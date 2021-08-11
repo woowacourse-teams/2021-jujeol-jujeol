@@ -87,6 +87,7 @@ const DrinksDetailPage = () => {
   };
 
   const onCheckLoggedIn = () => {
+    setIsBlinked(false);
     if (!isLoggedIn) {
       if (confirm(MESSAGE.LOGIN_REQUIRED_TO_UPDATE_PREFERENCE)) {
         history.push(PATH.LOGIN);
@@ -101,6 +102,8 @@ const DrinksDetailPage = () => {
   };
 
   const onMoveToPreferenceSection: MouseEventHandler<HTMLButtonElement> = () => {
+    onCheckLoggedIn();
+
     setIsBlinked(true);
     preferenceRef.current?.scrollIntoView({ behavior: 'smooth' });
 
