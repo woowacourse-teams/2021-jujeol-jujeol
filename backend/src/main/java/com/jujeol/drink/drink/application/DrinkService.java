@@ -52,10 +52,7 @@ public class DrinkService {
 
     private List<DrinkDto> drinksBySearch(SearchDto searchDto, SearchWords searchWords) {
         List<Drink> drinksBySearch = new ArrayList<>();
-        List<String> categoryNames = categoryRepository.findAll()
-                .stream()
-                .map(Category::getName)
-                .collect(Collectors.toList());
+        List<String> categoryNames = categoryRepository.findAllName();
 
         if (searchWords.hasSearchWords()) {
             drinksBySearch.addAll(drinkRepository.findBySearch(searchWords, categoryNames));
