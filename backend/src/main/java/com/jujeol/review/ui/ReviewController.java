@@ -2,15 +2,14 @@ package com.jujeol.review.ui;
 
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageInfo;
-import com.jujeol.commons.dto.PageResponseAssembler;
-import com.jujeol.drink.application.dto.ReviewCreateRequest;
 import com.jujeol.member.auth.ui.AuthenticationPrincipal;
 import com.jujeol.member.auth.ui.LoginMember;
 import com.jujeol.review.application.ReviewService;
-import com.jujeol.review.application.dto.ReviewRequest;
 import com.jujeol.review.application.dto.ReviewWithAuthorDto;
 import com.jujeol.review.ui.dto.MemberSimpleResponse;
+import com.jujeol.review.ui.dto.ReviewCreateRequest;
 import com.jujeol.review.ui.dto.ReviewResponse;
+import com.jujeol.review.ui.dto.ReviewUpdateRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +61,7 @@ public class ReviewController {
             @AuthenticationPrincipal LoginMember loginMember,
             @RequestBody ReviewCreateRequest reviewCreateRequest
     ) {
-        reviewService.createReview(loginMember.getId(), reviewCreateRequest);
+        reviewService.createReview(loginMember.getId(), reviewCreateRequest.toDto());
         return ResponseEntity.ok().build();
     }
 

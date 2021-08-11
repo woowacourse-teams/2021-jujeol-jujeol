@@ -12,7 +12,6 @@ import com.jujeol.preference.domain.Preference;
 import com.jujeol.review.application.dto.ReviewDto;
 import com.jujeol.review.domain.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,9 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MemberService {
-
-    @Value("${file-server.url:}")
-    private String fileServerUrl;
 
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
@@ -52,8 +48,7 @@ public class MemberService {
                 .showPreferenceByMemberId(memberId, pageable)
                 .map(preference -> DrinkDto.create(
                         preference.getDrink(),
-                        preference,
-                        fileServerUrl
+                        preference
                         )
                 );
         return map;
@@ -65,8 +60,7 @@ public class MemberService {
                         review,
                         DrinkDto.create(
                                 review.getDrink(),
-                                Preference.create(review.getDrink(), 3.5),
-                                fileServerUrl
+                                Preference.create(review.getDrink(), 3.5)
                         )
                 ));
     }

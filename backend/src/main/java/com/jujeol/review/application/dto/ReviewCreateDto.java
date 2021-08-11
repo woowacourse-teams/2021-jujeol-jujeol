@@ -7,7 +7,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewUpdateRequest {
+public class ReviewCreateDto {
 
     private String content;
+    private Long drinkId;
+
+    public static ReviewCreateDto create(String content, Long drinkId) {
+        return new ReviewCreateDto(content, drinkId);
+    }
 }

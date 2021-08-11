@@ -1,4 +1,4 @@
-package com.jujeol.drink.exception;
+package com.jujeol.review.exception;
 
 import com.jujeol.commons.exception.JujeolException;
 

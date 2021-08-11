@@ -1,21 +1,21 @@
 package com.jujeol.review.application;
 
-import com.jujeol.drink.application.dto.ReviewCreateRequest;
 import com.jujeol.drink.drink.domain.Drink;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.drink.exception.NotFoundDrinkException;
-import com.jujeol.drink.exception.CreateReviewNoPreferenceException;
 import com.jujeol.member.auth.exception.UnauthorizedUserException;
-import com.jujeol.member.domain.Preference;
-import com.jujeol.member.domain.PreferenceRepository;
 import com.jujeol.member.member.domain.Member;
 import com.jujeol.member.member.domain.repository.MemberRepository;
 import com.jujeol.member.member.exception.NoSuchMemberException;
+import com.jujeol.preference.domain.Preference;
+import com.jujeol.preference.domain.PreferenceRepository;
 import com.jujeol.review.application.dto.MemberSimpleDto;
+import com.jujeol.review.application.dto.ReviewCreateDto;
 import com.jujeol.review.application.dto.ReviewWithAuthorDto;
 import com.jujeol.review.domain.Review;
 import com.jujeol.review.domain.repository.ReviewRepository;
 import com.jujeol.review.exception.CreateReviewLimitException;
+import com.jujeol.review.exception.CreateReviewNoPreferenceException;
 import com.jujeol.review.exception.NotFoundReviewException;
 import java.time.LocalDate;
 import java.util.List;
@@ -36,16 +36,16 @@ public class ReviewService {
     private final PreferenceRepository preferenceRepository;
 
     @Transactional
-    public void createReview(Long loginMemberId, ReviewCreateRequest reviewCreateRequest) {
+    public void createReview(Long loginMemberId, ReviewCreateDto reviewCreateDto) {
         Member member = memberRepository.findById(loginMemberId)
                 .orElseThrow(NoSuchMemberException::new);
-        Drink drink = drinkRepository.findById(reviewCreateRequest.getDrinkId())
+        Drink drink = drinkRepository.findById(reviewCreateDto.getDrinkId())
                 .orElseThrow(NotFoundDrinkException::new);
 
-        validateCreateReviewLimit(loginMemberId, reviewCreateRequest.getDrinkId());
+        validateCreateReviewLimit(loginMemberId, reviewCreateDto.getDrinkId());
         validatePreferenceRate(member, drink);
 
-        Review review = Review.create(reviewCreateRequest.getContent(), drink, member);
+        Review review = Review.create(reviewCreateDto.getContent(), drink, member);
         Review saveReview = reviewRepository.save(review);
         drink.addReview(saveReview);
     }

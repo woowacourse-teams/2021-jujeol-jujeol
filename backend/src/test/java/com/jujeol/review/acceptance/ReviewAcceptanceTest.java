@@ -1,4 +1,4 @@
-package com.jujeol.drink.acceptance;
+package com.jujeol.review.acceptance;
 
 import static com.jujeol.commons.exception.ExceptionCodeAndDetails.CREATE_REVIEW_LIMIT;
 import static com.jujeol.commons.exception.ExceptionCodeAndDetails.CREATE_REVIEW_NO_PREFERENCE;
@@ -17,13 +17,13 @@ import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
-import com.jujeol.drink.application.dto.ReviewCreateRequest;
-import com.jujeol.drink.application.dto.ReviewUpdateRequest;
+import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
 import com.jujeol.member.acceptance.MemberAcceptanceTool;
-import com.jujeol.member.application.dto.PreferenceDto;
 import com.jujeol.member.fixture.TestMember;
-import com.jujeol.review.acceptance.ReviewAcceptanceTool;
+import com.jujeol.member.member.application.dto.PreferenceDto;
 import com.jujeol.review.application.dto.ReviewWithAuthorDto;
+import com.jujeol.review.ui.dto.ReviewCreateRequest;
+import com.jujeol.review.ui.dto.ReviewUpdateRequest;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
