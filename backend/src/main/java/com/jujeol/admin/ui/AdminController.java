@@ -30,7 +30,7 @@ public class AdminController {
     private final DrinkService drinkService;
 
     @GetMapping("/drinks")
-    public CommonResponse<List<AdminDrinkResponse>> showDrinks(@PageableDefault(sort = "id", direction = Direction.DESC) Pageable pageable) {
+    public CommonResponse<List<AdminDrinkResponse>> showDrinks(@PageableDefault(value = 20, sort = "id", direction = Direction.DESC) Pageable pageable) {
         final Page<AdminDrinkResponse> drinks = drinkService.showAllDrinksByPage(pageable)
                 .map(AdminDrinkResponse::from);
         return PageResponseAssembler.assemble(drinks);
