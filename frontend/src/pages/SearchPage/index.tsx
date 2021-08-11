@@ -61,7 +61,7 @@ const SearchPage = ({ history }: RouteComponentProps) => {
 
   return (
     <Container>
-      <SearchBar placeholder="검색어를 입력해주세요" />
+      <SearchBar placeholder="검색어를 입력해주세요" readOnly={false} />
 
       <Categories>
         <h3>카테고리</h3>

@@ -15,7 +15,7 @@ const HomePage = () => {
   return (
     <div>
       <MainHeader />
-      <SearchBar onClick={onMoveToSearchPage} placeholder="검색어를 입력해주세요" />
+      <SearchBar onClick={onMoveToSearchPage} placeholder="검색어를 입력해주세요" readOnly={true} />
 
       <Grid rowGap="2rem" colMin="280px" colMax="480px">
         {config.map((section: ItemList | BannerType) => {

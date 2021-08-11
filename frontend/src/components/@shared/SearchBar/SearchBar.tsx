@@ -8,6 +8,7 @@ import { Container, ResetButton, SearchButton, SearchInput } from './SearchBar.s
 const SearchBar = ({
   onClick,
   placeholder,
+  readOnly,
 }: InputHTMLAttributes<HTMLInputElement | HTMLFormElement>) => {
   const history = useHistory();
   const location = useLocation();
@@ -51,6 +52,7 @@ const SearchBar = ({
         maxLength={SEARCH.MAX_LENGTH}
         required
         autoFocus
+        readOnly={readOnly}
       />
       {!isMainPage && (
         <>
