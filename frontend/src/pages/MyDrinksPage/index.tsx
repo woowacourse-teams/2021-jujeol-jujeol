@@ -10,6 +10,7 @@ import { Header, Container } from './styles';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
 import Arrow from 'src/components/@shared/Arrow/Arrow';
+import PersonalDrinkItemSkeleton from 'src/components/@shared/Skeleton/PersonalDrinkItemSkeleton';
 
 const MyDrinksPage = () => {
   const history = useHistory();
@@ -18,6 +19,7 @@ const MyDrinksPage = () => {
     data: { pages } = {},
     fetchNextPage,
     hasNextPage,
+    isFetching,
   } = useInfiniteQuery(
     'my-drinks',
     ({ pageParam = 1 }) => API.getPersonalDrinks({ page: pageParam, size: 10 }),
@@ -53,10 +55,13 @@ const MyDrinksPage = () => {
       </Header>
 
       <Container>
-        <Grid col={matches ? 2 : 3} rowGap="1.5rem" title="선호도를 남긴 술">
+        <Grid col={matches ? 2 : 3} rowGap="1.5rem" title="선호도를 남긴 술" justifyItems="center">
           {myDrinks?.map((myDrink: Drink.PersonalDrinkItem) => (
             <MyDrinkItem key={myDrink.id} size={matches ? 'X_LARGE' : 'LARGE'} drink={myDrink} />
           ))}
+          {isFetching && (
+            <PersonalDrinkItemSkeleton count={8} size={matches ? 'X_LARGE' : 'LARGE'} />
+          )}
         </Grid>
         <InfinityScrollPoll ref={observerTargetRef} />
       </Container>

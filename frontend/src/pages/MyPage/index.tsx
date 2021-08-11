@@ -25,6 +25,7 @@ import {
   DizzyEmojiColorIcon,
   ExcitedEmojiColorIcon,
 } from 'src/components/@shared/Icons';
+import PersonalDrinkItemSkeleton from 'src/components/@shared/Skeleton/PersonalDrinkItemSkeleton';
 
 const userProfileIcons = [
   SmileEmojiColorIcon,
@@ -48,6 +49,7 @@ const MyPage = () => {
       data: myDrinks = [],
       pageInfo: { totalSize: myDrinksCount } = { totalSize: 0 },
     } = defaultRequestData,
+    isLoading: isMyDrinksLoading,
   } = useQuery(
     'my-drinks',
     () => API.getPersonalDrinks({ page: 1, size: VALUE.MYPAGE_DRINKS_DISPLAY_NUMBER }),
@@ -96,7 +98,11 @@ const MyPage = () => {
         path={PATH.MY_DRINKS}
         isShowMoreEnabled={isMyDrinksShowMoreEnabled}
       >
-        {myDrinks?.length ? (
+        {isMyDrinksLoading ? (
+          <Grid col={3} colGap="1rem">
+            <PersonalDrinkItemSkeleton count={3} size="LARGE" />
+          </Grid>
+        ) : myDrinks?.length ? (
           <HorizontalScroll margin="0 -1.5rem" padding="0 1.5rem">
             <Grid col={VALUE.MYPAGE_DRINKS_DISPLAY_NUMBER} colGap="1rem">
               {myDrinks.map((myDrink: Drink.PersonalDrinkItem) => (
