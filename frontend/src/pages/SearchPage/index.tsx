@@ -54,7 +54,7 @@ const categories: Category[] = [
 
 export { categories };
 
-const SearchPage = ({ history }: RouteComponentProps) => {
+const SearchPage = ({ history }: Pick<RouteComponentProps, 'history'>) => {
   const onMoveToSearchResult = (key: string) => () => {
     history.push(`${PATH.SEARCH_RESULT}?category=${key}`);
   };
@@ -68,7 +68,7 @@ const SearchPage = ({ history }: RouteComponentProps) => {
         <Grid col={4} colGap="0.5rem" rowGap="1rem" justifyItems="center">
           {categories.map(({ key, name, Icon }) => {
             return (
-              <CategoryItem key={key} onClick={onMoveToSearchResult(key)}>
+              <CategoryItem key={key} onClick={onMoveToSearchResult(key)} aria-label={name}>
                 <Icon />
                 <span>{name}</span>
               </CategoryItem>

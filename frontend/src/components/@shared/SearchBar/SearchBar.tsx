@@ -57,7 +57,7 @@ const SearchBar = ({
       {!isMainPage && (
         <>
           {value && (
-            <ResetButton type="reset" onClick={onResetInput}>
+            <ResetButton type="reset" onClick={onResetInput} aria-label="검색 초기화 버튼">
               <span>X</span>
             </ResetButton>
           )}
