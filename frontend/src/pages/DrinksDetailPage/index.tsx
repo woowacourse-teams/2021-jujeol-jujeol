@@ -161,7 +161,7 @@ const DrinksDetailPage = () => {
         <Review
           drinkId={drinkId}
           drinkName={name}
-          preferenceRate={preferenceRate}
+          preferenceRate={currentPreferenceRate}
           onMoveToPreferenceSection={onMoveToPreferenceSection}
         />
       </Section>
