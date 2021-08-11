@@ -3,3 +3,7 @@ logging:
     root: info
 file-server:
   url: https://dmaxaug2ve9od.cloudfront.net
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false
