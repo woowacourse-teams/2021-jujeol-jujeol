@@ -8,13 +8,15 @@ const useReviews = ({ drinkId }: { drinkId: string }) => {
     hasNextPage,
   } = useInfiniteQuery(
     'reviews',
-    ({ pageParam = 1 }) => API.getReview<string>({ id: drinkId, page: pageParam }),
+    ({ pageParam = 1 }) =>
+      API.getReview({ page: pageParam, params: new URLSearchParams({ drink: drinkId }) }),
     {
       getNextPageParam: ({ pageInfo }) => {
         return pageInfo.currentPage < pageInfo.lastPage ? pageInfo.currentPage + 1 : undefined;
       },
     }
   );
+
   const reviews = reviewData?.pages?.map((page) => page.data).flat() ?? [];
   const [
     {

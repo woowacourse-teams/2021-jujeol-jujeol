@@ -52,6 +52,7 @@ declare namespace Review {
   type List = ReviewItem[];
 
   interface PostRequestData {
+    drinkId: number;
     content: string;
   }
 }
