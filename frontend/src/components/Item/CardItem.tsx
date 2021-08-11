@@ -12,7 +12,7 @@ interface Props {
 const CardItem = ({ imageUrl, title, description, onClick }: Props) => {
   return (
     <Card width="13rem" height="17rem" onClick={onClick} color={COLOR.WHITE_100}>
-      <ItemImage src={imageUrl} alt={title} />
+      <ItemImage src={imageUrl} alt={title} loading="lazy" />
       <ItemInfo>
         <h3>{title}</h3>
         <p>{description}</p>

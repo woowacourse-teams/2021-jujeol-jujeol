@@ -13,7 +13,7 @@ const Banner = ({ type, title, src, alt }: Props) => {
       {type === 'IMAGE' && (
         <>
           <h2>{title}</h2>
-          <img src={src} alt={alt} />
+          <img src={src} alt={alt} loading="lazy" />
         </>
       )}
     </Container>

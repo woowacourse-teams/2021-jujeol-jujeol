@@ -11,6 +11,8 @@ import Property from 'src/components/Property/Property';
 import { properties } from './propertyData';
 import { Section, PreferenceSection, Image, DescriptionSection, Container } from './styles';
 import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
+import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
+import DrinksDetailDescriptionSkeleton from 'src/components/Skeleton/DrinksDetailDescriptionSkeleton';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -44,7 +46,7 @@ const DrinksDetailPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const { data: { data: drink = defaultDrinkDetail } = {} } = useQuery(
+  const { data: { data: drink = defaultDrinkDetail } = {}, isLoading } = useQuery(
     'drink-detail',
     () => API.getDrink<string>(drinkId),
     {
@@ -61,7 +63,6 @@ const DrinksDetailPage = () => {
     imageUrl,
     category: { key: categoryKey },
     alcoholByVolume,
-    preferenceRate,
     preferenceAvg,
   }: Drink.DetailItem = drink;
 
@@ -115,8 +116,11 @@ const DrinksDetailPage = () => {
   return (
     <Container>
       <GoBackButton color={COLOR.BLACK_900} />
-      <Image src={imageUrl} alt={name} />
-
+      {isLoading ? (
+        <Skeleton width="100" height="30rem" />
+      ) : (
+        <Image src={imageUrl} alt={name} loading="lazy" />
+      )}
       <Section>
         <PreferenceSection ref={preferenceRef} isBlinked={isBlinked}>
           <h3>
@@ -140,6 +144,7 @@ const DrinksDetailPage = () => {
         </PreferenceSection>
 
         <DescriptionSection>
+          {isLoading && <DrinksDetailDescriptionSkeleton />}
           <h2>{name}</h2>
           <p>
             {englishName === '' ? `(${alcoholByVolume}%)` : `(${englishName}, ${alcoholByVolume}%)`}

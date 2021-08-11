@@ -1,14 +1,14 @@
 import { MouseEventHandler, useRef } from 'react';
 
 import useReviews from 'src/hooks/useReviews';
+import useInfinityScroll from 'src/hooks/useInfinityScroll';
 
 import ReviewCreateForm from './ReviewCreateForm';
 import ReviewCard from '../Card/ReviewCard';
 import InfinityScrollPoll from '../@shared/InfinityScrollPoll/InfinityScrollPoll';
 import NoReviews from './NoReviews';
-import { Wrapper, ReviewList } from './Review.styles';
 import DisableWriteReview from './DisableWriteReview';
-import useInfinityScroll from 'src/hooks/useInfinityScroll';
+import { Wrapper, ReviewList } from './Review.styles';
 
 interface Props {
   drinkId: string;
