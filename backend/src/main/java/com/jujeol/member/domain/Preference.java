@@ -61,4 +61,8 @@ public class Preference extends BaseEntity {
     public void updateRate(double rate) {
         this.rate = rate;
     }
+
+    public boolean isZeroRate() {
+        return rate == 0.0;
+    }
 }
