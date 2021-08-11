@@ -40,7 +40,7 @@ export const getDrinkDetail = ($row, id) => {
   const englishName = $row.querySelector(".drinkEnglishName input").value
   const alcoholByVolume = $row.querySelector(".drinkAbv input").value
   const imagePath = $row.querySelector(".drinkImageFilePath input").value
-  const category = $row.querySelector(".drinkCategory input").value
+  const categoryKey = $row.querySelector(".categoryKey").value
 
-  return new DrinkRequest(id, name, englishName, alcoholByVolume, imagePath, category);
+  return new DrinkRequest(id, name, englishName, alcoholByVolume, imagePath, categoryKey);
 }

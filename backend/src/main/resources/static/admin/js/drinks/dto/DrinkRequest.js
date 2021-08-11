@@ -1,7 +1,6 @@
 export default class DrinkRequest {
-  // Todo: category 추가되면 수정
-  constructor(id, name, englishName, alcoholByVolume, imageUrl, category) {
-    if (!validProperties([name, imageUrl, alcoholByVolume, category])){
+  constructor(id, name, englishName, alcoholByVolume, imageUrl, categoryKey) {
+    if (!validProperties([name, imageUrl, alcoholByVolume, categoryKey])){
       return false;
     }
     this.id = id;
@@ -9,7 +8,7 @@ export default class DrinkRequest {
     this.englishName = englishName;
     this.alcoholByVolume = alcoholByVolume;
     this.imageUrl = imageUrl;
-    this.category = {id: 1, name: "맥주"};
+    this.categoryKey = categoryKey;
   }
 }
 
