@@ -27,9 +27,6 @@
   <link href="/admin/bootstrap/bootstrap.min.css" rel="stylesheet">
   <link href="/admin/css/dashboard.css" rel="stylesheet">
 
-<!--  <script type="module" src="../js/admin.js"></script>-->
-<!--    <link href="../bootstrap/bootstrap.min.css" rel="stylesheet">-->
-<!--  <link href="../css/dashboard.css" rel="stylesheet">-->
 </head>
 <body>
 <div id="app">
@@ -101,6 +98,10 @@
             </tbody>
           </table>
         </div>
+        <nav>
+          <ul id="drinkPagination" class="pagination pagination-sm">
+          </ul>
+        </nav>
       </main>
     </div>
   </div>
@@ -127,76 +128,6 @@
             </tr>
             </thead>
             <tbody>
-              <tr class="drinkTableRow">
-                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
-                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
-                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
-                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
-                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
-              </tr>
-              <tr class="drinkTableRow">
-                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
-                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
-                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
-                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
-                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
-              </tr>
-              <tr class="drinkTableRow">
-                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
-                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
-                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
-                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
-                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
-              </tr>
-              <tr class="drinkTableRow">
-                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
-                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
-                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
-                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
-                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
-              </tr>
-              <tr class="drinkTableRow">
-                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
-                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
-                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
-                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
-                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
-              </tr>
-              <tr class="drinkTableRow">
-                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
-                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
-                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
-                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
-                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
-              </tr>
-              <tr class="drinkTableRow">
-                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
-                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
-                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
-                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
-                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
-              </tr>
-              <tr class="drinkTableRow">
-                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
-                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
-                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
-                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
-                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
-              </tr>
-              <tr class="drinkTableRow">
-                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
-                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
-                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
-                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
-                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
-              </tr>
-              <tr class="drinkTableRow">
-                <td class="col-2 drinkName"><input class="form-control form-control-sm" placeholder="이름" type="text"></td>
-                <td class="col-2 drinkEnglishName"><input class="form-control form-control-sm" placeholder="영어이름" type="text"></td>
-                <td class="col-1 drinkAbv"><input class="form-control form-control-sm" placeholder="도수" type="text"></td>
-                <td class="col-3 drinkImageFilePath"><input class="form-control form-control-sm" placeholder="이미지 파일 경로" type="text"></td>
-                <td class="col-1 drinkCategory"><input class="form-control form-control-sm" placeholder="주종" type="text"></td>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -210,7 +141,6 @@
     </div>
   </div>
 </div>
-<!--<script src="../bootstrap/bootstrap.bundle.min.js"></script>-->
 <script src="/admin/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
         integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"

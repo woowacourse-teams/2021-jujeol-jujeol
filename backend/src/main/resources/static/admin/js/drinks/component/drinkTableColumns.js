@@ -8,12 +8,11 @@ const component = (text, state) => {
   return text;
 }
 
-const categoryComponent = (text, state, categories) => {
+const categoryComponent = (drink, state, categories) => {
   if(state === 'update'){
-    return categoryDropdown(categories)
+    return categoryDropdown(categories, drink.category)
   }
-
-  return text;
+  return drink.category.name;
 }
 
 export default function (drink, state, categories) {
@@ -22,7 +21,7 @@ export default function (drink, state, categories) {
           <td class="col-2 drinkEnglishName">${component(drink.englishName, state)}</td>
           <td class="col-1 needValidate drinkAbv">${component(drink.alcoholByVolume, state)}</td>
           <td class="col-3 needValidate drinkImageFilePath">${component(drink.imageUrl, state)}</td>
-          <td class="col-1 needValidate drinkCategory">${categoryComponent(drink.category.name, state, categories)}</td>
+          <td class="col-1 needValidate drinkCategory">${categoryComponent(drink, state, categories)}</td>
           <td class="col-1 updateButtonWrapper text-center">
               ${drinkUpdateButton(state)}
           </td>
