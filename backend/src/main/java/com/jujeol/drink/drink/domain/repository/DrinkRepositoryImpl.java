@@ -39,21 +39,24 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
     }
 
     @Override
-    public List<Drink> findBySearch(SearchWords searchWords) {
+    public List<Drink> findBySearch(SearchWords searchWords, List<String> categoryNames) {
         return queryFactory.selectFrom(drink)
                 .innerJoin(drink.category)
-                .where(searchCondition(searchWords))
+                .where(searchCondition(searchWords, categoryNames))
                 .fetchJoin()
                 .fetch();
     }
 
-    private BooleanBuilder searchCondition(SearchWords searchWords) {
+    private BooleanBuilder searchCondition(SearchWords searchWords, List<String> categoryNames) {
         BooleanBuilder builder = new BooleanBuilder();
         if (searchWords.hasSearchWords()) {
-            for (String word : searchWords.getSearchWords()) {
-                builder.or(drink.name.name.likeIgnoreCase("%" + word + "%"));
-                builder.or(drink.englishName.englishName.likeIgnoreCase("%" + word + "%"));
-            }
+            searchWords.getSearchWords()
+                    .stream()
+                    .filter(s -> !categoryNames.contains(s))
+                    .forEach(word -> {
+                        builder.or(drink.name.name.likeIgnoreCase("%" + word + "%"));
+                        builder.or(drink.englishName.englishName.likeIgnoreCase("%" + word + "%"));
+                    });
         }
         return builder;
     }

@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PreferenceService {
 
     private final PreferenceRepository preferenceRepository;
-    //TODO: drinkRepository 없앨 수 있을까에 대한 고민(drink 검증 필요성)
     private final DrinkRepository drinkRepository;
 
     public Page<Preference> showPreferenceByMemberId(Long memberId, Pageable pageable) {
