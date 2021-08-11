@@ -27,7 +27,7 @@ const Section = styled.section`
   position: relative;
 `;
 
-const PreferenceSection = styled.section<{ isScrolled: boolean }>`
+const PreferenceSection = styled.section<{ isBlinked: boolean }>`
   margin-bottom: 3rem;
   padding: 1rem 0;
 
@@ -40,8 +40,8 @@ const PreferenceSection = styled.section<{ isScrolled: boolean }>`
   }
 
   div {
-    ${({ isScrolled }) =>
-      isScrolled &&
+    ${({ isBlinked }) =>
+      isBlinked &&
       css`
         animation: ${blinkEffect} 0.8s step-end 3;
       `}

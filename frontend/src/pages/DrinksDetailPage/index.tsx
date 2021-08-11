@@ -29,18 +29,31 @@ const defaultDrinkDetail = {
 const DrinksDetailPage = () => {
   const { id: drinkId } = useParams<{ id: string }>();
 
+  const history = useHistory();
+
   const preferenceRef = useRef<HTMLDivElement>(null);
 
-  const [drinkInfo, setDrinkInfo] = useState(defaultDrinkDetail);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isBlinked, setIsBlinked] = useState(false);
+  const [currentPreferenceRate, setCurrentPreferenceRate] = useState(
+    defaultDrinkDetail.preferenceRate
+  );
+
+  const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const history = useHistory();
-
-  const isLoggedIn = useContext(UserContext)?.isLoggedIn;
+  const { data: { data: drink = defaultDrinkDetail } = {} } = useQuery(
+    'drink-detail',
+    () => API.getDrink<string>(drinkId),
+    {
+      retry: 0,
+      onSuccess: ({ data }) => {
+        setCurrentPreferenceRate(data.preferenceRate);
+      },
+    }
+  );
 
   const {
     name,
@@ -50,31 +63,17 @@ const DrinksDetailPage = () => {
     alcoholByVolume,
     preferenceRate,
     preferenceAvg,
-  } = drinkInfo;
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  const DrinkDetailQuery = useQuery('drink-detail', () => API.getDrink<string>(drinkId), {
-    retry: 0,
-    onSuccess: ({ data }) => {
-      setDrinkInfo(data);
-    },
-  });
+  }: Drink.DetailItem = drink;
 
   const { mutate: updatePreference } = useMutation(
     () => {
-      if (preferenceRate === 0) {
+      if (currentPreferenceRate === 0) {
         return API.deletePreference<string>(drinkId);
       }
 
-      return API.postPreference<
-        string,
-        {
-          preferenceRate: number;
-        }
-      >(drinkId, { preferenceRate });
+      return API.postPreference<string, { preferenceRate: number }>(drinkId, {
+        preferenceRate: currentPreferenceRate,
+      });
     },
     {
       onError: (error: { code: number; message: string }) => {
@@ -84,7 +83,7 @@ const DrinksDetailPage = () => {
   );
 
   const setPreferenceRate = (value: number) => {
-    setDrinkInfo((prev) => ({ ...prev, preferenceRate: value }));
+    setCurrentPreferenceRate(value);
   };
 
   const onCheckLoggedIn = () => {
@@ -102,11 +101,11 @@ const DrinksDetailPage = () => {
   };
 
   const onMoveToPreferenceSection: MouseEventHandler<HTMLButtonElement> = () => {
-    setIsScrolled(true);
+    setIsBlinked(true);
     preferenceRef.current?.scrollIntoView({ behavior: 'smooth' });
 
     setTimeout(() => {
-      setIsScrolled(false);
+      setIsBlinked(false);
     }, 3000);
   };
 
@@ -116,15 +115,17 @@ const DrinksDetailPage = () => {
       <Image src={imageUrl} alt={name} />
 
       <Section>
-        <PreferenceSection ref={preferenceRef} isScrolled={isScrolled}>
+        <PreferenceSection ref={preferenceRef} isBlinked={isBlinked}>
           <h3>
-            {preferenceRate ? `당신의 선호도는? ${preferenceRate} 점` : '선호도를 입력해주세요'}
+            {currentPreferenceRate
+              ? `당신의 선호도는? ${currentPreferenceRate} 점`
+              : '선호도를 입력해주세요'}
           </h3>
           <RangeWithIcons
             color={COLOR.YELLOW_300}
             max={PREFERENCE.MAX_VALUE}
             step={PREFERENCE.STEP}
-            value={preferenceRate}
+            value={currentPreferenceRate}
             setValue={setPreferenceRate}
             disabled={!isLoggedIn}
             onTouchStart={onCheckLoggedIn}
