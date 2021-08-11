@@ -11,6 +11,8 @@ import Property from 'src/components/Property/Property';
 import { properties } from './propertyData';
 import { Section, PreferenceSection, Image, DescriptionSection, Container } from './styles';
 import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
+import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
+import DrinksDetailDescriptionSkeleton from 'src/components/@shared/Skeleton/DrinksDetailDescriptionSkeleton';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -48,7 +50,7 @@ const DrinksDetailPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const DrinkDetailQuery = useQuery('drink-detail', () => API.getDrink<string>(drinkId), {
+  const { isLoading } = useQuery('drink-detail', () => API.getDrink<string>(drinkId), {
     retry: 0,
     onSuccess: ({ data }) => {
       setDrinkInfo(data);
@@ -96,7 +98,11 @@ const DrinksDetailPage = () => {
   return (
     <Container>
       <GoBackButton color={COLOR.BLACK_900} />
-      <Image src={imageUrl} alt={name} />
+      {isLoading ? (
+        <Skeleton width="100" height="30rem" />
+      ) : (
+        <Image src={imageUrl} alt={name} loading="lazy" />
+      )}
       <Section>
         <PreferenceSection>
           <h3>
@@ -118,6 +124,7 @@ const DrinksDetailPage = () => {
         </PreferenceSection>
 
         <DescriptionSection>
+          {isLoading && <DrinksDetailDescriptionSkeleton />}
           <h2>{name}</h2>
           <p>
             {englishName === '' ? `(${alcoholByVolume}%)` : `(${englishName}, ${alcoholByVolume}%)`}
