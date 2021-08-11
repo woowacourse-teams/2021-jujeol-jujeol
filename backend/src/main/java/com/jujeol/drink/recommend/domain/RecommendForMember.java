@@ -22,26 +22,25 @@ public class RecommendForMember implements RecommendStrategy {
     @Override
     public List<Drink> recommend(Long memberId, int pageSize) {
         List<Preference> preferences = preferenceRepository.findAll();
-        final List<Long> itemIds = recommendationSystem.recommend(memberId, pageSize, preferences);
-        final List<Long> triedItems = preferences.stream()
+        final List<Preference> myPreferences = preferences.stream()
                 .filter(preference -> preference.getMember().getId().equals(memberId))
-                .map(preference -> preference.getDrink().getId())
                 .collect(Collectors.toList());
+        final List<Long> itemIds = recommendationSystem.recommend(memberId, pageSize, preferences);
 
         List<Drink> drinks = drinkRepository.findAllById(itemIds);
-        drinks = setFirstNoTriedItem(drinks, triedItems);
+        drinks = setFirstNoTriedItem(drinks, myPreferences);
 
         if (itemIds.size() < pageSize) {
-            addItemByPreferenceAvg(drinks, triedItems, pageSize);
+            addItemByPreferenceAvg(drinks, myPreferences, memberId, pageSize);
         }
 
         return drinks;
     }
 
-    private void addItemByPreferenceAvg(List<Drink> drinks, List<Long> triedItems, int pageSize) {
+    private void addItemByPreferenceAvg(List<Drink> drinks, List<Preference> myPreferences, Long memberId, int pageSize) {
         List<Drink> drinksByPreference = drinkRepository
-                .findDrinks(Pageable.ofSize(pageSize));
-        drinksByPreference = setFirstNoTriedItem(drinksByPreference, triedItems);
+                .findDrinksForMember(memberId, Pageable.ofSize(pageSize));
+        drinksByPreference = setFirstNoTriedItem(drinksByPreference, myPreferences);
         for (Drink drink : drinksByPreference) {
             if (drinks.size() < pageSize && !drinks.contains(drink)) {
                 drinks.add(drink);
@@ -49,20 +48,23 @@ public class RecommendForMember implements RecommendStrategy {
         }
     }
 
-    private List<Drink> setFirstNoTriedItem(List<Drink> drinks, List<Long> triedItems) {
+    private List<Drink> setFirstNoTriedItem(List<Drink> drinks, List<Preference> myPreferences) {
         LinkedList<Drink> triedDrinks = new LinkedList<>();
         for (Drink drink : drinks) {
-            addDrinkByCheckingTriedOrNot(triedItems, triedDrinks, drink);
+            addDrinkByCheckingTriedOrNot(myPreferences, triedDrinks, drink);
         }
         return triedDrinks;
     }
 
-    private void addDrinkByCheckingTriedOrNot(List<Long> triedItems, LinkedList<Drink> triedDrinks,
+    private void addDrinkByCheckingTriedOrNot(List<Preference> myPreferences, LinkedList<Drink> triedDrinks,
             Drink drink) {
-        if (triedItems.contains(drink.getId())) {
-            triedDrinks.addLast(drink);
-            return;
-        }
-        triedDrinks.addFirst(drink);
+        myPreferences.stream()
+                .filter(preference -> preference.getDrink().getId().equals(drink.getId()))
+                .findAny()
+                .ifPresentOrElse(preference -> {
+                    if(preference.getRate() > 3) {
+                            triedDrinks.addLast(drink);
+                    }
+        }, () -> triedDrinks.addFirst(drink));
     }
 }
