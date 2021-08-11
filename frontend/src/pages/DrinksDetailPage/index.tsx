@@ -87,12 +87,16 @@ const DrinksDetailPage = () => {
     setCurrentPreferenceRate(value);
   };
 
+  const moveToLoginPage = () => {
+    if (confirm(MESSAGE.LOGIN_REQUIRED_TO_UPDATE_PREFERENCE)) {
+      history.push(PATH.LOGIN);
+    }
+  };
+
   const onCheckLoggedIn = () => {
     setIsBlinked(false);
     if (!isLoggedIn) {
-      if (confirm(MESSAGE.LOGIN_REQUIRED_TO_UPDATE_PREFERENCE)) {
-        history.push(PATH.LOGIN);
-      }
+      moveToLoginPage;
     }
   };
 
@@ -103,14 +107,16 @@ const DrinksDetailPage = () => {
   };
 
   const onMoveToPreferenceSection: MouseEventHandler<HTMLButtonElement> = () => {
-    onCheckLoggedIn();
+    if (!isLoggedIn) {
+      moveToLoginPage;
+    } else {
+      setIsBlinked(true);
+      preferenceRef.current?.scrollIntoView({ behavior: 'smooth' });
 
-    setIsBlinked(true);
-    preferenceRef.current?.scrollIntoView({ behavior: 'smooth' });
-
-    setTimeout(() => {
-      setIsBlinked(false);
-    }, 3000);
+      setTimeout(() => {
+        setIsBlinked(false);
+      }, 3000);
+    }
   };
 
   return (
