@@ -6,9 +6,10 @@ interface Props {
   title: string;
   path: string;
   children: React.ReactNode;
+  isShowMoreEnabled?: boolean;
 }
 
-const Preview = ({ title, path, children }: Props) => {
+const Preview = ({ title, path, children, isShowMoreEnabled }: Props) => {
   const history = useHistory();
 
   const onMoveToShowMore = () => history.push(path);
@@ -17,10 +18,12 @@ const Preview = ({ title, path, children }: Props) => {
     <PreviewSection>
       <Header>
         <h3>{title}</h3>
-        <MoveViewAllPageButton fontSize="0.8rem" onClick={onMoveToShowMore}>
-          <span>더보기</span>
-          <Arrow dir="RIGHT" size="0.4rem" borderWidth="0.0625rem" />
-        </MoveViewAllPageButton>
+        {isShowMoreEnabled && (
+          <MoveViewAllPageButton fontSize="0.8rem" onClick={onMoveToShowMore}>
+            <span>더보기</span>
+            <Arrow dir="RIGHT" size="0.4rem" borderWidth="0.0625rem" />
+          </MoveViewAllPageButton>
+        )}
       </Header>
       {children}
     </PreviewSection>

@@ -2,17 +2,18 @@ import { useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import API from 'src/apis/requests';
-import Header from 'src/components/@shared/Header/Header';
+import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
+import NavigationHeader from 'src/components/Header/NavigationHeader';
 import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';
 import { PATH } from 'src/constants';
-import { Container, Title, InfinityScrollPoll } from './ViewAllPage.styles';
+import { Container, InfinityScrollPoll } from './ViewAllPage.styles';
 
 const ViewAllPage = () => {
   const history = useHistory();
   const infinityPollRef = useRef<HTMLDivElement>(null);
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery(
     'drinks',
     ({ pageParam = 1 }) => API.getDrinks({ page: pageParam }),
     {
@@ -23,8 +24,8 @@ const ViewAllPage = () => {
   );
   const drinks = data?.pages?.map((page) => page.data).flat() ?? [];
 
-  const goBack = () => {
-    history.goBack();
+  const onMoveToDrinkDetail = (id: number) => () => {
+    history.push(`${PATH.DRINKS}/${id}`);
   };
 
   const observer = new IntersectionObserver((entries) => {
@@ -47,14 +48,7 @@ const ViewAllPage = () => {
 
   return (
     <Container>
-      <Header>
-        <Title>
-          <button type="button" onClick={goBack}>
-            {'<'}
-          </button>
-          <h1>전체보기</h1>
-        </Title>
-      </Header>
+      <NavigationHeader title="전체보기" />
       <List count={drinks?.length}>
         {drinks?.map((item: Drink.Item) => (
           <ListItem
@@ -62,11 +56,10 @@ const ViewAllPage = () => {
             imageUrl={item?.imageUrl}
             title={item?.name}
             description={`도수: ${item?.alcoholByVolume}%`}
-            onClick={() => {
-              history.push(`${PATH.DRINKS}/${item?.id}`);
-            }}
+            onClick={onMoveToDrinkDetail(item?.id)}
           />
         ))}
+        {isFetching && <ListItemSkeleton count={7} />}
       </List>
       <InfinityScrollPoll ref={infinityPollRef} />
     </Container>

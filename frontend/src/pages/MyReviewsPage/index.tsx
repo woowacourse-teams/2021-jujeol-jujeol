@@ -3,7 +3,9 @@ import { useInfiniteQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import API from 'src/apis/requests';
 import Arrow from 'src/components/@shared/Arrow/Arrow';
+import Grid from 'src/components/@shared/Grid/Grid';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
+import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewItemSkeleton';
 import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import { Container, Header } from './styles';
@@ -15,6 +17,7 @@ const MyReviewsPage = () => {
     data: { pages } = {},
     fetchNextPage,
     hasNextPage,
+    isFetching,
   } = useInfiniteQuery(
     'personal-review',
     ({ pageParam = 1 }) => API.getPersonalReviews({ page: pageParam, size: 10 }),
@@ -49,10 +52,17 @@ const MyReviewsPage = () => {
       </Header>
 
       <Container>
-        {personalReviews?.map((review) => (
-          <PersonalReviewItem key={review.id} review={review} />
-        ))}
-        <InfinityScrollPoll ref={observerTargetRef} />
+        <ul title="내가 남긴 리뷰">
+          {personalReviews?.map((review) => (
+            <PersonalReviewItem key={review.id} review={review} />
+          ))}
+          <InfinityScrollPoll ref={observerTargetRef} />
+        </ul>
+        {isFetching && (
+          <Grid row={7} rowGap="1rem">
+            <PersonalReviewItemSkeleton count={7} />
+          </Grid>
+        )}
       </Container>
     </>
   );

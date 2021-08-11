@@ -1,7 +1,7 @@
 package com.jujeol.drink.acceptance;
 
-import com.jujeol.drink.domain.Category;
-import com.jujeol.drink.domain.repository.CategoryRepository;
+import com.jujeol.drink.category.domain.Category;
+import com.jujeol.drink.category.domain.CategoryRepository;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

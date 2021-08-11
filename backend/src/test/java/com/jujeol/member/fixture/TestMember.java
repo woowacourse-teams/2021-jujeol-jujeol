@@ -2,9 +2,9 @@ package com.jujeol.member.fixture;
 
 import static java.util.stream.Collectors.toList;
 
-import com.jujeol.member.application.MemberDetails;
-import com.jujeol.member.application.dto.SocialProviderCodeDto;
-import com.jujeol.member.domain.ProviderName;
+import com.jujeol.member.auth.application.MemberDetails;
+import com.jujeol.member.auth.application.dto.SocialProviderCodeDto;
+import com.jujeol.member.auth.domain.ProviderName;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -19,8 +19,7 @@ public enum TestMember {
     NABOM("1006", "nabom.summer.winter", "1006"),
     RANDOM_MEMBER("1234", "this.is.default", "random");
 
-    TestMember(String matchedCode, String accessToken,
-            String accountId) {
+    TestMember(String matchedCode, String accessToken, String accountId) {
         this.matchedCode = matchedCode;
         this.accessToken = accessToken;
         this.memberDetails = new MemberDetails() {

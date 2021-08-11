@@ -1,23 +1,20 @@
 import '@testing-library/jest-dom';
-import { screen, render, waitFor } from '@testing-library/react';
-import { MemoryRouter as Router } from 'react-router-dom';
-import APIProvider from 'src/apis/APIProvider';
-import HomePage from '.';
+import { screen, waitFor } from '@testing-library/react';
+import { customRender } from 'src/tests/customRenderer';
+import { drinks } from 'src/mocks/drinks';
 import API from 'src/apis/requests';
-import drinks from 'src/mocks/drinks';
+
+import { PATH } from 'src/constants';
+
+import HomePage from '.';
 
 describe('사용자는 홈 화면에서 주류 목록을 조회할 수 있다.', () => {
   beforeAll(async () => {
-    API.getDrinks = jest.fn().mockReturnValue({ data: drinks });
-    API.getRecommendedDrinks = jest.fn().mockReturnValue({ data: drinks });
+    API.getDrinks = jest.fn().mockReturnValue(drinks);
+    API.getRecommendedDrinks = jest.fn().mockReturnValue(drinks);
 
-    render(
-      <APIProvider>
-        <Router>
-          <HomePage />
-        </Router>
-      </APIProvider>
-    );
+    customRender({ initialEntries: [PATH.HOME], children: <HomePage /> });
+
     await waitFor(() => expect(API.getDrinks).toBeCalled());
     await waitFor(() => expect(API.getRecommendedDrinks).toBeCalled());
   });
@@ -32,7 +29,7 @@ describe('사용자는 홈 화면에서 주류 목록을 조회할 수 있다.',
     });
     const viewAllSection = viewAllSectionHeader.closest('section');
 
-    drinks.every((drink) => expect(recommendationSection).toHaveTextContent(drink.name));
-    drinks.slice(0, 3).every((drink) => expect(viewAllSection).toHaveTextContent(drink.name));
+    drinks.data.every((drink) => expect(recommendationSection).toHaveTextContent(drink.name));
+    drinks.data.slice(0, 3).every((drink) => expect(viewAllSection).toHaveTextContent(drink.name));
   });
 });

@@ -17,7 +17,7 @@ import com.jujeol.admin.ui.dto.AdminDrinkResponse;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
-import com.jujeol.drink.ui.dto.DrinkDetailResponse;
+import com.jujeol.drink.drink.ui.dto.DrinkDetailResponse;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

@@ -21,9 +21,8 @@ import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
-import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.ui.dto.DrinkDetailResponse;
-import com.jujeol.drink.ui.dto.DrinkSimpleResponse;
+import com.jujeol.drink.drink.ui.dto.DrinkDetailResponse;
+import com.jujeol.drink.drink.ui.dto.DrinkSimpleResponse;
 import com.jujeol.member.acceptance.MemberAcceptanceTool;
 import java.util.ArrayList;
 import java.util.List;
@@ -149,6 +148,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         String search = "ob 맥주";
         String category = "beer";
         int page = 1;
+
         //when
         final HttpResponse httpResponse = request()
                 .get("/drinks?search=" + search + "&category=" + category + "&page=" + page)
@@ -159,7 +159,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         final List<DrinkSimpleResponse> drinkSimpleResponses =
                 httpResponse.convertBodyToList(DrinkSimpleResponse.class);
 
-        assertThat(drinkSimpleResponses).extracting("name").contains(OB.getName());
+        assertThat(drinkSimpleResponses.get(0).getName()).isEqualTo(OB.getName());
 
         페이징_검증(httpResponse.pageInfo(), 1, 1, 10, drinks.size());
     }
@@ -260,7 +260,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("검색 조회(일치하는 정보가 없는 검색어) - 성공")
     @Test
-    public void showDrinksWithInvalidTest(){
+    public void showDrinksWithInvalidTest() {
         //given
         String search = "이상한이름의검색어";
         //when

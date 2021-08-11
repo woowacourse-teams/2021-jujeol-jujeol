@@ -12,10 +12,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.commons.exception.JujeolExceptionDto;
-import com.jujeol.member.application.LoginService;
-import com.jujeol.member.application.dto.SocialProviderCodeDto;
-import com.jujeol.member.application.dto.TokenDto;
-import com.jujeol.member.domain.ProviderName;
+import com.jujeol.member.auth.application.LoginService;
+import com.jujeol.member.auth.application.dto.SocialProviderCodeDto;
+import com.jujeol.member.auth.application.dto.TokenDto;
+import com.jujeol.member.auth.domain.ProviderName;
 import com.jujeol.member.fixture.TestMember;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -108,6 +108,11 @@ public class RequestBuilder {
             return this;
         }
 
+        public Option withUser(String token) {
+            userHelper.withUser(token);
+            return this;
+        }
+
         public HttpResponse build() {
             RequestSpecification requestSpec = documentHelper.startRequest();
             userHelper.addRequest(requestSpec);
@@ -159,24 +164,28 @@ public class RequestBuilder {
             }
         }
 
-        private class UserHelper {
+    private class UserHelper {
             private boolean userFlag;
-            private TestMember member;
+            private String token;
 
             public UserHelper() {
                 this.userFlag = false;
             }
 
-            public void withUser(TestMember testMember) {
+             public void withUser(TestMember testMember) {
+                token = loginService.createToken(SocialProviderCodeDto.create(testMember.getMatchedCode(), 
+                                   ProviderName.TEST)).getAccessToken();
+                withUser(token);
+            }
+
+            public void withUser(String token) {
                 userFlag = true;
-                this.member = testMember;
+                this.token = token;
             }
 
             public void addRequest(RequestSpecification requestSpec) {
                 if(userFlag) {
-                    final TokenDto token = 
-                            loginService.createToken(SocialProviderCodeDto.create(member.getMatchedCode(), ProviderName.TEST));
-                    requestSpec.header("Authorization", "Bearer " + token.getAccessToken());
+                    requestSpec.header("Authorization", "Bearer " + token);
                 }
             }
         }
