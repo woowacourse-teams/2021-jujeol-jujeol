@@ -10,7 +10,7 @@ interface Props {
 const ListItem = ({ imageUrl, title, description, onClick }: Props) => {
   return (
     <Item onClick={onClick}>
-      <img src={imageUrl} alt={title} />
+      <img src={imageUrl} alt={title} loading="lazy" />
       <ItemInfo>
         <h3>{title}</h3>
         <p>{description}</p>
