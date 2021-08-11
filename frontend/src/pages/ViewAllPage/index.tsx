@@ -3,6 +3,7 @@ import { useInfiniteQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import API from 'src/apis/requests';
 import Header from 'src/components/@shared/Header/Header';
+import ListItemSkeleton from 'src/components/@shared/Skeleton/ListItemSkeleton';
 import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';
 import { PATH } from 'src/constants';
@@ -12,7 +13,7 @@ const ViewAllPage = () => {
   const history = useHistory();
   const infinityPollRef = useRef<HTMLDivElement>(null);
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery(
     'drinks',
     ({ pageParam = 1 }) => API.getDrinks({ page: pageParam }),
     {
@@ -67,6 +68,7 @@ const ViewAllPage = () => {
             }}
           />
         ))}
+        {isFetching && <ListItemSkeleton count={7} />}
       </List>
       <InfinityScrollPoll ref={infinityPollRef} />
     </Container>
