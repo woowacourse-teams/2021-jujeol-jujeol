@@ -104,11 +104,11 @@ const SHAPE = {
     `,
     LARGE: css`
       height: 2rem;
-      border-radius: 10px;
+      border-radius: 8px;
     `,
     X_LARGE: css`
       height: 3rem;
-      border-radius: 10px;
+      border-radius: 8px;
     `,
   },
 };

@@ -26,6 +26,7 @@ import {
   ExcitedEmojiColorIcon,
 } from 'src/components/@shared/Icons';
 import PersonalDrinkItemSkeleton from 'src/components/@shared/Skeleton/PersonalDrinkItemSkeleton';
+import PersonalReviewItemSkeleton from 'src/components/@shared/Skeleton/PersonalReviewItemSkeleton';
 
 const userProfileIcons = [
   SmileEmojiColorIcon,
@@ -63,6 +64,7 @@ const MyPage = () => {
       data: myReviews,
       pageInfo: { totalSize: myReviewsCount } = { totalSize: 0 },
     } = defaultRequestData,
+    isLoading: isMyReviewsLoading,
   } = useQuery(
     'my-reviews',
     () => API.getPersonalReviews({ page: 1, size: VALUE.MYPAGE_REVIEWS_DISPLAY_NUMBER }),
@@ -120,7 +122,11 @@ const MyPage = () => {
         path={PATH.MY_REVIEWS}
         isShowMoreEnabled={isMyReviewsShowMoreEnabled}
       >
-        {myReviews?.length ? (
+        {isMyReviewsLoading ? (
+          <Grid row={3} rowGap="1rem">
+            <PersonalReviewItemSkeleton count={3} />
+          </Grid>
+        ) : myReviews?.length ? (
           <ul>
             {myReviews.map((myReview: Review.PersonalReviewItem) => (
               <PersonalReviewItem key={myReview.id} review={myReview} />
