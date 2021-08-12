@@ -68,12 +68,9 @@ public class DrinkService {
     }
 
     public Page<DrinkDto> showAllDrinksByPage(Pageable pageable) {
-        List<DrinkDto> drinkDtos = drinkRepository.findAll(pageable).stream()
+        return drinkRepository.findAll(pageable)
                 .map(drink -> DrinkDto.create(
-                        drink, Preference.create(drink, 0)))
-                .collect(Collectors.toList());
-
-        return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
+                        drink, Preference.create(drink, 0)));
     }
 
     public Page<DrinkDto> showRecommendDrinks(RecommendStrategy recommendStrategy,

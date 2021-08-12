@@ -1,4 +1,4 @@
-import {putRequest} from "../../utils/methodFetches.js";
+import {getRequest, putRequest} from "../../utils/methodFetches.js";
 import drinkTableColumns from "../component/drinkTableColumns.js";
 import {getDrinkDetail, renderDrinksTable} from "../view/drinkTable.js";
 import {isEmptyObject} from "../../utils/validator.js";
@@ -11,7 +11,7 @@ export const handlerDrinkUpdate = ({target}, drinks) => {
   drinkUpdateEvent(target, drinks, drink)
 }
 
-function invokeInputModeEvent(target, drinks, drink) {
+async function invokeInputModeEvent(target, drinks, drink) {
   if (!target.classList.contains("normalButton")) {
     return;
   }
@@ -23,7 +23,8 @@ function invokeInputModeEvent(target, drinks, drink) {
   drink.turnUpdateState();
 
   const $parentRow = target.closest(".drinkTableRow");
-  $parentRow.innerHTML = drinkTableColumns(drink, "update");
+  const result = await getRequest('/categories');
+  $parentRow.innerHTML = drinkTableColumns(drink, "update", result.data);
 }
 
 async function drinkUpdateEvent(target, drinks, drink) {
