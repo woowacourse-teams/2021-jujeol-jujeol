@@ -46,6 +46,8 @@ const SearchInput = styled.input<Omit<React.CSSProperties, 'translate'>>`
   text-align: ${({ textAlign }) => textAlign && `${textAlign}`};
   color: ${COLOR.WHITE_100};
 
+  -webkit-appearance: none;
+
   ::placeholder {
     font-size: 1rem;
     line-height: 1.5;

@@ -11,10 +11,14 @@ const Header = styled.div`
 `;
 
 const Content = styled.div`
-  ${Flex({ columnGap: '0.5rem', justifyContent: 'center' })}
+  ${Flex({ alignItems: 'center', justifyContent: 'center' })}
+
+  img {
+    margin-right: 0.5rem;
+  }
 
   p {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.2rem;
   }
 `;
 

@@ -12,10 +12,6 @@ const Header = styled.div`
   ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })}
 `;
 
-const Content = styled.ul`
-  ${Flex({ flexDirection: 'column', rowGap: '1rem' })}
-`;
-
 const Description = styled.div`
   width: 100%;
   ${Flex({ flexDirection: 'column', justifyContent: 'space-between', rowGap: '0.4rem' })}
@@ -43,4 +39,4 @@ const Description = styled.div`
   }
 `;
 
-export { Header, Content, Description };
+export { Header, Description };

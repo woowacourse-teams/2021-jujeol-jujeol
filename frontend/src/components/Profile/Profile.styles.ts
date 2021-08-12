@@ -12,7 +12,7 @@ const Container = styled.section`
   background-color: ${COLOR.PURPLE_500};
 
   div {
-    ${Flex({ flexDirection: 'column', rowGap: '0.5rem' })}
+    ${Flex({ flexDirection: 'column' })}
     width: 100%;
     height: 100%;
 
@@ -21,6 +21,7 @@ const Container = styled.section`
     h3 {
       font-size: 1.1rem;
       font-weight: 700;
+      margin-bottom: 0.5rem;
     }
 
     p {

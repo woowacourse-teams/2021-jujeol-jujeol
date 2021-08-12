@@ -56,7 +56,7 @@ const OauthPage = () => {
 
   return (
     <Container>
-      <FlexBox flexDirection="column" justifyContent="center" alignItems="center" rowGap="2rem">
+      <FlexBox flexDirection="column" justifyContent="center" alignItems="center">
         <LoveEmojiColorIcon />
         <p>로그인 하는 중</p>
       </FlexBox>
