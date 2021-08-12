@@ -16,7 +16,7 @@ const NoPreference = () => {
   };
 
   return (
-    <div>
+    <>
       <Header>
         <p>선호도를 남긴 술이 없네요.</p>
         <p>선호도를 한 번 남겨보시는건 어떠세요?</p>
@@ -36,7 +36,7 @@ const NoPreference = () => {
           />
         </div>
       </Content>
-    </div>
+    </>
   );
 };
 

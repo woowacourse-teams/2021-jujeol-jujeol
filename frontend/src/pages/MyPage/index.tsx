@@ -27,6 +27,7 @@ import {
 } from 'src/components/@shared/Icons';
 import PersonalDrinkItemSkeleton from 'src/components/Skeleton/PersonalDrinkItemSkeleton';
 import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewItemSkeleton';
+import { SurveyLink } from './styles';
 
 const userProfileIcons = [
   SmileEmojiColorIcon,
@@ -136,6 +137,14 @@ const MyPage = () => {
           <NoReview myDrinks={myDrinks} />
         )}
       </Preview>
+
+      <SurveyLink
+        href="https://forms.gle/haUKZu3tNg1znfcZ7"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        🚨 불편사항 신고 및 기타문의 작성하기
+      </SurveyLink>
     </>
   );
 };
