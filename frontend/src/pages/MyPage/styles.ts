@@ -1,23 +1,17 @@
 import styled from '@emotion/styled';
-import Flex from 'src/styles/Flex';
+import { COLOR } from 'src/constants';
 
-const Header = styled.header`
-  ${Flex({ alignItems: 'center' })};
+const SurveyLink = styled.a`
+  && {
+    font-size: 0.9rem;
+    display: block;
+    margin: 0 auto;
+    width: fit-content;
+    text-align: center;
 
-  width: 100%;
-  height: 3.5em;
-  position: relative;
-
-  h2 {
-    font-size: 1.3rem;
-    font-weight: 700;
-  }
-
-  button {
-    background-color: transparent;
-    border: 0;
-    margin-left: 0.5rem;
+    color: ${COLOR.GRAY_200};
+    text-decoration: underline;
   }
 `;
 
-export { Header };
+export { SurveyLink };

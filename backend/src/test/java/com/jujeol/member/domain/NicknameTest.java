@@ -3,9 +3,9 @@ package com.jujeol.member.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.jujeol.member.domain.nickname.Nickname;
-import com.jujeol.member.exception.InvalidUserNicknameCharacterException;
-import com.jujeol.member.exception.InvalidUserNicknameLengthException;
+import com.jujeol.member.member.domain.nickname.Nickname;
+import com.jujeol.member.member.exception.InvalidUserNicknameCharacterException;
+import com.jujeol.member.member.exception.InvalidUserNicknameLengthException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;

@@ -2,9 +2,9 @@ package com.jujeol.drink.acceptance;
 
 import com.jujeol.RequestBuilder;
 import com.jujeol.commons.exception.JujeolExceptionDto;
-import com.jujeol.drink.domain.repository.DrinkRepository;
-import com.jujeol.drink.exception.NotFoundDrinkException;
-import com.jujeol.drink.ui.dto.DrinkDetailResponse;
+import com.jujeol.drink.drink.domain.repository.DrinkRepository;
+import com.jujeol.drink.drink.exception.NotFoundDrinkException;
+import com.jujeol.drink.drink.ui.dto.DrinkDetailResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;

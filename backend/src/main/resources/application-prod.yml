@@ -1,5 +1,7 @@
 logging:
   level:
-    root: warn
-file-server:
-  url: https://dmaxaug2ve9od.cloudfront.net
+    root: info
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false

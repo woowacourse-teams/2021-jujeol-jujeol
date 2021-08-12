@@ -1,7 +1,10 @@
 import Drinks from "./drinks/model/Drinks.js";
 import {handlerDrinkUpdate} from "./drinks/handler/HandlerDrinkUpdate.js"
 import {handlerDrinkDelete} from "./drinks/handler/HandlerDrinkDelete.js"
-import {renderDrinksTable} from "./drinks/view/drinkTable.js";
+import {
+  renderDrinksBatchInsertModal,
+  renderDrinksTable
+} from "./drinks/view/drinkTable.js";
 import {HandlerDrinkBatchInsert} from "./drinks/handler/HandlerDrinkBatchInsert.js";
 import {$} from "./utils/querySelector.js";
 
@@ -10,6 +13,7 @@ const init = () => {
 
   addEventListener(drinks);
   renderDrinksTable(drinks);
+  renderDrinksBatchInsertModal();
 }
 
 window.addEventListener('DOMContentLoaded', init);

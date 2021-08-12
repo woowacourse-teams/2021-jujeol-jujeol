@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { COLOR } from 'src/constants';
+import Flex from 'src/styles/Flex';
 
 const Container = styled.section`
-  display: flex;
-  align-items: center;
+  ${Flex({ alignItems: 'center' })}
 
   width: 100%;
   height: 7rem;
@@ -12,20 +12,21 @@ const Container = styled.section`
   background-color: ${COLOR.PURPLE_500};
 
   div {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    ${Flex({ flexDirection: 'column' })}
+    width: 100%;
+    height: 100%;
 
-    height: 2.5rem;
     margin-left: 1rem;
 
     h3 {
       font-size: 1.1rem;
       font-weight: 700;
+      margin-bottom: 0.5rem;
     }
 
     p {
       font-size: 0.8rem;
+      line-height: 1.25;
       font-weight: 400;
     }
   }

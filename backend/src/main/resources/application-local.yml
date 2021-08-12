@@ -1,7 +1,5 @@
 spring:
   jpa:
-    show-sql: true
-    open-in-view: false
     properties:
       hibernate:
         format_sql: true
@@ -14,5 +12,3 @@ spring:
 logging:
   level:
     root: info
-file-server:
-  url: https://dmaxaug2ve9od.cloudfront.net

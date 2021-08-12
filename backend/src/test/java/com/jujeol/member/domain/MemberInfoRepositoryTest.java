@@ -3,13 +3,20 @@ package com.jujeol.member.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.TestConfig;
-import com.jujeol.drink.domain.Category;
-import com.jujeol.drink.domain.Drink;
-import com.jujeol.drink.domain.Review;
-import com.jujeol.drink.domain.repository.CategoryRepository;
-import com.jujeol.drink.domain.repository.DrinkRepository;
-import com.jujeol.drink.domain.repository.ReviewRepository;
-import com.jujeol.member.domain.nickname.Nickname;
+import com.jujeol.drink.category.domain.Category;
+import com.jujeol.drink.drink.domain.Drink;
+import com.jujeol.review.domain.Review;
+import com.jujeol.drink.category.domain.CategoryRepository;
+import com.jujeol.drink.drink.domain.repository.DrinkRepository;
+import com.jujeol.review.domain.repository.ReviewRepository;
+import com.jujeol.member.auth.domain.Provider;
+import com.jujeol.member.auth.domain.ProviderName;
+import com.jujeol.member.member.domain.Biography;
+import com.jujeol.member.member.domain.Member;
+import com.jujeol.preference.domain.Preference;
+import com.jujeol.preference.domain.PreferenceRepository;
+import com.jujeol.member.member.domain.nickname.Nickname;
+import com.jujeol.member.member.domain.repository.MemberRepository;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -46,7 +53,7 @@ public class MemberInfoRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        Member member = Member.create(Provider.of("1234", ProviderName.TEST)
+        Member member = Member.create(Provider.create("1234", ProviderName.TEST)
                 , Nickname.create("물욕녀_1234")
                 , Biography.create("물건 욕심이 많은 물욕녀"));
 

@@ -5,7 +5,8 @@
   <!-- log file name -->
   <property name="LOG_FILE_NAME" value="jujeol"/>
   <!-- pattern -->
-  <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%-5level] [%logger{36}] - %m%n"/>
+  <property name="LOG_PATTERN" value="%white(%d{HH:mm:ss.SSS}) %cyan([%thread]) %highlight([%-5level]) %yellow([%logger{0}]) - %boldWhite(%m%n)"/>
+  <property name="LOG_FILE_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] [%-5level] [%logger{0}] - %m%n"/>
 
   <springProfile name="console-logging">
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -19,14 +20,14 @@
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
       <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
       <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-        <pattern>${LOG_PATTERN}</pattern>
+        <pattern>${LOG_FILE_PATTERN}</pattern>
       </encoder>
       <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
         <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.zip</fileNamePattern>
         <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
           <maxFileSize>100MB</maxFileSize>
         </timeBasedFileNamingAndTriggeringPolicy>
-      <maxHistory>100</maxHistory>
+      <maxHistory>3</maxHistory>
       </rollingPolicy>
     </appender>
   </springProfile>

@@ -12,11 +12,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.commons.exception.JujeolExceptionDto;
-import com.jujeol.member.application.LoginService;
-import com.jujeol.member.application.dto.SocialProviderCodeDto;
-import com.jujeol.member.application.dto.TokenDto;
-import com.jujeol.member.domain.ProviderName;
+import com.jujeol.member.auth.application.LoginService;
+import com.jujeol.member.auth.application.dto.SocialProviderCodeDto;
+import com.jujeol.member.auth.application.dto.TokenDto;
+import com.jujeol.member.auth.domain.ProviderName;
 import com.jujeol.member.fixture.TestMember;
+import com.jujeol.testdatabase.QueryCounter;
+import com.jujeol.testdatabase.QueryResult;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
@@ -39,12 +41,14 @@ public class RequestBuilder {
 
     private final ObjectMapper objectMapper;
     private final LoginService loginService;
+    private final QueryCounter queryCounter;
 
     private RestDocumentationContextProvider restDocumentation;
 
-    public RequestBuilder(ObjectMapper objectMapper, LoginService loginService) {
+    public RequestBuilder(ObjectMapper objectMapper, LoginService loginService, QueryCounter queryCounter) {
         this.objectMapper = objectMapper;
         this.loginService = loginService;
+        this.queryCounter = queryCounter;
     }
 
     public void setRestDocumentation(RestDocumentationContextProvider restDocumentation) {
@@ -108,6 +112,11 @@ public class RequestBuilder {
             return this;
         }
 
+        public Option withUser(String token) {
+            userHelper.withUser(token);
+            return this;
+        }
+
         public HttpResponse build() {
             RequestSpecification requestSpec = documentHelper.startRequest();
             userHelper.addRequest(requestSpec);
@@ -116,13 +125,16 @@ public class RequestBuilder {
                 requestSpec = requestSpec.log().all();
             }
 
+            queryCounter.startCount();
             ValidatableResponse validatableResponse = request.doAction(requestSpec);
+            final QueryResult queryResult = queryCounter.endCount();
 
             if (logFlag) {
                 validatableResponse = validatableResponse.log().all();
+                queryResult.printLog();
             }
 
-            return new HttpResponse(validatableResponse.extract());
+            return new HttpResponse(validatableResponse.extract(), queryResult);
         }
 
         private class DocumentHelper {
@@ -159,24 +171,28 @@ public class RequestBuilder {
             }
         }
 
-        private class UserHelper {
+    private class UserHelper {
             private boolean userFlag;
-            private TestMember member;
+            private String token;
 
             public UserHelper() {
                 this.userFlag = false;
             }
 
-            public void withUser(TestMember testMember) {
+             public void withUser(TestMember testMember) {
+                token = loginService.createToken(SocialProviderCodeDto.create(testMember.getMatchedCode(), 
+                                   ProviderName.TEST)).getAccessToken();
+                withUser(token);
+            }
+
+            public void withUser(String token) {
                 userFlag = true;
-                this.member = testMember;
+                this.token = token;
             }
 
             public void addRequest(RequestSpecification requestSpec) {
                 if(userFlag) {
-                    final TokenDto token = 
-                            loginService.createToken(SocialProviderCodeDto.of(member.getMatchedCode(), ProviderName.TEST));
-                    requestSpec.header("Authorization", "Bearer " + token.getAccessToken());
+                    requestSpec.header("Authorization", "Bearer " + token);
                 }
             }
         }
@@ -185,9 +201,11 @@ public class RequestBuilder {
     public class HttpResponse {
 
         private final ExtractableResponse<Response> extractableResponse;
+        private final QueryResult queryResult;
 
-        public HttpResponse(ExtractableResponse<Response> extractableResponse) {
+        public HttpResponse(ExtractableResponse<Response> extractableResponse, QueryResult queryResult) {
             this.extractableResponse = extractableResponse;
+            this.queryResult = queryResult;
         }
 
         public <T> T convertBody(Class<T> tClass) {
@@ -231,6 +249,10 @@ public class RequestBuilder {
 
         public PageInfo pageInfo() {
             return extractableResponse.body().as(CommonResponse.class).getPageInfo();
+        }
+
+        public Long queryCount() {
+            return queryResult.queryCount();
         }
 
         public ExtractableResponse<Response> totalResponse() {

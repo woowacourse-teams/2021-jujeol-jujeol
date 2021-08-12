@@ -6,7 +6,7 @@ import { Container, Description } from './MyDrinkItem.styles';
 
 interface Props {
   size: ImageSizeType;
-  drink: MyDrink.MyDrinkItem;
+  drink: Drink.PersonalDrinkItem;
 }
 
 const MyDrinkItem = ({ size, drink }: Props) => {
@@ -22,7 +22,7 @@ const MyDrinkItem = ({ size, drink }: Props) => {
       <p>{name}</p>
       <Description>
         <StarIcon width="0.8rem" color={COLOR.YELLOW_300} />
-        <span>{preferenceRate}</span>
+        <span>{preferenceRate.toFixed(1)}</span>
       </Description>
     </Container>
   );

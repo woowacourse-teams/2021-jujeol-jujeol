@@ -1,10 +1,13 @@
 import { useContext, useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
-import API from 'src/apis/requests';
-import { LOCAL_STORAGE_KEY, PATH, MESSAGE } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
+import API from 'src/apis/requests';
+import FlexBox from 'src/components/@shared/FlexBox/FlexBox';
+import { LoveEmojiColorIcon } from 'src/components/@shared/Icons';
 import { setLocalStorageItem } from 'src/utils/localStorage';
+import { LOCAL_STORAGE_KEY, PATH, MESSAGE } from 'src/constants';
+import { Container } from './styles';
 
 const KAKAO_CODE_QUERY_SELECTOR = 'code';
 
@@ -51,7 +54,14 @@ const OauthPage = () => {
     return <Redirect to={PATH.HOME} />;
   }
 
-  return <></>;
+  return (
+    <Container>
+      <FlexBox flexDirection="column" justifyContent="center" alignItems="center">
+        <LoveEmojiColorIcon />
+        <p>로그인 하는 중</p>
+      </FlexBox>
+    </Container>
+  );
 };
 
 export default OauthPage;

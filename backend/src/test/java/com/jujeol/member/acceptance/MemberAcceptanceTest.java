@@ -13,11 +13,11 @@ import com.jujeol.RequestBuilder.Option;
 import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
-import com.jujeol.drink.ui.dto.DrinkDetailResponse;
-import com.jujeol.member.application.dto.PreferenceDto;
+import com.jujeol.drink.drink.ui.dto.DrinkDetailResponse;
+import com.jujeol.member.member.application.dto.PreferenceDto;
 import com.jujeol.member.fixture.TestMember;
-import com.jujeol.member.ui.dto.MemberRequest;
-import com.jujeol.member.ui.dto.MemberResponse;
+import com.jujeol.member.member.ui.dto.MemberRequest;
+import com.jujeol.member.member.ui.dto.MemberResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
@@ -109,7 +109,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     public void createPreference() {
         //given
         final Long obId = 주류_등록(OB);
-        PreferenceDto preferenceDto = PreferenceDto.of(4.5);
+        PreferenceDto preferenceDto = PreferenceDto.create(4.5);
 
         //when
         ExtractableResponse<Response> response = request()
@@ -131,7 +131,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         //given
         final Long obId = 주류_등록(OB);
         memberAcceptanceTool.선호도_등록(obId, 4.5, CROFFLE);
-        PreferenceDto newPreference = PreferenceDto.of(3.0);
+        PreferenceDto newPreference = PreferenceDto.create(3.0);
 
         //when
         ExtractableResponse<Response> updateResponse = request()
@@ -153,7 +153,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         //given
         final Long obId = 주류_등록(OB);
         memberAcceptanceTool.선호도_등록(obId, 3.5, CROFFLE);
-        PreferenceDto preferenceDto = PreferenceDto.of(4.5);
+        PreferenceDto preferenceDto = PreferenceDto.create(4.5);
 
         //when
         final HttpResponse httpResponse = request()
@@ -171,7 +171,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         //given
         final Long obId = 주류_등록(OB);
         memberAcceptanceTool.선호도_등록(obId, 3.5, CROFFLE);
-        PreferenceDto preferenceDto = PreferenceDto.of(4.5);
+        PreferenceDto preferenceDto = PreferenceDto.create(4.5);
 
         //when
         final HttpResponse httpResponse = request()

@@ -1,14 +1,19 @@
-import { useContext, useEffect, useState } from 'react';
+import { MouseEventHandler, useContext, useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useHistory, useParams } from 'react-router-dom';
+
 import UserContext from 'src/contexts/UserContext';
 import API from 'src/apis/requests';
-import Property from 'src/components/Property/Property';
+import GoBackButton from 'src/components/@shared/GoBackButton/GoBackButton';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import Review from 'src/components/Review/Review';
-import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
+import Property from 'src/components/Property/Property';
 import { properties } from './propertyData';
-import { Section, PreferenceSection, Image, DescriptionSection } from './styles';
+import { Section, PreferenceSection, Image, DescriptionSection, Container } from './styles';
+import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
+import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
+import DrinksDetailDescriptionSkeleton from 'src/components/Skeleton/DrinksDetailDescriptionSkeleton';
+import useNoticeToInputPreference from 'src/hooks/useInputPreference';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -27,10 +32,31 @@ const defaultDrinkDetail = {
 const DrinksDetailPage = () => {
   const { id: drinkId } = useParams<{ id: string }>();
 
-  const [drinkInfo, setDrinkInfo] = useState(defaultDrinkDetail);
-
   const history = useHistory();
+
+  const pageContainerRef = useRef<HTMLImageElement>(null);
+  const preferenceRef = useRef<HTMLDivElement>(null);
+
+  const [currentPreferenceRate, setCurrentPreferenceRate] = useState(
+    defaultDrinkDetail.preferenceRate
+  );
+
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
+
+  useEffect(() => {
+    pageContainerRef.current?.scrollIntoView();
+  }, []);
+
+  const { data: { data: drink = defaultDrinkDetail } = {}, isLoading } = useQuery(
+    'drink-detail',
+    () => API.getDrink<string>(drinkId),
+    {
+      retry: 0,
+      onSuccess: ({ data }) => {
+        setCurrentPreferenceRate(data.preferenceRate);
+      },
+    }
+  );
 
   const {
     name,
@@ -38,29 +64,18 @@ const DrinksDetailPage = () => {
     imageUrl,
     category: { key: categoryKey },
     alcoholByVolume,
-    preferenceRate,
     preferenceAvg,
-  } = drinkInfo;
-
-  const DrinkDetailQuery = useQuery('drink-detail', () => API.getDrink<string>(drinkId), {
-    retry: 0,
-    onSuccess: ({ data }) => {
-      setDrinkInfo(data);
-    },
-  });
+  }: Drink.DetailItem = drink;
 
   const { mutate: updatePreference } = useMutation(
     () => {
-      if (preferenceRate === 0) {
+      if (currentPreferenceRate === 0) {
         return API.deletePreference<string>(drinkId);
       }
 
-      return API.postPreference<
-        string,
-        {
-          preferenceRate: number;
-        }
-      >(drinkId, { preferenceRate });
+      return API.postPreference<string, { preferenceRate: number }>(drinkId, {
+        preferenceRate: currentPreferenceRate,
+      });
     },
     {
       onError: (error: { code: number; message: string }) => {
@@ -69,15 +84,24 @@ const DrinksDetailPage = () => {
     }
   );
 
+  const { isBlinked, setIsBlinked, observePreferenceSection } = useNoticeToInputPreference({
+    targetRef: preferenceRef,
+  });
+
   const setPreferenceRate = (value: number) => {
-    setDrinkInfo((prev) => ({ ...prev, preferenceRate: value }));
+    setCurrentPreferenceRate(value);
+  };
+
+  const moveToLoginPage = () => {
+    if (confirm(MESSAGE.LOGIN_REQUIRED_TO_UPDATE_PREFERENCE)) {
+      history.push(PATH.LOGIN);
+    }
   };
 
   const onCheckLoggedIn = () => {
+    setIsBlinked(false);
     if (!isLoggedIn) {
-      if (confirm(MESSAGE.LOGIN_REQUIRED_TO_UPDATE_PREFERENCE)) {
-        history.push(PATH.LOGIN);
-      }
+      moveToLoginPage();
     }
   };
 
@@ -87,23 +111,35 @@ const DrinksDetailPage = () => {
     }
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const onNoticeToInputPreference: MouseEventHandler<HTMLButtonElement> = () => {
+    if (!isLoggedIn) {
+      moveToLoginPage();
+      return;
+    }
+
+    observePreferenceSection();
+  };
 
   return (
-    <>
-      <Image src={imageUrl} alt={name} />
+    <Container ref={pageContainerRef}>
+      <GoBackButton color={COLOR.BLACK_900} />
+      {isLoading ? (
+        <Skeleton width="100" height="30rem" />
+      ) : (
+        <Image src={imageUrl} alt={name} loading="lazy" />
+      )}
       <Section>
-        <PreferenceSection>
+        <PreferenceSection ref={preferenceRef} isBlinked={isBlinked}>
           <h3>
-            {preferenceRate ? `당신의 선호도는? ${preferenceRate} 점` : '선호도를 입력해주세요'}
+            {currentPreferenceRate
+              ? `당신의 선호도는? ${currentPreferenceRate} 점`
+              : '선호도를 입력해주세요'}
           </h3>
           <RangeWithIcons
             color={COLOR.YELLOW_300}
             max={PREFERENCE.MAX_VALUE}
             step={PREFERENCE.STEP}
-            value={preferenceRate}
+            value={currentPreferenceRate}
             setValue={setPreferenceRate}
             disabled={!isLoggedIn}
             onTouchStart={onCheckLoggedIn}
@@ -115,6 +151,7 @@ const DrinksDetailPage = () => {
         </PreferenceSection>
 
         <DescriptionSection>
+          {isLoading && <DrinksDetailDescriptionSkeleton />}
           <h2>{name}</h2>
           <p>
             {englishName === '' ? `(${alcoholByVolume}%)` : `(${englishName}, ${alcoholByVolume}%)`}
@@ -136,9 +173,14 @@ const DrinksDetailPage = () => {
           </ul>
         </DescriptionSection>
 
-        <Review drinkId={drinkId} />
+        <Review
+          drinkId={drinkId}
+          drinkName={name}
+          preferenceRate={currentPreferenceRate}
+          onNoticeToInputPreference={onNoticeToInputPreference}
+        />
       </Section>
-    </>
+    </Container>
   );
 };
 

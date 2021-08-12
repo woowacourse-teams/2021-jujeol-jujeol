@@ -7,6 +7,8 @@ import { PATH } from 'src/constants';
 import CardList from 'src/components/List/CardList';
 import CardItem from 'src/components/Item/CardItem';
 import ListItem from 'src/components/Item/ListItem';
+import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
+import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
 
 interface Props {
   type: 'CARD' | 'LIST';
@@ -35,7 +37,7 @@ const DrinkListSection = ({
 }: Props) => {
   const queryParams = new URLSearchParams(query);
 
-  const { data: { data: drinks } = [] } = useQuery(
+  const { data: { data: drinks } = [], isLoading } = useQuery(
     theme === 'RECOMMEND' ? 'recommendedDrinks' : 'drinks',
     () => {
       if (theme === 'RECOMMEND') {
@@ -57,7 +59,7 @@ const DrinkListSection = ({
     >
       {type === 'CARD' && (
         <CardList count={count ?? drinks?.length}>
-          {drinks?.slice(0, count ?? drinks.length).map((item: ItemList.Drinks) => (
+          {drinks?.slice(0, count ?? drinks.length).map((item: Drink.Item) => (
             <CardItem
               key={item?.id}
               imageUrl={item?.imageUrl}
@@ -68,12 +70,16 @@ const DrinkListSection = ({
               }}
             />
           ))}
+          {isLoading &&
+            Array.from({ length: 3 }).map((_, index) => (
+              <Skeleton key={index} type="CARD" size="X_LARGE" />
+            ))}
         </CardList>
       )}
 
       {type === 'LIST' && (
         <List count={count ?? drinks?.length}>
-          {drinks?.slice(0, count ?? drinks.length).map((item: ItemList.Drinks) => (
+          {drinks?.slice(0, count ?? drinks.length).map((item: Drink.Item) => (
             <ListItem
               key={item?.id}
               imageUrl={item?.imageUrl}
@@ -84,6 +90,7 @@ const DrinkListSection = ({
               }}
             />
           ))}
+          {isLoading && <ListItemSkeleton count={3} />}
         </List>
       )}
     </Section>

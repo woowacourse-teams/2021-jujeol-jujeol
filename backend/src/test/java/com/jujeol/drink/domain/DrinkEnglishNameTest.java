@@ -3,7 +3,8 @@ package com.jujeol.drink.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.jujeol.drink.exception.InvalidEnglishNameException;
+import com.jujeol.drink.drink.domain.DrinkEnglishName;
+import com.jujeol.drink.drink.exception.InvalidEnglishNameException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

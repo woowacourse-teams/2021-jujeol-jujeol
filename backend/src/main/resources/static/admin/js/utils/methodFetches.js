@@ -3,14 +3,6 @@ export {getRequest, postRequest, deleteRequest, putRequest};
 const BEARER = 'Bearer'
 const CAN_METHOD_LIST = ['GET', 'POST', 'PUT', 'DELETE']
 
-const orThrow = (result) => {
-  if (result.code) {
-    console.error(result)
-    new Error(result)
-  }
-  return result;
-}
-
 function getRequest(url, needToken = false) {
   return apiRequest('GET', url, needToken);
 }
@@ -59,5 +51,5 @@ async function apiRequest(method, url = '', needToken = false, body = {}) {
       }
   )
 
-  return orThrow(result)
+  return result
 }

@@ -56,21 +56,24 @@ const API = {
   getDrink: <T>(id: T) => {
     return request({ method: 'GET' as Method, url: `${REQUEST_URL.GET_DRINK}/${id}` });
   },
-  getReview: <T>({ id, page }: { id: T; page: number }) => {
-    return request({ method: 'GET' as Method, url: `/drinks/${id}/reviews` + '?page=' + page });
+  getReview: ({ page, params }: { page: number; params?: URLSearchParams }) => {
+    return request({
+      method: 'GET' as Method,
+      url: REQUEST_URL.REVIEWS + '?page=' + page + (params ? '&' + params.toString() : ''),
+    });
   },
-  postReview: <I, D>(id: I, data: D) => {
-    return request({ method: 'POST' as Method, url: `/drinks/${id}/reviews`, data });
+  postReview: <D>(data: D) => {
+    return request({ method: 'POST' as Method, url: REQUEST_URL.REVIEWS, data });
   },
-  editReview: <I, D>(drinkId: I, reviewId: I, data: D) => {
+  editReview: <D>(reviewId: number, data: D) => {
     return request({
       method: 'PUT' as Method,
-      url: `/drinks/${drinkId}/reviews/${reviewId}`,
+      url: `${REQUEST_URL.REVIEWS}/${reviewId}`,
       data,
     });
   },
-  deleteReview: <I>(drinkId: I, reviewId: I) => {
-    return request({ method: 'DELETE' as Method, url: `/drinks/${drinkId}/reviews/${reviewId}` });
+  deleteReview: <I>(reviewId: I) => {
+    return request({ method: 'DELETE' as Method, url: `${REQUEST_URL.REVIEWS}/${reviewId}` });
   },
 
   postPreference: <I, D>(id: I, data: D) => {
@@ -90,21 +93,6 @@ const API = {
     return request({
       method: 'GET' as Method,
       url: `/members/me/drinks?page=${page ?? ''}&size=${size ?? ''}`,
-    });
-  },
-
-  getSearchResult: <S>({
-    words: search,
-    category,
-    page,
-  }: {
-    words?: S;
-    category?: string;
-    page?: number;
-  }) => {
-    return request({
-      method: 'GET' as Method,
-      url: `/drinks?search=${search ?? ''}&category=${category ?? ''}&page=${page ?? 1}`,
     });
   },
 };

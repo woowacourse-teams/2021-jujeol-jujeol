@@ -2,7 +2,6 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { COLOR } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
-import nicknameGenerator from 'src/utils/createNickname';
 import Card from '../@shared/Card/Card';
 import {
   LoveEmojiColorIcon,
@@ -10,12 +9,13 @@ import {
   DizzyEmojiColorIcon,
   ExcitedEmojiColorIcon,
 } from '../@shared/Icons';
+import EditButton from '../@shared/MeatBallsButton/MeatBallsButton';
 import { modalContext } from '../Modal/ModalProvider';
 import ReviewEditForm from '../Review/ReviewEditForm';
 import { Header, ReviewerInfo, Content, ShowMoreButton } from './ReviewCard.styles';
 
 interface Props {
-  review: Review.ReviewItem;
+  review: Review.Item;
 }
 
 const userProfileIcons = [
@@ -63,13 +63,7 @@ const ReviewCard = ({ review }: Props) => {
           <time>{new Date(createdAt)?.toLocaleDateString()}</time>
         </ReviewerInfo>
         {userData?.id === author.id && (
-          <button type="button" onClick={onOpenEditForm} aria-label="내 리뷰 글 수정하기 버튼">
-            <svg width="32px" height="32px" viewBox="0 0 100 100" fill="grey">
-              <circle cx="30" cy="50" r="6" />
-              <circle cx="50" cy="50" r="6" />
-              <circle cx="70" cy="50" r="6" />
-            </svg>
-          </button>
+          <EditButton ariaLabel="내 리뷰 글 수정하기 버튼" onClick={onOpenEditForm} />
         )}
       </Header>
       <Content ref={contentRef} isContentOpen={isContentOpen}>

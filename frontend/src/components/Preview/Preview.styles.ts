@@ -5,15 +5,15 @@ import { COLOR } from 'src/constants';
 
 const PreviewSection = styled.section`
   width: 100%;
-  min-height: 10rem;
+  min-height: 14rem;
   padding: 1.3rem;
   margin: 0.5rem 0;
+
+  ${Flex({ flexDirection: 'column' })}
 `;
 
 const Header = styled.div`
   ${Flex({ justifyContent: 'space-between', alignItems: 'flex-start' })};
-  margin-right: -1.3rem;
-  padding-right: 0.5rem;
 
   h3 {
     font-size: 1.1rem;

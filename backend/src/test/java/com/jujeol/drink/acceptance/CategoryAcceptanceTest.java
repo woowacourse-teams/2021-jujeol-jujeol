@@ -4,8 +4,8 @@ import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
-import com.jujeol.drink.domain.Category;
-import com.jujeol.drink.ui.dto.CategoryResponse;
+import com.jujeol.drink.category.domain.Category;
+import com.jujeol.drink.category.ui.dto.CategoryResponse;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
