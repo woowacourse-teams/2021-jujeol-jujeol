@@ -11,6 +11,7 @@ const Item = styled.li`
 
   img {
     width: 88px;
+    height: 88px;
     background-color: ${COLOR.WHITE_200};
     border-radius: 0.5rem;
     object-fit: cover;

@@ -1,9 +1,10 @@
 import { useHistory } from 'react-router-dom';
 import Card from 'src/components/@shared/Card/Card';
+import Grid from 'src/components/@shared/Grid/Grid';
 import { StarIcon } from 'src/components/@shared/Icons';
 import { Img } from 'src/components/@shared/Image/Image';
 import { COLOR, PATH } from 'src/constants';
-import { Content, Description, Header } from './NoReview.styles';
+import { Description, Header } from './NoReview.styles';
 
 const NoReview = ({ myDrinks }: { myDrinks: Drink.PersonalDrinkItem[] }) => {
   const history = useHistory();
@@ -20,7 +21,7 @@ const NoReview = ({ myDrinks }: { myDrinks: Drink.PersonalDrinkItem[] }) => {
         <p>남긴 리뷰가 없습니다.</p>
         <p>리뷰를 남겨보시는건 어떠세요?</p>
       </Header>
-      <Content>
+      <Grid rowGap="1rem">
         {myDrinks?.slice(0, 3).map(({ id, name, imageUrl, preferenceRate }) => (
           <li key={id}>
             <Card
@@ -43,7 +44,7 @@ const NoReview = ({ myDrinks }: { myDrinks: Drink.PersonalDrinkItem[] }) => {
             </Card>
           </li>
         ))}
-      </Content>
+      </Grid>
     </>
   );
 };

@@ -15,6 +15,7 @@ import { categories } from '../SearchPage';
 import NoSearchResults from './NoSearchResults';
 
 import { Container, Title, ResultHeading } from './styles';
+import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 
 const SearchResultPage = ({ history, location }: RouteComponentProps) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
@@ -77,9 +78,12 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
 
       <section>
         {isLoading ? (
-          <List>
-            <ListItemSkeleton count={7} />
-          </List>
+          <>
+            <Skeleton type="TEXT" size="MEDIUM" width="14rem" margin="1rem 2rem" />
+            <List>
+              <ListItemSkeleton count={7} />
+            </List>
+          </>
         ) : searchResult?.length ? (
           <>
             <ResultHeading>

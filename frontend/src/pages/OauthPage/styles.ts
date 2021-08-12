@@ -12,11 +12,12 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
 
-  ${Flex({ justifyContent: 'center', alignItems: 'center' })}
+  ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })}
 
   svg {
     width: 5rem;
     height: 5rem;
+    margin-bottom: 2rem;
   }
 
   p {

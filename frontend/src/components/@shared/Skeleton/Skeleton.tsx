@@ -125,6 +125,8 @@ const Skeleton = styled.div<Props>`
   ${({ width }) => `width: ${width ?? ''}`};
   ${({ height }) => `height: ${height ?? ''}`};
 
+  ${({ margin }) => `margin: ${margin}`};
+
   background-color: ${COLOR.GRAY_200};
   background-image: linear-gradient(
     90deg,

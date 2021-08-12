@@ -14,6 +14,7 @@ const Container = styled.div`
 
 const Image = styled.img`
   width: 100%;
+  height: fit-content;
   background-color: ${COLOR.WHITE_100};
 `;
 
