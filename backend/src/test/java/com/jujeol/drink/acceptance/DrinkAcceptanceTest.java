@@ -196,9 +196,6 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .build();
 
         //then
-        final List<DrinkSimpleResponse> drinkSimpleResponses =
-                httpResponse.convertBodyToList(DrinkSimpleResponse.class);
-
         final List<String> drinkNames =
                 asNames(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
 

@@ -50,13 +50,14 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
     private BooleanBuilder searchCondition(SearchWords searchWords, List<String> categoryNames) {
         BooleanBuilder builder = new BooleanBuilder();
         if (searchWords.hasSearchWords()) {
-            searchWords.getSearchWords()
-                    .stream()
-                    .filter(s -> !categoryNames.contains(s))
-                    .forEach(word -> {
-                        builder.or(drink.name.name.likeIgnoreCase("%" + word + "%"));
-                        builder.or(drink.englishName.englishName.likeIgnoreCase("%" + word + "%"));
-                    });
+            for (String word : searchWords.getSearchWords()) {
+                if (categoryNames.contains(word)) {
+                    builder.or(drink.name.name.eq("절대절대절대검색되지않고세상에존재하지않는이름"));
+                    continue;
+                }
+                builder.or(drink.name.name.likeIgnoreCase("%" + word + "%"));
+                builder.or(drink.englishName.englishName.likeIgnoreCase("%" + word + "%"));
+            }
         }
         return builder;
     }
