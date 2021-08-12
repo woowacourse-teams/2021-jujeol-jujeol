@@ -7,6 +7,9 @@ const Header = styled.div`
   text-align: center;
   margin-bottom: 1rem;
   line-height: 1.25;
+
+  flex-grow: 1;
+  ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })}
 `;
 
 const Content = styled.ul`

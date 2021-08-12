@@ -15,7 +15,7 @@ const NoReview = ({ myDrinks }: { myDrinks: Drink.PersonalDrinkItem[] }) => {
     };
 
   return (
-    <div>
+    <>
       <Header>
         <p>남긴 리뷰가 없습니다.</p>
         <p>리뷰를 남겨보시는건 어떠세요?</p>
@@ -44,7 +44,7 @@ const NoReview = ({ myDrinks }: { myDrinks: Drink.PersonalDrinkItem[] }) => {
           </li>
         ))}
       </Content>
-    </div>
+    </>
   );
 };
 
