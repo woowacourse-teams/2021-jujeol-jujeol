@@ -13,6 +13,7 @@ import { Section, PreferenceSection, Image, DescriptionSection, Container } from
 import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 import DrinksDetailDescriptionSkeleton from 'src/components/Skeleton/DrinksDetailDescriptionSkeleton';
+import useNoticeToInputPreference from 'src/hooks/useInputPreference';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -33,9 +34,9 @@ const DrinksDetailPage = () => {
 
   const history = useHistory();
 
+  const pageContainerRef = useRef<HTMLImageElement>(null);
   const preferenceRef = useRef<HTMLDivElement>(null);
 
-  const [isBlinked, setIsBlinked] = useState(false);
   const [currentPreferenceRate, setCurrentPreferenceRate] = useState(
     defaultDrinkDetail.preferenceRate
   );
@@ -43,7 +44,7 @@ const DrinksDetailPage = () => {
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    pageContainerRef.current?.scrollIntoView();
   }, []);
 
   const { data: { data: drink = defaultDrinkDetail } = {}, isLoading } = useQuery(
@@ -83,16 +84,24 @@ const DrinksDetailPage = () => {
     }
   );
 
+  const { isBlinked, setIsBlinked, observePreferenceSection } = useNoticeToInputPreference({
+    targetRef: preferenceRef,
+  });
+
   const setPreferenceRate = (value: number) => {
     setCurrentPreferenceRate(value);
+  };
+
+  const moveToLoginPage = () => {
+    if (confirm(MESSAGE.LOGIN_REQUIRED_TO_UPDATE_PREFERENCE)) {
+      history.push(PATH.LOGIN);
+    }
   };
 
   const onCheckLoggedIn = () => {
     setIsBlinked(false);
     if (!isLoggedIn) {
-      if (confirm(MESSAGE.LOGIN_REQUIRED_TO_UPDATE_PREFERENCE)) {
-        history.push(PATH.LOGIN);
-      }
+      moveToLoginPage();
     }
   };
 
@@ -102,19 +111,17 @@ const DrinksDetailPage = () => {
     }
   };
 
-  const onMoveToPreferenceSection: MouseEventHandler<HTMLButtonElement> = () => {
-    onCheckLoggedIn();
+  const onNoticeToInputPreference: MouseEventHandler<HTMLButtonElement> = () => {
+    if (!isLoggedIn) {
+      moveToLoginPage();
+      return;
+    }
 
-    setIsBlinked(true);
-    preferenceRef.current?.scrollIntoView({ behavior: 'smooth' });
-
-    setTimeout(() => {
-      setIsBlinked(false);
-    }, 3000);
+    observePreferenceSection();
   };
 
   return (
-    <Container>
+    <Container ref={pageContainerRef}>
       <GoBackButton color={COLOR.BLACK_900} />
       {isLoading ? (
         <Skeleton width="100" height="30rem" />
@@ -170,7 +177,7 @@ const DrinksDetailPage = () => {
           drinkId={drinkId}
           drinkName={name}
           preferenceRate={currentPreferenceRate}
-          onMoveToPreferenceSection={onMoveToPreferenceSection}
+          onNoticeToInputPreference={onNoticeToInputPreference}
         />
       </Section>
     </Container>

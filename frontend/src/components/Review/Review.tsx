@@ -14,10 +14,10 @@ interface Props {
   drinkId: string;
   drinkName: string;
   preferenceRate: number;
-  onMoveToPreferenceSection: MouseEventHandler<HTMLButtonElement>;
+  onNoticeToInputPreference: MouseEventHandler<HTMLButtonElement>;
 }
 
-const Review = ({ drinkId, drinkName, preferenceRate, onMoveToPreferenceSection }: Props) => {
+const Review = ({ drinkId, drinkName, preferenceRate, onNoticeToInputPreference }: Props) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
   const { reviews, totalSize, fetchNextPage, hasNextPage } = useReviews({ drinkId });
@@ -29,7 +29,7 @@ const Review = ({ drinkId, drinkName, preferenceRate, onMoveToPreferenceSection 
       {preferenceRate ? (
         <ReviewCreateForm />
       ) : (
-        <DisableWriteReview onMoveToPreferenceSection={onMoveToPreferenceSection} />
+        <DisableWriteReview onNoticeToInputPreference={onNoticeToInputPreference} />
       )}
 
       {totalSize === 0 ? (

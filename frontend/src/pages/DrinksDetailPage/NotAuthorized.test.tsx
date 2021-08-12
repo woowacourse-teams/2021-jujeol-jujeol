@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { screen, waitFor, fireEvent } from '@testing-library/react';
 import { customRender } from 'src/tests/customRenderer';
-import { MockIntersectionObserver, mockScrollTo } from 'src/tests/mockTestFunction';
+import { MockIntersectionObserver } from 'src/tests/mockTestFunction';
 import { drinksDetail } from 'src/mocks/drinksDetail';
 import { drinksReviews } from 'src/mocks/drinksReviews';
 import API from 'src/apis/requests';
@@ -12,7 +12,7 @@ import DrinksDetailPage from '.';
 
 describe('로그인 되지 않은 사용자가 상세페이지를 이용한다.', () => {
   beforeEach(async () => {
-    Object.defineProperty(global.window, 'scrollTo', { value: mockScrollTo });
+    window.HTMLElement.prototype.scrollIntoView = jest.fn();
     Object.defineProperty(global.window, 'IntersectionObserver', {
       value: MockIntersectionObserver,
     });
