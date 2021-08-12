@@ -17,6 +17,7 @@
 아 오늘 와인이 마시고 싶은데 내 취향에 맞는 와인이 궁금할 땐?
 
 바로, 주절주절!
+* [주절주절 서비스 이용하기](https://jujeol-jujeol.com)
 
 *   [테크 블로그 구경가기](https://jujeol-jujeol.github.io/)
 
@@ -24,15 +25,4 @@
 |  [서니](https://github.com/sunhpark42)  |  [티케](https://github.com/devhyun637)  |  [웨지](https://github.com/sihyung92)  |  [소롱](https://github.com/soulgchoi)  |  [피카](https://github.com/pika96)  |  [크로플](https://github.com/perenok)  |  [나봄](https://github.com/qhals321)  |
 | :----------: |  :--------:  |  :---------: |  :---------: | :---------: |  :---------: |  :---------: |
 | <img src="https://avatars.githubusercontent.com/u/67677561?s=400&v=4" width=200px alt="_"/> | <img src="https://avatars.githubusercontent.com/u/59258239?s=400&v=4" width=200px alt="_"/> | <img src="https://avatars.githubusercontent.com/u/51393021?s=400&v=4" width=200px alt="_"/> | <img src="https://avatars.githubusercontent.com/u/52682603?s=400&v=4" width=200px alt="_"> | <img src="https://avatars.githubusercontent.com/u/52442949?s=400&v=4" width=200px alt="_"> | <img src="https://avatars.githubusercontent.com/u/68995534?s=400&v=4" width=200px alt="_"> | <img src="https://avatars.githubusercontent.com/u/63535027?s=400&v=4" width=200px alt="_"> |
-
-## **Release Note (최신 버전 1.0.0-beta)**
-
-### **| 2021. 08. 01 : v1.0.0-beta**
-
-*   회원가입, 로그인 기능
-*   술 전체보기 기능
-*   술 추천 기능
-*   술 검색 기능
-*   술 상세정보
-*   술 선호도 입력 및 수정 기능
-*   술 리뷰 및 수정, 삭제 기능
+|  🍺 프론트엔드 | 🥂 프론트엔드  | 🍷 백엔드  | 🥃 백엔드  | 🍸 백엔드  | 🍹 백엔드  | 🍶 백엔드  |

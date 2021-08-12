@@ -8,5 +8,5 @@ cd backend
 
 ### 실행
 ```
-java -jar -Dspring.profiles.active=local build/libs/*SNAPSHOT.jar
+java -jar -Dspring.profiles.active=local build/libs/*.jar
 ```
