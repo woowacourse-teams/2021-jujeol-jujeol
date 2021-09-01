@@ -143,6 +143,7 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
         private final String imageFilePath;
         private final Long categoryId;
         private final Double preferenceAvg;
+        private final String description;
 
         public static DrinkDto create(Drink drink) {
             return new DrinkDto(
@@ -152,7 +153,8 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
                     drink.getAlcoholByVolume(),
                     drink.getImageFilePath(),
                     drink.getCategory().getId(),
-                    drink.getPreferenceAvg()
+                    drink.getPreferenceAvg(),
+                    drink.getDescription()
             );
         }
     }

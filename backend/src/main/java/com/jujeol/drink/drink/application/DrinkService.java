@@ -131,7 +131,8 @@ public class DrinkService {
                 drinkRequest.getEnglishName(),
                 drinkRequest.getImageUrl(),
                 category,
-                drinkRequest.getAlcoholByVolume()
+                drinkRequest.getAlcoholByVolume(),
+                drinkRequest.getDescription()
         );
     }
 

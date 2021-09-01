@@ -43,10 +43,13 @@ public class Drink {
     private Category category;
     @Column
     private Double preferenceAvg;
+    @Embedded
+    private Description description;
 
     @OneToMany(mappedBy = "drink", fetch = FetchType.LAZY)
     private List<Review> reviews = new ArrayList<>();
 
+    // todo Drink 상세 설명 오버로딩된 create 삭제
     public static Drink create(
             String name,
             String englishName,
@@ -63,6 +66,29 @@ public class Drink {
                 new ImageFilePath(imageUrl),
                 category,
                 preferenceAvg,
+                new Description("상세 설명이 없는 경우"),
+                new ArrayList<>()
+        );
+    }
+
+    public static Drink create(
+            String name,
+            String englishName,
+            Double alcoholByVolume,
+            String imageUrl,
+            Double preferenceAvg,
+            Category category,
+            String description
+    ) {
+        return new Drink(
+                null,
+                new DrinkName(name),
+                new DrinkEnglishName(englishName),
+                new AlcoholByVolume(alcoholByVolume),
+                new ImageFilePath(imageUrl),
+                category,
+                preferenceAvg,
+                new Description(description),
                 new ArrayList<>()
         );
     }
@@ -104,16 +130,22 @@ public class Drink {
         return reviews;
     }
 
+    public String getDescription() {
+        return description.getDescription();
+    }
+
     public void updateInfo(String name,
             String englishName,
             String imageUrl,
             Category category,
-            Double alcoholByVolume) {
+            Double alcoholByVolume,
+            String description) {
         this.name = new DrinkName(name);
         this.englishName = new DrinkEnglishName(englishName);
         this.imageFilePath = new ImageFilePath(imageUrl);
         this.category = category;
         this.alcoholByVolume = new AlcoholByVolume(alcoholByVolume);
+        this.description = new Description(description);
     }
 
     public void updateAverage(Double average) {

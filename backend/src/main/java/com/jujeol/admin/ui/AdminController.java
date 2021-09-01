@@ -30,7 +30,8 @@ public class AdminController {
     private final DrinkService drinkService;
 
     @GetMapping("/drinks")
-    public CommonResponse<List<AdminDrinkResponse>> showDrinks(@PageableDefault(value = 20, sort = "id", direction = Direction.DESC) Pageable pageable) {
+    public CommonResponse<List<AdminDrinkResponse>> showDrinks(
+            @PageableDefault(value = 20, sort = "id", direction = Direction.DESC) Pageable pageable) {
         final Page<AdminDrinkResponse> drinks = drinkService.showAllDrinksByPage(pageable)
                 .map(AdminDrinkResponse::from);
         return PageResponseAssembler.assemble(drinks);
@@ -45,7 +46,8 @@ public class AdminController {
     }
 
     @PutMapping("/drinks/{id}")
-    public CommonResponse<?> updateDrink(@PathVariable Long id, @RequestBody AdminDrinkRequest adminDrinkRequest) {
+    public CommonResponse<?> updateDrink(@PathVariable Long id,
+            @RequestBody AdminDrinkRequest adminDrinkRequest) {
         drinkService.updateDrink(id, adminDrinkRequest.toDto());
         return CommonResponse.ok();
     }
