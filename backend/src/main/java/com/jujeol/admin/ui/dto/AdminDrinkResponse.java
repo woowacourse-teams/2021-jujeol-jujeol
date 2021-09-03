@@ -15,6 +15,7 @@ public class AdminDrinkResponse {
     private String englishName;
     private Double alcoholByVolume;
     private String imageUrl;
+    private String description;
     private AdminCategoryResponse category;
     private double preferenceRate;
 
@@ -25,6 +26,7 @@ public class AdminDrinkResponse {
                 drinkDto.getEnglishName(),
                 drinkDto.getAlcoholByVolume(),
                 drinkDto.getImageUrl(),
+                "엄청나게 긴 설명이라능 엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능",
                 AdminCategoryResponse.create(drinkDto.getCategoryDto()),
                 drinkDto.getPreferenceRate()
         );

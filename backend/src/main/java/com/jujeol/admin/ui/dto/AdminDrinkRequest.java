@@ -14,6 +14,7 @@ public class AdminDrinkRequest {
     private String englishName;
     private Double alcoholByVolume;
     private String imageUrl;
+    private String description;
     private String categoryKey;
 
     public DrinkRequestDto toDto() {

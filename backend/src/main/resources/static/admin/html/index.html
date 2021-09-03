@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,20 +46,20 @@
 
   <div class="container-fluid">
     <div class="row">
-      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <nav id="sidebarMenu" class="col-md-2 col-lg-1 d-md-block bg-light sidebar collapse">
         <div class="position-sticky pt-3">
           <ul class="nav flex-column">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">
                 <span data-feather="home"></span>
-                Dashboard
+                조회
               </a>
             </li>
           </ul>
         </div>
       </nav>
 
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <main class="col-md-10 ms-sm-auto col-lg-11 px-md-4">
         <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Dashboard</h1>
@@ -80,18 +80,19 @@
             </button>
           </div>
         </div>
-        <div class="table-responsive">
-          <table id="drinksTable" class="table table-striped table-sm">
+        <div class="table-responsive-md">
+          <table id="drinksTable" class="table table-striped">
             <thead>
             <tr>
-              <th scope="col">#</th>
-              <th class="name required" scope="col">이름</th>
-              <th class="englishName required" scope="col">영어 이름</th>
-              <th class="abv" scope="col">도수</th>
-              <th class="imageFilePath required" scope="col">이미지 경로</th>
-              <th class="category required" scope="col">주종</th>
-              <th class="text-center" scope="col">수정</th>
-              <th class="text-center" scope="col">삭제</th>
+              <th class="col-1" scope="col">#</th>
+              <th class="col-1 name required" scope="col">이름</th>
+              <th class="col-1 englishName required" scope="col">영어 이름</th>
+              <th class="col-1 abv" scope="col">도수</th>
+              <th class="col-2 imageFilePath required" scope="col">이미지 경로</th>
+              <th class="col-3 description required" scope="col">상세 설명</th>
+              <th class="col-1 category required" scope="col">주종</th>
+              <th class="col-1 text-center" scope="col">수정</th>
+              <th class="col-1 text-center" scope="col">삭제</th>
             </tr>
             </thead>
             <tbody>

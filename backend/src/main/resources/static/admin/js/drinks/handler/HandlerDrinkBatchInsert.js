@@ -22,10 +22,7 @@ async function batchInsertEvent(target,drinks) {
 }
 
 function nodeListToValidRequest(nodeList){
-  // NodeList to Array
-  const notValidRequestBodies = Array.prototype.slice.call(nodeList).map(
-      $row => getDrinkDetail($row))
-
+  const notValidRequestBodies = Array.from(nodeList).map($row => getDrinkDetail($row));
   return notValidRequestBodies.filter(ele => !isEmptyObject(ele));
 }
 

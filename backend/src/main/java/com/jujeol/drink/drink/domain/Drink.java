@@ -43,7 +43,7 @@ public class Drink {
     private Category category;
     @Column
     private Double preferenceAvg;
-
+    
     @OneToMany(mappedBy = "drink", fetch = FetchType.LAZY)
     private List<Review> reviews = new ArrayList<>();
 
