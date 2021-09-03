@@ -58,11 +58,11 @@ ext {
 processResources.dependsOn('copySecret')
 
 task copySecret(type: Copy) {
-//    from '../jujeol-auth/application-oauth.yml'
-//    into 'src/main/resources'
-//
-//    from '../jujeol-auth/application-datasource.yml'
-//    into 'src/main/resources'
+    from '../jujeol-auth/application-oauth.yml'
+    into 'src/main/resources'
+
+    from '../jujeol-auth/application-datasource.yml'
+    into 'src/main/resources'
 }
 
 test {
