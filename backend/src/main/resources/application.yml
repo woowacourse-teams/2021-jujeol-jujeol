@@ -15,7 +15,3 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true
-  flyway:
-    baselineOnMigrate: true
-    locations: classpath:db/migration/prod
-    enabled: true
