@@ -16,17 +16,19 @@ public class DrinkRequestDto {
     private Double alcoholByVolume;
     private String imageUrl;
     private String categoryKey;
+    private String description;
 
     public static DrinkRequestDto create(
             String name, String englishName, Double alcoholByVolume,
-            String imageUrl, String categoryKey
+            String imageUrl, String categoryKey, String description
     ) {
         return new DrinkRequestDto(
                 name,
                 englishName,
                 alcoholByVolume,
                 imageUrl,
-                categoryKey
+                categoryKey,
+                description
         );
     }
 
@@ -37,7 +39,8 @@ public class DrinkRequestDto {
                 alcoholByVolume,
                 imageUrl,
                 0.0,
-                category
+                category,
+                description
         );
     }
 }

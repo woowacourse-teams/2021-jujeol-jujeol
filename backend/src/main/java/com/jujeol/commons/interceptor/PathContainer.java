@@ -27,7 +27,8 @@ public class PathContainer {
         return excludePattern || !includePattern;
     }
 
-    private boolean anyMatchPathPattern(String targetPath, String pathMethod, RequestPath requestPath) {
+    private boolean anyMatchPathPattern(String targetPath, String pathMethod,
+            RequestPath requestPath) {
         return pathMatcher.match(requestPath.getPathPattern(), targetPath) &&
                 requestPath.matchesMethod(pathMethod);
     }

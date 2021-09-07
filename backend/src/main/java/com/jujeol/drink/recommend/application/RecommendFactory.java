@@ -22,10 +22,13 @@ public class RecommendFactory {
     public RecommendFactory(RecommendationSystem recommendationSystem,
             DrinkRepository drinkRepository,
             PreferenceRepository preferenceRepository
-            ) {
+    ) {
         this.recommendStrategyMap = new EnumMap<>(MemberStatus.class);
-        this.recommendStrategyMap.put(MemberStatus.ANONYMOUS, new RecommendForAnonymous(drinkRepository));
-        this.recommendStrategyMap.put(MemberStatus.MEMBER, new RecommendForMember(recommendationSystem, drinkRepository, preferenceRepository));
+        this.recommendStrategyMap
+                .put(MemberStatus.ANONYMOUS, new RecommendForAnonymous(drinkRepository));
+        this.recommendStrategyMap.put(MemberStatus.MEMBER,
+                new RecommendForMember(recommendationSystem, drinkRepository,
+                        preferenceRepository));
     }
 
     public RecommendStrategy create(LoginMember loginMember) {

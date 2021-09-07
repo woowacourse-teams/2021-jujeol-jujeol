@@ -18,6 +18,7 @@ public class AdminDrinkResponse {
     private String description;
     private AdminCategoryResponse category;
     private double preferenceRate;
+    private String description;
 
     public static AdminDrinkResponse from(DrinkDto drinkDto) {
         return new AdminDrinkResponse(
@@ -28,7 +29,8 @@ public class AdminDrinkResponse {
                 drinkDto.getImageUrl(),
                 "엄청나게 긴 설명이라능 엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능엄청나게 긴 설명이라능",
                 AdminCategoryResponse.create(drinkDto.getCategoryDto()),
-                drinkDto.getPreferenceRate()
+                drinkDto.getPreferenceRate(),
+                drinkDto.getDescription()
         );
     }
 }
