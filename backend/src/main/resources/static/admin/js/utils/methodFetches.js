@@ -40,13 +40,13 @@ async function apiRequest(method, url = '', needToken = false, body = {}) {
     configure.body = JSON.stringify(body);
   }
 
-  const result = await fetch(url, configure)
-    .then((response) => response.text())
-    .then((text) => {
-      if (text) {
-        return JSON.parse(text);
-      } else return {};
-    });
+  const result = await fetch(url, configure);
 
-  return result;
+  try {
+    const response = await result.json();
+
+    return response;
+  } catch (error) {
+    return {};
+  }
 }
