@@ -5,3 +5,8 @@ decorator:
   datasource:
     p6spy:
       enable-logging: false
+spring:
+  flyway:
+    baselineOnMigrate: true
+    locations: classpath:db/migration/prod
+    enabled: true
