@@ -17,7 +17,7 @@ import com.jujeol.admin.ui.dto.AdminDrinkResponse;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
-import com.jujeol.drink.drink.ui.dto.DrinkDetailResponse;
+import com.jujeol.drink.drink.ui.dto.DrinkResponse;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -109,7 +109,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.OK);
 
-        final DrinkDetailResponse newStellaResponse = drinkAcceptanceTool.단일_상품_조회(stellaId);
+        final DrinkResponse newStellaResponse = drinkAcceptanceTool.단일_상품_조회(stellaId);
         assertThat(newStellaResponse.getName()).isEqualTo(newStella.getName());
         assertThat(newStellaResponse.getEnglishName()).isEqualTo(newStella.getEnglishName());
         assertThat(newStellaResponse.getAlcoholByVolume()).isEqualTo(newStella.getAlcoholByVolume());

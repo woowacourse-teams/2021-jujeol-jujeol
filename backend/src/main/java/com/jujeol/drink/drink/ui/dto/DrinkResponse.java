@@ -11,24 +11,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode(of = "id")
-public class DrinkDetailResponse {
+public class DrinkResponse {
 
     private Long id;
     private String name;
     private String englishName;
     private Double alcoholByVolume;
-    private String imageUrl;
+    private ImageResponse imageResponse;
     private CategoryResponse category;
     private double preferenceRate;
     private double preferenceAvg;
 
-    public static DrinkDetailResponse from(DrinkDto drinkDto) {
-        return new DrinkDetailResponse(
+    public static DrinkResponse from(DrinkDto drinkDto) {
+        return new DrinkResponse(
                 drinkDto.getId(),
                 drinkDto.getName(),
                 drinkDto.getEnglishName(),
                 drinkDto.getAlcoholByVolume(),
-                drinkDto.getImageUrl(),
+                ImageResponse.create(drinkDto.getSmallImageFilePath(),
+                        drinkDto.getMediumImageFilePath(), drinkDto.getLargeImageFilePath()),
                 CategoryResponse.create(drinkDto.getCategoryDto()),
                 drinkDto.getPreferenceRate(),
                 drinkDto.getPreferenceAvg()

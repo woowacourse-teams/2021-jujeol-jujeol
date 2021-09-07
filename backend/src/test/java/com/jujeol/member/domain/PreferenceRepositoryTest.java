@@ -13,6 +13,7 @@ import com.jujeol.member.member.domain.Member;
 import com.jujeol.preference.domain.Preference;
 import com.jujeol.preference.domain.PreferenceRepository;
 import com.jujeol.member.member.domain.repository.MemberRepository;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,8 +46,11 @@ public class PreferenceRepositoryTest {
     void setUp() {
 
         Category BEER = categoryRepository.save(Category.create("맥주", "BEER"));
+        List<String> imageFilePaths = List.of("KakaoTalk_Image_2021-07-08-19-58-09_001_w200.png",
+                "KakaoTalk_Image_2021-07-08-19-58-09_001_w400.png",
+                "KakaoTalk_Image_2021-07-08-19-58-09_001_w600.png");
         Drink stella = Drink.create(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
+                "스텔라", "stella", 5.5, imageFilePaths, 0.0, BEER);
         savedDrink = drinkRepository.save(stella);
 
         Member member = Member.create(Provider.create("1234", ProviderName.TEST), null, null);

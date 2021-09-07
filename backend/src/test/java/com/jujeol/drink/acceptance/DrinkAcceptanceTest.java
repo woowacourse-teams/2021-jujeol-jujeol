@@ -21,8 +21,7 @@ import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
-import com.jujeol.drink.drink.ui.dto.DrinkDetailResponse;
-import com.jujeol.drink.drink.ui.dto.DrinkSimpleResponse;
+import com.jujeol.drink.drink.ui.dto.DrinkResponse;
 import com.jujeol.member.acceptance.MemberAcceptanceTool;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +80,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         final List<String> drinkNames =
                 asNames(OB, STELLA, KGB, TIGER_LEMON, APPLE, TIGER_RAD, TSINGTAO);
 
-        assertThat(httpResponse.convertBodyToList(DrinkSimpleResponse.class))
+        assertThat(httpResponse.convertBodyToList(DrinkResponse.class))
                 .extracting("name")
                 .containsExactlyElementsOf(drinkNames);
 
@@ -95,11 +94,11 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         협업_필터링_데이터_등록();
 
         //when
-        List<DrinkSimpleResponse> drinkSimpleResponses = request()
+        List<DrinkResponse> drinkSimpleResponses = request()
                 .get("/drinks/recommendation")
                 .withDocument("drinks/show/recommend")
                 .withUser(PIKA)
-                .build().convertBodyToList(DrinkSimpleResponse.class);
+                .build().convertBodyToList(DrinkResponse.class);
 
         //then
         assertThat(drinkSimpleResponses.get(0).getName()).isEqualTo("타이거 라들러 자몽");
@@ -156,8 +155,8 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .build();
 
         //then
-        final List<DrinkSimpleResponse> drinkSimpleResponses =
-                httpResponse.convertBodyToList(DrinkSimpleResponse.class);
+        final List<DrinkResponse> drinkSimpleResponses =
+                httpResponse.convertBodyToList(DrinkResponse.class);
 
         assertThat(drinkSimpleResponses.get(0).getName()).isEqualTo(OB.getName());
 
@@ -176,8 +175,8 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .build();
 
         //then
-        final List<DrinkSimpleResponse> drinkSimpleResponses =
-                httpResponse.convertBodyToList(DrinkSimpleResponse.class);
+        final List<DrinkResponse> drinkSimpleResponses =
+                httpResponse.convertBodyToList(DrinkResponse.class);
 
         assertThat(drinkSimpleResponses).extracting("name").contains(STELLA.getName());
 
@@ -199,7 +198,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         final List<String> drinkNames =
                 asNames(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
 
-        assertThat(httpResponse.convertBodyToList(DrinkSimpleResponse.class))
+        assertThat(httpResponse.convertBodyToList(DrinkResponse.class))
                 .extracting("name")
                 .containsExactlyElementsOf(drinkNames);
 
@@ -218,8 +217,8 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .build();
 
         //then
-        final List<DrinkSimpleResponse> drinkSimpleResponses =
-                httpResponse.convertBodyToList(DrinkSimpleResponse.class);
+        final List<DrinkResponse> drinkSimpleResponses =
+                httpResponse.convertBodyToList(DrinkResponse.class);
 
         final List<String> drinkNames =
                 asNames(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
@@ -242,8 +241,8 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .build();
 
         //then
-        final List<DrinkSimpleResponse> drinkSimpleResponses =
-                httpResponse.convertBodyToList(DrinkSimpleResponse.class);
+        final List<DrinkResponse> drinkSimpleResponses =
+                httpResponse.convertBodyToList(DrinkResponse.class);
 
         final List<String> drinkNames =
                 asNames(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
@@ -267,8 +266,8 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .build();
 
         //then
-        List<DrinkSimpleResponse> drinkSimpleResponses = httpResponse
-                .convertBodyToList(DrinkSimpleResponse.class);
+        List<DrinkResponse> drinkSimpleResponses = httpResponse
+                .convertBodyToList(DrinkResponse.class);
 
         assertThat(drinkSimpleResponses).hasSize(0);
     }
@@ -279,15 +278,15 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         //given
         final Long obId = 주류_아이디(OB);
         //when
-        DrinkDetailResponse drinkDetailResponse = request()
+        DrinkResponse drinkResponse = request()
                 .get("/drinks/{id}", obId)
                 .withDocument("drinks/show/detail")
                 .withUser()
                 .build()
-                .convertBody(DrinkDetailResponse.class);
+                .convertBody(DrinkResponse.class);
 
         //then
-        assertThat(drinkDetailResponse.getName()).isEqualTo(OB.getName());
+        assertThat(drinkResponse.getName()).isEqualTo(OB.getName());
     }
 
     @DisplayName("단일 조회 - 실패 (찾을 수 없는 id)")

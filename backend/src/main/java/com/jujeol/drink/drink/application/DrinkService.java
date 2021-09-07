@@ -129,7 +129,7 @@ public class DrinkService {
         drink.updateInfo(
                 drinkRequest.getName(),
                 drinkRequest.getEnglishName(),
-                drinkRequest.getImageUrl(),
+                List.of(drinkRequest.getSmallImageUrl(), drinkRequest.getMediumImageUrl(), drinkRequest.getLargeImageUrl()),
                 category,
                 drinkRequest.getAlcoholByVolume()
         );

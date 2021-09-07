@@ -1,5 +1,6 @@
 package com.jujeol.drink.drink.domain;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -14,5 +15,14 @@ import lombok.NoArgsConstructor;
 class ImageFilePath {
 
     @Column
-    private String imageFilePath;
+    private String smallImageFilePath;
+    @Column
+    private String mediumImageFilePath;
+    @Column
+    private String largeImageFilePath;
+
+    public static ImageFilePath create(List<String> imageFilePaths) {
+        //todo imageFilePaths 3개 체크 0: 200 1: 400 2: 600
+        return new ImageFilePath(imageFilePaths.get(0), imageFilePaths.get(1), imageFilePaths.get(2));
+    }
 }

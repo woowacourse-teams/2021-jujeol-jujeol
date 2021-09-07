@@ -51,7 +51,7 @@ public class Drink {
             String name,
             String englishName,
             Double alcoholByVolume,
-            String imageUrl,
+            List<String> imageUrls,
             Double preferenceAvg,
             Category category
     ) {
@@ -60,7 +60,7 @@ public class Drink {
                 new DrinkName(name),
                 new DrinkEnglishName(englishName),
                 new AlcoholByVolume(alcoholByVolume),
-                new ImageFilePath(imageUrl),
+                ImageFilePath.create(imageUrls),
                 category,
                 preferenceAvg,
                 new ArrayList<>()
@@ -88,8 +88,16 @@ public class Drink {
         return alcoholByVolume.getValue();
     }
 
-    public String getImageFilePath() {
-        return imageFilePath.getImageFilePath();
+    public String getSmallImageFilePath() {
+        return imageFilePath.getSmallImageFilePath();
+    }
+
+    public String getMediumImageFilePath() {
+        return imageFilePath.getMediumImageFilePath();
+    }
+
+    public String getLargeImageFilePath() {
+        return imageFilePath.getLargeImageFilePath();
     }
 
     public Category getCategory() {
@@ -106,12 +114,12 @@ public class Drink {
 
     public void updateInfo(String name,
             String englishName,
-            String imageUrl,
+            List<String> imageUrls,
             Category category,
             Double alcoholByVolume) {
         this.name = new DrinkName(name);
         this.englishName = new DrinkEnglishName(englishName);
-        this.imageFilePath = new ImageFilePath(imageUrl);
+        this.imageFilePath = ImageFilePath.create(imageUrls);
         this.category = category;
         this.alcoholByVolume = new AlcoholByVolume(alcoholByVolume);
     }

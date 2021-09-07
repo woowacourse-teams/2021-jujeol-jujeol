@@ -4,8 +4,7 @@ import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.drink.application.DrinkService;
 import com.jujeol.drink.drink.application.dto.DrinkDto;
-import com.jujeol.drink.drink.ui.dto.DrinkDetailResponse;
-import com.jujeol.drink.drink.ui.dto.DrinkSimpleResponse;
+import com.jujeol.drink.drink.ui.dto.DrinkResponse;
 import com.jujeol.drink.drink.ui.dto.SearchRequest;
 import com.jujeol.drink.recommend.application.RecommendFactory;
 import com.jujeol.member.auth.ui.AuthenticationPrincipal;
@@ -29,29 +28,29 @@ public class DrinkController {
     private final RecommendFactory recommendFactory;
 
     @GetMapping("/drinks")
-    public ResponseEntity<CommonResponse<List<DrinkSimpleResponse>>> showDrinksBySearch(
+    public ResponseEntity<CommonResponse<List<DrinkResponse>>> showDrinksBySearch(
             @ModelAttribute SearchRequest searchRequest,
             @PageableDefault Pageable pageable
     ) {
         Page<DrinkDto> drinkDtos = drinkService
                 .showDrinksBySearch(searchRequest.toDto(), pageable);
         return ResponseEntity
-                .ok(PageResponseAssembler.assemble(drinkDtos.map(DrinkSimpleResponse::from)));
+                .ok(PageResponseAssembler.assemble(drinkDtos.map(DrinkResponse::from)));
     }
 
-    @GetMapping("/drinks/recommendation")
-    public CommonResponse<List<DrinkSimpleResponse>> showDrinks(
-            @AuthenticationPrincipal LoginMember loginMember,
-            @PageableDefault(7) Pageable pageable
-    ) {
-        final Page<DrinkDto> drinkDtos;
-        drinkDtos = drinkService
-                .showRecommendDrinks(recommendFactory.create(loginMember), pageable, loginMember);
-        return PageResponseAssembler.assemble(drinkDtos.map(DrinkSimpleResponse::from));
-    }
+//    @GetMapping("/drinks/recommendation")
+//    public CommonResponse<List<DrinkSimpleResponse>> showDrinks(
+//            @AuthenticationPrincipal LoginMember loginMember,
+//            @PageableDefault(7) Pageable pageable
+//    ) {
+//        final Page<DrinkDto> drinkDtos;
+//        drinkDtos = drinkService
+//                .showRecommendDrinks(recommendFactory.create(loginMember), pageable, loginMember);
+//        return PageResponseAssembler.assemble(drinkDtos.map(DrinkSimpleResponse::from));
+//    }
 
     @GetMapping("/drinks/{id}")
-    public ResponseEntity<CommonResponse<DrinkDetailResponse>> showDrinkDetail(
+    public ResponseEntity<CommonResponse<DrinkResponse>> showDrinkDetail(
             @PathVariable Long id,
             @AuthenticationPrincipal LoginMember loginMember
     ) {
@@ -62,7 +61,7 @@ public class DrinkController {
         if (loginMember.isMember()) {
             drinkDto = drinkService.showDrinkDetail(id, loginMember.getId());
         }
-        DrinkDetailResponse drinkDetailResponse = DrinkDetailResponse.from(drinkDto);
-        return ResponseEntity.ok(CommonResponse.from(drinkDetailResponse));
+        DrinkResponse drinkResponse = DrinkResponse.from(drinkDto);
+        return ResponseEntity.ok(CommonResponse.from(drinkResponse));
     }
 }

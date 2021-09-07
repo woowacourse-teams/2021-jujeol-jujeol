@@ -140,7 +140,9 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
         private final String name;
         private final String englishName;
         private final Double alcoholByVolume;
-        private final String imageFilePath;
+        private final String smallImageFilePath;
+        private final String mediumImageFilePath;
+        private final String largeImageFilePath;
         private final Long categoryId;
         private final Double preferenceAvg;
 
@@ -150,7 +152,9 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
                     drink.getName(),
                     drink.getEnglishName(),
                     drink.getAlcoholByVolume(),
-                    drink.getImageFilePath(),
+                    drink.getSmallImageFilePath(),
+                    drink.getMediumImageFilePath(),
+                    drink.getLargeImageFilePath(),
                     drink.getCategory().getId(),
                     drink.getPreferenceAvg()
             );
