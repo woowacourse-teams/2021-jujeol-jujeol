@@ -229,7 +229,6 @@ public class DataLoader implements CommandLineRunner {
                 Drink.create("좋은데이 민트초코", "jot-eun-day-mint-choco", 12.5,
                         "https://dmaxaug2ve9od.cloudfront.net/w_400/jo_eun_day_mint_choco_w400.png",
                         0.0, ETC)
-
         );
 
         List<Drink> beers = List
