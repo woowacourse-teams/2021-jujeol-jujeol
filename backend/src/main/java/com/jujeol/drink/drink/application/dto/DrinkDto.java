@@ -22,6 +22,7 @@ public class DrinkDto {
     private CategoryDto categoryDto;
     private double preferenceRate;
     private double preferenceAvg;
+    private String description;
 
     public static DrinkDto create(
             Drink drink,
@@ -34,7 +35,8 @@ public class DrinkDto {
                 drink.getImageFilePath(),
                 CategoryDto.create(drink.getCategory()),
                 preference.getRate(),
-                drink.getPreferenceAvg()
+                drink.getPreferenceAvg(),
+                drink.getDescription()
         );
     }
 }

@@ -1,0 +1,1 @@
+alter table drink add description varchar(1000);

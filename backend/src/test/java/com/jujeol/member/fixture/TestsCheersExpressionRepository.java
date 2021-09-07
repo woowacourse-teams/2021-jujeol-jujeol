@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile("test")
 public class TestsCheersExpressionRepository implements CheersExpressionsRepository {
+
     public static String TEST_NICKNAME_PREFIX = "니가사";
     public static String TEST_BIO = "니가 사는 거라면 나도 끼지";
 

@@ -13,13 +13,15 @@ public class ExceptionController {
 
     @ExceptionHandler(JujeolException.class)
     public ResponseEntity<JujeolExceptionDto> loginExceptionHandler(JujeolException exception) {
-        return ResponseEntity.badRequest().body(new JujeolExceptionDto(exception.getCode(), exception.getMessage()));
+        return ResponseEntity.badRequest()
+                .body(new JujeolExceptionDto(exception.getCode(), exception.getMessage()));
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
-    public ResponseEntity<JujeolExceptionDto> handleError404()   {
+    public ResponseEntity<JujeolExceptionDto> handleError404() {
         String code = NOT_FOUND_API.getCode();
         String message = NOT_FOUND_API.getMessage();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new JujeolExceptionDto(code, message));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new JujeolExceptionDto(code, message));
     }
 }

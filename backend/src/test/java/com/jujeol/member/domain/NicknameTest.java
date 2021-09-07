@@ -38,7 +38,7 @@ class NicknameTest {
 
     @DisplayName("닉네임 생성 - 성공")
     @ParameterizedTest
-    @ValueSource(strings = {"적절한닉네임", "열글자가되는이름짜잔","아우디사우디_123"})
+    @ValueSource(strings = {"적절한닉네임", "열글자가되는이름짜잔", "아우디사우디_123"})
     void createNickname(String nickname) {
         //given
         //when
