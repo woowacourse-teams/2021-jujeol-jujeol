@@ -41,6 +41,7 @@ dependencies {
     testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
     implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
     testImplementation 'io.rest-assured:rest-assured:3.3.0'
+    implementation 'org.flywaydb:flyway-core:6.4.2'
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'com.querydsl:querydsl-jpa'
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'

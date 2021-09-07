@@ -114,7 +114,7 @@ public class DataLoader implements CommandLineRunner {
                 Drink.create("템트 9", "Tempt 9", 4.5, "https://dmaxaug2ve9od.cloudfront.net/w_400/Tempt_9_w400.png", 0.0, ETC),
                 Drink.create("복숭아 소다", "Peach Soda", 3.0, "https://dmaxaug2ve9od.cloudfront.net/w_400/Peach_Soda_w400.png", 0.0, ETC),
                 Drink.create("이슬 톡톡", "Jinro TokTok", 3.0, "https://dmaxaug2ve9od.cloudfront.net/w_400/Jinro_Tok_Tok_w400.png", 0.0, ETC),
-                Drink.create("좋은데이 민트초코", "jot-eun-day-mint-choco", 12.5,"https://dmaxaug2ve9od.cloudfront.net/w_400/jo_eun_day_mint_choco_w400.png", 0.0, ETC)
+                Drink.create("좋은데이 민트초코", "jo-eun-day-mint-choco", 12.5,"https://dmaxaug2ve9od.cloudfront.net/w_400/jo_eun_day_mint_choco_w400.png", 0.0, ETC)
 
         );
 
