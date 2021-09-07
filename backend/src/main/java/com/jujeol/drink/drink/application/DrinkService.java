@@ -34,7 +34,6 @@ public class DrinkService {
     private final CategoryRepository categoryRepository;
     private final PreferenceService preferenceService;
 
-    @LogWithTime
     public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, Pageable pageable) {
         SearchWords searchWords = SearchWords.create(searchDto.getSearch());
 

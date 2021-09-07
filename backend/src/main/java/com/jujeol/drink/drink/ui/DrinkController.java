@@ -1,5 +1,6 @@
 package com.jujeol.drink.drink.ui;
 
+import com.jujeol.commons.aop.LogWithTime;
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.drink.application.DrinkService;
@@ -28,6 +29,7 @@ public class DrinkController {
     private final DrinkService drinkService;
     private final RecommendFactory recommendFactory;
 
+    @LogWithTime
     @GetMapping("/drinks")
     public ResponseEntity<CommonResponse<List<DrinkSimpleResponse>>> showDrinksBySearch(
             @ModelAttribute SearchRequest searchRequest,
@@ -39,6 +41,7 @@ public class DrinkController {
                 .ok(PageResponseAssembler.assemble(drinkDtos.map(DrinkSimpleResponse::from)));
     }
 
+    @LogWithTime
     @GetMapping("/drinks/recommendation")
     public CommonResponse<List<DrinkSimpleResponse>> showDrinks(
             @AuthenticationPrincipal LoginMember loginMember,
