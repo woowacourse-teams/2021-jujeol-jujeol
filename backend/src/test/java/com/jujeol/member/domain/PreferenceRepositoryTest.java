@@ -4,12 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.TestConfig;
 import com.jujeol.drink.category.domain.Category;
-import com.jujeol.drink.drink.domain.Drink;
 import com.jujeol.drink.category.domain.CategoryRepository;
+import com.jujeol.drink.drink.domain.Drink;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.member.auth.domain.Provider;
 import com.jujeol.member.auth.domain.ProviderName;
 import com.jujeol.member.member.domain.Member;
+import com.jujeol.member.member.domain.repository.MemberRepository;
 import com.jujeol.preference.domain.Preference;
 import com.jujeol.preference.domain.PreferenceRepository;
 import com.jujeol.member.member.domain.repository.MemberRepository;

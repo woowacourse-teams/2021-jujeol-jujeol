@@ -16,6 +16,7 @@ import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
 import com.jujeol.member.member.application.dto.PreferenceDto;
 import com.jujeol.member.fixture.TestMember;
+import com.jujeol.member.member.application.dto.PreferenceDto;
 import com.jujeol.member.member.ui.dto.MemberRequest;
 import com.jujeol.member.member.ui.dto.MemberResponse;
 import io.restassured.response.ExtractableResponse;
@@ -67,7 +68,6 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 new MemberRequest(updateNickname, updateBiography), "member/update/me");
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-
 
         //then
         MemberResponse memberResponse = 내_정보를_조회한다(WEDGE);
@@ -223,11 +223,13 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         예외_검증(httpResponse.errorResponse(), UNAUTHORIZED_USER);
     }
 
-    private ExtractableResponse<Response> 내_정보를_수정한다(TestMember testMember, MemberRequest memberRequest) {
+    private ExtractableResponse<Response> 내_정보를_수정한다(TestMember testMember,
+            MemberRequest memberRequest) {
         return 내_정보를_수정한다(testMember, memberRequest, "");
     }
 
-    private ExtractableResponse<Response> 내_정보를_수정한다(TestMember testMember, MemberRequest memberRequest,
+    private ExtractableResponse<Response> 내_정보를_수정한다(TestMember testMember,
+            MemberRequest memberRequest,
             String documentPath) {
         Option updateRequest = request().put("/members/me", memberRequest);
 

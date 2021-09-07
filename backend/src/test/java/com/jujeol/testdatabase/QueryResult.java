@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QueryResult {
+
     private List<QueryLog> queryLogs;
 
     public QueryResult() {

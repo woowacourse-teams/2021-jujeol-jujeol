@@ -18,6 +18,7 @@ public class AdminDrinkResponse {
     private String imageUrl;
     private AdminCategoryResponse category;
     private double preferenceRate;
+    private String description;
 
     public static AdminDrinkResponse from(DrinkDto drinkDto) {
         // todo 관리자 image Url 변경 small medium large
@@ -28,7 +29,8 @@ public class AdminDrinkResponse {
                 drinkDto.getAlcoholByVolume(),
                 drinkDto.getSmallImageFilePath(),
                 AdminCategoryResponse.create(drinkDto.getCategoryDto()),
-                drinkDto.getPreferenceRate()
+                drinkDto.getPreferenceRate(),
+                drinkDto.getDescription()
         );
     }
 }

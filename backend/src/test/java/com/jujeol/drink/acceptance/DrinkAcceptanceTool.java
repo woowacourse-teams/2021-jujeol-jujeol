@@ -19,15 +19,17 @@ public class DrinkAcceptanceTool {
     private DrinkRepository drinkRepository;
 
     public DrinkResponse 단일_상품_조회(Long id) {
-        return requestBuilder.builder().get("/drinks/{id}", id).withoutLog().build().convertBody(
-                DrinkResponse.class);
+        return requestBuilder.builder().get("/drinks/{id}", id).withoutLog().build()
+                .convertBody(DrinkResponse.class);
     }
 
     public JujeolExceptionDto 단일_상품_조회_실패(Long id) {
-        return requestBuilder.builder().get("/drinks/{id}", id).withoutLog().build().errorResponse();
+        return requestBuilder.builder().get("/drinks/{id}", id).withoutLog().build()
+                .errorResponse();
     }
 
     public Long 주류_아이디_조회(String drinkName) {
-        return drinkRepository.findByName(drinkName).orElseThrow(NotFoundDrinkException::new).getId();
+        return drinkRepository.findByName(drinkName).orElseThrow(NotFoundDrinkException::new)
+                .getId();
     }
 }

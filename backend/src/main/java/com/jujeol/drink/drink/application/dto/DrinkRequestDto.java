@@ -19,10 +19,11 @@ public class DrinkRequestDto {
     private String mediumImageUrl;
     private String largeImageUrl;
     private String categoryKey;
+    private String description;
 
     public static DrinkRequestDto create(
             String name, String englishName, Double alcoholByVolume,
-            String smallImageUrl, String mediumImageUrl, String largeImageUrl, String categoryKey
+            String smallImageUrl, String mediumImageUrl, String largeImageUrl, String categoryKey, String description
     ) {
         return new DrinkRequestDto(
                 name,
@@ -31,7 +32,8 @@ public class DrinkRequestDto {
                 smallImageUrl,
                 mediumImageUrl,
                 largeImageUrl,
-                categoryKey
+                categoryKey,
+                description
         );
     }
 
@@ -42,7 +44,8 @@ public class DrinkRequestDto {
                 alcoholByVolume,
                 List.of(smallImageUrl, mediumImageUrl, largeImageUrl),
                 0.0,
-                category
+                category,
+                description
         );
     }
 }
