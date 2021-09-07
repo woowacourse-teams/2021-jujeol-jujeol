@@ -116,3 +116,9 @@ body {
   width: 480px;
   min-height: fit-content;
 }
+
+textarea.modal-description {
+  height: 31px;
+  min-height: 31px;
+  resize: vertical;
+}
