@@ -19,8 +19,10 @@ public class DrinkResponse {
     private Double alcoholByVolume;
     private ImageResponse imageResponse;
     private CategoryResponse category;
+    private String description;
     private double preferenceRate;
     private double preferenceAvg;
+    private double expectPreference;
 
     public static DrinkResponse from(DrinkDto drinkDto) {
         return new DrinkResponse(
@@ -31,8 +33,10 @@ public class DrinkResponse {
                 ImageResponse.create(drinkDto.getSmallImageFilePath(),
                         drinkDto.getMediumImageFilePath(), drinkDto.getLargeImageFilePath()),
                 CategoryResponse.create(drinkDto.getCategoryDto()),
+                drinkDto.getDescription(),
                 drinkDto.getPreferenceRate(),
-                drinkDto.getPreferenceAvg()
+                drinkDto.getPreferenceAvg(),
+                Math.round((Math.random() * 50)) / 10.0
         );
     }
 }

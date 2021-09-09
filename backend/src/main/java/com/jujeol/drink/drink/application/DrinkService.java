@@ -73,7 +73,25 @@ public class DrinkService {
                         drink, Preference.create(drink, 0)));
     }
 
-    public Page<DrinkDto> showRecommendDrinks(RecommendStrategy recommendStrategy,
+    public Page<DrinkDto> showDrinksByBest(String category, Pageable pageable) {
+        List<DrinkDto> drinkDtos = new ArrayList<>();
+        if(category == null) {
+            drinkDtos = drinkRepository.findAllSortByPreference(pageable)
+                    .stream()
+                    .map(drink -> DrinkDto.create(drink, Preference.create(drink, 0)))
+                    .collect(Collectors.toList());
+        }
+
+        if(category != null) {
+            drinkDtos = drinkRepository.findAllByCategory(category, pageable)
+            .stream().map(drink -> DrinkDto.create(drink, Preference.create(drink, 0)))
+            .collect(Collectors.toList());
+        }
+
+        return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
+    }
+
+    public Page<DrinkDto> showDrinksByExpect(RecommendStrategy recommendStrategy,
             Pageable pageable, LoginMember loginMember) {
         List<Drink> recommendDrinks = recommendStrategy
                 .recommend(loginMember.getId(), pageable.getPageSize());
@@ -135,9 +153,9 @@ public class DrinkService {
                 drinkRequest.getDescription()
         );
     }
-
     @Transactional
     public void removeDrink(Long id) {
         drinkRepository.deleteById(id);
     }
+
 }
