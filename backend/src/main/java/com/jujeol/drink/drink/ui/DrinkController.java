@@ -47,7 +47,7 @@ public class DrinkController {
     }
 
     @GetMapping("/drinks")
-    public ResponseEntity<CommonResponse<List<DrinkResponse>>> showDrinksByBest(
+    public ResponseEntity<CommonResponse<List<DrinkResponse>>> showDrinksInMainPage(
             @RequestParam(required = false) String category,
             @RequestParam String sortBy,
             @PageableDefault Pageable page,

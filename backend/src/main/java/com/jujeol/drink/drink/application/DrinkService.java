@@ -74,19 +74,20 @@ public class DrinkService {
     }
 
     public Page<DrinkDto> showDrinksByBest(String category, Pageable pageable) {
-        List<DrinkDto> drinkDtos = new ArrayList<>();
+        List<DrinkDto> drinkDtos;
+
         if(category == null) {
             drinkDtos = drinkRepository.findAllSortByPreference(pageable)
                     .stream()
                     .map(drink -> DrinkDto.create(drink, Preference.create(drink, 0)))
                     .collect(Collectors.toList());
+
+            return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
         }
 
-        if(category != null) {
-            drinkDtos = drinkRepository.findAllByCategory(category, pageable)
-            .stream().map(drink -> DrinkDto.create(drink, Preference.create(drink, 0)))
-            .collect(Collectors.toList());
-        }
+        drinkDtos = drinkRepository.findAllByCategory(category, pageable)
+        .stream().map(drink -> DrinkDto.create(drink, Preference.create(drink, 0)))
+        .collect(Collectors.toList());
 
         return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
     }
