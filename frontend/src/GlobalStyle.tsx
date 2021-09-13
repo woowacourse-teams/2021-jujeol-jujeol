@@ -1,5 +1,5 @@
 import { Global, css } from '@emotion/react';
-import { COLOR } from './constants';
+import { COLOR, Z_INDEX } from './constants';
 
 const GlobalStyle = () => (
   <Global
@@ -39,7 +39,20 @@ const GlobalStyle = () => (
         bottom: 0;
         transform: translateX(-50%);
         visibility: hidden;
-        z-index: 10;
+        z-index: ${Z_INDEX.MODAL};
+      }
+
+      #confirm {
+        width: 100%;
+        max-width: 480px;
+        min-width: 280px;
+        height: 100vh;
+        position: fixed;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        visibility: hidden;
+        z-index: ${Z_INDEX.CONFIRM};
       }
 
       html,

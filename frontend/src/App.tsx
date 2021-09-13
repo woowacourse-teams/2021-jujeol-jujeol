@@ -13,28 +13,31 @@ import MyReviewsPage from './pages/MyReviewsPage';
 import SearchPage from './pages/SearchPage';
 import SearchResultPage from './pages/SearchResultPage';
 import { MainContainer } from './styles';
+import ConfirmProvider from './components/Confirm/ConfirmProvider';
 
 const App = () => {
   return (
     <>
       <Router>
-        <ModalProvider>
-          <MainContainer>
-            <Switch>
-              <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
-              <Route exact path={[PATH.LOGIN]} component={LoginPage} />
-              <Route exact path={[PATH.OAUTH]} component={OauthPage} />
-              <Route exact path={[PATH.VIEW_ALL]} component={ViewAllPage} />
-              <Route exact path={`${PATH.DRINKS}/:id`} component={DrinksDetailPage} />
-              <Route exact path={[PATH.MYPAGE]} component={MyPage} />
-              <Route exact path={[PATH.MY_DRINKS]} component={MyDrinksPage} />
-              <Route exact path={[PATH.MY_REVIEWS]} component={MyReviewsPage} />
-              <Route exact path={[PATH.SEARCH]} component={SearchPage} />
-              <Route exact path={[PATH.SEARCH_RESULT]} component={SearchResultPage} />
-              <Redirect to={PATH.ROOT} />
-            </Switch>
-          </MainContainer>
-        </ModalProvider>
+        <ConfirmProvider>
+          <ModalProvider>
+            <MainContainer>
+              <Switch>
+                <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
+                <Route exact path={[PATH.LOGIN]} component={LoginPage} />
+                <Route exact path={[PATH.OAUTH]} component={OauthPage} />
+                <Route exact path={[PATH.VIEW_ALL]} component={ViewAllPage} />
+                <Route exact path={`${PATH.DRINKS}/:id`} component={DrinksDetailPage} />
+                <Route exact path={[PATH.MYPAGE]} component={MyPage} />
+                <Route exact path={[PATH.MY_DRINKS]} component={MyDrinksPage} />
+                <Route exact path={[PATH.MY_REVIEWS]} component={MyReviewsPage} />
+                <Route exact path={[PATH.SEARCH]} component={SearchPage} />
+                <Route exact path={[PATH.SEARCH_RESULT]} component={SearchResultPage} />
+                <Redirect to={PATH.ROOT} />
+              </Switch>
+            </MainContainer>
+          </ModalProvider>
+        </ConfirmProvider>
 
         <Tab />
       </Router>

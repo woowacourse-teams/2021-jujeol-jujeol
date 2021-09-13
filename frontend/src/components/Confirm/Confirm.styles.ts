@@ -2,14 +2,15 @@ import styled from '@emotion/styled';
 import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ isOpened: boolean }>`
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: ${COLOR.BLACK_900 + 'ee'};
 
+  background-color: ${COLOR.BLACK_900 + 'ee'};
+  visibility: ${({ isOpened }) => (isOpened ? 'visible' : 'hidden')};
   ${Flex({ justifyContent: 'center', alignItems: 'center' })}
 `;
 
