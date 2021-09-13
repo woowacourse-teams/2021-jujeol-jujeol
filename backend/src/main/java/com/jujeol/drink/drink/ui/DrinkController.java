@@ -8,7 +8,6 @@ import com.jujeol.drink.drink.exception.InvalidSortByException;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
 import com.jujeol.drink.drink.ui.dto.SearchRequest;
 import com.jujeol.drink.recommend.application.RecommendFactory;
-import com.jujeol.member.auth.exception.UnauthorizedUserException;
 import com.jujeol.member.auth.ui.AuthenticationPrincipal;
 import com.jujeol.member.auth.ui.LoginMember;
 import java.util.ArrayList;
@@ -63,7 +62,7 @@ public class DrinkController {
         }
         if(PREFERENCE_AVG.equals(sortBy)) {
             drinkDtos = drinkService
-                    .showDrinksByBest(category, page);
+                    .showDrinksByPreference(category, page);
         }
 
         return ResponseEntity

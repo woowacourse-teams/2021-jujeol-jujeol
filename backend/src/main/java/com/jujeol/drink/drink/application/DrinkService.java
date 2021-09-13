@@ -73,7 +73,7 @@ public class DrinkService {
                         drink, Preference.create(drink, 0)));
     }
 
-    public Page<DrinkDto> showDrinksByBest(String category, Pageable pageable) {
+    public Page<DrinkDto> showDrinksByPreference(String category, Pageable pageable) {
         List<DrinkDto> drinkDtos;
 
         if(category == null) {
