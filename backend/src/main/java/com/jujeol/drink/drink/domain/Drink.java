@@ -49,28 +49,6 @@ public class Drink {
     @OneToMany(mappedBy = "drink", fetch = FetchType.LAZY)
     private List<Review> reviews = new ArrayList<>();
 
-    // todo Drink 상세 설명 오버로딩된 create 삭제
-    public static Drink create(
-            String name,
-            String englishName,
-            Double alcoholByVolume,
-            List<String> imageUrls,
-            Double preferenceAvg,
-            Category category
-    ) {
-        return new Drink(
-                null,
-                new DrinkName(name),
-                new DrinkEnglishName(englishName),
-                new AlcoholByVolume(alcoholByVolume),
-                ImageFilePath.create(imageUrls),
-                category,
-                preferenceAvg,
-                new Description("상세 설명이 없는 경우"),
-                new ArrayList<>()
-        );
-    }
-
     public static Drink create(
             String name,
             String englishName,

@@ -60,7 +60,7 @@ public class DrinkRepositoryTest {
                 "KakaoTalk_Image_2021-07-08-19-58-09_001_w600.png");
 
         Drink stella = Drink.create(
-                "스텔라", "stella", 5.5, imageFilePaths, 0.0, BEER);
+                "스텔라", "stella", 5.5, imageFilePaths, 0.0, BEER, "아아 이것은 맥주라는 것이다.");
         savedDrink = drinkRepository.save(stella);
 
         Member member = Member.create(Provider.create("1234", ProviderName.TEST), null, null);
@@ -78,7 +78,7 @@ public class DrinkRepositoryTest {
                 "KakaoTalk_Image_2021-07-08-19-58-20_006_w600.png");
 
         Drink apple = Drink.create(
-                "애플", "Apple", 8.2, appleImageFilePaths, 0.0, BEER);
+                "애플", "Apple", 8.2, appleImageFilePaths, 0.0, BEER, "아아 이것은 맥주라는 것이다.");
         Drink savedDrink2 = drinkRepository.save(apple);
 
         Preference preference1 = Preference.create(savedMember, savedDrink, 2.0);

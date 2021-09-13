@@ -51,7 +51,7 @@ public class PreferenceRepositoryTest {
                 "KakaoTalk_Image_2021-07-08-19-58-09_001_w400.png",
                 "KakaoTalk_Image_2021-07-08-19-58-09_001_w600.png");
         Drink stella = Drink.create(
-                "스텔라", "stella", 5.5, imageFilePaths, 0.0, BEER);
+                "스텔라", "stella", 5.5, imageFilePaths, 0.0, BEER, "아아 이것은 맥주라는 것이다.");
         savedDrink = drinkRepository.save(stella);
 
         Member member = Member.create(Provider.create("1234", ProviderName.TEST), null, null);

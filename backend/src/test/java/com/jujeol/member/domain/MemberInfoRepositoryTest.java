@@ -73,7 +73,7 @@ public class MemberInfoRepositoryTest {
 
         Drink stella = Drink.create(
                 "스텔라", "stella", 5.5, imageFilePaths, 0.0,
-                savedCategory);
+                savedCategory, "아아 이것은 맥주라는 것이다.");
         Drink drink = drinkRepository.save(stella);
 
         Review review1 = Review.create("리뷰 1", drink, savedMember);
@@ -116,13 +116,13 @@ public class MemberInfoRepositoryTest {
 
         Drink kgb = Drink.create(
                 "KGB", "", 3.5, kgbImageFilePaths, 0.0,
-                savedCategory);
+                savedCategory, "아아 이것은 맥주라는 것이다.");
         Drink estp = Drink.create(
                 "ESTP", "", 7.5, estpImageFilePaths, 0.0,
-                savedCategory);
+                savedCategory, "아아 이것은 맥주라는 것이다.");
         Drink tiger_rad = Drink.create(
                 "타이거 라들러 자몽", "Tiger_Rad", 9.5, tigerImageFilePaths, 0.0,
-                savedCategory);
+                savedCategory, "아아 이것은 맥주라는 것이다.");
 
         List<Drink> drinks = drinkRepository.saveAll(List.of(kgb, estp, tiger_rad));
 

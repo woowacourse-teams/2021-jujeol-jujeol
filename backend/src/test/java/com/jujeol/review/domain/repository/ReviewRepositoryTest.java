@@ -64,7 +64,7 @@ public class ReviewRepositoryTest {
                 "KakaoTalk_Image_2021-07-08-19-58-09_001_w600.png");
 
         stella = Drink.create(
-                "스텔라", "stella", 5.5, imageFilePaths, 0.0, BEER);
+                "스텔라", "stella", 5.5, imageFilePaths, 0.0, BEER, "아아 이것은 맥주라는 것이다.");
     }
 
     @DisplayName("Review와 Drink 연관관계 매핑이 잘 되는지 테스트")
