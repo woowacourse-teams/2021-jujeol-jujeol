@@ -1,7 +1,8 @@
 import { FormEventHandler, useContext, useEffect, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import API from 'src/apis/requests';
-import { ERROR_MESSAGE, REVIEW } from 'src/constants';
+import { ERROR_MESSAGE, MESSAGE, REVIEW } from 'src/constants';
+import { confirmContext } from '../Confirm/ConfirmProvider';
 import { modalContext } from '../Modal/ModalProvider';
 import { Form, Content, EditButton, DeleteButton } from './ReviewEditForm.styles';
 interface Props {
@@ -15,6 +16,7 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const { isModalOpened, closeModal } = useContext(modalContext) ?? {};
+  const { setConfirm, closeConfirm } = useContext(confirmContext) ?? {};
 
   const [editContent, setEditContent] = useState(content);
 
@@ -24,6 +26,7 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
     onSuccess: () => {
       queryClient.invalidateQueries('reviews');
       closeModal?.();
+      closeConfirm?.();
     },
     onError: () => {
       alert(ERROR_MESSAGE.DEFAULT);
@@ -73,9 +76,12 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
   };
 
   const onDelete = () => {
-    if (confirm('리뷰를 삭제하시겠습니까?')) {
-      deleteReview();
-    }
+    setConfirm?.({
+      message: MESSAGE.CONFIRM_DELETE_REVIEW,
+      subMessage: MESSAGE.CANNOT_REDO,
+      onConfirm: deleteReview,
+      onCancel: closeConfirm as () => void,
+    });
   };
 
   return (
