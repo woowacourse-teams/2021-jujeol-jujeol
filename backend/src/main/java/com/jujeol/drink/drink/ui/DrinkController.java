@@ -1,5 +1,6 @@
 package com.jujeol.drink.drink.ui;
 
+import com.jujeol.commons.aop.LogWithTime;
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.drink.application.DrinkService;
@@ -34,6 +35,7 @@ public class DrinkController {
     private final DrinkService drinkService;
     private final RecommendFactory recommendFactory;
 
+    @LogWithTime
     @GetMapping("/search")
     public ResponseEntity<CommonResponse<List<DrinkResponse>>> showDrinksBySearch(
             @ModelAttribute SearchRequest searchRequest,
