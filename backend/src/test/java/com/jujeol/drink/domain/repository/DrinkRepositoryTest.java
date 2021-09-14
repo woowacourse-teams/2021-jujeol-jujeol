@@ -8,13 +8,13 @@ import com.jujeol.drink.category.domain.CategoryRepository;
 import com.jujeol.drink.drink.domain.Drink;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.recommend.domain.RecommendationTheme;
-import com.jujeol.review.domain.Review;
+import com.jujeol.member.auth.domain.Provider;
+import com.jujeol.member.auth.domain.ProviderName;
 import com.jujeol.member.member.domain.Member;
 import com.jujeol.member.member.domain.repository.MemberRepository;
 import com.jujeol.preference.domain.Preference;
 import com.jujeol.preference.domain.PreferenceRepository;
-import com.jujeol.member.auth.domain.Provider;
-import com.jujeol.member.auth.domain.ProviderName;
+import com.jujeol.review.domain.Review;
 import com.jujeol.review.domain.repository.ReviewRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +33,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class DrinkRepositoryTest {
+
     @Autowired
     private DrinkRepository drinkRepository;
     @Autowired
@@ -53,8 +54,13 @@ public class DrinkRepositoryTest {
     @BeforeEach
     void setUp() {
         BEER = categoryRepository.save(Category.create("맥주", "BEER"));
+
+        List<String> imageFilePaths = List.of("KakaoTalk_Image_2021-07-08-19-58-09_001_w200.png",
+                "KakaoTalk_Image_2021-07-08-19-58-09_001_w400.png",
+                "KakaoTalk_Image_2021-07-08-19-58-09_001_w600.png");
+
         Drink stella = Drink.create(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0, BEER);
+                "스텔라", "stella", 5.5, imageFilePaths, 0.0, BEER, "아아 이것은 맥주라는 것이다.");
         savedDrink = drinkRepository.save(stella);
 
         Member member = Member.create(Provider.create("1234", ProviderName.TEST), null, null);
@@ -66,8 +72,13 @@ public class DrinkRepositoryTest {
         //given
         Member member = Member.create(Provider.create("5678", ProviderName.TEST), null, null);
         Member savedMember2 = memberRepository.save(member);
+
+        List<String> appleImageFilePaths = List.of("KakaoTalk_Image_2021-07-08-19-58-20_006_w200.png",
+                "KakaoTalk_Image_2021-07-08-19-58-20_006_w400.png",
+                "KakaoTalk_Image_2021-07-08-19-58-20_006_w600.png");
+
         Drink apple = Drink.create(
-                "애플", "Apple", 8.2, "KakaoTalk_Image_2021-07-08-19-58-20_006.png", 0.0, BEER);
+                "애플", "Apple", 8.2, appleImageFilePaths, 0.0, BEER, "아아 이것은 맥주라는 것이다.");
         Drink savedDrink2 = drinkRepository.save(apple);
 
         Preference preference1 = Preference.create(savedMember, savedDrink, 2.0);

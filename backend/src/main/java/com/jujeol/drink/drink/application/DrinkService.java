@@ -34,7 +34,6 @@ public class DrinkService {
     private final CategoryRepository categoryRepository;
     private final PreferenceService preferenceService;
 
-    @LogWithTime
     public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, Pageable pageable) {
         SearchWords searchWords = SearchWords.create(searchDto.getSearch());
 
@@ -73,7 +72,26 @@ public class DrinkService {
                         drink, Preference.create(drink, 0)));
     }
 
-    public Page<DrinkDto> showRecommendDrinks(RecommendStrategy recommendStrategy,
+    public Page<DrinkDto> showDrinksByPreference(String category, Pageable pageable) {
+        List<DrinkDto> drinkDtos;
+
+        if(category == null) {
+            drinkDtos = drinkRepository.findAllSortByPreference(pageable)
+                    .stream()
+                    .map(drink -> DrinkDto.create(drink, Preference.create(drink, 0)))
+                    .collect(Collectors.toList());
+
+            return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
+        }
+
+        drinkDtos = drinkRepository.findAllByCategory(category, pageable)
+        .stream().map(drink -> DrinkDto.create(drink, Preference.create(drink, 0)))
+        .collect(Collectors.toList());
+
+        return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
+    }
+
+    public Page<DrinkDto> showDrinksByExpect(RecommendStrategy recommendStrategy,
             Pageable pageable, LoginMember loginMember) {
         List<Drink> recommendDrinks = recommendStrategy
                 .recommend(loginMember.getId(), pageable.getPageSize());
@@ -129,14 +147,15 @@ public class DrinkService {
         drink.updateInfo(
                 drinkRequest.getName(),
                 drinkRequest.getEnglishName(),
-                drinkRequest.getImageUrl(),
+                List.of(drinkRequest.getSmallImageUrl(), drinkRequest.getMediumImageUrl(), drinkRequest.getLargeImageUrl()),
                 category,
-                drinkRequest.getAlcoholByVolume()
+                drinkRequest.getAlcoholByVolume(),
+                drinkRequest.getDescription()
         );
     }
-
     @Transactional
     public void removeDrink(Long id) {
         drinkRepository.deleteById(id);
     }
+
 }

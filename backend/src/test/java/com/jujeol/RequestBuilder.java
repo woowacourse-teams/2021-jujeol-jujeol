@@ -14,7 +14,6 @@ import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.member.auth.application.LoginService;
 import com.jujeol.member.auth.application.dto.SocialProviderCodeDto;
-import com.jujeol.member.auth.application.dto.TokenDto;
 import com.jujeol.member.auth.domain.ProviderName;
 import com.jujeol.member.fixture.TestMember;
 import com.jujeol.testdatabase.QueryCounter;
@@ -45,7 +44,8 @@ public class RequestBuilder {
 
     private RestDocumentationContextProvider restDocumentation;
 
-    public RequestBuilder(ObjectMapper objectMapper, LoginService loginService, QueryCounter queryCounter) {
+    public RequestBuilder(ObjectMapper objectMapper, LoginService loginService,
+            QueryCounter queryCounter) {
         this.objectMapper = objectMapper;
         this.loginService = loginService;
         this.queryCounter = queryCounter;
@@ -171,7 +171,8 @@ public class RequestBuilder {
             }
         }
 
-    private class UserHelper {
+        private class UserHelper {
+
             private boolean userFlag;
             private String token;
 
@@ -179,9 +180,10 @@ public class RequestBuilder {
                 this.userFlag = false;
             }
 
-             public void withUser(TestMember testMember) {
-                token = loginService.createToken(SocialProviderCodeDto.create(testMember.getMatchedCode(), 
-                                   ProviderName.TEST)).getAccessToken();
+            public void withUser(TestMember testMember) {
+                token = loginService
+                        .createToken(SocialProviderCodeDto.create(testMember.getMatchedCode(),
+                                ProviderName.TEST)).getAccessToken();
                 withUser(token);
             }
 
@@ -191,7 +193,7 @@ public class RequestBuilder {
             }
 
             public void addRequest(RequestSpecification requestSpec) {
-                if(userFlag) {
+                if (userFlag) {
                     requestSpec.header("Authorization", "Bearer " + token);
                 }
             }
@@ -203,7 +205,8 @@ public class RequestBuilder {
         private final ExtractableResponse<Response> extractableResponse;
         private final QueryResult queryResult;
 
-        public HttpResponse(ExtractableResponse<Response> extractableResponse, QueryResult queryResult) {
+        public HttpResponse(ExtractableResponse<Response> extractableResponse,
+                QueryResult queryResult) {
             this.extractableResponse = extractableResponse;
             this.queryResult = queryResult;
         }

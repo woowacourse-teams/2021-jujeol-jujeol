@@ -37,7 +37,8 @@ public class RecommendForMember implements RecommendStrategy {
         return drinks;
     }
 
-    private void addItemByPreferenceAvg(List<Drink> drinks, List<Preference> myPreferences, Long memberId, int pageSize) {
+    private void addItemByPreferenceAvg(List<Drink> drinks, List<Preference> myPreferences,
+            Long memberId, int pageSize) {
         List<Drink> drinksByPreference = drinkRepository
                 .findDrinksForMember(memberId, Pageable.ofSize(pageSize));
         drinksByPreference = setFirstNoTriedItem(drinksByPreference, myPreferences);
@@ -56,15 +57,16 @@ public class RecommendForMember implements RecommendStrategy {
         return triedDrinks;
     }
 
-    private void addDrinkByCheckingTriedOrNot(List<Preference> myPreferences, LinkedList<Drink> triedDrinks,
+    private void addDrinkByCheckingTriedOrNot(List<Preference> myPreferences,
+            LinkedList<Drink> triedDrinks,
             Drink drink) {
         myPreferences.stream()
                 .filter(preference -> preference.getDrink().getId().equals(drink.getId()))
                 .findAny()
                 .ifPresentOrElse(preference -> {
-                    if(preference.getRate() > 3) {
-                            triedDrinks.addLast(drink);
+                    if (preference.getRate() > 3) {
+                        triedDrinks.addLast(drink);
                     }
-        }, () -> triedDrinks.addFirst(drink));
+                }, () -> triedDrinks.addFirst(drink));
     }
 }

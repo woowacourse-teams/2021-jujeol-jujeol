@@ -15,8 +15,10 @@ public class AdminDrinkRequest {
     private Double alcoholByVolume;
     private String imageUrl;
     private String categoryKey;
+    private String description;
 
     public DrinkRequestDto toDto() {
-        return DrinkRequestDto.create(name, englishName, alcoholByVolume, imageUrl, categoryKey);
+        // todo 관리자 image Url 변경
+        return DrinkRequestDto.create(name, englishName, alcoholByVolume, imageUrl, imageUrl, imageUrl, categoryKey, description);
     }
 }

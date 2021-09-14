@@ -14,6 +14,14 @@
         <Pattern>${LOG_PATTERN}</Pattern>
       </layout>
     </appender>
+    <appender name="CONSOLE-async" class="ch.qos.logback.classic.AsyncAppender">
+      <appender-ref ref="CONSOLE" />
+      <queueSize>256</queueSize>
+      <discardingThreshold>20</discardingThreshold>
+      <includeCallerData>false</includeCallerData>
+      <neverBlock>true</neverBlock>
+      <maxFlushTime>3000</maxFlushTime>
+    </appender>
   </springProfile>
 
   <springProfile name="file-logging">
@@ -30,14 +38,22 @@
       <maxHistory>3</maxHistory>
       </rollingPolicy>
     </appender>
+    <appender name="FILE-async" class="ch.qos.logback.classic.AsyncAppender">
+      <appender-ref ref="FILE" />
+      <queueSize>256</queueSize>
+      <discardingThreshold>20</discardingThreshold>
+      <includeCallerData>false</includeCallerData>
+      <neverBlock>true</neverBlock>
+      <maxFlushTime>3000</maxFlushTime>
+    </appender>
   </springProfile>
 
   <root level="INFO">
     <springProfile name="console-logging">
-      <appender-ref ref="CONSOLE"/>
+      <appender-ref ref="CONSOLE-async"/>
     </springProfile>
     <springProfile name="file-logging">
-      <appender-ref ref="FILE"/>
+      <appender-ref ref="FILE-async"/>
     </springProfile>
   </root>
 </configuration>

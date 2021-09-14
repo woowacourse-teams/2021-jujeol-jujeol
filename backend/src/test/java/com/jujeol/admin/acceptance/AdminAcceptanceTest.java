@@ -17,7 +17,7 @@ import com.jujeol.admin.ui.dto.AdminDrinkResponse;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
-import com.jujeol.drink.drink.ui.dto.DrinkDetailResponse;
+import com.jujeol.drink.drink.ui.dto.DrinkResponse;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +35,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("주류 대량 등록 - 성공")
-    public void batchInsert_success() throws Exception {
+    public void batchInsert_success() {
         // given
         final List<AdminDrinkRequest> adminDrinkRequests =
                 DrinkTestContainer.asAdminRequestList(APPLE, TSINGTAO, KGB, ESTP, STELLA);
@@ -66,8 +66,8 @@ class AdminAcceptanceTest extends AcceptanceTest {
         //given
         final List<AdminDrinkRequest> request =
                 Collections.singletonList(
-                        new AdminDrinkRequest("", "test", 2.0, "test", "BEER")
-                );
+                        new AdminDrinkRequest("", "test", 2.0, "test", "BEER", "비어있는 주류다."
+                        ));
 
         //when
         final HttpResponse httpResponse = request().post("/admin/drinks", request).build();
@@ -83,7 +83,8 @@ class AdminAcceptanceTest extends AcceptanceTest {
         //given
         final List<AdminDrinkRequest> request =
                 Collections.singletonList(
-                        new AdminDrinkRequest("test", "test", 2.0, "test", Long.toString(Long.MAX_VALUE)));
+                        new AdminDrinkRequest("test", "test", 2.0, "test",
+                                Long.toString(Long.MAX_VALUE), "잘못된 카테고리이다."));
 
         //when
         final HttpResponse httpResponse = request().post("/admin/drinks", request).build();
@@ -101,7 +102,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         final Long stellaId = drinkAcceptanceTool.주류_아이디_조회(STELLA.getName());
 
         final AdminDrinkRequest newStella =
-                new AdminDrinkRequest("스텔라2", "stella2", 2.0, "test", "BEER");
+                new AdminDrinkRequest("스텔라2", "stella2", 2.0, "test", "BEER", "상세 설명을 수정 중입니다.");
         //when
         final HttpResponse httpResponse =
                 request().put("/admin/drinks/{id}", newStella, stellaId).build();
@@ -109,16 +110,17 @@ class AdminAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.OK);
 
-        final DrinkDetailResponse newStellaResponse = drinkAcceptanceTool.단일_상품_조회(stellaId);
+        final DrinkResponse newStellaResponse = drinkAcceptanceTool.단일_상품_조회(stellaId);
         assertThat(newStellaResponse.getName()).isEqualTo(newStella.getName());
         assertThat(newStellaResponse.getEnglishName()).isEqualTo(newStella.getEnglishName());
-        assertThat(newStellaResponse.getAlcoholByVolume()).isEqualTo(newStella.getAlcoholByVolume());
+        assertThat(newStellaResponse.getAlcoholByVolume())
+                .isEqualTo(newStella.getAlcoholByVolume());
         assertThat(newStellaResponse.getCategory().getKey()).isEqualTo(newStella.getCategoryKey());
     }
 
     @Test
     @DisplayName("상품 삭제 - 성공")
-    public void deleteDrink_success() throws Exception{
+    public void deleteDrink_success() throws Exception {
         //given
         adminAcceptanceTool.어드민_주류_데이터_등록(KGB, STELLA);
         final Long stellaId = drinkAcceptanceTool.주류_아이디_조회(STELLA.getName());
