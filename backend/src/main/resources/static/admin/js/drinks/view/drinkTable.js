@@ -46,11 +46,15 @@ export const getDrinkDetail = ($row, id) => {
   const name = $row.querySelector(".drinkName input").value
   const englishName = $row.querySelector(".drinkEnglishName input").value
   const alcoholByVolume = $row.querySelector(".drinkAbv input").value
-  const imagePath = $row.querySelector(".drinkImageFilePath input").value
+  const images = $row.querySelector(".drinkImageFilePath input").files
   const description = $row.querySelector(".drinkDescription textarea").value
   const categoryKey = $row.querySelector(".categoryKey").value
 
-  return new DrinkRequest(id, name, englishName, alcoholByVolume, imagePath, description, categoryKey);
+  let image = {}
+  if (images && images[0]) {
+      image.append('image', images[0])
+  }
+  return new DrinkRequest(id, name, englishName, alcoholByVolume, image, description, categoryKey);
 }
 
 function convertRequestToDrinkArray(drinkRequests) {

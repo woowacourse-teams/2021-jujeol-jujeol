@@ -15,12 +15,15 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,7 +41,7 @@ public class AdminController {
     }
 
     @PostMapping("/drinks")
-    public CommonResponse<?> insertDrinks(@RequestBody List<AdminDrinkRequest> adminDrinkRequests) {
+    public CommonResponse<?> insertDrinks(@ModelAttribute List<AdminDrinkRequest> adminDrinkRequests) {
         final List<DrinkRequestDto> drinkRequests = adminDrinkRequests.stream()
                 .map(AdminDrinkRequest::toDto).collect(Collectors.toList());
         drinkService.insertDrinks(drinkRequests);
