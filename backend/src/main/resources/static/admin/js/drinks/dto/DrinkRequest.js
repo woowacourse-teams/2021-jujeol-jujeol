@@ -10,15 +10,19 @@ export default class DrinkRequest {
 
     this.formData = new FormData();
 
-    const body = JSON.stringify({
-      name: name,
-      englishName: englishName,
-      alcoholByVclume: alcoholByVolume,
-      description: description,
-      categoryKey: categoryKey,
-    })
+    // const body = JSON.stringify({
+    //   name: name,
+    //   englishName: englishName,
+    //   alcoholByVclume: alcoholByVolume,
+    //   description: description,
+    //   categoryKey: categoryKey,
+    // })
 
-    this.formData.append('body', body)
+    this.formData.append('name', name)
+    this.formData.append('englishName', englishName)
+    this.formData.append('alcoholByVolume', alcoholByVolume)
+    this.formData.append("description", description)
+    this.formData.append("categoryKey", categoryKey)
     this.formData.append('image', imageFile[0])
   }
 

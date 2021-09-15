@@ -8,11 +8,11 @@ function getRequest(url, needToken = false) {
 }
 
 async function postRequest(url, formDatas = [{}], needToken = false) {
-  const headers = {'Content-Type': 'multipart/form-data'}
+  // const headers = {'Content-Type': 'multipart/form-data'}
 
   const configure = {
     method: 'POST',
-    headers: headers
+    // headers: headers
   };
 
   const formDataRequests = formDatas.map((drinkRequest) => {

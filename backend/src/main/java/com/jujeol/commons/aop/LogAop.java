@@ -28,9 +28,9 @@ public class LogAop {
     @AfterThrowing(value = "execution(* com.jujeol..*Service.*(..))", throwing = "e")
     public void checkException(JoinPoint joinPoint, Exception e) {
         log.warn("예외 발생지점 : {}", joinPoint.getSignature().toString());
-        if (e instanceof JujeolException) {
-            return;
-        }
+//        if (e instanceof JujeolException) {
+//            return;
+//        }
         log.warn("------------------------- StackTrace Start -------------------------");
         for (StackTraceElement element : e.getStackTrace()) {
             log.warn("{}", element);
