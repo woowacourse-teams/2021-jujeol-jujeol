@@ -1,56 +1,139 @@
 package com.jujeol.aws.service;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
+import javax.imageio.stream.FileImageOutputStream;
+import javax.imageio.stream.ImageOutputStream;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.stereotype.Service;
 
+@Slf4j
+@Service
 public class ImageResizer {
-    private static final double MAX_PIXEL = 400.0;
-    private static final double RESIZE_NOT_NEEDED = 1.0;
 
-    public File resize(File file, String fileName) {
+    public EnumMap<ImageSize, File> resize(File file) {
         try {
             BufferedImage image = ImageIO.read(file);
-            BufferedImage resizedImage = resizeImage(image, image.getWidth(), image.getHeight());
-            if (resizedImage.equals(image)) {
-                return file;
+            EnumMap<ImageSize, BufferedImage> resizedImages = resizeImageByTripleAccels(image);
+
+            EnumMap<ImageSize, File> resizedFiles = new EnumMap<>(ImageSize.class);
+            for (ImageSize imageSize : ImageSize.list()) {
+                File resizedFile = bufferedImageToFile(imageSize, file.getName(),
+                        resizedImages.get(imageSize));
+                resizedFiles.put(imageSize, convertProgressive(resizedFile));
             }
-            File resizedFile = new File(fileName);
-            ImageIO.write(resizedImage, FilenameUtils.getExtension(fileName), resizedFile);
-            return resizedFile;
+            return resizedFiles;
         } catch (Exception e) {
             // Todo: 사용자 정의 예외
             throw new RuntimeException();
         }
     }
 
-    private BufferedImage resizeImage(BufferedImage originalImage, int originalWidth, int originalHeight) {
-        double resizeRatio = calculateResizeRatio(originalWidth, originalHeight);
-        if (resizeRatio == RESIZE_NOT_NEEDED) {
-            return originalImage;
+    private File bufferedImageToFile(ImageSize imageSize, String fileName,
+            BufferedImage bufferedImage) {
+        File file = null;
+        try {
+            file = new File(
+                    String.format("%s%s.%s",
+                            FilenameUtils.removeExtension(fileName),
+                            imageSize.getFileNameSuffix(),
+                            "jpeg"
+                    )
+            );
+            ImageIO.write(bufferedImage, "jpg", file);
+            log.info(file.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return resizeImageByRatio(originalImage, originalWidth, originalHeight, resizeRatio);
+        return file;
     }
 
-    private double calculateResizeRatio(int width, int height) {
-        if (width <= MAX_PIXEL && height <= MAX_PIXEL) {
-            return RESIZE_NOT_NEEDED;
-        }
-        if (width < height) {
-            return (MAX_PIXEL / height);
-        }
-        return (MAX_PIXEL / width);
+    private EnumMap<ImageSize, BufferedImage> resizeImageByTripleAccels(
+            BufferedImage originalImage) {
+        final Map<ImageSize, BufferedImage> collect = ImageSize.list().stream()
+                .collect(
+                        Collectors.toMap(
+                                Function.identity(),
+                                (imageSize) -> {
+                                    final Image originalImageScaled = originalImage
+                                            .getScaledInstance(imageSize.getPixelSize(),
+                                                    imageSize.getPixelSize(), Image.SCALE_SMOOTH);
+                                    BufferedImage bufferedImage = new BufferedImage(
+                                            imageSize.getPixelSize(), imageSize.getPixelSize(),
+                                            BufferedImage.TYPE_INT_RGB);
+                                    bufferedImage.getGraphics()
+                                            .drawImage(originalImageScaled, 0, 0, Color.WHITE,
+                                                    null);
+                                    return bufferedImage;
+                                }
+                        )
+                );
+        EnumMap<ImageSize, BufferedImage> resizedImage = new EnumMap<>(collect);
+        return resizedImage;
     }
 
-    private BufferedImage resizeImageByRatio(BufferedImage originalImage, int originalWidth, int originalHeight, double resizeRatio) {
-        int resizedWidth = (int) (resizeRatio * originalWidth);
-        int resizedHeight = (int) (resizeRatio * originalHeight);
+    private File convertProgressive(File file) {
+        try (ImageOutputStream iops = new FileImageOutputStream(file)) {
+            ImageWriter imageWriter = ImageIO.getImageWritersByFormatName("jpg").next();
+            JPEGImageWriteParam imageWriteParam = new JPEGImageWriteParam(Locale.KOREA);
 
-        Image resizedImage = originalImage.getScaledInstance(resizedWidth, resizedHeight, Image.SCALE_SMOOTH);
-        BufferedImage resizedBufferedImage = new BufferedImage(resizedWidth, resizedHeight, BufferedImage.TYPE_INT_RGB);
-        resizedBufferedImage.getGraphics().drawImage(resizedImage, 0, 0, null);
-        return resizedBufferedImage;
+            imageWriteParam.setProgressiveMode(ImageWriteParam.MODE_DEFAULT);
+            imageWriter.setOutput(iops);
+
+            final BufferedImage image = ImageIO.read(file);
+            IIOImage iioImage = new IIOImage(image, null, null);
+
+            imageWriter.write(null, iioImage, imageWriteParam);
+            imageWriter.dispose();
+        } catch (IOException e) {
+            //todo : 예외 처리
+            e.printStackTrace();
+        }
+
+        return file;
     }
+
+    public enum ImageSize {
+        SMALL(200, "_w200"),
+        MEDIUM(400, "_w400"),
+        LARGE(600, "_w600");
+
+        ImageSize(int pixelSize, String fileNameSuffix) {
+            this.pixelSize = pixelSize;
+            this.fileNameSuffix = fileNameSuffix;
+        }
+
+        private final int pixelSize;
+        private final String fileNameSuffix;
+
+        public static List<ImageSize> list() {
+            return Arrays.asList(ImageSize.values());
+        }
+
+        public int getPixelSize() {
+            return pixelSize;
+        }
+
+        public String getFileNameSuffix() {
+            return fileNameSuffix;
+        }
+
+    }
+
 }

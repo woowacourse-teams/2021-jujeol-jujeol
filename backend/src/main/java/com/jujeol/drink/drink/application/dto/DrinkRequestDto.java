@@ -5,6 +5,7 @@ import com.jujeol.drink.drink.domain.Drink;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @AllArgsConstructor
@@ -14,30 +15,30 @@ public class DrinkRequestDto {
     private String name;
     private String englishName;
     private Double alcoholByVolume;
-    private String imageUrl;
+    private MultipartFile image;
     private String categoryKey;
     private String description;
 
     public static DrinkRequestDto create(
             String name, String englishName, Double alcoholByVolume,
-            String imageUrl, String categoryKey, String description
+            MultipartFile image, String categoryKey, String description
     ) {
         return new DrinkRequestDto(
                 name,
                 englishName,
                 alcoholByVolume,
-                imageUrl,
+                image,
                 categoryKey,
                 description
         );
     }
 
-    public Drink toEntity(Category category) {
+    public Drink toEntity(Category category, String imagePath) {
         return Drink.create(
                 name,
                 englishName,
                 alcoholByVolume,
-                imageUrl,
+                imagePath,
                 0.0,
                 category,
                 description

@@ -1,6 +1,7 @@
 package com.jujeol.drink.drink.application;
 
-import com.jujeol.commons.aop.LogWithTime;
+import com.jujeol.aws.service.ImageResizer.ImageSize;
+import com.jujeol.aws.service.ImageService;
 import com.jujeol.drink.category.domain.Category;
 import com.jujeol.drink.category.domain.CategoryRepository;
 import com.jujeol.drink.category.exception.NotFoundCategoryException;
@@ -15,7 +16,9 @@ import com.jujeol.drink.recommend.application.RecommendStrategy;
 import com.jujeol.member.auth.ui.LoginMember;
 import com.jujeol.preference.application.PreferenceService;
 import com.jujeol.preference.domain.Preference;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +36,7 @@ public class DrinkService {
     private final DrinkRepository drinkRepository;
     private final CategoryRepository categoryRepository;
     private final PreferenceService preferenceService;
+    private final ImageService imageService;
 
     public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, Pageable pageable) {
         SearchWords searchWords = SearchWords.create(searchDto.getSearch());
@@ -106,7 +110,8 @@ public class DrinkService {
         List<Category> categories = categoryRepository.findAll();
         for (DrinkRequestDto drinkRequest : drinkRequests) {
             Category category = findCategory(categories, drinkRequest.getCategoryKey());
-            drinks.add(drinkRequest.toEntity(category));
+            EnumMap<ImageSize, File> imagePath = imageService.insert(drinkRequest.getImage());
+            drinks.add(drinkRequest.toEntity(category, imagePath.get(ImageSize.SMALL).getPath()));
         }
         drinkRepository.batchInsert(drinks);
     }
@@ -128,7 +133,8 @@ public class DrinkService {
         drink.updateInfo(
                 drinkRequest.getName(),
                 drinkRequest.getEnglishName(),
-                drinkRequest.getImageUrl(),
+                // TODO : image URL 돌려주기
+                "",
                 category,
                 drinkRequest.getAlcoholByVolume(),
                 drinkRequest.getDescription()

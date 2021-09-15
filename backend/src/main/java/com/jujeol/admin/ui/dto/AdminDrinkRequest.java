@@ -23,6 +23,6 @@ public class AdminDrinkRequest {
     //todo
     public DrinkRequestDto toDto() {
         return DrinkRequestDto
-                .create(name, englishName, alcoholByVolume, "", categoryKey, description);
+                .create(name, englishName, alcoholByVolume, image, categoryKey, description);
     }
 }
