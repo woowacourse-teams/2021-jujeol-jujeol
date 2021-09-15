@@ -50,11 +50,7 @@ export const getDrinkDetail = ($row, id) => {
   const description = $row.querySelector(".drinkDescription textarea").value
   const categoryKey = $row.querySelector(".categoryKey").value
 
-  let image = {}
-  if (images && images[0]) {
-      image.append('image', images[0])
-  }
-  return new DrinkRequest(id, name, englishName, alcoholByVolume, image, description, categoryKey);
+  return new DrinkRequest(id, name, englishName, alcoholByVolume, images, description, categoryKey);
 }
 
 function convertRequestToDrinkArray(drinkRequests) {
