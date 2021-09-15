@@ -22,7 +22,7 @@ public class DrinkResponse {
     private String description;
     private double preferenceRate;
     private double preferenceAvg;
-    private double expectPreference;
+    private double expectedPreference;
 
     public static DrinkResponse from(DrinkDto drinkDto) {
         return new DrinkResponse(

@@ -22,7 +22,6 @@ class ImageFilePath {
     private String largeImageFilePath;
 
     public static ImageFilePath create(List<String> imageFilePaths) {
-        //todo imageFilePaths 3개 체크 0: 200 1: 400 2: 600
         return new ImageFilePath(imageFilePaths.get(0), imageFilePaths.get(1), imageFilePaths.get(2));
     }
 }
