@@ -110,8 +110,8 @@ public class DrinkService {
         List<Category> categories = categoryRepository.findAll();
         for (DrinkRequestDto drinkRequest : drinkRequests) {
             Category category = findCategory(categories, drinkRequest.getCategoryKey());
-            EnumMap<ImageSize, File> imagePath = imageService.insert(drinkRequest.getImage());
-            drinks.add(drinkRequest.toEntity(category, imagePath.get(ImageSize.SMALL).getPath()));
+            EnumMap<ImageSize, String> imagePath = imageService.insert(drinkRequest.getImage());
+            drinks.add(drinkRequest.toEntity(category, imagePath.get(ImageSize.SMALL)));
         }
         drinkRepository.batchInsert(drinks);
     }

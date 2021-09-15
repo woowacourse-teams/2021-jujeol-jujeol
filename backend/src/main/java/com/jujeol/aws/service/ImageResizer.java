@@ -50,7 +50,7 @@ public class ImageResizer {
         File file = null;
         try {
             file = new File(
-                    String.format("%s%s.%s",
+                    String.format("%s_%s.%s",
                             FilenameUtils.removeExtension(fileName),
                             imageSize.getFileNameSuffix(),
                             "jpeg"
@@ -110,9 +110,9 @@ public class ImageResizer {
     }
 
     public enum ImageSize {
-        SMALL(200, "_w200"),
-        MEDIUM(400, "_w400"),
-        LARGE(600, "_w600");
+        SMALL(200, "w200"),
+        MEDIUM(400, "w400"),
+        LARGE(600, "w600");
 
         ImageSize(int pixelSize, String fileNameSuffix) {
             this.pixelSize = pixelSize;
