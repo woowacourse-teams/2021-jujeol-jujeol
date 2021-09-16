@@ -1,7 +1,6 @@
 import {postRequest} from "../../utils/methodFetches.js";
 import {$$} from "../../utils/querySelector.js";
 import {getDrinkDetail, renderDrinksTable} from "../view/drinkTable.js";
-import {isEmptyObject} from "../../utils/validator.js";
 
 export const HandlerDrinkBatchInsert = ({target}, drinks) => {
   batchInsertEvent(target, drinks)
@@ -22,17 +21,14 @@ async function batchInsertEvent(target,drinks) {
 }
 
 function nodeListToValidRequest(nodeList){
-  // NodeList to Array
-  const notValidRequestBodies = Array.prototype.slice.call(nodeList).map(
-      $row => getDrinkDetail($row))
-
-  return notValidRequestBodies.filter(ele => !isEmptyObject(ele));
+  const notValidRequestBodies = Array.from(nodeList).map($row => getDrinkDetail($row));
+  return notValidRequestBodies.filter(ele => !ele.isValidProperties());
 }
 
 async function showSpinnerUntilSuccessRequest(requestBodies){
   const spinner = document.querySelector(".batchInsertSpinner")
   spinner.classList.remove("hide");
-  await postRequest(`/admin/drinks`, requestBodies)
+  await postRequest(`/admin/drinks`, requestBodies);
   spinner.classList.add("hide");
 }
 
