@@ -21,34 +21,34 @@ const PreferencePage = lazy(() => import('./pages/PreferencePage'));
 
 const App = () => {
   return (
-      <>
-        <Router>
-          <SnackbarProvider>
-            <ModalProvider>
-              <MainContainer>
+    <>
+      <Router>
+        <SnackbarProvider>
+          <ModalProvider>
+            <MainContainer>
+              <Suspense fallback>
                 <Switch>
-                  <Suspense fallback>
-                    <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
-                    <Route exact path={[PATH.LOGIN]} component={LoginPage} />
-                    <Route exact path={[PATH.OAUTH]} component={OauthPage} />
-                    <Route exact path={[PATH.VIEW_ALL]} component={ViewAllPage} />
-                    <Route exact path={`${PATH.DRINKS}/:id`} component={DrinksDetailPage} />
-                    <Route exact path={[PATH.MYPAGE]} component={MyPage} />
-                    <Route exact path={[PATH.MY_DRINKS]} component={MyDrinksPage} />
-                    <Route exact path={[PATH.MY_REVIEWS]} component={MyReviewsPage} />
-                    <Route exact path={[PATH.SEARCH]} component={SearchPage} />
-                    <Route exact path={[PATH.SEARCH_RESULT]} component={SearchResultPage} />
-                    <Route exact path={[PATH.PREFERENCE]} component={PreferencePage} />
-                    <Redirect to={PATH.ROOT} />
-                  </Suspense>
+                  <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
+                  <Route exact path={[PATH.LOGIN]} component={LoginPage} />
+                  <Route exact path={[PATH.OAUTH]} component={OauthPage} />
+                  <Route exact path={[PATH.VIEW_ALL]} component={ViewAllPage} />
+                  <Route exact path={`${PATH.DRINKS}/:id`} component={DrinksDetailPage} />
+                  <Route exact path={[PATH.MYPAGE]} component={MyPage} />
+                  <Route exact path={[PATH.MY_DRINKS]} component={MyDrinksPage} />
+                  <Route exact path={[PATH.MY_REVIEWS]} component={MyReviewsPage} />
+                  <Route exact path={[PATH.SEARCH]} component={SearchPage} />
+                  <Route exact path={[PATH.SEARCH_RESULT]} component={SearchResultPage} />
+                  <Route exact path={[PATH.PREFERENCE]} component={PreferencePage} />
+                  <Redirect to={PATH.ROOT} />
                 </Switch>
-              </MainContainer>
-            </ModalProvider>
-          </SnackbarProvider>
+              </Suspense>
+            </MainContainer>
+          </ModalProvider>
+        </SnackbarProvider>
 
-          <Tab />
-        </Router>
-      </>
+        <Tab />
+      </Router>
+    </>
   );
 };
 
