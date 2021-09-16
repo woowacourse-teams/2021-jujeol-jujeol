@@ -36,16 +36,16 @@ public class RecommendForMember implements RecommendStrategy {
         drinks = setFirstNoTriedItem(drinks, myPreferences);
 
         if (itemIds.size() < pageSize) {
-            addItemByPreferenceAvg(drinks, myPreferences, memberId, pageSize);
+            addItemByPreferenceAvg(drinks, myPreferences, memberId, pageSize, category);
         }
 
         return drinks;
     }
 
     private void addItemByPreferenceAvg(List<Drink> drinks, List<Preference> myPreferences,
-            Long memberId, int pageSize) {
+            Long memberId, int pageSize, String category) {
         List<Drink> drinksByPreference = drinkRepository
-                .findDrinksForMember(memberId, Pageable.ofSize(pageSize));
+                .findDrinksForMember(memberId, Pageable.ofSize(pageSize), category);
         drinksByPreference = setFirstNoTriedItem(drinksByPreference, myPreferences);
         for (Drink drink : drinksByPreference) {
             if (drinks.size() < pageSize && !drinks.contains(drink)) {
