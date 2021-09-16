@@ -71,6 +71,10 @@ public class Drink {
         );
     }
 
+    public static Drink ofId(Long drinkId) {
+        return new Drink(drinkId, null, null, null, null, null, null, null, null);
+    }
+
     public void addReview(Review review) {
         review.toDrink(this);
         reviews.add(review);
