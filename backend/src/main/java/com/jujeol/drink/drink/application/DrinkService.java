@@ -1,6 +1,5 @@
 package com.jujeol.drink.drink.application;
 
-import com.jujeol.commons.aop.LogWithTime;
 import com.jujeol.drink.category.domain.Category;
 import com.jujeol.drink.category.domain.CategoryRepository;
 import com.jujeol.drink.category.exception.NotFoundCategoryException;
@@ -75,7 +74,7 @@ public class DrinkService {
     public Page<DrinkDto> showDrinksByPreference(String category, Pageable pageable) {
         List<DrinkDto> drinkDtos;
 
-        if(category == null) {
+        if (category == null) {
             drinkDtos = drinkRepository.findAllSortByPreference(pageable)
                     .stream()
                     .map(drink -> DrinkDto.create(drink, Preference.create(drink, 0)))
@@ -85,17 +84,25 @@ public class DrinkService {
         }
 
         drinkDtos = drinkRepository.findAllByCategory(category, pageable)
-        .stream().map(drink -> DrinkDto.create(drink, Preference.create(drink, 0)))
-        .collect(Collectors.toList());
+                .stream().map(drink -> DrinkDto.create(drink, Preference.create(drink, 0)))
+                .collect(Collectors.toList());
 
         return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
     }
 
-    public Page<DrinkDto> showDrinksByExpect(RecommendStrategy recommendStrategy,
+    public Page<DrinkDto> showDrinksByExpect(String category,
+            RecommendStrategy recommendStrategy,
             Pageable pageable, LoginMember loginMember) {
         List<Drink> recommendDrinks = recommendStrategy
-                .recommend(loginMember.getId(), pageable.getPageSize());
+                .recommend(category, loginMember.getId(), pageable.getPageSize());
 
+        if (loginMember.isMember()) {
+            final List<DrinkDto> drinkDtos = recommendDrinks.stream()
+                    .map(drink -> DrinkDto.create(drink,
+                            preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)))
+                    .collect(Collectors.toList());
+            return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
+        }
         List<DrinkDto> drinkDtos = recommendDrinks.stream()
                 .map(drink -> DrinkDto.create(
                         drink, Preference.create(drink, 0)))
@@ -147,12 +154,14 @@ public class DrinkService {
         drink.updateInfo(
                 drinkRequest.getName(),
                 drinkRequest.getEnglishName(),
-                List.of(drinkRequest.getSmallImageUrl(), drinkRequest.getMediumImageUrl(), drinkRequest.getLargeImageUrl()),
+                List.of(drinkRequest.getSmallImageUrl(), drinkRequest.getMediumImageUrl(),
+                        drinkRequest.getLargeImageUrl()),
                 category,
                 drinkRequest.getAlcoholByVolume(),
                 drinkRequest.getDescription()
         );
     }
+
     @Transactional
     public void removeDrink(Long id) {
         drinkRepository.deleteById(id);

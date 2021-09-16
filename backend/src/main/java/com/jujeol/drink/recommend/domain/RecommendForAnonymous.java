@@ -13,7 +13,10 @@ public class RecommendForAnonymous implements RecommendStrategy {
     private final DrinkRepository drinkRepository;
 
     @Override
-    public List<Drink> recommend(Long memberId, int pageSize) {
-        return drinkRepository.findDrinks(PageRequest.ofSize(pageSize));
+    public List<Drink> recommend(String category, Long memberId, int pageSize) {
+        if(category == null) {
+            return drinkRepository.findDrinks(PageRequest.ofSize(pageSize));
+        }
+        return drinkRepository.findAllByCategory(category, PageRequest.ofSize(pageSize));
     }
 }

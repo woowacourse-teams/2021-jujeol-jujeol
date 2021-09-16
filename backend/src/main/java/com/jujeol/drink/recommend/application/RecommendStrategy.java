@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface RecommendStrategy {
 
-    List<Drink> recommend(Long memberId, int pageSize);
+    List<Drink> recommend(String category, Long memberId, int pageSize);
 }
