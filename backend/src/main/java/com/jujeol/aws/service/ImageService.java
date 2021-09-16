@@ -1,7 +1,7 @@
 package com.jujeol.aws.service;
 
 import com.jujeol.aws.infrastructure.S3Uploader;
-import com.jujeol.aws.service.ImageResizer.ImageSize;
+import com.jujeol.aws.service.ImageResizerImpl.ImageSize;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

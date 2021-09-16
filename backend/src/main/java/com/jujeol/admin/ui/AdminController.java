@@ -45,7 +45,7 @@ public class AdminController {
     @PostMapping("/drinks")
     public CommonResponse<?> insertDrinks(@ModelAttribute AdminDrinkRequest adminDrinkRequest) {
         final DrinkRequestDto drinkRequest = adminDrinkRequest.toDto();
-        drinkService.insertDrinks(Collections.singletonList(drinkRequest));
+        drinkService.insertDrinks(drinkRequest);
         return CommonResponse.ok();
     }
 

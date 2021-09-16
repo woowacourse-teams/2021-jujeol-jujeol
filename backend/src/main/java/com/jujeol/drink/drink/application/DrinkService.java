@@ -1,6 +1,6 @@
 package com.jujeol.drink.drink.application;
 
-import com.jujeol.aws.service.ImageResizer.ImageSize;
+import com.jujeol.aws.service.ImageResizerImpl.ImageSize;
 import com.jujeol.aws.service.ImageService;
 import com.jujeol.drink.category.domain.Category;
 import com.jujeol.drink.category.domain.CategoryRepository;
@@ -16,7 +16,6 @@ import com.jujeol.drink.recommend.application.RecommendStrategy;
 import com.jujeol.member.auth.ui.LoginMember;
 import com.jujeol.preference.application.PreferenceService;
 import com.jujeol.preference.domain.Preference;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -104,16 +103,12 @@ public class DrinkService {
     }
 
     @Transactional
-    public void insertDrinks(List<DrinkRequestDto> drinkRequests) {
-        final List<Drink> drinks = new ArrayList<>();
-
+    public void insertDrinks(DrinkRequestDto drinkRequest) {
         List<Category> categories = categoryRepository.findAll();
-        for (DrinkRequestDto drinkRequest : drinkRequests) {
-            Category category = findCategory(categories, drinkRequest.getCategoryKey());
-            EnumMap<ImageSize, String> imagePath = imageService.insert(drinkRequest.getImage());
-            drinks.add(drinkRequest.toEntity(category, imagePath.get(ImageSize.SMALL)));
-        }
-        drinkRepository.batchInsert(drinks);
+        Category category = findCategory(categories, drinkRequest.getCategoryKey());
+        EnumMap<ImageSize, String> imagePath = imageService.insert(drinkRequest.getImage());
+        final Drink drink = drinkRequest.toEntity(category, imagePath.get(ImageSize.SMALL));
+        drinkRepository.save(drink);
     }
 
     private Category findCategory(List<Category> categories, String categoryKey) {
