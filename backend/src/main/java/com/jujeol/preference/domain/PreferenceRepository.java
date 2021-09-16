@@ -23,6 +23,6 @@ public interface PreferenceRepository extends JpaRepository<Preference, Long> {
             countQuery = "Select count(p) From Preference p where p.member.id = :memberId")
     Page<Preference> findByMemberIdOrderByCreatedAtDesc(Long memberId, Pageable pageable);
 
-    @Query("select p from Preference p where p.drink.category = :category")
+    @Query("select p from Preference p where p.drink.category.name = :category")
     List<Preference> findAllByCategory(String category);
 }
