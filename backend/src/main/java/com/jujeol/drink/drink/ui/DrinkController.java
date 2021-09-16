@@ -67,6 +67,9 @@ public class DrinkController {
             drinkDtos = drinkService
                     .showDrinksByPreference(category, page);
         }
+        if(loginMember.isAnonymous()) {
+            return ResponseEntity.ok(PageResponseAssembler.assemble(drinkDtos.map(drink -> DrinkResponse.from(drink, 0))));
+        }
 
         return ResponseEntity
                 .ok(PageResponseAssembler.assemble(drinkDtos.map(DrinkResponse::from)));
