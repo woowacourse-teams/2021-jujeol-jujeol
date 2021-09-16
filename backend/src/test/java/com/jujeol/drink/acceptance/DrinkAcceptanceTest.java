@@ -102,9 +102,10 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
                 .build().convertBodyToList(DrinkResponse.class);
 
         //then
-        assertThat(drinkSimpleResponses.get(0).getName()).isEqualTo("타이거 라들러 자몽");
-        assertThat(drinkSimpleResponses.get(1).getName()).isEqualTo("타이거 라들러 레몬");
-        assertThat(drinkSimpleResponses.get(2).getName()).isEqualTo("애플");
+        assertThat(drinkSimpleResponses)
+                .extracting("name")
+                .containsExactly("타이거 라들러 레몬","스텔라", "타이거 라들러 자몽",
+                        "애플", "KGB", "ESTP", "칭따오");
     }
 
     private void 협업_필터링_데이터_등록() {

@@ -65,7 +65,10 @@ public class DrinkController {
         }
         if(PREFERENCE_AVG.equals(sortBy)) {
             drinkDtos = drinkService
-                    .showDrinksByPreference(category, page);
+                    .showDrinksByPreference(category, page, loginMember);
+        }
+        if(loginMember.isAnonymous()) {
+            return ResponseEntity.ok(PageResponseAssembler.assemble(drinkDtos.map(drink -> DrinkResponse.from(drink, 0))));
         }
 
         return ResponseEntity
@@ -73,7 +76,7 @@ public class DrinkController {
     }
 
     private void checkSortBy(String sortBy) {
-        if(!EXPECT_PREFERENCE.equals(sortBy) && !PREFERENCE_AVG.equals(sortBy)) {
+        if(!EXPECT_PREFERENCE.equals(sortBy) && !PREFERENCE_AVG.equals(sortBy) && !EXPECTED_PREFERENCE.equals(sortBy)) {
             throw new InvalidSortByException();
         }
     }

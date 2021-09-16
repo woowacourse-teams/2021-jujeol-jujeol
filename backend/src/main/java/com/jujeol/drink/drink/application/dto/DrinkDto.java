@@ -24,11 +24,13 @@ public class DrinkDto {
     private CategoryDto categoryDto;
     private double preferenceRate;
     private double preferenceAvg;
+    private double expectedPreference;
     private String description;
 
     public static DrinkDto create(
             Drink drink,
-            Preference preference
+            Preference preference,
+            double expectedPreference
     ) {
         return new DrinkDto(drink.getId(),
                 drink.getName(),
@@ -40,7 +42,15 @@ public class DrinkDto {
                 CategoryDto.create(drink.getCategory()),
                 preference.getRate(),
                 drink.getPreferenceAvg(),
+                Math.round(expectedPreference*10) / 10.0,
                 drink.getDescription()
         );
+    }
+
+    public static DrinkDto create(
+            Drink drink,
+            Preference preference
+    ) {
+        return create(drink, preference, 0);
     }
 }

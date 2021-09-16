@@ -25,18 +25,17 @@ public class RecommendationSystem {
 
     private final PreferenceRepository preferenceRepository;
 
-    public List<Long> recommend(Long memberId, int howMany) {
+    public List<RecommendationResponse> recommend(Long memberId, int howMany) {
         final List<Preference> preferences = preferenceRepository.findAll();
         return recommend(memberId, howMany, preferences);
     }
 
-    public List<Long> recommend(Long memberId, int howMany, List<Preference> preferences) {
+    public List<RecommendationResponse> recommend(Long memberId, int howMany, List<Preference> preferences) {
         final UserBasedRecommender recommender = getRecommender(preferences);
         try {
             return recommender.recommend(memberId, howMany, true)
                     .stream()
-                    .mapToLong(RecommendedItem::getItemID)
-                    .boxed()
+                    .map(result -> new RecommendationResponse(result.getItemID(), result.getValue()))
                     .collect(toList());
         } catch (TasteException e) {
             return new ArrayList<>();

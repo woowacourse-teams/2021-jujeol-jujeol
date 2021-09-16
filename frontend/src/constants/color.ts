@@ -14,6 +14,8 @@ const COLOR = {
   PURPLE_800: '#1C0E35',
   PURPLE_900: '#160E27',
 
+  LIGHT_PURPLE_100: '#F5D5FF',
+
   GRAY_200: '#d0d0d0',
   GRAY_300: '#a0a0a0',
   GRAY_400: '#808080',
