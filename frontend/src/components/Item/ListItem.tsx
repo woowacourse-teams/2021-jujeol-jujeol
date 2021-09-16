@@ -35,7 +35,7 @@ const ListItem = ({
           <PreferenceRate type={preferenceType}>
             {preferenceKR[preferenceType]}
             <StarIcon width="12px" />
-            {preferenceRate}
+            {preferenceRate.toFixed(1)}
           </PreferenceRate>
         )}
       </ItemInfo>
