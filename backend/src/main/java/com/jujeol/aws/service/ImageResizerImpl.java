@@ -5,6 +5,8 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
@@ -41,6 +43,7 @@ public class ImageResizerImpl implements ImageResizer {
                         resizedImages.get(imageSize));
                 resizedFiles.put(imageSize, convertProgressive(resizedFile));
             }
+            Files.delete(Paths.get(file.getPath()));
             return resizedFiles;
         } catch (Exception e) {
             // Todo: 사용자 정의 예외
