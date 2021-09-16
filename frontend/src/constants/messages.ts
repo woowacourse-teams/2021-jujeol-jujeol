@@ -14,4 +14,9 @@ const ERROR_MESSAGE: { [key: string]: string } = {
   '2007': '글은 하루에 한 번만 작성할 수 있습니다.',
 };
 
-export { ERROR_MESSAGE, MESSAGE };
+const MESSAGE_TYPE_EMOJI = {
+  ERROR: '🚨',
+  CONFIRM: '✅',
+};
+
+export { ERROR_MESSAGE, MESSAGE, MESSAGE_TYPE_EMOJI };
