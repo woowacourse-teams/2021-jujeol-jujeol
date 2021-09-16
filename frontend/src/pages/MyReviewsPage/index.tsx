@@ -1,19 +1,16 @@
 import { useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
-import { useHistory } from 'react-router-dom';
+
 import API from 'src/apis/requests';
-import Arrow from 'src/components/@shared/Arrow/Arrow';
 import Grid from 'src/components/@shared/Grid/Grid';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
 import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewItemSkeleton';
 import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
-import { Container, Header } from './styles';
+import { Container } from './styles';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
 
 const MyReviewsPage = () => {
-  const history = useHistory();
-
   const {
     data: { pages } = {},
     fetchNextPage,
@@ -37,6 +34,7 @@ const MyReviewsPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   useInfinityScroll({ target: observerTargetRef, fetchNextPage, hasNextPage });
 
   const personalReviews = pages?.map((page) => page.data).flat();

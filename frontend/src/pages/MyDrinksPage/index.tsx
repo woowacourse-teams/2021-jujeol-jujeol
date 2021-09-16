@@ -1,21 +1,17 @@
 import { useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 
 import API from 'src/apis/requests';
 import Grid from 'src/components/@shared/Grid/Grid';
 import MyDrinkItem from './MyDrinkItem';
 
-import { Header, Container } from './styles';
+import { Container } from './styles';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
-import Arrow from 'src/components/@shared/Arrow/Arrow';
 import PersonalDrinkItemSkeleton from 'src/components/Skeleton/PersonalDrinkItemSkeleton';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
 
 const MyDrinksPage = () => {
-  const history = useHistory();
-
   const {
     data: { pages } = {},
     fetchNextPage,
