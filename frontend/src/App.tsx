@@ -12,6 +12,7 @@ import MyDrinksPage from './pages/MyDrinksPage';
 import MyReviewsPage from './pages/MyReviewsPage';
 import SearchPage from './pages/SearchPage';
 import SearchResultPage from './pages/SearchResultPage';
+import PreferencePage from './pages/PreferencePage';
 import { MainContainer } from './styles';
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
               <Route exact path={[PATH.MY_REVIEWS]} component={MyReviewsPage} />
               <Route exact path={[PATH.SEARCH]} component={SearchPage} />
               <Route exact path={[PATH.SEARCH_RESULT]} component={SearchResultPage} />
+              <Route exact path={[PATH.PREFERENCE]} component={PreferencePage} />
               <Redirect to={PATH.ROOT} />
             </Switch>
           </MainContainer>
