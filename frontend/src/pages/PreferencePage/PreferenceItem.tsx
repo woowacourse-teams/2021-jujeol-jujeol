@@ -21,7 +21,7 @@ const PreferenceItem = ({
   const [preferenceRate, setPreferenceRate] = useState(initialValue);
 
   return (
-    <FlexBox alignItems="center">
+    <FlexBox alignItems="center" justifyContent="center">
       <Img src={imageUrl} alt={name} shape="ROUND_SQUARE" size="X_SMALL" />
       <DrinkDescription>
         <Title>{name}</Title>

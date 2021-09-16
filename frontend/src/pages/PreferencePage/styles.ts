@@ -43,6 +43,12 @@ const AlertWrapper = styled.div`
 
 const DrinkDescription = styled.div`
   margin-left: 1rem;
+  width: 100%;
+  max-width: 280px;
+
+  svg {
+    width: 20%;
+  }
 `;
 
 const Title = styled.p`
