@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
@@ -8,7 +9,15 @@ const Container = styled.div<{ isLoggedIn: boolean }>`
 
   ${({ isLoggedIn }) =>
     !isLoggedIn &&
-    `height: calc(100vh - 11rem); overflow: hidden; pointer-events: none; touch-action:none;`}
+    css`
+      height: calc(6.5rem * 5);
+      overflow: hidden;
+      touch-action: none;
+
+      ul {
+        pointer-events: none;
+      }
+    `}
 `;
 
 const Notification = styled.div`
