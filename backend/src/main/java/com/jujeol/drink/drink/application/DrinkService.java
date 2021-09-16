@@ -90,11 +90,19 @@ public class DrinkService {
         return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
     }
 
-    public Page<DrinkDto> showDrinksByExpect(RecommendStrategy recommendStrategy,
+    public Page<DrinkDto> showDrinksByExpect(String category,
+            RecommendStrategy recommendStrategy,
             Pageable pageable, LoginMember loginMember) {
         List<Drink> recommendDrinks = recommendStrategy
-                .recommend(loginMember.getId(), pageable.getPageSize());
+                .recommend(category, loginMember.getId(), pageable.getPageSize());
 
+        if (loginMember.isMember()) {
+            final List<DrinkDto> drinkDtos = recommendDrinks.stream()
+                    .map(drink -> DrinkDto.create(drink,
+                            preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)))
+                    .collect(Collectors.toList());
+            return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
+        }
         List<DrinkDto> drinkDtos = recommendDrinks.stream()
                 .map(drink -> DrinkDto.create(
                         drink, Preference.create(drink, 0)))

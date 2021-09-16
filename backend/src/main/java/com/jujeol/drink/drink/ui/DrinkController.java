@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class DrinkController {
 
+    static final String EXPECTED_PREFERENCE = "expectedPreference";
     static final String EXPECT_PREFERENCE = "expectPreference";
     static final String PREFERENCE_AVG = "preferenceAvg";
 
@@ -50,7 +51,7 @@ public class DrinkController {
     @GetMapping("/drinks")
     public ResponseEntity<CommonResponse<List<DrinkResponse>>> showDrinksInMainPage(
             @RequestParam(required = false) String category,
-            @RequestParam String sortBy,
+            @RequestParam(defaultValue = PREFERENCE_AVG, required = false) String sortBy,
             @PageableDefault Pageable page,
             @AuthenticationPrincipal LoginMember loginMember
     ) {
@@ -58,9 +59,9 @@ public class DrinkController {
 
         checkSortBy(sortBy);
         
-        if(EXPECT_PREFERENCE.equals(sortBy)) {
+        if(EXPECT_PREFERENCE.equals(sortBy) || EXPECTED_PREFERENCE.equals(sortBy)) {
             drinkDtos = drinkService
-                    .showDrinksByExpect(recommendFactory.create(loginMember), page, loginMember);
+                    .showDrinksByExpect(category, recommendFactory.create(loginMember), page, loginMember);
         }
         if(PREFERENCE_AVG.equals(sortBy)) {
             drinkDtos = drinkService

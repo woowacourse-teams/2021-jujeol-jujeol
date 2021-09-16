@@ -20,8 +20,13 @@ public class RecommendForMember implements RecommendStrategy {
     private final PreferenceRepository preferenceRepository;
 
     @Override
-    public List<Drink> recommend(Long memberId, int pageSize) {
-        List<Preference> preferences = preferenceRepository.findAll();
+    public List<Drink> recommend(String category, Long memberId, int pageSize) {
+        List<Preference> preferences;
+        if(category == null) {
+            preferences = preferenceRepository.findAll();
+        }else {
+            preferences = preferenceRepository.findAllByCategory(category);
+        }
         final List<Preference> myPreferences = preferences.stream()
                 .filter(preference -> preference.getMember().getId().equals(memberId))
                 .collect(Collectors.toList());
