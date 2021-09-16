@@ -6,23 +6,23 @@ import { COLOR, PREFERENCE } from 'src/constants';
 import { DrinkDescription, Title } from './styles';
 
 const PreferenceItem = ({
-  id,
   initialValue,
   imageUrl,
   name,
   onUpdatePreference,
+  onClickImage,
 }: {
-  id: number;
   initialValue: number;
   imageUrl: string;
   name: string;
   onUpdatePreference: (preferenceRate: number) => void;
+  onClickImage: () => void;
 }) => {
   const [preferenceRate, setPreferenceRate] = useState(initialValue);
 
   return (
-    <FlexBox alignItems="center">
-      <Img src={imageUrl} alt={name} shape="ROUND_SQUARE" size="X_SMALL" />
+    <FlexBox alignItems="center" justifyContent="center">
+      <Img src={imageUrl} alt={name} shape="ROUND_SQUARE" size="X_SMALL" onClick={onClickImage} />
       <DrinkDescription>
         <Title>{name}</Title>
         <RangeWithIcons

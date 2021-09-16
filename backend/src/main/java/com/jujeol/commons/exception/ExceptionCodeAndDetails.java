@@ -37,36 +37,36 @@ public enum ExceptionCodeAndDetails {
     NO_SUCH_MEMBER("1004", "해당 id의 유저가 없습니다.", NoSuchMemberException.class),
     UNAUTHORIZED_USER("1005", "권한이 없는 유저입니다.", UnauthorizedUserException.class),
     INVALID_USER_NICKNAME_LENGTH("1006", "닉네임이 비어있거나 너무 깁니다.",
-        InvalidUserNicknameLengthException.class),
+            InvalidUserNicknameLengthException.class),
     INVALID_USER_NICKNAME_CHARACTER("1007", "닉네임에 잘 못 된 문자가 들어있습니다.",
-        InvalidUserNicknameCharacterException.class),
+            InvalidUserNicknameCharacterException.class),
     INVALID_USER_BIOGRAPHY_LENGTH("1008", "자기 소개가 너무 깁니다.",
-        InvalidUserBiographyLengthException.class),
+            InvalidUserBiographyLengthException.class),
 
     INVALID_ALCOHOL_BY_VOLUME("2001", "해당 주류의 도수가 잘 못 되었습니다.",
-        InvalidAlcoholByVolumeException.class),
+            InvalidAlcoholByVolumeException.class),
     INVALID_DRINK_NAME("2002", "해당 주류의 이름이 형식에 맞지 않습니다.", InvalidDrinkNameException.class),
     NOT_FOUND_DRINK("2003", "해당하는 id의 상품을 찾을 수 없습니다.", NotFoundDrinkException.class),
     INVALID_ENGLISH_DRINK_NAME("2004", "해당 주류의 영문명이 형식에 맞지 않습니다.",
-        InvalidEnglishNameException.class),
+            InvalidEnglishNameException.class),
     NOT_FOUND_REVIEW("2005", "해당하는 id의 리뷰를 찾을 수 없습니다.", NotFoundReviewException.class),
     NOT_EXIST_REVIEW_IN_DRINK("2006", "해당 주류에 존재하지 않는 리뷰입니다.",
-        NotExistReviewInDrinkException.class),
+            NotExistReviewInDrinkException.class),
     CREATE_REVIEW_LIMIT("2007", "동일 상품에 대한 리뷰는 하루에 하나만 작성할 수 있습니다.",
-        CreateReviewLimitException.class),
+            CreateReviewLimitException.class),
     INVALID_CONTENT_LENGTH("2008", "리뷰는 빈 공백이거나 300자를 넘을 수 없습니다.",
-        InvalidReviewContentException.class),
+            InvalidReviewContentException.class),
     NOT_EXIST_CATEGORY("2009", "해당 카테고리가 존재하지 않습니다.", NotFoundCategoryException.class),
 
     NOT_FOUND_VIEW_COUNT("2011", "해당 주류에 대한 조회수를 찾을 수 없습니다.", NotFoundViewCountException.class),
     CREATE_REVIEW_NO_PREFERENCE("2012", "리뷰를 생성하려면 선호도를 입력해야합니다.",
-        CreateReviewNoPreferenceException.class),
+            CreateReviewNoPreferenceException.class),
     INVALID_DESCRIPTION("2013", "유효하지 않은 상세설명입니다.",
-        InvalidDescriptionException.class),
+            InvalidDescriptionException.class),
     INVALID_SORT_BY("2014", "유효하지 않은 정렬 기준입니다.",
-        InvalidSortByException.class),
+            InvalidSortByException.class),
     IMAGE_RESIZE("2015", "이미지를 리사이징 하는 도중 오류가 발생했습니다.",
-        ImageFileResizingException.class);
+            ImageFileResizingException.class);
 
     private String code;
     private String message;
@@ -74,9 +74,9 @@ public enum ExceptionCodeAndDetails {
 
     public static ExceptionCodeAndDetails findByClass(Class<? extends Exception> type) {
         return Arrays.stream(ExceptionCodeAndDetails.values())
-            .filter(code -> code.type.equals(type))
-            .findAny()
-            .orElseThrow(NotFoundErrorCodeException::new);
+                .filter(code -> code.type.equals(type))
+                .findAny()
+                .orElseThrow(NotFoundErrorCodeException::new);
     }
 
 }

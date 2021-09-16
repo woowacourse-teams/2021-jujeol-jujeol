@@ -1,17 +1,30 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
 import LineClamp from 'src/styles/LineClamp';
 
-const Container = styled.div`
-  padding: 1rem;
+const Container = styled.div<{ isLoggedIn: boolean }>`
+  padding: 0 1rem;
+
+  ${({ isLoggedIn }) =>
+    !isLoggedIn &&
+    css`
+      height: calc(6.5rem * 5);
+      overflow: hidden;
+      touch-action: none;
+
+      ul {
+        pointer-events: none;
+      }
+    `}
 `;
 
 const Notification = styled.div`
   p {
     font-size: 0.8rem;
     line-height: 1.1;
-    margin-bottom: 1rem;
+    margin: 1rem 0;
   }
 `;
 
@@ -43,6 +56,12 @@ const AlertWrapper = styled.div`
 
 const DrinkDescription = styled.div`
   margin-left: 1rem;
+  width: 100%;
+  max-width: 280px;
+
+  svg {
+    width: 20%;
+  }
 `;
 
 const Title = styled.p`
