@@ -9,6 +9,7 @@ import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewIt
 import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import { Container, Header } from './styles';
+import NavigationHeader from 'src/components/Header/NavigationHeader';
 
 const MyReviewsPage = () => {
   const history = useHistory();
@@ -40,16 +41,9 @@ const MyReviewsPage = () => {
 
   const personalReviews = pages?.map((page) => page.data).flat();
 
-  const onMoveToPrevPage = () => history.goBack();
-
   return (
     <>
-      <Header>
-        <button type="button" onClick={onMoveToPrevPage}>
-          <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
-        </button>
-        <h2>내가 남긴 리뷰</h2>
-      </Header>
+      <NavigationHeader title="내가 남긴 리뷰" />
 
       <Container>
         <ul title="내가 남긴 리뷰">

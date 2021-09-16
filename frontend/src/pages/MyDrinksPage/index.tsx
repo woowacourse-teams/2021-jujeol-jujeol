@@ -11,6 +11,7 @@ import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
 import Arrow from 'src/components/@shared/Arrow/Arrow';
 import PersonalDrinkItemSkeleton from 'src/components/Skeleton/PersonalDrinkItemSkeleton';
+import NavigationHeader from 'src/components/Header/NavigationHeader';
 
 const MyDrinksPage = () => {
   const history = useHistory();
@@ -43,16 +44,9 @@ const MyDrinksPage = () => {
 
   const myDrinks = pages?.map((page) => page.data).flat();
 
-  const onMoveToPrevPage = () => history.goBack();
-
   return (
     <>
-      <Header>
-        <button type="button" onClick={onMoveToPrevPage}>
-          <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
-        </button>
-        <h2>선호도를 남긴 술</h2>
-      </Header>
+      <NavigationHeader title="선호도를 남긴 술" />
 
       <Container>
         <Grid col={matches ? 2 : 3} rowGap="1.5rem" title="선호도를 남긴 술" justifyItems="center">
