@@ -3,6 +3,7 @@ package com.jujeol.drink.drink.application.dto;
 import com.jujeol.drink.category.application.dto.CategoryDto;
 import com.jujeol.drink.drink.domain.Drink;
 import com.jujeol.preference.domain.Preference;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,7 +19,9 @@ public class DrinkDto {
     private String name;
     private String englishName;
     private Double alcoholByVolume;
-    private String imageUrl;
+    private String smallImageFilePath;
+    private String mediumImageFilePath;
+    private String largeImageFilePath;
     private CategoryDto categoryDto;
     private double preferenceRate;
     private double preferenceAvg;
@@ -32,7 +35,9 @@ public class DrinkDto {
                 drink.getName(),
                 drink.getEnglishName(),
                 drink.getAlcoholByVolume(),
-                drink.getImageFilePath(),
+                drink.getSmallImageFilePath(),
+                drink.getMediumImageFilePath(),
+                drink.getLargeImageFilePath(),
                 CategoryDto.create(drink.getCategory()),
                 preference.getRate(),
                 drink.getPreferenceAvg(),

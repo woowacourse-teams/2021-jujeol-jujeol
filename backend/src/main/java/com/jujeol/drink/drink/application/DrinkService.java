@@ -75,7 +75,26 @@ public class DrinkService {
                         drink, Preference.create(drink, 0)));
     }
 
-    public Page<DrinkDto> showRecommendDrinks(RecommendStrategy recommendStrategy,
+    public Page<DrinkDto> showDrinksByPreference(String category, Pageable pageable) {
+        List<DrinkDto> drinkDtos;
+
+        if(category == null) {
+            drinkDtos = drinkRepository.findAllSortByPreference(pageable)
+                    .stream()
+                    .map(drink -> DrinkDto.create(drink, Preference.create(drink, 0)))
+                    .collect(Collectors.toList());
+
+            return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
+        }
+
+        drinkDtos = drinkRepository.findAllByCategory(category, pageable)
+        .stream().map(drink -> DrinkDto.create(drink, Preference.create(drink, 0)))
+        .collect(Collectors.toList());
+
+        return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
+    }
+
+    public Page<DrinkDto> showDrinksByExpect(RecommendStrategy recommendStrategy,
             Pageable pageable, LoginMember loginMember) {
         List<Drink> recommendDrinks = recommendStrategy
                 .recommend(loginMember.getId(), pageable.getPageSize());
@@ -128,16 +147,15 @@ public class DrinkService {
         drink.updateInfo(
                 drinkRequest.getName(),
                 drinkRequest.getEnglishName(),
-                // TODO : image URL 돌려주기
-                "",
+                List.of(drinkRequest.getSmallImageUrl(), drinkRequest.getMediumImageUrl(), drinkRequest.getLargeImageUrl()),
                 category,
                 drinkRequest.getAlcoholByVolume(),
                 drinkRequest.getDescription()
         );
     }
-
     @Transactional
     public void removeDrink(Long id) {
         drinkRepository.deleteById(id);
     }
+
 }

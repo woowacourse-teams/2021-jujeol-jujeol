@@ -2,14 +2,12 @@ package com.jujeol.drink.drink.application.dto;
 
 import com.jujeol.drink.category.domain.Category;
 import com.jujeol.drink.drink.domain.Drink;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class DrinkRequestDto {
@@ -17,30 +15,34 @@ public class DrinkRequestDto {
     private String name;
     private String englishName;
     private Double alcoholByVolume;
-    private MultipartFile image;
+    private String smallImageUrl;
+    private String mediumImageUrl;
+    private String largeImageUrl;
     private String categoryKey;
     private String description;
 
     public static DrinkRequestDto create(
             String name, String englishName, Double alcoholByVolume,
-            MultipartFile image, String categoryKey, String description
+            String smallImageUrl, String mediumImageUrl, String largeImageUrl, String categoryKey, String description
     ) {
         return new DrinkRequestDto(
                 name,
                 englishName,
                 alcoholByVolume,
-                image,
+                smallImageUrl,
+                mediumImageUrl,
+                largeImageUrl,
                 categoryKey,
                 description
         );
     }
 
-    public Drink toEntity(Category category, String imagePath) {
+    public Drink toEntity(Category category) {
         return Drink.create(
                 name,
                 englishName,
                 alcoholByVolume,
-                imagePath,
+                List.of(smallImageUrl, mediumImageUrl, largeImageUrl),
                 0.0,
                 category,
                 description
