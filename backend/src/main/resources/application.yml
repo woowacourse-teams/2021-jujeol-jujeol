@@ -17,3 +17,7 @@ spring:
         one-indexed-parameters: true
   flyway:
     enabled: false
+
+elasticsearch:
+  url: elastic-1
+  port: 9000
