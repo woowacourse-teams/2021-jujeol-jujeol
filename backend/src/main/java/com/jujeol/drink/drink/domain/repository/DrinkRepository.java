@@ -20,8 +20,8 @@ public interface DrinkRepository extends JpaRepository<Drink, Long>, DrinkCustom
     List<Drink> findDrinks(Pageable pageable);
 
     @Query("select d from Drink d join fetch d.category "
-            + "where d.id in (select p.drink.id from Preference p where p.member.id = :memberId and p.rate > 3) "
-            + "or d.id not in (select p.drink.id from Preference p where p.member.id = :memberId) and d.category.key = :category order by d.preferenceAvg desc")
+            + "where (d.id in (select p.drink.id from Preference p where p.member.id = :memberId and p.rate > 3) "
+            + "or d.id not in (select p.drink.id from Preference p where p.member.id = :memberId)) and d.category.key = :category order by d.preferenceAvg desc")
     List<Drink> findDrinksForMember(Long memberId, Pageable pageable, String category);
 
     @Query("select d from Drink d join fetch d.category "
@@ -29,7 +29,7 @@ public interface DrinkRepository extends JpaRepository<Drink, Long>, DrinkCustom
             + "or d.id not in (select p.drink.id from Preference p where p.member.id = :memberId) order by d.preferenceAvg desc")
     List<Drink> findDrinksForMember(Long memberId, Pageable pageable);
 
-    @Query(value = "select d from Drink d join fetch d.category where d.category.key = :category order by d.preferenceAvg desc"
+    @Query(value = "select d from Drink d join fetch d.category c where c.key = :category order by d.preferenceAvg desc"
             ,countQuery = "select count(d) from Drink d where d.category.key = :category")
     Page<Drink> findAllByCategory(String category, Pageable pageable);
 

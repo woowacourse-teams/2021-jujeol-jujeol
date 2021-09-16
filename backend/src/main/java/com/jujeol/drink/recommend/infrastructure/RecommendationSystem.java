@@ -55,7 +55,7 @@ public class RecommendationSystem {
         final DataModel dataModel = new PreferenceDataModel(data);
         final UserSimilarity similarity = getSimilarity(dataModel);
         return new GenericUserBasedRecommender(dataModel,
-                getUserNeighborhood(0.1, similarity, dataModel),
+                getUserNeighborhood(3.1, similarity, dataModel),
                 similarity);
     }
 

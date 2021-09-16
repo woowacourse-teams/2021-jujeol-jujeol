@@ -6,6 +6,7 @@ import com.jujeol.drink.recommend.infrastructure.RecommendationResponse;
 import com.jujeol.drink.recommend.infrastructure.RecommendationSystem;
 import com.jujeol.preference.domain.Preference;
 import com.jujeol.preference.domain.PreferenceRepository;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -75,15 +76,18 @@ public class RecommendForMember implements RecommendStrategy {
 
     private List<RecommendedDrinkResponse> sortByNoTriedItem(List<RecommendedDrinkResponse> drinks,
             List<Preference> myPreferences) {
-        LinkedList<RecommendedDrinkResponse> triedDrinks = new LinkedList<>();
+        List<RecommendedDrinkResponse> triedDrinks = new ArrayList<>();
+        List<RecommendedDrinkResponse> noTriedDrinks = new ArrayList<>();
         for (RecommendedDrinkResponse drink : drinks) {
-            addDrinkByCheckingTriedOrNot(myPreferences, triedDrinks, drink);
+            addDrinkByCheckingTriedOrNot(myPreferences, triedDrinks, noTriedDrinks, drink);
         }
-        return triedDrinks;
+        noTriedDrinks.addAll(triedDrinks);
+        return noTriedDrinks;
     }
 
     private void addDrinkByCheckingTriedOrNot(List<Preference> myPreferences,
-            LinkedList<RecommendedDrinkResponse> triedDrinks,
+            List<RecommendedDrinkResponse> triedDrinks,
+            List<RecommendedDrinkResponse> noTriedDrinks,
             RecommendedDrinkResponse drink) {
         myPreferences.stream()
                 .filter(preference -> preference.getDrink().getId()
@@ -91,8 +95,8 @@ public class RecommendForMember implements RecommendStrategy {
                 .findAny()
                 .ifPresentOrElse(preference -> {
                     if (preference.getRate() > 3) {
-                        triedDrinks.addLast(drink);
+                        triedDrinks.add(drink);
                     }
-                }, () -> triedDrinks.addFirst(drink));
+                }, () -> noTriedDrinks.add(drink));
     }
 }
