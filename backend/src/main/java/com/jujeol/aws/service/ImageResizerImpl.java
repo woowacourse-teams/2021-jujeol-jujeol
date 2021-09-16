@@ -1,5 +1,6 @@
 package com.jujeol.aws.service;
 
+import com.jujeol.aws.exception.ImageFileResizingException;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -11,7 +12,6 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.imageio.IIOImage;
@@ -35,63 +35,62 @@ public class ImageResizerImpl implements ImageResizer {
     public EnumMap<ImageSize, File> resize(File file) {
         try {
             BufferedImage image = ImageIO.read(file);
-            EnumMap<ImageSize, BufferedImage> resizedImages = resizeImageByTripleAccels(image);
+            EnumMap<ImageSize, BufferedImage> resizedImages = resizeImageByTripleTypes(image);
 
             EnumMap<ImageSize, File> resizedFiles = new EnumMap<>(ImageSize.class);
             for (ImageSize imageSize : ImageSize.list()) {
                 File resizedFile = bufferedImageToFile(imageSize, file.getName(),
-                        resizedImages.get(imageSize));
+                    resizedImages.get(imageSize));
                 resizedFiles.put(imageSize, convertProgressive(resizedFile));
             }
             Files.delete(Paths.get(file.getPath()));
             return resizedFiles;
         } catch (Exception e) {
-            // Todo: 사용자 정의 예외
-            e.printStackTrace();
-            throw new RuntimeException();
+            throw new ImageFileResizingException();
         }
     }
 
     private File bufferedImageToFile(ImageSize imageSize, String fileName,
-            BufferedImage bufferedImage) {
+        BufferedImage bufferedImage) {
         File file = null;
         try {
             file = new File(
-                    String.format("%s_%s.%s",
-                            FilenameUtils.removeExtension(fileName),
-                            imageSize.getFileNameSuffix(),
-                            "jpeg"
-                    )
+                String.format("%s_%s.%s",
+                    FilenameUtils.removeExtension(fileName),
+                    imageSize.getFileNameSuffix(),
+                    "jpeg"
+                )
             );
             ImageIO.write(bufferedImage, "jpg", file);
             log.info(file.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ImageFileResizingException();
         }
         return file;
     }
 
-    private EnumMap<ImageSize, BufferedImage> resizeImageByTripleAccels(
-            BufferedImage originalImage) {
-        final Map<ImageSize, BufferedImage> collect = ImageSize.list().stream()
-                .collect(
-                        Collectors.toMap(
-                                Function.identity(),
-                                (imageSize) -> {
-                                    final Image originalImageScaled = originalImage
-                                            .getScaledInstance(imageSize.getPixelSize(),
-                                                    imageSize.getPixelSize(), Image.SCALE_SMOOTH);
-                                    BufferedImage bufferedImage = new BufferedImage(
-                                            imageSize.getPixelSize(), imageSize.getPixelSize(),
-                                            BufferedImage.TYPE_INT_RGB);
-                                    bufferedImage.getGraphics()
-                                            .drawImage(originalImageScaled, 0, 0, Color.WHITE,
-                                                    null);
-                                    return bufferedImage;
-                                }
-                        )
-                );
-        EnumMap<ImageSize, BufferedImage> resizedImage = new EnumMap<>(collect);
+    private EnumMap<ImageSize, BufferedImage> resizeImageByTripleTypes(
+        BufferedImage originalImage) {
+        final EnumMap<ImageSize, BufferedImage> resizedImage = ImageSize.list().stream()
+            .collect(
+                Collectors.toMap(
+                    Function.identity(),
+                    (imageSize) -> {
+                        final Image originalImageScaled = originalImage
+                            .getScaledInstance(imageSize.getPixelSize(),
+                                imageSize.getPixelSize(), Image.SCALE_SMOOTH);
+                        BufferedImage bufferedImage = new BufferedImage(
+                            imageSize.getPixelSize(), imageSize.getPixelSize(),
+                            BufferedImage.TYPE_INT_RGB);
+                        bufferedImage.getGraphics()
+                            .drawImage(originalImageScaled, 0, 0, Color.WHITE,
+                                null);
+                        return bufferedImage;
+                    },
+                    (o1, o2) -> o1,
+                    () -> new EnumMap<>(ImageSize.class)
+                )
+            );
         return resizedImage;
     }
 
@@ -109,8 +108,7 @@ public class ImageResizerImpl implements ImageResizer {
             imageWriter.write(null, iioImage, imageWriteParam);
             imageWriter.dispose();
         } catch (IOException e) {
-            //todo : 예외 처리
-            e.printStackTrace();
+            throw new ImageFileResizingException();
         }
 
         return file;
