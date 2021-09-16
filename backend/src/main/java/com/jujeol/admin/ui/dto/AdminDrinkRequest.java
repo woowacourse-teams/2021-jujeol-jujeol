@@ -20,9 +20,10 @@ public class AdminDrinkRequest {
     private String categoryKey;
     private String description;
 
-    //todo
-    public DrinkRequestDto toDto() {
+    public DrinkRequestDto toDto(String smallImageUrl, String mediumImageUrl,
+            String largeImageUrl) {
         return DrinkRequestDto
-                .create(name, englishName, alcoholByVolume, image, categoryKey, description);
+                .create(name, englishName, alcoholByVolume, smallImageUrl, mediumImageUrl,
+                        largeImageUrl, categoryKey, description);
     }
 }

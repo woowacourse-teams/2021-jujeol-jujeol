@@ -1,7 +1,5 @@
 package com.jujeol.drink.drink.application;
 
-import com.jujeol.aws.service.ImageResizerImpl.ImageSize;
-import com.jujeol.aws.service.ImageService;
 import com.jujeol.drink.category.domain.Category;
 import com.jujeol.drink.category.domain.CategoryRepository;
 import com.jujeol.drink.category.exception.NotFoundCategoryException;
@@ -17,7 +15,6 @@ import com.jujeol.member.auth.ui.LoginMember;
 import com.jujeol.preference.application.PreferenceService;
 import com.jujeol.preference.domain.Preference;
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +32,6 @@ public class DrinkService {
     private final DrinkRepository drinkRepository;
     private final CategoryRepository categoryRepository;
     private final PreferenceService preferenceService;
-    private final ImageService imageService;
 
     public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, Pageable pageable) {
         SearchWords searchWords = SearchWords.create(searchDto.getSearch());
@@ -78,7 +74,7 @@ public class DrinkService {
     public Page<DrinkDto> showDrinksByPreference(String category, Pageable pageable) {
         List<DrinkDto> drinkDtos;
 
-        if(category == null) {
+        if (category == null) {
             drinkDtos = drinkRepository.findAllSortByPreference(pageable)
                     .stream()
                     .map(drink -> DrinkDto.create(drink, Preference.create(drink, 0)))
@@ -88,8 +84,8 @@ public class DrinkService {
         }
 
         drinkDtos = drinkRepository.findAllByCategory(category, pageable)
-        .stream().map(drink -> DrinkDto.create(drink, Preference.create(drink, 0)))
-        .collect(Collectors.toList());
+                .stream().map(drink -> DrinkDto.create(drink, Preference.create(drink, 0)))
+                .collect(Collectors.toList());
 
         return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
     }
@@ -122,11 +118,10 @@ public class DrinkService {
     }
 
     @Transactional
-    public void insertDrinks(DrinkRequestDto drinkRequest) {
+    public void insertDrink(DrinkRequestDto drinkRequest) {
         List<Category> categories = categoryRepository.findAll();
         Category category = findCategory(categories, drinkRequest.getCategoryKey());
-        EnumMap<ImageSize, String> imagePath = imageService.insert(drinkRequest.getImage());
-        final Drink drink = drinkRequest.toEntity(category, imagePath.get(ImageSize.SMALL));
+        final Drink drink = drinkRequest.toEntity(category);
         drinkRepository.save(drink);
     }
 
@@ -147,12 +142,14 @@ public class DrinkService {
         drink.updateInfo(
                 drinkRequest.getName(),
                 drinkRequest.getEnglishName(),
-                List.of(drinkRequest.getSmallImageUrl(), drinkRequest.getMediumImageUrl(), drinkRequest.getLargeImageUrl()),
+                List.of(drinkRequest.getSmallImageUrl(), drinkRequest.getMediumImageUrl(),
+                        drinkRequest.getLargeImageUrl()),
                 category,
                 drinkRequest.getAlcoholByVolume(),
                 drinkRequest.getDescription()
         );
     }
+
     @Transactional
     public void removeDrink(Long id) {
         drinkRepository.deleteById(id);

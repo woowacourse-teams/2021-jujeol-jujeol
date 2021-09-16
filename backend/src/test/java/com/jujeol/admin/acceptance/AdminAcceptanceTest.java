@@ -66,7 +66,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         //given
         final List<AdminDrinkRequest> request =
                 Collections.singletonList(
-                        new AdminDrinkRequest("", "test", 2.0, "test", "BEER", "비어있는 주류다."
+                        new AdminDrinkRequest("", "test", 2.0, null, "BEER", "비어있는 주류다."
                         ));
 
         //when
@@ -83,7 +83,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         //given
         final List<AdminDrinkRequest> request =
                 Collections.singletonList(
-                        new AdminDrinkRequest("test", "test", 2.0, "test",
+                        new AdminDrinkRequest("test", "test", 2.0, null,
                                 Long.toString(Long.MAX_VALUE), "잘못된 카테고리이다."));
 
         //when
@@ -102,7 +102,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         final Long stellaId = drinkAcceptanceTool.주류_아이디_조회(STELLA.getName());
 
         final AdminDrinkRequest newStella =
-                new AdminDrinkRequest("스텔라2", "stella2", 2.0, "test", "BEER", "상세 설명을 수정 중입니다.");
+                new AdminDrinkRequest("스텔라2", "stella2", 2.0, null, "BEER", "상세 설명을 수정 중입니다.");
         //when
         final HttpResponse httpResponse =
                 request().put("/admin/drinks/{id}", newStella, stellaId).build();
