@@ -21,7 +21,8 @@ public class AdminAcceptanceTool {
     }
 
     public void 어드민_주류_데이터_등록(DrinkTestContainer... drinkTestContainers) {
-        final List<AdminDrinkRequest> adminDrinkRequests = DrinkTestContainer.asAdminRequestList(drinkTestContainers);
+        final List<AdminDrinkRequest> adminDrinkRequests = DrinkTestContainer
+                .asAdminRequestList(drinkTestContainers);
         requestBuilder.builder().post("/admin/drinks", adminDrinkRequests).withoutLog().build();
     }
 }

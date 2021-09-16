@@ -17,7 +17,7 @@ public class TestSocialLoginFactory implements SocialLoginStrategyFactory {
 
             @Override
             public MemberDetails getDetails(String socialCode) {
-             return TestMember.findByCode(socialCode).getMemberDetails();
+                return TestMember.findByCode(socialCode).getMemberDetails();
             }
 
             @Override

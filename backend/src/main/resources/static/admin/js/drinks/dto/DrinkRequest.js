@@ -1,27 +1,18 @@
 export default class DrinkRequest {
-  constructor(id, name, englishName, alcoholByVolume, imageUrl, categoryKey) {
-    if (!validProperties([name, imageUrl, alcoholByVolume, categoryKey])){
-      return false;
-    }
+  constructor(id, name, englishName, alcoholByVolume, imageUrl, description, categoryKey) {
     this.id = id;
     this.name = name;
     this.englishName = englishName;
     this.alcoholByVolume = alcoholByVolume;
     this.imageUrl = imageUrl;
+    this.description = description;
     this.categoryKey = categoryKey;
   }
-}
 
-function validProperties(nonNullList) {
-  let isNullOrEmptyFlag = true;
-
-  nonNullList.forEach(ele => {
-    if (isNullOrEmpty(ele)) {
-      isNullOrEmptyFlag = false;
-    }
-  })
-
-  return isNullOrEmptyFlag;
+  isValidProperties() {
+    return ![this.name, this.imageUrl, this.alcoholByVolume, this.categoryKey, this.description]
+      .every((property) => !isNullOrEmpty(property));
+  }
 }
 
 function isNullOrEmpty(object) {

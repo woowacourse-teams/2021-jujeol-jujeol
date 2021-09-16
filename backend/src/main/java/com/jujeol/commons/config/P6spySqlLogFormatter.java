@@ -9,6 +9,7 @@ public class P6spySqlLogFormatter {
 
     @PostConstruct
     public void setLogMessageFormat() {
-        P6SpyOptions.getActiveInstance().setLogMessageFormat(P6spySqlFormatConfiguration.class.getName());
+        P6SpyOptions.getActiveInstance()
+                .setLogMessageFormat(P6spySqlFormatConfiguration.class.getName());
     }
 }

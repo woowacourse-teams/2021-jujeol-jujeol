@@ -47,9 +47,10 @@ export const getDrinkDetail = ($row, id) => {
   const englishName = $row.querySelector(".drinkEnglishName input").value
   const alcoholByVolume = $row.querySelector(".drinkAbv input").value
   const imagePath = $row.querySelector(".drinkImageFilePath input").value
+  const description = $row.querySelector(".drinkDescription textarea").value
   const categoryKey = $row.querySelector(".categoryKey").value
 
-  return new DrinkRequest(id, name, englishName, alcoholByVolume, imagePath, categoryKey);
+  return new DrinkRequest(id, name, englishName, alcoholByVolume, imagePath, description, categoryKey);
 }
 
 function convertRequestToDrinkArray(drinkRequests) {
@@ -60,6 +61,7 @@ function convertRequestToDrinkArray(drinkRequests) {
           ele.englishName,
           ele.alcoholByVolume,
           ele.imageUrl,
+          ele.description,
           ele.category
       )
   )

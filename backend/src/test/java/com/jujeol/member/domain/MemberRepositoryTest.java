@@ -22,6 +22,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class MemberRepositoryTest {
+
     private final static String TEST_PROVIDER_ID = "1";
 
     private final Provider testProvider = Provider.create(TEST_PROVIDER_ID, ProviderName.TEST);
@@ -53,15 +54,20 @@ public class MemberRepositoryTest {
 
         //when
         //then
-        Member expectedMember = Member.create(testProvider, Nickname.create(prefix + "_3"), testBiography);
+        Member expectedMember = Member
+                .create(testProvider, Nickname.create(prefix + "_3"), testBiography);
 
-        memberRepository.save(Member.create(testProvider, Nickname.create(prefix + "_1"), testBiography));
-        memberRepository.save(Member.create(testProvider, Nickname.create(prefix + "_2"), testBiography));
+        memberRepository
+                .save(Member.create(testProvider, Nickname.create(prefix + "_1"), testBiography));
+        memberRepository
+                .save(Member.create(testProvider, Nickname.create(prefix + "_2"), testBiography));
         memberRepository.save(expectedMember);
         assertThat(findMember(prefix)).isEqualTo(expectedMember);
 
-        memberRepository.save(Member.create(testProvider, Nickname.create("123" + prefix), testBiography));
-        memberRepository.save(Member.create(testProvider, Nickname.create("1234" + prefix), testBiography));
+        memberRepository
+                .save(Member.create(testProvider, Nickname.create("123" + prefix), testBiography));
+        memberRepository
+                .save(Member.create(testProvider, Nickname.create("1234" + prefix), testBiography));
         assertThat(findMember(prefix)).isEqualTo(expectedMember);
     }
 

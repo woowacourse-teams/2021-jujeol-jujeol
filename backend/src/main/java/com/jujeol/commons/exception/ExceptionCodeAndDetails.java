@@ -2,6 +2,7 @@ package com.jujeol.commons.exception;
 
 import com.jujeol.drink.category.exception.NotFoundCategoryException;
 import com.jujeol.drink.drink.exception.InvalidAlcoholByVolumeException;
+import com.jujeol.drink.drink.exception.InvalidDescriptionException;
 import com.jujeol.drink.drink.exception.InvalidDrinkNameException;
 import com.jujeol.drink.drink.exception.InvalidEnglishNameException;
 import com.jujeol.drink.drink.exception.NotFoundDrinkException;
@@ -57,8 +58,9 @@ public enum ExceptionCodeAndDetails {
 
     NOT_FOUND_VIEW_COUNT("2011", "해당 주류에 대한 조회수를 찾을 수 없습니다.", NotFoundViewCountException.class),
     CREATE_REVIEW_NO_PREFERENCE("2012", "리뷰를 생성하려면 선호도를 입력해야합니다.",
-            CreateReviewNoPreferenceException.class);
-
+            CreateReviewNoPreferenceException.class),
+    INVALID_DESCRIPTION("2013", "유효하지 않은 상세설명입니다.",
+            InvalidDescriptionException.class);
 
     private String code;
     private String message;
