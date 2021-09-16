@@ -6,6 +6,8 @@ import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.drink.application.DrinkService;
 import com.jujeol.drink.drink.application.dto.DrinkRequestDto;
+import com.jujeol.member.auth.ui.AuthenticationPrincipal;
+import com.jujeol.member.auth.ui.LoginMember;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +33,10 @@ public class AdminController {
 
     @GetMapping("/drinks")
     public CommonResponse<List<AdminDrinkResponse>> showDrinks(
-            @PageableDefault(value = 20, sort = "id", direction = Direction.DESC) Pageable pageable) {
-        final Page<AdminDrinkResponse> drinks = drinkService.showAllDrinksByPage(pageable)
+            @PageableDefault(value = 20, sort = "id", direction = Direction.DESC) Pageable pageable,
+            @AuthenticationPrincipal LoginMember loginMember) {
+        final Page<AdminDrinkResponse> drinks = drinkService.showAllDrinksByPage(pageable,
+                loginMember)
                 .map(AdminDrinkResponse::from);
         return PageResponseAssembler.assemble(drinks);
     }
