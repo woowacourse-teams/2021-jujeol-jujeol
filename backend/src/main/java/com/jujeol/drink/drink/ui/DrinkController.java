@@ -29,10 +29,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class DrinkController {
 
-    static final String EXPECTED_PREFERENCE = "expectedPreference";
-    static final String EXPECT_PREFERENCE = "expectPreference";
-    static final String PREFERENCE_AVG = "preferenceAvg";
-
+    private static final String EXPECTED_PREFERENCE = "expectedPreference";
+    private static final String EXPECT_PREFERENCE = "expectPreference";
+    private static final String PREFERENCE_AVG = "preferenceAvg";
+    private static final String NO_SORT = "noSort";
     private final DrinkService drinkService;
     private final RecommendFactory recommendFactory;
 
@@ -52,7 +52,7 @@ public class DrinkController {
     @GetMapping("/drinks")
     public ResponseEntity<CommonResponse<List<DrinkResponse>>> showDrinksInMainPage(
             @RequestParam(required = false) String category,
-            @RequestParam(defaultValue = PREFERENCE_AVG, required = false) String sortBy,
+            @RequestParam(defaultValue = NO_SORT, required = false) String sortBy,
             @PageableDefault Pageable page,
             @AuthenticationPrincipal LoginMember loginMember
     ) {
@@ -68,6 +68,10 @@ public class DrinkController {
             drinkDtos = drinkService
                     .showDrinksByPreference(category, page, loginMember);
         }
+        if(NO_SORT.equals(sortBy)) {
+            drinkDtos = drinkService.showAllDrinksByPage(page, loginMember);
+        }
+
         if(loginMember.isAnonymous()) {
             return ResponseEntity.ok(PageResponseAssembler.assemble(drinkDtos.map(drink -> DrinkResponse.from(drink, 0))));
         }
@@ -77,7 +81,8 @@ public class DrinkController {
     }
 
     private void checkSortBy(String sortBy) {
-        if(!EXPECT_PREFERENCE.equals(sortBy) && !PREFERENCE_AVG.equals(sortBy) && !EXPECTED_PREFERENCE.equals(sortBy)) {
+        if(!EXPECT_PREFERENCE.equals(sortBy) && !PREFERENCE_AVG.equals(sortBy)
+                && !EXPECTED_PREFERENCE.equals(sortBy) && !NO_SORT.equals(sortBy)) {
             throw new InvalidSortByException();
         }
     }

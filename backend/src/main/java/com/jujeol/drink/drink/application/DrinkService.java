@@ -16,7 +16,6 @@ import com.jujeol.member.auth.ui.LoginMember;
 import com.jujeol.preference.application.PreferenceService;
 import com.jujeol.preference.domain.Preference;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -73,10 +72,11 @@ public class DrinkService {
                 .collect(Collectors.toList());
     }
 
-    public Page<DrinkDto> showAllDrinksByPage(Pageable pageable) {
+    public Page<DrinkDto> showAllDrinksByPage(Pageable pageable,
+            LoginMember loginMember) {
         return drinkRepository.findAll(pageable)
                 .map(drink -> DrinkDto.create(
-                        drink, Preference.create(drink, 0)));
+                        drink, preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)));
     }
 
     public Page<DrinkDto> showDrinksByPreference(String category, Pageable pageable, LoginMember loginMember) {
