@@ -17,10 +17,3 @@ spring:
         one-indexed-parameters: true
   flyway:
     enabled: false
-
-# todo : 버킷 이름, url 수정
-application:
-  bucket:
-    name: 2021-jujeol-test
-  cloudfront:
-    url: https://didenwe6zsh18.cloudfront.net/
