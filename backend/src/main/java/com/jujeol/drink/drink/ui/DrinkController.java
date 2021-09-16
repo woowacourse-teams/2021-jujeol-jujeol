@@ -67,13 +67,16 @@ public class DrinkController {
             drinkDtos = drinkService
                     .showDrinksByPreference(category, page);
         }
+        if(loginMember.isAnonymous()) {
+            return ResponseEntity.ok(PageResponseAssembler.assemble(drinkDtos.map(drink -> DrinkResponse.from(drink, 0))));
+        }
 
         return ResponseEntity
                 .ok(PageResponseAssembler.assemble(drinkDtos.map(DrinkResponse::from)));
     }
 
     private void checkSortBy(String sortBy) {
-        if(!EXPECT_PREFERENCE.equals(sortBy) && !PREFERENCE_AVG.equals(sortBy)) {
+        if(!EXPECT_PREFERENCE.equals(sortBy) && !PREFERENCE_AVG.equals(sortBy) && !EXPECTED_PREFERENCE.equals(sortBy)) {
             throw new InvalidSortByException();
         }
     }
