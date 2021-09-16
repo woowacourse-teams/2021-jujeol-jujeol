@@ -23,4 +23,4 @@ application:
   bucket:
     name: 2021-jujeol-test
   cloudfront:
-    url: https://didenwe6zsh18.cloudfront.net
+    url: https://didenwe6zsh18.cloudfront.net/

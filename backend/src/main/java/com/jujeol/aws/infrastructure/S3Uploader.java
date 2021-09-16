@@ -25,7 +25,7 @@ public class S3Uploader {
     private final AmazonS3 amazonS3Client;
 
     public String upload(String directory, File image) {
-        String fileName = String.format("%s/%s", directory, image.getName());
+        String fileName = String.format("%s%s", directory, image.getName());
         amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, image));
         try {
             Files.delete(Paths.get(image.getPath()));
