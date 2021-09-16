@@ -10,7 +10,6 @@ import static com.jujeol.drink.DrinkTestContainer.STELLA;
 import static com.jujeol.drink.DrinkTestContainer.TIGER_LEMON;
 import static com.jujeol.drink.DrinkTestContainer.TIGER_RAD;
 import static com.jujeol.drink.DrinkTestContainer.TSINGTAO;
-import static com.jujeol.drink.DrinkTestContainer.WINE;
 import static com.jujeol.drink.DrinkTestContainer.asNames;
 import static com.jujeol.member.fixture.TestMember.CROFFLE;
 import static com.jujeol.member.fixture.TestMember.PIKA;
@@ -31,7 +30,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 
 public class DrinkAcceptanceTest extends AcceptanceTest {
 

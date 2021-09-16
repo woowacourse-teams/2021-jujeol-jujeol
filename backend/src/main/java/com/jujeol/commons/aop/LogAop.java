@@ -1,6 +1,5 @@
 package com.jujeol.commons.aop;
 
-import com.jujeol.commons.exception.JujeolException;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;

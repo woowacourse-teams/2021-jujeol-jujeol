@@ -1,8 +1,6 @@
 package com.jujeol.drink.drink.domain.repository;
 
-import com.jujeol.drink.drink.application.dto.DrinkDto;
 import com.jujeol.drink.drink.domain.Drink;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;

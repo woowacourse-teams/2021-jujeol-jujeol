@@ -1,8 +1,8 @@
 package com.jujeol;
 
 import com.jujeol.drink.category.domain.Category;
-import com.jujeol.drink.drink.domain.Drink;
 import com.jujeol.drink.category.domain.CategoryRepository;
+import com.jujeol.drink.drink.domain.Drink;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import java.util.Arrays;
 import java.util.List;
