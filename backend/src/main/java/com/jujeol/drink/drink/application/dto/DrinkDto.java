@@ -54,4 +54,8 @@ public class DrinkDto {
     ) {
         return create(drink, preference, 0);
     }
+
+    public void addPreferenceRate(Preference preference) {
+        preferenceRate = preference.getRate();
+    }
 }
