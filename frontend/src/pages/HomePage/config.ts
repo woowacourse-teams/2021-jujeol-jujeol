@@ -94,7 +94,7 @@ const topContentConfig = ({
   sectionType: 'ITEM_LIST',
   type: 'CARD',
   queryKey: 'main-top-content',
-  query: { sortBy: isLoggedIn ? 'expectPreference' : 'preferenceAvg' },
+  query: { sortBy: isLoggedIn ? 'expectedPreference' : 'preferenceAvg' },
   title: '오늘 이런 술 어때요?',
   titleAlign: 'center',
   subTitle: isLoggedIn
@@ -114,7 +114,7 @@ const getHomePageConfig = ({
     const config = getBestDrinksConfig(drinks[index]);
     return {
       ...config,
-      query: { ...config.query, sortBy: isLoggedIn ? 'expectPreference' : 'preferenceAvg' },
+      query: { ...config.query, sortBy: isLoggedIn ? 'expectedPreference' : 'preferenceAvg' },
     };
   });
 
