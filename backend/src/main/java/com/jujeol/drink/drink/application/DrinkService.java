@@ -35,7 +35,7 @@ public class DrinkService {
     private final CategoryRepository categoryRepository;
     private final PreferenceService preferenceService;
 
-    public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, Pageable pageable) {
+    public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, LoginMember loginMember, Pageable pageable) {
         SearchWords searchWords = SearchWords.create(searchDto.getSearch());
 
         List<DrinkDto> drinkDtos = drinksBySearch(searchDto, searchWords);
@@ -43,6 +43,12 @@ public class DrinkService {
         int start = (int) pageable.getOffset();
         int end = Math.min(start + pageable.getPageSize(), drinkDtos.size());
 
+        if(loginMember.isMember()) {
+            for (DrinkDto drinkDto : drinkDtos) {
+                drinkDto.addPreferenceRate(preferenceService.showByMemberIdAndDrink(
+                        loginMember.getId(), drinkDto.getId()));
+            }
+        }
         if (start > end) {
             return new PageImpl<>(new ArrayList<>(), pageable, drinkDtos.size());
         }

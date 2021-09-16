@@ -40,10 +40,11 @@ public class DrinkController {
     @GetMapping("/search")
     public ResponseEntity<CommonResponse<List<DrinkResponse>>> showDrinksBySearch(
             @ModelAttribute SearchRequest searchRequest,
-            @PageableDefault Pageable pageable
+            @PageableDefault Pageable pageable,
+            @AuthenticationPrincipal LoginMember loginMember
     ) {
         Page<DrinkDto> drinkDtos = drinkService
-                .showDrinksBySearch(searchRequest.toDto(), pageable);
+                .showDrinksBySearch(searchRequest.toDto(), loginMember, pageable);
         return ResponseEntity
                 .ok(PageResponseAssembler.assemble(drinkDtos.map(DrinkResponse::from)));
     }
