@@ -35,6 +35,7 @@ public class RecommendationSystem {
         try {
             return recommender.recommend(memberId, howMany, true)
                     .stream()
+                    .filter(result -> result.getValue() > 3.0)
                     .map(result -> new RecommendationResponse(result.getItemID(), result.getValue()))
                     .collect(toList());
         } catch (TasteException e) {
@@ -55,7 +56,7 @@ public class RecommendationSystem {
         final DataModel dataModel = new PreferenceDataModel(data);
         final UserSimilarity similarity = getSimilarity(dataModel);
         return new GenericUserBasedRecommender(dataModel,
-                getUserNeighborhood(3.1, similarity, dataModel),
+                getUserNeighborhood(0.5, similarity, dataModel),
                 similarity);
     }
 
