@@ -231,17 +231,17 @@ public class DataLoader implements CommandLineRunner {
 
         for (Drink drink : drinks_spread) {
             preferenceService.createOrUpdatePreference(savedMember.getId(), drink.getId(), PreferenceDto
-                    .create(Math.round((Math.random() * 50)) / 10.0));
+                    .create(Math.round(Math.random() * 10) / 10.0));
             preferenceService.createOrUpdatePreference(savedMember1.getId(), drink.getId(), PreferenceDto
-                    .create(Math.round((Math.random() * 50)) / 10.0));
+                    .create(Math.round((Math.random() * 10)) / 10.0));
             preferenceService.createOrUpdatePreference(savedMember2.getId(), drink.getId(), PreferenceDto
-                    .create(Math.round((Math.random() * 50)) / 10.0));
+                    .create(Math.round((Math.random() * 10)) / 10.0));
             preferenceService.createOrUpdatePreference(savedMember3.getId(), drink.getId(), PreferenceDto
-                    .create(Math.round((Math.random() * 50)) / 10.0));
+                    .create(Math.round((Math.random() * 10)) / 10.0));
             preferenceService.createOrUpdatePreference(savedMember4.getId(), drink.getId(), PreferenceDto
-                    .create(Math.round((Math.random() * 50)) / 10.0));
+                    .create(Math.round((Math.random() * 10)) / 10.0));
             preferenceService.createOrUpdatePreference(savedMember5.getId(), drink.getId(), PreferenceDto
-                    .create(Math.round((Math.random() * 50)) / 10.0));
+                    .create(Math.round((Math.random() * 10)) / 10.0));
         }
     }
 

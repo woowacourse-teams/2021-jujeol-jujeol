@@ -74,22 +74,13 @@ public class DrinkService {
     }
 
     public Page<DrinkDto> showDrinksByPreference(String category, Pageable pageable, LoginMember loginMember) {
-        List<DrinkDto> drinkDtos;
-
         if (category == null) {
-            drinkDtos = drinkRepository.findAllSortByPreference(pageable)
-                    .stream()
-                    .map(drink -> DrinkDto.create(drink, preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)))
-                    .collect(Collectors.toList());
-
-            return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
+            return drinkRepository.findAllSortByPreference(pageable)
+                    .map(drink -> DrinkDto.create(drink, preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)));
         }
 
-        drinkDtos = drinkRepository.findAllByCategory(category, pageable)
-                .stream().map(drink -> DrinkDto.create(drink, preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)))
-                .collect(Collectors.toList());
-
-        return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
+        return drinkRepository.findAllByCategory(category, pageable)
+                .map(drink -> DrinkDto.create(drink, preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)));
     }
 
     public Page<DrinkDto> showDrinksByExpect(String category,
