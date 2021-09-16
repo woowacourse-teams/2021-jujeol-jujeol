@@ -52,7 +52,7 @@ public class DrinkResponse {
                 drinkDto.getDescription(),
                 drinkDto.getPreferenceRate(),
                 drinkDto.getPreferenceAvg(),
-                Math.round((Math.random() * 50)) / 10.0
+                drinkDto.getExpectedPreference()
         );
     }
 }

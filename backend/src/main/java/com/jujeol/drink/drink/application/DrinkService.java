@@ -11,10 +11,12 @@ import com.jujeol.drink.drink.domain.SearchWords;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.recommend.application.RecommendStrategy;
+import com.jujeol.drink.recommend.domain.RecommendedDrinkResponse;
 import com.jujeol.member.auth.ui.LoginMember;
 import com.jujeol.preference.application.PreferenceService;
 import com.jujeol.preference.domain.Preference;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -93,19 +95,21 @@ public class DrinkService {
     public Page<DrinkDto> showDrinksByExpect(String category,
             RecommendStrategy recommendStrategy,
             Pageable pageable, LoginMember loginMember) {
-        List<Drink> recommendDrinks = recommendStrategy
+        List<RecommendedDrinkResponse> recommendDrinks = recommendStrategy
                 .recommend(category, loginMember.getId(), pageable.getPageSize());
 
         if (loginMember.isMember()) {
             final List<DrinkDto> drinkDtos = recommendDrinks.stream()
-                    .map(drink -> DrinkDto.create(drink,
-                            preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)))
+                    .map(drink -> DrinkDto.create(drink.getDrink(),
+                            preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink.getDrink()), drink.getExpectedPreference()))
+                    .sorted((o1, o2) -> Double.compare(o2.getExpectedPreference(), o1.getExpectedPreference()))
                     .collect(Collectors.toList());
             return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
         }
         List<DrinkDto> drinkDtos = recommendDrinks.stream()
-                .map(drink -> DrinkDto.create(
-                        drink, Preference.create(drink, 0)))
+                .map(drink -> DrinkDto.create(drink.getDrink(),
+                        preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink.getDrink()), drink.getExpectedPreference()))
+                .sorted((o1, o2) -> Double.compare(o2.getExpectedPreference(), o1.getExpectedPreference()))
                 .collect(Collectors.toList());
 
         return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
