@@ -5,7 +5,7 @@ import Flex from 'src/styles/Flex';
 import LineClamp from 'src/styles/LineClamp';
 
 const Container = styled.div<{ isLoggedIn: boolean }>`
-  padding: 1rem;
+  padding: 0 1rem;
 
   ${({ isLoggedIn }) =>
     !isLoggedIn &&
@@ -24,7 +24,7 @@ const Notification = styled.div`
   p {
     font-size: 0.8rem;
     line-height: 1.1;
-    margin-bottom: 1rem;
+    margin: 1rem 0;
   }
 `;
 
