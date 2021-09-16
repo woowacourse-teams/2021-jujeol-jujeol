@@ -46,9 +46,9 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
 
     @BeforeEach
     void setUp() {
-        adminAcceptanceTool
-                .어드민_주류_데이터_등록(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
+        adminAcceptanceTool.어드민_주류_데이터_등록(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
         drinks = List.of(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
+
     }
 
     @DisplayName("추천 조회 - 성공(비로그인 시 선호도 순서)")

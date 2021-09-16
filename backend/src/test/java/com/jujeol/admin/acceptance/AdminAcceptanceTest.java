@@ -34,7 +34,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
 
 
     @Test
-    @DisplayName("주류 대량 등록 - 성공")
+    @DisplayName("주류 등록 - 성공")
     public void batchInsert_success() {
         // given
         final List<AdminDrinkRequest> adminDrinkRequests =
