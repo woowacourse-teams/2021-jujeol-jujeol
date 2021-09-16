@@ -76,7 +76,7 @@ public class DrinkController {
     }
 
     private void checkSortBy(String sortBy) {
-        if(!EXPECT_PREFERENCE.equals(sortBy) && !PREFERENCE_AVG.equals(sortBy)) {
+        if(!EXPECT_PREFERENCE.equals(sortBy) && !PREFERENCE_AVG.equals(sortBy) && !EXPECTED_PREFERENCE.equals(sortBy)) {
             throw new InvalidSortByException();
         }
     }
