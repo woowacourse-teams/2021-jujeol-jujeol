@@ -95,7 +95,7 @@ public class DrinkService {
                             preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink.getDrink()), drink.getExpectedPreference()))
                     .sorted((o1, o2) -> Double.compare(o2.getExpectedPreference(), o1.getExpectedPreference()))
                     .collect(Collectors.toList());
-            return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
+            return new PageImpl<>(drinkDtos, Pageable.ofSize(pageable.getPageSize()), drinkDtos.size());
         }
         List<DrinkDto> drinkDtos = recommendDrinks.stream()
                 .map(drink -> DrinkDto.create(drink.getDrink(),
@@ -103,7 +103,7 @@ public class DrinkService {
                 .sorted((o1, o2) -> Double.compare(o2.getExpectedPreference(), o1.getExpectedPreference()))
                 .collect(Collectors.toList());
 
-        return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
+        return new PageImpl<>(drinkDtos, Pageable.ofSize(pageable.getPageSize()), drinkDtos.size());
     }
 
     public DrinkDto showDrinkDetail(Long id) {
