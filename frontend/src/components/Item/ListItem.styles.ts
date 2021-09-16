@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { COLOR } from 'src/constants';
+import Flex from 'src/styles/Flex';
 import LineClamp from 'src/styles/LineClamp';
 
 const Item = styled.li`
@@ -7,7 +8,7 @@ const Item = styled.li`
   height: fit-content;
   border-radius: 0.5rem;
 
-  display: flex;
+  ${Flex({ alignItems: 'center' })}
 
   img {
     width: 88px;
