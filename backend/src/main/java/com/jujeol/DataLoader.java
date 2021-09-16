@@ -7,10 +7,12 @@ import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.member.auth.domain.Provider;
 import com.jujeol.member.auth.domain.ProviderName;
 import com.jujeol.member.auth.util.JwtTokenProvider;
+import com.jujeol.member.member.application.dto.PreferenceDto;
 import com.jujeol.member.member.domain.Biography;
 import com.jujeol.member.member.domain.Member;
 import com.jujeol.member.member.domain.nickname.Nickname;
 import com.jujeol.member.member.domain.repository.MemberRepository;
+import com.jujeol.preference.application.PreferenceService;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ public class DataLoader implements CommandLineRunner {
     private final CategoryRepository categoryRepository;
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final PreferenceService preferenceService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -205,11 +208,41 @@ public class DataLoader implements CommandLineRunner {
         final Member savedMember = memberRepository.save(Member
                 .create(Provider.create("abc", ProviderName.TEST), Nickname.create("hello"),
                         Biography.create("test")));
+        final Member savedMember1 = memberRepository.save(Member
+                .create(Provider.create("abc", ProviderName.TEST), Nickname.create("hello1"),
+                        Biography.create("test")));
+        final Member savedMember2 = memberRepository.save(Member
+                .create(Provider.create("abc", ProviderName.TEST), Nickname.create("hello2"),
+                        Biography.create("test")));
+        final Member savedMember3 = memberRepository.save(Member
+                .create(Provider.create("abc", ProviderName.TEST), Nickname.create("hello3"),
+                        Biography.create("test")));
+        final Member savedMember4 = memberRepository.save(Member
+                .create(Provider.create("abc", ProviderName.TEST), Nickname.create("hello4"),
+                        Biography.create("test")));
+        final Member savedMember5 = memberRepository.save(Member
+                .create(Provider.create("abc", ProviderName.TEST), Nickname.create("hello5"),
+                        Biography.create("test")));
 
         final String token = jwtTokenProvider.createToken(savedMember.getId().toString());
         System.out.println("===============================token========================");
         System.out.println(token);
         System.out.println("===============================token========================");
+
+        for (Drink drink : drinks_spread) {
+            preferenceService.createOrUpdatePreference(savedMember.getId(), drink.getId(), PreferenceDto
+                    .create(Math.round((Math.random() * 50)) / 10.0));
+            preferenceService.createOrUpdatePreference(savedMember1.getId(), drink.getId(), PreferenceDto
+                    .create(Math.round((Math.random() * 50)) / 10.0));
+            preferenceService.createOrUpdatePreference(savedMember2.getId(), drink.getId(), PreferenceDto
+                    .create(Math.round((Math.random() * 50)) / 10.0));
+            preferenceService.createOrUpdatePreference(savedMember3.getId(), drink.getId(), PreferenceDto
+                    .create(Math.round((Math.random() * 50)) / 10.0));
+            preferenceService.createOrUpdatePreference(savedMember4.getId(), drink.getId(), PreferenceDto
+                    .create(Math.round((Math.random() * 50)) / 10.0));
+            preferenceService.createOrUpdatePreference(savedMember5.getId(), drink.getId(), PreferenceDto
+                    .create(Math.round((Math.random() * 50)) / 10.0));
+        }
     }
 
     private List<String> createFilePath(String drinkName) {
