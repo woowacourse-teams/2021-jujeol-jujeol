@@ -50,7 +50,7 @@ public class DrinkController {
     @GetMapping("/drinks")
     public ResponseEntity<CommonResponse<List<DrinkResponse>>> showDrinksInMainPage(
             @RequestParam(required = false) String category,
-            @RequestParam String sortBy,
+            @RequestParam(defaultValue = PREFERENCE_AVG, required = false) String sortBy,
             @PageableDefault Pageable page,
             @AuthenticationPrincipal LoginMember loginMember
     ) {
