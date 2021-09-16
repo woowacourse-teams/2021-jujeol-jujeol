@@ -5,7 +5,7 @@ export { default as PREFERENCE } from './preference';
 export { default as PORTAL_ID } from './portal';
 export { LOCAL_STORAGE_KEY } from './localStorage';
 export { default as REQUEST_URL } from './requestUrl';
-export { MESSAGE, ERROR_MESSAGE } from './messages';
+export { MESSAGE, ERROR_MESSAGE, MESSAGE_TYPE_EMOJI } from './messages';
 export { default as REVIEW } from './review';
 export { default as SEARCH } from './search';
 export { default as VALUE } from './value';

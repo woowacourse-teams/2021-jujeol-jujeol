@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
 import ModalProvider from './components/Modal/ModalProvider';
+import SnackbarProvider from './components/@shared/Snackbar/SnackbarProvider';
 import Tab from './components/Tab/Tab';
 import PATH from './constants/path';
 import { MainContainer } from './styles';
@@ -21,25 +22,27 @@ const App = () => {
   return (
     <>
       <Router>
-        <ModalProvider>
-          <MainContainer>
-            <Switch>
-              <Suspense fallback>
-                <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
-                <Route exact path={[PATH.LOGIN]} component={LoginPage} />
-                <Route exact path={[PATH.OAUTH]} component={OauthPage} />
-                <Route exact path={[PATH.VIEW_ALL]} component={ViewAllPage} />
-                <Route exact path={`${PATH.DRINKS}/:id`} component={DrinksDetailPage} />
-                <Route exact path={[PATH.MYPAGE]} component={MyPage} />
-                <Route exact path={[PATH.MY_DRINKS]} component={MyDrinksPage} />
-                <Route exact path={[PATH.MY_REVIEWS]} component={MyReviewsPage} />
-                <Route exact path={[PATH.SEARCH]} component={SearchPage} />
-                <Route exact path={[PATH.SEARCH_RESULT]} component={SearchResultPage} />
-                <Redirect to={PATH.ROOT} />
-              </Suspense>
-            </Switch>
-          </MainContainer>
-        </ModalProvider>
+        <SnackbarProvider>
+          <ModalProvider>
+            <MainContainer>
+              <Switch>
+                <Suspense fallback>
+                  <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
+                  <Route exact path={[PATH.LOGIN]} component={LoginPage} />
+                  <Route exact path={[PATH.OAUTH]} component={OauthPage} />
+                  <Route exact path={[PATH.VIEW_ALL]} component={ViewAllPage} />
+                  <Route exact path={`${PATH.DRINKS}/:id`} component={DrinksDetailPage} />
+                  <Route exact path={[PATH.MYPAGE]} component={MyPage} />
+                  <Route exact path={[PATH.MY_DRINKS]} component={MyDrinksPage} />
+                  <Route exact path={[PATH.MY_REVIEWS]} component={MyReviewsPage} />
+                  <Route exact path={[PATH.SEARCH]} component={SearchPage} />
+                  <Route exact path={[PATH.SEARCH_RESULT]} component={SearchResultPage} />
+                  <Redirect to={PATH.ROOT} />
+                </Suspense>
+              </Switch>
+            </MainContainer>
+          </ModalProvider>
+        </SnackbarProvider>
 
         <Tab />
       </Router>
