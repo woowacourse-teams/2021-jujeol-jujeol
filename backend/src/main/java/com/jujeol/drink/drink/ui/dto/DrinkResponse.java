@@ -24,6 +24,22 @@ public class DrinkResponse {
     private double preferenceAvg;
     private double expectedPreference;
 
+    public static DrinkResponse from(DrinkDto drinkDto, double expectedPreference) {
+        return new DrinkResponse(
+                drinkDto.getId(),
+                drinkDto.getName(),
+                drinkDto.getEnglishName(),
+                drinkDto.getAlcoholByVolume(),
+                ImageResponse.create(drinkDto.getSmallImageFilePath(),
+                        drinkDto.getMediumImageFilePath(), drinkDto.getLargeImageFilePath()),
+                CategoryResponse.create(drinkDto.getCategoryDto()),
+                drinkDto.getDescription(),
+                drinkDto.getPreferenceRate(),
+                drinkDto.getPreferenceAvg(),
+                expectedPreference
+        );
+    }
+
     public static DrinkResponse from(DrinkDto drinkDto) {
         return new DrinkResponse(
                 drinkDto.getId(),
