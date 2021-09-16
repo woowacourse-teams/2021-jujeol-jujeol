@@ -195,10 +195,10 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
     fireEvent.click(editButton);
 
     const deleteButton = screen.getByRole('button', { name: '삭제하기' });
-
     fireEvent.click(deleteButton);
 
-    expect(window.confirm).toBeCalled();
+    const confirmButton = await screen.findByText('확인');
+    fireEvent.click(confirmButton);
 
     await waitFor(() => expect(API.deleteReview).toBeCalled());
     await waitFor(() => expect(API.getReview).toBeCalled());
