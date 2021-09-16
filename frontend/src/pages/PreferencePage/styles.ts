@@ -4,7 +4,15 @@ import Flex from 'src/styles/Flex';
 import LineClamp from 'src/styles/LineClamp';
 
 const Container = styled.div`
-  padding: 0 1rem;
+  padding: 1rem;
+`;
+
+const Notification = styled.div`
+  p {
+    font-size: 0.8rem;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
 `;
 
 const AlertWrapper = styled.div`
@@ -42,4 +50,32 @@ const Title = styled.p`
   ${LineClamp({ lineClamp: 2 })}
 `;
 
-export { Container, AlertWrapper, DrinkDescription, Title };
+const NoDrink = styled.div`
+  padding: 7rem 2rem;
+  height: 100%;
+
+  ${Flex({
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  })}
+
+  svg {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  h2 {
+    margin: 2rem 0 1rem;
+    font-size: 1rem;
+    text-align: center;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  p {
+    font-size: 0.8rem;
+  }
+`;
+
+export { Container, Notification, AlertWrapper, DrinkDescription, Title, NoDrink };

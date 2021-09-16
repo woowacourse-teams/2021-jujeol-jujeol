@@ -5,7 +5,7 @@ import LineClamp from 'src/styles/LineClamp';
 
 const Item = styled.li`
   width: 100%;
-  height: fit-content;
+  height: 88px;
   border-radius: 0.5rem;
 
   ${Flex({ alignItems: 'center' })}
@@ -27,7 +27,7 @@ const ItemInfo = styled.div`
   padding: 0.5rem 1rem;
 
   h3 {
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 1.3;
     margin-bottom: 0.3rem;

@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, Method } from 'axios';
+import axios, { AxiosRequestConfig, Method, AxiosError } from 'axios';
 import { LOCAL_STORAGE_KEY, REQUEST_URL } from 'src/constants';
 import { getLocalStorageItem } from 'src/utils/localStorage';
 
@@ -13,7 +13,7 @@ const request = async (config: AxiosRequestConfig) => {
     const response = await axios(config);
 
     return response.data;
-  } catch ({ response }) {
+  } catch ({ response }: AxiosError) {
     throw response.data;
   }
 };
@@ -93,6 +93,12 @@ const API = {
     return request({
       method: 'GET' as Method,
       url: `/members/me/drinks?page=${page ?? ''}&size=${size ?? ''}`,
+    });
+  },
+  getSearchResults: ({ page, params }: { page: number; params?: URLSearchParams }) => {
+    return request({
+      method: 'GET' as Method,
+      url: REQUEST_URL.SEARCH + '?page=' + page + (params ? '&' + params.toString() : ''),
     });
   },
 };

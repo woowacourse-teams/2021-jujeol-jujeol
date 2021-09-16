@@ -23,7 +23,7 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
   const words = new URLSearchParams(location.search).get('words') ?? '';
   const categoryKey = new URLSearchParams(location.search).get('category') ?? '';
 
-  const params = new URLSearchParams({ search: words, category: categoryKey });
+  const params = new URLSearchParams({ keyword: words, category: categoryKey });
   params.forEach((value, key) => {
     if (value === '') {
       params.delete(key);
@@ -40,7 +40,7 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
     hasNextPage,
   } = useInfiniteQuery(
     'search-results',
-    ({ pageParam = 1 }) => API.getDrinks({ params, page: pageParam }),
+    ({ pageParam = 1 }) => API.getSearchResults({ params, page: pageParam }),
     {
       retry: 0,
       getNextPageParam: ({ pageInfo }) => {
@@ -93,9 +93,15 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
               {searchResult?.map((item: Drink.Item) => (
                 <ListItem
                   key={item?.id}
-                  imageUrl={item?.imageUrl}
+                  imageUrl={item?.imageResponse.small}
                   title={item?.name}
                   description={`도수: ${item?.alcoholByVolume}%`}
+                  preferenceType={
+                    item?.preferenceRate ? 'MY' : item?.expectedPreference ? 'EXPECTED' : 'AVG'
+                  }
+                  preferenceRate={
+                    item?.preferenceRate || item?.expectedPreference || item?.preferenceAvg
+                  }
                   onClick={() => {
                     history.push(`${PATH.DRINKS}/${item?.id}`);
                   }}

@@ -1,5 +1,5 @@
 declare interface Category {
-  key: 'BEER' | 'SOJU' | 'MAKGEOLLI' | 'WINE' | 'YANGJU' | 'COCKTAIL' | 'ETC';
+  key: 'BEER' | 'SOJU' | 'MAKGEOLLI' | 'WINE' | 'YANGJU' | 'COCKTAIL' | 'ETC' | 'ALL';
   name: string;
   Icon: (props: IconProps) => React.ReactElement;
 }
