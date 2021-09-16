@@ -66,9 +66,8 @@ const PreferencePage = () => {
   return (
     <>
       <NavigationHeader title="선호도 평가" />
-      <Container>
+      <Container isLoggedIn={isLoggedIn}>
         <Notification>
-          {/* 상황에 따라 표시되는 문구 변경 */}
           <p>술에 대한 선호도를 많이 남길수록, 추천 정확도가 높아져요</p>
         </Notification>
         <div>

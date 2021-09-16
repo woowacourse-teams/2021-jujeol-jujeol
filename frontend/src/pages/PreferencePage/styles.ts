@@ -3,8 +3,12 @@ import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
 import LineClamp from 'src/styles/LineClamp';
 
-const Container = styled.div`
+const Container = styled.div<{ isLoggedIn: boolean }>`
   padding: 1rem;
+
+  ${({ isLoggedIn }) =>
+    !isLoggedIn &&
+    `height: calc(100vh - 11rem); overflow: hidden; pointer-events: none; touch-action:none;`}
 `;
 
 const Notification = styled.div`
