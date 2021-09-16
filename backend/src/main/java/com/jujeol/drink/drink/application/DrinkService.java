@@ -90,10 +90,11 @@ public class DrinkService {
         return new PageImpl<>(drinkDtos, pageable, drinkDtos.size());
     }
 
-    public Page<DrinkDto> showDrinksByExpect(RecommendStrategy recommendStrategy,
+    public Page<DrinkDto> showDrinksByExpect(String category,
+            RecommendStrategy recommendStrategy,
             Pageable pageable, LoginMember loginMember) {
         List<Drink> recommendDrinks = recommendStrategy
-                .recommend(loginMember.getId(), pageable.getPageSize());
+                .recommend(category, loginMember.getId(), pageable.getPageSize());
 
         if (loginMember.isMember()) {
             final List<DrinkDto> drinkDtos = recommendDrinks.stream()

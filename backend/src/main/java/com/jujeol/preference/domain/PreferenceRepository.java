@@ -1,5 +1,6 @@
 package com.jujeol.preference.domain;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,4 +22,7 @@ public interface PreferenceRepository extends JpaRepository<Preference, Long> {
     @Query(value = "Select p From Preference p join fetch p.drink d join fetch p.member join fetch d.category where p.member.id = :memberId order by p.createdAt desc",
             countQuery = "Select count(p) From Preference p where p.member.id = :memberId")
     Page<Preference> findByMemberIdOrderByCreatedAtDesc(Long memberId, Pageable pageable);
+
+    @Query("select p from Preference p where p.drink.category = :category")
+    List<Preference> findAllByCategory(String category);
 }
