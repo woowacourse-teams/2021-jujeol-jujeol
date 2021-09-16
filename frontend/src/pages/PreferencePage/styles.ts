@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
+import LineClamp from 'src/styles/LineClamp';
 
 const Container = styled.div`
   padding: 0 1rem;
@@ -32,8 +33,13 @@ const AlertWrapper = styled.div`
   }
 `;
 
-const DrinksList = styled.div`
-  width: 100%;
+const DrinkDescription = styled.div`
+  margin-left: 1rem;
 `;
 
-export { Container, AlertWrapper, DrinksList };
+const Title = styled.p`
+  margin-bottom: 0.5rem;
+  ${LineClamp({ lineClamp: 2 })}
+`;
+
+export { Container, AlertWrapper, DrinkDescription, Title };

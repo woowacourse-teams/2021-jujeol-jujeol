@@ -3,6 +3,7 @@ import FlexBox from 'src/components/@shared/FlexBox/FlexBox';
 import { Img } from 'src/components/@shared/Image/Image';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import { COLOR, PREFERENCE } from 'src/constants';
+import { DrinkDescription, Title } from './styles';
 
 const PreferenceItem = ({
   id,
@@ -15,15 +16,15 @@ const PreferenceItem = ({
   initialValue: number;
   imageUrl: string;
   name: string;
-  onUpdatePreference: any;
+  onUpdatePreference: (preferenceRate: number) => void;
 }) => {
   const [preferenceRate, setPreferenceRate] = useState(initialValue);
 
   return (
-    <FlexBox>
+    <FlexBox alignItems="center">
       <Img src={imageUrl} alt={name} shape="ROUND_SQUARE" size="X_SMALL" />
-      <div style={{ marginLeft: '1rem' }}>
-        <p style={{ marginBottom: '0.5rem' }}>{name}</p>
+      <DrinkDescription>
+        <Title>{name}</Title>
         <RangeWithIcons
           color={COLOR.YELLOW_300}
           max={PREFERENCE.MAX_VALUE}
@@ -34,7 +35,7 @@ const PreferenceItem = ({
           onMouseUp={() => onUpdatePreference(preferenceRate)}
           onTouchEnd={() => onUpdatePreference(preferenceRate)}
         />
-      </div>
+      </DrinkDescription>
     </FlexBox>
   );
 };

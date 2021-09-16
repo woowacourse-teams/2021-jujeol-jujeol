@@ -8,7 +8,7 @@ import { PATH } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
 import { InfinityScrollPoll } from '../ViewAllPage/ViewAllPage.styles';
 import MemoizedPreferenceItem from './PreferenceItem';
-import { Container, AlertWrapper, DrinksList } from './styles';
+import { Container, AlertWrapper } from './styles';
 
 const PreferencePage = () => {
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
@@ -61,7 +61,7 @@ const PreferencePage = () => {
         <p>3개 이상의 술을 평가해야 추천을 해드릴 수 있어요</p>
         <br />
       </div>
-      <DrinksList>
+      <div>
         <Grid rowGap="1.5rem">
           {drinks
             .filter(({ preferenceRate }) => !preferenceRate)
@@ -78,7 +78,7 @@ const PreferencePage = () => {
               </li>
             ))}
         </Grid>
-      </DrinksList>
+      </div>
       <InfinityScrollPoll ref={infinityPollRef} />
       {!isLoggedIn && (
         <AlertWrapper>
