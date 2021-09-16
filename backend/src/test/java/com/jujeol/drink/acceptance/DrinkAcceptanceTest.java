@@ -106,7 +106,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(drinkSimpleResponses)
                 .extracting("name")
-                .containsExactly("타이거 라들러 레몬","스텔라", "타이거 라들러 자몽",
+                .containsExactlyInAnyOrder("타이거 라들러 레몬","스텔라", "타이거 라들러 자몽",
                         "애플", "KGB", "ESTP", "칭따오");
     }
 
