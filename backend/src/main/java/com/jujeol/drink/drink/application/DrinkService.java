@@ -127,15 +127,11 @@ public class DrinkService {
     }
 
     @Transactional
-    public void insertDrinks(List<DrinkRequestDto> drinkRequests) {
-        final List<Drink> drinks = new ArrayList<>();
-
+    public void insertDrink(DrinkRequestDto drinkRequest) {
         List<Category> categories = categoryRepository.findAll();
-        for (DrinkRequestDto drinkRequest : drinkRequests) {
-            Category category = findCategory(categories, drinkRequest.getCategoryKey());
-            drinks.add(drinkRequest.toEntity(category));
-        }
-        drinkRepository.batchInsert(drinks);
+        Category category = findCategory(categories, drinkRequest.getCategoryKey());
+        final Drink drink = drinkRequest.toEntity(category);
+        drinkRepository.save(drink);
     }
 
     private Category findCategory(List<Category> categories, String categoryKey) {

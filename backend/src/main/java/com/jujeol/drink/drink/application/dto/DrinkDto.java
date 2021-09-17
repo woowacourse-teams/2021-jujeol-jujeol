@@ -3,7 +3,6 @@ package com.jujeol.drink.drink.application.dto;
 import com.jujeol.drink.category.application.dto.CategoryDto;
 import com.jujeol.drink.drink.domain.Drink;
 import com.jujeol.preference.domain.Preference;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

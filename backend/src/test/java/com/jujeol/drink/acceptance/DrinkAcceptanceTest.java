@@ -10,7 +10,6 @@ import static com.jujeol.drink.DrinkTestContainer.STELLA;
 import static com.jujeol.drink.DrinkTestContainer.TIGER_LEMON;
 import static com.jujeol.drink.DrinkTestContainer.TIGER_RAD;
 import static com.jujeol.drink.DrinkTestContainer.TSINGTAO;
-import static com.jujeol.drink.DrinkTestContainer.WINE;
 import static com.jujeol.drink.DrinkTestContainer.asNames;
 import static com.jujeol.member.fixture.TestMember.CROFFLE;
 import static com.jujeol.member.fixture.TestMember.PIKA;
@@ -31,7 +30,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 
 public class DrinkAcceptanceTest extends AcceptanceTest {
 
@@ -46,9 +44,9 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
 
     @BeforeEach
     void setUp() {
-        adminAcceptanceTool
-                .어드민_주류_데이터_등록(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
+        adminAcceptanceTool.어드민_주류_데이터_등록(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
         drinks = List.of(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
+
     }
 
     @DisplayName("추천 조회 - 성공(비로그인 시 선호도 순서)")

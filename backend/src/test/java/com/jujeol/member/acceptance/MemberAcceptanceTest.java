@@ -16,7 +16,6 @@ import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
 import com.jujeol.member.member.application.dto.PreferenceDto;
 import com.jujeol.member.fixture.TestMember;
-import com.jujeol.member.member.application.dto.PreferenceDto;
 import com.jujeol.member.member.ui.dto.MemberRequest;
 import com.jujeol.member.member.ui.dto.MemberResponse;
 import io.restassured.response.ExtractableResponse;

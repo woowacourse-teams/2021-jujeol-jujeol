@@ -1,5 +1,6 @@
 package com.jujeol.commons.exception;
 
+import com.jujeol.aws.exception.ImageFileResizingException;
 import com.jujeol.drink.category.exception.NotFoundCategoryException;
 import com.jujeol.drink.drink.exception.InvalidAlcoholByVolumeException;
 import com.jujeol.drink.drink.exception.InvalidDescriptionException;
@@ -63,7 +64,9 @@ public enum ExceptionCodeAndDetails {
     INVALID_DESCRIPTION("2013", "유효하지 않은 상세설명입니다.",
             InvalidDescriptionException.class),
     INVALID_SORT_BY("2014", "유효하지 않은 정렬 기준입니다.",
-            InvalidSortByException.class);
+            InvalidSortByException.class),
+    IMAGE_RESIZE("2015", "이미지를 리사이징 하는 도중 오류가 발생했습니다.",
+            ImageFileResizingException.class);
 
     private String code;
     private String message;

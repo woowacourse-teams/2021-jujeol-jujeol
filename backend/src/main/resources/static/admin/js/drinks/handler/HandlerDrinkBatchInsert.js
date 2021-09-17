@@ -14,7 +14,6 @@ async function batchInsertEvent(target,drinks) {
   const $drinkRows = $$("#batchInsert tbody .drinkTableRow");
   const requestBodies = nodeListToValidRequest($drinkRows);
   await showSpinnerUntilSuccessRequest(requestBodies);
-
   clearBatchInsertTable();
 
   await renderDrinksTable(drinks);
@@ -28,6 +27,7 @@ function nodeListToValidRequest(nodeList){
 async function showSpinnerUntilSuccessRequest(requestBodies){
   const spinner = document.querySelector(".batchInsertSpinner")
   spinner.classList.remove("hide");
+
   await postRequest(`/admin/drinks`, requestBodies);
   spinner.classList.add("hide");
 }
