@@ -1,13 +1,14 @@
 import styled from '@emotion/styled';
 import { COLOR } from 'src/constants';
+import Flex from 'src/styles/Flex';
 import LineClamp from 'src/styles/LineClamp';
 
 const Item = styled.li`
   width: 100%;
-  height: fit-content;
+  height: 88px;
   border-radius: 0.5rem;
 
-  display: flex;
+  ${Flex({ alignItems: 'center' })}
 
   img {
     width: 88px;
@@ -26,7 +27,7 @@ const ItemInfo = styled.div`
   padding: 0.5rem 1rem;
 
   h3 {
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 1.3;
     margin-bottom: 0.3rem;

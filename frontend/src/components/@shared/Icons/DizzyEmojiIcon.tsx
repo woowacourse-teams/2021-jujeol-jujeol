@@ -1,11 +1,11 @@
-const DizzyEmojiIcon = ({ color = '#fff' }: IconProps) => {
+const DizzyEmojiIcon = ({ color = '#fff', width = '32px', height = '32px' }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       fill={color}
-      width="32px"
-      height="32px"
+      width={width}
+      height={width}
       aria-labelledby="dizzy-emoji-icon-title"
     >
       <title id="dizzy-emoji-icon-title">헤롱거리는 얼굴</title>

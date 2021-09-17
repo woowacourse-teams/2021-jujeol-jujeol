@@ -67,14 +67,18 @@ public class MemberInfoRepositoryTest {
     @Test
     public void findReviewsByMemberId() {
         //given
+        List<String> imageFilePaths = List.of("KakaoTalk_Image_2021-07-08-19-58-09_001_w200.png",
+                "KakaoTalk_Image_2021-07-08-19-58-09_001_w400.png",
+                "KakaoTalk_Image_2021-07-08-19-58-09_001_w600.png");
+
         Drink stella = Drink.create(
-                "스텔라", "stella", 5.5, "KakaoTalk_Image_2021-07-08-19-58-09_001.png", 0.0,
-                savedCategory);
+                "스텔라", "stella", 5.5, imageFilePaths, 0.0,
+                savedCategory, "아아 이것은 맥주라는 것이다.");
         Drink drink = drinkRepository.save(stella);
 
         Review review1 = Review.create("리뷰 1", drink, savedMember);
         Review review2 = Review.create("리뷰 2", drink, savedMember);
-        Review review3 = Review.create("리븊 3", drink, savedMember);
+        Review review3 = Review.create("리뷰 3", drink, savedMember);
         Review review4 = Review.create("리뷰 4", drink, savedMember);
         Review review5 = Review.create("리뷰 5", drink, savedMember);
         List<Review> reviews = List.of(review1, review2, review3, review4, review5)
@@ -100,15 +104,25 @@ public class MemberInfoRepositoryTest {
     @Test
     public void findDrinkUsingPreference() {
         //given
+        List<String> kgbImageFilePaths = List.of("KakaoTalk_Image_2021-07-08-19-58-09_002_w200.png",
+                "KakaoTalk_Image_2021-07-08-19-58-09_002_w400.png",
+                "KakaoTalk_Image_2021-07-08-19-58-09_002_w600.png");
+        List<String> estpImageFilePaths = List.of("KakaoTalk_Image_2021-07-08-19-58-11_003_w200.png",
+                "KakaoTalk_Image_2021-07-08-19-58-11_003_w400.png",
+                "KakaoTalk_Image_2021-07-08-19-58-11_003_w600.png");
+        List<String> tigerImageFilePaths = List.of("KakaoTalk_Image_2021-07-08-19-58-15_004_w200.png",
+                "KakaoTalk_Image_2021-07-08-19-58-15_004_w400.png",
+                "KakaoTalk_Image_2021-07-08-19-58-15_004_w600.png");
+
         Drink kgb = Drink.create(
-                "KGB", "", 3.5, "KakaoTalk_Image_2021-07-08-19-58-09_002.png", 0.0,
-                savedCategory);
+                "KGB", "", 3.5, kgbImageFilePaths, 0.0,
+                savedCategory, "아아 이것은 맥주라는 것이다.");
         Drink estp = Drink.create(
-                "ESTP", "", 7.5, "KakaoTalk_Image_2021-07-08-19-58-11_003.png", 0.0,
-                savedCategory);
+                "ESTP", "", 7.5, estpImageFilePaths, 0.0,
+                savedCategory, "아아 이것은 맥주라는 것이다.");
         Drink tiger_rad = Drink.create(
-                "타이거 라들러 자몽", "Tiger_Rad", 9.5, "KakaoTalk_Image_2021-07-08-19-58-15_004.png", 0.0,
-                savedCategory);
+                "타이거 라들러 자몽", "Tiger_Rad", 9.5, tigerImageFilePaths, 0.0,
+                savedCategory, "아아 이것은 맥주라는 것이다.");
 
         List<Drink> drinks = drinkRepository.saveAll(List.of(kgb, estp, tiger_rad));
 

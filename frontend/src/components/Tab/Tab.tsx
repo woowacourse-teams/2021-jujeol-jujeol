@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { COLOR, PATH } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
-import { HomeIcon, HumanIcon, LoginIcon, SearchIconForTab } from '../@shared/Icons';
+import { HomeIcon, HumanIcon, LoginIcon, SearchIconForTab, StarIcon } from '../@shared/Icons';
 import { Nav } from './Tab.styles';
 
 const tabConfig = (isLoggedIn: boolean) => {
@@ -13,6 +13,12 @@ const tabConfig = (isLoggedIn: boolean) => {
       path: [PATH.ROOT, PATH.HOME],
       title: '홈',
       Icon: HomeIcon,
+    },
+    {
+      mainPath: PATH.PREFERENCE,
+      path: [PATH.PREFERENCE],
+      title: '선호도 평가',
+      Icon: StarIcon,
     },
     {
       mainPath: PATH.SEARCH,
@@ -40,7 +46,6 @@ const tabConfig = (isLoggedIn: boolean) => {
         },
       ]);
 };
-
 const Tab = () => {
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 

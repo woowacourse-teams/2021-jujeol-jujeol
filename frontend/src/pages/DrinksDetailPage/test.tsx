@@ -43,7 +43,7 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
 
   it('사용자는 상세페이지에서 주류 정보를 확인할 수 있다.', async () => {
     expect(screen.getByAltText(drinksDetail.data.name).getAttribute('src')).toBe(
-      drinksDetail.data.imageUrl
+      drinksDetail.data.imageResponse.large
     );
     expect(screen.getByText(drinksDetail.data.name)).toBeVisible();
     expect(

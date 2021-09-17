@@ -18,25 +18,43 @@ public class DrinkDto {
     private String name;
     private String englishName;
     private Double alcoholByVolume;
-    private String imageUrl;
+    private String smallImageFilePath;
+    private String mediumImageFilePath;
+    private String largeImageFilePath;
     private CategoryDto categoryDto;
     private double preferenceRate;
     private double preferenceAvg;
+    private double expectedPreference;
     private String description;
 
     public static DrinkDto create(
             Drink drink,
-            Preference preference
+            Preference preference,
+            double expectedPreference
     ) {
         return new DrinkDto(drink.getId(),
                 drink.getName(),
                 drink.getEnglishName(),
                 drink.getAlcoholByVolume(),
-                drink.getImageFilePath(),
+                drink.getSmallImageFilePath(),
+                drink.getMediumImageFilePath(),
+                drink.getLargeImageFilePath(),
                 CategoryDto.create(drink.getCategory()),
                 preference.getRate(),
                 drink.getPreferenceAvg(),
+                Math.round(expectedPreference*10) / 10.0,
                 drink.getDescription()
         );
+    }
+
+    public static DrinkDto create(
+            Drink drink,
+            Preference preference
+    ) {
+        return create(drink, preference, 0);
+    }
+
+    public void addPreferenceRate(Preference preference) {
+        preferenceRate = preference.getRate();
     }
 }
