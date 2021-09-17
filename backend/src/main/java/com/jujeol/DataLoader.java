@@ -247,11 +247,11 @@ public class DataLoader implements CommandLineRunner {
 
     private List<String> createFilePath(String drinkName) {
         String smallFilePath =
-                "https://dmaxaug2ve9od.cloudfront.net/w_200/" + drinkName + "_w200.png";
+                "https://dmaxaug2ve9od.cloudfront.net/w_200/" + drinkName + "_w200.jpg";
         String mediumFilePath =
-                "https://dmaxaug2ve9od.cloudfront.net/w_400/" + drinkName + "_w400.png";
+                "https://dmaxaug2ve9od.cloudfront.net/w_400/" + drinkName + "_w400.jpg";
         String largeFilePath =
-                "https://dmaxaug2ve9od.cloudfront.net/w_600/" + drinkName + "_w600.png";
+                "https://dmaxaug2ve9od.cloudfront.net/w_600/" + drinkName + "_w600.jpg";
 
         return List.of(smallFilePath, mediumFilePath, largeFilePath);
     }
