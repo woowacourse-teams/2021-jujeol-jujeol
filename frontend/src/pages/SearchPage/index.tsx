@@ -9,6 +9,7 @@ import {
   WineColorIcon,
   YangjuColorIcon,
 } from 'src/components/@shared/Icons';
+import AllIcon from 'src/components/@shared/Icons/AllIcon';
 import SearchBar from 'src/components/@shared/SearchBar/SearchBar';
 import Banner from 'src/components/Banner/Banner';
 import { PATH } from 'src/constants';
@@ -50,12 +51,22 @@ const categories: Category[] = [
     name: '기타',
     Icon: CategoryEtcColorIcon,
   },
+  {
+    key: 'ALL',
+    name: '전체보기',
+    Icon: AllIcon,
+  },
 ];
 
 export { categories };
 
 const SearchPage = ({ history }: RouteComponentProps) => {
   const onMoveToSearchResult = (key: string) => () => {
+    if (key === 'ALL') {
+      history.push(PATH.VIEW_ALL);
+      return;
+    }
+
     history.push(`${PATH.SEARCH_RESULT}?category=${key}`);
   };
 

@@ -98,5 +98,11 @@ const API = {
       url: `/members/me/drinks?page=${page ?? ''}&size=${size ?? ''}`,
     });
   },
+  getSearchResults: ({ page, params }: { page: number; params?: URLSearchParams }) => {
+    return request({
+      method: 'GET' as Method,
+      url: REQUEST_URL.SEARCH + '?page=' + page + (params ? '&' + params.toString() : ''),
+    });
+  },
 };
 export default API;

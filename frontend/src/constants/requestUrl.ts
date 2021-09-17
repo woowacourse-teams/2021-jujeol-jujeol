@@ -5,6 +5,7 @@ const REQUEST_URL = {
   GET_DRINK: '/drinks',
   GET_RECOMMENDED_DRINKS: '/drinks/recommendation',
   REVIEWS: '/reviews',
+  SEARCH: '/search',
 };
 
 export default REQUEST_URL;

@@ -6,6 +6,14 @@ const drinks = {
       imageUrl:
         'https://github.com/sunhpark42/test_asset/blob/master/drinks/drinks_tiger_radler_grapefruit.jpeg?raw=true',
       alcoholByVolume: '4.9',
+      imageResponse: {
+        small: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+        medium: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+        large: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+      },
+      preferenceRate: 3.5,
+      preferenceAvg: 2.5,
+      expectedPreference: 3.0,
     },
     {
       id: 2,
@@ -13,6 +21,14 @@ const drinks = {
       imageUrl:
         'https://github.com/sunhpark42/test_asset/blob/master/drinks/drinks_tiger_radler_grapefruit.jpeg?raw=true',
       alcoholByVolume: '4.9',
+      imageResponse: {
+        small: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+        medium: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+        large: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+      },
+      preferenceRate: 3.5,
+      preferenceAvg: 2.5,
+      expectedPreference: 3.0,
     },
     {
       id: 3,
@@ -20,6 +36,14 @@ const drinks = {
       imageUrl:
         'https://github.com/sunhpark42/test_asset/blob/master/drinks/drinks_tiger_radler_grapefruit.jpeg?raw=true',
       alcoholByVolume: '4.9',
+      imageResponse: {
+        small: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+        medium: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+        large: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+      },
+      preferenceRate: 3.5,
+      preferenceAvg: 2.5,
+      expectedPreference: 3.0,
     },
     {
       id: 4,
@@ -27,6 +51,14 @@ const drinks = {
       imageUrl:
         'https://github.com/sunhpark42/test_asset/blob/master/drinks/drinks_tiger_radler_grapefruit.jpeg?raw=true',
       alcoholByVolume: '4.9',
+      imageResponse: {
+        small: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+        medium: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+        large: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+      },
+      preferenceRate: 3.5,
+      preferenceAvg: 2.5,
+      expectedPreference: 3.0,
     },
     {
       id: 5,
@@ -34,6 +66,14 @@ const drinks = {
       imageUrl:
         'https://github.com/sunhpark42/test_asset/blob/master/drinks/drinks_tiger_radler_grapefruit.jpeg?raw=true',
       alcoholByVolume: '4.9',
+      imageResponse: {
+        small: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+        medium: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+        large: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+      },
+      preferenceRate: 3.5,
+      preferenceAvg: 2.5,
+      expectedPreference: 3.0,
     },
     {
       id: 6,
@@ -41,6 +81,14 @@ const drinks = {
       imageUrl:
         'https://github.com/sunhpark42/test_asset/blob/master/drinks/drinks_tiger_radler_grapefruit.jpeg?raw=true',
       alcoholByVolume: '4.9',
+      imageResponse: {
+        small: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+        medium: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+        large: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+      },
+      preferenceRate: 3.5,
+      preferenceAvg: 2.5,
+      expectedPreference: 3.0,
     },
     {
       id: 7,
@@ -48,6 +96,14 @@ const drinks = {
       imageUrl:
         'https://github.com/sunhpark42/test_asset/blob/master/drinks/drinks_tiger_radler_grapefruit.jpeg?raw=true',
       alcoholByVolume: '4.9',
+      imageResponse: {
+        small: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+        medium: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+        large: 'https://dmaxaug2ve9od.cloudfront.net/stella_artois.png',
+      },
+      preferenceRate: 3.5,
+      preferenceAvg: 2.5,
+      expectedPreference: 3.0,
     },
   ],
   pageInfo: {

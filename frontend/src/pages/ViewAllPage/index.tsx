@@ -53,8 +53,12 @@ const ViewAllPage = () => {
         {drinks?.map((item: Drink.Item) => (
           <ListItem
             key={item?.id}
-            imageUrl={item?.imageUrl}
+            imageUrl={item?.imageResponse.small}
             title={item?.name}
+            preferenceType={
+              item?.preferenceRate ? 'MY' : item?.expectedPreference ? 'EXPECTED' : 'AVG'
+            }
+            preferenceRate={item?.preferenceRate || item?.expectedPreference || item?.preferenceAvg}
             description={`도수: ${item?.alcoholByVolume}%`}
             onClick={onMoveToDrinkDetail(item?.id)}
           />

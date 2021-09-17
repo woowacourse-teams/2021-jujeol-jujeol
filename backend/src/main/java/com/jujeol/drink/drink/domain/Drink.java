@@ -49,33 +49,11 @@ public class Drink {
     @OneToMany(mappedBy = "drink", fetch = FetchType.LAZY)
     private List<Review> reviews = new ArrayList<>();
 
-    // todo Drink 상세 설명 오버로딩된 create 삭제
     public static Drink create(
             String name,
             String englishName,
             Double alcoholByVolume,
-            String imageUrl,
-            Double preferenceAvg,
-            Category category
-    ) {
-        return new Drink(
-                null,
-                new DrinkName(name),
-                new DrinkEnglishName(englishName),
-                new AlcoholByVolume(alcoholByVolume),
-                new ImageFilePath(imageUrl),
-                category,
-                preferenceAvg,
-                new Description("상세 설명이 없는 경우"),
-                new ArrayList<>()
-        );
-    }
-
-    public static Drink create(
-            String name,
-            String englishName,
-            Double alcoholByVolume,
-            String imageUrl,
+            List<String> imageUrl,
             Double preferenceAvg,
             Category category,
             String description
@@ -85,12 +63,16 @@ public class Drink {
                 new DrinkName(name),
                 new DrinkEnglishName(englishName),
                 new AlcoholByVolume(alcoholByVolume),
-                new ImageFilePath(imageUrl),
+                ImageFilePath.create(imageUrl),
                 category,
                 preferenceAvg,
                 new Description(description),
                 new ArrayList<>()
         );
+    }
+
+    public static Drink ofId(Long drinkId) {
+        return new Drink(drinkId, null, null, null, null, null, null, null, null);
     }
 
     public void addReview(Review review) {
@@ -114,8 +96,16 @@ public class Drink {
         return alcoholByVolume.getValue();
     }
 
-    public String getImageFilePath() {
-        return imageFilePath.getImageFilePath();
+    public String getSmallImageFilePath() {
+        return imageFilePath.getSmallImageFilePath();
+    }
+
+    public String getMediumImageFilePath() {
+        return imageFilePath.getMediumImageFilePath();
+    }
+
+    public String getLargeImageFilePath() {
+        return imageFilePath.getLargeImageFilePath();
     }
 
     public Category getCategory() {
@@ -136,13 +126,13 @@ public class Drink {
 
     public void updateInfo(String name,
             String englishName,
-            String imageUrl,
+            List<String> imageUrls,
             Category category,
             Double alcoholByVolume,
             String description) {
         this.name = new DrinkName(name);
         this.englishName = new DrinkEnglishName(englishName);
-        this.imageFilePath = new ImageFilePath(imageUrl);
+        this.imageFilePath = ImageFilePath.create(imageUrls);
         this.category = category;
         this.alcoholByVolume = new AlcoholByVolume(alcoholByVolume);
         this.description = new Description(description);

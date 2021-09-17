@@ -1,14 +1,19 @@
-import MainHeader from 'src/components/Header/MainHeader';
-import Grid from 'src/components/@shared/Grid/Grid';
-import DrinkListSection from 'src/pages/HomePage/DrinkListSection';
-import config, { ItemList, Banner as BannerType } from './config';
-import Banner from 'src/components/Banner/Banner';
+import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+
+import UserContext from 'src/contexts/UserContext';
+import MainHeader from 'src/components/Header/MainHeader';
+import getHomePageConfig from './config';
 import { PATH } from 'src/constants';
+
+import DrinkListSection from 'src/pages/HomePage/DrinkListSection';
+import Grid from 'src/components/@shared/Grid/Grid';
+import Banner from 'src/components/Banner/Banner';
 import SearchBar from 'src/components/@shared/SearchBar/SearchBar';
 
 const HomePage = () => {
   const history = useHistory();
+  const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
   const onMoveToSearchPage = () => history.push(PATH.SEARCH);
 
@@ -18,53 +23,55 @@ const HomePage = () => {
       <SearchBar onClick={onMoveToSearchPage} placeholder="검색어를 입력해주세요" readOnly={true} />
 
       <Grid rowGap="2rem" colMin="280px" colMax="480px">
-        {config.map((section: ItemList | BannerType) => {
-          if (section.sectionType === 'ITEM_LIST') {
-            const {
-              id,
-              type,
-              theme,
-              title,
-              titleAlign,
-              subTitle,
-              query,
-              isShowMoreEnabled,
-              showMoreLink,
-              count,
-            }: ItemList = section;
+        {getHomePageConfig({ isLoggedIn }).map(
+          (section: Config.HomePageItemList | Config.HomePageBanner) => {
+            if (section.sectionType === 'ITEM_LIST') {
+              const {
+                id,
+                type,
+                queryKey,
+                title,
+                titleAlign,
+                subTitle,
+                query,
+                isShowMoreEnabled,
+                showMoreLink,
+                count,
+              }: Config.HomePageItemList = section;
 
-            return (
-              <li key={id}>
-                <DrinkListSection
-                  type={type as 'CARD' | 'LIST'}
-                  theme={theme}
-                  title={title}
-                  titleAlign={titleAlign}
-                  subTitle={subTitle}
-                  query={query}
-                  isShowMoreEnabled={isShowMoreEnabled}
-                  showMoreLink={showMoreLink}
-                  count={count}
-                />
-              </li>
-            );
+              return (
+                <li key={id}>
+                  <DrinkListSection
+                    type={type as 'CARD' | 'LIST'}
+                    queryKey={queryKey}
+                    title={title}
+                    titleAlign={titleAlign}
+                    subTitle={subTitle}
+                    query={query}
+                    isShowMoreEnabled={isShowMoreEnabled}
+                    showMoreLink={showMoreLink}
+                    count={count}
+                  />
+                </li>
+              );
+            }
+
+            if (section.sectionType === 'BANNER') {
+              const { id, type, title, src, alt }: Config.HomePageBanner = section;
+
+              return (
+                <li key={id}>
+                  <Banner
+                    type={type as 'IMAGE'}
+                    title={title as '프로모션 배너'}
+                    src={src}
+                    alt={alt}
+                  />
+                </li>
+              );
+            }
           }
-
-          if (section.sectionType === 'BANNER') {
-            const { id, type, title, src, alt }: BannerType = section;
-
-            return (
-              <li key={id}>
-                <Banner
-                  type={type as 'IMAGE'}
-                  title={title as '프로모션 배너'}
-                  src={src}
-                  alt={alt}
-                />
-              </li>
-            );
-          }
-        })}
+        )}
       </Grid>
     </div>
   );

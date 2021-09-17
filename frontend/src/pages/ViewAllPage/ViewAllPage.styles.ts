@@ -9,10 +9,7 @@ const Container = styled.div`
 
 const InfinityScrollPoll = styled.div`
   width: 100%;
-  height: 1rem;
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  height: 2rem;
   background-color: transparent;
 `;
 

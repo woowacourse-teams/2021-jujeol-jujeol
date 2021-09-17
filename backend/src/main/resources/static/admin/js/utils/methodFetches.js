@@ -7,8 +7,24 @@ function getRequest(url, needToken = false) {
   return apiRequest('GET', url, needToken);
 }
 
-function postRequest(url, body = {}, needToken = false) {
-  return apiRequest('POST', url, needToken, body);
+async function postRequest(url, formDatas = [{}], needToken = false) {
+  // const headers = {'Content-Type': 'multipart/form-data'}
+
+  const configure = {
+    method: 'POST',
+    // headers: headers
+  };
+
+  const formDataRequests = formDatas.map((drinkRequest) => {
+    configure.body = drinkRequest.getFormData();
+    return fetch(url, configure);
+  });
+
+  try {
+    return await Promise.all(formDataRequests);
+  } catch (error) {
+    return {};
+  }
 }
 
 function deleteRequest(url, needToken = false) {
@@ -25,7 +41,7 @@ async function apiRequest(method, url = '', needToken = false, body = {}) {
     throw new Error(`not valid method : ${method} / can method : get, post, delete, put`);
   }
 
-  const headers = { 'Content-Type': 'application/json' };
+  const headers = method === 'POST' ? { 'Content-Type': 'multipart/form-data'} : { 'Content-Type': 'application/json' }
   if (needToken) {
     headers.Authorization = `${BEARER} ${localStorage.getItem('accessToken')}`;
   }
@@ -37,15 +53,14 @@ async function apiRequest(method, url = '', needToken = false, body = {}) {
   };
 
   if (body && method.toUpperCase() !== 'GET') {
-    configure.body = JSON.stringify(body);
+    configure.body = new FormData();
+    configure.body.append('data', body)
   }
 
   const result = await fetch(url, configure);
 
   try {
-    const response = await result.json();
-
-    return response;
+    return await result.json();
   } catch (error) {
     return {};
   }
