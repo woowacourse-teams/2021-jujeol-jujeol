@@ -39,7 +39,7 @@ const EditButton = styled.button`
   border: none;
 
   position: absolute;
-  top: 0;
+  top: -15%;
   right: 0;
 `;
 

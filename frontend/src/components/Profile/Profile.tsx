@@ -1,5 +1,8 @@
-import { ImgHTMLAttributes } from 'react';
+import { ImgHTMLAttributes, useContext } from 'react';
+
 import { EditIcon } from '../@shared/Icons';
+import { modalContext } from '../Modal/ModalProvider';
+import EditModalForm from './EditModalForm';
 import { Container, EditButton } from './Profile.styles';
 
 interface Props extends ImgHTMLAttributes<HTMLImageElement> {
@@ -9,8 +12,10 @@ interface Props extends ImgHTMLAttributes<HTMLImageElement> {
 }
 
 const Profile = ({ ProfileIcon, nickname = '', bio = '' }: Props) => {
+  const openModal = useContext(modalContext)?.openModal;
+
   const onEditModalOpen = () => {
-    console.log('edit Button');
+    openModal?.(<EditModalForm nickname={nickname} bio={bio} />);
   };
 
   return (
