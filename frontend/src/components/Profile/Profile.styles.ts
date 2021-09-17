@@ -18,6 +18,8 @@ const Container = styled.section`
 
     margin-left: 1rem;
 
+    position: relative;
+
     h3 {
       font-size: 1.1rem;
       font-weight: 700;
@@ -30,11 +32,15 @@ const Container = styled.section`
       font-weight: 400;
     }
   }
-
-  svg {
-    width: 72px;
-    height: 72px;
-  }
 `;
 
-export { Container };
+const EditButton = styled.button`
+  background-color: transparent;
+  border: none;
+
+  position: absolute;
+  top: -15%;
+  right: 0;
+`;
+
+export { Container, EditButton };

@@ -1,11 +1,11 @@
-const MakgeolliIcon = ({ color = '#fff' }: IconProps) => {
+const MakgeolliIcon = ({ color = '#fff', width = '32px', height = '32px' }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       fill={color}
-      width="32px"
-      height="32px"
+      width={width}
+      height={height}
       aria-labelledby="makgeolli-icon-title"
     >
       <title id="makgeolli-icon-title">막걸리 잔</title>

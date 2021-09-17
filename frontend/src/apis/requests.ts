@@ -40,6 +40,9 @@ const API = {
   getUserInfo: () => {
     return request({ method: 'GET' as Method, url: REQUEST_URL.GET_USER_INFO });
   },
+  editUserInfo: <D>(data: D) => {
+    return request({ method: 'PUT' as Method, url: REQUEST_URL.GET_USER_INFO, data });
+  },
 
   getDrinks: ({ page, params }: { page: number; params?: URLSearchParams }) => {
     return request({
