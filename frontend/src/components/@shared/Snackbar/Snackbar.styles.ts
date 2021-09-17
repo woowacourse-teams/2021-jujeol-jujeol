@@ -1,7 +1,7 @@
 import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { COLOR } from 'src/constants';
+import { COLOR, Z_INDEX } from 'src/constants';
 import Flex from 'src/styles/Flex';
 
 const fadeInOut = keyframes`
@@ -30,6 +30,8 @@ const Container = styled.section<{ message: boolean }>`
 
   border-radius: 0.5rem;
   visibility: hidden;
+
+  z-index: ${Z_INDEX.SNACKBAR};
 
   ${({ message }) =>
     message &&

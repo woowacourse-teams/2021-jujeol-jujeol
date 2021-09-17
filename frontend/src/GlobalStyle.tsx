@@ -51,6 +51,7 @@ const GlobalStyle = () => (
         width: 100%;
         max-width: 480px;
         min-width: 280px;
+        z-index: 15;
       }
 
       html,
