@@ -17,6 +17,7 @@ const MyDrinksPage = lazy(() => import('./pages/MyDrinksPage'));
 const MyReviewsPage = lazy(() => import('./pages/MyReviewsPage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
 const SearchResultPage = lazy(() => import('./pages/SearchResultPage'));
+const PreferencePage = lazy(() => import('./pages/PreferencePage'));
 
 const App = () => {
   return (
@@ -25,8 +26,8 @@ const App = () => {
         <SnackbarProvider>
           <ModalProvider>
             <MainContainer>
-              <Switch>
-                <Suspense fallback>
+              <Suspense fallback>
+                <Switch>
                   <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
                   <Route exact path={[PATH.LOGIN]} component={LoginPage} />
                   <Route exact path={[PATH.OAUTH]} component={OauthPage} />
@@ -37,9 +38,10 @@ const App = () => {
                   <Route exact path={[PATH.MY_REVIEWS]} component={MyReviewsPage} />
                   <Route exact path={[PATH.SEARCH]} component={SearchPage} />
                   <Route exact path={[PATH.SEARCH_RESULT]} component={SearchResultPage} />
+                  <Route exact path={[PATH.PREFERENCE]} component={PreferencePage} />
                   <Redirect to={PATH.ROOT} />
-                </Suspense>
-              </Switch>
+                </Switch>
+              </Suspense>
             </MainContainer>
           </ModalProvider>
         </SnackbarProvider>

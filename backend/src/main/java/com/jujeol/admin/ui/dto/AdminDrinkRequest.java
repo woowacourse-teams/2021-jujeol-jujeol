@@ -4,8 +4,11 @@ import com.jujeol.drink.drink.application.dto.DrinkRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminDrinkRequest {
@@ -13,12 +16,14 @@ public class AdminDrinkRequest {
     private String name;
     private String englishName;
     private Double alcoholByVolume;
-    private String imageUrl;
+    private MultipartFile image;
     private String categoryKey;
     private String description;
 
-    public DrinkRequestDto toDto() {
+    public DrinkRequestDto toDto(String smallImageUrl, String mediumImageUrl,
+            String largeImageUrl) {
         return DrinkRequestDto
-                .create(name, englishName, alcoholByVolume, imageUrl, categoryKey, description);
+                .create(name, englishName, alcoholByVolume, smallImageUrl, mediumImageUrl,
+                        largeImageUrl, categoryKey, description);
     }
 }

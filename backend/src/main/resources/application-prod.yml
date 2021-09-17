@@ -10,3 +10,8 @@ spring:
     baselineOnMigrate: true
     locations: classpath:db/migration/prod
     enabled: true
+application:
+  bucket:
+    name: jujeol-bucket
+  cloudfront:
+    url: https://d108e7b1rnmnw1.cloudfront.net/

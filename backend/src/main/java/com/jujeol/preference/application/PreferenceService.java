@@ -29,6 +29,12 @@ public class PreferenceService {
                 .orElseGet(() -> Preference.anonymousPreference(drink));
     }
 
+    public Preference showByMemberIdAndDrink(Long memberId, Long drinkId) {
+        return preferenceRepository
+                .findByMemberIdAndDrinkId(memberId, drinkId)
+                .orElseGet(() -> Preference.anonymousPreference(drinkId));
+    }
+
     @Transactional
     public void createOrUpdatePreference(
             Long memberId,

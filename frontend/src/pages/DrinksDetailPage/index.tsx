@@ -61,7 +61,7 @@ const DrinksDetailPage = () => {
   const {
     name,
     englishName,
-    imageUrl,
+    imageResponse,
     category: { key: categoryKey },
     alcoholByVolume,
     preferenceAvg,
@@ -126,7 +126,7 @@ const DrinksDetailPage = () => {
       {isLoading ? (
         <Skeleton width="100" height="30rem" />
       ) : (
-        <Image src={imageUrl} alt={name} loading="lazy" />
+        <Image src={imageResponse.medium} alt={name} loading="lazy" />
       )}
       <Section>
         <PreferenceSection ref={preferenceRef} isBlinked={isBlinked}>
