@@ -67,6 +67,9 @@ dependencies {
     //commons
     implementation 'commons-io:commons-io:2.4'
 
+    //file type
+    implementation 'org.apache.tika:tika-core:1.26'
+
     //s3 image upload
     implementation 'com.amazonaws:aws-java-sdk-s3'
     implementation 'org.springframework.cloud:spring-cloud-aws-core:2.2.6.RELEASE'
