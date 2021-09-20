@@ -3,6 +3,7 @@ package com.jujeol;
 import com.jujeol.drink.category.domain.Category;
 import com.jujeol.drink.category.domain.CategoryRepository;
 import com.jujeol.drink.drink.domain.Drink;
+import com.jujeol.drink.drink.domain.ImageFilePath;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.member.auth.domain.Provider;
 import com.jujeol.member.auth.domain.ProviderName;
@@ -245,7 +246,7 @@ public class DataLoader implements CommandLineRunner {
         }
     }
 
-    private List<String> createFilePath(String drinkName) {
+    private ImageFilePath createFilePath(String drinkName) {
         String smallFilePath =
                 "https://dmaxaug2ve9od.cloudfront.net/w_200/" + drinkName + "_w200.jpg";
         String mediumFilePath =
@@ -253,6 +254,6 @@ public class DataLoader implements CommandLineRunner {
         String largeFilePath =
                 "https://dmaxaug2ve9od.cloudfront.net/w_600/" + drinkName + "_w600.jpg";
 
-        return List.of(smallFilePath, mediumFilePath, largeFilePath);
+        return ImageFilePath.create(smallFilePath, mediumFilePath, largeFilePath);
     }
 }

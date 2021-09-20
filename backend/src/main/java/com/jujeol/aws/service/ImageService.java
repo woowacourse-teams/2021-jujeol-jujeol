@@ -1,14 +1,20 @@
 package com.jujeol.aws.service;
 
-import com.jujeol.aws.infrastructure.S3Uploader;
-import com.jujeol.aws.service.ImageResizerImpl.ImageSize;
+import static com.jujeol.drink.drink.domain.ImageSize.LARGE;
+import static com.jujeol.drink.drink.domain.ImageSize.MEDIUM;
+import static com.jujeol.drink.drink.domain.ImageSize.SMALL;
+
+import com.jujeol.aws.exception.ImageFileIOException;
+import com.jujeol.aws.infrastructure.StorageUploader;
+import com.jujeol.drink.drink.application.dto.ImageFilePathDto;
+import com.jujeol.drink.drink.domain.ImageSize;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.EnumMap;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,29 +24,57 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageService {
 
     private final ImageResizer imageResizer;
-    private final S3Uploader s3Uploader;
+    private final List<ImageConverter> imageConverters;
+    private final StorageUploader storageUploader;
 
-    public EnumMap<ImageSize, String> insert(MultipartFile image) {
-        final File file = convertToFile(image);
-        EnumMap<ImageSize, File> images = imageResizer.resize(file);
-        return images.keySet().stream()
-                .collect(Collectors.toMap(
-                        Function.identity(),
-                        imageSize ->
-                                s3Uploader.upload(
-                                        String.format("%s/", imageSize.getFileNameSuffix()),
-                                        images.get(imageSize)),
-                        (o1, o2) -> o1,
-                        () -> new EnumMap<>(ImageSize.class)
-                ));
+    public ImageFilePathDto insert(MultipartFile image) {
+        File file = toFile(image);
+        convertImageFile(file);
+
+        ImageFilePathDto imageFilePathDto = createImageFilePathDto(file);
+
+        deleteOriginalFile(file);
+        return imageFilePathDto;
     }
 
-    private File convertToFile(MultipartFile image) {
+    private ImageFilePathDto createImageFilePathDto(File file) {
+        return new ImageFilePathDto(
+            uploadResizedImage(file, SMALL),
+            uploadResizedImage(file, MEDIUM),
+            uploadResizedImage(file, LARGE)
+        );
+    }
+
+    private String uploadResizedImage(File file, ImageSize imageSize) {
+        File imageFilePath = imageResizer.resize(file, imageSize);
+        return storageUploader.upload(
+            imageSize.getFilePath(),
+            imageFilePath
+        );
+    }
+
+    private void deleteOriginalFile(File file) {
+        try {
+            Files.delete(Paths.get(file.getPath()));
+        } catch (IOException e) {
+            throw new ImageFileIOException();
+        }
+    }
+
+    private void convertImageFile(File file) {
+        for (ImageConverter imageConverter : imageConverters) {
+            if (imageConverter.isSupport(file)) {
+                file = imageConverter.convertImage(file);
+            }
+        }
+    }
+
+    private File toFile(MultipartFile image) {
         File convertedFile = new File(Objects.requireNonNull(image.getOriginalFilename()));
         try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
             fos.write(image.getBytes());
         } catch (IOException e) {
-            throw new RuntimeException();
+            throw new ImageFileIOException();
         }
         return convertedFile;
     }

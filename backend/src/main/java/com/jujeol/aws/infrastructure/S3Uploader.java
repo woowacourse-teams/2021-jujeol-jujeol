@@ -8,13 +8,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @RequiredArgsConstructor
-@Component
-public class S3Uploader {
+@Profile({"dev", "prod", "local"})
+@Service
+public class S3Uploader implements StorageUploader {
 
     @Value("${application.bucket.name ?: empty-bucket}")
     private String bucketName;
@@ -24,6 +26,7 @@ public class S3Uploader {
 
     private final AmazonS3 amazonS3Client;
 
+    @Override
     public String upload(String directory, File image) {
         String fileName = String.format("%s%s", directory, image.getName());
         amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, image));
@@ -35,6 +38,7 @@ public class S3Uploader {
         return cloudfrontUrl + fileName;
     }
 
+    @Override
     public String update(String oldImageUrl, File updateImage) {
         String imageName = oldImageUrl.replace(cloudfrontUrl, "");
         if (amazonS3Client.doesObjectExist(bucketName, imageName)) {

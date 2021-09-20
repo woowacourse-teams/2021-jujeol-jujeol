@@ -5,13 +5,31 @@ import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;
 
 @Component
 @ActiveProfiles("test")
 public class DrinkAcceptanceTool {
+
+    public static final File TEST_IMAGE = new File(new File("").getAbsolutePath() + "/src/test/resources/static/test.png");
+
+    public static MockMultipartFile TEST_MULTIPART;
+
+    static {
+        try {
+            TEST_MULTIPART = new MockMultipartFile(
+                TEST_IMAGE.getAbsolutePath(),
+                Files.readAllBytes(TEST_IMAGE.toPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Autowired
     private RequestBuilder requestBuilder;

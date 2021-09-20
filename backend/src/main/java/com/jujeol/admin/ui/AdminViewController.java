@@ -1,4 +1,4 @@
-package com.jujeol.admin.ui.view;
+package com.jujeol.admin.ui;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -6,6 +6,7 @@ import static com.jujeol.drink.DrinkTestContainer.ESTP;
 import static com.jujeol.drink.DrinkTestContainer.KGB;
 import static com.jujeol.drink.DrinkTestContainer.STELLA;
 import static com.jujeol.drink.DrinkTestContainer.TSINGTAO;
+import static com.jujeol.drink.acceptance.DrinkAcceptanceTool.TEST_IMAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
@@ -16,11 +17,13 @@ import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
+import java.nio.file.Files;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.mock.web.MockMultipartFile;
 
 class AdminAcceptanceTest extends AcceptanceTest {
 
@@ -61,10 +64,28 @@ class AdminAcceptanceTest extends AcceptanceTest {
         final Long stellaId = drinkAcceptanceTool.주류_아이디_조회(STELLA.getName());
 
         final AdminDrinkRequest newStella =
-            new AdminDrinkRequest("스텔라2", "stella2", 2.0, null, "BEER", "상세 설명을 수정 중입니다.");
+            new AdminDrinkRequest("스텔라2",
+                "stella2",
+                2.0,
+                new MockMultipartFile("test.jpeg",
+                    "test.pmg",
+                    "image/jpeg",
+                    Files.readAllBytes(TEST_IMAGE.toPath())),
+                "BEER",
+                "상세 설명을 수정 중입니다."
+            );
+
         //when
         final HttpResponse httpResponse =
-            request().put("/admin/drinks/{id}", newStella, stellaId).build();
+            request()
+                .putWithoutData("/admin/drinks/{id}", stellaId)
+                .addMultipart("name", newStella.getName())
+                .addMultipart("englishName", newStella.getEnglishName())
+                .addMultipart("categoryKey", newStella.getCategoryKey())
+                .addMultipart("description", newStella.getDescription())
+                .addMultipart("alcoholByVolume", newStella.getAlcoholByVolume())
+                .addMultipart("image", newStella.getImage())
+                .build();
 
         //then
         assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.OK);
