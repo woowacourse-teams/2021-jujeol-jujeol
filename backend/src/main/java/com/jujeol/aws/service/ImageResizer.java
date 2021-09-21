@@ -45,7 +45,7 @@ public class ImageResizer {
                 String.format("%s_%s.%s",
                     FilenameUtils.removeExtension(fileName),
                     imageSize.getFileNameSuffix(),
-                    "jpeg"
+                    FilenameUtils.getExtension(fileName)
                 )
             );
             ImageIO.write(bufferedImage, "jpg", file);
