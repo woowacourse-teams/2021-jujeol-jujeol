@@ -1,10 +1,10 @@
-const ExcitedEmojiColorIcon = () => {
+const ExcitedEmojiColorIcon = ({ width = '32px', height = '32px' }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
-      width="32px"
-      height="32px"
+      width={width}
+      height={height}
       aria-labelledby="excited-emoji-color-title"
     >
       <title id="excited-emoji-color-title">색상이 있는 신나는 얼굴</title>

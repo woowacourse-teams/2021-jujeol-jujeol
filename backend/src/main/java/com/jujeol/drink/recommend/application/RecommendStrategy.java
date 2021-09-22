@@ -1,9 +1,9 @@
 package com.jujeol.drink.recommend.application;
 
-import com.jujeol.drink.drink.domain.Drink;
+import com.jujeol.drink.recommend.domain.RecommendedDrinkResponse;
 import java.util.List;
 
 public interface RecommendStrategy {
 
-    List<Drink> recommend(Long memberId, int pageSize);
+    List<RecommendedDrinkResponse> recommend(String category, Long memberId, int pageSize);
 }

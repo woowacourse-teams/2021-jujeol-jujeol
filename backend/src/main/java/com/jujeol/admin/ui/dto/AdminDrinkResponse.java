@@ -20,12 +20,13 @@ public class AdminDrinkResponse {
     private String description;
 
     public static AdminDrinkResponse from(DrinkDto drinkDto) {
+        // todo 관리자 image Url 변경 small medium large
         return new AdminDrinkResponse(
                 drinkDto.getId(),
                 drinkDto.getName(),
                 drinkDto.getEnglishName(),
                 drinkDto.getAlcoholByVolume(),
-                drinkDto.getImageUrl(),
+                drinkDto.getSmallImageFilePath(),
                 AdminCategoryResponse.create(drinkDto.getCategoryDto()),
                 drinkDto.getPreferenceRate(),
                 drinkDto.getDescription()

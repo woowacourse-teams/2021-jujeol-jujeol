@@ -12,10 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SearchRequest {
 
-    private String search;
+    private String keyword;
     private String category;
 
     public SearchDto toDto() {
-        return SearchDto.create(search, category);
+        return SearchDto.create(keyword, category);
     }
 }

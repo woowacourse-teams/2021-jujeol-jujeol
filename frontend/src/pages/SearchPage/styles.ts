@@ -27,6 +27,7 @@ const CategoryItem = styled.li`
   height: 4.5rem;
   border-radius: 50%;
   background-color: ${COLOR.WHITE_200};
+
   span {
     font-size: 0.8rem;
     font-weight: 600;

@@ -12,7 +12,7 @@ import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
 
 interface Props {
   type: 'CARD' | 'LIST';
-  theme?: string;
+  queryKey: string;
   query: {
     category?: string;
   };
@@ -26,7 +26,7 @@ interface Props {
 
 const DrinkListSection = ({
   type,
-  theme,
+  queryKey,
   query,
   title,
   titleAlign = 'left',
@@ -37,15 +37,8 @@ const DrinkListSection = ({
 }: Props) => {
   const queryParams = new URLSearchParams(query);
 
-  const { data: { data: drinks } = [], isLoading } = useQuery(
-    theme === 'RECOMMEND' ? 'recommendedDrinks' : 'drinks',
-    () => {
-      if (theme === 'RECOMMEND') {
-        return API.getRecommendedDrinks();
-      }
-
-      return API.getDrinks({ page: 1, params: queryParams });
-    }
+  const { data: { data: drinks } = [], isLoading } = useQuery(queryKey, () =>
+    API.getDrinks({ page: 1, params: queryParams })
   );
   const history = useHistory();
 
@@ -62,9 +55,15 @@ const DrinkListSection = ({
           {drinks?.slice(0, count ?? drinks.length).map((item: Drink.Item) => (
             <CardItem
               key={item?.id}
-              imageUrl={item?.imageUrl}
+              imageUrl={item?.imageResponse?.small}
               title={item?.name}
               description={`도수: ${item?.alcoholByVolume}%`}
+              preferenceType={
+                item?.preferenceRate ? 'MY' : item?.expectedPreference ? 'EXPECTED' : 'AVG'
+              }
+              preferenceRate={
+                item?.preferenceRate || item?.expectedPreference || item?.preferenceAvg
+              }
               onClick={() => {
                 history.push(`${PATH.DRINKS}/${item?.id}`);
               }}
@@ -82,9 +81,15 @@ const DrinkListSection = ({
           {drinks?.slice(0, count ?? drinks.length).map((item: Drink.Item) => (
             <ListItem
               key={item?.id}
-              imageUrl={item?.imageUrl}
+              imageUrl={item?.imageResponse?.small}
               title={item?.name}
               description={`도수: ${item?.alcoholByVolume}%`}
+              preferenceType={
+                item?.preferenceRate ? 'MY' : item?.expectedPreference ? 'EXPECTED' : 'AVG'
+              }
+              preferenceRate={
+                item?.preferenceRate || item?.expectedPreference || item?.preferenceAvg
+              }
               onClick={() => {
                 history.push(`${PATH.DRINKS}/${item?.id}`);
               }}

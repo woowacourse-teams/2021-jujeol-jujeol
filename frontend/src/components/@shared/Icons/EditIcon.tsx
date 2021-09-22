@@ -1,11 +1,11 @@
-const EditIcon = ({ color = '#fff' }: IconProps) => {
+const EditIcon = ({ color = '#fff', width = '32px', height = '32px' }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       fill={color}
-      width="32px"
-      height="32px"
+      width={width}
+      height={height}
       aria-labelledby="edit-icon-title edit-icon-desc"
     >
       <title id="edit-icon-title">수정</title>

@@ -42,6 +42,18 @@ const GlobalStyle = () => (
         z-index: 10;
       }
 
+      #snackbar {
+        position: absolute;
+        bottom: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+
+        width: 100%;
+        max-width: 480px;
+        min-width: 280px;
+        z-index: 15;
+      }
+
       html,
       body,
       h1,

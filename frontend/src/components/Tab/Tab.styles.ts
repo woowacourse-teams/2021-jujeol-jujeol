@@ -36,6 +36,10 @@ const Nav = styled.nav<{ keyboardUp: boolean }>`
           width: 1.3rem;
           height: 1.3rem;
           transition: transform 0.25s ease;
+
+          path {
+            fill: inherit;
+          }
         }
       }
 

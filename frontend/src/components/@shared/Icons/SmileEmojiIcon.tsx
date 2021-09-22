@@ -1,11 +1,11 @@
-const SmileEmojiIcon = ({ color = '#fff' }: IconProps) => {
+const SmileEmojiIcon = ({ color = '#fff', width = '32px', height = '32px' }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       fill={color}
-      width="32px"
-      height="32px"
+      width={width}
+      height={height}
       aria-labelledby="smile-emoji-icon-title"
     >
       <title id="smile-emoji-icon-title">웃는 얼굴</title>

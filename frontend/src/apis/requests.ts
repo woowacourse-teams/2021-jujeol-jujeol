@@ -40,6 +40,9 @@ const API = {
   getUserInfo: () => {
     return request({ method: 'GET' as Method, url: REQUEST_URL.GET_USER_INFO });
   },
+  editUserInfo: <D>(data: D) => {
+    return request({ method: 'PUT' as Method, url: REQUEST_URL.GET_USER_INFO, data });
+  },
 
   getDrinks: ({ page, params }: { page: number; params?: URLSearchParams }) => {
     return request({
@@ -93,6 +96,12 @@ const API = {
     return request({
       method: 'GET' as Method,
       url: `/members/me/drinks?page=${page ?? ''}&size=${size ?? ''}`,
+    });
+  },
+  getSearchResults: ({ page, params }: { page: number; params?: URLSearchParams }) => {
+    return request({
+      method: 'GET' as Method,
+      url: REQUEST_URL.SEARCH + '?page=' + page + (params ? '&' + params.toString() : ''),
     });
   },
 };

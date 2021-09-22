@@ -1,10 +1,12 @@
 package com.jujeol.commons.exception;
 
+import com.jujeol.aws.exception.ImageFileResizingException;
 import com.jujeol.drink.category.exception.NotFoundCategoryException;
 import com.jujeol.drink.drink.exception.InvalidAlcoholByVolumeException;
 import com.jujeol.drink.drink.exception.InvalidDescriptionException;
 import com.jujeol.drink.drink.exception.InvalidDrinkNameException;
 import com.jujeol.drink.drink.exception.InvalidEnglishNameException;
+import com.jujeol.drink.drink.exception.InvalidSortByException;
 import com.jujeol.drink.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.drink.exception.NotFoundViewCountException;
 import com.jujeol.member.auth.exception.InvalidTokenException;
@@ -60,7 +62,11 @@ public enum ExceptionCodeAndDetails {
     CREATE_REVIEW_NO_PREFERENCE("2012", "리뷰를 생성하려면 선호도를 입력해야합니다.",
             CreateReviewNoPreferenceException.class),
     INVALID_DESCRIPTION("2013", "유효하지 않은 상세설명입니다.",
-            InvalidDescriptionException.class);
+            InvalidDescriptionException.class),
+    INVALID_SORT_BY("2014", "유효하지 않은 정렬 기준입니다.",
+            InvalidSortByException.class),
+    IMAGE_RESIZE("2015", "이미지를 리사이징 하는 도중 오류가 발생했습니다.",
+            ImageFileResizingException.class);
 
     private String code;
     private String message;

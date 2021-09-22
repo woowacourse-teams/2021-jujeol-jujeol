@@ -59,6 +59,10 @@ public class Preference extends BaseEntity {
         return new Preference(null, drink, ANONYMOUS_USER_RATE);
     }
 
+    public static Preference anonymousPreference(Long drinkId) {
+        return new Preference(null, Drink.ofId(drinkId), ANONYMOUS_USER_RATE);
+    }
+
     public void updateRate(double rate) {
         this.rate = rate;
     }

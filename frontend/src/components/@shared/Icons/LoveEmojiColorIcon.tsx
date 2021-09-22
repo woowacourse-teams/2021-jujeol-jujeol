@@ -1,10 +1,10 @@
-const LoveEmojiColorIcon = () => {
+const LoveEmojiColorIcon = ({ width = '32px', height = '32px' }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
-      width="32px"
-      height="32px"
+      width={width}
+      height={height}
       aria-labelledby="love-emoji-color-title"
     >
       <title id="love-emoji-color-title">색상이 있는 사랑에 빠진 얼굴</title>

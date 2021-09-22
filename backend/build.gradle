@@ -23,31 +23,53 @@ repositories {
 }
 
 dependencies {
+    // recommendation library
     implementation('org.apache.mahout:mahout-integration:0.13.0') {
         exclude group: 'log4j', module: 'log4j'
         exclude group: 'org.slf4j', module: 'slf4j-log4j12'
     }
 
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // application
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // lombok
     compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+
+    // database
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.flywaydb:flyway-core:6.4.2'
+
+    // test
+    implementation 'com.querydsl:querydsl-jpa'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
-    implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
     testImplementation 'io.rest-assured:rest-assured:3.3.0'
-    implementation 'org.flywaydb:flyway-core:6.4.2'
+
+    // token encoding
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
-    implementation 'com.querydsl:querydsl-jpa'
+
+    // log
+    implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'
-    implementation 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
+
+    // sonarqube
     implementation 'org.springframework.boot:spring-boot-gradle-plugin:2.5.2'
+    implementation 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
     implementation 'io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE'
+
+    //commons
+    implementation 'commons-io:commons-io:2.4'
+
+    //s3 image upload
+    implementation 'com.amazonaws:aws-java-sdk-s3'
+    implementation 'org.springframework.cloud:spring-cloud-aws-core:2.2.6.RELEASE'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
     implementation "org.elasticsearch:elasticsearch:7.14.1"
