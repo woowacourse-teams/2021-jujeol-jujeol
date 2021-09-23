@@ -1,4 +1,4 @@
-import {getRequest, putRequest} from "../../utils/methodFetches.js";
+import {getRequest, putRequestWithFormData} from "../../utils/methodFetches.js";
 import drinkTableColumns from "../component/drinkTableColumns.js";
 import {getDrinkDetail, renderDrinksTable} from "../view/drinkTable.js";
 import {isEmptyObject} from "../../utils/validator.js";
@@ -40,6 +40,6 @@ async function drinkUpdateEvent(target, drinks, drink) {
     return;
   }
 
-  await putRequest(`/admin/drinks/${drink.id}`, requestBody);
+  await putRequestWithFormData(`/admin/drinks/${drink.id}`, [requestBody]);
   renderDrinksTable(drinks);
 }

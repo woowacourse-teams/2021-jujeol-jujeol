@@ -1,6 +1,7 @@
 package com.jujeol.aws.fixture;
 
 import com.jujeol.aws.infrastructure.StorageUploader;
+import com.jujeol.drink.drink.application.dto.ImageFilePathDto;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,12 +24,11 @@ public class TestS3Uploader implements StorageUploader {
     }
 
     @Override
-    public String update(String oldImageUrl, File updateImage) {
+    public void delete(String imageUrl) {
         try {
-            Files.delete(Paths.get(updateImage.getPath()));
+            Files.delete(Paths.get(imageUrl));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return updateImage.getName();
     }
 }

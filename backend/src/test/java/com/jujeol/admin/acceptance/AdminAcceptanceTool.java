@@ -44,27 +44,6 @@ public class AdminAcceptanceTool {
                     .build()
                     .convertBody(AdminDrinkResponse.class)
             );
-//            final LinkedHashMap data = (LinkedHashMap)RestAssured
-//                .given()
-//                .contentType(String.valueOf(ContentType.MULTIPART_FORM_DATA))
-//                .when()
-//                .spec(new RequestSpecBuilder()
-//                    .addMultiPart("image", THUMBNAIL_IMAGE)
-//                    .addMultiPart(setUtf8Charset(adminDrinkRequest.getName(), "name"))
-//                    .addMultiPart("englishName", adminDrinkRequest.getEnglishName())
-//                    .addMultiPart("categoryKey", adminDrinkRequest.getCategoryKey())
-//                    .addMultiPart(setUtf8Charset(adminDrinkRequest.getDescription(), "description"))
-//                    .addMultiPart("alcoholByVolume",
-//                        String.valueOf(adminDrinkRequest.getAlcoholByVolume()))
-//                    .build())
-//                .post("/admin/drinks")
-//                .then()
-//                .extract()
-//                .body()
-//                .as(CommonResponse.class)
-//                .getData();
-
-//            adminDrinkResponses.add(objectMapper.convertValue(data, AdminDrinkResponse.class));
         }
         return adminDrinkResponses;
     }

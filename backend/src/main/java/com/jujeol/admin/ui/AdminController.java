@@ -6,11 +6,10 @@ import com.jujeol.aws.service.ImageService;
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.drink.application.DrinkService;
+import com.jujeol.drink.drink.application.dto.DrinkDto;
 import com.jujeol.drink.drink.application.dto.ImageFilePathDto;
-import com.jujeol.drink.drink.domain.ImageSize;
 import com.jujeol.member.auth.ui.AuthenticationPrincipal;
 import com.jujeol.member.auth.ui.LoginMember;
-import java.util.EnumMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -55,8 +54,9 @@ public class AdminController {
     @PutMapping("/drinks/{id}")
     public CommonResponse<?> updateDrink(@PathVariable Long id,
             @ModelAttribute AdminDrinkRequest adminDrinkRequest) {
-        final EnumMap<ImageSize, String> imageUrls = null;
-        ImageFilePathDto imageFilePathDto = imageService.insert(adminDrinkRequest.getImage());
+        DrinkDto drinkDto = drinkService.showDrinkDetail(id);
+        ImageFilePathDto existingImage = drinkDto.getImageFilePathDto();
+        ImageFilePathDto imageFilePathDto = imageService.update(existingImage, adminDrinkRequest.getImage());
         drinkService.updateDrink(id, adminDrinkRequest.toDto(
             imageFilePathDto
         ));

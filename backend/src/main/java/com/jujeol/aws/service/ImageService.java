@@ -37,6 +37,13 @@ public class ImageService {
         return imageFilePathDto;
     }
 
+    public ImageFilePathDto update(ImageFilePathDto images, MultipartFile file) {
+        storageUploader.delete(images.getSmallImageFilePath());
+        storageUploader.delete(images.getMediumImageFilePath());
+        storageUploader.delete(images.getLargeImageFilePath());
+        return insert(file);
+    }
+
     private ImageFilePathDto createImageFilePathDto(File file) {
         return new ImageFilePathDto(
             uploadResizedImage(file, SMALL),
@@ -46,10 +53,10 @@ public class ImageService {
     }
 
     private String uploadResizedImage(File file, ImageSize imageSize) {
-        File imageFilePath = imageResizer.resize(file, imageSize);
+        File imageFile = imageResizer.resize(file, imageSize);
         return storageUploader.upload(
             imageSize.getFilePath(),
-            imageFilePath
+            imageFile
         );
     }
 

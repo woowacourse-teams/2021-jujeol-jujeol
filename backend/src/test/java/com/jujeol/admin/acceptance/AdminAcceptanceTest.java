@@ -68,7 +68,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
                 "stella2",
                 2.0,
                 new MockMultipartFile("test.jpeg",
-                    "test.pmg",
+                    "test.png",
                     "image/jpeg",
                     Files.readAllBytes(TEST_IMAGE.toPath())),
                 "BEER",
@@ -114,4 +114,5 @@ class AdminAcceptanceTest extends AcceptanceTest {
         final JujeolExceptionDto error = drinkAcceptanceTool.단일_상품_조회_실패(stellaId);
         예외_검증(error, NOT_FOUND_DRINK);
     }
+
 }

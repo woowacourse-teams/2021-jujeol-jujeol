@@ -1,4 +1,4 @@
-export { getRequest, postRequest, deleteRequest, putRequest };
+export { getRequest, postRequest, deleteRequest, putRequest, postRequestWithFormData, putRequestWithFormData };
 
 const BEARER = 'Bearer';
 const CAN_METHOD_LIST = ['GET', 'POST', 'PUT', 'DELETE'];
@@ -7,12 +7,9 @@ function getRequest(url, needToken = false) {
   return apiRequest('GET', url, needToken);
 }
 
-async function postRequest(url, formDatas = [{}], needToken = false) {
-  // const headers = {'Content-Type': 'multipart/form-data'}
-
+async function apiRequestWithFormData(method, url, formDatas = [{}], needToken = false) {
   const configure = {
-    method: 'POST',
-    // headers: headers
+    method: method
   };
 
   const formDataRequests = formDatas.map((drinkRequest) => {
@@ -25,6 +22,18 @@ async function postRequest(url, formDatas = [{}], needToken = false) {
   } catch (error) {
     return {};
   }
+}
+
+function postRequestWithFormData(url, formDatas = [{}], needToken = false) {
+  return apiRequestWithFormData('POST', url, formDatas, needToken);
+}
+
+function putRequestWithFormData(url, formDatas = [{}], needToken = false) {
+  return apiRequestWithFormData('PUT', url, formDatas, needToken);
+}
+
+function postRequest(url, needToken = false) {
+  return apiRequest('POST', url, needToken);
 }
 
 function deleteRequest(url, needToken = false) {

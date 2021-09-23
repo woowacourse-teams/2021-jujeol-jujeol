@@ -12,6 +12,7 @@ import org.apache.tika.Tika;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,6 +28,7 @@ public class TikaTest {
 
     private static final Tika tika = new Tika();
 
+    @Disabled
     @DisplayName("detect 메소드를 사용할 때")
     @Nested
     static class DetectTest {

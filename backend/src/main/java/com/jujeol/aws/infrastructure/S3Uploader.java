@@ -7,6 +7,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 @Profile({"dev", "prod", "local"})
+@Slf4j
 @Service
 public class S3Uploader implements StorageUploader {
 
@@ -39,11 +41,12 @@ public class S3Uploader implements StorageUploader {
     }
 
     @Override
-    public String update(String oldImageUrl, File updateImage) {
-        String imageName = oldImageUrl.replace(cloudfrontUrl, "");
+    public void delete(String imageUrl) {
+        String imageName = imageUrl.replace(cloudfrontUrl, "");
         if (amazonS3Client.doesObjectExist(bucketName, imageName)) {
             amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, imageName));
+        } else {
+            log.warn("해당 이미지의 파일이 없습니다. url : {}", imageName);
         }
-        return upload("", updateImage);
     }
 }

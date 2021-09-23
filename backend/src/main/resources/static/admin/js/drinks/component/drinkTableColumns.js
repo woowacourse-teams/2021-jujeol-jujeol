@@ -8,6 +8,14 @@ const component = (text, state) => {
   return `<p>${text}</p>`;
 };
 
+const imageComponent = (imageUrls, state) => {
+  if (state === 'update') {
+    return `<input class="form-control form-control-sm" placeholder="이미지 파일 경로"
+           type="file" alt="image-input" accept="image/png, image/jpeg">`
+  }
+  return `<p>${imageUrls.small}</p><p>${imageUrls.medium}</p><p>${imageUrls.large}</p>`;
+};
+
 const textarea = (text, state) => {
   if (state === 'update') {
     return `<textarea class="form-control form-control-sm description" placeholder="${text}" type="text">${text}</textarea>`;
@@ -27,7 +35,7 @@ export default function (drink, state, categories) {
           <td class="needValidate drinkName">${component(drink.name, state)}</td>
           <td class="drinkEnglishName">${component(drink.englishName, state)}</td>
           <td class="needValidate drinkAbv">${component(drink.alcoholByVolume, state)}</td>
-          <td class="needValidate drinkImageFilePath image-file-path">${component(drink.imageUrl, state)}</td>
+          <td class="needValidate drinkImageFilePath image-file-path">${imageComponent(drink.imageUrls, state)}</td>
           <td class="needValidate drinkDescription">${textarea(drink.description, state)}</td>
           <td class="needValidate drinkCategory">${categoryComponent(drink, state, categories)}</td>
           <td class="updateButtonWrapper text-center">

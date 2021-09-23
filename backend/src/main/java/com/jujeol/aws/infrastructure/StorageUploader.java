@@ -6,5 +6,5 @@ public interface StorageUploader {
 
     String upload(String directory, File image);
 
-    String update(String oldImageUrl, File updateImage);
+    void delete(String imageUrl);
 }

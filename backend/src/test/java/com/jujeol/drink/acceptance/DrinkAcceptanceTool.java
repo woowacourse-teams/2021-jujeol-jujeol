@@ -25,6 +25,8 @@ public class DrinkAcceptanceTool {
         try {
             TEST_MULTIPART = new MockMultipartFile(
                 TEST_IMAGE.getAbsolutePath(),
+                TEST_IMAGE.getName(),
+                "image/png",
                 Files.readAllBytes(TEST_IMAGE.toPath()));
         } catch (IOException e) {
             e.printStackTrace();
