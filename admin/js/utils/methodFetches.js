@@ -1,3 +1,5 @@
+import { API_URL } from './apiUrl.js';
+
 export { getRequest, postRequest, deleteRequest, putRequest, postRequestWithFormData, putRequestWithFormData };
 
 const BEARER = 'Bearer';
@@ -14,7 +16,7 @@ async function apiRequestWithFormData(method, url, formDatas = [{}], needToken =
 
   const formDataRequests = formDatas.map((drinkRequest) => {
     configure.body = drinkRequest.getFormData();
-    return fetch(url, configure);
+    return fetch(API_URL + url, configure);
   });
 
   try {
@@ -57,8 +59,7 @@ async function apiRequest(method, url = '', needToken = false, body = {}) {
 
   const configure = {
     method: method,
-    headers: headers,
-    credentials: 'include',
+    headers: headers
   };
 
   if (body && method.toUpperCase() !== 'GET') {
@@ -66,7 +67,7 @@ async function apiRequest(method, url = '', needToken = false, body = {}) {
     configure.body.append('data', body)
   }
 
-  const result = await fetch(url, configure);
+  const result = await fetch(API_URL + url, configure);
 
   try {
     return await result.json();
