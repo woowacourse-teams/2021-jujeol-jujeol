@@ -1,7 +1,6 @@
-import { API_URL } from './apiUrl.js';
-
 export { getRequest, postRequest, deleteRequest, putRequest, postRequestWithFormData, putRequestWithFormData };
 
+const API_URL = process.env.API_URL;
 const BEARER = 'Bearer';
 const CAN_METHOD_LIST = ['GET', 'POST', 'PUT', 'DELETE'];
 
@@ -11,7 +10,7 @@ function getRequest(url, needToken = false) {
 
 async function apiRequestWithFormData(method, url, formDatas = [{}], needToken = false) {
   const configure = {
-    method: method
+    method: method,
   };
 
   const formDataRequests = formDatas.map((drinkRequest) => {
@@ -52,19 +51,20 @@ async function apiRequest(method, url = '', needToken = false, body = {}) {
     throw new Error(`not valid method : ${method} / can method : get, post, delete, put`);
   }
 
-  const headers = method === 'POST' ? { 'Content-Type': 'multipart/form-data'} : { 'Content-Type': 'application/json' }
+  const headers =
+    method === 'POST' ? { 'Content-Type': 'multipart/form-data' } : { 'Content-Type': 'application/json' };
   if (needToken) {
     headers.Authorization = `${BEARER} ${localStorage.getItem('accessToken')}`;
   }
 
   const configure = {
     method: method,
-    headers: headers
+    headers: headers,
   };
 
   if (body && method.toUpperCase() !== 'GET') {
     configure.body = new FormData();
-    configure.body.append('data', body)
+    configure.body.append('data', body);
   }
 
   const result = await fetch(API_URL + url, configure);
