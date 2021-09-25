@@ -25,6 +25,7 @@ import {
   Description,
   ShowMoreButton,
   FoldButton,
+  ImageWrapper,
 } from './styles';
 import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 
@@ -55,6 +56,7 @@ const DrinksDetailPage = () => {
   const [currentPreferenceRate, setCurrentPreferenceRate] = useState(
     defaultDrinkDetail.preferenceRate
   );
+  const [isShowImageFull, setIsShowImageFull] = useState(false);
 
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
@@ -151,15 +153,34 @@ const DrinksDetailPage = () => {
     );
   };
 
+  const onImageSizeIncrease = () => {
+    setIsShowImageFull(true);
+  };
+
+  const onImageSizeReduce = () => {
+    setIsShowImageFull(false);
+  };
+
   return (
     <Container ref={pageContainerRef}>
       <GoBackButton color={COLOR.BLACK_900} />
       {isLoading ? (
         <Skeleton width="100" height="30rem" />
       ) : (
-        <Image src={imageResponse.medium} alt={name} loading="lazy" />
+        <ImageWrapper>
+          <Image
+            src={imageResponse.medium}
+            alt={name}
+            loading="lazy"
+            onMouseDown={onImageSizeIncrease}
+            onMouseUp={onImageSizeReduce}
+            onTouchStart={onImageSizeIncrease}
+            onTouchEnd={onImageSizeReduce}
+          />
+        </ImageWrapper>
       )}
-      <Section>
+
+      <Section isShowImageFull={isShowImageFull}>
         <PreferenceSection ref={preferenceRef} isBlinked={isBlinked}>
           <h3>
             {currentPreferenceRate

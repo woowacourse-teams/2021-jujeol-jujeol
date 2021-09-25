@@ -14,20 +14,26 @@ const Container = styled.div`
   position: relative;
 `;
 
-const Image = styled.img`
-  width: 100%;
-  height: fit-content;
+const ImageWrapper = styled.div`
+  padding: 3rem 0;
   background-color: ${COLOR.WHITE_100};
 `;
 
-const Section = styled.section`
+const Image = styled.img`
+  width: 100%;
+  height: fit-content;
+`;
+
+const Section = styled.section<{ isShowImageFull: boolean }>`
+  position: relative;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
   background-color: ${COLOR.PURPLE_900};
-  transform: translateY(-6rem);
+  transform: ${({ isShowImageFull }) =>
+    isShowImageFull ? 'translateY(-2rem)' : 'translateY(-6rem)'};
   padding: 2rem 1.5rem;
+
   text-align: center;
-  position: relative;
 `;
 
 const PreferenceSection = styled.section<{ isBlinked: boolean }>`
@@ -142,9 +148,10 @@ const ShowMoreButton = styled.button`
 
 export {
   Container,
+  ImageWrapper,
+  Image,
   Section,
   PreferenceSection,
-  Image,
   DescriptionSection,
   Description,
   ShowMoreButton,
