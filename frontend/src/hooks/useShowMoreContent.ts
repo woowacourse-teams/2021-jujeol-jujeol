@@ -1,9 +1,6 @@
 import { useEffect, useState, RefObject, MouseEventHandler } from 'react';
 
-const useShowMoreContent = (
-  contentRef: RefObject<HTMLDivElement | HTMLParagraphElement>,
-  content: string
-) => {
+const useShowMoreContent = (contentRef: RefObject<HTMLParagraphElement>, content: string) => {
   const [isShowMore, setIsShowMore] = useState(false);
   const [isContentOpen, setIsContentOpen] = useState(false);
 
