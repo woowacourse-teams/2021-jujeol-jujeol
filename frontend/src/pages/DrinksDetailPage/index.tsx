@@ -4,16 +4,29 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import UserContext from 'src/contexts/UserContext';
 import API from 'src/apis/requests';
+import useNoticeToInputPreference from 'src/hooks/useInputPreference';
+import useShowMoreContent from 'src/hooks/useShowMoreContent';
+
+import { properties } from './propertyData';
+
 import GoBackButton from 'src/components/@shared/GoBackButton/GoBackButton';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import Review from 'src/components/Review/Review';
 import Property from 'src/components/Property/Property';
-import { properties } from './propertyData';
-import { Section, PreferenceSection, Image, DescriptionSection, Container } from './styles';
-import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 import DrinksDetailDescriptionSkeleton from 'src/components/Skeleton/DrinksDetailDescriptionSkeleton';
-import useNoticeToInputPreference from 'src/hooks/useInputPreference';
+
+import {
+  Section,
+  PreferenceSection,
+  Image,
+  DescriptionSection,
+  Container,
+  Description,
+  ShowMoreButton,
+  FoldButton,
+} from './styles';
+import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -24,6 +37,7 @@ const defaultDrinkDetail = {
     name: '',
     key: '',
   },
+  description: '',
   alcoholByVolume: 0,
   preferenceRate: 0.0,
   preferenceAvg: 0.0,
@@ -36,6 +50,7 @@ const DrinksDetailPage = () => {
 
   const pageContainerRef = useRef<HTMLImageElement>(null);
   const preferenceRef = useRef<HTMLDivElement>(null);
+  const descriptionRef = useRef<HTMLParagraphElement>(null);
 
   const [currentPreferenceRate, setCurrentPreferenceRate] = useState(
     defaultDrinkDetail.preferenceRate
@@ -65,7 +80,13 @@ const DrinksDetailPage = () => {
     category: { key: categoryKey },
     alcoholByVolume,
     preferenceAvg,
+    description,
   }: Drink.DetailItem = drink;
+
+  const { isShowMore, isContentOpen, onOpenContent, onCloseContent } = useShowMoreContent(
+    descriptionRef,
+    description
+  );
 
   const { mutate: updatePreference } = useMutation(
     () => {
@@ -120,6 +141,16 @@ const DrinksDetailPage = () => {
     observePreferenceSection();
   };
 
+  const showButton = () => {
+    return isContentOpen ? (
+      <FoldButton type="button" onClick={onCloseContent}>
+        접기
+      </FoldButton>
+    ) : (
+      <ShowMoreButton type="button">...더보기</ShowMoreButton>
+    );
+  };
+
   return (
     <Container ref={pageContainerRef}>
       <GoBackButton color={COLOR.BLACK_900} />
@@ -171,6 +202,15 @@ const DrinksDetailPage = () => {
               );
             })}
           </ul>
+
+          <Description
+            isShowMore={isShowMore}
+            isContentOpen={isContentOpen}
+            onClick={onOpenContent}
+          >
+            <p ref={descriptionRef}>{description}</p>
+            {isShowMore && showButton()}
+          </Description>
         </DescriptionSection>
 
         <Review
