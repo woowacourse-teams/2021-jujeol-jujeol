@@ -30,7 +30,7 @@ jobs:
         run: npm run build:dev
 
       - name: Deploy
-        run: aws s3 sync --delete ./build s3://jujeol-admin-dev-deploy
+        run: aws s3 sync --delete ./dist s3://jujeol-admin-dev-deploy
 
       - name: Cloud Front Caching Invalid
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.ADMIN_DEV_DISTRIBUTION_ID }} --paths "/*"
