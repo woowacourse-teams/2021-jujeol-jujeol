@@ -1,4 +1,4 @@
-import {postRequest} from "../../utils/methodFetches.js";
+import {postRequestWithFormData} from "../../utils/methodFetches.js";
 import {$$} from "../../utils/querySelector.js";
 import {getDrinkDetail, renderDrinksTable} from "../view/drinkTable.js";
 
@@ -28,7 +28,7 @@ async function showSpinnerUntilSuccessRequest(requestBodies){
   const spinner = document.querySelector(".batchInsertSpinner")
   spinner.classList.remove("hide");
 
-  await postRequest(`/admin/drinks`, requestBodies);
+  await postRequestWithFormData(`/admin/drinks`, requestBodies);
   spinner.classList.add("hide");
 }
 

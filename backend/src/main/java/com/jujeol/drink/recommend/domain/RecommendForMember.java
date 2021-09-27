@@ -7,7 +7,6 @@ import com.jujeol.drink.recommend.infrastructure.RecommendationSystem;
 import com.jujeol.preference.domain.Preference;
 import com.jujeol.preference.domain.PreferenceRepository;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;

@@ -53,8 +53,8 @@ export const getDrinkDetail = ($row, id) => {
   return new DrinkRequest(id, name, englishName, alcoholByVolume, images, description, categoryKey);
 }
 
-function convertRequestToDrinkArray(drinkRequests) {
-  return drinkRequests.map(ele =>
+function convertRequestToDrinkArray(drinkResponse) {
+  return drinkResponse.map(ele =>
       new Drink(
           ele.id,
           ele.name,

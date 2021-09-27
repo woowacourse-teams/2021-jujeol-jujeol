@@ -17,11 +17,10 @@ public class ReviewDrinkResponse {
     public static ReviewDrinkResponse create(
             DrinkDto drinkDto
     ) {
-        // todo MediumImage
         return new ReviewDrinkResponse(
                 drinkDto.getId(),
                 drinkDto.getName(),
-                drinkDto.getMediumImageFilePath()
+                drinkDto.getImageFilePathDto().getMediumImageFilePath()
         );
     }
 }

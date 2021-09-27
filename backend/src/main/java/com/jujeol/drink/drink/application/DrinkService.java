@@ -151,8 +151,7 @@ public class DrinkService {
         drink.updateInfo(
                 drinkRequest.getName(),
                 drinkRequest.getEnglishName(),
-                List.of(drinkRequest.getSmallImageUrl(), drinkRequest.getMediumImageUrl(),
-                        drinkRequest.getLargeImageUrl()),
+                drinkRequest.getImageFilePathDto().toEntity(),
                 category,
                 drinkRequest.getAlcoholByVolume(),
                 drinkRequest.getDescription()

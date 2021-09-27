@@ -16,11 +16,10 @@ public class MemberDrinkResponse {
     private double preferenceRate;
 
     public static MemberDrinkResponse create(DrinkDto drinkDto) {
-        // todo MediumImage
         return new MemberDrinkResponse(
                 drinkDto.getId(),
                 drinkDto.getName(),
-                drinkDto.getMediumImageFilePath(),
+                drinkDto.getImageFilePathDto().getMediumImageFilePath(),
                 drinkDto.getPreferenceRate()
         );
     }

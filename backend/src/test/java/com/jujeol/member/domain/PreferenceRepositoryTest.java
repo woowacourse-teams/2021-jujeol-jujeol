@@ -6,6 +6,7 @@ import com.jujeol.TestConfig;
 import com.jujeol.drink.category.domain.Category;
 import com.jujeol.drink.category.domain.CategoryRepository;
 import com.jujeol.drink.drink.domain.Drink;
+import com.jujeol.drink.drink.domain.ImageFilePath;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.member.auth.domain.Provider;
 import com.jujeol.member.auth.domain.ProviderName;
@@ -13,8 +14,6 @@ import com.jujeol.member.member.domain.Member;
 import com.jujeol.member.member.domain.repository.MemberRepository;
 import com.jujeol.preference.domain.Preference;
 import com.jujeol.preference.domain.PreferenceRepository;
-import com.jujeol.member.member.domain.repository.MemberRepository;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,13 +44,15 @@ public class PreferenceRepositoryTest {
 
     @BeforeEach
     void setUp() {
-
         Category BEER = categoryRepository.save(Category.create("맥주", "BEER"));
-        List<String> imageFilePaths = List.of("KakaoTalk_Image_2021-07-08-19-58-09_001_w200.png",
-                "KakaoTalk_Image_2021-07-08-19-58-09_001_w400.png",
-                "KakaoTalk_Image_2021-07-08-19-58-09_001_w600.png");
+        ImageFilePath imageFilePath = ImageFilePath.create(
+            "test_w200.png",
+                "test_w400.png",
+                "test_w600.png"
+        );
+
         Drink stella = Drink.create(
-                "스텔라", "stella", 5.5, imageFilePaths, 0.0, BEER, "아아 이것은 맥주라는 것이다.");
+                "스텔라", "stella", 5.5, imageFilePath, 0.0, BEER, "아아 이것은 맥주라는 것이다.");
         savedDrink = drinkRepository.save(stella);
 
         Member member = Member.create(Provider.create("1234", ProviderName.TEST), null, null);

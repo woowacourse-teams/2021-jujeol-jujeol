@@ -2,17 +2,15 @@ package com.jujeol.admin.ui;
 
 import com.jujeol.admin.ui.dto.AdminDrinkRequest;
 import com.jujeol.admin.ui.dto.AdminDrinkResponse;
-import com.jujeol.aws.service.ImageResizerImpl.ImageSize;
 import com.jujeol.aws.service.ImageService;
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.drink.application.DrinkService;
-import java.util.EnumMap;
-import com.jujeol.drink.drink.application.dto.DrinkRequestDto;
+import com.jujeol.drink.drink.application.dto.DrinkDto;
+import com.jujeol.drink.drink.application.dto.ImageFilePathDto;
 import com.jujeol.member.auth.ui.AuthenticationPrincipal;
 import com.jujeol.member.auth.ui.LoginMember;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,23 +44,21 @@ public class AdminController {
 
     @PostMapping("/drinks")
     public CommonResponse<?> insertDrinks(@ModelAttribute AdminDrinkRequest adminDrinkRequest) {
-        final EnumMap<ImageSize, String> imageUrls = imageService.insert(adminDrinkRequest.getImage());
+        ImageFilePathDto imageFilePathDto = imageService.insert(adminDrinkRequest.getImage());
         drinkService.insertDrink(adminDrinkRequest.toDto(
-                imageUrls.get(ImageSize.SMALL),
-                imageUrls.get(ImageSize.MEDIUM),
-                imageUrls.get(ImageSize.LARGE)
+                imageFilePathDto
         ));
         return CommonResponse.ok();
     }
 
     @PutMapping("/drinks/{id}")
     public CommonResponse<?> updateDrink(@PathVariable Long id,
-            @RequestBody AdminDrinkRequest adminDrinkRequest) {
-        final EnumMap<ImageSize, String> imageUrls = imageService.insert(adminDrinkRequest.getImage());
+            @ModelAttribute AdminDrinkRequest adminDrinkRequest) {
+        DrinkDto drinkDto = drinkService.showDrinkDetail(id);
+        ImageFilePathDto existingImage = drinkDto.getImageFilePathDto();
+        ImageFilePathDto imageFilePathDto = imageService.update(existingImage, adminDrinkRequest.getImage());
         drinkService.updateDrink(id, adminDrinkRequest.toDto(
-                imageUrls.get(ImageSize.SMALL),
-                imageUrls.get(ImageSize.MEDIUM),
-                imageUrls.get(ImageSize.LARGE)
+            imageFilePathDto
         ));
         return CommonResponse.ok();
     }
