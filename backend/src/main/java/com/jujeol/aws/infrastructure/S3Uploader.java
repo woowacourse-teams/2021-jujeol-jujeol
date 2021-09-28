@@ -3,6 +3,7 @@ package com.jujeol.aws.infrastructure;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.jujeol.aws.exception.AmazonClientException;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -31,7 +32,12 @@ public class S3Uploader implements StorageUploader {
     @Override
     public String upload(String directory, File image) {
         String fileName = String.format("%s%s", directory, image.getName());
-        amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, image));
+        try {
+            amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, image));
+        } catch (RuntimeException e) {
+            throw new AmazonClientException();
+        }
+
         try {
             Files.delete(Paths.get(image.getPath()));
         } catch (Exception e) {
@@ -43,10 +49,14 @@ public class S3Uploader implements StorageUploader {
     @Override
     public void delete(String imageUrl) {
         String imageName = imageUrl.replace(cloudfrontUrl, "");
-        if (amazonS3Client.doesObjectExist(bucketName, imageName)) {
-            amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, imageName));
-        } else {
-            log.warn("해당 이미지의 파일이 없습니다. url : {}", imageName);
+        try {
+            if (amazonS3Client.doesObjectExist(bucketName, imageName)) {
+                amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, imageName));
+            } else {
+                log.warn("해당 이미지의 파일이 없습니다. url : {}", imageName);
+            }
+        } catch (RuntimeException e) {
+            throw new AmazonClientException();
         }
     }
 }
