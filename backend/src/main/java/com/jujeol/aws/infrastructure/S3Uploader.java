@@ -20,10 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class S3Uploader implements StorageUploader {
 
-    @Value("${application.bucket.name ?: empty-bucket}")
+    @Value("${application.bucket.name:empty-bucket}")
     private String bucketName;
 
-    @Value("${application.cloudfront.url ?: empty-bucket}")
+    @Value("${application.cloudfront.url:empty-bucket}")
     private String cloudfrontUrl;
 
     private final AmazonS3 amazonS3Client;
