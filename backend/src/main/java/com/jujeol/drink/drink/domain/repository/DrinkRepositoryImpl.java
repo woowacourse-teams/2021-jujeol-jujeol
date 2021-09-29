@@ -39,6 +39,15 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
     }
 
     @Override
+    public List<Drink> findByIds(List<Long> iDs) {
+        return queryFactory.selectFrom(drink)
+                .innerJoin(drink.category)
+                .where(drink.id.in(iDs))
+                .fetchJoin()
+                .fetch();
+    }
+
+    @Override
     public List<Drink> findBySearch(SearchWords searchWords, List<String> categoryNames) {
         return queryFactory.selectFrom(drink)
                 .innerJoin(drink.category)

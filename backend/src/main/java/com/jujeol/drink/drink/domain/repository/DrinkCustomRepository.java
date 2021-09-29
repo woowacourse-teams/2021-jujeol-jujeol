@@ -11,6 +11,8 @@ public interface DrinkCustomRepository {
 
     void batchInsert(List<Drink> drinks);
 
+    List<Drink> findByIds(List<Long> iDs);
+
     List<Drink> findBySearch(SearchWords searchWords, List<String> categoryNames);
 
     List<Drink> findByCategory(SearchWords searchWords, String categoryKey);

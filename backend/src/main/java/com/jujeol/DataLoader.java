@@ -4,6 +4,7 @@ import com.jujeol.drink.category.domain.Category;
 import com.jujeol.drink.category.domain.CategoryRepository;
 import com.jujeol.drink.drink.domain.Drink;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
+import com.jujeol.elasticsearch.domain.reopsitory.DrinkDocumentRepository;
 import com.jujeol.member.auth.domain.Provider;
 import com.jujeol.member.auth.domain.ProviderName;
 import com.jujeol.member.auth.util.JwtTokenProvider;
@@ -30,6 +31,7 @@ public class DataLoader implements CommandLineRunner {
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final PreferenceService preferenceService;
+    private final DrinkDocumentRepository drinkDocumentRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -230,18 +232,24 @@ public class DataLoader implements CommandLineRunner {
         System.out.println("===============================token========================");
 
         for (Drink drink : drinks_spread) {
-            preferenceService.createOrUpdatePreference(savedMember.getId(), drink.getId(), PreferenceDto
-                    .create(Math.round((Math.random()*3+2) * 10) / 10.0));
-            preferenceService.createOrUpdatePreference(savedMember1.getId(), drink.getId(), PreferenceDto
-                    .create(Math.round((Math.random()*3+2) * 10) / 10.0));
-            preferenceService.createOrUpdatePreference(savedMember2.getId(), drink.getId(), PreferenceDto
-                    .create(Math.round((Math.random()*3+2) * 10) / 10.0));
-            preferenceService.createOrUpdatePreference(savedMember3.getId(), drink.getId(), PreferenceDto
-                    .create(Math.round((Math.random()*3+2) * 10) / 10.0));
-            preferenceService.createOrUpdatePreference(savedMember4.getId(), drink.getId(), PreferenceDto
-                    .create(Math.round((Math.random()*3+2) * 10) / 10.0));
-            preferenceService.createOrUpdatePreference(savedMember5.getId(), drink.getId(), PreferenceDto
-                    .create(Math.round((Math.random()*3+2) * 10) / 10.0));
+            preferenceService
+                    .createOrUpdatePreference(savedMember.getId(), drink.getId(), PreferenceDto
+                            .create(Math.round((Math.random() * 3 + 2) * 10) / 10.0));
+            preferenceService
+                    .createOrUpdatePreference(savedMember1.getId(), drink.getId(), PreferenceDto
+                            .create(Math.round((Math.random() * 3 + 2) * 10) / 10.0));
+            preferenceService
+                    .createOrUpdatePreference(savedMember2.getId(), drink.getId(), PreferenceDto
+                            .create(Math.round((Math.random() * 3 + 2) * 10) / 10.0));
+            preferenceService
+                    .createOrUpdatePreference(savedMember3.getId(), drink.getId(), PreferenceDto
+                            .create(Math.round((Math.random() * 3 + 2) * 10) / 10.0));
+            preferenceService
+                    .createOrUpdatePreference(savedMember4.getId(), drink.getId(), PreferenceDto
+                            .create(Math.round((Math.random() * 3 + 2) * 10) / 10.0));
+            preferenceService
+                    .createOrUpdatePreference(savedMember5.getId(), drink.getId(), PreferenceDto
+                            .create(Math.round((Math.random() * 3 + 2) * 10) / 10.0));
         }
     }
 

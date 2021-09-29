@@ -1,27 +1,30 @@
-package com.jujeol.elasticsearch;
+package com.jujeol.elasticsearch.domain;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.Id;
+import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.elasticsearch.annotations.Setting;
 
 @Getter
-@RequiredArgsConstructor
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Document(indexName = "drink")
-@Setting(settingPath = "elastic-setting.json")
-public class DrinkIndex {
+public class DrinkDocument {
 
-    @Id
     @Field(type = FieldType.Long)
     private Long id;
 
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     private String name;
 
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     private String englishName;
 
     @Field(type = FieldType.Keyword)

@@ -71,9 +71,8 @@ dependencies {
     implementation 'com.amazonaws:aws-java-sdk-s3'
     implementation 'org.springframework.cloud:spring-cloud-aws-core:2.2.6.RELEASE'
 
+    //elastic search
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
-    implementation "org.elasticsearch:elasticsearch:7.14.1"
-    implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.14.1'
 }
 
 ext {
