@@ -37,7 +37,7 @@ public class DrinkController {
     private final RecommendFactory recommendFactory;
 
     @LogWithTime
-    @GetMapping("/search")
+    @GetMapping("/search-old")
     public ResponseEntity<CommonResponse<List<DrinkResponse>>> showDrinksBySearch(
             @ModelAttribute SearchRequest searchRequest,
             @PageableDefault Pageable pageable,

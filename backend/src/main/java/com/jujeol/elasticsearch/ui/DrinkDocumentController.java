@@ -6,6 +6,8 @@ import com.jujeol.drink.drink.application.dto.DrinkDto;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
 import com.jujeol.drink.drink.ui.dto.SearchRequest;
 import com.jujeol.elasticsearch.application.DrinkDocumentService;
+import com.jujeol.member.auth.ui.AuthenticationPrincipal;
+import com.jujeol.member.auth.ui.LoginMember;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,10 +27,11 @@ public class DrinkDocumentController {
     @GetMapping("/search")
     public ResponseEntity<CommonResponse<List<DrinkResponse>>> showDrinksBySearch(
             @ModelAttribute SearchRequest searchRequest,
+            @AuthenticationPrincipal LoginMember loginMember,
             @PageableDefault Pageable pageable
     ) {
         Page<DrinkDto> drinkDtos = documentService
-                .showDrinksBySearch(searchRequest.toDto(), pageable);
+                .showDrinksBySearch(searchRequest.toDto(), loginMember, pageable);
 
         return ResponseEntity
                 .ok(PageResponseAssembler.assemble(drinkDtos.map(DrinkResponse::from)));
