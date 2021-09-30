@@ -1,9 +1,9 @@
 import { MouseEventHandler } from 'react';
 
-import Card from '../@shared/Card/Card';
-import { Container } from './DisableWriteReview.styles';
 import { COLOR } from 'src/constants';
-import Arrow from '../@shared/Arrow/Arrow';
+import Card from '../@shared/Card/Card';
+import Button from '../@shared/Button/Button';
+import { Container } from './DisableWriteReview.styles';
 
 interface Props {
   onNoticeToInputPreference: MouseEventHandler<HTMLButtonElement>;
@@ -21,10 +21,16 @@ const DisableWriteReview = ({ onNoticeToInputPreference }: Props) => {
         <p>
           먼저 <strong>선호도</strong>를 입력해주세요!
         </p>
-        <button type="button" onClick={onNoticeToInputPreference}>
+        <Button
+          type="button"
+          shape="ROUND"
+          size="SMALL"
+          width="fit-content"
+          margin="0.75rem 0 0"
+          onClick={onNoticeToInputPreference}
+        >
           선호도 입력하러 가기
-          <Arrow size="0.5rem" dir="UP" color={`${COLOR.BLACK}`} />
-        </button>
+        </Button>
       </Card>
     </Container>
   );

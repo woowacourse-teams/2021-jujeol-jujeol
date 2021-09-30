@@ -1,12 +1,11 @@
 import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 
-import { modalContext } from '../Modal/ModalProvider';
-import { BioInput, Form, NicknameInput } from './EditModalForm.styles';
-import { EditButton } from '../Review/ReviewEditForm.styles';
+import Button from '../@shared/Button/Button';
 import API from 'src/apis/requests';
+import { modalContext } from '../Modal/ModalProvider';
 import { SnackbarContext } from '../@shared/Snackbar/SnackbarProvider';
-import { AxiosError } from 'axios';
+import { BioInput, Form, NicknameInput } from './EditModalForm.styles';
 
 interface Props {
   nickname?: string;
@@ -95,7 +94,7 @@ const EditModalForm = ({ nickname: currentNickname = '', bio: currentBio = '' }:
         />
       </label>
 
-      <EditButton disabled={!nickname || !bio}>수정하기</EditButton>
+      <Button disabled={!nickname || !bio}>수정하기</Button>
     </Form>
   );
 };

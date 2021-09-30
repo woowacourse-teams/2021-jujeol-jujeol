@@ -2,8 +2,9 @@ import { FormEventHandler, useContext, useEffect, useRef, useState } from 'react
 import { useMutation, useQueryClient } from 'react-query';
 import API from 'src/apis/requests';
 import { ERROR_MESSAGE, REVIEW } from 'src/constants';
+import Button from '../@shared/Button/Button';
 import { modalContext } from '../Modal/ModalProvider';
-import { Form, Content, EditButton, DeleteButton } from './ReviewEditForm.styles';
+import { Form, Content, DeleteButton } from './ReviewEditForm.styles';
 interface Props {
   drinkId: string;
   review: Review.Item;
@@ -97,7 +98,7 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
           />
         </Content>
 
-        <EditButton disabled={!editContent}>수정하기</EditButton>
+        <Button disabled={!editContent}>수정하기</Button>
       </Form>
       <DeleteButton type="button" onClick={onDelete}>
         삭제하기

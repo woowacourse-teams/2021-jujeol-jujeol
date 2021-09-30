@@ -89,6 +89,15 @@ const GlobalStyle = () => (
           filter: brightness(80%);
         }
       }
+
+      input,
+      button,
+      a,
+      textarea {
+        :focus:not(:disabled) {
+          outline: 2px solid ${COLOR.YELLOW_600};
+        }
+      }
     `}
   />
 );
