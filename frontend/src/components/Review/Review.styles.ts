@@ -3,10 +3,10 @@ import { COLOR } from 'src/constants';
 
 const Wrapper = styled.section`
   line-height: 1.25;
-  color: ${COLOR.BLACK_900};
+  color: ${COLOR.BLACK};
 
   h2 {
-    color: ${COLOR.WHITE_100};
+    color: ${COLOR.WHITE};
     font-weight: 700;
     text-align: left;
     font-size: 1.25rem;

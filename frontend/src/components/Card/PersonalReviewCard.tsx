@@ -37,7 +37,7 @@ const PersonalReviewCard = ({ review }: Props) => {
   };
 
   return (
-    <Card width="100%" backgroundColor={COLOR.WHITE_200} padding="0.6rem 1.3rem 0.6rem 0.6rem">
+    <Card width="100%" backgroundColor={COLOR.GRAY_100} padding="0.6rem 1.3rem 0.6rem 0.6rem">
       <Img
         src={drink.imageUrl}
         alt={drink.name}

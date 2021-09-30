@@ -15,7 +15,7 @@ const DisableWriteReview = ({ onNoticeToInputPreference }: Props) => {
       <Card
         height="8.26rem"
         padding="1rem"
-        border={`0.5px solid ${COLOR.WHITE_200}`}
+        border={`0.5px solid ${COLOR.GRAY_100}`}
         backgroundColor={`${COLOR.PURPLE_600}55`}
       >
         <p>
@@ -23,7 +23,7 @@ const DisableWriteReview = ({ onNoticeToInputPreference }: Props) => {
         </p>
         <button type="button" onClick={onNoticeToInputPreference}>
           선호도 입력하러 가기
-          <Arrow size="0.5rem" dir="UP" color={`${COLOR.BLACK_900}`} />
+          <Arrow size="0.5rem" dir="UP" color={`${COLOR.BLACK}`} />
         </button>
       </Card>
     </Container>

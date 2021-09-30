@@ -17,7 +17,7 @@ const Container = styled.section`
   img {
     width: 100%;
     height: 100%;
-    background-color: ${COLOR.WHITE_200};
+    background-color: ${COLOR.GRAY_100};
     object-fit: cover;
   }
 `;

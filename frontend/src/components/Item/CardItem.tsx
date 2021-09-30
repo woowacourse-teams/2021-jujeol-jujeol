@@ -29,7 +29,7 @@ const CardItem = ({
 }: Props) => {
   return (
     <li>
-      <Card width="13rem" height="17rem" onClick={onClick} color={COLOR.WHITE_100}>
+      <Card width="13rem" height="17rem" onClick={onClick} color={COLOR.WHITE}>
         <ItemImage src={imageUrl} alt={title} loading="lazy" />
         <ItemInfo>
           <h3>{title}</h3>

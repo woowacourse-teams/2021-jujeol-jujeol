@@ -44,7 +44,7 @@ const SearchInput = styled.input<Omit<React.CSSProperties, 'translate'>>`
   font-size: 1rem;
   font-weight: 700;
   text-align: ${({ textAlign }) => textAlign && `${textAlign}`};
-  color: ${COLOR.WHITE_100};
+  color: ${COLOR.WHITE};
 
   -webkit-appearance: none;
 
@@ -78,7 +78,7 @@ const ResetButton = styled.button`
 
   span {
     background-color: ${COLOR.GRAY_200};
-    color: ${COLOR.WHITE_200};
+    color: ${COLOR.GRAY_100};
     border-radius: 50%;
     width: 1.125rem;
     height: 1.125rem;

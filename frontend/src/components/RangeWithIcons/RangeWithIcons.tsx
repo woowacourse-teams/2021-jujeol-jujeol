@@ -12,7 +12,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const RangeWithIcons = ({
-  color = COLOR.WHITE_100,
+  color = COLOR.WHITE,
   min = 0,
   max,
   step,

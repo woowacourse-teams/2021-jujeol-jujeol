@@ -37,7 +37,7 @@ const NicknameInput = styled.input`
   font-size: 1.2rem;
 
   border: none;
-  border-bottom: 1px solid ${COLOR.BLACK_900};
+  border-bottom: 1px solid ${COLOR.BLACK};
 `;
 
 const BioInput = styled.textarea`
@@ -45,7 +45,7 @@ const BioInput = styled.textarea`
   width: 100%;
   overflow-y: auto;
   resize: none;
-  border: 1px solid ${COLOR.BLACK_900};
+  border: 1px solid ${COLOR.BLACK};
   border-radius: 0.5rem;
 
   font-size: 0.9rem;

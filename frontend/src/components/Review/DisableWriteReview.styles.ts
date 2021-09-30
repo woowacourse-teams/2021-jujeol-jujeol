@@ -8,7 +8,7 @@ const Container = styled.div`
     margin-bottom: 1rem;
 
     p {
-      color: ${COLOR.WHITE_200};
+      color: ${COLOR.GRAY_100};
       word-break: keep-all;
       font-size: 0.9rem;
       line-height: 1.5;
@@ -33,7 +33,7 @@ const Container = styled.div`
       }
 
       div {
-        border-color: ${COLOR.BLACK_900};
+        border-color: ${COLOR.BLACK};
         margin: 0;
         margin-left: 0.5rem;
       }

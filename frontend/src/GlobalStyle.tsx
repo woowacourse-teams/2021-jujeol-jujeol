@@ -25,7 +25,7 @@ const GlobalStyle = () => (
         height: 100%;
         overflow: hidden;
 
-        background-color: ${COLOR.WHITE_200};
+        background-color: ${COLOR.GRAY_100};
 
         font-size: 16px;
         line-height: 1.25;
@@ -78,7 +78,7 @@ const GlobalStyle = () => (
 
       a,
       button {
-        color: ${COLOR.BLACK_900};
+        color: ${COLOR.BLACK};
         font-size: 16px;
 
         -webkit-tap-highlight-color: transparent;

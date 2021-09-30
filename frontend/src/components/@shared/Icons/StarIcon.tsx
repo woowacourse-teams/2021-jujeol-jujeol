@@ -12,7 +12,7 @@ interface Props extends IconProps {
   status?: fillStatus;
 }
 
-const StarIcon = ({ color = COLOR.WHITE_100, status = 'FULL', width = '3rem' }: Props) => {
+const StarIcon = ({ color = COLOR.WHITE, status = 'FULL', width = '3rem' }: Props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

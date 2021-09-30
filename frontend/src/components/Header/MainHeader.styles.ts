@@ -9,7 +9,7 @@ const envContent =
 const Logo = styled.h1`
   font-size: 1.4rem;
   font-weight: 700;
-  color: ${COLOR.WHITE_100};
+  color: ${COLOR.WHITE};
   text-align: center;
   position: relative;
 

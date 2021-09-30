@@ -44,7 +44,7 @@ const Content = styled.div`
     width: 100%;
     height: 100%;
     resize: none;
-    background-color: ${COLOR.WHITE_200};
+    background-color: ${COLOR.GRAY_100};
     border: none;
     border-radius: 12px;
     padding: 1rem;

@@ -23,7 +23,7 @@ const Container = styled.section<{ message: boolean }>`
   margin: 0 auto;
 
   background-color: ${COLOR.PURPLE_500}CC;
-  color: ${COLOR.WHITE_200};
+  color: ${COLOR.GRAY_100};
   font-size: 0.9rem;
   text-align: center;
   line-height: 1.5;

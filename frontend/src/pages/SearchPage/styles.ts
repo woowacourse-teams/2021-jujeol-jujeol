@@ -26,12 +26,12 @@ const CategoryItem = styled.li`
   width: 4.5rem;
   height: 4.5rem;
   border-radius: 50%;
-  background-color: ${COLOR.WHITE_200};
+  background-color: ${COLOR.GRAY_100};
 
   span {
     font-size: 0.8rem;
     font-weight: 600;
-    color: ${COLOR.BLACK_900};
+    color: ${COLOR.BLACK};
     margin: 0.2rem 0;
   }
 `;

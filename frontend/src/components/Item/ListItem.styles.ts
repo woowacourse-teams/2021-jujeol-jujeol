@@ -13,13 +13,13 @@ const Item = styled.li`
   img {
     width: 88px;
     height: 88px;
-    background-color: ${COLOR.WHITE_200};
+    background-color: ${COLOR.GRAY_100};
     border-radius: 0.5rem;
     object-fit: cover;
   }
 
   :hover {
-    background-color: ${COLOR.PURPLE_400};
+    background-color: ${COLOR.PURPLE_600};
   }
 `;
 

@@ -15,7 +15,7 @@ const Container = styled.div`
 const Image = styled.img`
   width: 100%;
   height: fit-content;
-  background-color: ${COLOR.WHITE_100};
+  background-color: ${COLOR.WHITE};
 `;
 
 const Section = styled.section`
@@ -37,7 +37,7 @@ const PreferenceSection = styled.section<{ isBlinked: boolean }>`
     font-size: 1.3rem;
     font-weight: 400;
     line-height: 1.25;
-    color: ${COLOR.WHITE_200};
+    color: ${COLOR.GRAY_100};
   }
 
   div {

@@ -33,7 +33,7 @@ const MoveViewAllPageButton = styled.button<{ fontSize: string }>`
   span {
     ${({ fontSize }) => fontSize && `font-size:  ${fontSize}`};
     line-height: 1.5;
-    color: ${COLOR.WHITE_200};
+    color: ${COLOR.GRAY_100};
   }
 `;
 

@@ -53,7 +53,7 @@ const Content = styled.div<{ isOpened: boolean; isTouchDown: boolean }>`
   position: absolute;
   bottom: 0;
   left: 0;
-  background-color: ${COLOR.WHITE_100};
+  background-color: ${COLOR.WHITE};
   ${({ isOpened, isTouchDown }) =>
     isOpened
       ? css`

@@ -36,7 +36,7 @@ const SearchBar = ({
       onClick={onClick}
     >
       {isMainPage ? (
-        <SearchIcon color={COLOR.WHITE_200} width="1.2rem" />
+        <SearchIcon color={COLOR.GRAY_100} width="1.2rem" />
       ) : (
         <button type="button" onClick={onMoveToPrevPage}>
           <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
@@ -62,7 +62,7 @@ const SearchBar = ({
             </ResetButton>
           )}
           <SearchButton type="submit">
-            <SearchIcon color={COLOR.WHITE_200} width="1.4rem" />
+            <SearchIcon color={COLOR.GRAY_100} width="1.4rem" />
           </SearchButton>
         </>
       )}

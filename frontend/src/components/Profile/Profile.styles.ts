@@ -9,8 +9,6 @@ const Container = styled.section`
   height: 7rem;
   padding: 2rem;
 
-  background-color: ${COLOR.PURPLE_500};
-
   div {
     ${Flex({ flexDirection: 'column' })}
     width: 100%;

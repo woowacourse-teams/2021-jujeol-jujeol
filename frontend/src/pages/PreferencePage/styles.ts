@@ -35,7 +35,7 @@ const AlertWrapper = styled.div`
   left: 0;
   right: 0;
 
-  background-color: ${`${COLOR.BLACK_900}aa`};
+  background-color: ${`${COLOR.BLACK}aa`};
 
   ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })}
 
@@ -46,8 +46,8 @@ const AlertWrapper = styled.div`
 
     ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })}
 
-    background-color: ${COLOR.PURPLE_300};
-    color: ${COLOR.WHITE_200};
+    background-color: ${COLOR.PURPLE_600};
+    color: ${COLOR.GRAY_100};
     text-align: center;
 
     margin: 1rem 0;

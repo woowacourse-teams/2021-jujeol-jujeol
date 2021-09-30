@@ -122,7 +122,7 @@ const DrinksDetailPage = () => {
 
   return (
     <Container ref={pageContainerRef}>
-      <GoBackButton color={COLOR.BLACK_900} />
+      <GoBackButton color={COLOR.BLACK} />
       {isLoading ? (
         <Skeleton width="100" height="30rem" />
       ) : (
