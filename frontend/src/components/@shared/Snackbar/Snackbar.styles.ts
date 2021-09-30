@@ -29,7 +29,7 @@ const Container = styled.section<{ message: boolean }>`
   line-height: 1.5;
 
   border-radius: 0.5rem;
-  visibility: hidden;
+  /* visibility: hidden; */
 
   z-index: ${Z_INDEX.SNACKBAR};
 

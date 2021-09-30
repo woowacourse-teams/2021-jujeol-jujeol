@@ -1,134 +1,92 @@
 import { Global, css } from '@emotion/react';
-import { COLOR } from './constants';
+import { COLOR, Z_INDEX } from './constants';
+import Reset from './styles/Reset';
+
+const MOBILE_X_SMALL = '280px';
+const MOBILE_SMALL = '320px';
+const MOBILE_MEDIUM = '375px';
+const MOBILE_LARGE = '425px';
 
 const GlobalStyle = () => (
   <Global
     styles={css`
+      ${Reset()}
+
       * {
         font-family: 'Nanum Gothic', sans-serif;
+
         box-sizing: border-box;
         scroll-behavior: smooth;
       }
 
       html,
-      body,
-      #root {
+      body {
         width: 100%;
         height: 100%;
-        background-color: ${COLOR.PURPLE_900};
-        font-size: 16px;
-
-        position: fixed;
         overflow: hidden;
+
+        background-color: ${COLOR.WHITE_200};
+
+        font-size: 16px;
+        line-height: 1.25;
       }
 
       #root {
-        position: relative;
-        max-width: 480px;
-        min-width: 280px;
+        min-width: ${MOBILE_X_SMALL};
+        max-width: ${MOBILE_LARGE};
+        height: 100%;
         margin: 0 auto;
+
+        position: relative;
+
+        background-color: ${COLOR.PURPLE_900};
+      }
+
+      @media screen and (max-width: ${MOBILE_SMALL}) {
+        html,
+        body {
+          font-size: 14px;
+        }
       }
 
       #modal {
         width: 100%;
-        max-width: 480px;
-        min-width: 280px;
-        height: 100vh;
-        position: fixed;
-        left: 50%;
-        bottom: 0;
-        transform: translateX(-50%);
+        min-width: ${MOBILE_X_SMALL};
+        max-width: ${MOBILE_LARGE};
+
         visibility: hidden;
-        z-index: 10;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: ${Z_INDEX.MODAL};
       }
 
       #snackbar {
-        position: absolute;
+        width: 100%;
+        min-width: ${MOBILE_X_SMALL};
+        max-width: ${MOBILE_LARGE};
+
+        visibility: hidden;
+        position: fixed;
         bottom: 10%;
         left: 50%;
         transform: translateX(-50%);
-
-        width: 100%;
-        max-width: 480px;
-        min-width: 280px;
-        z-index: 15;
-      }
-
-      html,
-      body,
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6,
-      p,
-      a,
-      img,
-      ol,
-      ul,
-      li,
-      fieldset,
-      form,
-      label,
-      legend,
-      article,
-      footer,
-      header,
-      nav,
-      section {
-        margin: 0;
-        padding: 0;
-        border: 0;
-        font-size: 100%;
-        font: inherit;
-        vertical-align: baseline;
-      }
-
-      article,
-      footer,
-      header,
-      nav,
-      section {
-        display: block;
-      }
-      body {
-        line-height: 1;
-      }
-      ol,
-      ul {
-        list-style: none;
-      }
-      a,
-      a:link,
-      a:visited,
-      a:hover,
-      a:active {
-        color: inherit;
-        text-decoration: none;
+        z-index: ${Z_INDEX.SNACKBAR};
       }
 
       a,
       button {
         color: ${COLOR.BLACK_900};
         font-size: 16px;
+
         -webkit-tap-highlight-color: transparent;
 
         :disabled {
           color: ${COLOR.GRAY_400};
+
           filter: brightness(80%);
-        }
-      }
-
-      input {
-        -webkit-tap-highlight-color: transparent;
-
-        @media screen and (max-width: 320px) {
-          html,
-          body,
-          #root {
-            font-size: 14px;
-          }
         }
       }
     `}
