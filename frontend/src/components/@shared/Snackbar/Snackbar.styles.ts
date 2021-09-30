@@ -13,30 +13,32 @@ const fadeInOut = keyframes`
 `;
 
 const Container = styled.section<{ message: boolean }>`
+  width: 90%;
+
+  padding: 1rem;
+  margin: 0 auto;
+
+  visibility: hidden;
+  z-index: ${Z_INDEX.SNACKBAR};
+
   ${Flex({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   })}
-  width: 90%;
-  padding: 1rem;
-  margin: 0 auto;
 
-  background-color: ${COLOR.PURPLE_500}CC;
-  color: ${COLOR.GRAY_100};
-  font-size: 0.9rem;
-  text-align: center;
-  line-height: 1.5;
-
+  background-color: ${COLOR.PURPLE_600}EE;
   border-radius: 0.5rem;
-  /* visibility: hidden; */
 
-  z-index: ${Z_INDEX.SNACKBAR};
+  font-size: 0.9rem;
+  color: ${COLOR.GRAY_100};
+  text-align: center;
 
   ${({ message }) =>
     message &&
     css`
       visibility: visible;
+
       animation: ${fadeInOut} 3s ease-out;
     `}
 
