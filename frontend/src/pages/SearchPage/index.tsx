@@ -1,4 +1,4 @@
-import { RouteComponentProps } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Grid from 'src/components/@shared/Grid/Grid';
 import {
   BeerColorIcon,
@@ -60,16 +60,9 @@ const categories: Category[] = [
 
 export { categories };
 
-const SearchPage = ({ history }: RouteComponentProps) => {
-  const onMoveToSearchResult = (key: string) => () => {
-    if (key === 'ALL') {
-      history.push(PATH.VIEW_ALL);
-      return;
-    }
-
-    history.push(`${PATH.SEARCH_RESULT}?category=${key}`);
-  };
-
+const SearchPage = () => {
+  const getCategoryPath = (key: Category['key']) =>
+    key === 'ALL' ? PATH.VIEW_ALL : `${PATH.SEARCH_RESULT}?category=${key}`;
   return (
     <Container>
       <SearchBar placeholder="검색어를 입력해주세요" readOnly={false} />
@@ -79,9 +72,11 @@ const SearchPage = ({ history }: RouteComponentProps) => {
         <Grid col={4} colGap="0.5rem" rowGap="1rem" justifyItems="center">
           {categories.map(({ key, name, Icon }) => {
             return (
-              <CategoryItem key={key} onClick={onMoveToSearchResult(key)}>
-                <Icon />
-                <span>{name}</span>
+              <CategoryItem key={key}>
+                <Link to={getCategoryPath(key)}>
+                  <Icon />
+                  <span>{name}</span>
+                </Link>
               </CategoryItem>
             );
           })}

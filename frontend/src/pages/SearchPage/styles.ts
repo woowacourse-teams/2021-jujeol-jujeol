@@ -21,18 +21,26 @@ const Categories = styled.section`
 `;
 
 const CategoryItem = styled.li`
-  ${Flex({ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' })}
-  padding: 0 0.5rem;
   width: 4.5rem;
   height: 4.5rem;
-  border-radius: 50%;
+  padding: 0 0.5rem;
+
   background-color: ${COLOR.GRAY_100};
+  border-radius: 50%;
+
+  a {
+    width: 100%;
+    height: 100%;
+
+    ${Flex({ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' })}
+  }
 
   span {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: ${COLOR.BLACK};
     margin: 0.2rem 0;
+
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: ${COLOR.BLACK};
   }
 `;
 
