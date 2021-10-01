@@ -51,6 +51,7 @@ const Button = styled.button<ButtonProps>`
 
   :disabled {
     filter: brightness(0.9);
+    cursor: not-allowed;
   }
 `;
 
