@@ -1,6 +1,6 @@
 {
   "name": "jujeol-jujeol-frontend",
-  "version": "1.2.2-beta",
+  "version": "1.2.3-beta",
   "description": "jujeol-jujeol-frontend",
   "main": "index.js",
   "scripts": {
