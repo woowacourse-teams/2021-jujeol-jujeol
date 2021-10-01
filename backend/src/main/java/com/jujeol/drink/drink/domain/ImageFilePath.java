@@ -9,10 +9,23 @@ import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-class ImageFilePath {
+public class ImageFilePath {
 
     @Column
-    private String imageFilePath;
+    private String smallImageFilePath;
+    @Column
+    private String mediumImageFilePath;
+    @Column
+    private String largeImageFilePath;
+
+    public static ImageFilePath create(String smallImageFilePath,
+        String mediumImageFilePath,
+        String largeImageFilePath
+    ) {
+        return new ImageFilePath(
+            smallImageFilePath, mediumImageFilePath, largeImageFilePath
+        );
+    }
 }

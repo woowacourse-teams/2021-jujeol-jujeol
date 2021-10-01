@@ -13,9 +13,9 @@ import com.jujeol.RequestBuilder.Option;
 import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
-import com.jujeol.drink.drink.ui.dto.DrinkDetailResponse;
-import com.jujeol.member.member.application.dto.PreferenceDto;
+import com.jujeol.drink.drink.ui.dto.DrinkResponse;
 import com.jujeol.member.fixture.TestMember;
+import com.jujeol.member.member.application.dto.PreferenceDto;
 import com.jujeol.member.member.ui.dto.MemberRequest;
 import com.jujeol.member.member.ui.dto.MemberResponse;
 import io.restassured.response.ExtractableResponse;
@@ -68,7 +68,6 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
 
-
         //then
         MemberResponse memberResponse = 내_정보를_조회한다(WEDGE);
         assertThat(memberResponse.getNickname()).isEqualTo(updateNickname);
@@ -120,9 +119,9 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .totalResponse();
 
         //then
-        final DrinkDetailResponse drinkDetailResponse = drinkAcceptanceTool.단일_상품_조회(obId);
+        final DrinkResponse drinkResponse = drinkAcceptanceTool.단일_상품_조회(obId);
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(drinkDetailResponse.getPreferenceAvg()).isEqualTo(4.5);
+        assertThat(drinkResponse.getPreferenceAvg()).isEqualTo(4.5);
     }
 
     @Test
@@ -142,9 +141,9 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .totalResponse();
 
         //then
-        final DrinkDetailResponse drinkDetailResponse = drinkAcceptanceTool.단일_상품_조회(obId);
+        final DrinkResponse drinkResponse = drinkAcceptanceTool.단일_상품_조회(obId);
         assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(drinkDetailResponse.getPreferenceAvg()).isEqualTo(3.0);
+        assertThat(drinkResponse.getPreferenceAvg()).isEqualTo(3.0);
     }
 
     @Test
@@ -199,10 +198,10 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 .build();
 
         //then
-        final DrinkDetailResponse drinkDetailResponse = drinkAcceptanceTool.단일_상품_조회(obId);
+        final DrinkResponse drinkResponse = drinkAcceptanceTool.단일_상품_조회(obId);
 
         assertThat(httpResponse.statusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(drinkDetailResponse.getPreferenceAvg()).isEqualTo(0.0);
+        assertThat(drinkResponse.getPreferenceAvg()).isEqualTo(0.0);
     }
 
     @Test
@@ -223,11 +222,13 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         예외_검증(httpResponse.errorResponse(), UNAUTHORIZED_USER);
     }
 
-    private ExtractableResponse<Response> 내_정보를_수정한다(TestMember testMember, MemberRequest memberRequest) {
+    private ExtractableResponse<Response> 내_정보를_수정한다(TestMember testMember,
+            MemberRequest memberRequest) {
         return 내_정보를_수정한다(testMember, memberRequest, "");
     }
 
-    private ExtractableResponse<Response> 내_정보를_수정한다(TestMember testMember, MemberRequest memberRequest,
+    private ExtractableResponse<Response> 내_정보를_수정한다(TestMember testMember,
+            MemberRequest memberRequest,
             String documentPath) {
         Option updateRequest = request().put("/members/me", memberRequest);
 

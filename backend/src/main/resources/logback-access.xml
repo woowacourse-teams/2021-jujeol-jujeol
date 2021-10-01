@@ -12,7 +12,15 @@
         </pattern>
       </encoder>
     </appender>
-    <appender-ref ref="STDOUT"/>
+    <appender name="STDOUT-async" class="ch.qos.logback.classic.AsyncAppender">
+      <appender-ref ref="STDOUT" />
+      <queueSize>256</queueSize>
+      <discardingThreshold>20</discardingThreshold>
+      <includeCallerData>false</includeCallerData>
+      <neverBlock>true</neverBlock>
+      <maxFlushTime>3000</maxFlushTime>
+    </appender>
+    <appender-ref ref="STDOUT-async"/>
   </springProfile>
 
   <springProfile name ="http-file-logging">
@@ -30,6 +38,14 @@
         <maxHistory>3</maxHistory>
       </rollingPolicy>
     </appender>
-    <appender-ref ref="FILE" />
+    <appender name="FILE-async" class="ch.qos.logback.classic.AsyncAppender">
+      <appender-ref ref="FILE" />
+      <queueSize>256</queueSize>
+      <discardingThreshold>20</discardingThreshold>
+      <includeCallerData>false</includeCallerData>
+      <neverBlock>true</neverBlock>
+      <maxFlushTime>3000</maxFlushTime>
+    </appender>
+    <appender-ref ref="FILE-async" />
   </springProfile>
 </configuration>

@@ -1,11 +1,11 @@
-const ExcitedEmojiIcon = ({ color = '#fff' }: IconProps) => {
+const ExcitedEmojiIcon = ({ color = '#fff', width = '32px', height = '32px' }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       fill={color}
-      width="32px"
-      height="32px"
+      width={width}
+      height={height}
       aria-labelledby="excited-emoji-icon-title"
     >
       <title id="excited-emoji-icon-title">신난 얼굴</title>

@@ -2,6 +2,7 @@ package com.jujeol.testdatabase;
 
 
 public class QueryCounter {
+
     private QueryResult queryResult;
     private Count count;
     private boolean countable;

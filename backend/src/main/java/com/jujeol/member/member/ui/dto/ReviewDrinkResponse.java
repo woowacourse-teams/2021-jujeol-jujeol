@@ -20,7 +20,7 @@ public class ReviewDrinkResponse {
         return new ReviewDrinkResponse(
                 drinkDto.getId(),
                 drinkDto.getName(),
-                drinkDto.getImageUrl()
+                drinkDto.getImageFilePathDto().getMediumImageFilePath()
         );
     }
 }

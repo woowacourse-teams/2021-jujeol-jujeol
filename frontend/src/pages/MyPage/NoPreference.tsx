@@ -22,7 +22,12 @@ const NoPreference = () => {
         <p>선호도를 한 번 남겨보시는건 어떠세요?</p>
       </Header>
       <Content onClick={onMoveToDrinkDetail}>
-        <Img src={drink?.imageUrl} alt={drink?.name} size="X_SMALL" shape="ROUND_SQUARE" />
+        <Img
+          src={drink?.imageResponse.small}
+          alt={drink?.name}
+          size="X_SMALL"
+          shape="ROUND_SQUARE"
+        />
         <div>
           <p>{drink?.name}</p>
           <RangeWithIcons

@@ -1,6 +1,7 @@
 package com.jujeol.admin.ui.dto;
 
 import com.jujeol.drink.drink.application.dto.DrinkDto;
+import com.jujeol.drink.drink.application.dto.ImageFilePathDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,9 +15,10 @@ public class AdminDrinkResponse {
     private String name;
     private String englishName;
     private Double alcoholByVolume;
-    private String imageUrl;
+    private ImageFilePathDto imageUrl;
     private AdminCategoryResponse category;
     private double preferenceRate;
+    private String description;
 
     public static AdminDrinkResponse from(DrinkDto drinkDto) {
         return new AdminDrinkResponse(
@@ -24,9 +26,10 @@ public class AdminDrinkResponse {
                 drinkDto.getName(),
                 drinkDto.getEnglishName(),
                 drinkDto.getAlcoholByVolume(),
-                drinkDto.getImageUrl(),
+                drinkDto.getImageFilePathDto(),
                 AdminCategoryResponse.create(drinkDto.getCategoryDto()),
-                drinkDto.getPreferenceRate()
+                drinkDto.getPreferenceRate(),
+                drinkDto.getDescription()
         );
     }
 }

@@ -43,28 +43,36 @@ public class Drink {
     private Category category;
     @Column
     private Double preferenceAvg;
+    @Embedded
+    private Description description;
 
     @OneToMany(mappedBy = "drink", fetch = FetchType.LAZY)
     private List<Review> reviews = new ArrayList<>();
 
     public static Drink create(
-            String name,
-            String englishName,
-            Double alcoholByVolume,
-            String imageUrl,
-            Double preferenceAvg,
-            Category category
+        String name,
+        String englishName,
+        Double alcoholByVolume,
+        ImageFilePath imageFilePath,
+        Double preferenceAvg,
+        Category category,
+        String description
     ) {
         return new Drink(
-                null,
-                new DrinkName(name),
-                new DrinkEnglishName(englishName),
-                new AlcoholByVolume(alcoholByVolume),
-                new ImageFilePath(imageUrl),
-                category,
-                preferenceAvg,
-                new ArrayList<>()
+            null,
+            new DrinkName(name),
+            new DrinkEnglishName(englishName),
+            new AlcoholByVolume(alcoholByVolume),
+            imageFilePath,
+            category,
+            preferenceAvg,
+            new Description(description),
+            new ArrayList<>()
         );
+    }
+
+    public static Drink ofId(Long drinkId) {
+        return new Drink(drinkId, null, null, null, null, null, null, null, null);
     }
 
     public void addReview(Review review) {
@@ -88,8 +96,16 @@ public class Drink {
         return alcoholByVolume.getValue();
     }
 
-    public String getImageFilePath() {
-        return imageFilePath.getImageFilePath();
+    public String getSmallImageFilePath() {
+        return imageFilePath.getSmallImageFilePath();
+    }
+
+    public String getMediumImageFilePath() {
+        return imageFilePath.getMediumImageFilePath();
+    }
+
+    public String getLargeImageFilePath() {
+        return imageFilePath.getLargeImageFilePath();
     }
 
     public Category getCategory() {
@@ -104,16 +120,22 @@ public class Drink {
         return reviews;
     }
 
+    public String getDescription() {
+        return description.getDescription();
+    }
+
     public void updateInfo(String name,
-            String englishName,
-            String imageUrl,
-            Category category,
-            Double alcoholByVolume) {
+        String englishName,
+        ImageFilePath imageFilePath,
+        Category category,
+        Double alcoholByVolume,
+        String description) {
         this.name = new DrinkName(name);
         this.englishName = new DrinkEnglishName(englishName);
-        this.imageFilePath = new ImageFilePath(imageUrl);
+        this.imageFilePath = imageFilePath;
         this.category = category;
         this.alcoholByVolume = new AlcoholByVolume(alcoholByVolume);
+        this.description = new Description(description);
     }
 
     public void updateAverage(Double average) {

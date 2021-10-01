@@ -1,10 +1,10 @@
-const SmileEmojiColorIcon = () => {
+const SmileEmojiColorIcon = ({ width = '32px', height = '32px' }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
-      width="32px"
-      height="32px"
+      width={width}
+      height={height}
       aria-labelledby="smile-emoji-color-title"
     >
       <title id="smile-emoji-color-title">색상이 있는 웃는 얼굴</title>

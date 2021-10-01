@@ -4,6 +4,7 @@ import { COLOR } from 'src/constants';
 const Container = styled.section`
   width: 100%;
   height: fit-content;
+  min-height: 196px;
   position: relative;
 
   h2 {
@@ -15,6 +16,7 @@ const Container = styled.section`
 
   img {
     width: 100%;
+    height: 100%;
     background-color: ${COLOR.WHITE_200};
     object-fit: cover;
   }

@@ -19,7 +19,7 @@ public class MemberDrinkResponse {
         return new MemberDrinkResponse(
                 drinkDto.getId(),
                 drinkDto.getName(),
-                drinkDto.getImageUrl(),
+                drinkDto.getImageFilePathDto().getMediumImageFilePath(),
                 drinkDto.getPreferenceRate()
         );
     }

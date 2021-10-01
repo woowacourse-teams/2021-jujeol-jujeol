@@ -25,7 +25,7 @@ public enum TestMember {
         this.memberDetails = new MemberDetails() {
             @Override
             public String accountId() {
-                if(accountId.equals("random")) {
+                if (accountId.equals("random")) {
                     return UUID.randomUUID().toString();
                 }
                 return accountId;
@@ -71,7 +71,7 @@ public enum TestMember {
         return memberDetails;
     }
 
-    public SocialProviderCodeDto toDto(){
+    public SocialProviderCodeDto toDto() {
         return SocialProviderCodeDto.create(matchedCode, ProviderName.TEST);
     }
 }

@@ -18,7 +18,9 @@ const Title = styled.div<TitleProps>`
     font-weight: 700;
     line-height: 1.8;
   }
+
   p {
+    line-height: 1.25;
     color: ${COLOR.GRAY_200};
   }
 
