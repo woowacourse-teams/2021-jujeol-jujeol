@@ -1,7 +1,8 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { COLOR } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
+import useShowMoreContent from 'src/hooks/useShowMoreContent';
 import Card from '../@shared/Card/Card';
 import {
   LoveEmojiColorIcon,
@@ -32,23 +33,10 @@ const ReviewCard = ({ review }: Props) => {
   const openModal = useContext(modalContext)?.openModal;
   const { userData } = useContext(UserContext);
 
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [isShowMore, setIsShowMore] = useState(false);
-  const [isContentOpen, setIsContentOpen] = useState(false);
+  const contentRef = useRef<HTMLParagraphElement>(null);
+  const { isShowMore, isContentOpen, onOpenContent } = useShowMoreContent(contentRef, content);
 
   const UserProfileIcon = userProfileIcons[author.id % 4];
-
-  useEffect(() => {
-    const content = contentRef.current;
-    if (content) {
-      setIsShowMore(content.clientHeight < content.scrollHeight);
-    }
-  }, [contentRef, content]);
-
-  const onShowMore = () => {
-    setIsShowMore(false);
-    setIsContentOpen(true);
-  };
 
   const onOpenEditForm = () => {
     openModal?.(<ReviewEditForm drinkId={drinkId} review={review} />);
@@ -69,7 +57,7 @@ const ReviewCard = ({ review }: Props) => {
       <Content ref={contentRef} isContentOpen={isContentOpen}>
         {content}
       </Content>
-      {isShowMore && <ShowMoreButton onClick={onShowMore} />}
+      {isShowMore && !isContentOpen && <ShowMoreButton onClick={onOpenContent} />}
     </Card>
   );
 };

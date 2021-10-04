@@ -1,5 +1,5 @@
-import { useHistory } from 'react-router-dom';
-import Arrow from '../@shared/Arrow/Arrow';
+import { COLOR } from 'src/constants';
+import GoBackButton from '../@shared/Button/GoBackButton';
 import { NavHeader } from './NavigationHeader.styles';
 
 interface Props {
@@ -7,14 +7,9 @@ interface Props {
 }
 
 const NavigationHeader = ({ title }: Props) => {
-  const history = useHistory();
-  const onMoveToPrevPage = () => history.goBack();
-
   return (
     <NavHeader>
-      <button type="button" onClick={onMoveToPrevPage}>
-        <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
-      </button>
+      <GoBackButton color={COLOR.WHITE} />
       <h2>{title}</h2>
     </NavHeader>
   );
