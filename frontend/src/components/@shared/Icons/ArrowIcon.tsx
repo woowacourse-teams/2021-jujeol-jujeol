@@ -9,7 +9,7 @@ interface Props extends IconProps {
   direction?: keyof typeof DIRECTION;
 }
 
-const ArrowIcon = ({ color, direction = 'LEFT' }: Props) => {
+const ArrowIcon = ({ width = '32px', height = '32px', color, direction = 'LEFT' }: Props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -18,8 +18,8 @@ const ArrowIcon = ({ color, direction = 'LEFT' }: Props) => {
       strokeWidth="3px"
       strokeLinecap="round"
       strokeLinejoin="round"
-      width="32px"
-      height="32px"
+      width={width}
+      height={height}
       transform={`rotate(${DIRECTION[direction]})`}
     >
       <title id="love-emoji-icon-title">취소</title>

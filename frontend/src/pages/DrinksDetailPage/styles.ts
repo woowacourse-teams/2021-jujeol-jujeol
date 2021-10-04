@@ -27,13 +27,16 @@ const Image = styled.img`
 `;
 
 const Section = styled.section<{ isShowImageFull: boolean }>`
+  padding: 2rem 1.5rem;
+
   position: relative;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
-  background-color: ${COLOR.PURPLE_900};
+  transition: transform 0.1s ease;
   transform: ${({ isShowImageFull }) =>
     isShowImageFull ? 'translateY(-2rem)' : 'translateY(-6rem)'};
-  padding: 2rem 1.5rem;
+
+  background-color: ${COLOR.PURPLE_900};
 
   text-align: center;
 `;
@@ -41,10 +44,12 @@ const Section = styled.section<{ isShowImageFull: boolean }>`
 const PreferenceSection = styled.section<{ isBlinked: boolean }>`
   margin-bottom: 1rem;
   padding: 1rem 0 1.5rem;
+
   border-bottom: 0.5px solid ${COLOR.GRAY_300};
 
   h3 {
     margin-bottom: 0.8rem;
+
     font-size: 1.3rem;
     font-weight: 400;
     line-height: 1.25;
@@ -61,6 +66,7 @@ const PreferenceSection = styled.section<{ isBlinked: boolean }>`
 
   p {
     margin-top: 1rem;
+
     line-height: 1.25;
   }
 `;
@@ -71,6 +77,7 @@ const DescriptionSection = styled.section`
 
   h2 {
     margin-bottom: 0.5rem;
+
     font-size: 1.5rem;
     font-weight: bold;
     line-height: 1.25;
@@ -78,20 +85,16 @@ const DescriptionSection = styled.section`
 
   > p {
     margin-bottom: 1.5rem;
-    line-height: 1.25;
-  }
 
-  ul {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    grid-column-gap: 2rem;
-    justify-content: center;
+    line-height: 1.25;
   }
 `;
 
 const Description = styled.div<{ isShowMore: boolean; isContentOpen: boolean }>`
   margin: 2rem 0;
   position: relative;
+
+  line-break: anywhere;
 
   p {
     ${({ isShowMore }) =>
@@ -112,16 +115,16 @@ const Description = styled.div<{ isShowMore: boolean; isContentOpen: boolean }>`
 `;
 
 const descriptionButtonStyle = css`
-  position: absolute;
-  right: 0;
-  border: none;
   height: 1.25rem;
 
-  font-weight: 600;
-  font-size: 0.8rem;
-  color: ${COLOR.PURPLE_100};
+  position: absolute;
+  right: 0;
 
-  background-color: ${COLOR.PURPLE_900};
+  border: none;
+
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: ${COLOR.PURPLE_100};
 
   :hover {
     cursor: pointer;
@@ -129,23 +132,28 @@ const descriptionButtonStyle = css`
 `;
 
 const FoldButton = styled.button`
-  ${descriptionButtonStyle};
   height: 2rem;
+
   bottom: -2rem;
+
+  background-color: ${COLOR.PURPLE_900};
+
+  ${descriptionButtonStyle};
 `;
 
 const ShowMoreButton = styled.button`
-  ${descriptionButtonStyle};
-
-  right: 0;
-  bottom: 0;
   padding-left: 2rem;
+
+  bottom: 0;
+
   background: linear-gradient(
     90deg,
-    rgba(22, 14, 39) 0%,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(22, 14, 39) 15%
+    ${COLOR.PURPLE_900} 0%,
+    transparent 0%,
+    ${COLOR.PURPLE_900} 40%
   );
+
+  ${descriptionButtonStyle};
 `;
 
 export {

@@ -2,9 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { RouteComponentProps } from 'react-router-dom';
 import API from 'src/apis/requests';
-import Arrow from 'src/components/@shared/Arrow/Arrow';
 
-import Header from 'src/components/@shared/Header/Header';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
 import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
 import ListItem from 'src/components/Item/ListItem';
@@ -14,8 +12,9 @@ import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import { categories } from '../SearchPage';
 import NoSearchResults from './NoSearchResults';
 
-import { Container, Title, ResultHeading } from './styles';
+import { Container, ResultHeading } from './styles';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
+import NavigationHeader from 'src/components/Header/NavigationHeader';
 
 const SearchResultPage = ({ history, location }: RouteComponentProps) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
@@ -63,18 +62,9 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
   }, []);
   useInfinityScroll({ target: observerTargetRef, fetchNextPage, hasNextPage });
 
-  const onMoveToPrevPage = () => history.goBack();
-
   return (
     <Container>
-      <Header>
-        <Title>
-          <button type="button" onClick={onMoveToPrevPage}>
-            <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
-          </button>
-          <h1>검색결과 {totalSize || 0}건</h1>
-        </Title>
-      </Header>
+      <NavigationHeader title={`검색결과 ${totalSize || 0}건`} />
 
       <section>
         {isLoading ? (

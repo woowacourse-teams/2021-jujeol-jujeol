@@ -29,6 +29,7 @@ import {
 } from './styles';
 import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 import { css } from '@emotion/react';
+import Grid from 'src/components/@shared/Grid/Grid';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -217,7 +218,12 @@ const DrinksDetailPage = () => {
             {englishName === '' ? `(${alcoholByVolume}%)` : `(${englishName}, ${alcoholByVolume}%)`}
           </p>
 
-          <ul>
+          <Grid
+            gridTemplateColumns="repeat(2, auto)"
+            colGap="2rem"
+            justifyItems="center"
+            justifyContent="center"
+          >
             {properties.map((property) => {
               const { Icon, content } = property.getProperty({
                 categoryKey,
@@ -230,7 +236,7 @@ const DrinksDetailPage = () => {
                 </li>
               );
             })}
-          </ul>
+          </Grid>
 
           <Description
             isShowMore={isShowMore}
