@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
-import { COLOR } from 'src/constants';
+import { css } from '@emotion/react';
+
 import Flex from 'src/styles/Flex';
 
 const Container = styled.section`
@@ -32,13 +33,10 @@ const Container = styled.section`
   }
 `;
 
-const EditButton = styled.button`
-  background-color: transparent;
-  border: none;
-
+const EditButtonStyle = css`
   position: absolute;
   top: -15%;
   right: 0;
 `;
 
-export { Container, EditButton };
+export { Container, EditButtonStyle };

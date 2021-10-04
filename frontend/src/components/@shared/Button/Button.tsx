@@ -46,13 +46,6 @@ const Button = styled.button<ButtonProps>`
 
   color: ${({ color }) => color || COLOR.BLACK};
   background-color: ${({ backgroundColor }) => backgroundColor || COLOR.YELLOW_300};
-
-  cursor: pointer;
-
-  :disabled {
-    filter: brightness(0.9);
-    cursor: not-allowed;
-  }
 `;
 
 export default Button;

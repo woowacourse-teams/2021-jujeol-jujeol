@@ -79,7 +79,8 @@ const GlobalStyle = () => (
       a,
       button {
         color: ${COLOR.BLACK};
-        font-size: 16px;
+
+        cursor: pointer;
 
         -webkit-tap-highlight-color: transparent;
 
@@ -87,6 +88,7 @@ const GlobalStyle = () => (
           color: ${COLOR.GRAY_400};
 
           filter: brightness(80%);
+          cursor: not-allowed;
         }
       }
 

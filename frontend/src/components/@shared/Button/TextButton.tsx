@@ -13,13 +13,6 @@ const TextButton = styled.button<React.CSSProperties>`
   color: ${({ color }) => color || COLOR.BLACK};
   background-color: transparent;
   border: none;
-
-  cursor: pointer;
-
-  :disabled {
-    filter: brightness(0.9);
-    cursor: not-allowed;
-  }
 `;
 
 export default TextButton;

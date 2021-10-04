@@ -1,9 +1,12 @@
 import { InputHTMLAttributes, ChangeEvent, useState, FormEvent } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { COLOR, PATH, SEARCH } from 'src/constants';
-import Arrow from '../Arrow/Arrow';
+import IconButton from '../Button/IconButton';
+import GoBackButton from '../Button/GoBackButton';
+
 import { SearchIcon } from '../Icons';
-import { Container, ResetButton, SearchButton, SearchInput } from './SearchBar.styles';
+import CancelIcon from '../Icons/CancelIcon';
+import { Container, SearchInput } from './SearchBar.styles';
 
 const SearchBar = ({
   onClick,
@@ -14,8 +17,6 @@ const SearchBar = ({
   const location = useLocation();
 
   const [value, setValue] = useState('');
-
-  const onMoveToPrevPage = () => history.goBack();
 
   const onInputWords = (event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
   const onResetInput = () => setValue('');
@@ -31,16 +32,14 @@ const SearchBar = ({
   return (
     <Container
       width={isMainPage ? '80%' : '90%'}
-      padding={isMainPage ? '0.5rem 1.5rem' : '0.5rem 1.5rem'}
+      padding={isMainPage ? '0.5rem 1.5rem' : '0.5rem 0.8rem'}
       onSubmit={onSearch}
       onClick={onClick}
     >
       {isMainPage ? (
         <SearchIcon color={COLOR.GRAY_100} width="1.2rem" />
       ) : (
-        <button type="button" onClick={onMoveToPrevPage}>
-          <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
-        </button>
+        <GoBackButton color={COLOR.WHITE} />
       )}
       <SearchInput
         type="search"
@@ -56,14 +55,12 @@ const SearchBar = ({
       />
       {!isMainPage && (
         <>
-          {value && (
-            <ResetButton type="reset" onClick={onResetInput}>
-              <span>X</span>
-            </ResetButton>
-          )}
-          <SearchButton type="submit">
-            <SearchIcon color={COLOR.GRAY_100} width="1.4rem" />
-          </SearchButton>
+          <IconButton type="reset" size="X_SMALL" onClick={onResetInput} hidden={!value}>
+            <CancelIcon color={COLOR.WHITE} />
+          </IconButton>
+          <IconButton size="X_SMALL">
+            <SearchIcon color={COLOR.GRAY_100} />
+          </IconButton>
         </>
       )}
     </Container>

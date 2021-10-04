@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import UserContext from 'src/contexts/UserContext';
 import API from 'src/apis/requests';
-import GoBackButton from 'src/components/@shared/GoBackButton/GoBackButton';
+import GoBackButton from 'src/components/@shared/Button/GoBackButton';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import Review from 'src/components/Review/Review';
 import Property from 'src/components/Property/Property';
