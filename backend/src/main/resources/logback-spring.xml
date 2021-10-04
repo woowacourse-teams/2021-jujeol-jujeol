@@ -28,7 +28,7 @@
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
       <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
       <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-        <pattern>${LOG_FILE_PATTERN}</pattern>
+        <pattern>%msg%n</pattern>
       </encoder>
       <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
         <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.zip</fileNamePattern>
