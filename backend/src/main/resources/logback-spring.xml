@@ -38,6 +38,19 @@
       <maxHistory>3</maxHistory>
       </rollingPolicy>
     </appender>
+    <appender name="PERFORMANCE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <file>${LOG_PATH}/performance.log</file>
+      <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <pattern>${LOG_FILE_PATTERN}</pattern>
+      </encoder>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${LOG_PATH}/performance.%d{yyyy-MM-dd}_%i.zip</fileNamePattern>
+        <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+          <maxFileSize>100MB</maxFileSize>
+        </timeBasedFileNamingAndTriggeringPolicy>
+        <maxHistory>3</maxHistory>
+      </rollingPolicy>
+    </appender>
     <appender name="FILE-async" class="ch.qos.logback.classic.AsyncAppender">
       <appender-ref ref="FILE" />
       <queueSize>256</queueSize>
@@ -46,7 +59,17 @@
       <neverBlock>true</neverBlock>
       <maxFlushTime>3000</maxFlushTime>
     </appender>
+    <appender name="PERFORMANCE-async" class="ch.qos.logback.classic.AsyncAppender">
+      <appender-ref ref="PERFORMANCE" />
+      <queueSize>256</queueSize>
+      <discardingThreshold>20</discardingThreshold>
+      <includeCallerData>false</includeCallerData>
+      <neverBlock>true</neverBlock>
+      <maxFlushTime>3000</maxFlushTime>
+    </appender>
   </springProfile>
+
+
 
   <root level="INFO">
     <springProfile name="console-logging">
@@ -54,6 +77,7 @@
     </springProfile>
     <springProfile name="file-logging">
       <appender-ref ref="FILE-async"/>
+      <appender-ref ref="PERFORMANCE-async"/>
     </springProfile>
   </root>
 </configuration>
