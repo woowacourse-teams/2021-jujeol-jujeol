@@ -34,7 +34,7 @@ const ReviewerInfo = styled.div`
   }
 `;
 
-const Content = styled.div<{ isContentOpen: boolean }>`
+const Content = styled.p<{ isContentOpen: boolean }>`
   text-align: justify;
   white-space: break-spaces;
 
