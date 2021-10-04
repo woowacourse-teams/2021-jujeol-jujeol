@@ -23,7 +23,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @RequiredArgsConstructor
 public class PerformanceLogger {
 
-    private static final Logger log = LoggerFactory.getLogger("performance-logger");
+    private static final Logger log = LoggerFactory.getLogger("PERFORMANCE");
 
     private final ObjectMapper objectMapper;
     private ThreadLocal<PerformanceLoggingForm> logForm;
