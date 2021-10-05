@@ -5,8 +5,10 @@
   <!-- log file name -->
   <property name="LOG_FILE_NAME" value="jujeol"/>
   <!-- pattern -->
-  <property name="LOG_PATTERN" value="%white(%d{HH:mm:ss.SSS}) %cyan([%thread]) %highlight([%-5level]) %yellow([%logger{0}]) - %boldWhite(%m%n)"/>
-  <property name="LOG_FILE_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] [%-5level] [%logger{0}] - %m%n"/>
+  <property name="LOG_PATTERN"
+    value="%white(%d{HH:mm:ss.SSS}) %cyan([%thread]) %highlight([%-5level]) %yellow([%logger{0}]) - %boldWhite(%m%n)"/>
+  <property name="LOG_FILE_PATTERN"
+    value="%d{HH:mm:ss.SSS} [%thread] [%-5level] [%logger{0}] - %m%n"/>
 
   <springProfile name="console-logging">
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -15,7 +17,7 @@
       </layout>
     </appender>
     <appender name="CONSOLE-async" class="ch.qos.logback.classic.AsyncAppender">
-      <appender-ref ref="CONSOLE" />
+      <appender-ref ref="CONSOLE"/>
       <queueSize>256</queueSize>
       <discardingThreshold>20</discardingThreshold>
       <includeCallerData>false</includeCallerData>
@@ -32,35 +34,15 @@
       </encoder>
       <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
         <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.zip</fileNamePattern>
-        <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-          <maxFileSize>100MB</maxFileSize>
-        </timeBasedFileNamingAndTriggeringPolicy>
-      <maxHistory>3</maxHistory>
-      </rollingPolicy>
-    </appender>
-    <appender name="PERFORMANCE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-      <file>${LOG_PATH}/performance.log</file>
-      <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-        <pattern>${LOG_FILE_PATTERN}</pattern>
-      </encoder>
-      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>${LOG_PATH}/performance.%d{yyyy-MM-dd}_%i.zip</fileNamePattern>
-        <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <timeBasedFileNamingAndTriggeringPolicy
+          class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
           <maxFileSize>100MB</maxFileSize>
         </timeBasedFileNamingAndTriggeringPolicy>
         <maxHistory>3</maxHistory>
       </rollingPolicy>
     </appender>
     <appender name="FILE-async" class="ch.qos.logback.classic.AsyncAppender">
-      <appender-ref ref="FILE" />
-      <queueSize>256</queueSize>
-      <discardingThreshold>20</discardingThreshold>
-      <includeCallerData>false</includeCallerData>
-      <neverBlock>true</neverBlock>
-      <maxFlushTime>3000</maxFlushTime>
-    </appender>
-    <appender name="PERFORMANCE-async" class="ch.qos.logback.classic.AsyncAppender">
-      <appender-ref ref="PERFORMANCE" />
+      <appender-ref ref="FILE"/>
       <queueSize>256</queueSize>
       <discardingThreshold>20</discardingThreshold>
       <includeCallerData>false</includeCallerData>
@@ -69,7 +51,32 @@
     </appender>
   </springProfile>
 
-
+  <springProfile name="performance-logging">
+    <logger name="PERFORMANCE" level="INFO">
+      <appender name="performance-logger" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/performance.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+          <level>INFO</level>
+          <onMatch>ACCEPT</onMatch>
+          <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+          <fileNamePattern>${home}performance-%d{yyyyMMdd}-%i.log</fileNamePattern>
+          <timeBasedFileNamingAndTriggeringPolicy
+            class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <maxFileSize>15MB</maxFileSize>
+          </timeBasedFileNamingAndTriggeringPolicy>
+          <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+          <charset>utf8</charset>
+          <Pattern>
+            %msg%n
+          </Pattern>
+        </encoder>
+      </appender>
+    </logger>
+  </springProfile>
 
   <root level="INFO">
     <springProfile name="console-logging">
