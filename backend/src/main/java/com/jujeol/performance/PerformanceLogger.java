@@ -5,18 +5,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.lang.reflect.Proxy;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.HandlerMapping;
 
 @Component
 @Aspect
@@ -26,26 +31,23 @@ public class PerformanceLogger {
     private static final Logger log = LoggerFactory.getLogger("PERFORMANCE");
 
     private final ObjectMapper objectMapper;
+    private final RequestApiExtractor requestApiExtractor;
+
     private ThreadLocal<PerformanceLoggingForm> logForm;
 
     @Before("@within(org.springframework.transaction.annotation.Transactional) || @annotation(org.springframework.transaction.annotation.Transactional)")
     public void beforeTransaction() {
         final long startTransactionTime = System.currentTimeMillis();
-        try {
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-                .currentRequestAttributes()).getRequest();
-            getLoggingForm().setTargetApi(request.getRequestURI());
-        } catch (IllegalStateException e) {
-            getLoggingForm().setTargetApi("dataLoader");
-        }
         TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
 
             @Override
             public void afterCompletion(int status) {
+                if(getLoggingForm().getTargetApi() == null || getLoggingForm().getTargetApi().isEmpty()) {
+                    return;
+                }
                 try {
                     getLoggingForm()
                         .setTransactionTime(System.currentTimeMillis() - startTransactionTime);
-
                     log.info(objectMapper.writeValueAsString(getLoggingForm()));
                 } catch (JsonProcessingException ignored) {
                 } finally {
@@ -53,8 +55,16 @@ public class PerformanceLogger {
                 }
             }
         });
-
     }
+
+    @Before("@within(org.springframework.web.bind.annotation.RestController) || @annotation(org.springframework.web.bind.annotation.RestController)")
+    public void beforeController(JoinPoint joinPoint) {
+        final RequestApi requestApi = requestApiExtractor.extractRequestApi(joinPoint);
+
+        getLoggingForm().setTargetApi(requestApi.getUrlForm());
+        getLoggingForm().setTargetMethod(requestApi.getMethod());
+    }
+
 
     @Around("execution(* javax.sql.DataSource.getConnection())")
     public Object datasource(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
