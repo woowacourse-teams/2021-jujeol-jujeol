@@ -10,10 +10,10 @@ spring:
   profiles:
     group:
       "local": "console-logging,http-console-logging"
-      "dev": "file-logging,http-file-logging,console-logging,http-console-logging"
+      "dev": "file-logging,http-file-logging,console-logging,http-console-logging,performance-logging"
       "prod": "file-logging,http-file-logging"
       "test": "console-logging"
-      "dummy": "console-logging"
+      "dummy": "console-logging,performance-logging"
     include: oauth, datasource
   # pageSize
   data:
