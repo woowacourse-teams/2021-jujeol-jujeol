@@ -81,7 +81,6 @@
     </springProfile>
     <springProfile name="file-logging">
       <appender-ref ref="FILE-async"/>
-      <appender-ref ref="PERFORMANCE-async"/>
     </springProfile>
   </root>
 </configuration>
