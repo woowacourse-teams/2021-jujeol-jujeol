@@ -1,6 +1,7 @@
 package com.jujeol.performance;
 
 import com.jujeol.performance.annotationDataExtractor.AnnotationDataExtractor;
+import com.jujeol.performance.annotationDataExtractor.DeleteMappingDataExtractor;
 import com.jujeol.performance.annotationDataExtractor.GetMappingDataExtractor;
 import com.jujeol.performance.annotationDataExtractor.PostMappingDataExtractor;
 import com.jujeol.performance.annotationDataExtractor.PutMappingDataExtractor;
@@ -22,6 +23,7 @@ public class RequestApiExtractor {
         dataExtractors.add(new GetMappingDataExtractor());
         dataExtractors.add(new PostMappingDataExtractor());
         dataExtractors.add(new PutMappingDataExtractor());
+        dataExtractors.add(new DeleteMappingDataExtractor());
     }
 
     public RequestApi extractRequestApi(JoinPoint joinPoint) {
