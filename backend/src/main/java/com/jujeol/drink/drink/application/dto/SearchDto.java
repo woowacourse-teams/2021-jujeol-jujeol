@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class SearchDto {
 
-    private String search;
+    private String keyword;
     private String categoryKey;
 
-    public static SearchDto create(String search, String categoryKey) {
-        return new SearchDto(search, categoryKey);
+    public static SearchDto create(String keyword, String categoryKey) {
+        return new SearchDto(keyword, categoryKey);
     }
 }

@@ -14,7 +14,7 @@ class SearchDtoTest {
         SearchDto searchDto = SearchDto.create("맥주", "BEER");
         //when
         //then
-        assertThat(searchDto.getSearch()).isEqualTo("맥주");
+        assertThat(searchDto.getKeyword()).isEqualTo("맥주");
         assertThat(searchDto.getCategoryKey()).isEqualTo("BEER");
     }
 }

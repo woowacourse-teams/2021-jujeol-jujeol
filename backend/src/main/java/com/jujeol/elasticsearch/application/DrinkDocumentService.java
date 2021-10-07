@@ -49,7 +49,7 @@ public class DrinkDocumentService {
             Pageable pageable
     ) {
         final Query query = DrinkDocumentQueryBuilder.createQuery(
-                searchDto.getSearch(),
+                searchDto.getKeyword(),
                 pageable
         );
 
@@ -61,12 +61,8 @@ public class DrinkDocumentService {
                 .map(searchHit -> searchHit.getContent().getId())
                 .collect(toList());
 
-        List<DrinkDto> drinkDtos = drinkRepository.findByIds(drinkIds)
-                .stream()
-                .map(drink -> DrinkDto.create(
-                        drink, Preference.create(drink, 0)))
-                .collect(toList());
-        List<DrinkDto> sortedDrinkDtos = sortDrinkBySearchHit(drinkIds, drinkDtos);
+        List<Drink> drinksByIds = drinkRepository.findByIds(drinkIds);
+        List<DrinkDto> sortedDrinkDtos = sortDrinkBySearchHit(drinkIds, drinksByIds);
 
         addPreferenceRateForLoginMember(loginMember, sortedDrinkDtos);
 
@@ -74,18 +70,23 @@ public class DrinkDocumentService {
                 searchHitsByPage.getTotalElements());
     }
 
-    private List<DrinkDto> sortDrinkBySearchHit(List<Long> drinkIds, List<DrinkDto> drinkDtos) {
-        List<DrinkDto> sortedDrinkDtos = new ArrayList<>();
+    private List<DrinkDto> sortDrinkBySearchHit(List<Long> drinkIds, List<Drink> drinks) {
+        List<Drink> sortedDrinks = new ArrayList<>();
         for (Long id : drinkIds) {
-            sortedDrinkDtos.add(
-                    drinkDtos.stream()
-                            .filter(drinkDto -> id.equals(drinkDto.getId()))
+            sortedDrinks.add(
+                    drinks.stream()
+                            .filter(drink -> id.equals(drink.getId()))
                             .findAny()
                             .orElseThrow()
             );
         }
-        return sortedDrinkDtos;
+
+        return sortedDrinks.stream()
+                .map(drink -> DrinkDto.create(
+                        drink, Preference.create(drink, 0)))
+                .collect(toList());
     }
+
 
     private void addPreferenceRateForLoginMember(LoginMember loginMember,
             List<DrinkDto> sortedDrinkDtos) {

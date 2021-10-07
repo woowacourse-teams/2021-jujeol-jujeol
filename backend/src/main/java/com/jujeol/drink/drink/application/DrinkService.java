@@ -35,7 +35,7 @@ public class DrinkService {
     private final PreferenceService preferenceService;
 
     public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, LoginMember loginMember, Pageable pageable) {
-        SearchWords searchWords = SearchWords.create(searchDto.getSearch());
+        SearchWords searchWords = SearchWords.create(searchDto.getKeyword());
 
         List<DrinkDto> drinkDtos = drinksBySearch(searchDto, searchWords);
 
