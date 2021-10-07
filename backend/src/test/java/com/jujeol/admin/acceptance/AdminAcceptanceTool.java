@@ -1,5 +1,7 @@
 package com.jujeol.admin.acceptance;
 
+import static com.jujeol.drink.acceptance.DrinkAcceptanceTool.TEST_MULTIPART;
+
 import com.jujeol.RequestBuilder;
 import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.admin.ui.dto.AdminDrinkRequest;
@@ -18,8 +20,6 @@ import org.springframework.test.context.ActiveProfiles;
 @Component
 @ActiveProfiles("test")
 public class AdminAcceptanceTool {
-
-    public static final File THUMBNAIL_IMAGE = new File(new File("").getAbsolutePath() + "/src/test/resources/static/test.png");
 
     @Autowired
     private RequestBuilder requestBuilder;
@@ -40,7 +40,7 @@ public class AdminAcceptanceTool {
                     .addMultipart("categoryKey", adminDrinkRequest.getCategoryKey())
                     .addMultipart("description", adminDrinkRequest.getDescription())
                     .addMultipart("alcoholByVolume", adminDrinkRequest.getAlcoholByVolume())
-                    .addMultipart("image", adminDrinkRequest.getImage())
+                    .addMultipart("image", TEST_MULTIPART)
                     .build()
                     .convertBody(AdminDrinkResponse.class)
             );
@@ -48,8 +48,4 @@ public class AdminAcceptanceTool {
         return adminDrinkResponses;
     }
 
-    private MultiPartSpecification setUtf8Charset(String data, String columnName){
-        return new MultiPartSpecBuilder(data)
-            .controlName(columnName).charset(Charsets.UTF_8).build();
-    }
 }
