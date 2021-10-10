@@ -8,6 +8,8 @@ categories:
       - "📱유아이"
       - "🖥 어드민"
       - "🏗 인프라"
+      - "🌈 프론트"
+      - "🔥 백엔드"
   - title: "🐛 Bug Fixes"
     labels:
       - "🐞 버그"
@@ -17,9 +19,7 @@ categories:
       - "❌ 사용되지않음"
 exclude-labels:
   - "⚙️ 설정"
-  - "🌈 프론트"
   - "🍻 테스트"
-  - "🔥 백엔드"
   - "📋 문서"
   - "🚨 이슈"
 change-template: "- $TITLE (#$NUMBER)"
