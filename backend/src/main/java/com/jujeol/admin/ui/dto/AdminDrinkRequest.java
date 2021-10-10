@@ -17,7 +17,6 @@ public class AdminDrinkRequest {
     private String name;
     private String englishName;
     private Double alcoholByVolume;
-    private MultipartFile image;
     private String categoryKey;
     private String description;
 
