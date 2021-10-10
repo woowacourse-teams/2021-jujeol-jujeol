@@ -27,7 +27,7 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build:dev
+        run: npm run build:prod
 
       - name: Deploy
         run: aws s3 sync --delete ./dist s3://jujeol-admin-prod-deploy
