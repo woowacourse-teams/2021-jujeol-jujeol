@@ -15,6 +15,13 @@ categories:
   - title: "❌ Deprecated"
     labels:
       - "❌ 사용되지않음"
+exclude-labels:
+  - "⚙️ 설정"
+  - "🌈 프론트"
+  - "🍻 테스트"
+  - "🔥 백엔드"
+  - "📋 문서"
+  - "🚨 이슈"
 change-template: "- $TITLE (#$NUMBER)"
 change-title-escapes: '\<*_&'
 template: |
