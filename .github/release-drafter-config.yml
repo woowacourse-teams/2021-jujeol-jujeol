@@ -1,0 +1,23 @@
+name-template: "v$NEXT_MINOR_VERSION 🌈"
+tag-template: "v$NEXT_MINOR_VERSION"
+categories:
+  - title: "🚀 Features"
+    labels:
+      - "🕹 기능"
+      - "⚒ 리팩토링"
+      - "📱유아이"
+      - "🖥 어드민"
+      - "🏗 인프라"
+  - title: "🐛 Bug Fixes"
+    labels:
+      - "🐞 버그"
+      - "🚐 핫픽스"
+  - title: "❌ Deprecated"
+    labels:
+      - "❌ 사용되지않음"
+change-template: "- $TITLE (#$NUMBER)"
+change-title-escapes: '\<*_&'
+template: |
+  ## Changes
+
+  $CHANGES
