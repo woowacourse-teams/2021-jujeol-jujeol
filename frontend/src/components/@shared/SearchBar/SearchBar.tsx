@@ -25,6 +25,8 @@ const SearchBar = ({
   const onSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (value === '') return;
+
     history.push(`${PATH.SEARCH_RESULT}?words=${value}`);
   };
 
@@ -61,7 +63,7 @@ const SearchBar = ({
               <span>X</span>
             </ResetButton>
           )}
-          <SearchButton type="submit">
+          <SearchButton>
             <SearchIcon color={COLOR.WHITE_200} width="1.4rem" />
           </SearchButton>
         </>
