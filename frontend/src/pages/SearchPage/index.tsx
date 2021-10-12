@@ -1,4 +1,4 @@
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Grid from 'src/components/@shared/Grid/Grid';
 import {
   BeerColorIcon,
@@ -60,7 +60,9 @@ const categories: Category[] = [
 
 export { categories };
 
-const SearchPage = ({ history }: RouteComponentProps) => {
+const SearchPage = () => {
+  const history = useHistory();
+
   const onMoveToSearchResult = (key: string) => () => {
     if (key === 'ALL') {
       history.push(PATH.VIEW_ALL);
@@ -76,10 +78,16 @@ const SearchPage = ({ history }: RouteComponentProps) => {
 
       <Categories>
         <h3>카테고리</h3>
-        <Grid col={4} colGap="0.5rem" rowGap="1rem" justifyItems="center">
+        <Grid
+          col={4}
+          colGap="0.5rem"
+          rowGap="1rem"
+          justifyItems="center"
+          title="주류 카테고리 목록"
+        >
           {categories.map(({ key, name, Icon }) => {
             return (
-              <CategoryItem key={key} onClick={onMoveToSearchResult(key)}>
+              <CategoryItem key={key} onClick={onMoveToSearchResult(key)} title={name}>
                 <Icon />
                 <span>{name}</span>
               </CategoryItem>

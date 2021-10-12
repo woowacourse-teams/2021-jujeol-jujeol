@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
+import { useHistory, useLocation } from 'react-router';
 import { useInfiniteQuery } from 'react-query';
-import { RouteComponentProps } from 'react-router-dom';
 import API from 'src/apis/requests';
 import Arrow from 'src/components/@shared/Arrow/Arrow';
 
@@ -17,7 +17,10 @@ import NoSearchResults from './NoSearchResults';
 import { Container, Title, ResultHeading } from './styles';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 
-const SearchResultPage = ({ history, location }: RouteComponentProps) => {
+const SearchResultPage = () => {
+  const history = useHistory();
+  const location = useLocation();
+
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
   const words = new URLSearchParams(location.search).get('words') ?? '';
