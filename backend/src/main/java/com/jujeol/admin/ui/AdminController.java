@@ -2,17 +2,16 @@ package com.jujeol.admin.ui;
 
 import com.jujeol.admin.ui.dto.AdminDrinkRequest;
 import com.jujeol.admin.ui.dto.AdminDrinkResponse;
-import com.jujeol.aws.service.ImageResizerImpl.ImageSize;
 import com.jujeol.aws.service.ImageService;
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.drink.application.DrinkService;
-import java.util.EnumMap;
-import com.jujeol.drink.drink.application.dto.DrinkRequestDto;
+import com.jujeol.drink.drink.application.dto.DrinkDto;
+import com.jujeol.drink.drink.application.dto.ImageFilePathDto;
 import com.jujeol.member.auth.ui.AuthenticationPrincipal;
 import com.jujeol.member.auth.ui.LoginMember;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,9 +23,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,32 +38,40 @@ public class AdminController {
 
     @GetMapping("/drinks")
     public CommonResponse<List<AdminDrinkResponse>> showDrinks(
-            @PageableDefault(value = 20, sort = "id", direction = Direction.DESC) Pageable pageable,
-            @AuthenticationPrincipal LoginMember loginMember) {
-        final Page<AdminDrinkResponse> drinks = drinkService.showAllDrinksByPage(pageable, loginMember)
-                .map(AdminDrinkResponse::from);
+        @PageableDefault(value = 20, sort = "id", direction = Direction.DESC) Pageable pageable,
+        @AuthenticationPrincipal LoginMember loginMember) {
+        final Page<AdminDrinkResponse> drinks = drinkService
+            .showAllDrinksByPage(pageable, loginMember)
+            .map(AdminDrinkResponse::from);
         return PageResponseAssembler.assemble(drinks);
     }
 
     @PostMapping("/drinks")
-    public CommonResponse<?> insertDrinks(@ModelAttribute AdminDrinkRequest adminDrinkRequest) {
-        final EnumMap<ImageSize, String> imageUrls = imageService.insert(adminDrinkRequest.getImage());
+    public CommonResponse<?> insertDrinks(
+        @ModelAttribute AdminDrinkRequest adminDrinkRequest,
+        @RequestPart MultipartFile image
+    ) {
+        ImageFilePathDto imageFilePathDto = imageService.insert(image);
         drinkService.insertDrink(adminDrinkRequest.toDto(
-                imageUrls.get(ImageSize.SMALL),
-                imageUrls.get(ImageSize.MEDIUM),
-                imageUrls.get(ImageSize.LARGE)
+            imageFilePathDto
         ));
         return CommonResponse.ok();
     }
 
     @PutMapping("/drinks/{id}")
     public CommonResponse<?> updateDrink(@PathVariable Long id,
-            @RequestBody AdminDrinkRequest adminDrinkRequest) {
-        final EnumMap<ImageSize, String> imageUrls = imageService.insert(adminDrinkRequest.getImage());
+        @ModelAttribute AdminDrinkRequest adminDrinkRequest,
+        @RequestPart(required = false) MultipartFile image
+    ) {
+        DrinkDto drinkDto = drinkService.showDrinkDetail(id);
+        ImageFilePathDto imageFilePathDto = drinkDto.getImageFilePathDto();
+
+        if (Objects.nonNull(image)) {
+            imageFilePathDto = imageService.update(imageFilePathDto, image);
+        }
+
         drinkService.updateDrink(id, adminDrinkRequest.toDto(
-                imageUrls.get(ImageSize.SMALL),
-                imageUrls.get(ImageSize.MEDIUM),
-                imageUrls.get(ImageSize.LARGE)
+            imageFilePathDto
         ));
         return CommonResponse.ok();
     }

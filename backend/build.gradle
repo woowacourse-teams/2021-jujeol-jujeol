@@ -9,7 +9,7 @@ plugins {
 }
 
 group = 'com.jujeol.'
-version = '1.1.0-beta'
+version = '1.2.4-beta'
 sourceCompatibility = '11'
 
 configurations {
@@ -38,7 +38,6 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-
     // database
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
@@ -66,6 +65,9 @@ dependencies {
 
     //commons
     implementation 'commons-io:commons-io:2.4'
+
+    //file type
+    implementation 'org.apache.tika:tika-core:1.26'
 
     //s3 image upload
     implementation 'com.amazonaws:aws-java-sdk-s3'

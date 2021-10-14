@@ -1,5 +1,5 @@
 import { Global, css } from '@emotion/react';
-import { COLOR } from './constants';
+import { COLOR, Z_INDEX } from './constants';
 
 const GlobalStyle = () => (
   <Global
@@ -43,15 +43,16 @@ const GlobalStyle = () => (
       }
 
       #snackbar {
-        position: absolute;
-        bottom: 10%;
-        left: 50%;
-        transform: translateX(-50%);
-
         width: 100%;
         max-width: 480px;
         min-width: 280px;
-        z-index: 15;
+
+        visibility: hidden;
+        position: fixed;
+        bottom: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: ${Z_INDEX.SNACKBAR};
       }
 
       html,
@@ -120,16 +121,16 @@ const GlobalStyle = () => (
         }
       }
 
+      @media screen and (max-width: 320px) {
+        html,
+        body,
+        #root {
+          font-size: 14px;
+        }
+      }
+
       input {
         -webkit-tap-highlight-color: transparent;
-
-        @media screen and (max-width: 320px) {
-          html,
-          body,
-          #root {
-            font-size: 14px;
-          }
-        }
       }
     `}
   />

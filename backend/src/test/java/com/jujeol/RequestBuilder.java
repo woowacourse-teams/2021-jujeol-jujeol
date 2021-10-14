@@ -19,20 +19,27 @@ import com.jujeol.member.fixture.TestMember;
 import com.jujeol.testdatabase.QueryCounter;
 import com.jujeol.testdatabase.QueryResult;
 import io.restassured.RestAssured;
+import io.restassured.builder.MultiPartSpecBuilder;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.MultiPartSpecification;
 import io.restassured.specification.RequestSpecification;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import org.apache.commons.io.Charsets;
 import org.springframework.http.HttpStatus;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 @ActiveProfiles("test")
@@ -45,7 +52,7 @@ public class RequestBuilder {
     private RestDocumentationContextProvider restDocumentation;
 
     public RequestBuilder(ObjectMapper objectMapper, LoginService loginService,
-            QueryCounter queryCounter) {
+        QueryCounter queryCounter) {
         this.objectMapper = objectMapper;
         this.loginService = loginService;
         this.queryCounter = queryCounter;
@@ -69,8 +76,16 @@ public class RequestBuilder {
             return new Option(new PostRequest<>(path, data, pathParams));
         }
 
+        public <T> Option postWithoutData(String path, Object... pathParams) {
+            return new Option(new PostRequest<>(path, pathParams));
+        }
+
         public <T> Option put(String path, T data, Object... pathParams) {
             return new Option(new PutRequest<>(path, data, pathParams));
+        }
+
+        public <T> Option putWithoutData(String path, Object... pathParams) {
+            return new Option(new PutRequest<>(path, pathParams));
         }
 
         public <T> Option delete(String path, Object... pathParams) {
@@ -84,12 +99,14 @@ public class RequestBuilder {
         private boolean logFlag;
         private DocumentHelper documentHelper;
         private UserHelper userHelper;
+        private MultipartHelper multipartHelper;
 
         public Option(RestAssuredRequest request) {
             this.request = request;
             this.logFlag = true;
             this.documentHelper = new DocumentHelper();
             this.userHelper = new UserHelper();
+            this.multipartHelper = new MultipartHelper();
         }
 
         public Option withDocument(String identifier) {
@@ -117,9 +134,42 @@ public class RequestBuilder {
             return this;
         }
 
+        public Option addMultipart(String name, String contentBody) {
+            multipartHelper.addMultipart(name, contentBody);
+            return this;
+        }
+
+        public Option addMultipart(String name, Double contentBody) {
+            multipartHelper.addMultipart(name, contentBody);
+            return this;
+        }
+
+        public Option addMultipart(String name, File contentBody) {
+            multipartHelper.addMultipart(name, contentBody);
+            return this;
+        }
+
+        public Option addMultipart(String name, MultipartFile multipartFile) {
+            multipartHelper.addMultipart(name, toFile(multipartFile));
+            return this;
+        }
+
+        private File toFile(MultipartFile image) {
+            File convertedFile = new File(image.getName());
+            try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
+                fos.write(image.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return convertedFile;
+        }
+
         public HttpResponse build() {
             RequestSpecification requestSpec = documentHelper.startRequest();
+
             userHelper.addRequest(requestSpec);
+
+            multipartHelper.addRequest(requestSpec);
 
             if (logFlag) {
                 requestSpec = requestSpec.log().all();
@@ -135,6 +185,49 @@ public class RequestBuilder {
             }
 
             return new HttpResponse(validatableResponse.extract(), queryResult);
+        }
+
+        private class MultipartHelper {
+
+            private boolean multipartFlag;
+
+            private final List<MultiPartSpecification> multiPartSpecifications = new ArrayList<>();
+
+            public void addRequest(RequestSpecification requestSpec) {
+                if (multipartFlag) {
+                    requestSpec.contentType("multipart/form-data");
+                    multiPartSpecifications.forEach(requestSpec::multiPart);
+                }
+            }
+
+            public void addMultipart(String name, String contentBody) {
+                multipartFlag = true;
+                multiPartSpecifications.add(
+                    new MultiPartSpecBuilder(contentBody)
+                        .controlName(name)
+                        .charset(Charsets.UTF_8)
+                        .build()
+                );
+            }
+
+            public void addMultipart(String name, Double contentBody) {
+                multipartFlag = true;
+                multiPartSpecifications.add(
+                    new MultiPartSpecBuilder(contentBody)
+                        .controlName(name)
+                        .charset(Charsets.UTF_8)
+                        .build()
+                );
+            }
+
+            public void addMultipart(String name, File contentBody) {
+                multipartFlag = true;
+                multiPartSpecifications.add(
+                    new MultiPartSpecBuilder(contentBody)
+                        .controlName(name)
+                        .build()
+                );
+            }
         }
 
         private class DocumentHelper {
@@ -161,13 +254,13 @@ public class RequestBuilder {
 
             private RequestSpecification requestWithDocument() {
                 final RequestSpecification spec = new RequestSpecBuilder()
-                        .addFilter(documentationConfiguration(restDocumentation))
-                        .build();
+                    .addFilter(documentationConfiguration(restDocumentation))
+                    .build();
 
                 return RestAssured.given(spec)
-                        .filter(document(documentHelper.identifier,
-                                preprocessRequest(prettyPrint()),
-                                preprocessResponse(prettyPrint())));
+                    .filter(document(documentHelper.identifier,
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
             }
         }
 
@@ -182,8 +275,8 @@ public class RequestBuilder {
 
             public void withUser(TestMember testMember) {
                 token = loginService
-                        .createToken(SocialProviderCodeDto.create(testMember.getMatchedCode(),
-                                ProviderName.TEST)).getAccessToken();
+                    .createToken(SocialProviderCodeDto.create(testMember.getMatchedCode(),
+                        ProviderName.TEST)).getAccessToken();
                 withUser(token);
             }
 
@@ -206,14 +299,14 @@ public class RequestBuilder {
         private final QueryResult queryResult;
 
         public HttpResponse(ExtractableResponse<Response> extractableResponse,
-                QueryResult queryResult) {
+            QueryResult queryResult) {
             this.extractableResponse = extractableResponse;
             this.queryResult = queryResult;
         }
 
         public <T> T convertBody(Class<T> tClass) {
             final CommonResponse responseDto
-                    = extractableResponse.body().as(CommonResponse.class);
+                = extractableResponse.body().as(CommonResponse.class);
 
             final LinkedHashMap data = (LinkedHashMap) responseDto.getData();
             return objectMapper.convertValue(data, tClass);
@@ -281,14 +374,14 @@ public class RequestBuilder {
         @Override
         public ValidatableResponse doAction(RequestSpecification spec) {
             return spec.get(path, pathParams)
-                    .then();
+                .then();
         }
     }
 
     private static class PostRequest<T> implements RestAssuredRequest {
 
         private final String path;
-        private final T data;
+        private T data;
         private final Object[] pathParams;
 
         public PostRequest(String path, T data, Object[] pathParams) {
@@ -297,18 +390,26 @@ public class RequestBuilder {
             this.pathParams = pathParams;
         }
 
+        public PostRequest(String path, Object[] pathParams) {
+            this.path = path;
+            this.pathParams = pathParams;
+        }
+
         @Override
         public ValidatableResponse doAction(RequestSpecification spec) {
-            return spec.body(data).contentType(ContentType.JSON)
-                    .post(path, pathParams)
-                    .then();
+            if (data != null) {
+                spec.body(data).contentType(ContentType.JSON);
+            }
+            return spec
+                .post(path, pathParams)
+                .then();
         }
     }
 
     private static class PutRequest<T> implements RestAssuredRequest {
 
         private final String path;
-        private final T data;
+        private T data;
         private final Object[] pathParams;
 
         public PutRequest(String path, T data, Object[] pathParams) {
@@ -317,11 +418,19 @@ public class RequestBuilder {
             this.pathParams = pathParams;
         }
 
+        public PutRequest(String path, Object[] pathParams) {
+            this.path = path;
+            this.pathParams = pathParams;
+        }
+
         @Override
         public ValidatableResponse doAction(RequestSpecification spec) {
-            return spec.body(data).contentType(ContentType.JSON)
-                    .put(path, pathParams)
-                    .then();
+            if (data != null) {
+                spec.body(data).contentType(ContentType.JSON);
+            }
+            return spec
+                .put(path, pathParams)
+                .then();
         }
     }
 
@@ -338,8 +447,8 @@ public class RequestBuilder {
         @Override
         public ValidatableResponse doAction(RequestSpecification spec) {
             return spec.contentType(ContentType.JSON)
-                    .delete(path, pathParams)
-                    .then();
+                .delete(path, pathParams)
+                .then();
         }
     }
 }

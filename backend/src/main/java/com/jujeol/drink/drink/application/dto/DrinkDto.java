@@ -18,9 +18,7 @@ public class DrinkDto {
     private String name;
     private String englishName;
     private Double alcoholByVolume;
-    private String smallImageFilePath;
-    private String mediumImageFilePath;
-    private String largeImageFilePath;
+    private ImageFilePathDto imageFilePathDto;
     private CategoryDto categoryDto;
     private double preferenceRate;
     private double preferenceAvg;
@@ -36,9 +34,8 @@ public class DrinkDto {
                 drink.getName(),
                 drink.getEnglishName(),
                 drink.getAlcoholByVolume(),
-                drink.getSmallImageFilePath(),
-                drink.getMediumImageFilePath(),
-                drink.getLargeImageFilePath(),
+                new ImageFilePathDto(drink.getSmallImageFilePath(), drink.getMediumImageFilePath(),
+                    drink.getLargeImageFilePath()),
                 CategoryDto.create(drink.getCategory()),
                 preference.getRate(),
                 drink.getPreferenceAvg(),
