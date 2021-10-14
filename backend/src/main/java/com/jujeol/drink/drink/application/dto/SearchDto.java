@@ -11,9 +11,8 @@ import lombok.NoArgsConstructor;
 public class SearchDto {
 
     private String keyword;
-    private String categoryKey;
 
-    public static SearchDto create(String keyword, String categoryKey) {
-        return new SearchDto(keyword, categoryKey);
+    public static SearchDto create(String keyword) {
+        return new SearchDto(keyword);
     }
 }

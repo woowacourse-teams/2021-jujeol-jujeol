@@ -1,13 +1,11 @@
 package com.jujeol.drink.drink.ui;
 
-import com.jujeol.commons.aop.LogWithTime;
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.drink.application.DrinkService;
 import com.jujeol.drink.drink.application.dto.DrinkDto;
 import com.jujeol.drink.drink.exception.InvalidSortByException;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
-import com.jujeol.drink.drink.ui.dto.SearchRequest;
 import com.jujeol.drink.recommend.application.RecommendFactory;
 import com.jujeol.member.auth.ui.AuthenticationPrincipal;
 import com.jujeol.member.auth.ui.LoginMember;
@@ -20,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,19 +32,6 @@ public class DrinkController {
     private static final String NO_SORT = "noSort";
     private final DrinkService drinkService;
     private final RecommendFactory recommendFactory;
-
-    @LogWithTime
-    @GetMapping("/search-old")
-    public ResponseEntity<CommonResponse<List<DrinkResponse>>> showDrinksBySearch(
-            @ModelAttribute SearchRequest searchRequest,
-            @PageableDefault Pageable pageable,
-            @AuthenticationPrincipal LoginMember loginMember
-    ) {
-        Page<DrinkDto> drinkDtos = drinkService
-                .showDrinksBySearch(searchRequest.toDto(), loginMember, pageable);
-        return ResponseEntity
-                .ok(PageResponseAssembler.assemble(drinkDtos.map(DrinkResponse::from)));
-    }
 
     @GetMapping("/drinks")
     public ResponseEntity<CommonResponse<List<DrinkResponse>>> showDrinksInMainPage(

@@ -11,10 +11,9 @@ class SearchDtoTest {
     @Test
     void searchDtoCreate() {
         //given
-        SearchDto searchDto = SearchDto.create("맥주", "BEER");
+        SearchDto searchDto = SearchDto.create("맥주");
         //when
         //then
         assertThat(searchDto.getKeyword()).isEqualTo("맥주");
-        assertThat(searchDto.getCategoryKey()).isEqualTo("BEER");
     }
 }
