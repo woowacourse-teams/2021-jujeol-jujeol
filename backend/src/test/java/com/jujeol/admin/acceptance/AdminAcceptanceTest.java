@@ -63,14 +63,15 @@ class AdminAcceptanceTest extends AcceptanceTest {
         adminAcceptanceTool.어드민_주류_데이터_등록(KGB, STELLA);
         final Long stellaId = drinkAcceptanceTool.주류_아이디_조회(STELLA.getName());
 
+        MockMultipartFile mockImage = new MockMultipartFile("test.jpeg",
+            "test.png",
+            "image/jpeg",
+            Files.readAllBytes(TEST_IMAGE.toPath()));
+
         final AdminDrinkRequest newStella =
             new AdminDrinkRequest("스텔라2",
                 "stella2",
                 2.0,
-                new MockMultipartFile("test.jpeg",
-                    "test.png",
-                    "image/jpeg",
-                    Files.readAllBytes(TEST_IMAGE.toPath())),
                 "BEER",
                 "상세 설명을 수정 중입니다."
             );
@@ -84,7 +85,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
                 .addMultipart("categoryKey", newStella.getCategoryKey())
                 .addMultipart("description", newStella.getDescription())
                 .addMultipart("alcoholByVolume", newStella.getAlcoholByVolume())
-                .addMultipart("image", newStella.getImage())
+                .addMultipart("image", mockImage)
                 .build();
 
         //then

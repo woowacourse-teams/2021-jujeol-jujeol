@@ -71,13 +71,13 @@ function renderDrinkPaginationButton (currentPage, lastPage) {
   const $drinkPagination = $("#drinkPagination");
   $drinkPagination.innerHTML = '';
   currentPage = Number(currentPage);
-
+  
   const offset = 5;
   const previousNumber = currentPage - offset > 0 ? currentPage - offset : 1;
   const nextNumber = currentPage + offset < lastPage ? currentPage + offset : lastPage;
 
-  const start = (currentPage - 2) > 1 ? (currentPage - 2) : 1;
-  const last = (currentPage + 2) < lastPage ? (currentPage + 2) : lastPage;
+  const start = (currentPage - offset) > 1 ? (currentPage - offset) : 1;
+  const last = (currentPage + offset) < lastPage ? (currentPage + offset) : lastPage;
 
   $drinkPagination.insertAdjacentHTML('beforeend', pageItem("previous", previousNumber))
   for ( let i = start; i <= last; i++ ) {
