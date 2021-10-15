@@ -13,12 +13,6 @@ const Title = styled.div<TitleProps>`
   justify-content: ${({ isShowMoreEnabled }) => (isShowMoreEnabled ? 'space-between' : 'center')};
   align-items: baseline;
 
-  h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    line-height: 1.8;
-  }
-
   p {
     color: ${COLOR.GRAY_200};
   }

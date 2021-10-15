@@ -8,16 +8,6 @@ const Form = styled.form`
   width: 100%;
 
   ${Flex({ flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' })}
-
-  h2 {
-    width: 100%;
-    margin-bottom: 1rem;
-
-    font-size: 1.5rem;
-    font-weight: 700;
-    text-align: left;
-    white-space: break-spaces;
-  }
 `;
 
 const Content = styled.div`

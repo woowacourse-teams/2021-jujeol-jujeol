@@ -7,13 +7,6 @@ const Container = styled.section`
   min-height: 196px;
   position: relative;
 
-  h2 {
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
   img {
     width: 100%;
     height: 100%;

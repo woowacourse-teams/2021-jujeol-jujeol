@@ -5,23 +5,11 @@ import Flex from 'src/styles/Flex';
 const Form = styled.form`
   width: 100%;
 
-  h2 {
-    text-align: center;
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 2rem;
-  }
-
   label {
     ${Flex({ flexDirection: 'column' })}
     width: 100%;
     margin: 1rem 0;
     padding-left: 0.5rem;
-
-    h3 {
-      font-size: 1rem;
-      font-weight: 600;
-    }
 
     input,
     textarea {

@@ -14,6 +14,8 @@ import SearchBar from 'src/components/@shared/SearchBar/SearchBar';
 import Banner from 'src/components/Banner/Banner';
 import { PATH } from 'src/constants';
 import { Container, Categories, CategoryItem } from './styles';
+import Heading from 'src/components/@shared/Heading/Heading';
+import { css } from '@emotion/react';
 
 const categories: Category[] = [
   {
@@ -65,10 +67,25 @@ const SearchPage = () => {
     key === 'ALL' ? PATH.VIEW_ALL : `${PATH.SEARCH_RESULT}?category=${key}`;
   return (
     <Container>
+      <Heading.level2
+        css={css`
+          width: 0;
+          height: 0;
+          opacity: 0;
+        `}
+      >
+        검색페이지
+      </Heading.level2>
       <SearchBar placeholder="검색어를 입력해주세요" readOnly={false} />
 
       <Categories>
-        <h3>카테고리</h3>
+        <Heading.level3
+          css={css`
+            margin: 1rem 0.5rem;
+          `}
+        >
+          카테고리
+        </Heading.level3>
         <Grid col={4} colGap="0.5rem" rowGap="1rem" justifyItems="center">
           {categories.map(({ key, name, Icon }) => {
             return (

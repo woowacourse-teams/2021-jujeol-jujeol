@@ -4,6 +4,7 @@ import API from 'src/apis/requests';
 import { COLOR, ERROR_MESSAGE, REVIEW } from 'src/constants';
 import Button from '../@shared/Button/Button';
 import TextButton from '../@shared/Button/TextButton';
+import Heading from '../@shared/Heading/Heading';
 import { modalContext } from '../Modal/ModalProvider';
 import { Form, Content } from './ReviewEditForm.styles';
 
@@ -84,7 +85,7 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
   return (
     <>
       <Form onSubmit={onEdit}>
-        <h2>리뷰 수정하기</h2>
+        <Heading.level2 color={COLOR.BLACK}>리뷰 수정하기</Heading.level2>
         <Content>
           <div>
             <span>{new Date(createdAt).toLocaleDateString()}</span>

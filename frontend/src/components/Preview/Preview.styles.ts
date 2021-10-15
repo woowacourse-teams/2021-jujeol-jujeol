@@ -16,11 +16,6 @@ const Header = styled.div`
   margin-bottom: 1rem;
 
   ${Flex({ justifyContent: 'space-between', alignItems: 'center' })};
-
-  h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-  }
 `;
 
 const MoveViewAllPageButton = styled.button<{ fontSize: string }>`

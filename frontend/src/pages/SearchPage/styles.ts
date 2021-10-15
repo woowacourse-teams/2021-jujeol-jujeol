@@ -7,14 +7,10 @@ const Container = styled.div`
 `;
 
 const Categories = styled.section`
-  padding: 1.2rem;
-  margin: 1.5rem 0;
+  padding: 0 1.2rem;
+  margin: 1rem 0 2rem;
   width: 100%;
-  h3 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin: 1rem 0.5rem 1.5rem;
-  }
+
   ul {
     margin: 0 auto;
   }

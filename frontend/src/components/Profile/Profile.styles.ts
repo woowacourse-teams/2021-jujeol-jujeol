@@ -19,7 +19,7 @@ const Container = styled.section`
 
     position: relative;
 
-    h3 {
+    span {
       font-size: 1.1rem;
       font-weight: 700;
       margin-bottom: 0.5rem;

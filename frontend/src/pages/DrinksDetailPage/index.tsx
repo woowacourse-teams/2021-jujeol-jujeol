@@ -30,6 +30,7 @@ import {
 import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 import { css } from '@emotion/react';
 import Grid from 'src/components/@shared/Grid/Grid';
+import Heading from 'src/components/@shared/Heading/Heading';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -191,11 +192,16 @@ const DrinksDetailPage = () => {
 
       <Section isShowImageFull={isShowImageFull}>
         <PreferenceSection ref={preferenceRef} isBlinked={isBlinked}>
-          <h3>
+          <Heading.level3
+            color={COLOR.GRAY_100}
+            css={css`
+              margin-bottom: 0.8rem;
+            `}
+          >
             {currentPreferenceRate
               ? `당신의 선호도는? ${currentPreferenceRate} 점`
               : '선호도를 입력해주세요'}
-          </h3>
+          </Heading.level3>
           <RangeWithIcons
             color={COLOR.YELLOW_300}
             max={PREFERENCE.MAX_VALUE}
@@ -213,7 +219,7 @@ const DrinksDetailPage = () => {
 
         <DescriptionSection>
           {isLoading && <DrinksDetailDescriptionSkeleton />}
-          <h2>{name}</h2>
+          <Heading.level2>{name}</Heading.level2>
           <p>
             {englishName === '' ? `(${alcoholByVolume}%)` : `(${englishName}, ${alcoholByVolume}%)`}
           </p>

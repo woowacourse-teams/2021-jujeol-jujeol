@@ -3,15 +3,7 @@ import { COLOR } from 'src/constants';
 
 const Wrapper = styled.section`
   color: ${COLOR.BLACK};
-
-  h2 {
-    color: ${COLOR.WHITE};
-    font-weight: 700;
-    text-align: left;
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-    padding-left: 0.75rem;
-  }
+  text-align: left;
 `;
 
 const ReviewList = styled.ul`

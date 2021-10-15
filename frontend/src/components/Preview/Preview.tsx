@@ -1,6 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import { COLOR } from 'src/constants';
 import ArrowIcon from '../@Icons/ArrowIcon';
+import Heading from '../@shared/Heading/Heading';
 import { PreviewSection, Header, MoveViewAllPageButton } from './Preview.styles';
 
 interface Props {
@@ -18,7 +19,7 @@ const Preview = ({ title, path, children, isShowMoreEnabled }: Props) => {
   return (
     <PreviewSection>
       <Header>
-        <h3>{title}</h3>
+        <Heading.level3>{title}</Heading.level3>
         {isShowMoreEnabled && (
           <MoveViewAllPageButton fontSize="0.8rem" onClick={onMoveToShowMore}>
             <span>더보기</span>

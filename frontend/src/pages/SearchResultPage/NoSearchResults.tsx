@@ -25,7 +25,7 @@ const NoSearchResults = ({ search }: { search: string }) => {
     <>
       <NotificationSection>
         <DizzyEmojiColorIcon />
-        <h2>{`${search}에 대한 검색 결과가 없습니다.`}</h2>
+        <p>{`${search}에 대한 검색 결과가 없습니다.`}</p>
       </NotificationSection>
 
       <Section title="이런 술은 어때요?" titleAlign="left">

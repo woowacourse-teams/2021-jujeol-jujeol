@@ -3,6 +3,9 @@ import { PreferenceRate } from 'src/pages/HomePage/styles';
 import Card from '../@shared/Card/Card';
 import { StarIcon } from '../@Icons';
 import { ItemImage, ItemInfo } from './CardItem.styles';
+import Heading from '../@shared/Heading/Heading';
+import { css } from '@emotion/react';
+import LineClamp from 'src/styles/LineClamp';
 
 interface Props {
   imageUrl: string;
@@ -32,7 +35,15 @@ const CardItem = ({
       <Card width="13rem" height="17rem" onClick={onClick} color={COLOR.WHITE}>
         <ItemImage src={imageUrl} alt={title} loading="lazy" />
         <ItemInfo>
-          <h3>{title}</h3>
+          <Heading.level3
+            css={css`
+              font-size: 1.25rem;
+              margin-bottom: 0.3rem;
+              ${LineClamp({ lineClamp: 2 })};
+            `}
+          >
+            {title}
+          </Heading.level3>
           <p>{description}</p>
           {!!preferenceType && (
             <PreferenceRate type={preferenceType}>

@@ -105,7 +105,7 @@ const PreferencePage = () => {
           {!drinks.filter(({ preferenceRate }) => !preferenceRate).length && (
             <NoDrink>
               <DizzyEmojiColorIcon />
-              <h2>주절주절에 있는 모든 술을 드셨네요!</h2>
+              <p>주절주절에 있는 모든 술을 드셨네요!</p>
               <p>회원님을 이 구역의 술쟁이로 인정합니다!</p>
             </NoDrink>
           )}

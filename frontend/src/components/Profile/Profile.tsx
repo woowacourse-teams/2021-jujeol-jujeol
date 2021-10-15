@@ -5,6 +5,8 @@ import { EditIcon } from '../@Icons';
 import { modalContext } from '../Modal/ModalProvider';
 import EditModalForm from './EditModalForm';
 import { Container, EditButtonStyle } from './Profile.styles';
+import Heading from '../@shared/Heading/Heading';
+import { css } from '@emotion/react';
 
 interface Props extends ImgHTMLAttributes<HTMLImageElement> {
   ProfileIcon: (props: IconProps) => React.ReactElement;
@@ -24,11 +26,20 @@ const Profile = ({ ProfileIcon, nickname = '', bio = '' }: Props) => {
       <ProfileIcon width="72px" height="72px" />
 
       <div>
-        <h3>{nickname}</h3>
+        <Heading.level3
+          css={css`
+            width: 0;
+            height: 0;
+            opacity: 0;
+          `}
+        >
+          프로필
+        </Heading.level3>
+        <span>{nickname}</span>
         <IconButton
           aria-label="프로필 수정"
           type="button"
-          size="SMALL"
+          size="X_SMALL"
           onClick={onEditModalOpen}
           css={EditButtonStyle}
         >

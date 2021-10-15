@@ -1,5 +1,6 @@
 import { COLOR } from 'src/constants';
 import GoBackButton from '../@shared/Button/GoBackButton';
+import Heading from '../@shared/Heading/Heading';
 import { NavHeader } from './NavigationHeader.styles';
 
 interface Props {
@@ -10,7 +11,7 @@ const NavigationHeader = ({ title }: Props) => {
   return (
     <NavHeader>
       <GoBackButton color={COLOR.WHITE} />
-      <h2>{title}</h2>
+      <Heading.level2>{title}</Heading.level2>
     </NavHeader>
   );
 };

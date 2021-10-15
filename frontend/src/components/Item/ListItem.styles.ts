@@ -26,14 +26,6 @@ const Item = styled.li`
 const ItemInfo = styled.div`
   padding: 0.5rem 1rem;
 
-  h3 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0.3rem;
-
-    ${LineClamp({ lineClamp: 2 })}
-  }
-
   p {
     font-size: 0.9rem;
     color: ${COLOR.GRAY_200};

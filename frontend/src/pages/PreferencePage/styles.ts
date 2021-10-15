@@ -83,15 +83,17 @@ const NoDrink = styled.div`
     height: 5rem;
   }
 
-  h2 {
+  p {
     margin: 2rem 0 1rem;
     font-size: 1rem;
     text-align: center;
-    font-weight: 600;
+    font-weight: 700;
   }
 
-  p {
+  p:last-child {
+    margin: 0;
     font-size: 0.8rem;
+    font-weight: 400;
   }
 `;
 

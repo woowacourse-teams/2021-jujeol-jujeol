@@ -12,7 +12,7 @@ import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import { categories } from '../SearchPage';
 import NoSearchResults from './NoSearchResults';
 
-import { Container, ResultHeading } from './styles';
+import { Container, SearchResult } from './styles';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
 
@@ -76,9 +76,9 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
           </>
         ) : searchResult?.length ? (
           <>
-            <ResultHeading>
+            <SearchResult>
               <strong>{words || categoryName}</strong>로 검색한 결과입니다.
-            </ResultHeading>
+            </SearchResult>
             <List count={searchResult?.length || 0}>
               {searchResult?.map((item: Drink.Item) => (
                 <ListItem

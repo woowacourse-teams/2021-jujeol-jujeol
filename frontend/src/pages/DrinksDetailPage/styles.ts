@@ -47,14 +47,6 @@ const PreferenceSection = styled.section<{ isBlinked: boolean }>`
 
   border-bottom: 0.5px solid ${COLOR.GRAY_300};
 
-  h3 {
-    margin-bottom: 0.8rem;
-
-    font-size: 1.3rem;
-    font-weight: 400;
-    color: ${COLOR.GRAY_100};
-  }
-
   div {
     ${({ isBlinked }) =>
       isBlinked &&
@@ -71,13 +63,6 @@ const PreferenceSection = styled.section<{ isBlinked: boolean }>`
 const DescriptionSection = styled.section`
   margin-bottom: 3rem;
   padding-top: 1rem;
-
-  h2 {
-    margin-bottom: 0.5rem;
-
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
 
   > p {
     margin-bottom: 1.5rem;

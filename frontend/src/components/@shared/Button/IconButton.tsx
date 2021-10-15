@@ -43,11 +43,6 @@ const IconButton = styled.button<IconButtonProps>`
   color: ${({ color }) => color || COLOR.WHITE};
 
   ${({ css }) => css};
-
-  svg {
-    width: 100%;
-    height: 100%;
-  }
 `;
 
 export default IconButton;
