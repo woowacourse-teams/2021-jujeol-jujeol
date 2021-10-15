@@ -21,7 +21,6 @@ const NotificationSection = styled.section`
     font-size: 1rem;
     text-align: center;
     font-weight: 600;
-    line-height: 1.25;
   }
 `;
 
@@ -29,7 +28,6 @@ const Item = styled.div`
   > p {
     font-size: 0.8rem;
     margin-top: 0.5rem;
-    line-height: 1.25;
     text-align: center;
 
     ${LineClamp({ lineClamp: 2 })}

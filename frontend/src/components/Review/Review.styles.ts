@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { COLOR } from 'src/constants';
 
 const Wrapper = styled.section`
-  line-height: 1.25;
   color: ${COLOR.BLACK};
 
   h2 {

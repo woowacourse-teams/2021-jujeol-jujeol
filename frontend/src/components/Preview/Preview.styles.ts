@@ -13,11 +13,11 @@ const PreviewSection = styled.section`
 `;
 
 const Header = styled.div`
-  ${Flex({ justifyContent: 'space-between', alignItems: 'flex-start' })};
+  margin-bottom: 1rem;
+
+  ${Flex({ justifyContent: 'space-between', alignItems: 'center' })};
 
   h3 {
-    margin-bottom: 1rem;
-
     font-size: 1.1rem;
     font-weight: 700;
   }
@@ -28,13 +28,12 @@ const MoveViewAllPageButton = styled.button<{ fontSize: string }>`
 
   ${Flex({ justifyContent: 'center', alignItems: 'center' })}
   background-color: transparent;
-  border: 0;
 
   span {
-    marign-right: 0.1rem;
+    margin-right: 0.1rem;
 
     ${({ fontSize }) => fontSize && `font-size:  ${fontSize}`};
-    line-height: 1.5;
+
     color: ${COLOR.GRAY_100};
   }
 `;

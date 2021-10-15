@@ -80,6 +80,8 @@ const GlobalStyle = () => (
       button {
         color: ${COLOR.BLACK};
 
+        border: none;
+
         cursor: pointer;
 
         -webkit-tap-highlight-color: transparent;

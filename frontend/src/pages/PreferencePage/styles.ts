@@ -23,7 +23,6 @@ const Container = styled.div<{ isLoggedIn: boolean }>`
 const Notification = styled.div`
   p {
     font-size: 0.8rem;
-    line-height: 1.1;
     margin: 1rem 0;
   }
 `;
@@ -89,7 +88,6 @@ const NoDrink = styled.div`
     font-size: 1rem;
     text-align: center;
     font-weight: 600;
-    line-height: 1.25;
   }
 
   p {

@@ -52,7 +52,6 @@ const PreferenceSection = styled.section<{ isBlinked: boolean }>`
 
     font-size: 1.3rem;
     font-weight: 400;
-    line-height: 1.25;
     color: ${COLOR.GRAY_100};
   }
 
@@ -66,8 +65,6 @@ const PreferenceSection = styled.section<{ isBlinked: boolean }>`
 
   p {
     margin-top: 1rem;
-
-    line-height: 1.25;
   }
 `;
 
@@ -80,13 +77,10 @@ const DescriptionSection = styled.section`
 
     font-size: 1.5rem;
     font-weight: bold;
-    line-height: 1.25;
   }
 
   > p {
     margin-bottom: 1.5rem;
-
-    line-height: 1.25;
   }
 `;
 
@@ -109,7 +103,6 @@ const Description = styled.div<{ isShowMore: boolean; isContentOpen: boolean }>`
     word-break: keep-all;
     word-wrap: break-word;
 
-    line-height: 1.25;
     color: ${COLOR.GRAY_100}dd;
   }
 `;

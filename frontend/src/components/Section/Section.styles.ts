@@ -20,7 +20,6 @@ const Title = styled.div<TitleProps>`
   }
 
   p {
-    line-height: 1.25;
     color: ${COLOR.GRAY_200};
   }
 

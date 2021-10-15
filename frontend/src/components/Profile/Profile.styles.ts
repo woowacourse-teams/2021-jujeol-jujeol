@@ -27,7 +27,6 @@ const Container = styled.section`
 
     p {
       font-size: 0.8rem;
-      line-height: 1.25;
       font-weight: 400;
     }
   }

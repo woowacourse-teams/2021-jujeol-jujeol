@@ -11,7 +11,6 @@ const Container = styled.div`
       color: ${COLOR.GRAY_100};
       word-break: keep-all;
       font-size: 0.9rem;
-      line-height: 1.5;
     }
   }
 `;

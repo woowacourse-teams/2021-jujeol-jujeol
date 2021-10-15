@@ -10,7 +10,6 @@ const ResultHeading = styled.h2`
 
   color: ${COLOR.GRAY_100};
   line-break: anywhere;
-  line-height: 1.25;
 `;
 
 export { Container, ResultHeading };

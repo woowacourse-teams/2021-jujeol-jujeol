@@ -33,7 +33,6 @@ const SearchInput = styled.input<Omit<React.CSSProperties, 'translate'>>`
 
   ::placeholder {
     font-size: 1rem;
-    line-height: 1.5;
     color: ${COLOR.GRAY_200};
   }
 

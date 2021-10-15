@@ -12,11 +12,9 @@ const TextContainer = styled.div`
 const Title = styled.p`
   font-weight: 600;
   font-size: 1rem;
-  line-height: 1.5;
 
   + span {
     font-size: 0.7rem;
-    line-height: 1.5;
   }
 `;
 
@@ -26,7 +24,6 @@ const Content = styled.div<{ isContentOpen: boolean }>`
   position: relative;
 
   font-size: 0.9rem;
-  line-height: 1.5;
   text-align: justify;
   white-space: break-spaces;
   word-break: break-word;
