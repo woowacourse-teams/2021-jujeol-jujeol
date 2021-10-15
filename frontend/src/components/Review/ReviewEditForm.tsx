@@ -1,16 +1,20 @@
 import { FormEventHandler, useContext, useEffect, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import API from 'src/apis/requests';
-import { ERROR_MESSAGE, REVIEW } from 'src/constants';
+import { COLOR, ERROR_MESSAGE, REVIEW } from 'src/constants';
+import Button from '../@shared/Button/Button';
+import TextButton from '../@shared/Button/TextButton';
+import Heading from '../@shared/Heading/Heading';
 import { modalContext } from '../Modal/ModalProvider';
-import { Form, Content, EditButton, DeleteButton } from './ReviewEditForm.styles';
+import { Form, Content } from './ReviewEditForm.styles';
+
 interface Props {
   drinkId: string;
   review: Review.Item;
 }
 
 const ReviewEditForm = ({ drinkId, review }: Props) => {
-  const { id: reviewId, content, createdAt, modifiedAt } = review;
+  const { id: reviewId, content, createdAt } = review;
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -81,7 +85,7 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
   return (
     <>
       <Form onSubmit={onEdit}>
-        <h2>리뷰 수정하기</h2>
+        <Heading.level2 color={COLOR.BLACK}>리뷰 수정하기</Heading.level2>
         <Content>
           <div>
             <span>{new Date(createdAt).toLocaleDateString()}</span>
@@ -97,11 +101,11 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
           />
         </Content>
 
-        <EditButton disabled={!editContent}>수정하기</EditButton>
+        <Button disabled={!editContent}>수정하기</Button>
       </Form>
-      <DeleteButton type="button" onClick={onDelete}>
+      <TextButton type="button" onClick={onDelete} color={COLOR.GRAY_300} margin="0.2rem 0 0 auto">
         삭제하기
-      </DeleteButton>
+      </TextButton>
     </>
   );
 };

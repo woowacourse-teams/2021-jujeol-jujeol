@@ -54,7 +54,7 @@ const ReviewCreateForm = () => {
 
   return (
     <Form onSubmit={onCreate}>
-      <Card padding="1rem" backgroundColor={COLOR.WHITE_200}>
+      <Card padding="1rem" backgroundColor={COLOR.GRAY_100}>
         <textarea
           placeholder={isLoggedIn ? LOGGED_IN_PLACEHOLDER : NOT_LOGGED_IN_PLACEHOLDER}
           value={content}

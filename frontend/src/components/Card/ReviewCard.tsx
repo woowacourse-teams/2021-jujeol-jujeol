@@ -3,17 +3,21 @@ import { useParams } from 'react-router-dom';
 import { COLOR } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
 import useShowMoreContent from 'src/hooks/useShowMoreContent';
+import { css } from '@emotion/react';
+
 import Card from '../@shared/Card/Card';
 import {
   LoveEmojiColorIcon,
   SmileEmojiColorIcon,
   DizzyEmojiColorIcon,
   ExcitedEmojiColorIcon,
-} from '../@shared/Icons';
-import EditButton from '../@shared/MeatBallsButton/MeatBallsButton';
+} from '../@Icons';
+import IconButton from '../@shared/Button/IconButton';
+import ArrowIcon from '../@Icons/ArrowIcon';
+import MeatBallsIcon from '../@Icons/MeatBallsIcon';
 import { modalContext } from '../Modal/ModalProvider';
 import ReviewEditForm from '../Review/ReviewEditForm';
-import { Header, ReviewerInfo, Content, ShowMoreButton } from './ReviewCard.styles';
+import { Header, ReviewerInfo, Content } from './ReviewCard.styles';
 
 interface Props {
   review: Review.Item;
@@ -43,7 +47,7 @@ const ReviewCard = ({ review }: Props) => {
   };
 
   return (
-    <Card padding="1rem" backgroundColor={COLOR.WHITE_200}>
+    <Card padding="1rem" backgroundColor={COLOR.GRAY_100}>
       <Header>
         <UserProfileIcon />
         <ReviewerInfo>
@@ -51,13 +55,40 @@ const ReviewCard = ({ review }: Props) => {
           <time>{new Date(createdAt)?.toLocaleDateString()}</time>
         </ReviewerInfo>
         {userData?.id === author.id && (
-          <EditButton ariaLabel="내 리뷰 글 수정하기 버튼" onClick={onOpenEditForm} />
+          <IconButton
+            type="button"
+            size="SMALL"
+            backgroundColor="transparent"
+            margin="0 0 0 auto"
+            onClick={onOpenEditForm}
+            aria-label="내 리뷰 글 수정하기 버튼"
+          >
+            <MeatBallsIcon color={COLOR.GRAY_500} />
+          </IconButton>
         )}
       </Header>
       <Content ref={contentRef} isContentOpen={isContentOpen}>
         {content}
       </Content>
-      {isShowMore && !isContentOpen && <ShowMoreButton onClick={onOpenContent} />}
+      {isShowMore && !isContentOpen && (
+        <IconButton
+          size="XX_SMALL"
+          css={css`
+            height: 1rem;
+
+            padding-top: 0;
+
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+
+            background: ${COLOR.GRAY_100};
+          `}
+          onClick={onOpenContent}
+        >
+          <ArrowIcon color={COLOR.GRAY_500} direction="DOWN" />
+        </IconButton>
+      )}
     </Card>
   );
 };

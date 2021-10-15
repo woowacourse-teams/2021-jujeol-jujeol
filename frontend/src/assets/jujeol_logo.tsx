@@ -5,7 +5,7 @@ const JujeolLogo = () => (
     width="140px"
     aria-labelledby="jujeol-logo-title"
   >
-    <title id="jujeol-logo-title">주절주절 로고</title>
+    <title id="jujeol-logo-title">주절주절</title>
     <polygon
       fill="#ffd400"
       points="20.02 9.12 16.56 35.98 3.45 35.98 3.25 34.53 0 11.04 1.41 10.9 4.41 34.53 4.41 34.57 15.54 34.57 18.16 9.3 20.02 9.12"

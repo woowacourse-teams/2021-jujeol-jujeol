@@ -1,9 +1,12 @@
 import { ImgHTMLAttributes, useContext } from 'react';
+import IconButton from '../@shared/Button/IconButton';
 
-import { EditIcon } from '../@shared/Icons';
+import { EditIcon } from '../@Icons';
 import { modalContext } from '../Modal/ModalProvider';
 import EditModalForm from './EditModalForm';
-import { Container, EditButton } from './Profile.styles';
+import { Container, EditButtonStyle } from './Profile.styles';
+import Heading from '../@shared/Heading/Heading';
+import { css } from '@emotion/react';
 
 interface Props extends ImgHTMLAttributes<HTMLImageElement> {
   ProfileIcon: (props: IconProps) => React.ReactElement;
@@ -23,10 +26,25 @@ const Profile = ({ ProfileIcon, nickname = '', bio = '' }: Props) => {
       <ProfileIcon width="72px" height="72px" />
 
       <div>
-        <h3>{nickname}</h3>
-        <EditButton onClick={onEditModalOpen}>
-          <EditIcon width="1.5rem" height="1.5rem" />
-        </EditButton>
+        <Heading.level3
+          css={css`
+            width: 0;
+            height: 0;
+            opacity: 0;
+          `}
+        >
+          프로필
+        </Heading.level3>
+        <span>{nickname}</span>
+        <IconButton
+          aria-label="프로필 수정"
+          type="button"
+          size="X_SMALL"
+          onClick={onEditModalOpen}
+          css={EditButtonStyle}
+        >
+          <EditIcon />
+        </IconButton>
         <p>{bio}</p>
       </div>
     </Container>

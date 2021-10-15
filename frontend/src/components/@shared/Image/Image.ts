@@ -28,7 +28,7 @@ const Img = styled.img<ImageType>`
   height: ${({ size }) => SIZE[size] || SIZE.MEDIUM};
   border-radius: ${({ shape }) => SHAPE[shape] || SHAPE.ROUND_SQUARE};
 
-  background-color: ${COLOR.WHITE_200};
+  background-color: ${COLOR.GRAY_100};
 `;
 
 export { Img };

@@ -1,6 +1,6 @@
 import { ChangeEvent, InputHTMLAttributes } from 'react';
 import { COLOR } from 'src/constants';
-import StarIcon, { fillStatus } from '../@shared/Icons/StarIcon';
+import StarIcon, { fillStatus } from '../@Icons/StarIcon';
 import { Wrapper } from './RangeWithIcons.styles';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
@@ -12,7 +12,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const RangeWithIcons = ({
-  color = COLOR.WHITE_100,
+  color = COLOR.WHITE,
   min = 0,
   max,
   step,

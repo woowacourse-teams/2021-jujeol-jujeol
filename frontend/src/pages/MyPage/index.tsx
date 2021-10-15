@@ -24,7 +24,7 @@ import {
   LoveEmojiColorIcon,
   DizzyEmojiColorIcon,
   ExcitedEmojiColorIcon,
-} from 'src/components/@shared/Icons';
+} from 'src/components/@Icons';
 import PersonalDrinkItemSkeleton from 'src/components/Skeleton/PersonalDrinkItemSkeleton';
 import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewItemSkeleton';
 import { SurveyLink } from './styles';

@@ -1,7 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import Card from 'src/components/@shared/Card/Card';
 import Grid from 'src/components/@shared/Grid/Grid';
-import { StarIcon } from 'src/components/@shared/Icons';
+import { StarIcon } from 'src/components/@Icons';
 import { Img } from 'src/components/@shared/Image/Image';
 import { COLOR, PATH } from 'src/constants';
 import { Description, Header } from './NoReview.styles';
@@ -26,8 +26,8 @@ const NoReview = ({ myDrinks }: { myDrinks: Drink.PersonalDrinkItem[] }) => {
           <li key={id}>
             <Card
               padding="1rem"
-              backgroundColor={COLOR.WHITE_200}
-              color={COLOR.BLACK_900}
+              backgroundColor={COLOR.GRAY_100}
+              color={COLOR.BLACK}
               flexDirection="row"
             >
               <Img src={imageUrl} alt={name} size="X_SMALL" shape="ROUND_SQUARE" />

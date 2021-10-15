@@ -9,3 +9,4 @@ export { MESSAGE, ERROR_MESSAGE, MESSAGE_TYPE_EMOJI } from './messages';
 export { default as REVIEW } from './review';
 export { default as SEARCH } from './search';
 export { default as VALUE } from './value';
+export { FONT_WEIGHT } from './font';

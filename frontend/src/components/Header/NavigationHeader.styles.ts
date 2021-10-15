@@ -8,11 +8,6 @@ const NavHeader = styled(Header)`
   width: 100%;
   position: relative;
 
-  h2 {
-    font-size: 1.3rem;
-    font-weight: 700;
-  }
-
   button {
     background-color: transparent;
     border: 0;
