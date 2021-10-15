@@ -61,6 +61,7 @@ const ReviewCard = ({ review }: Props) => {
             backgroundColor="transparent"
             margin="0 0 0 auto"
             onClick={onOpenEditForm}
+            aria-label="내 리뷰 글 수정하기 버튼"
           >
             <MeatBallsIcon color={COLOR.GRAY_500} />
           </IconButton>
