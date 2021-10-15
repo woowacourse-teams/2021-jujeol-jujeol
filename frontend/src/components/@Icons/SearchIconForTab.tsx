@@ -1,10 +1,12 @@
-const SearchIconForTab = ({ color }: IconProps) => {
+import { COLOR } from 'src/constants';
+
+const SearchIconForTab = ({ width = '2rem', height = '2rem', color = COLOR.BLACK }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
-      width="32px"
-      height="32px"
+      width={width}
+      height={height}
       fill={color}
       aria-labelledby="search-icon-for-tab-title"
     >

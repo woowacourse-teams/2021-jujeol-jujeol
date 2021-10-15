@@ -1,10 +1,13 @@
-const SearchIcon = ({ color, width }: IconProps) => {
+import { COLOR } from 'src/constants';
+
+const SearchIcon = ({ width = '2rem', height = '2rem', color = COLOR.WHITE }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 283.46 283.46"
-      width={width}
       fill={color}
+      width={width}
+      height={height}
       aria-labelledby="search-icon-title"
     >
       <title id="search-icon-title">검색</title>

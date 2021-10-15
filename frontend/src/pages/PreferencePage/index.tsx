@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import API from 'src/apis/requests';
 import FlexBox from 'src/components/@shared/FlexBox/FlexBox';
 import Grid from 'src/components/@shared/Grid/Grid';
-import { DizzyEmojiColorIcon } from 'src/components/@shared/Icons';
+import { DizzyEmojiColorIcon } from 'src/components/@Icons';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
 import { PATH } from 'src/constants';

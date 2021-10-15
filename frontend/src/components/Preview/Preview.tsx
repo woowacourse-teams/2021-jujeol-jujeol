@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router-dom';
 import { COLOR } from 'src/constants';
-import ArrowIcon from '../@shared/Icons/ArrowIcon';
+import ArrowIcon from '../@Icons/ArrowIcon';
 import { PreviewSection, Header, MoveViewAllPageButton } from './Preview.styles';
 
 interface Props {

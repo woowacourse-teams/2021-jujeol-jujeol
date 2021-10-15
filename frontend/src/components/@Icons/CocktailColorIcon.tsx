@@ -1,10 +1,10 @@
-const CocktailColorIcon = () => {
+const CocktailColorIcon = ({ width = '2rem', height = '2rem' }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
-      width="32px"
-      height="32px"
+      width={width}
+      height={height}
       aria-labelledby="cocktail-color-title"
     >
       <title id="cocktail-color-title">색상이 있는 칵테일 잔</title>

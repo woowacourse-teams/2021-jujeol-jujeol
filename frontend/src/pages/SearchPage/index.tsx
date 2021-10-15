@@ -8,8 +8,8 @@ import {
   SojuColorIcon,
   WineColorIcon,
   YangjuColorIcon,
-} from 'src/components/@shared/Icons';
-import AllIcon from 'src/components/@shared/Icons/AllIcon';
+} from 'src/components/@Icons';
+import AllIcon from 'src/components/@Icons/AllIcon';
 import SearchBar from 'src/components/@shared/SearchBar/SearchBar';
 import Banner from 'src/components/Banner/Banner';
 import { PATH } from 'src/constants';

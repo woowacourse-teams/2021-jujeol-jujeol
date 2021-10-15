@@ -1,7 +1,7 @@
 import { useHistory } from 'react-router-dom';
 
 import IconButton from '../Button/IconButton';
-import ArrowIcon from '../Icons/ArrowIcon';
+import ArrowIcon from '../../@Icons/ArrowIcon';
 
 const GoBackButton = ({ color }: { color?: string }) => {
   const history = useHistory();

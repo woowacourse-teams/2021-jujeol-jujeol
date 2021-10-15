@@ -1,10 +1,10 @@
-const CategoryEtcColorIcon = () => {
+const CategoryEtcColorIcon = ({ width = '2rem', height = '2rem' }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
-      width="32px"
-      height="32px"
+      width={width}
+      height={height}
       aria-labelledby="category-etc-color-icon-title category-etc-color-icon-desc"
     >
       <title id="category-etc-color-icon-title">기타</title>

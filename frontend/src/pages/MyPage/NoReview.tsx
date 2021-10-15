@@ -1,7 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import Card from 'src/components/@shared/Card/Card';
 import Grid from 'src/components/@shared/Grid/Grid';
-import { StarIcon } from 'src/components/@shared/Icons';
+import { StarIcon } from 'src/components/@Icons';
 import { Img } from 'src/components/@shared/Image/Image';
 import { COLOR, PATH } from 'src/constants';
 import { Description, Header } from './NoReview.styles';

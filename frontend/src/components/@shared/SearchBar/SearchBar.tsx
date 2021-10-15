@@ -4,8 +4,8 @@ import { COLOR, PATH, SEARCH } from 'src/constants';
 import IconButton from '../Button/IconButton';
 import GoBackButton from '../Button/GoBackButton';
 
-import { SearchIcon } from '../Icons';
-import CancelIcon from '../Icons/CancelIcon';
+import { SearchIcon } from '../../@Icons';
+import CancelIcon from '../../@Icons/CancelIcon';
 import { Container, SearchInput } from './SearchBar.styles';
 
 const SearchBar = ({

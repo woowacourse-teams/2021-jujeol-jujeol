@@ -1,7 +1,7 @@
 import { ImgHTMLAttributes, useContext } from 'react';
 import IconButton from '../@shared/Button/IconButton';
 
-import { EditIcon } from '../@shared/Icons';
+import { EditIcon } from '../@Icons';
 import { modalContext } from '../Modal/ModalProvider';
 import EditModalForm from './EditModalForm';
 import { Container, EditButtonStyle } from './Profile.styles';

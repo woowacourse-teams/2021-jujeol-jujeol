@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { COLOR, PATH } from 'src/constants';
 import IconButton from '../@shared/Button/IconButton';
 import Card from '../@shared/Card/Card';
-import ArrowIcon from '../@shared/Icons/ArrowIcon';
+import ArrowIcon from '../@Icons/ArrowIcon';
 import { Img } from '../@shared/Image/Image';
 import { TextContainer, Title, Content } from './PersonalReviewCard.styles';
 

@@ -11,10 +11,10 @@ import {
   SmileEmojiColorIcon,
   DizzyEmojiColorIcon,
   ExcitedEmojiColorIcon,
-} from '../@shared/Icons';
+} from '../@Icons';
 import IconButton from '../@shared/Button/IconButton';
-import ArrowIcon from '../@shared/Icons/ArrowIcon';
-import MeatBallsIcon from '../@shared/Icons/MeatBallsIcon';
+import ArrowIcon from '../@Icons/ArrowIcon';
+import MeatBallsIcon from '../@Icons/MeatBallsIcon';
 import { modalContext } from '../Modal/ModalProvider';
 import ReviewEditForm from '../Review/ReviewEditForm';
 import { Header, ReviewerInfo, Content } from './ReviewCard.styles';

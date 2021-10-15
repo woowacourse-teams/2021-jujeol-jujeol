@@ -1,5 +1,5 @@
 import { PreferenceRate } from 'src/pages/HomePage/styles';
-import { StarIcon } from '../@shared/Icons';
+import { StarIcon } from '../@Icons';
 import { Item, ItemInfo } from './ListItem.styles';
 
 interface Props {

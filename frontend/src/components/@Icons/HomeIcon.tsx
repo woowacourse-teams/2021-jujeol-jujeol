@@ -1,11 +1,13 @@
-const HomeIcon = ({ color }: IconProps) => {
+import { COLOR } from 'src/constants';
+
+const HomeIcon = ({ width = '2rem', height = '2rem', color = COLOR.BLACK }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       fill={color}
-      width="2rem"
-      height="2rem"
+      width={width}
+      height={height}
       aria-labelledby="home-title"
     >
       <title id="home-title">집</title>

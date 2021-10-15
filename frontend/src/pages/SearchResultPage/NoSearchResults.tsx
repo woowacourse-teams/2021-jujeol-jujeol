@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import API from 'src/apis/requests';
 import { PATH } from 'src/constants';
 
-import { DizzyEmojiColorIcon } from 'src/components/@shared/Icons';
+import { DizzyEmojiColorIcon } from 'src/components/@Icons';
 import { Img } from 'src/components/@shared/Image/Image';
 import CardList from 'src/components/List/CardList';
 import Section from 'src/components/Section/Section';

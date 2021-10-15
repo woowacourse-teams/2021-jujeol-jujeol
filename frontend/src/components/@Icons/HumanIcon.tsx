@@ -1,10 +1,12 @@
-const HumanIcon = ({ color }: IconProps) => {
+import { COLOR } from 'src/constants';
+
+const HumanIcon = ({ width = '2rem', height = '2rem', color = COLOR.BLACK }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
-      width="2rem"
-      height="2rem"
+      width={width}
+      height={height}
       fill={color}
       aria-labelledby="human-icon-title"
     >

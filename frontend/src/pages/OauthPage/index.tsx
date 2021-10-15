@@ -4,7 +4,7 @@ import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import UserContext from 'src/contexts/UserContext';
 import API from 'src/apis/requests';
 import FlexBox from 'src/components/@shared/FlexBox/FlexBox';
-import { LoveEmojiColorIcon } from 'src/components/@shared/Icons';
+import { LoveEmojiColorIcon } from 'src/components/@Icons';
 import { setLocalStorageItem } from 'src/utils/localStorage';
 import { LOCAL_STORAGE_KEY, PATH, MESSAGE } from 'src/constants';
 import { Container } from './styles';
