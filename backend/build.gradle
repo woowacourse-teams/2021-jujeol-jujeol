@@ -63,15 +63,19 @@ dependencies {
     implementation 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
     implementation 'io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE'
 
-    //commons
+    // commons
     implementation 'commons-io:commons-io:2.4'
 
-    //file type
+    // file type
     implementation 'org.apache.tika:tika-core:1.26'
 
-    //s3 image upload
+    // s3 image upload
     implementation 'com.amazonaws:aws-java-sdk-s3'
     implementation 'org.springframework.cloud:spring-cloud-aws-core:2.2.6.RELEASE'
+
+    // monitoring tools
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 
 ext {
