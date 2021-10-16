@@ -1,4 +1,4 @@
-import { DizzyEmojiColorIcon } from '../@shared/Icons';
+import { DizzyEmojiColorIcon } from '../@Icons';
 import { Container } from './NoReviews.styles';
 
 const NoReviews = ({ drinkName }: { drinkName: string }) => {

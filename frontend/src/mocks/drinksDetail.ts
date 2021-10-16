@@ -12,7 +12,7 @@ const drinksDetail = {
       id: 0,
       name: '맥주',
     },
-    description: '기네스',
+    description: '꽤 씁쓸하면서도 달콤 쌉싸름한 맛을 가지고 있다.',
     alcoholByVolume: 3.4,
     preferenceRate: 3.5,
     preferenceAvg: 2.5,

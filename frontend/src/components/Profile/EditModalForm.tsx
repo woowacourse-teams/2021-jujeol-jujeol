@@ -1,12 +1,14 @@
 import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 
-import { modalContext } from '../Modal/ModalProvider';
-import { BioInput, Form, NicknameInput } from './EditModalForm.styles';
-import { EditButton } from '../Review/ReviewEditForm.styles';
+import Button from '../@shared/Button/Button';
 import API from 'src/apis/requests';
+import { modalContext } from '../Modal/ModalProvider';
 import { SnackbarContext } from '../@shared/Snackbar/SnackbarProvider';
-import { AxiosError } from 'axios';
+import { BioInput, Form, NicknameInput } from './EditModalForm.styles';
+import Heading from '../@shared/Heading/Heading';
+import { css } from '@emotion/react';
+import { COLOR } from 'src/constants';
 
 interface Props {
   nickname?: string;
@@ -71,10 +73,17 @@ const EditModalForm = ({ nickname: currentNickname = '', bio: currentBio = '' }:
 
   return (
     <Form onSubmit={onEditProfile}>
-      <h2>닉네임 수정하기</h2>
+      <Heading.level2
+        color={COLOR.BLACK}
+        css={css`
+          text-align: center;
+        `}
+      >
+        닉네임 수정하기
+      </Heading.level2>
 
       <label>
-        <h3>닉네임</h3>
+        <Heading.level3 color={COLOR.BLACK}>닉네임</Heading.level3>
         <NicknameInput
           value={nickname}
           onChange={onEditNickname}
@@ -85,7 +94,7 @@ const EditModalForm = ({ nickname: currentNickname = '', bio: currentBio = '' }:
       </label>
 
       <label>
-        <h3>소개</h3>
+        <Heading.level3 color={COLOR.BLACK}>소개</Heading.level3>
         <BioInput
           value={bio}
           onChange={onEditBio}
@@ -95,7 +104,7 @@ const EditModalForm = ({ nickname: currentNickname = '', bio: currentBio = '' }:
         />
       </label>
 
-      <EditButton disabled={!nickname || !bio}>수정하기</EditButton>
+      <Button disabled={!nickname || !bio}>수정하기</Button>
     </Form>
   );
 };

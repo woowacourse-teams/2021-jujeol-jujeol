@@ -1,10 +1,12 @@
+import { css } from '@emotion/react';
 import { useRef, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { COLOR, PATH } from 'src/constants';
-import Arrow from '../@shared/Arrow/Arrow';
+import IconButton from '../@shared/Button/IconButton';
 import Card from '../@shared/Card/Card';
+import ArrowIcon from '../@Icons/ArrowIcon';
 import { Img } from '../@shared/Image/Image';
-import { TextContainer, Title, Content, ShowMoreButton } from './PersonalReviewCard.styles';
+import { TextContainer, Title, Content } from './PersonalReviewCard.styles';
 
 interface Props {
   review: Review.PersonalReviewItem;
@@ -37,7 +39,7 @@ const PersonalReviewCard = ({ review }: Props) => {
   };
 
   return (
-    <Card width="100%" backgroundColor={COLOR.WHITE_200} padding="0.6rem 1.3rem 0.6rem 0.6rem">
+    <Card width="100%" backgroundColor={COLOR.GRAY_100} padding="0.6rem 1.3rem 0.6rem 0.6rem">
       <Img
         src={drink.imageUrl}
         alt={drink.name}
@@ -54,12 +56,26 @@ const PersonalReviewCard = ({ review }: Props) => {
 
         <Content ref={contentRef} isContentOpen={isContentOpen}>
           {review.content}
+          {isShowMore && (
+            <IconButton
+              size="XX_SMALL"
+              css={css`
+                height: 1rem;
+
+                padding-top: 0;
+
+                position: absolute;
+                bottom: 0;
+                right: 0;
+
+                background: ${COLOR.GRAY_100};
+              `}
+              onClick={onShowMore}
+            >
+              <ArrowIcon color={COLOR.GRAY_500} direction="DOWN" />
+            </IconButton>
+          )}
         </Content>
-        {isShowMore && (
-          <ShowMoreButton onClick={onShowMore}>
-            <Arrow size="0.4rem" borderWidth="1.5px" dir="DOWN" />
-          </ShowMoreButton>
-        )}
       </TextContainer>
     </Card>
   );

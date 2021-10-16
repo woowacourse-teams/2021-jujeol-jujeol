@@ -11,7 +11,6 @@ const Form = styled.form`
   p {
     font-size: 0.7rem;
     color: ${COLOR.GRAY_300};
-    line-height: 1.5;
     text-align: end;
     margin-bottom: 0.5rem;
   }

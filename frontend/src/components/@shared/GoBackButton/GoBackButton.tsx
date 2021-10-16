@@ -1,6 +1,7 @@
 import { useHistory } from 'react-router-dom';
-import Arrow from '../Arrow/Arrow';
-import { Button } from './GoBackButton.styles';
+
+import IconButton from '../Button/IconButton';
+import ArrowIcon from '../../@Icons/ArrowIcon';
 
 const GoBackButton = ({ color }: { color?: string }) => {
   const history = useHistory();
@@ -10,9 +11,14 @@ const GoBackButton = ({ color }: { color?: string }) => {
   };
 
   return (
-    <Button type="button" onClick={onMoveToPrevPage}>
-      <Arrow size="0.7rem" borderWidth="0.125rem" dir="LEFT" color={color} />
-    </Button>
+    <IconButton
+      type="button"
+      size="X_SMALL"
+      backgroundColor="transparent"
+      onClick={onMoveToPrevPage}
+    >
+      <ArrowIcon color={color} />
+    </IconButton>
   );
 };
 
