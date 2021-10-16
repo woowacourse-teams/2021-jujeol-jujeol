@@ -36,6 +36,8 @@ management:
     web:
       exposure:
         include: "prometheus"
+  server:
+    port: 9000
   metrics:
     tags:
       application: ${spring.application.name}
