@@ -5,9 +5,11 @@ import org.springframework.http.HttpMethod;
 public class RequestApi {
 
     private final TestTool testTool;
+    private final TestAdapterContainer testAdapterContainer;
 
-    public RequestApi(TestTool testTool) {
+    public RequestApi(TestTool testTool, TestAdapterContainer testAdapterContainer) {
         this.testTool = testTool;
+        this.testAdapterContainer = testAdapterContainer;
     }
 
     public RequestOption get(String url) {
@@ -27,6 +29,6 @@ public class RequestApi {
     }
 
     private RequestOption getRequestOption(HttpMethod httpMethod, String url) {
-        return null;
+        return new RequestOption(httpMethod, url, testTool, testAdapterContainer);
     }
 }
