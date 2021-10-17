@@ -1,4 +1,4 @@
-package com.jujeol.testtool;
+package com.jujeol.testtool.response;
 
 import io.restassured.response.Response;
 
