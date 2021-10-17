@@ -18,11 +18,11 @@ public class RequestApi {
         return getRequestOption(HttpMethod.GET, url, pathVariables);
     }
 
-    public RequestOption post(String url, Object... pathVariables) {
+    public RequestOption post(String url, Object data, Object... pathVariables) {
         return getRequestOption(HttpMethod.POST, url, pathVariables);
     }
 
-    public RequestOption put(String url, Object... pathVariables) {
+    public RequestOption put(String url, Object data, Object... pathVariables) {
         return getRequestOption(HttpMethod.PUT, url, pathVariables);
     }
 

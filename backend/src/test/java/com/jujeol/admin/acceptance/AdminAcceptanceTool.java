@@ -2,17 +2,13 @@ package com.jujeol.admin.acceptance;
 
 import static com.jujeol.drink.acceptance.DrinkAcceptanceTool.TEST_MULTIPART;
 
-import com.jujeol.RequestBuilder;
-import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.admin.ui.dto.AdminDrinkRequest;
 import com.jujeol.admin.ui.dto.AdminDrinkResponse;
 import com.jujeol.drink.DrinkTestContainer;
-import io.restassured.builder.MultiPartSpecBuilder;
-import io.restassured.specification.MultiPartSpecification;
-import java.io.File;
+import com.jujeol.testtool.NewRequestBuilder;
+import com.jujeol.testtool.response.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.io.Charsets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;
@@ -22,7 +18,7 @@ import org.springframework.test.context.ActiveProfiles;
 public class AdminAcceptanceTool {
 
     @Autowired
-    private RequestBuilder requestBuilder;
+    private NewRequestBuilder requestBuilder;
 
     public HttpResponse 어드민_주류_데이터_요청() {
         return requestBuilder.builder().get("/admin/drinks").withoutLog().build();
@@ -34,7 +30,7 @@ public class AdminAcceptanceTool {
             final AdminDrinkRequest adminDrinkRequest = drinkTestContainer.getAdminDrinkRequest();
             adminDrinkResponses.add(
                 requestBuilder.builder()
-                    .postWithoutData("/admin/drinks")
+                    .post("/admin/drinks", null)
                     .addMultipart("name", adminDrinkRequest.getName())
                     .addMultipart("englishName", adminDrinkRequest.getEnglishName())
                     .addMultipart("categoryKey", adminDrinkRequest.getCategoryKey())

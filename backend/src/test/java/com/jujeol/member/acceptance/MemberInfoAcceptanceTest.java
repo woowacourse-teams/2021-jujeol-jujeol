@@ -8,13 +8,13 @@ import static com.jujeol.member.fixture.TestMember.CROFFLE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
-import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
 import com.jujeol.member.member.ui.dto.MemberDrinkResponse;
 import com.jujeol.member.member.ui.dto.MemberReviewResponse;
 import com.jujeol.review.acceptance.ReviewAcceptanceTool;
+import com.jujeol.testtool.response.HttpResponse;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,10 +1,10 @@
 package com.jujeol.drink.acceptance;
 
-import com.jujeol.RequestBuilder;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
+import com.jujeol.testtool.NewRequestBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -34,7 +34,7 @@ public class DrinkAcceptanceTool {
     }
 
     @Autowired
-    private RequestBuilder requestBuilder;
+    private NewRequestBuilder requestBuilder;
     @Autowired
     private DrinkRepository drinkRepository;
 

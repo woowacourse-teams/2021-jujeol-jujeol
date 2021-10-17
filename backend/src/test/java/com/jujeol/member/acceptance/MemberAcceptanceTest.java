@@ -8,8 +8,6 @@ import static com.jujeol.member.fixture.TestMember.WEDGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
-import com.jujeol.RequestBuilder.HttpResponse;
-import com.jujeol.RequestBuilder.Option;
 import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
@@ -18,6 +16,8 @@ import com.jujeol.member.fixture.TestMember;
 import com.jujeol.member.member.application.dto.PreferenceDto;
 import com.jujeol.member.member.ui.dto.MemberRequest;
 import com.jujeol.member.member.ui.dto.MemberResponse;
+import com.jujeol.testtool.option.RequestOption;
+import com.jujeol.testtool.response.HttpResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
@@ -230,7 +230,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     private ExtractableResponse<Response> 내_정보를_수정한다(TestMember testMember,
             MemberRequest memberRequest,
             String documentPath) {
-        Option updateRequest = request().put("/members/me", memberRequest);
+        RequestOption updateRequest = request().put("/members/me", memberRequest);
 
         if (!documentPath.isBlank()) {
             updateRequest.withDocument(documentPath);
@@ -246,7 +246,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     private MemberResponse 내_정보를_조회한다(String documentPath, TestMember testMember) {
-        Option getRequest = request().get("/members/me");
+        RequestOption getRequest = request().get("/members/me");
         if (!documentPath.isBlank()) {
             getRequest.withDocument(documentPath);
         }

@@ -10,13 +10,13 @@ import static com.jujeol.drink.acceptance.DrinkAcceptanceTool.TEST_IMAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
-import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.admin.ui.dto.AdminDrinkRequest;
 import com.jujeol.admin.ui.dto.AdminDrinkResponse;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
+import com.jujeol.testtool.response.HttpResponse;
 import java.nio.file.Files;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -79,7 +79,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
         //when
         final HttpResponse httpResponse =
             request()
-                .putWithoutData("/admin/drinks/{id}", stellaId)
+                .put("/admin/drinks/{id}", null, stellaId)
                 .addMultipart("name", newStella.getName())
                 .addMultipart("englishName", newStella.getEnglishName())
                 .addMultipart("categoryKey", newStella.getCategoryKey())

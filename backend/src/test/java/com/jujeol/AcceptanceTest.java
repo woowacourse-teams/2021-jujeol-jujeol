@@ -2,11 +2,12 @@ package com.jujeol;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.jujeol.RequestBuilder.Function;
 import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.commons.exception.ExceptionCodeAndDetails;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.acceptance.CategoryAcceptanceTool;
+import com.jujeol.testtool.NewRequestBuilder;
+import com.jujeol.testtool.request.RequestApi;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,18 +28,18 @@ public class AcceptanceTest {
     @LocalServerPort
     private int port;
     @Autowired
-    private RequestBuilder request;
+    private NewRequestBuilder request;
     @Autowired
     private CategoryAcceptanceTool categoryAcceptanceTool;
 
     @BeforeEach
     public void setUp(RestDocumentationContextProvider restDocumentation) {
         RestAssured.port = port;
-        request.setRestDocumentation(restDocumentation);
+        request.setRestDocumentationContextProvider(restDocumentation);
         categoryAcceptanceTool.기본_카테고리_저장();
     }
 
-    protected Function request() {
+    protected RequestApi request() {
         return request.builder();
     }
 

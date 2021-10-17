@@ -1,7 +1,7 @@
 package com.jujeol.testtool.executor;
 
+import com.jujeol.testtool.response.HttpResponse;
 import com.jujeol.testtool.util.RequestDto;
-import com.jujeol.testtool.response.RequestResult;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 
 public class MockMvcExecutor implements TestAdapter {
@@ -17,7 +17,7 @@ public class MockMvcExecutor implements TestAdapter {
     }
 
     @Override
-    public RequestResult execute(RequestDto requestDto) {
+    public HttpResponse execute(RequestDto requestDto) {
         return null;
     }
 }

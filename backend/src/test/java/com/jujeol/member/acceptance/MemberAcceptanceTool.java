@@ -1,9 +1,9 @@
 package com.jujeol.member.acceptance;
 
-import com.jujeol.RequestBuilder;
 import com.jujeol.member.auth.application.dto.TokenDto;
 import com.jujeol.member.fixture.TestMember;
 import com.jujeol.member.member.application.dto.PreferenceDto;
+import com.jujeol.testtool.NewRequestBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;
@@ -13,7 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 public class MemberAcceptanceTool {
 
     @Autowired
-    private RequestBuilder requestBuilder;
+    private NewRequestBuilder requestBuilder;
 
     public void 선호도_등록(Long drinkId, double preferenceRate, TestMember testMember) {
         requestBuilder.builder()
