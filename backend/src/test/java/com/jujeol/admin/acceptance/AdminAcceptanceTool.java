@@ -5,7 +5,8 @@ import static com.jujeol.drink.acceptance.DrinkAcceptanceTool.TEST_MULTIPART;
 import com.jujeol.admin.ui.dto.AdminDrinkRequest;
 import com.jujeol.admin.ui.dto.AdminDrinkResponse;
 import com.jujeol.drink.DrinkTestContainer;
-import com.jujeol.testtool.NewRequestBuilder;
+import com.jujeol.member.fixture.TestMember;
+import com.jujeol.testtool.RequestBuilder;
 import com.jujeol.testtool.response.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 public class AdminAcceptanceTool {
 
     @Autowired
-    private NewRequestBuilder requestBuilder;
+    private RequestBuilder requestBuilder;
 
     public HttpResponse 어드민_주류_데이터_요청() {
         return requestBuilder.builder().get("/admin/drinks").withoutLog().build();
@@ -30,7 +31,7 @@ public class AdminAcceptanceTool {
             final AdminDrinkRequest adminDrinkRequest = drinkTestContainer.getAdminDrinkRequest();
             adminDrinkResponses.add(
                 requestBuilder.builder()
-                    .post("/admin/drinks", null)
+                    .post("/admin/drinks", null).withUser(TestMember.WEDGE)
                     .addMultipart("name", adminDrinkRequest.getName())
                     .addMultipart("englishName", adminDrinkRequest.getEnglishName())
                     .addMultipart("categoryKey", adminDrinkRequest.getCategoryKey())

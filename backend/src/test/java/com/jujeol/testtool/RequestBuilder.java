@@ -5,13 +5,13 @@ import com.jujeol.testtool.request.TestAdapterContainer;
 import com.jujeol.testtool.util.TestTool;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 
-public class NewRequestBuilder {
+public class RequestBuilder {
 
     private final TestAdapterContainer testAdapterContainer;
     private final TestTool testTool;
     private RestDocumentationContextProvider restDocumentationContextProvider;
 
-    public NewRequestBuilder(TestAdapterContainer testAdapterContainer, TestTool testTool) {
+    public RequestBuilder(TestAdapterContainer testAdapterContainer, TestTool testTool) {
         this.testAdapterContainer = testAdapterContainer;
         this.testTool = testTool;
     }

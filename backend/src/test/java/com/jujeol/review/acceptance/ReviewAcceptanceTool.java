@@ -4,7 +4,7 @@ import com.jujeol.member.member.application.dto.PreferenceDto;
 import com.jujeol.review.application.dto.ReviewWithAuthorDto;
 import com.jujeol.review.exception.NotExistReviewInDrinkException;
 import com.jujeol.review.ui.dto.ReviewCreateRequest;
-import com.jujeol.testtool.NewRequestBuilder;
+import com.jujeol.testtool.RequestBuilder;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 public class ReviewAcceptanceTool {
 
     @Autowired
-    private NewRequestBuilder requestBuilder;
+    private RequestBuilder requestBuilder;
 
     public List<ReviewWithAuthorDto> 리뷰_조회(Long drinkId) {
         return requestBuilder.builder()

@@ -58,9 +58,9 @@ public class RestAssuredExecutor implements TestAdapter {
     public HttpResponse execute(RequestDto requestDto) {
         RequestSpecification requestSpecification = getDocument(requestDto.getIdentifier());
         if (Objects.isNull(requestDto.getToken()) || requestDto.getToken().isEmpty()) {
-            requestSpecification = getUser(requestDto.getToken(), requestSpecification);
-        } else {
             requestSpecification = getUser(requestDto.getTestMember(), requestSpecification);
+        } else {
+            requestSpecification = getUser(requestDto.getToken(), requestSpecification);
         }
 
         if (requestDto.isLogFlag()) {
@@ -178,7 +178,7 @@ public class RestAssuredExecutor implements TestAdapter {
                     .then();
         }
         if (httpMethod.matches("POST")) {
-            if(Objects.nonNull(requestDto.getData()) && requestDto.getFormData().isEmpty()) {
+            if(Objects.nonNull(requestDto.getData())) {
                 requestSpecification.body(requestDto.getData())
                 .contentType(ContentType.JSON);
             }
@@ -186,7 +186,7 @@ public class RestAssuredExecutor implements TestAdapter {
                     .then();
         }
         if (httpMethod.matches("PUT")) {
-            if(Objects.nonNull(requestDto.getData()) && requestDto.getFormData().isEmpty()) {
+            if(Objects.nonNull(requestDto.getData())) {
                 requestSpecification.body(requestDto.getData())
                         .contentType(ContentType.JSON);
             }

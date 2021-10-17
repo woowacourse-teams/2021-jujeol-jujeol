@@ -6,7 +6,7 @@ import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.commons.exception.ExceptionCodeAndDetails;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.acceptance.CategoryAcceptanceTool;
-import com.jujeol.testtool.NewRequestBuilder;
+import com.jujeol.testtool.RequestBuilder;
 import com.jujeol.testtool.request.RequestApi;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ public class AcceptanceTest {
     @LocalServerPort
     private int port;
     @Autowired
-    private NewRequestBuilder request;
+    private RequestBuilder request;
     @Autowired
     private CategoryAcceptanceTool categoryAcceptanceTool;
 

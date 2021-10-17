@@ -15,26 +15,27 @@ public class RequestApi {
     }
 
     public RequestOption get(String url, Object... pathVariables) {
-        return getRequestOption(HttpMethod.GET, url, pathVariables);
+        return getRequestOption(HttpMethod.GET, url, null, pathVariables);
     }
 
     public RequestOption post(String url, Object data, Object... pathVariables) {
-        return getRequestOption(HttpMethod.POST, url, pathVariables);
+        return getRequestOption(HttpMethod.POST, url, data, pathVariables);
     }
 
     public RequestOption put(String url, Object data, Object... pathVariables) {
-        return getRequestOption(HttpMethod.PUT, url, pathVariables);
+        return getRequestOption(HttpMethod.PUT, url, data, pathVariables);
     }
 
     public RequestOption delete(String url, Object... pathVariables) {
-        return getRequestOption(HttpMethod.DELETE, url, pathVariables);
+        return getRequestOption(HttpMethod.DELETE, url, null, pathVariables);
     }
 
     private RequestOption getRequestOption(
             HttpMethod httpMethod,
             String url,
+            Object data,
             Object... pathVariables
     ) {
-        return new RequestOption(httpMethod, url, testTool, testAdapterContainer, pathVariables);
+        return new RequestOption(httpMethod, url, testTool, testAdapterContainer, data, pathVariables);
     }
 }

@@ -11,6 +11,7 @@ import com.jujeol.AcceptanceTest;
 import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
+import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.member.member.ui.dto.MemberDrinkResponse;
 import com.jujeol.member.member.ui.dto.MemberReviewResponse;
 import com.jujeol.review.acceptance.ReviewAcceptanceTool;
@@ -30,6 +31,8 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
     private MemberAcceptanceTool memberAcceptanceTool;
     @Autowired
     private ReviewAcceptanceTool reviewAcceptanceTool;
+    @Autowired
+    private DrinkRepository drinkRepository;
 
     @DisplayName("내가 마신 술 모아보기 - 성공")
     @Test
