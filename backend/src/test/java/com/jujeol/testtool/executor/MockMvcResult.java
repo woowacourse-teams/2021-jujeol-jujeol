@@ -7,8 +7,15 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.web.servlet.ResultActions;
 
 public class MockMvcResult implements HttpResponse {
+
+    private final ResultActions resultActions;
+
+    public MockMvcResult(ResultActions resultActions) {
+        this.resultActions = resultActions;
+    }
 
     @Override
     public <T> T convertBody(Class<T> tClass) {

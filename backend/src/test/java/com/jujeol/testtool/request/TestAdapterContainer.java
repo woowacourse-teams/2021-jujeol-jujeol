@@ -25,7 +25,7 @@ public class TestAdapterContainer {
     ) {
         this.testAdapters = Arrays.asList(
                 new RestAssuredExecutor(loginService, objectMapper),
-                new MockMvcExecutor(context, objectMapper)
+                new MockMvcExecutor(context, objectMapper, loginService)
         );
     }
 
