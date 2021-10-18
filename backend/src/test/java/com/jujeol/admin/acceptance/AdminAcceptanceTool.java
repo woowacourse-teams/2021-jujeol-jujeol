@@ -3,13 +3,10 @@ package com.jujeol.admin.acceptance;
 import static com.jujeol.drink.acceptance.DrinkAcceptanceTool.TEST_MULTIPART;
 
 import com.jujeol.admin.ui.dto.AdminDrinkRequest;
-import com.jujeol.admin.ui.dto.AdminDrinkResponse;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.member.fixture.TestMember;
 import com.jujeol.testtool.RequestBuilder;
 import com.jujeol.testtool.response.HttpResponse;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;

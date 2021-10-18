@@ -4,7 +4,6 @@ import com.jujeol.testtool.request.RequestApi;
 import com.jujeol.testtool.request.TestAdapterContainer;
 import com.jujeol.testtool.util.TestTool;
 import org.springframework.restdocs.RestDocumentationContextProvider;
-import org.springframework.test.web.servlet.MockMvc;
 
 public class RequestBuilder {
 

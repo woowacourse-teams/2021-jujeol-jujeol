@@ -3,7 +3,6 @@ package com.jujeol.drink.domain.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.DataConfig;
-import com.jujeol.TestConfig;
 import com.jujeol.drink.category.domain.Category;
 import com.jujeol.drink.category.domain.CategoryRepository;
 import com.jujeol.drink.drink.domain.Drink;

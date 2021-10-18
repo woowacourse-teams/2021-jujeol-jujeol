@@ -1,6 +1,5 @@
 package com.jujeol;
 
-import com.jujeol.commons.exception.ExceptionController;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

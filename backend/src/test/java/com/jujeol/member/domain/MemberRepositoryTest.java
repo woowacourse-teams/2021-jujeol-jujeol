@@ -3,7 +3,6 @@ package com.jujeol.member.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.DataConfig;
-import com.jujeol.TestConfig;
 import com.jujeol.member.auth.domain.Provider;
 import com.jujeol.member.auth.domain.ProviderName;
 import com.jujeol.member.member.domain.Biography;
