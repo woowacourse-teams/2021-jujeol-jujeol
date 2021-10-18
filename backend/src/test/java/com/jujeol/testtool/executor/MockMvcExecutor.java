@@ -173,12 +173,12 @@ public class MockMvcExecutor implements TestAdapter {
     private MockHttpServletRequestBuilder urlRequest(RequestDto requestDto) throws Exception {
         final HttpMethod httpMethod = requestDto.getHttpMethod();
         if (httpMethod.matches("GET")) {
-            MockMvcRequestBuilders.get(requestDto.getUrl(), requestDto.getPathVariables());
+            return MockMvcRequestBuilders.get(requestDto.getUrl(), requestDto.getPathVariables());
         }
 
         if (httpMethod.matches("POST")) {
             if (Objects.nonNull(requestDto.getData())) {
-                return MockMvcRequestBuilders.post(requestDto.getUrl())
+                return MockMvcRequestBuilders.post(requestDto.getUrl(), requestDto.getPathVariables())
                         .content(objectMapper.writeValueAsBytes(requestDto.getData()))
                         .contentType(MediaType.APPLICATION_JSON);
             }
@@ -187,7 +187,7 @@ public class MockMvcExecutor implements TestAdapter {
 
         if (httpMethod.matches("PUT")) {
             if (Objects.nonNull(requestDto.getData())) {
-                return MockMvcRequestBuilders.put(requestDto.getUrl())
+                return MockMvcRequestBuilders.put(requestDto.getUrl(), requestDto.getPathVariables())
                         .content(objectMapper.writeValueAsBytes(requestDto.getData()))
                         .contentType(MediaType.APPLICATION_JSON);
             }
@@ -197,6 +197,6 @@ public class MockMvcExecutor implements TestAdapter {
             return MockMvcRequestBuilders
                     .delete(requestDto.getUrl(), requestDto.getPathVariables());
         }
-        return null;
+        throw new IllegalArgumentException("not matched http method");
     }
 }

@@ -25,11 +25,9 @@ public class AdminAcceptanceTool {
         return requestBuilder.builder().get("/admin/drinks").withoutLog().build();
     }
 
-    public List<AdminDrinkResponse> 어드민_주류_데이터_등록(DrinkTestContainer... drinkTestContainers) {
-        ArrayList<AdminDrinkResponse> adminDrinkResponses = new ArrayList<>();
+    public void 어드민_주류_데이터_등록(DrinkTestContainer... drinkTestContainers) {
         for (DrinkTestContainer drinkTestContainer : drinkTestContainers) {
             final AdminDrinkRequest adminDrinkRequest = drinkTestContainer.getAdminDrinkRequest();
-            adminDrinkResponses.add(
                 requestBuilder.builder()
                     .post("/admin/drinks", null).withUser(TestMember.WEDGE)
                     .addMultipart("name", adminDrinkRequest.getName())
@@ -38,11 +36,8 @@ public class AdminAcceptanceTool {
                     .addMultipart("description", adminDrinkRequest.getDescription())
                     .addMultipart("alcoholByVolume", adminDrinkRequest.getAlcoholByVolume())
                     .addMultipart("image", TEST_MULTIPART)
-                    .build()
-                    .convertBody(AdminDrinkResponse.class)
-            );
+                    .build();
         }
-        return adminDrinkResponses;
     }
 
 }

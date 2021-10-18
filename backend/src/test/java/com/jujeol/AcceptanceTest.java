@@ -4,29 +4,29 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.commons.exception.ExceptionCodeAndDetails;
+import com.jujeol.commons.exception.ExceptionController;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.acceptance.CategoryAcceptanceTool;
 import com.jujeol.testtool.RequestBuilder;
 import com.jujeol.testtool.request.RequestApi;
-import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@SpringBootTest
 @ExtendWith(RestDocumentationExtension.class)
 @ActiveProfiles("test")
+@Transactional
+@Import(ExceptionController.class)
+//@DirtiesContext(methodMode = MethodMode.BEFORE_METHOD)
 public class AcceptanceTest {
 
-    @LocalServerPort
-    private int port;
     @Autowired
     private RequestBuilder request;
     @Autowired
@@ -34,7 +34,6 @@ public class AcceptanceTest {
 
     @BeforeEach
     public void setUp(RestDocumentationContextProvider restDocumentation) {
-        RestAssured.port = port;
         request.setRestDocumentationContextProvider(restDocumentation);
         categoryAcceptanceTool.기본_카테고리_저장();
     }

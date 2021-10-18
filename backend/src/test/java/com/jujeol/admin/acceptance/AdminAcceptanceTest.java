@@ -15,6 +15,7 @@ import com.jujeol.admin.ui.dto.AdminDrinkResponse;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
+import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
 import com.jujeol.testtool.response.HttpResponse;
 import java.io.IOException;
@@ -41,6 +42,7 @@ class AdminAcceptanceTest extends AcceptanceTest {
 
         // when
         adminAcceptanceTool.어드민_주류_데이터_등록(drinkTestCases);
+
 
         // then
         final HttpResponse drinkHttpResponse = adminAcceptanceTool.어드민_주류_데이터_요청();

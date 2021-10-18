@@ -25,7 +25,7 @@ public class MemberAcceptanceTool {
 
     public String 로그인_토큰_반환(TestMember testMember) {
         return requestBuilder.builder()
-                .post("login/token", testMember.toDto())
+                .post("/login/token", testMember.toDto())
                 .build()
                 .convertBody(TokenDto.class)
                 .getAccessToken();
