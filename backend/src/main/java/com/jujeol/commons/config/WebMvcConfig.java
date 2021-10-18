@@ -1,16 +1,12 @@
 package com.jujeol.commons.config;
 
 import com.jujeol.commons.interceptor.LogInterceptor;
-import com.jujeol.commons.interceptor.PathMatcherInterceptor;
-import com.jujeol.commons.interceptor.PathMethod;
-import com.jujeol.member.auth.ui.interceptor.LoginInterceptor;
 import com.jujeol.member.auth.util.AuthenticationPrincipalArgumentResolver;
 import com.jujeol.member.auth.util.JwtTokenProvider;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -56,19 +52,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor());
         registry.addInterceptor(new LogInterceptor());
-    }
-
-    @Bean
-    public HandlerInterceptor loginInterceptor() {
-        final PathMatcherInterceptor interceptor = new PathMatcherInterceptor(new LoginInterceptor(jwtTokenProvider));
-        return interceptor
-                .excludePathPattern("/**", PathMethod.OPTIONS)
-
-                .includePathPattern("/members/me/**", PathMethod.ANY)
-
-                .includePathPattern("/drinks/*/reviews/**", PathMethod.ANY)
-                .excludePathPattern("/drinks/*/reviews", PathMethod.GET);
     }
 }
