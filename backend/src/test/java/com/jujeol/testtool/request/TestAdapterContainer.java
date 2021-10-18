@@ -11,16 +11,21 @@ import java.util.Arrays;
 import java.util.List;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 @Component
 public class TestAdapterContainer {
 
     private final List<TestAdapter> testAdapters;
 
-    public TestAdapterContainer(LoginService loginService, ObjectMapper objectMapper) {
+    public TestAdapterContainer(
+            LoginService loginService,
+            ObjectMapper objectMapper,
+            WebApplicationContext context
+    ) {
         this.testAdapters = Arrays.asList(
                 new RestAssuredExecutor(loginService, objectMapper),
-                new MockMvcExecutor()
+                new MockMvcExecutor(context, objectMapper)
         );
     }
 
