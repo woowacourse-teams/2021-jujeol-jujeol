@@ -13,6 +13,6 @@ public class TestConfig {
 
     @Bean
     public RequestBuilder newRequestBuilder(TestAdapterContainer testAdapterContainer) {
-        return new RequestBuilder(testAdapterContainer, TestTool.REST_ASSURED);
+        return new RequestBuilder(testAdapterContainer, TestTool.MOCK_MVC);
     }
 }
