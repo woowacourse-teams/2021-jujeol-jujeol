@@ -30,13 +30,13 @@ public class ReviewAcceptanceTool {
                 .put("/members/me/drinks/" + drinkId + "/preference", PreferenceDto.create(5.0))
                 .withoutLog()
                 .withUser(token)
-                .build().totalResponse();
+                .build();
 
         requestBuilder.builder()
                 .post("/reviews", new ReviewCreateRequest(content, drinkId))
                 .withoutLog()
                 .withUser(token)
-                .build().totalResponse();
+                .build();
     }
 
     public ReviewWithAuthorDto 리뷰_조회(Long drinkId, String content) {

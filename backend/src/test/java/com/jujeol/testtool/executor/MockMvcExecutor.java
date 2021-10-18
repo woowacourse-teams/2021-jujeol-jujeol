@@ -10,6 +10,7 @@ import com.jujeol.member.auth.application.dto.SocialProviderCodeDto;
 import com.jujeol.member.auth.domain.ProviderName;
 import com.jujeol.member.fixture.TestMember;
 import com.jujeol.testtool.response.HttpResponse;
+import com.jujeol.testtool.response.MockMvcResult;
 import com.jujeol.testtool.util.RequestDto;
 import com.jujeol.testtool.util.TestTool;
 import java.io.File;
@@ -91,11 +92,10 @@ public class MockMvcExecutor implements TestAdapter {
                 resultActions = resultActions.andDo(print());
             }
 
-            return new MockMvcResult(resultActions);
+            return new MockMvcResult(resultActions, objectMapper);
         } catch (Exception e) {
-            // todo: exception 처리
             e.printStackTrace();
-            throw new IllegalArgumentException("아무튼 잘못됨");
+            throw new IllegalArgumentException("MockMvcExecutor execute 문제");
         }
     }
 

@@ -72,8 +72,4 @@ public class RestAssuredResult implements HttpResponse {
 //    public Long queryCount() {
 //        return queryResult.queryCount();
 //    }
-
-    public ExtractableResponse<Response> totalResponse() {
-        return response;
-    }
 }
