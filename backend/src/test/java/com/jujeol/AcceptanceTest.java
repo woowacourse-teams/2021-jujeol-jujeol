@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.commons.exception.ExceptionCodeAndDetails;
-import com.jujeol.commons.exception.ExceptionController;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.acceptance.CategoryAcceptanceTool;
 import com.jujeol.testtool.RequestBuilder;
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ActiveProfiles;
@@ -23,9 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 @ExtendWith(RestDocumentationExtension.class)
 @ActiveProfiles("test")
 @Transactional
-@Import(ExceptionController.class)
-//@DirtiesContext(methodMode = MethodMode.BEFORE_METHOD)
 public class AcceptanceTest {
+
 
     @Autowired
     private RequestBuilder request;

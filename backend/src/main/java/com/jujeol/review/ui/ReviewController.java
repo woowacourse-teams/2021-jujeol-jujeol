@@ -1,5 +1,6 @@
 package com.jujeol.review.ui;
 
+import com.jujeol.commons.aop.MemberOnly;
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageInfo;
 import com.jujeol.member.auth.ui.AuthenticationPrincipal;
@@ -57,6 +58,7 @@ public class ReviewController {
     }
 
     @PostMapping("/reviews")
+    @MemberOnly
     public ResponseEntity<Void> createReview(
             @AuthenticationPrincipal LoginMember loginMember,
             @RequestBody ReviewCreateRequest reviewCreateRequest
@@ -66,6 +68,7 @@ public class ReviewController {
     }
 
     @PutMapping("/reviews/{reviewId}")
+    @MemberOnly
     public ResponseEntity<Void> updateReview(
             @AuthenticationPrincipal LoginMember loginMember,
             @PathVariable Long reviewId,
@@ -76,6 +79,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/reviews/{reviewId}")
+    @MemberOnly
     public ResponseEntity<Void> deleteReview(
             @AuthenticationPrincipal LoginMember loginMember,
             @PathVariable Long reviewId

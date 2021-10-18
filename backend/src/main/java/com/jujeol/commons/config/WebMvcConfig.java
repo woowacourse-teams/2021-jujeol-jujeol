@@ -60,9 +60,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LogInterceptor());
     }
 
-    private HandlerInterceptor loginInterceptor() {
-        final PathMatcherInterceptor interceptor = new PathMatcherInterceptor(
-                new LoginInterceptor(jwtTokenProvider));
+    @Bean
+    public HandlerInterceptor loginInterceptor() {
+        final PathMatcherInterceptor interceptor = new PathMatcherInterceptor(new LoginInterceptor(jwtTokenProvider));
         return interceptor
                 .excludePathPattern("/**", PathMethod.OPTIONS)
 

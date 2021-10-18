@@ -369,7 +369,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     public void showDrinkDetailTest_fail() {
         //when
         final JujeolExceptionDto errorResponse = request()
-                .get("drinks/{id}", Long.MAX_VALUE)
+                .get("/drinks/{id}", Long.MAX_VALUE)
                 .withDocument("drinks/show/detail-fail")
                 .build().errorResponse();
 
