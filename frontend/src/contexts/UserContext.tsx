@@ -12,12 +12,16 @@ type UserData = {
 
 interface UserContext {
   isLoggedIn: boolean;
+  setIsLoggedIn: (state: boolean) => void;
   getUser: () => void;
   userData: UserData | null;
 }
 
 const UserContext = createContext<UserContext>({
   isLoggedIn: false,
+  setIsLoggedIn: (state) => {
+    return state;
+  },
   getUser: () => {
     return;
   },
@@ -45,7 +49,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <UserContext.Provider value={{ isLoggedIn, getUser, userData }}>
+    <UserContext.Provider value={{ isLoggedIn, getUser, userData, setIsLoggedIn }}>
       {children}
     </UserContext.Provider>
   );

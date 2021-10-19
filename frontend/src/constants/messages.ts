@@ -3,9 +3,14 @@ const MESSAGE = {
     '리뷰를 등록하기 위해서는 로그인이 필요합니다.\n로그인 화면으로 이동하시겠습니까?',
   LOGIN_REQUIRED_TO_UPDATE_PREFERENCE:
     '선호도를 등록하기 위해서는 로그인이 필요합니다.\n로그인 화면으로 이동하시겠습니까?',
+  LOGIN_REQUIRED_FOR_MYPAGE: '마이페이지를 이용하시려면 로그인 해주세요',
+
+  LOGOUT_SUCCESS: '로그아웃 되었습니다.',
+
   PAGE_ACCESS_NOT_ALLOWED: '접근 할 수 없는 페이지 입니다.',
 };
 
+// API error
 const ERROR_MESSAGE: { [key: string]: string } = {
   DEFAULT: '에러가 발생했습니다. 다시 한 번 시도해주세요.',
 
