@@ -31,6 +31,7 @@ import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 import { css } from '@emotion/react';
 import Grid from 'src/components/@shared/Grid/Grid';
 import Heading from 'src/components/@shared/Heading/Heading';
+import { hiddenStyle } from 'src/styles/hidden';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -166,6 +167,7 @@ const DrinksDetailPage = () => {
 
   return (
     <Container ref={pageContainerRef}>
+      <Heading.level1 css={hiddenStyle}>주절주절</Heading.level1>
       <GoBackButton
         color={COLOR.BLACK}
         css={css`
