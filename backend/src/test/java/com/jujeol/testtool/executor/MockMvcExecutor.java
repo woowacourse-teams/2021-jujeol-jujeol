@@ -1,5 +1,6 @@
 package com.jujeol.testtool.executor;
 
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -90,6 +91,10 @@ public class MockMvcExecutor implements TestAdapter {
 
             if (requestDto.isLogFlag()) {
                 resultActions = resultActions.andDo(print());
+            }
+
+            if (requestDto.getIdentifier() != null && !requestDto.getIdentifier().isEmpty()) {
+                resultActions = resultActions.andDo(document(requestDto.getIdentifier()));
             }
 
             return new MockMvcResult(resultActions, objectMapper);
