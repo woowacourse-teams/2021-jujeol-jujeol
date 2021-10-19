@@ -15,22 +15,25 @@ import NoSearchResults from './NoSearchResults';
 import { Container, SearchResult } from './styles';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
+import usePageTitle from 'src/hooks/usePageTitle';
 
 const SearchResultPage = ({ history, location }: RouteComponentProps) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
   const words = new URLSearchParams(location.search).get('words') ?? '';
   const categoryKey = new URLSearchParams(location.search).get('category') ?? '';
+  const categoryName =
+    categoryKey && categories.find((category) => category.key === categoryKey)?.name;
 
   const params = new URLSearchParams({ keyword: words, category: categoryKey });
+
   params.forEach((value, key) => {
     if (value === '') {
       params.delete(key);
     }
   });
 
-  const categoryName =
-    categoryKey && categories.find((category) => category.key === categoryKey)?.name;
+  usePageTitle(`${words || categoryName} 검색 결과`);
 
   const {
     data: resultsData,

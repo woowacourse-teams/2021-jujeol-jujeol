@@ -13,8 +13,11 @@ import UserContext from 'src/contexts/UserContext';
 import { InfinityScrollPoll } from '../ViewAllPage/ViewAllPage.styles';
 import MemoizedPreferenceItem from './PreferenceItem';
 import { Container, AlertWrapper, NoDrink, Notification } from './styles';
+import usePageTitle from 'src/hooks/usePageTitle';
 
 const PreferencePage = () => {
+  usePageTitle('선호도 평가');
+
   const history = useHistory();
 
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;

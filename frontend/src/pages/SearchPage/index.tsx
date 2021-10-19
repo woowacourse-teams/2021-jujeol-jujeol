@@ -17,6 +17,7 @@ import { Container, Categories, CategoryItem } from './styles';
 import Heading from 'src/components/@shared/Heading/Heading';
 import { css } from '@emotion/react';
 import { hiddenStyle } from 'src/styles/hidden';
+import usePageTitle from 'src/hooks/usePageTitle';
 
 const categories: Category[] = [
   {
@@ -64,8 +65,11 @@ const categories: Category[] = [
 export { categories };
 
 const SearchPage = () => {
+  usePageTitle('검색');
+
   const getCategoryPath = (key: Category['key']) =>
     key === 'ALL' ? PATH.VIEW_ALL : `${PATH.SEARCH_RESULT}?category=${key}`;
+
   return (
     <Container>
       <Heading.level1 css={hiddenStyle}>주절주절</Heading.level1>

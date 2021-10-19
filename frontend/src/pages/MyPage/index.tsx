@@ -31,6 +31,7 @@ import {
 import PersonalDrinkItemSkeleton from 'src/components/Skeleton/PersonalDrinkItemSkeleton';
 import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewItemSkeleton';
 import { SurveyLink } from './styles';
+import usePageTitle from 'src/hooks/usePageTitle';
 
 const userProfileIcons = [
   SmileEmojiColorIcon,
@@ -42,6 +43,8 @@ const userProfileIcons = [
 const defaultRequestData = { data: [], pageInfo: {} };
 
 const MyPage = () => {
+  usePageTitle('내 정보');
+
   const history = useHistory();
 
   const { userData, isLoggedIn, getUser, setIsLoggedIn } = useContext(UserContext);

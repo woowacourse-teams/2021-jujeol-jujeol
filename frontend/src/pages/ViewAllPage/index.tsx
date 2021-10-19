@@ -8,10 +8,13 @@ import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';
 import { PATH } from 'src/constants';
 import { Container, InfinityScrollPoll } from './ViewAllPage.styles';
+import usePageTitle from 'src/hooks/usePageTitle';
 
 const ViewAllPage = () => {
   const history = useHistory();
   const infinityPollRef = useRef<HTMLDivElement>(null);
+
+  usePageTitle('전체보기');
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery(
     'drinks',

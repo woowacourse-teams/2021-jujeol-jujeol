@@ -32,6 +32,7 @@ import { css } from '@emotion/react';
 import Grid from 'src/components/@shared/Grid/Grid';
 import Heading from 'src/components/@shared/Heading/Heading';
 import { hiddenStyle } from 'src/styles/hidden';
+import usePageTitle from 'src/hooks/usePageTitle';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -64,10 +65,6 @@ const DrinksDetailPage = () => {
 
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
-  useEffect(() => {
-    pageContainerRef.current?.scrollIntoView();
-  }, []);
-
   const { data: { data: drink = defaultDrinkDetail } = {}, isLoading } = useQuery(
     'drink-detail',
     () => API.getDrink<string>(drinkId),
@@ -88,6 +85,14 @@ const DrinksDetailPage = () => {
     preferenceAvg,
     description,
   }: Drink.DetailItem = drink;
+
+  const { setPageTitle } = usePageTitle(name);
+
+  useEffect(() => {
+    pageContainerRef.current?.scrollIntoView();
+
+    setPageTitle(name);
+  }, [name]);
 
   const { isShowMore, isContentOpen, onOpenContent, onCloseContent } = useShowMoreContent(
     descriptionRef,
