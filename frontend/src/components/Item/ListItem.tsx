@@ -30,7 +30,7 @@ const ListItem = ({
 }: Props) => {
   return (
     <Item onClick={onClick}>
-      <img src={imageUrl} alt={title} loading="lazy" />
+      <img src={imageUrl} alt="" loading="lazy" />
       <ItemInfo>
         <Heading.level3
           css={css`
