@@ -56,6 +56,7 @@ const ReviewCreateForm = () => {
     <Form onSubmit={onCreate}>
       <Card padding="1rem" backgroundColor={COLOR.GRAY_100}>
         <textarea
+          title="리뷰 작성"
           placeholder={isLoggedIn ? LOGGED_IN_PLACEHOLDER : NOT_LOGGED_IN_PLACEHOLDER}
           value={content}
           readOnly={!isLoggedIn}
