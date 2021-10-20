@@ -32,8 +32,7 @@ const PreferenceItem = ({
           value={preferenceRate}
           setValue={setPreferenceRate}
           width="100%"
-          onMouseUp={() => onUpdatePreference(preferenceRate)}
-          onTouchEnd={() => onUpdatePreference(preferenceRate)}
+          onEnd={() => onUpdatePreference(preferenceRate)}
         />
       </DrinkDescription>
     </FlexBox>

@@ -130,7 +130,9 @@ const DrinksDetailPage = () => {
     }
   };
 
-  const onCheckLoggedIn = () => {
+  const onCheckLoggedIn = (event?: MouseEvent) => {
+    event?.preventDefault();
+
     setIsBlinked(false);
     if (!isLoggedIn) {
       moveToLoginPage();
@@ -210,16 +212,15 @@ const DrinksDetailPage = () => {
               : '선호도를 입력해주세요'}
           </Heading.level3>
           <RangeWithIcons
+            labelText="선호도 입력"
             color={COLOR.YELLOW_300}
             max={PREFERENCE.MAX_VALUE}
             step={PREFERENCE.STEP}
             value={currentPreferenceRate}
             setValue={setPreferenceRate}
             disabled={!isLoggedIn}
-            onTouchStart={onCheckLoggedIn}
-            onClick={onCheckLoggedIn}
-            onTouchEnd={onUpdatePreference}
-            onMouseUp={onUpdatePreference}
+            onStart={onCheckLoggedIn}
+            onEnd={onUpdatePreference}
           />
           <p>다른 사람들은 평균적으로 {preferenceAvg.toFixed(1) ?? '0'}점을 줬어요</p>
         </PreferenceSection>

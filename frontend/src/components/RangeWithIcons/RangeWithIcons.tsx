@@ -4,14 +4,18 @@ import StarIcon, { fillStatus } from '../@Icons/StarIcon';
 import { Wrapper } from './RangeWithIcons.styles';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
+  labelText?: string;
   color?: string;
   value: number;
   setValue?: (value: number) => void;
   onTouchEnd?: () => void;
+  onStart?: () => void;
+  onEnd?: () => void;
   maxWidth?: string;
 }
 
 const RangeWithIcons = ({
+  labelText,
   color = COLOR.WHITE,
   min = 0,
   max,
@@ -20,10 +24,8 @@ const RangeWithIcons = ({
   disabled,
   maxWidth,
   setValue,
-  onClick,
-  onTouchStart,
-  onTouchEnd,
-  onMouseUp,
+  onStart,
+  onEnd,
 }: Props) => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue?.(Number(event.target.value));
@@ -46,17 +48,21 @@ const RangeWithIcons = ({
   };
 
   return (
-    <Wrapper onClick={onClick} onTouchStart={onTouchStart} maxWidth={maxWidth}>
+    <Wrapper maxWidth={maxWidth}>
+      <span>{labelText}</span>
       <input
         type="range"
         min={min}
         max={max}
         step={step}
         value={value}
-        disabled={disabled}
-        onChange={onChange}
-        onTouchEnd={onTouchEnd}
-        onMouseUp={onMouseUp}
+        onChange={(event) => !disabled && onChange(event)}
+        onTouchStart={onStart}
+        onKeyDown={onStart}
+        onMouseDown={onStart}
+        onTouchEnd={onEnd}
+        onMouseUp={onEnd}
+        onKeyUp={onEnd}
       />
       <div>
         {Array.from({ length: max as number }).map((_, index) => {
