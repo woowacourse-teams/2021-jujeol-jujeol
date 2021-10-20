@@ -18,12 +18,12 @@ import static com.jujeol.member.fixture.TestMember.WEDGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
-import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
 import com.jujeol.member.acceptance.MemberAcceptanceTool;
+import com.jujeol.testtool.response.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -369,7 +369,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
     public void showDrinkDetailTest_fail() {
         //when
         final JujeolExceptionDto errorResponse = request()
-                .get("drinks/{id}", Long.MAX_VALUE)
+                .get("/drinks/{id}", Long.MAX_VALUE)
                 .withDocument("drinks/show/detail-fail")
                 .build().errorResponse();
 

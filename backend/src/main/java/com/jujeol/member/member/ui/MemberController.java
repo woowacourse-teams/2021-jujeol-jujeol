@@ -1,5 +1,6 @@
 package com.jujeol.member.member.ui;
 
+import com.jujeol.commons.aop.MemberOnly;
 import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.drink.application.dto.DrinkDto;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/members/me")
+@MemberOnly
 public class MemberController {
 
     private final MemberService memberService;
