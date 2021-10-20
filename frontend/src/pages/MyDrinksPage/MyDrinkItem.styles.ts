@@ -17,10 +17,9 @@ const Container = styled.li`
   }
 
   p {
-    margin-top: 0.5rem;
+    margin: 0.5rem 0 0.2rem;
 
     font-size: 0.95rem;
-    line-height: 1.5;
 
     ${LineClamp({ lineClamp: 1 })}
   }
@@ -32,7 +31,6 @@ const Description = styled.div`
   span {
     margin-left: 0.3rem;
     font-size: 0.8rem;
-    line-height: 1.5;
   }
 `;
 

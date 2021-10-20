@@ -20,7 +20,7 @@ const Container = styled.div`
     line-height: 1.5;
 
     span {
-      color: ${COLOR.WHITE_200};
+      color: ${COLOR.GRAY_100};
       font-weight: 600;
     }
   }

@@ -2,7 +2,7 @@ package com.jujeol.member.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.jujeol.TestConfig;
+import com.jujeol.DataConfig;
 import com.jujeol.member.auth.domain.Provider;
 import com.jujeol.member.auth.domain.ProviderName;
 import com.jujeol.member.member.domain.Biography;
@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@Import(TestConfig.class)
+@Import(DataConfig.class)
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class MemberRepositoryTest {

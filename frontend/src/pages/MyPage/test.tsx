@@ -30,6 +30,9 @@ const renderMypage = async () => {
           <Route exact path={PATH.MY_REVIEWS}>
             내가 남긴 리뷰
           </Route>
+          <Route exact path={PATH.HOME}>
+            홈
+          </Route>
           <Redirect to={PATH.MYPAGE} />
         </Switch>
         <Route
@@ -187,5 +190,17 @@ describe('로그인 된 사용자가 마이페이지를 이용한다.', () => {
     fireEvent.click(reviewShowMoreButton);
 
     expect(testLocation.pathname).toBe('/mypage/reviews');
+  });
+
+  it('사용자는 로그아웃 할 수 있다.', async () => {
+    API.getPersonalDrinks = jest.fn().mockReturnValue(personalDrinks);
+    API.getPersonalReviews = jest.fn().mockReturnValue(personalReviews);
+    await renderMypage();
+
+    const $logoutButton = screen.getByRole('button', { name: /로그아웃/i });
+
+    fireEvent.click($logoutButton);
+
+    expect(testLocation.pathname).toBe(PATH.HOME);
   });
 });
