@@ -2,6 +2,7 @@ import { MouseEventHandler, useContext, useEffect, useRef, useState } from 'reac
 import { useMutation, useQuery } from 'react-query';
 import { useHistory, useParams } from 'react-router-dom';
 
+import { isMouseEvent, isKeyboardEvent } from 'src/types/typeGuard';
 import UserContext from 'src/contexts/UserContext';
 import API from 'src/apis/requests';
 import useNoticeToInputPreference from 'src/hooks/useInputPreference';
@@ -130,11 +131,14 @@ const DrinksDetailPage = () => {
     }
   };
 
-  const onCheckLoggedIn = (event?: MouseEvent) => {
-    event?.preventDefault();
-
+  const onCheckLoggedIn = (event?: MouseEvent | KeyboardEvent | TouchEvent) => {
     setIsBlinked(false);
+
     if (!isLoggedIn) {
+      if (isKeyboardEvent(event) || isMouseEvent(event)) {
+        event?.preventDefault();
+      }
+
       moveToLoginPage();
     }
   };
