@@ -65,7 +65,7 @@ const RangeWithIcons = ({
         onMouseUp={onEnd}
         onKeyUp={onEnd}
         readOnly={readOnly}
-        role={readOnly ? 'link' : 'slider'}
+        tabIndex={readOnly ? -1 : 0}
       />
       <div>
         {Array.from({ length: max as number }).map((_, index) => {
