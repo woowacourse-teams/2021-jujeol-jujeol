@@ -1,8 +1,8 @@
 const MESSAGE = {
-  LOGIN_REQUIRED_TO_CREATE_REVIEW:
-    '리뷰를 등록하기 위해서는 로그인이 필요합니다.\n로그인 화면으로 이동하시겠습니까?',
-  LOGIN_REQUIRED_TO_UPDATE_PREFERENCE:
-    '선호도를 등록하기 위해서는 로그인이 필요합니다.\n로그인 화면으로 이동하시겠습니까?',
+  LOGIN_REQUIRED_TO_CREATE_REVIEW: '리뷰를 등록하기 위해서는 로그인이 필요합니다.',
+  LOGIN_REQUIRED_TO_CREATE_REVIEW_SUB_MESSAGE: '로그인 화면으로 이동하시겠습니까?',
+  LOGIN_REQUIRED_TO_UPDATE_PREFERENCE: '선호도를 등록하기 위해서는 로그인이 필요합니다.',
+  LOGIN_REQUIRED_TO_UPDATE_PREFERENCE_SUB_MESSAGE: '로그인 화면으로 이동하시겠습니까?',
   LOGIN_REQUIRED_FOR_MYPAGE: '마이페이지를 이용하시려면 로그인 해주세요',
 
   LOGOUT_SUCCESS: '로그아웃 되었습니다.',

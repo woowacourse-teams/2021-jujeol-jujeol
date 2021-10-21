@@ -25,6 +25,7 @@ const ConfirmProvider = ({ children }: { children: React.ReactNode }) => {
     onCancel: () => {
       return;
     },
+    direction: 'default',
   });
   const [isOpened, setIsOpened] = useState(false);
 
@@ -36,13 +37,20 @@ const ConfirmProvider = ({ children }: { children: React.ReactNode }) => {
     setIsOpened(false);
   };
 
+  const onConfirm = () => {
+    content.onConfirm();
+
+    closeConfirm();
+  };
+
   const setConfirm = ({
     message,
     subMessage,
+    direction,
     onConfirm,
     onCancel,
   }: Omit<ConfirmProps, 'isOpened'>) => {
-    setContent({ message, subMessage, onConfirm, onCancel });
+    setContent({ message, subMessage, direction, onConfirm, onCancel });
     openConfirm();
   };
 
@@ -55,8 +63,9 @@ const ConfirmProvider = ({ children }: { children: React.ReactNode }) => {
             isOpened={isOpened}
             message={content.message}
             subMessage={content.subMessage}
-            onConfirm={content.onConfirm}
+            onConfirm={onConfirm}
             onCancel={content.onCancel}
+            direction={content.direction}
           />
         )}
       </Portal>

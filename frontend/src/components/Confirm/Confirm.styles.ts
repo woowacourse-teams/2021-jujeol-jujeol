@@ -9,7 +9,7 @@ const Wrapper = styled.div<{ isOpened: boolean }>`
   left: 0;
   right: 0;
 
-  background-color: ${COLOR.BLACK_900 + 'ee'};
+  background-color: ${COLOR.BLACK + 'cc'};
   visibility: ${({ isOpened }) => (isOpened ? 'visible' : 'hidden')};
   ${Flex({ justifyContent: 'center', alignItems: 'center' })}
 `;
@@ -23,12 +23,6 @@ const Content = styled.div`
   line-break: anywhere;
 
   ${Flex({ justifyContent: 'center', alignItems: 'center', flexDirection: 'column' })}
-
-  h3 {
-    font-weight: bold;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-  }
 
   p {
     font-size: 0.9rem;
@@ -52,7 +46,7 @@ const ButtonWrapper = styled.div`
     height: 100%;
     border: inherit;
     background-color: transparent;
-    color: ${COLOR.GRAY_300};
+    color: ${COLOR.GRAY_700};
 
     :active {
       background-color: ${COLOR.PURPLE_100};

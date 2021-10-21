@@ -31,6 +31,7 @@ import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 import { css } from '@emotion/react';
 import Grid from 'src/components/@shared/Grid/Grid';
 import Heading from 'src/components/@shared/Heading/Heading';
+import { confirmContext } from 'src/components/Confirm/ConfirmProvider';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -62,6 +63,7 @@ const DrinksDetailPage = () => {
   const [isShowImageFull, setIsShowImageFull] = useState(false);
 
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
+  const { setConfirm, closeConfirm } = useContext(confirmContext) ?? {};
 
   useEffect(() => {
     pageContainerRef.current?.scrollIntoView();
@@ -119,9 +121,14 @@ const DrinksDetailPage = () => {
   };
 
   const moveToLoginPage = () => {
-    if (confirm(MESSAGE.LOGIN_REQUIRED_TO_UPDATE_PREFERENCE)) {
-      history.push(PATH.LOGIN);
-    }
+    setConfirm?.({
+      message: MESSAGE.LOGIN_REQUIRED_TO_UPDATE_PREFERENCE,
+      subMessage: MESSAGE.LOGIN_REQUIRED_TO_UPDATE_PREFERENCE_SUB_MESSAGE,
+      onConfirm: () => {
+        history.push(PATH.LOGIN);
+      },
+      onCancel: closeConfirm as () => void,
+    });
   };
 
   const onCheckLoggedIn = () => {

@@ -87,6 +87,7 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
       subMessage: MESSAGE.CANNOT_REDO,
       onConfirm: deleteReview,
       onCancel: closeConfirm as () => void,
+      direction: 'reverse',
     });
   };
 
