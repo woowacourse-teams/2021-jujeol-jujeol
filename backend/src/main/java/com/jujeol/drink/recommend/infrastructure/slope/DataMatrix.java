@@ -13,10 +13,10 @@ public class DataMatrix {
     public DataMatrix(List<DataModel> dataModel) {
         this.dataByMember = new HashMap<>();
         this.matrix = new HashMap<>();
-        groupingByMember(dataModel);
+        prepareMatrix(dataModel);
     }
 
-    private void groupingByMember(List<DataModel> dataModel) {
+    private void prepareMatrix(List<DataModel> dataModel) {
         for (DataModel model : dataModel) {
             final Long memberId = model.getMemberId();
             final Map<Long, Double> itemByMember = dataByMember
