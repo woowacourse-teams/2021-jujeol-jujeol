@@ -26,6 +26,7 @@ const RangeWithIcons = ({
   setValue,
   onStart,
   onEnd,
+  readOnly,
 }: Props) => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue?.(Number(event.target.value));
@@ -63,6 +64,8 @@ const RangeWithIcons = ({
         onTouchEnd={onEnd}
         onMouseUp={onEnd}
         onKeyUp={onEnd}
+        readOnly={readOnly}
+        role={readOnly ? 'link' : 'slider'}
       />
       <div>
         {Array.from({ length: max as number }).map((_, index) => {

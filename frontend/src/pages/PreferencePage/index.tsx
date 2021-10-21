@@ -90,6 +90,7 @@ const PreferencePage = () => {
                 <li key={id}>
                   <MemoizedPreferenceItem
                     name={name}
+                    labelText={`${name} 선호도 입력`}
                     imageUrl={imageResponse.small}
                     initialValue={preferenceRate}
                     onUpdatePreference={onUpdatePreference(id)}

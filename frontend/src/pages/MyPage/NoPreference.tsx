@@ -22,15 +22,11 @@ const NoPreference = () => {
         <p>선호도를 한 번 남겨보시는건 어떠세요?</p>
       </Header>
       <Content onClick={onMoveToDrinkDetail}>
-        <Img
-          src={drink?.imageResponse.small}
-          alt={drink?.name}
-          size="X_SMALL"
-          shape="ROUND_SQUARE"
-        />
+        <Img src={drink?.imageResponse.small} alt="" size="X_SMALL" shape="ROUND_SQUARE" />
         <div>
           <p>{drink?.name}</p>
           <RangeWithIcons
+            labelText="선호도 입력하러 가기"
             value={0}
             color={COLOR.YELLOW_300}
             max={PREFERENCE.MAX_VALUE}
@@ -38,6 +34,7 @@ const NoPreference = () => {
             maxWidth="200px"
             onClick={onMoveToDrinkDetail}
             onTouchStart={onMoveToDrinkDetail}
+            readOnly={true}
           />
         </div>
       </Content>
