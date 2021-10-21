@@ -11,12 +11,10 @@ import static com.jujeol.drink.DrinkTestContainer.TSINGTAO;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
-import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.drink.DrinkTestContainer;
-import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
-import com.jujeol.member.acceptance.MemberAcceptanceTool;
+import com.jujeol.testtool.response.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,10 +27,6 @@ public class DrinkDocumentAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private AdminAcceptanceTool adminAcceptanceTool;
-    @Autowired
-    private DrinkAcceptanceTool drinkAcceptanceTool;
-    @Autowired
-    private MemberAcceptanceTool memberAcceptanceTool;
 
     List<DrinkTestContainer> drinks = new ArrayList<>();
 
