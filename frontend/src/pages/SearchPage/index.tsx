@@ -10,7 +10,7 @@ import {
   YangjuColorIcon,
 } from 'src/components/@Icons';
 import AllIcon from 'src/components/@Icons/AllIcon';
-import SearchBar from 'src/components/@shared/SearchBar/SearchBar';
+import SearchBar from 'src/components/SearchBar/SearchBar';
 import Banner from 'src/components/Banner/Banner';
 import { PATH } from 'src/constants';
 import { Container, Categories, CategoryItem } from './styles';

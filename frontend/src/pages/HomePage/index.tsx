@@ -9,7 +9,7 @@ import { PATH } from 'src/constants';
 import DrinkListSection from 'src/pages/HomePage/DrinkListSection';
 import Grid from 'src/components/@shared/Grid/Grid';
 import Banner from 'src/components/Banner/Banner';
-import SearchBar from 'src/components/@shared/SearchBar/SearchBar';
+import SearchBar from 'src/components/SearchBar/SearchBar';
 import usePageTitle from 'src/hooks/usePageTitle';
 
 const HomePage = () => {
