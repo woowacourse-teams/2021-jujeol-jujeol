@@ -4,7 +4,7 @@ import com.jujeol.commons.dto.CommonResponse;
 import com.jujeol.commons.dto.PageResponseAssembler;
 import com.jujeol.drink.drink.application.dto.DrinkDto;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
-import com.jujeol.drink.drink.ui.dto.SearchRequest;
+import com.jujeol.elasticsearch.ui.dto.SearchRequest;
 import com.jujeol.elasticsearch.application.DrinkDocumentService;
 import com.jujeol.member.auth.ui.AuthenticationPrincipal;
 import com.jujeol.member.auth.ui.LoginMember;

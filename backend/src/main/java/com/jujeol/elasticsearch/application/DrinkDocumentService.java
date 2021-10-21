@@ -3,7 +3,7 @@ package com.jujeol.elasticsearch.application;
 import static java.util.stream.Collectors.toList;
 
 import com.jujeol.drink.drink.application.dto.DrinkDto;
-import com.jujeol.drink.drink.application.dto.SearchDto;
+import com.jujeol.elasticsearch.application.dto.SearchDto;
 import com.jujeol.drink.drink.domain.Drink;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.elasticsearch.domain.DrinkDocument;
