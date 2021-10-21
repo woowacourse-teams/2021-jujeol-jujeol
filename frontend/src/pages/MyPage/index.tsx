@@ -1,5 +1,5 @@
 import { useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useQuery, useQueryClient } from 'react-query';
 
 import UserContext from 'src/contexts/UserContext';

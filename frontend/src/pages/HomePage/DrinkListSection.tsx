@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import API from 'src/apis/requests';
 import List from '../../components/List/List';
 import Section from '../../components/Section/Section';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { PATH } from 'src/constants';
 import CardList from 'src/components/List/CardList';
 import CardItem from 'src/components/Item/CardItem';
@@ -40,7 +40,6 @@ const DrinkListSection = ({
   const { data: { data: drinks } = [], isLoading } = useQuery(queryKey, () =>
     API.getDrinks({ page: 1, params: queryParams })
   );
-  const history = useHistory();
 
   return (
     <Section
@@ -53,21 +52,19 @@ const DrinkListSection = ({
       {type === 'CARD' && (
         <CardList count={count ?? drinks?.length}>
           {drinks?.slice(0, count ?? drinks.length).map((item: Drink.Item) => (
-            <CardItem
-              key={item?.id}
-              imageUrl={item?.imageResponse?.small}
-              title={item?.name}
-              description={`도수: ${item?.alcoholByVolume}%`}
-              preferenceType={
-                item?.preferenceRate ? 'MY' : item?.expectedPreference ? 'EXPECTED' : 'AVG'
-              }
-              preferenceRate={
-                item?.preferenceRate || item?.expectedPreference || item?.preferenceAvg
-              }
-              onClick={() => {
-                history.push(`${PATH.DRINKS}/${item?.id}`);
-              }}
-            />
+            <Link key={item?.id} to={`${PATH.DRINKS}/${item?.id}`}>
+              <CardItem
+                imageUrl={item?.imageResponse?.small}
+                title={item?.name}
+                description={`도수: ${item?.alcoholByVolume}%`}
+                preferenceType={
+                  item?.preferenceRate ? 'MY' : item?.expectedPreference ? 'EXPECTED' : 'AVG'
+                }
+                preferenceRate={
+                  item?.preferenceRate || item?.expectedPreference || item?.preferenceAvg
+                }
+              />
+            </Link>
           ))}
           {isLoading &&
             Array.from({ length: 3 }).map((_, index) => (
@@ -81,6 +78,7 @@ const DrinkListSection = ({
           {drinks?.slice(0, count ?? drinks.length).map((item: Drink.Item) => (
             <ListItem
               key={item?.id}
+              itemId={item?.id}
               imageUrl={item?.imageResponse?.small}
               title={item?.name}
               description={`도수: ${item?.alcoholByVolume}%`}
@@ -90,9 +88,6 @@ const DrinkListSection = ({
               preferenceRate={
                 item?.preferenceRate || item?.expectedPreference || item?.preferenceAvg
               }
-              onClick={() => {
-                history.push(`${PATH.DRINKS}/${item?.id}`);
-              }}
             />
           ))}
           {isLoading && <ListItemSkeleton count={3} />}
