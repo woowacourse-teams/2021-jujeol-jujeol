@@ -2,10 +2,11 @@ package com.jujeol.member.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.jujeol.TestConfig;
+import com.jujeol.DataConfig;
 import com.jujeol.drink.category.domain.Category;
 import com.jujeol.drink.category.domain.CategoryRepository;
 import com.jujeol.drink.drink.domain.Drink;
+import com.jujeol.drink.drink.domain.ImageFilePath;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.member.auth.domain.Provider;
 import com.jujeol.member.auth.domain.ProviderName;
@@ -32,7 +33,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@Import(TestConfig.class)
+@Import(DataConfig.class)
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class MemberInfoRepositoryTest {
@@ -67,12 +68,14 @@ public class MemberInfoRepositoryTest {
     @Test
     public void findReviewsByMemberId() {
         //given
-        List<String> imageFilePaths = List.of("KakaoTalk_Image_2021-07-08-19-58-09_001_w200.png",
-                "KakaoTalk_Image_2021-07-08-19-58-09_001_w400.png",
-                "KakaoTalk_Image_2021-07-08-19-58-09_001_w600.png");
+        ImageFilePath imageFilePath = ImageFilePath.create(
+            "test_w200.png",
+                "test_w400.png",
+                "test_w600.png"
+        );
 
         Drink stella = Drink.create(
-                "스텔라", "stella", 5.5, imageFilePaths, 0.0,
+                "스텔라", "stella", 5.5, imageFilePath, 0.0,
                 savedCategory, "아아 이것은 맥주라는 것이다.");
         Drink drink = drinkRepository.save(stella);
 
@@ -104,15 +107,23 @@ public class MemberInfoRepositoryTest {
     @Test
     public void findDrinkUsingPreference() {
         //given
-        List<String> kgbImageFilePaths = List.of("KakaoTalk_Image_2021-07-08-19-58-09_002_w200.png",
+        ImageFilePath kgbImageFilePaths = ImageFilePath.create(
+            "KakaoTalk_Image_2021-07-08-19-58-09_002_w200.png",
                 "KakaoTalk_Image_2021-07-08-19-58-09_002_w400.png",
-                "KakaoTalk_Image_2021-07-08-19-58-09_002_w600.png");
-        List<String> estpImageFilePaths = List.of("KakaoTalk_Image_2021-07-08-19-58-11_003_w200.png",
+                "KakaoTalk_Image_2021-07-08-19-58-09_002_w600.png"
+        );
+
+        ImageFilePath estpImageFilePaths = ImageFilePath.create(
+            "KakaoTalk_Image_2021-07-08-19-58-11_003_w200.png",
                 "KakaoTalk_Image_2021-07-08-19-58-11_003_w400.png",
-                "KakaoTalk_Image_2021-07-08-19-58-11_003_w600.png");
-        List<String> tigerImageFilePaths = List.of("KakaoTalk_Image_2021-07-08-19-58-15_004_w200.png",
+                "KakaoTalk_Image_2021-07-08-19-58-11_003_w600.png"
+        );
+
+        ImageFilePath tigerImageFilePaths = ImageFilePath.create(
+            "KakaoTalk_Image_2021-07-08-19-58-15_004_w200.png",
                 "KakaoTalk_Image_2021-07-08-19-58-15_004_w400.png",
-                "KakaoTalk_Image_2021-07-08-19-58-15_004_w600.png");
+                "KakaoTalk_Image_2021-07-08-19-58-15_004_w600.png"
+        );
 
         Drink kgb = Drink.create(
                 "KGB", "", 3.5, kgbImageFilePaths, 0.0,

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import API from 'src/apis/requests';
 import { PATH } from 'src/constants';
 
-import { DizzyEmojiColorIcon } from 'src/components/@shared/Icons';
+import { DizzyEmojiColorIcon } from 'src/components/@Icons';
 import { Img } from 'src/components/@shared/Image/Image';
 import CardList from 'src/components/List/CardList';
 import Section from 'src/components/Section/Section';
@@ -25,7 +25,7 @@ const NoSearchResults = ({ search }: { search: string }) => {
     <>
       <NotificationSection>
         <DizzyEmojiColorIcon />
-        <h2>{`${search}에 대한 검색 결과가 없습니다.`}</h2>
+        <p>{`${search}에 대한 검색 결과가 없습니다.`}</p>
       </NotificationSection>
 
       <Section title="이런 술은 어때요?" titleAlign="left">

@@ -50,24 +50,24 @@ public class Drink {
     private List<Review> reviews = new ArrayList<>();
 
     public static Drink create(
-            String name,
-            String englishName,
-            Double alcoholByVolume,
-            List<String> imageUrl,
-            Double preferenceAvg,
-            Category category,
-            String description
+        String name,
+        String englishName,
+        Double alcoholByVolume,
+        ImageFilePath imageFilePath,
+        Double preferenceAvg,
+        Category category,
+        String description
     ) {
         return new Drink(
-                null,
-                new DrinkName(name),
-                new DrinkEnglishName(englishName),
-                new AlcoholByVolume(alcoholByVolume),
-                ImageFilePath.create(imageUrl),
-                category,
-                preferenceAvg,
-                new Description(description),
-                new ArrayList<>()
+            null,
+            new DrinkName(name),
+            new DrinkEnglishName(englishName),
+            new AlcoholByVolume(alcoholByVolume),
+            imageFilePath,
+            category,
+            preferenceAvg,
+            new Description(description),
+            new ArrayList<>()
         );
     }
 
@@ -125,14 +125,14 @@ public class Drink {
     }
 
     public void updateInfo(String name,
-            String englishName,
-            List<String> imageUrls,
-            Category category,
-            Double alcoholByVolume,
-            String description) {
+        String englishName,
+        ImageFilePath imageFilePath,
+        Category category,
+        Double alcoholByVolume,
+        String description) {
         this.name = new DrinkName(name);
         this.englishName = new DrinkEnglishName(englishName);
-        this.imageFilePath = ImageFilePath.create(imageUrls);
+        this.imageFilePath = imageFilePath;
         this.category = category;
         this.alcoholByVolume = new AlcoholByVolume(alcoholByVolume);
         this.description = new Description(description);

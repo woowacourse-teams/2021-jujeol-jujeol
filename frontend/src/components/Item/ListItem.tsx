@@ -1,5 +1,8 @@
+import { css } from '@emotion/react';
 import { PreferenceRate } from 'src/pages/HomePage/styles';
-import { StarIcon } from '../@shared/Icons';
+import LineClamp from 'src/styles/LineClamp';
+import { StarIcon } from '../@Icons';
+import Heading from '../@shared/Heading/Heading';
 import { Item, ItemInfo } from './ListItem.styles';
 
 interface Props {
@@ -29,7 +32,14 @@ const ListItem = ({
     <Item onClick={onClick}>
       <img src={imageUrl} alt={title} loading="lazy" />
       <ItemInfo>
-        <h3>{title}</h3>
+        <Heading.level3
+          css={css`
+            margin-bottom: 0.3rem;
+            ${LineClamp({ lineClamp: 2 })};
+          `}
+        >
+          {title}
+        </Heading.level3>
         <p>{description}</p>
         {!!preferenceType && (
           <PreferenceRate type={preferenceType}>

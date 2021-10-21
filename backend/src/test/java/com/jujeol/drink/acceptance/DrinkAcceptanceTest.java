@@ -18,12 +18,12 @@ import static com.jujeol.member.fixture.TestMember.WEDGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
-import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
 import com.jujeol.member.acceptance.MemberAcceptanceTool;
+import com.jujeol.testtool.response.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,9 +49,9 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
 
     }
 
-    @DisplayName("추천 조회 - 성공(비로그인 시 선호도 순서)")
+    @DisplayName("메인 페이지 - 예상 선호도 순서(비로그인)")
     @Test
-    public void showRecommendDrinksTest() {
+    public void showDrinksSortByExpectedPreferenceWithoutLoginTest() {
         // given
         final Long obId = drinkAcceptanceTool.주류_아이디_조회(OB.getName());
         final Long stellaId = drinkAcceptanceTool.주류_아이디_조회(STELLA.getName());
@@ -74,7 +74,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         // when
         final HttpResponse httpResponse = request()
                 .get("/drinks?sortBy=expectPreference&page=0&size=7")
-                .withDocument("drinks/show/all")
+                .withDocument("drinks/show/sortByExpectPreferenceWithoutLogin")
                 .build();
 
         //then
@@ -88,7 +88,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         페이징_검증(httpResponse.pageInfo(), 1, 1, 7, 7);
     }
 
-    @DisplayName("추천 조회 - 성공(로그인 시 협업필터링)")
+    @DisplayName("메인 페이지 - 예상 선호도 순서(로그인)")
     @Test
     public void showDrinksByUserPreferenceTest() {
         //given
@@ -97,7 +97,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         //when
         List<DrinkResponse> drinkSimpleResponses = request()
                 .get("/drinks?sortBy=expectPreference&page=0&size=7")
-                .withDocument("drinks/show/recommend")
+                .withDocument("drinks/show/sortByExpectPreferenceWithLogin")
                 .withUser(PIKA)
                 .build().convertBodyToList(DrinkResponse.class);
 
@@ -140,6 +140,79 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         memberAcceptanceTool.선호도_등록(stellaId, 2.4, CROFFLE);
         memberAcceptanceTool.선호도_등록(tigerId, 2.1, CROFFLE);
         memberAcceptanceTool.선호도_등록(tsingatoId, 1.1, CROFFLE);
+    }
+
+    @DisplayName("메인 페이지 - 선호도 기준으로 전체 조회")
+    @Test
+    void showDrinkAllSortByPreference() {
+
+        final int page = 1;
+        final String sortBy = "preferenceAvg";
+
+        final Long obId = drinkAcceptanceTool.주류_아이디_조회(OB.getName());
+        final Long stellaId = drinkAcceptanceTool.주류_아이디_조회(STELLA.getName());
+
+        memberAcceptanceTool.선호도_등록(obId, 4.0, PIKA);
+        memberAcceptanceTool.선호도_등록(stellaId, 3.0, PIKA);
+
+        //given
+        HttpResponse httpResponse = request()
+                .get("/drinks?page=" + page + "&sortBy=" + sortBy)
+                .withDocument("drinks/show/allSortByPreference")
+                .build();
+        List<DrinkResponse> drinkResponses = httpResponse.convertBodyToList(DrinkResponse.class);
+        //when
+        //then
+        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 8);
+        assertThat(drinkResponses.get(0).getId()).isEqualTo(obId);
+        assertThat(drinkResponses.get(1).getId()).isEqualTo(stellaId);
+    }
+
+    @DisplayName("메인 페이지 - 선호도 기준으로 맥주 조회")
+    @Test
+    void showDrinkCategorySortByPreference() {
+
+        final String categoryKey = "BEER";
+        final int page = 1;
+        final String sortBy = "preferenceAvg";
+
+        final Long obId = drinkAcceptanceTool.주류_아이디_조회(OB.getName());
+        final Long stellaId = drinkAcceptanceTool.주류_아이디_조회(STELLA.getName());
+        memberAcceptanceTool.선호도_등록(obId, 4.0, PIKA);
+        memberAcceptanceTool.선호도_등록(stellaId, 3.0, PIKA);
+
+        //given
+        HttpResponse httpResponse = request()
+                .get("/drinks?category=" + categoryKey + "&page=" + page + "&sortBy=" + sortBy)
+                .withDocument("drinks/show/allSortByPreferenceAndCategoryByBEER")
+                .build();
+        List<DrinkResponse> drinkResponses = httpResponse.convertBodyToList(DrinkResponse.class);
+        //when
+        //then
+        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 8);
+        assertThat(drinkResponses.get(0).getCategory().getKey()).isEqualTo(categoryKey);
+        assertThat(drinkResponses.get(0).getId()).isEqualTo(obId);
+        assertThat(drinkResponses.get(1).getId()).isEqualTo(stellaId);
+    }
+
+    @DisplayName("메인 페이지 - 올바르지 않은 정렬 기준")
+    @Test
+    void showDrinkByCategoryFailSortBy() {
+
+        final String categoryKey = "BEER";
+        final int page = 1;
+        final String sortBy = "strange";
+
+        //given
+        JujeolExceptionDto errorResponse = request()
+                .get("/drinks?category=" + categoryKey + "&page=" + page + "&sortBy=" + sortBy)
+                .withDocument("drinks/show/drinksByCategory-fail-InvalidSort")
+                .build()
+                .errorResponse();
+        //when
+        //then
+
+        예외_검증(errorResponse, INVALID_SORT_BY);
     }
 
     @DisplayName("검색 조회 - 성공")
@@ -274,7 +347,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         assertThat(drinkSimpleResponses).hasSize(0);
     }
 
-    @DisplayName("단일 조회 - 성공")
+    @DisplayName("상세페이지 조회 - 성공")
     @Test
     public void showDrinkDetailTest() {
         //given
@@ -291,90 +364,17 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         assertThat(drinkResponse.getName()).isEqualTo(OB.getName());
     }
 
-    @DisplayName("단일 조회 - 실패 (찾을 수 없는 id)")
+    @DisplayName("상세페이지 조회 - 실패 (찾을 수 없는 id)")
     @Test
     public void showDrinkDetailTest_fail() {
         //when
         final JujeolExceptionDto errorResponse = request()
-                .get("drinks/{id}", Long.MAX_VALUE)
+                .get("/drinks/{id}", Long.MAX_VALUE)
                 .withDocument("drinks/show/detail-fail")
                 .build().errorResponse();
 
         //then
         예외_검증(errorResponse, NOT_FOUND_DRINK);
-    }
-
-    @DisplayName("선호도 기준으로 전체 조회")
-    @Test
-    void showDrinkAllSortByPreference() {
-
-        final int page = 1;
-        final String sortBy = "preferenceAvg";
-
-        final Long obId = drinkAcceptanceTool.주류_아이디_조회(OB.getName());
-        final Long stellaId = drinkAcceptanceTool.주류_아이디_조회(STELLA.getName());
-
-        memberAcceptanceTool.선호도_등록(obId, 4.0, PIKA);
-        memberAcceptanceTool.선호도_등록(stellaId, 3.0, PIKA);
-
-        //given
-        HttpResponse httpResponse = request()
-                .get("/drinks?page=" + page + "&sortBy=" + sortBy)
-                .withDocument("drinks/show/drinksByCategory")
-                .build();
-        List<DrinkResponse> drinkResponses = httpResponse.convertBodyToList(DrinkResponse.class);
-        //when
-        //then
-        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 8);
-        assertThat(drinkResponses.get(0).getId()).isEqualTo(obId);
-        assertThat(drinkResponses.get(1).getId()).isEqualTo(stellaId);
-    }
-
-    @DisplayName("선호도 기준으로 맥주 조회")
-    @Test
-    void showDrinkCategorySortByPreference() {
-
-        final String categoryKey = "BEER";
-        final int page = 1;
-        final String sortBy = "preferenceAvg";
-
-        final Long obId = drinkAcceptanceTool.주류_아이디_조회(OB.getName());
-        final Long stellaId = drinkAcceptanceTool.주류_아이디_조회(STELLA.getName());
-        memberAcceptanceTool.선호도_등록(obId, 4.0, PIKA);
-        memberAcceptanceTool.선호도_등록(stellaId, 3.0, PIKA);
-
-        //given
-        HttpResponse httpResponse = request()
-                .get("/drinks?category=" + categoryKey + "&page=" + page + "&sortBy=" + sortBy)
-                .withDocument("drinks/show/drinksByCategory")
-                .build();
-        List<DrinkResponse> drinkResponses = httpResponse.convertBodyToList(DrinkResponse.class);
-        //when
-        //then
-        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 8);
-        assertThat(drinkResponses.get(0).getCategory().getKey()).isEqualTo(categoryKey);
-        assertThat(drinkResponses.get(0).getId()).isEqualTo(obId);
-        assertThat(drinkResponses.get(1).getId()).isEqualTo(stellaId);
-    }
-
-    @DisplayName("주류 조회시 - 올바르지 않은 정렬 기준")
-    @Test
-    void showDrinkByCategoryFailSortBy() {
-
-        final String categoryKey = "BEER";
-        final int page = 1;
-        final String sortBy = "strange";
-
-        //given
-        JujeolExceptionDto errorResponse = request()
-                .get("/drinks?category=" + categoryKey + "&page=" + page + "&sortBy=" + sortBy)
-                .withDocument("drinks/show/drinksByCategory")
-                .build()
-                .errorResponse();
-        //when
-        //then
-
-        예외_검증(errorResponse, INVALID_SORT_BY);
     }
 
     private Long 주류_아이디(DrinkTestContainer drinkTestContainer) {

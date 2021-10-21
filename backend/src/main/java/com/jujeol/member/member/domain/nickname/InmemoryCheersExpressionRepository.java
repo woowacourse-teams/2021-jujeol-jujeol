@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile({"dev", "prod", "local"})
+@Profile({"dev", "prod", "local", "dummy"})
 public class InmemoryCheersExpressionRepository implements CheersExpressionsRepository {
 
     private static final Random random = new Random();

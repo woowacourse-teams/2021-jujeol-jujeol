@@ -3,6 +3,7 @@ const Z_INDEX = {
   TAB_BAR: 5,
   MODAL: 10,
   CONFIRM: 11,
+  SNACKBAR: 15,
 };
 
 export default Z_INDEX;

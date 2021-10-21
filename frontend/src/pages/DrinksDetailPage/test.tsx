@@ -55,6 +55,7 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
     expect(
       screen.getByText(`다른 사람들은 평균적으로 ${drinksDetail.data.preferenceAvg}점을 줬어요`)
     ).toBeVisible();
+    expect(screen.getByText(drinksDetail.data.description)).toBeVisible();
   });
 
   it('로그인 된 사용자는 상세페이지에서 선호도를 남길 수 있다.', async () => {

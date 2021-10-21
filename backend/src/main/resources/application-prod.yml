@@ -14,4 +14,4 @@ application:
   bucket:
     name: jujeol-bucket
   cloudfront:
-    url: https://d108e7b1rnmnw1.cloudfront.net/
+    url: https://dmaxaug2ve9od.cloudfront.net/
