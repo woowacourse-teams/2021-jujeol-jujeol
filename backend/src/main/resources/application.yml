@@ -1,12 +1,9 @@
 spring:
-  # error type to json
   mvc:
     throw-exception-if-no-handler-found: true
-  # admin page
   web:
     resources:
       add-mappings: false
-  #profiles
   profiles:
     group:
       "local": "console-logging,http-console-logging"
@@ -15,7 +12,6 @@ spring:
       "test": "console-logging"
       "dummy": "console-logging,performance-logging"
     include: oauth, datasource
-  # pageSize
   data:
     web:
       pageable:
