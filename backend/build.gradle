@@ -8,6 +8,11 @@ plugins {
     id 'jacoco'
 }
 
+ext {
+    snippetsDir = file('build/generated-snippets')
+    set('springCloudVersion', "2020.0.4")
+}
+
 group = 'com.jujeol.'
 version = '1.2.4-beta'
 sourceCompatibility = '11'
@@ -74,10 +79,15 @@ dependencies {
 
     // elastic search
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+
+    // eureka
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 }
 
-ext {
-    snippetsDir = file('build/generated-snippets')
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 processResources.dependsOn('copySecret')
