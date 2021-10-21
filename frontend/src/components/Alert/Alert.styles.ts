@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: ${COLOR.BLACK_900 + 'ee'};
+  background-color: ${COLOR.BLACK + 'cc'};
 
   ${Flex({ justifyContent: 'center', alignItems: 'center' })}
 `;
@@ -38,7 +38,7 @@ const Content = styled.div`
     height: 2.5rem;
     background-color: transparent;
     border: none;
-    color: ${COLOR.GRAY_400};
+    color: ${COLOR.GRAY_700};
 
     border-bottom-right-radius: 1rem;
 
