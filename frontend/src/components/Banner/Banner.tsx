@@ -11,7 +11,7 @@ interface Props {
 
 const Banner = ({ type, title, src, alt }: Props) => {
   return (
-    <Container>
+    <Container tabIndex={0} aria-label={`광고 : ${alt}`}>
       {type === 'IMAGE' && (
         <>
           <Heading.level2
