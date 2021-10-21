@@ -14,8 +14,12 @@ const fadeInOut = keyframes`
 
 const Container = styled.section<{ message: boolean }>`
   width: 90%;
+
   padding: 1rem;
   margin: 0 auto;
+
+  visibility: hidden;
+  z-index: ${Z_INDEX.SNACKBAR};
 
   ${Flex({
     flexDirection: 'column',
@@ -23,14 +27,12 @@ const Container = styled.section<{ message: boolean }>`
     alignItems: 'center',
   })}
 
-  background-color: ${COLOR.PURPLE_500}CC;
+  background-color: ${COLOR.PURPLE_600}EE;
+  border-radius: 0.5rem;
 
   font-size: 0.9rem;
+  color: ${COLOR.GRAY_100};
   text-align: center;
-  line-height: 1.5;
-  color: ${COLOR.WHITE_200};
-
-  border-radius: 0.5rem;
 
   ${({ message }) =>
     message &&

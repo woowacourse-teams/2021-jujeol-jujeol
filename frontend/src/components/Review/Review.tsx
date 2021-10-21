@@ -9,6 +9,8 @@ import InfinityScrollPoll from '../@shared/InfinityScrollPoll/InfinityScrollPoll
 import NoReviews from './NoReviews';
 import DisableWriteReview from './DisableWriteReview';
 import { Wrapper, ReviewList } from './Review.styles';
+import Heading from '../@shared/Heading/Heading';
+import { css } from '@emotion/react';
 
 interface Props {
   drinkId: string;
@@ -25,7 +27,14 @@ const Review = ({ drinkId, drinkName, preferenceRate, onNoticeToInputPreference 
 
   return (
     <Wrapper>
-      <h2>리뷰 {totalSize}개</h2>
+      <Heading.level3
+        css={css`
+          margin-bottom: 0.5rem;
+          padding-left: 0.75rem;
+        `}
+      >
+        리뷰 {totalSize}개
+      </Heading.level3>
       {preferenceRate ? (
         <ReviewCreateForm />
       ) : (

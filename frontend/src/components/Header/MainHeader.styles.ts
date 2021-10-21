@@ -1,16 +1,12 @@
 import styled from '@emotion/styled';
-import { COLOR } from 'src/constants';
+import Heading from '../@shared/Heading/Heading';
 
 const envContent =
   process.env.SNOWPACK_PUBLIC_ENV === 'PROD'
     ? 'beta'
     : process.env.SNOWPACK_PUBLIC_ENV?.toLowerCase();
 
-const Logo = styled.h1`
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: ${COLOR.WHITE_100};
-  text-align: center;
+const Logo = styled(Heading.level1)`
   position: relative;
 
   :after {

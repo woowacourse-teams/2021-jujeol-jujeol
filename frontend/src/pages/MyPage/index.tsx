@@ -3,11 +3,14 @@ import { useHistory } from 'react-router-dom';
 import { useQuery, useQueryClient } from 'react-query';
 
 import UserContext from 'src/contexts/UserContext';
+import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
 
 import API from 'src/apis/requests';
+import { removeLocalStorageItem } from 'src/utils/localStorage';
 
 import NavigationHeader from 'src/components/Header/NavigationHeader';
 import Grid from 'src/components/@shared/Grid/Grid';
+import TextButton from 'src/components/@shared/Button/TextButton';
 import Preview from 'src/components/Preview/Preview';
 import Profile from 'src/components/Profile/Profile';
 import { HorizontalScroll } from 'src/components/Scroll/HorizontalScroll';
@@ -18,13 +21,13 @@ import MyDrinkItem from '../MyDrinksPage/MyDrinkItem';
 import NoPreference from './NoPreference';
 import NoReview from './NoReview';
 
-import { PATH, VALUE } from 'src/constants';
+import { PATH, VALUE, COLOR, LOCAL_STORAGE_KEY, MESSAGE } from 'src/constants';
 import {
   SmileEmojiColorIcon,
   LoveEmojiColorIcon,
   DizzyEmojiColorIcon,
   ExcitedEmojiColorIcon,
-} from 'src/components/@shared/Icons';
+} from 'src/components/@Icons';
 import PersonalDrinkItemSkeleton from 'src/components/Skeleton/PersonalDrinkItemSkeleton';
 import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewItemSkeleton';
 import { SurveyLink } from './styles';
@@ -41,7 +44,8 @@ const defaultRequestData = { data: [], pageInfo: {} };
 const MyPage = () => {
   const history = useHistory();
 
-  const { userData, isLoggedIn, getUser } = useContext(UserContext);
+  const { userData, isLoggedIn, getUser, setIsLoggedIn } = useContext(UserContext);
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
   const UserProfileIcon = userProfileIcons[(userData?.id ?? 0) % VALUE.PROFILE_IMAGE_NUMBER];
 
   const queryClient = useQueryClient();
@@ -82,13 +86,23 @@ const MyPage = () => {
       await getUser();
 
       if (!queryClient.isFetching('user-info') && !isLoggedIn) {
-        alert('마이페이지를 이용하시려면 로그인 해주세요');
+        alert(MESSAGE.LOGIN_REQUIRED_FOR_MYPAGE);
         history.push(PATH.LOGIN);
       }
     };
 
     getFetch();
   }, [isLoggedIn]);
+
+  const onLogout = () => {
+    removeLocalStorageItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
+
+    history.push(PATH.HOME);
+
+    setIsLoggedIn(false);
+
+    setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.LOGOUT_SUCCESS });
+  };
 
   return (
     <>
@@ -145,6 +159,15 @@ const MyPage = () => {
       >
         🚨 불편사항 신고 및 기타문의 작성하기
       </SurveyLink>
+      <TextButton
+        color={COLOR.GRAY_300}
+        fontSize="0.8rem"
+        type="button"
+        margin="0 auto"
+        onClick={onLogout}
+      >
+        로그아웃
+      </TextButton>
     </>
   );
 };

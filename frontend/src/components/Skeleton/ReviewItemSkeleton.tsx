@@ -7,7 +7,7 @@ const ReviewItemSkeleton = ({ count }: { count: number }) => {
   return (
     <>
       {Array.from({ length: count }).map((_, index) => (
-        <Card key={index} padding="1rem" backgroundColor={COLOR.WHITE_200}>
+        <Card key={index} padding="1rem" backgroundColor={COLOR.GRAY_100}>
           <FlexBox flexDirection="column" rowGap="0.5rem">
             <FlexBox columnGap="0.5rem">
               <Skeleton type="CIRCLE" size="X_SMALL" />

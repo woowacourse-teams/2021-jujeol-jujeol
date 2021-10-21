@@ -4,7 +4,6 @@ import com.jujeol.performance.RequestApi;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 
 public class DeleteMappingDataExtractor implements AnnotationDataExtractor {
 

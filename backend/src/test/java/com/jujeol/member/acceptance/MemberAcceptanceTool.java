@@ -1,9 +1,9 @@
 package com.jujeol.member.acceptance;
 
-import com.jujeol.RequestBuilder;
 import com.jujeol.member.auth.application.dto.TokenDto;
 import com.jujeol.member.fixture.TestMember;
 import com.jujeol.member.member.application.dto.PreferenceDto;
+import com.jujeol.testtool.RequestBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;
@@ -25,7 +25,7 @@ public class MemberAcceptanceTool {
 
     public String 로그인_토큰_반환(TestMember testMember) {
         return requestBuilder.builder()
-                .post("login/token", testMember.toDto())
+                .post("/login/token", testMember.toDto())
                 .build()
                 .convertBody(TokenDto.class)
                 .getAccessToken();

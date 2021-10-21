@@ -2,7 +2,7 @@ package com.jujeol.member.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.jujeol.TestConfig;
+import com.jujeol.DataConfig;
 import com.jujeol.drink.category.domain.Category;
 import com.jujeol.drink.category.domain.CategoryRepository;
 import com.jujeol.drink.drink.domain.Drink;
@@ -33,7 +33,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@Import(TestConfig.class)
+@Import(DataConfig.class)
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class MemberInfoRepositoryTest {

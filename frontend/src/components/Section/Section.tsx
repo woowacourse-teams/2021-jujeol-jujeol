@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Heading from '../@shared/Heading/Heading';
 import { Title } from './Section.styles';
 
 interface Props {
@@ -23,7 +24,7 @@ const Section = ({
     <section>
       <Title textAlign={titleAlign} isShowMoreEnabled={isShowMoreEnabled}>
         <div>
-          <h2>{title}</h2>
+          <Heading.level2>{title}</Heading.level2>
           {subTitle && <p>{subTitle}</p>}
         </div>
         {isShowMoreEnabled && showMoreLink && <Link to={showMoreLink}>{'더보기 >'}</Link>}

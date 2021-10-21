@@ -13,7 +13,6 @@ import static com.jujeol.member.fixture.TestMember.SOLONG;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
-import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
@@ -24,6 +23,7 @@ import com.jujeol.member.member.application.dto.PreferenceDto;
 import com.jujeol.review.application.dto.ReviewWithAuthorDto;
 import com.jujeol.review.ui.dto.ReviewCreateRequest;
 import com.jujeol.review.ui.dto.ReviewUpdateRequest;
+import com.jujeol.testtool.response.HttpResponse;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,7 +52,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         request().put("/members/me/drinks/" + obId + "/preference", PreferenceDto.create(5.0))
                 .withoutLog()
                 .withUser(SOLONG)
-                .build().totalResponse();
+                .build();
 
         //when
         final HttpStatus httpStatus =
@@ -78,7 +78,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         request().put("/members/me/drinks/" + obId + "/preference", PreferenceDto.create(5.0))
                 .withoutLog()
                 .withUser(PIKA)
-                .build().totalResponse();
+                .build();
 
         //when
         final HttpStatus httpStatus = request()
@@ -123,7 +123,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         request().put("/members/me/drinks/" + obId + "/preference", PreferenceDto.create(5.0))
                 .withoutLog()
                 .withUser(PIKA)
-                .build().totalResponse();
+                .build();
 
         //when
         final JujeolExceptionDto errorResponse = request()
@@ -146,7 +146,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         request().put("/members/me/drinks/" + obId + "/preference", PreferenceDto.create(5.0))
                 .withoutLog()
                 .withUser(PIKA)
-                .build().totalResponse();
+                .build();
 
         //when
         final JujeolExceptionDto errorResponse = request()
@@ -169,7 +169,7 @@ public class ReviewAcceptanceTest extends AcceptanceTest {
         request().put("/members/me/drinks/" + obId + "/preference", PreferenceDto.create(5.0))
                 .withoutLog()
                 .withUser(PIKA)
-                .build().totalResponse();
+                .build();
 
         //when
         final JujeolExceptionDto errorResponse = request()
