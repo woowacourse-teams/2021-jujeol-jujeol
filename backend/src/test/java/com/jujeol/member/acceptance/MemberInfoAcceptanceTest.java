@@ -8,13 +8,14 @@ import static com.jujeol.member.fixture.TestMember.CROFFLE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
-import com.jujeol.RequestBuilder.HttpResponse;
 import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
+import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.member.member.ui.dto.MemberDrinkResponse;
 import com.jujeol.member.member.ui.dto.MemberReviewResponse;
 import com.jujeol.review.acceptance.ReviewAcceptanceTool;
+import com.jujeol.testtool.response.HttpResponse;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,8 @@ public class MemberInfoAcceptanceTest extends AcceptanceTest {
     private MemberAcceptanceTool memberAcceptanceTool;
     @Autowired
     private ReviewAcceptanceTool reviewAcceptanceTool;
+    @Autowired
+    private DrinkRepository drinkRepository;
 
     @DisplayName("내가 마신 술 모아보기 - 성공")
     @Test

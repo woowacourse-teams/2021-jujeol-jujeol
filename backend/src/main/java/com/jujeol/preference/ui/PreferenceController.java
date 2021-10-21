@@ -1,5 +1,6 @@
 package com.jujeol.preference.ui;
 
+import com.jujeol.commons.aop.MemberOnly;
 import com.jujeol.member.auth.ui.AuthenticationPrincipal;
 import com.jujeol.member.auth.ui.LoginMember;
 import com.jujeol.preference.application.PreferenceService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/members/me")
+@MemberOnly
 public class PreferenceController {
 
     private final PreferenceService preferenceService;

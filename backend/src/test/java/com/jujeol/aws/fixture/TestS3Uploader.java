@@ -1,7 +1,6 @@
 package com.jujeol.aws.fixture;
 
 import com.jujeol.aws.infrastructure.StorageUploader;
-import com.jujeol.drink.drink.application.dto.ImageFilePathDto;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
