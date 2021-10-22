@@ -34,6 +34,7 @@ import Grid from 'src/components/@shared/Grid/Grid';
 import Heading from 'src/components/@shared/Heading/Heading';
 import { hiddenStyle } from 'src/styles/hidden';
 import usePageTitle from 'src/hooks/usePageTitle';
+import SkipNav from 'src/components/@shared/SkipNav/SkipNav';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -178,6 +179,11 @@ const DrinksDetailPage = () => {
 
   return (
     <Container ref={pageContainerRef}>
+      <SkipNav>
+        <a href="#description">상세 설명 바로가기</a>
+        <a href="#preference">선호도 입력 바로가기</a>
+        <a href="#review">리뷰 바로가기</a>
+      </SkipNav>
       <Heading.level1 css={hiddenStyle}>주절주절</Heading.level1>
       <GoBackButton
         color={COLOR.BLACK}
@@ -203,7 +209,7 @@ const DrinksDetailPage = () => {
         </ImageWrapper>
       )}
 
-      <Section isShowImageFull={isShowImageFull}>
+      <Section isShowImageFull={isShowImageFull} id="preference">
         <PreferenceSection ref={preferenceRef} isBlinked={isBlinked}>
           <Heading.level3
             color={COLOR.GRAY_100}
@@ -229,7 +235,7 @@ const DrinksDetailPage = () => {
           <p>다른 사람들은 평균적으로 {preferenceAvg.toFixed(1) ?? '0'}점을 줬어요</p>
         </PreferenceSection>
 
-        <DescriptionSection>
+        <DescriptionSection id="description">
           {isLoading && <DrinksDetailDescriptionSkeleton />}
           <Heading.level2>{name}</Heading.level2>
           <p>
@@ -267,6 +273,7 @@ const DrinksDetailPage = () => {
         </DescriptionSection>
 
         <Review
+          id="review"
           drinkId={drinkId}
           drinkName={name}
           preferenceRate={currentPreferenceRate}
