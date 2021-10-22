@@ -41,7 +41,7 @@ public class AdminController {
         @PageableDefault(value = 20, sort = "id", direction = Direction.DESC) Pageable pageable,
         @AuthenticationPrincipal LoginMember loginMember) {
         final Page<AdminDrinkResponse> drinks = drinkService
-            .showAllDrinksByPage(pageable, loginMember)
+            .showAllDrinksByPage(pageable, loginMember, "")
             .map(AdminDrinkResponse::from);
         return PageResponseAssembler.assemble(drinks);
     }

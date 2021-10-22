@@ -53,7 +53,7 @@ public class DrinkController {
                     .showDrinksByPreference(category, page, loginMember);
         }
         if(NO_SORT.equals(sortBy)) {
-            drinkDtos = drinkService.showAllDrinksByPage(page, loginMember);
+            drinkDtos = drinkService.showAllDrinksByPage(page, loginMember, category);
         }
 
         if(loginMember.isAnonymous()) {
