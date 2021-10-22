@@ -43,6 +43,6 @@ public class DataMatrix {
     }
 
     public Map<Long, Double> getDataByMember(Long id) {
-        return dataByMember.get(id);
+        return dataByMember.getOrDefault(id, new HashMap<>());
     }
 }
