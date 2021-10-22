@@ -44,7 +44,7 @@ public class DrinkService {
                     .map(drink -> DrinkDto.create(drink, preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)));
         }
 
-        return drinkRepository.findAllByCategorySorted(category, pageable)
+        return drinkRepository.findAllByCategory(category, pageable)
                 .map(drink -> DrinkDto.create(drink, preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)));
     }
 
