@@ -10,9 +10,8 @@ import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
 import { PATH } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
-import { InfinityScrollPoll } from '../ViewAllPage/ViewAllPage.styles';
 import MemoizedPreferenceItem from './PreferenceItem';
-import { Container, AlertWrapper, NoDrink, Notification } from './styles';
+import { Container, AlertWrapper, NoDrink, Notification, InfinityScrollPoll } from './styles';
 
 const PreferencePage = () => {
   const history = useHistory();
