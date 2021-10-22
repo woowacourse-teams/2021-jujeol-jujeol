@@ -5,9 +5,7 @@ import com.jujeol.drink.category.domain.CategoryRepository;
 import com.jujeol.drink.category.exception.NotFoundCategoryException;
 import com.jujeol.drink.drink.application.dto.DrinkDto;
 import com.jujeol.drink.drink.application.dto.DrinkRequestDto;
-import com.jujeol.drink.drink.application.dto.SearchDto;
 import com.jujeol.drink.drink.domain.Drink;
-import com.jujeol.drink.drink.domain.SearchWords;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.recommend.application.RecommendStrategy;
@@ -15,7 +13,6 @@ import com.jujeol.drink.recommend.domain.RecommendedDrinkResponse;
 import com.jujeol.member.auth.ui.LoginMember;
 import com.jujeol.preference.application.PreferenceService;
 import com.jujeol.preference.domain.Preference;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -33,44 +30,6 @@ public class DrinkService {
     private final DrinkRepository drinkRepository;
     private final CategoryRepository categoryRepository;
     private final PreferenceService preferenceService;
-
-    public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, LoginMember loginMember, Pageable pageable) {
-        SearchWords searchWords = SearchWords.create(searchDto.getSearch());
-
-        List<DrinkDto> drinkDtos = drinksBySearch(searchDto, searchWords);
-
-        int start = (int) pageable.getOffset();
-        int end = Math.min(start + pageable.getPageSize(), drinkDtos.size());
-
-        if(loginMember.isMember()) {
-            for (DrinkDto drinkDto : drinkDtos) {
-                drinkDto.addPreferenceRate(preferenceService.showByMemberIdAndDrink(
-                        loginMember.getId(), drinkDto.getId()));
-            }
-        }
-        if (start > end) {
-            return new PageImpl<>(new ArrayList<>(), pageable, drinkDtos.size());
-        }
-
-        return new PageImpl<>(drinkDtos.subList(start, end), pageable, drinkDtos.size());
-    }
-
-    private List<DrinkDto> drinksBySearch(SearchDto searchDto, SearchWords searchWords) {
-        List<Drink> drinksBySearch = new ArrayList<>();
-        List<String> categoryNames = categoryRepository.findAllName();
-
-        if (searchWords.hasSearchWords()) {
-            drinksBySearch.addAll(drinkRepository.findBySearch(searchWords, categoryNames));
-        }
-        drinksBySearch
-                .addAll(drinkRepository.findByCategory(searchWords, searchDto.getCategoryKey()));
-
-        return drinksBySearch.stream()
-                .distinct()
-                .map(drink -> DrinkDto.create(
-                        drink, Preference.create(drink, 0)))
-                .collect(Collectors.toList());
-    }
 
     public Page<DrinkDto> showAllDrinksByPage(Pageable pageable,
             LoginMember loginMember) {

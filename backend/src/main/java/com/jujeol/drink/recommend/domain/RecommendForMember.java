@@ -2,8 +2,10 @@ package com.jujeol.drink.recommend.domain;
 
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.recommend.application.RecommendStrategy;
-import com.jujeol.drink.recommend.infrastructure.RecommendationResponse;
-import com.jujeol.drink.recommend.infrastructure.RecommendationSystem;
+import com.jujeol.drink.recommend.infrastructure.slope.DataMatrix;
+import com.jujeol.drink.recommend.infrastructure.slope.DataModel;
+import com.jujeol.drink.recommend.infrastructure.slope.RecommendationResponse;
+import com.jujeol.drink.recommend.infrastructure.slope.Recommender;
 import com.jujeol.preference.domain.Preference;
 import com.jujeol.preference.domain.PreferenceRepository;
 import java.util.ArrayList;
@@ -15,9 +17,9 @@ import org.springframework.data.domain.Pageable;
 @RequiredArgsConstructor
 public class RecommendForMember implements RecommendStrategy {
 
-    private final RecommendationSystem recommendationSystem;
     private final DrinkRepository drinkRepository;
     private final PreferenceRepository preferenceRepository;
+    private final Recommender recommender;
 
     @Override
     public List<RecommendedDrinkResponse> recommend(String category, Long memberId, int pageSize) {
@@ -27,18 +29,23 @@ public class RecommendForMember implements RecommendStrategy {
         } else {
             preferences = preferenceRepository.findAllByCategory(category);
         }
+        final List<DataModel> dataModel = preferences.stream()
+                .map(pr -> new DataModel(pr.getMember().getId(), pr.getDrink().getId(),
+                        pr.getRate()))
+                .collect(Collectors.toList());
         final List<Preference> myPreferences = preferences.stream()
                 .filter(preference -> preference.getMember().getId().equals(memberId))
                 .collect(Collectors.toList());
-        final List<RecommendationResponse> recommendedItems = recommendationSystem
-                .recommend(memberId, pageSize, preferences);
+        final List<RecommendationResponse> recommendedItems = recommender
+                .recommend(new DataMatrix(dataModel), memberId, 3.0);
+
 
         List<RecommendedDrinkResponse> drinks = recommendedItems.stream()
                 .map(res -> new RecommendedDrinkResponse(drinkRepository.getById(res.getItemId()),
                         res.getExpectedPreference()))
+                .sorted((o1, o2) -> (int) (o1.getExpectedPreference() - o2.getExpectedPreference()))
+                .limit(pageSize)
                 .collect(Collectors.toList());
-
-        drinks = sortByNoTriedItem(drinks, myPreferences);
 
         if (recommendedItems.size() < pageSize) {
             addItemByPreferenceAvg(drinks, myPreferences, memberId, pageSize, category);

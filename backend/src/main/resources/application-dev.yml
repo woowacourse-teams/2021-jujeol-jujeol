@@ -6,3 +6,11 @@ application:
     name: 2021-jujeol-test
   cloudfront:
     url: https://didenwe6zsh18.cloudfront.net/
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://3.34.90.107/eureka

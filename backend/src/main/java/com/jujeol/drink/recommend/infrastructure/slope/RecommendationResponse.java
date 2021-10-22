@@ -1,4 +1,4 @@
-package com.jujeol.drink.recommend.infrastructure;
+package com.jujeol.drink.recommend.infrastructure.slope;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
