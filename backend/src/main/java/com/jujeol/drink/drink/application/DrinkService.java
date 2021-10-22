@@ -36,7 +36,7 @@ public class DrinkService {
 
         Page<Drink> drinks;
 
-        if(category == null || category.isEmpty()) {
+        if(category == null || category.isEmpty() || category.equals("ALL")) {
             drinks = drinkRepository.findAll(pageable);
         } else {
             drinks = drinkRepository.findAllByCategory(category, pageable);
