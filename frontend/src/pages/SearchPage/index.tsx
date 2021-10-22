@@ -63,8 +63,6 @@ const categories: Category[] = [
 export { categories };
 
 const SearchPage = () => {
-  const getCategoryPath = (key: Category['key']) =>
-    key === 'ALL' ? PATH.VIEW_ALL : `${PATH.SEARCH_RESULT}?category=${key}`;
   return (
     <Container>
       <Heading.level2
@@ -90,7 +88,7 @@ const SearchPage = () => {
           {categories.map(({ key, name, Icon }) => {
             return (
               <CategoryItem key={key}>
-                <Link to={getCategoryPath(key)}>
+                <Link to={`${PATH.DRINKS}?category=${key}`}>
                   <Icon />
                   <span>{name}</span>
                 </Link>
