@@ -32,8 +32,16 @@ public class DrinkService {
     private final PreferenceService preferenceService;
 
     public Page<DrinkDto> showAllDrinksByPage(Pageable pageable,
-            LoginMember loginMember) {
-        return drinkRepository.findAll(pageable)
+            LoginMember loginMember, String category) {
+
+        Page<Drink> drinks;
+
+        if(category == null || category.isEmpty()) {
+            drinks = drinkRepository.findAll(pageable);
+        } else {
+            drinks = drinkRepository.findAllByCategory(category, pageable);
+        }
+        return drinks
                 .map(drink -> DrinkDto.create(
                         drink, preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)));
     }
