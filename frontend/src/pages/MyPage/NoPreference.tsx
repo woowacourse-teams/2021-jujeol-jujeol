@@ -1,7 +1,7 @@
-import useDrinks from 'src/hooks/useDrinks';
-import { COLOR, PATH, PREFERENCE } from 'src/constants';
-import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import { Img } from 'src/components/@shared/Image/Image';
+import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
+import { COLOR, PATH, PREFERENCE } from 'src/constants';
+import useDrinks from 'src/hooks/useDrinks';
 import { Content, Header } from './NoPreference.styles';
 
 const NoPreference = () => {

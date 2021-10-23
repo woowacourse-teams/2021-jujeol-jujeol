@@ -1,12 +1,13 @@
 import { useContext, useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
-import UserContext from 'src/contexts/UserContext';
+
 import API from 'src/apis/requests';
-import FlexBox from 'src/components/@shared/FlexBox/FlexBox';
 import { LoveEmojiColorIcon } from 'src/components/@Icons';
+import FlexBox from 'src/components/@shared/FlexBox/FlexBox';
+import { LOCAL_STORAGE_KEY, MESSAGE, PATH } from 'src/constants';
+import UserContext from 'src/contexts/UserContext';
 import { setLocalStorageItem } from 'src/utils/localStorage';
-import { LOCAL_STORAGE_KEY, PATH, MESSAGE } from 'src/constants';
 import { Container } from './styles';
 
 const KAKAO_CODE_QUERY_SELECTOR = 'code';

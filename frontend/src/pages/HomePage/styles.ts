@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { COLOR } from 'src/constants';
 
 const PreferenceRate = styled.div<{ type: 'MY' | 'AVG' | 'EXPECTED' }>`

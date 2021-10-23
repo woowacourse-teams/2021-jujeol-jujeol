@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { COLOR } from 'src/constants';
 
 const Wrapper = styled.section`
@@ -18,4 +19,4 @@ const ReviewList = styled.ul`
   }
 `;
 
-export { Wrapper, ReviewList };
+export { ReviewList, Wrapper };

@@ -1,12 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
+
 import API from 'src/apis/requests';
-import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
 import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';
-import { Container, InfinityScrollPoll } from './ViewAllPage.styles';
+import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
 import usePageTitle from 'src/hooks/usePageTitle';
+import { Container, InfinityScrollPoll } from './ViewAllPage.styles';
 
 const ViewAllPage = () => {
   const infinityPollRef = useRef<HTMLDivElement>(null);

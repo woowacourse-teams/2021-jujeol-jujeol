@@ -1,8 +1,8 @@
-import styled from '@emotion/styled';
 import { css, keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 
-import LineClamp from 'src/styles/LineClamp';
 import { COLOR } from 'src/constants';
+import LineClamp from 'src/styles/LineClamp';
 
 const blinkEffect = keyframes`
   50% {
@@ -132,12 +132,12 @@ const ShowMoreButton = styled.button`
 
 export {
   Container,
-  ImageWrapper,
-  Image,
-  Section,
-  PreferenceSection,
-  DescriptionSection,
   Description,
-  ShowMoreButton,
+  DescriptionSection,
   FoldButton,
+  Image,
+  ImageWrapper,
+  PreferenceSection,
+  Section,
+  ShowMoreButton,
 };

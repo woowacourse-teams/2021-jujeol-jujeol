@@ -1,4 +1,5 @@
-import { Global, css } from '@emotion/react';
+import { css, Global } from '@emotion/react';
+
 import { COLOR, Z_INDEX } from './constants';
 import Reset from './styles/Reset';
 

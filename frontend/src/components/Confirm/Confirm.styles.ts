@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
 
@@ -95,4 +96,4 @@ const ButtonWrapper = styled.div`
   }
 `;
 
-export { Wrapper, Content, ButtonWrapper };
+export { ButtonWrapper, Content, Wrapper };

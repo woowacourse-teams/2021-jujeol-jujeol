@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import { COLOR } from 'src/constants';
 import { hiddenStyle } from 'src/styles/hidden';
 import GoBackButton from '../@shared/Button/GoBackButton';

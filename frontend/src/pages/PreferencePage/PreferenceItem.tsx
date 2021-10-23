@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import FlexBox from 'src/components/@shared/FlexBox/FlexBox';
 import { Img } from 'src/components/@shared/Image/Image';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
-import Flex from 'src/styles/Flex';
 import { COLOR } from 'src/constants';
+import Flex from 'src/styles/Flex';
 
 const StatusList = styled.ul`
   width: 100%;
@@ -40,4 +40,4 @@ const StatusItem = styled.li`
   }
 `;
 
-export { StatusList, StatusItem };
+export { StatusItem, StatusList };

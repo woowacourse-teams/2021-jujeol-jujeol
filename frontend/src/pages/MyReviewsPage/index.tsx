@@ -4,12 +4,12 @@ import { useInfiniteQuery } from 'react-query';
 import API from 'src/apis/requests';
 import Grid from 'src/components/@shared/Grid/Grid';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
-import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewItemSkeleton';
-import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
-import useInfinityScroll from 'src/hooks/useInfinityScroll';
-import { Container } from './styles';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
+import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
+import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewItemSkeleton';
+import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import usePageTitle from 'src/hooks/usePageTitle';
+import { Container } from './styles';
 
 const MyReviewsPage = () => {
   usePageTitle('내가 남긴 리뷰');

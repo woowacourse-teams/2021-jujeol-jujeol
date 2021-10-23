@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, Method } from 'axios';
+
 import { LOCAL_STORAGE_KEY, REQUEST_URL } from 'src/constants';
 import { getLocalStorageItem } from 'src/utils/localStorage';
 

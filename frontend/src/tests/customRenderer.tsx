@@ -1,11 +1,11 @@
-import { LocationDescriptor } from 'history';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { render } from '@testing-library/react';
+import { LocationDescriptor } from 'history';
 
 import APIProvider from 'src/apis/APIProvider';
+import ConfirmProvider from 'src/components/Confirm/ConfirmProvider';
 import ModalProvider from 'src/components/Modal/ModalProvider';
 import { UserProvider } from 'src/contexts/UserContext';
-import ConfirmProvider from 'src/components/Confirm/ConfirmProvider';
 
 interface Props {
   initialEntries: LocationDescriptor[];

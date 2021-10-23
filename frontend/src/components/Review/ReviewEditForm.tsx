@@ -1,15 +1,14 @@
 import { FormEventHandler, useContext, useEffect, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import API from 'src/apis/requests';
 
-import { COLOR, MESSAGE, ERROR_MESSAGE, REVIEW } from 'src/constants';
+import API from 'src/apis/requests';
+import { COLOR, ERROR_MESSAGE, MESSAGE, REVIEW } from 'src/constants';
 import Button from '../@shared/Button/Button';
 import TextButton from '../@shared/Button/TextButton';
 import Heading from '../@shared/Heading/Heading';
-
-import { modalContext } from '../Modal/ModalProvider';
 import { confirmContext } from '../Confirm/ConfirmProvider';
-import { Form, Content } from './ReviewEditForm.styles';
+import { modalContext } from '../Modal/ModalProvider';
+import { Content, Form } from './ReviewEditForm.styles';
 
 interface Props {
   drinkId: string;

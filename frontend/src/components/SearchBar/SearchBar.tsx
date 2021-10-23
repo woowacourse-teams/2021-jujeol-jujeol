@@ -1,11 +1,11 @@
-import { InputHTMLAttributes, ChangeEvent, useState, FormEvent } from 'react';
+import { ChangeEvent, FormEvent, InputHTMLAttributes, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { COLOR, PATH, SEARCH } from 'src/constants';
-import IconButton from '../@shared/Button/IconButton';
-import GoBackButton from '../@shared/Button/GoBackButton';
 
+import { COLOR, PATH, SEARCH } from 'src/constants';
 import { SearchIcon } from '../@Icons';
 import CancelIcon from '../@Icons/CancelIcon';
+import GoBackButton from '../@shared/Button/GoBackButton';
+import IconButton from '../@shared/Button/IconButton';
 import { Container, SearchInput } from './SearchBar.styles';
 
 const SearchBar = ({

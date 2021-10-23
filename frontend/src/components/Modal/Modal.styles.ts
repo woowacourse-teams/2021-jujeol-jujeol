@@ -1,5 +1,6 @@
-import styled from '@emotion/styled';
 import { css, keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
+
 import { COLOR, Z_INDEX } from 'src/constants';
 
 const popUp = keyframes`
@@ -92,4 +93,4 @@ const CloseButton = styled.button`
   }
 `;
 
-export { Container, Content, CloseButton };
+export { CloseButton, Container, Content };

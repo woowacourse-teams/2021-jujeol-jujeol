@@ -1,8 +1,9 @@
 import { css } from '@emotion/react';
+
 import { COLOR } from 'src/constants';
 import Card from '../@shared/Card/Card';
 import Heading from '../@shared/Heading/Heading';
-import { Wrapper, Content, ButtonWrapper } from './Confirm.styles';
+import { ButtonWrapper, Content, Wrapper } from './Confirm.styles';
 
 interface Props {
   isOpened: boolean;

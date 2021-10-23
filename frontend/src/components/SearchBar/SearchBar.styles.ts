@@ -1,6 +1,7 @@
-import Flex from 'src/styles/Flex';
 import styled from '@emotion/styled';
+
 import { COLOR } from 'src/constants';
+import Flex from 'src/styles/Flex';
 
 const Container = styled.form<Omit<React.CSSProperties, 'translate'>>`
   width: ${({ width }) => width && `${width}`};

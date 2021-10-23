@@ -3,14 +3,13 @@ import { useInfiniteQuery } from 'react-query';
 
 import API from 'src/apis/requests';
 import Grid from 'src/components/@shared/Grid/Grid';
-import MyDrinkItem from './MyDrinkItem';
-
-import { Container } from './styles';
-import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
-import PersonalDrinkItemSkeleton from 'src/components/Skeleton/PersonalDrinkItemSkeleton';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
+import PersonalDrinkItemSkeleton from 'src/components/Skeleton/PersonalDrinkItemSkeleton';
+import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import usePageTitle from 'src/hooks/usePageTitle';
+import MyDrinkItem from './MyDrinkItem';
+import { Container } from './styles';
 
 const MyDrinksPage = () => {
   usePageTitle('선호도를 남긴 술');

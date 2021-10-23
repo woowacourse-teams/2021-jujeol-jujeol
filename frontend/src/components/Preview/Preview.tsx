@@ -1,8 +1,9 @@
 import { useHistory } from 'react-router-dom';
+
 import { COLOR } from 'src/constants';
 import ArrowIcon from '../@Icons/ArrowIcon';
 import Heading from '../@shared/Heading/Heading';
-import { PreviewSection, Header, MoveViewAllPageButton } from './Preview.styles';
+import { Header, MoveViewAllPageButton, PreviewSection } from './Preview.styles';
 
 interface Props {
   title: string;

@@ -1,5 +1,6 @@
-import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
+import { css } from '@emotion/react';
+
 import { PATH } from 'src/constants';
 import { PreferenceRate } from 'src/pages/HomePage/styles';
 import LineClamp from 'src/styles/LineClamp';

@@ -1,37 +1,33 @@
-import { useEffect, useContext } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-
-import UserContext from 'src/contexts/UserContext';
-import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
+import { useHistory } from 'react-router-dom';
 
 import API from 'src/apis/requests';
-import { removeLocalStorageItem } from 'src/utils/localStorage';
-
-import NavigationHeader from 'src/components/Header/NavigationHeader';
-import Grid from 'src/components/@shared/Grid/Grid';
+import {
+  DizzyEmojiColorIcon,
+  ExcitedEmojiColorIcon,
+  LoveEmojiColorIcon,
+  SmileEmojiColorIcon,
+} from 'src/components/@Icons';
 import TextButton from 'src/components/@shared/Button/TextButton';
+import Grid from 'src/components/@shared/Grid/Grid';
+import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
+import NavigationHeader from 'src/components/Header/NavigationHeader';
+import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
 import Preview from 'src/components/Preview/Preview';
 import Profile from 'src/components/Profile/Profile';
 import { HorizontalScroll } from 'src/components/Scroll/HorizontalScroll';
-import Status from './Status';
-import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
-
+import PersonalDrinkItemSkeleton from 'src/components/Skeleton/PersonalDrinkItemSkeleton';
+import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewItemSkeleton';
+import { COLOR, LOCAL_STORAGE_KEY, MESSAGE, PATH, VALUE } from 'src/constants';
+import UserContext from 'src/contexts/UserContext';
+import usePageTitle from 'src/hooks/usePageTitle';
+import { removeLocalStorageItem } from 'src/utils/localStorage';
 import MyDrinkItem from '../MyDrinksPage/MyDrinkItem';
 import NoPreference from './NoPreference';
 import NoReview from './NoReview';
-
-import { PATH, VALUE, COLOR, LOCAL_STORAGE_KEY, MESSAGE } from 'src/constants';
-import {
-  SmileEmojiColorIcon,
-  LoveEmojiColorIcon,
-  DizzyEmojiColorIcon,
-  ExcitedEmojiColorIcon,
-} from 'src/components/@Icons';
-import PersonalDrinkItemSkeleton from 'src/components/Skeleton/PersonalDrinkItemSkeleton';
-import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewItemSkeleton';
+import Status from './Status';
 import { SurveyLink } from './styles';
-import usePageTitle from 'src/hooks/usePageTitle';
 
 const userProfileIcons = [
   SmileEmojiColorIcon,

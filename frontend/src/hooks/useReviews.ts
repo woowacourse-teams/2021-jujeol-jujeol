@@ -1,4 +1,5 @@
 import { useInfiniteQuery } from 'react-query';
+
 import API from 'src/apis/requests';
 
 const useReviews = ({ drinkId }: { drinkId: string }) => {

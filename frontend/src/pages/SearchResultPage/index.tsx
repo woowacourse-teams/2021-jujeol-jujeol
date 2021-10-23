@@ -3,20 +3,17 @@ import { useInfiniteQuery } from 'react-query';
 import { RouteComponentProps } from 'react-router-dom';
 
 import API from 'src/apis/requests';
-
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
-import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
-import ListItem from 'src/components/Item/ListItem';
-import List from 'src/components/List/List';
-import { PATH } from 'src/constants';
-import useInfinityScroll from 'src/hooks/useInfinityScroll';
-import { categories } from '../SearchPage';
-import NoSearchResults from './NoSearchResults';
-
-import { Container, SearchResult } from './styles';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
+import ListItem from 'src/components/Item/ListItem';
+import List from 'src/components/List/List';
+import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
+import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import usePageTitle from 'src/hooks/usePageTitle';
+import { categories } from '../SearchPage';
+import NoSearchResults from './NoSearchResults';
+import { Container, SearchResult } from './styles';
 
 const SearchResultPage = ({ location }: RouteComponentProps) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);

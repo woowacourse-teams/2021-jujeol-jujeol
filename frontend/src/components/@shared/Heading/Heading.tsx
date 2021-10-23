@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { SerializedStyles } from '@emotion/utils';
+
 import { COLOR, FONT_WEIGHT } from 'src/constants';
 
 type HeadingStyle = React.CSSProperties & { css?: SerializedStyles };

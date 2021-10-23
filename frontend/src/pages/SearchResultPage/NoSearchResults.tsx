@@ -1,13 +1,12 @@
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
-import API from 'src/apis/requests';
-import { PATH } from 'src/constants';
 
+import API from 'src/apis/requests';
 import { DizzyEmojiColorIcon } from 'src/components/@Icons';
 import { Img } from 'src/components/@shared/Image/Image';
 import CardList from 'src/components/List/CardList';
 import Section from 'src/components/Section/Section';
-
+import { PATH } from 'src/constants';
 import { Item, NotificationSection } from './NoSearchResult.styles';
 
 const NoSearchResults = ({ search }: { search: string }) => {
