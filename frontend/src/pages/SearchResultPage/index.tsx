@@ -52,7 +52,7 @@ const SearchResultPage = ({ location }: RouteComponentProps) => {
 
         return currentPage < lastPage ? currentPage + 1 : undefined;
       },
-      onError: (error: { code: number; message: string }) => {
+      onError: (error: Request.Error) => {
         setSnackbarMessage?.({
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,

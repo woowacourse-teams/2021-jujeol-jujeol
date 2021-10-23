@@ -6,6 +6,7 @@ import { COLOR, ERROR_MESSAGE, MESSAGE, REVIEW } from 'src/constants';
 import Button from '../@shared/Button/Button';
 import TextButton from '../@shared/Button/TextButton';
 import Heading from '../@shared/Heading/Heading';
+import { SnackbarContext } from '../@shared/Snackbar/SnackbarProvider';
 import { confirmContext } from '../Confirm/ConfirmProvider';
 import { modalContext } from '../Modal/ModalProvider';
 import { Content, Form } from './ReviewEditForm.styles';
@@ -22,6 +23,7 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
 
   const { isModalOpened, closeModal } = useContext(modalContext) ?? {};
   const { setConfirm, closeConfirm } = useContext(confirmContext) ?? {};
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
 
   const [editContent, setEditContent] = useState(content);
 
@@ -32,9 +34,13 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
       queryClient.invalidateQueries('reviews');
       closeModal?.();
       closeConfirm?.();
+      setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.DELETE_REVIEW_SUCCESS });
     },
-    onError: () => {
-      alert(ERROR_MESSAGE.DEFAULT);
+    onError: (error: Request.Error) => {
+      setSnackbarMessage?.({
+        type: 'ERROR',
+        message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+      });
     },
   });
 
@@ -48,9 +54,13 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
       onSuccess: () => {
         queryClient.invalidateQueries('reviews');
         closeModal?.();
+        setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.EDIT_REVIEW_SUCCESS });
       },
-      onError: () => {
-        alert(ERROR_MESSAGE.DEFAULT);
+      onError: (error: Request.Error) => {
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
       },
     }
   );

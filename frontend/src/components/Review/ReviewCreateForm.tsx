@@ -6,6 +6,7 @@ import API from 'src/apis/requests';
 import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, REVIEW } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
 import Card from '../@shared/Card/Card';
+import { SnackbarContext } from '../@shared/Snackbar/SnackbarProvider';
 import { Form } from './ReviewCreateForm.styles';
 
 const LOGGED_IN_PLACEHOLDER =
@@ -15,9 +16,12 @@ const NOT_LOGGED_IN_PLACEHOLDER = '리뷰를 등록하기 위해서는 로그인
 const ReviewCreateForm = () => {
   const [content, setContent] = useState('');
   const history = useHistory();
+
   const { id: drinkId } = useParams<{ id: string }>();
 
   const queryClient = useQueryClient();
+
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
   const { mutate } = useMutation(
@@ -26,9 +30,13 @@ const ReviewCreateForm = () => {
       onSuccess: () => {
         queryClient.invalidateQueries('reviews');
         setContent('');
+        setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.CREATE_REVIEW_SUCCESS });
       },
-      onError: (error: { code: number; message: string }) => {
-        alert(ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT);
+      onError: (error: Request.Error) => {
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
       },
     }
   );

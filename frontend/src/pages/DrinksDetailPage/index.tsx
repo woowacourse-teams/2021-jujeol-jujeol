@@ -9,6 +9,7 @@ import Grid from 'src/components/@shared/Grid/Grid';
 import Heading from 'src/components/@shared/Heading/Heading';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 import SkipNav from 'src/components/@shared/SkipNav/SkipNav';
+import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
 import { confirmContext } from 'src/components/Confirm/ConfirmProvider';
 import Property from 'src/components/Property/Property';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
@@ -54,6 +55,8 @@ const DrinksDetailPage = () => {
 
   const history = useHistory();
 
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
+
   const pageContainerRef = useRef<HTMLImageElement>(null);
   const preferenceRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
@@ -73,6 +76,12 @@ const DrinksDetailPage = () => {
       retry: 0,
       onSuccess: ({ data }) => {
         setCurrentPreferenceRate(data.preferenceRate);
+      },
+      onError: (error: Request.Error) => {
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
       },
     }
   );
@@ -111,8 +120,11 @@ const DrinksDetailPage = () => {
       });
     },
     {
-      onError: (error: { code: number; message: string }) => {
-        alert(ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT);
+      onError: (error: Request.Error) => {
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
       },
     }
   );

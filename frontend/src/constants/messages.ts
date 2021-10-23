@@ -10,6 +10,10 @@ const MESSAGE = {
   PAGE_ACCESS_NOT_ALLOWED: '접근 할 수 없는 페이지 입니다.',
   CONFIRM_DELETE_REVIEW: '리뷰를 삭제하시겠습니까?',
   CANNOT_REDO: '이 결정은 되돌릴 수 없습니다.',
+
+  CREATE_REVIEW_SUCCESS: '리뷰가 등록되었습니다.',
+  EDIT_REVIEW_SUCCESS: '리뷰를 수정하였습니다.',
+  DELETE_REVIEW_SUCCESS: '리뷰를 삭제하였습니다.',
 };
 
 // API error
@@ -18,7 +22,9 @@ const ERROR_MESSAGE: { [key: string]: string } = {
 
   '1005': MESSAGE.LOGIN_REQUIRED_TO_UPDATE_PREFERENCE,
 
+  '2005': '존재하지 않는 리뷰입니다.',
   '2007': '글은 하루에 한 번만 작성할 수 있습니다.',
+  '2008': '리뷰는 1글자 이상 300글자 이하로 작성해주어야 합니다.',
 };
 
 const MESSAGE_TYPE_EMOJI = {

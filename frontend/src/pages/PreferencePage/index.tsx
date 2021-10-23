@@ -39,7 +39,7 @@ const PreferencePage = () => {
       getNextPageParam: ({ pageInfo }) => {
         return pageInfo.currentPage < pageInfo.lastPage ? pageInfo.currentPage + 1 : undefined;
       },
-      onError: (error: { code: number; message: string }) => {
+      onError: (error: Request.Error) => {
         setSnackbarMessage?.({
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
@@ -68,7 +68,7 @@ const PreferencePage = () => {
       });
     },
     {
-      onError: (error: { code: number; message: string }) => {
+      onError: (error: Request.Error) => {
         setSnackbarMessage?.({
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
