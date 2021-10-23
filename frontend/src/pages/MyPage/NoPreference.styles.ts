@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
+
 import Flex from 'src/styles/Flex';
 
 const Header = styled.div`
@@ -22,4 +23,4 @@ const Content = styled(Link)`
   }
 `;
 
-export { Header, Content };
+export { Content, Header };

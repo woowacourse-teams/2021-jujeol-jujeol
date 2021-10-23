@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import COLOR from './constants/color';
 
 const MainContainer = styled.main`

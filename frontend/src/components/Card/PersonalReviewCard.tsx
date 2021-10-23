@@ -1,11 +1,12 @@
+import { useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/react';
-import { useRef, useState, useEffect } from 'react';
+
 import { COLOR } from 'src/constants';
+import ArrowIcon from '../@Icons/ArrowIcon';
 import IconButton from '../@shared/Button/IconButton';
 import Card from '../@shared/Card/Card';
-import ArrowIcon from '../@Icons/ArrowIcon';
 import { Img } from '../@shared/Image/Image';
-import { TextContainer, Title, Content } from './PersonalReviewCard.styles';
+import { Content, TextContainer, Title } from './PersonalReviewCard.styles';
 
 interface Props {
   review: Review.PersonalReviewItem;

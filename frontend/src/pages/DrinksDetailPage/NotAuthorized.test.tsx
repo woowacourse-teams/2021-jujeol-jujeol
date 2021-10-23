@@ -1,14 +1,14 @@
-import '@testing-library/jest-dom';
-import { screen, waitFor, fireEvent } from '@testing-library/react';
-import { customRender } from 'src/tests/customRenderer';
-import { MockIntersectionObserver } from 'src/tests/mockTestFunction';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
+
+import API from 'src/apis/requests';
+import { MESSAGE, PATH } from 'src/constants';
 import { drinksDetail } from 'src/mocks/drinksDetail';
 import { drinksReviews } from 'src/mocks/drinksReviews';
-import API from 'src/apis/requests';
-
-import { MESSAGE, PATH } from 'src/constants';
-
+import { customRender } from 'src/tests/customRenderer';
+import { MockIntersectionObserver } from 'src/tests/mockTestFunction';
 import DrinksDetailPage from '.';
+
+import '@testing-library/jest-dom';
 
 describe('로그인 되지 않은 사용자가 상세페이지를 이용한다.', () => {
   beforeEach(async () => {

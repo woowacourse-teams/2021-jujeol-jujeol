@@ -1,4 +1,5 @@
 import { ChangeEvent, InputHTMLAttributes } from 'react';
+
 import { COLOR } from 'src/constants';
 import StarIcon, { fillStatus } from '../@Icons/StarIcon';
 import { Wrapper } from './RangeWithIcons.styles';

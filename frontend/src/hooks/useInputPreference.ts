@@ -1,4 +1,4 @@
-import { useState, RefObject } from 'react';
+import { RefObject, useState } from 'react';
 
 const useNoticeToInputPreference = ({ targetRef }: { targetRef: RefObject<HTMLDivElement> }) => {
   const [isBlinked, setIsBlinked] = useState(false);

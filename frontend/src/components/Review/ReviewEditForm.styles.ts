@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import Flex from 'src/styles/Flex';
 
 import { COLOR } from 'src/constants';
+import Flex from 'src/styles/Flex';
 
 const Form = styled.form`
   height: 90%;
@@ -47,4 +47,4 @@ const Content = styled.div`
   }
 `;
 
-export { Form, Content };
+export { Content, Form };

@@ -2,18 +2,19 @@ import { useContext, useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+
 import API from 'src/apis/requests';
+import { DizzyEmojiColorIcon } from 'src/components/@Icons';
 import FlexBox from 'src/components/@shared/FlexBox/FlexBox';
 import Grid from 'src/components/@shared/Grid/Grid';
-import { DizzyEmojiColorIcon } from 'src/components/@Icons';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
 import { PATH } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
+import usePageTitle from 'src/hooks/usePageTitle';
 import { InfinityScrollPoll } from '../ViewAllPage/ViewAllPage.styles';
 import MemoizedPreferenceItem from './PreferenceItem';
-import { Container, AlertWrapper, NoDrink, Notification } from './styles';
-import usePageTitle from 'src/hooks/usePageTitle';
+import { AlertWrapper, Container, NoDrink, Notification } from './styles';
 
 const PreferencePage = () => {
   usePageTitle('선호도 평가');

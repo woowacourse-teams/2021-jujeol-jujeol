@@ -39,4 +39,4 @@ const mockMatchMedia = jest.fn().mockImplementation((query) => ({
   dispatchEvent: jest.fn(),
 }));
 
-export { MockIntersectionObserver, mockScrollTo, mockMatchMedia };
+export { MockIntersectionObserver, mockMatchMedia, mockScrollTo };

@@ -1,41 +1,38 @@
 import { MouseEventHandler, useContext, useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useHistory, useParams } from 'react-router-dom';
-
-import { isMouseEvent, isKeyboardEvent } from 'src/types/typeGuard';
-import UserContext from 'src/contexts/UserContext';
-import API from 'src/apis/requests';
-import useNoticeToInputPreference from 'src/hooks/useInputPreference';
-import useShowMoreContent from 'src/hooks/useShowMoreContent';
-
-import { properties } from './propertyData';
-
-import GoBackButton from 'src/components/@shared/Button/GoBackButton';
-import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
-import Review from 'src/components/Review/Review';
-import Property from 'src/components/Property/Property';
-import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
-import DrinksDetailDescriptionSkeleton from 'src/components/Skeleton/DrinksDetailDescriptionSkeleton';
-
-import {
-  Section,
-  PreferenceSection,
-  Image,
-  DescriptionSection,
-  Container,
-  Description,
-  ShowMoreButton,
-  FoldButton,
-  ImageWrapper,
-} from './styles';
-import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 import { css } from '@emotion/react';
+
+import API from 'src/apis/requests';
+import GoBackButton from 'src/components/@shared/Button/GoBackButton';
 import Grid from 'src/components/@shared/Grid/Grid';
 import Heading from 'src/components/@shared/Heading/Heading';
-import { confirmContext } from 'src/components/Confirm/ConfirmProvider';
-import { hiddenStyle } from 'src/styles/hidden';
-import usePageTitle from 'src/hooks/usePageTitle';
+import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 import SkipNav from 'src/components/@shared/SkipNav/SkipNav';
+import { confirmContext } from 'src/components/Confirm/ConfirmProvider';
+import Property from 'src/components/Property/Property';
+import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
+import Review from 'src/components/Review/Review';
+import DrinksDetailDescriptionSkeleton from 'src/components/Skeleton/DrinksDetailDescriptionSkeleton';
+import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
+import UserContext from 'src/contexts/UserContext';
+import useNoticeToInputPreference from 'src/hooks/useInputPreference';
+import usePageTitle from 'src/hooks/usePageTitle';
+import useShowMoreContent from 'src/hooks/useShowMoreContent';
+import { hiddenStyle } from 'src/styles/hidden';
+import { isKeyboardEvent, isMouseEvent } from 'src/types/typeGuard';
+import { properties } from './propertyData';
+import {
+  Container,
+  Description,
+  DescriptionSection,
+  FoldButton,
+  Image,
+  ImageWrapper,
+  PreferenceSection,
+  Section,
+  ShowMoreButton,
+} from './styles';
 
 const defaultDrinkDetail = {
   name: 'name',

@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+
 import Heading from '../@shared/Heading/Heading';
 import { Container } from './Banner.styles';
 

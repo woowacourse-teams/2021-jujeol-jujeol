@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import Grid from 'src/components/@shared/Grid/Grid';
+import { css } from '@emotion/react';
+
 import {
   BeerColorIcon,
   CategoryEtcColorIcon,
@@ -10,14 +11,14 @@ import {
   YangjuColorIcon,
 } from 'src/components/@Icons';
 import AllIcon from 'src/components/@Icons/AllIcon';
-import SearchBar from 'src/components/SearchBar/SearchBar';
-import Banner from 'src/components/Banner/Banner';
-import { PATH } from 'src/constants';
-import { Container, Categories, CategoryItem } from './styles';
+import Grid from 'src/components/@shared/Grid/Grid';
 import Heading from 'src/components/@shared/Heading/Heading';
-import { css } from '@emotion/react';
-import { hiddenStyle } from 'src/styles/hidden';
+import Banner from 'src/components/Banner/Banner';
+import SearchBar from 'src/components/SearchBar/SearchBar';
+import { PATH } from 'src/constants';
 import usePageTitle from 'src/hooks/usePageTitle';
+import { hiddenStyle } from 'src/styles/hidden';
+import { Categories, CategoryItem, Container } from './styles';
 
 const categories: Category[] = [
   {

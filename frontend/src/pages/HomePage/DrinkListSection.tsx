@@ -1,14 +1,15 @@
 import { useQuery } from 'react-query';
-import API from 'src/apis/requests';
-import List from '../../components/List/List';
-import Section from '../../components/Section/Section';
 import { Link } from 'react-router-dom';
-import { PATH } from 'src/constants';
-import CardList from 'src/components/List/CardList';
+
+import API from 'src/apis/requests';
+import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 import CardItem from 'src/components/Item/CardItem';
 import ListItem from 'src/components/Item/ListItem';
-import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
+import CardList from 'src/components/List/CardList';
 import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
+import { PATH } from 'src/constants';
+import List from '../../components/List/List';
+import Section from '../../components/Section/Section';
 
 interface Props {
   type: 'CARD' | 'LIST';

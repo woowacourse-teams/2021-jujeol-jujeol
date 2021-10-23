@@ -1,5 +1,6 @@
-import styled from '@emotion/styled';
 import { css, keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
+
 import { COLOR } from 'src/constants';
 
 interface Props extends React.CSSProperties {

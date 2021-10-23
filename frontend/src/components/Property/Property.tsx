@@ -1,4 +1,4 @@
-import { Container, TextWrapper, Title, Content } from './Property.styles';
+import { Container, Content, TextWrapper, Title } from './Property.styles';
 
 interface Props {
   Icon: ({ color }: { color: string }) => React.ReactElement;

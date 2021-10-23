@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
+
 import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
-import LineClamp from 'src/styles/LineClamp';
 import { hiddenStyle } from 'src/styles/hidden';
+import LineClamp from 'src/styles/LineClamp';
 
 const Header = styled.div`
   text-align: center;
@@ -44,4 +45,4 @@ const Description = styled.div`
   }
 `;
 
-export { Header, Description };
+export { Description, Header };

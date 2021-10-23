@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { COLOR } from 'src/constants';
 import { hiddenStyle } from 'src/styles/hidden';
 

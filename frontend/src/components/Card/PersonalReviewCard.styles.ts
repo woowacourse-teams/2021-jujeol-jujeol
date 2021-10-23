@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import LineClamp from 'src/styles/LineClamp';
 
 const TextContainer = styled.div`
@@ -31,4 +32,4 @@ const Content = styled.div<{ isContentOpen: boolean }>`
   ${({ isContentOpen }) => !isContentOpen && LineClamp({ lineClamp: 2 })}
 `;
 
-export { TextContainer, Title, Content };
+export { Content, TextContainer, Title };

@@ -23,4 +23,4 @@ const Content = styled.p`
   font-size: 1.25rem;
 `;
 
-export { Container, TextWrapper, Title, Content };
+export { Container, Content, TextWrapper, Title };

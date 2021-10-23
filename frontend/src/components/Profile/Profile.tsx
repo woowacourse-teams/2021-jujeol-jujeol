@@ -1,13 +1,12 @@
 import { ImgHTMLAttributes, useContext } from 'react';
-import IconButton from '../@shared/Button/IconButton';
 
+import { hiddenStyle } from 'src/styles/hidden';
 import { EditIcon } from '../@Icons';
+import IconButton from '../@shared/Button/IconButton';
+import Heading from '../@shared/Heading/Heading';
 import { modalContext } from '../Modal/ModalProvider';
 import EditModalForm from './EditModalForm';
 import { Container, EditButtonStyle } from './Profile.styles';
-import Heading from '../@shared/Heading/Heading';
-import { css } from '@emotion/react';
-import { hiddenStyle } from 'src/styles/hidden';
 
 interface Props extends ImgHTMLAttributes<HTMLImageElement> {
   ProfileIcon: (props: IconProps) => React.ReactElement;

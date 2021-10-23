@@ -1,12 +1,12 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
-import ModalProvider from './components/Modal/ModalProvider';
 import SnackbarProvider from './components/@shared/Snackbar/SnackbarProvider';
+import ConfirmProvider from './components/Confirm/ConfirmProvider';
+import ModalProvider from './components/Modal/ModalProvider';
 import Tab from './components/Tab/Tab';
 import PATH from './constants/path';
 import { MainContainer } from './styles';
-import ConfirmProvider from './components/Confirm/ConfirmProvider';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));

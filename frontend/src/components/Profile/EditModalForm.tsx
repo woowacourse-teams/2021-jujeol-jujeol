@@ -1,14 +1,14 @@
 import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-
-import Button from '../@shared/Button/Button';
-import API from 'src/apis/requests';
-import { modalContext } from '../Modal/ModalProvider';
-import { SnackbarContext } from '../@shared/Snackbar/SnackbarProvider';
-import { BioInput, Form, NicknameInput } from './EditModalForm.styles';
-import Heading from '../@shared/Heading/Heading';
 import { css } from '@emotion/react';
+
+import API from 'src/apis/requests';
 import { COLOR } from 'src/constants';
+import Button from '../@shared/Button/Button';
+import Heading from '../@shared/Heading/Heading';
+import { SnackbarContext } from '../@shared/Snackbar/SnackbarProvider';
+import { modalContext } from '../Modal/ModalProvider';
+import { BioInput, Form, NicknameInput } from './EditModalForm.styles';
 
 interface Props {
   nickname?: string;

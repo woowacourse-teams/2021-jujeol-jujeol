@@ -1,17 +1,18 @@
-import '@testing-library/jest-dom';
-import { screen, waitFor, fireEvent } from '@testing-library/react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { Location } from 'history';
-import { customRender } from 'src/tests/customRenderer';
-import { MockIntersectionObserver, mockScrollTo } from 'src/tests/mockTestFunction';
+
+import API from 'src/apis/requests';
+import { PATH } from 'src/constants';
+import { drinks } from 'src/mocks/drinks';
 import { validateMember } from 'src/mocks/member';
 import { noPersonalDrink, personalDrinks } from 'src/mocks/personalDrinks';
 import { noPersonalReview, personalReviews } from 'src/mocks/personalReview';
-import { drinks } from 'src/mocks/drinks';
-import API from 'src/apis/requests';
-
+import { customRender } from 'src/tests/customRenderer';
+import { MockIntersectionObserver, mockScrollTo } from 'src/tests/mockTestFunction';
 import MyPage from '.';
-import { PATH } from 'src/constants';
+
+import '@testing-library/jest-dom';
 
 let testLocation: Location<unknown>;
 

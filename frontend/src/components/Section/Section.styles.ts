@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { COLOR } from 'src/constants';
 
 interface TitleProps extends Omit<React.CSSProperties, 'translate'> {

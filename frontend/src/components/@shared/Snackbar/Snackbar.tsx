@@ -1,6 +1,6 @@
-import { SnackbarContent } from './SnackbarProvider';
 import { MESSAGE_TYPE_EMOJI } from 'src/constants';
 import { Container } from './Snackbar.styles';
+import { SnackbarContent } from './SnackbarProvider';
 
 const Snackbar = ({ type, message }: SnackbarContent) => {
   return (

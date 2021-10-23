@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
 
@@ -39,4 +40,4 @@ const BioInput = styled.textarea`
   font-size: 0.9rem;
 `;
 
-export { Form, NicknameInput, BioInput };
+export { BioInput, Form, NicknameInput };

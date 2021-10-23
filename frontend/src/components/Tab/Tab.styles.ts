@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+
 import { COLOR, Z_INDEX } from 'src/constants';
 
 const Nav = styled.nav<{ keyboardUp: boolean }>`
