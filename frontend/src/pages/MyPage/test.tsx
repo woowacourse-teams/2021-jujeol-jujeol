@@ -121,7 +121,6 @@ describe('로그인 된 사용자가 마이페이지를 이용한다.', () => {
     expect(MyDrinksSection).toHaveTextContent('선호도를 남긴 술이 없네요.');
     expect(MyDrinksSection).toHaveTextContent('선호도를 한 번 남겨보시는건 어떠세요?');
     expect(MyDrinksSection).toHaveTextContent(recommendedDrink.name);
-    expect(MyDrinksSection?.querySelector('img')).toHaveAccessibleName(recommendedDrink.name);
   });
 
   it('선호도를 남긴 술이 없고, 리뷰가 없는 경우, 리뷰를 남길 것을 안내한다.', async () => {

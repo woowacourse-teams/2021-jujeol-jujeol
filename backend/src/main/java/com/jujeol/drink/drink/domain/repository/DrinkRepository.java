@@ -36,4 +36,7 @@ public interface DrinkRepository extends JpaRepository<Drink, Long>, DrinkCustom
     @Query(value = "select d from Drink d join fetch d.category order by d.preferenceAvg desc",
     countQuery = "select count(d) from Drink d")
     Page<Drink> findAllSortByPreference(Pageable pageable);
+
+    @Query(value = "select d from Drink d where d.name.name like %:keyword% or d.englishName.englishName like %:keyword%")
+    Page<Drink> findWithKeyword(String keyword, Pageable pageable);
 }

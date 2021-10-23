@@ -10,12 +10,14 @@ import {
   YangjuColorIcon,
 } from 'src/components/@Icons';
 import AllIcon from 'src/components/@Icons/AllIcon';
-import SearchBar from 'src/components/@shared/SearchBar/SearchBar';
+import SearchBar from 'src/components/SearchBar/SearchBar';
 import Banner from 'src/components/Banner/Banner';
 import { PATH } from 'src/constants';
 import { Container, Categories, CategoryItem } from './styles';
 import Heading from 'src/components/@shared/Heading/Heading';
 import { css } from '@emotion/react';
+import { hiddenStyle } from 'src/styles/hidden';
+import usePageTitle from 'src/hooks/usePageTitle';
 
 const categories: Category[] = [
   {
@@ -63,19 +65,15 @@ const categories: Category[] = [
 export { categories };
 
 const SearchPage = () => {
+  usePageTitle('검색');
+
   const getCategoryPath = (key: Category['key']) =>
     key === 'ALL' ? PATH.VIEW_ALL : `${PATH.SEARCH_RESULT}?category=${key}`;
+
   return (
     <Container>
-      <Heading.level2
-        css={css`
-          width: 0;
-          height: 0;
-          opacity: 0;
-        `}
-      >
-        검색페이지
-      </Heading.level2>
+      <Heading.level1 css={hiddenStyle}>주절주절</Heading.level1>
+      <Heading.level2 css={hiddenStyle}>검색페이지</Heading.level2>
       <SearchBar placeholder="검색어를 입력해주세요" readOnly={false} />
 
       <Categories>

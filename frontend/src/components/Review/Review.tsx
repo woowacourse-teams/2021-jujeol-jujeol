@@ -13,20 +13,21 @@ import Heading from '../@shared/Heading/Heading';
 import { css } from '@emotion/react';
 
 interface Props {
+  id: string;
   drinkId: string;
   drinkName: string;
   preferenceRate: number;
   onNoticeToInputPreference: MouseEventHandler<HTMLButtonElement>;
 }
 
-const Review = ({ drinkId, drinkName, preferenceRate, onNoticeToInputPreference }: Props) => {
+const Review = ({ id, drinkId, drinkName, preferenceRate, onNoticeToInputPreference }: Props) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
   const { reviews, totalSize, fetchNextPage, hasNextPage } = useReviews({ drinkId });
   useInfinityScroll({ target: observerTargetRef, fetchNextPage, hasNextPage });
 
   return (
-    <Wrapper>
+    <Wrapper id={id}>
       <Heading.level3
         css={css`
           margin-bottom: 0.5rem;

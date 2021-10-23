@@ -1,11 +1,11 @@
 import { InputHTMLAttributes, ChangeEvent, useState, FormEvent } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { COLOR, PATH, SEARCH } from 'src/constants';
-import IconButton from '../Button/IconButton';
-import GoBackButton from '../Button/GoBackButton';
+import IconButton from '../@shared/Button/IconButton';
+import GoBackButton from '../@shared/Button/GoBackButton';
 
-import { SearchIcon } from '../../@Icons';
-import CancelIcon from '../../@Icons/CancelIcon';
+import { SearchIcon } from '../@Icons';
+import CancelIcon from '../@Icons/CancelIcon';
 import { Container, SearchInput } from './SearchBar.styles';
 
 const SearchBar = ({
@@ -14,46 +14,49 @@ const SearchBar = ({
   readOnly,
 }: InputHTMLAttributes<HTMLInputElement | HTMLFormElement>) => {
   const history = useHistory();
-  const location = useLocation();
 
   const [value, setValue] = useState('');
 
   const onInputWords = (event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
   const onResetInput = () => setValue('');
 
-  const isMainPage = location.pathname === PATH.HOME || location.pathname === PATH.ROOT;
-
   const onSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    history.push(`${PATH.SEARCH_RESULT}?words=${value}`);
+    if (!readOnly) {
+      history.push(`${PATH.SEARCH_RESULT}?words=${value}`);
+      return;
+    }
+
+    history.push(PATH.SEARCH);
   };
 
   return (
     <Container
-      width={isMainPage ? '80%' : '90%'}
-      padding={isMainPage ? '0.5rem 1.5rem' : '0.5rem 0.8rem'}
+      width={readOnly ? '80%' : '90%'}
+      padding={readOnly ? '0.5rem 1.5rem' : '0.5rem 0.8rem'}
       onSubmit={onSearch}
       onClick={onClick}
     >
-      {isMainPage ? (
+      {readOnly ? (
         <SearchIcon color={COLOR.GRAY_100} width="1.2rem" />
       ) : (
         <GoBackButton color={COLOR.WHITE} />
       )}
       <SearchInput
+        title="검색"
         type="search"
         value={value}
         placeholder={placeholder}
-        paddingRight={isMainPage ? '0' : '3.5rem'}
-        textAlign={isMainPage ? 'center' : 'left'}
+        paddingRight={readOnly ? '0' : '3.5rem'}
+        textAlign={readOnly ? 'center' : 'left'}
         onChange={onInputWords}
         maxLength={SEARCH.MAX_LENGTH}
         required
-        autoFocus
         readOnly={readOnly}
+        role={readOnly ? 'link' : 'input'}
       />
-      {!isMainPage && (
+      {!readOnly && (
         <>
           <IconButton type="reset" size="X_SMALL" onClick={onResetInput} hidden={!value}>
             <CancelIcon color={COLOR.WHITE} />

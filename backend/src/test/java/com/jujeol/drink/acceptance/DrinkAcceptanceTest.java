@@ -215,138 +215,6 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         예외_검증(errorResponse, INVALID_SORT_BY);
     }
 
-    @DisplayName("검색 조회 - 성공")
-    @Test
-    public void showDrinksBySearchTest() {
-        //given
-        String search = "ob 맥주";
-        String category = "beer";
-        int page = 1;
-
-        //when
-        final HttpResponse httpResponse = request()
-                .get("/search?keyword=" + search + "&category=" + category + "&page=" + page)
-                .withDocument("drinks/show/search")
-                .build();
-
-        //then
-        final List<DrinkResponse> drinkSimpleResponses =
-                httpResponse.convertBodyToList(DrinkResponse.class);
-
-        assertThat(drinkSimpleResponses.get(0).getName()).isEqualTo(OB.getName());
-
-        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, drinks.size());
-    }
-
-    @DisplayName("검색 조회(검색어 일부만 존재) - 성공")
-    @Test
-    public void showDrinksBySearchWithoutCategoryTest() {
-        //given
-        String search = "ste";
-        int page = 1;
-        //when
-        final HttpResponse httpResponse = request()
-                .get("/search?keyword=" + search + "&page=" + page)
-                .build();
-
-        //then
-        final List<DrinkResponse> drinkSimpleResponses =
-                httpResponse.convertBodyToList(DrinkResponse.class);
-
-        assertThat(drinkSimpleResponses).extracting("name").contains(STELLA.getName());
-
-        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 1);
-    }
-
-    @DisplayName("검색 조회(검색어가 카테고리 이름과 동일할 때) - 성공")
-    @Test
-    public void showDrinksBySearchWithCategoryNameTest() {
-        //given
-        String search = "맥주";
-        int page = 1;
-        //when
-        final HttpResponse httpResponse = request()
-                .get("/search?keyword=" + search + "&page=" + page)
-                .build();
-
-        //then
-        final List<String> drinkNames =
-                asNames(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
-
-        assertThat(httpResponse.convertBodyToList(DrinkResponse.class))
-                .extracting("name")
-                .containsExactlyElementsOf(drinkNames);
-
-        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 8);
-    }
-
-    @DisplayName("검색 조회(카테고리 KEY가 주어졌을때) - 성공")
-    @Test
-    public void showDrinksByCategoryWithoutSearchTest() {
-        //given
-        String categoryKey = "BEER";
-        int page = 1;
-        //when
-        final HttpResponse httpResponse = request()
-                .get("/search?category=" + categoryKey + "&page=" + page)
-                .build();
-
-        //then
-        final List<DrinkResponse> drinkSimpleResponses =
-                httpResponse.convertBodyToList(DrinkResponse.class);
-
-        final List<String> drinkNames =
-                asNames(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
-
-        assertThat(drinkSimpleResponses)
-                .extracting("name")
-                .containsExactlyElementsOf(drinkNames);
-
-        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 8);
-    }
-
-    @DisplayName("검색 조회(아무것도 주어지지 않았을 때) - 성공")
-    @Test
-    public void showDrinksWithoutAnythingTest() {
-        //given
-        int page = 1;
-        //when
-        final HttpResponse httpResponse = request()
-                .get("/search?page=" + page)
-                .build();
-
-        //then
-        final List<DrinkResponse> drinkSimpleResponses =
-                httpResponse.convertBodyToList(DrinkResponse.class);
-
-        final List<String> drinkNames =
-                asNames(KGB, STELLA, APPLE, ESTP, OB, TIGER_LEMON, TIGER_RAD, TSINGTAO);
-
-        assertThat(drinkSimpleResponses)
-                .extracting("name")
-                .containsExactlyElementsOf(drinkNames);
-
-        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 8);
-    }
-
-    @DisplayName("검색 조회(일치하는 정보가 없는 검색어) - 성공")
-    @Test
-    public void showDrinksWithInvalidTest() {
-        //given
-        String search = "이상한이름의검색어";
-        //when
-        final HttpResponse httpResponse = request()
-                .get("/search?keyword=" + search)
-                .withDocument("drinks/show/search-nothing")
-                .build();
-
-        //then
-        List<DrinkResponse> drinkSimpleResponses = httpResponse
-                .convertBodyToList(DrinkResponse.class);
-
-        assertThat(drinkSimpleResponses).hasSize(0);
-    }
-
     @DisplayName("상세페이지 조회 - 성공")
     @Test
     public void showDrinkDetailTest() {
@@ -376,6 +244,7 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         //then
         예외_검증(errorResponse, NOT_FOUND_DRINK);
     }
+
 
     private Long 주류_아이디(DrinkTestContainer drinkTestContainer) {
         return drinkAcceptanceTool.주류_아이디_조회(drinkTestContainer.getName());

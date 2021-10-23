@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
 import LineClamp from 'src/styles/LineClamp';
+import { hiddenStyle } from 'src/styles/hidden';
 
 const Header = styled.div`
   text-align: center;
@@ -28,13 +29,18 @@ const Description = styled.div`
     }
   }
 
-  button {
+  a {
     background-color: ${COLOR.YELLOW_300};
     border: 0;
     border-radius: 0.4rem;
     padding: 0.2rem 0.3rem;
     width: fit-content;
     align-self: flex-end;
+
+    span {
+      display: block;
+      ${hiddenStyle}
+    }
   }
 `;
 

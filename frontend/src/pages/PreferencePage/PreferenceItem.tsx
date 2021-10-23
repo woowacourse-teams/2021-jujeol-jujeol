@@ -7,12 +7,14 @@ import { DrinkDescription, Title } from './styles';
 
 const PreferenceItem = ({
   initialValue,
+  labelText,
   imageUrl,
   name,
   onUpdatePreference,
   onClickImage,
 }: {
   initialValue: number;
+  labelText: string;
   imageUrl: string;
   name: string;
   onUpdatePreference: (preferenceRate: number) => void;
@@ -22,18 +24,18 @@ const PreferenceItem = ({
 
   return (
     <FlexBox alignItems="center" justifyContent="center">
-      <Img src={imageUrl} alt={name} shape="ROUND_SQUARE" size="X_SMALL" onClick={onClickImage} />
+      <Img src={imageUrl} alt="" shape="ROUND_SQUARE" size="X_SMALL" onClick={onClickImage} />
       <DrinkDescription>
         <Title>{name}</Title>
         <RangeWithIcons
           color={COLOR.YELLOW_300}
+          labelText={labelText}
           max={PREFERENCE.MAX_VALUE}
           step={PREFERENCE.STEP}
           value={preferenceRate}
           setValue={setPreferenceRate}
           width="100%"
-          onMouseUp={() => onUpdatePreference(preferenceRate)}
-          onTouchEnd={() => onUpdatePreference(preferenceRate)}
+          onEnd={() => onUpdatePreference(preferenceRate)}
         />
       </DrinkDescription>
     </FlexBox>

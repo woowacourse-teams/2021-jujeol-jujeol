@@ -3,7 +3,7 @@ package com.jujeol.drink.recommend.application;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.recommend.domain.RecommendForAnonymous;
 import com.jujeol.drink.recommend.domain.RecommendForMember;
-import com.jujeol.drink.recommend.infrastructure.RecommendationSystem;
+import com.jujeol.drink.recommend.infrastructure.slope.Recommender;
 import com.jujeol.member.auth.ui.LoginMember;
 import com.jujeol.preference.domain.PreferenceRepository;
 import java.util.EnumMap;
@@ -19,7 +19,7 @@ public class RecommendFactory {
 
     private final Map<MemberStatus, RecommendStrategy> recommendStrategyMap;
 
-    public RecommendFactory(RecommendationSystem recommendationSystem,
+    public RecommendFactory(Recommender recommender,
             DrinkRepository drinkRepository,
             PreferenceRepository preferenceRepository
     ) {
@@ -27,14 +27,13 @@ public class RecommendFactory {
         this.recommendStrategyMap
                 .put(MemberStatus.ANONYMOUS, new RecommendForAnonymous(drinkRepository));
         this.recommendStrategyMap.put(MemberStatus.MEMBER,
-                new RecommendForMember(recommendationSystem, drinkRepository,
-                        preferenceRepository));
+                new RecommendForMember(drinkRepository, preferenceRepository, recommender));
     }
 
     public RecommendStrategy create(LoginMember loginMember) {
-        if (loginMember.isMember()) {
-            return recommendStrategyMap.get(MemberStatus.MEMBER);
-        }
-        return recommendStrategyMap.get(MemberStatus.ANONYMOUS);
+        return loginMember.act()
+                .ifMember(id -> recommendStrategyMap.get(MemberStatus.MEMBER))
+                .ifAnonymous(() -> recommendStrategyMap.get(MemberStatus.ANONYMOUS))
+                .getReturnValue(RecommendStrategy.class);
     }
 }

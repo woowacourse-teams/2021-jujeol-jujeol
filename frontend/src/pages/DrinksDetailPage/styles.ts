@@ -103,10 +103,6 @@ const descriptionButtonStyle = css`
   font-size: 0.8rem;
   font-weight: 600;
   color: ${COLOR.PURPLE_100};
-
-  :hover {
-    cursor: pointer;
-  }
 `;
 
 const FoldButton = styled.button`

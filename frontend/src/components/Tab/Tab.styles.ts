@@ -44,7 +44,7 @@ const Nav = styled.nav<{ keyboardUp: boolean }>`
       }
 
       a.active {
-        color: ${COLOR.PURPLE_400};
+        color: ${COLOR.PURPLE_600};
         font-weight: 700;
 
         svg {
