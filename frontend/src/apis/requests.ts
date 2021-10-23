@@ -83,6 +83,7 @@ const API = {
   postPreference: <I, D>(id: I, data: D) => {
     return request({ method: 'PUT' as Method, url: `/members/me/drinks/${id}/preference`, data });
   },
+
   deletePreference: <I>(id: I) => {
     return request({ method: 'DELETE' as Method, url: `/members/me/drinks/${id}/preference` });
   },
