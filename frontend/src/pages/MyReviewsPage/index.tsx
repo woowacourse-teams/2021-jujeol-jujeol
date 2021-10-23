@@ -9,8 +9,11 @@ import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import { Container } from './styles';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
+import usePageTitle from 'src/hooks/usePageTitle';
 
 const MyReviewsPage = () => {
+  usePageTitle('내가 남긴 리뷰');
+
   const {
     data: { pages } = {},
     fetchNextPage,

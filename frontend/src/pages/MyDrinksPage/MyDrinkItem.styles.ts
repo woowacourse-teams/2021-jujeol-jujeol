@@ -19,6 +19,7 @@ const Container = styled.li`
   p {
     margin: 0.5rem 0 0.2rem;
 
+    text-align: center;
     font-size: 0.95rem;
 
     ${LineClamp({ lineClamp: 1 })}

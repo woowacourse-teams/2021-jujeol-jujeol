@@ -2,6 +2,7 @@ import { MouseEventHandler, useContext, useEffect, useRef, useState } from 'reac
 import { useMutation, useQuery } from 'react-query';
 import { useHistory, useParams } from 'react-router-dom';
 
+import { isMouseEvent, isKeyboardEvent } from 'src/types/typeGuard';
 import UserContext from 'src/contexts/UserContext';
 import API from 'src/apis/requests';
 import useNoticeToInputPreference from 'src/hooks/useInputPreference';
@@ -31,6 +32,9 @@ import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
 import { css } from '@emotion/react';
 import Grid from 'src/components/@shared/Grid/Grid';
 import Heading from 'src/components/@shared/Heading/Heading';
+import { hiddenStyle } from 'src/styles/hidden';
+import usePageTitle from 'src/hooks/usePageTitle';
+import SkipNav from 'src/components/@shared/SkipNav/SkipNav';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -63,10 +67,6 @@ const DrinksDetailPage = () => {
 
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
-  useEffect(() => {
-    pageContainerRef.current?.scrollIntoView();
-  }, []);
-
   const { data: { data: drink = defaultDrinkDetail } = {}, isLoading } = useQuery(
     'drink-detail',
     () => API.getDrink<string>(drinkId),
@@ -87,6 +87,14 @@ const DrinksDetailPage = () => {
     preferenceAvg,
     description,
   }: Drink.DetailItem = drink;
+
+  const { setPageTitle } = usePageTitle(name);
+
+  useEffect(() => {
+    pageContainerRef.current?.scrollIntoView();
+
+    setPageTitle(name);
+  }, [name]);
 
   const { isShowMore, isContentOpen, onOpenContent, onCloseContent } = useShowMoreContent(
     descriptionRef,
@@ -124,9 +132,14 @@ const DrinksDetailPage = () => {
     }
   };
 
-  const onCheckLoggedIn = () => {
+  const onCheckLoggedIn = (event?: MouseEvent | KeyboardEvent | TouchEvent) => {
     setIsBlinked(false);
+
     if (!isLoggedIn) {
+      if (isKeyboardEvent(event) || isMouseEvent(event)) {
+        event?.preventDefault();
+      }
+
       moveToLoginPage();
     }
   };
@@ -166,6 +179,12 @@ const DrinksDetailPage = () => {
 
   return (
     <Container ref={pageContainerRef}>
+      <SkipNav>
+        <a href="#description">상세 설명 바로가기</a>
+        <a href="#preference">선호도 입력 바로가기</a>
+        <a href="#review">리뷰 바로가기</a>
+      </SkipNav>
+      <Heading.level1 css={hiddenStyle}>주절주절</Heading.level1>
       <GoBackButton
         color={COLOR.BLACK}
         css={css`
@@ -190,7 +209,7 @@ const DrinksDetailPage = () => {
         </ImageWrapper>
       )}
 
-      <Section isShowImageFull={isShowImageFull}>
+      <Section isShowImageFull={isShowImageFull} id="preference">
         <PreferenceSection ref={preferenceRef} isBlinked={isBlinked}>
           <Heading.level3
             color={COLOR.GRAY_100}
@@ -203,21 +222,20 @@ const DrinksDetailPage = () => {
               : '선호도를 입력해주세요'}
           </Heading.level3>
           <RangeWithIcons
+            labelText="선호도 입력"
             color={COLOR.YELLOW_300}
             max={PREFERENCE.MAX_VALUE}
             step={PREFERENCE.STEP}
             value={currentPreferenceRate}
             setValue={setPreferenceRate}
             disabled={!isLoggedIn}
-            onTouchStart={onCheckLoggedIn}
-            onClick={onCheckLoggedIn}
-            onTouchEnd={onUpdatePreference}
-            onMouseUp={onUpdatePreference}
+            onStart={onCheckLoggedIn}
+            onEnd={onUpdatePreference}
           />
           <p>다른 사람들은 평균적으로 {preferenceAvg.toFixed(1) ?? '0'}점을 줬어요</p>
         </PreferenceSection>
 
-        <DescriptionSection>
+        <DescriptionSection id="description">
           {isLoading && <DrinksDetailDescriptionSkeleton />}
           <Heading.level2>{name}</Heading.level2>
           <p>
@@ -255,6 +273,7 @@ const DrinksDetailPage = () => {
         </DescriptionSection>
 
         <Review
+          id="review"
           drinkId={drinkId}
           drinkName={name}
           preferenceRate={currentPreferenceRate}

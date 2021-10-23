@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import API from 'src/apis/requests';
 import { PATH } from 'src/constants';
 
@@ -11,15 +11,9 @@ import Section from 'src/components/Section/Section';
 import { Item, NotificationSection } from './NoSearchResult.styles';
 
 const NoSearchResults = ({ search }: { search: string }) => {
-  const history = useHistory();
-
   const { data: { data: drinks } = [] } = useQuery('recommendedDrinks', () =>
     API.getRecommendedDrinks()
   );
-
-  const onMoveToDrinkDetail = (id: number) => () => {
-    history.push(`${PATH.DRINKS}/${id}`);
-  };
 
   return (
     <>
@@ -32,9 +26,11 @@ const NoSearchResults = ({ search }: { search: string }) => {
         <CardList count={7} colGap="1rem">
           {drinks?.map(
             ({ id, name, imageResponse }: Pick<Drink.Item, 'id' | 'name' | 'imageResponse'>) => (
-              <Item key={id} onClick={onMoveToDrinkDetail(id)}>
-                <Img src={imageResponse?.small} alt={name} size="MEDIUM" shape="CIRCLE" />
-                <p>{name}</p>
+              <Item key={id}>
+                <Link to={`${PATH.DRINKS}/${id}`}>
+                  <Img src={imageResponse?.small} alt={name} size="MEDIUM" shape="CIRCLE" />
+                  <p>{name}</p>
+                </Link>
               </Item>
             )
           )}

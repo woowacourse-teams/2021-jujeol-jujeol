@@ -16,14 +16,6 @@ const Title = styled.div<TitleProps>`
   p {
     color: ${COLOR.GRAY_200};
   }
-
-  a {
-    color: ${COLOR.GRAY_200};
-
-    :hover {
-      text-decoration: underline;
-    }
-  }
 `;
 
 export { Title };

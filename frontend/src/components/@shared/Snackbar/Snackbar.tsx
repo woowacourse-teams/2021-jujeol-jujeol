@@ -6,7 +6,7 @@ const Snackbar = ({ type, message }: SnackbarContent) => {
   return (
     <Container message={!!message}>
       <span>{type && MESSAGE_TYPE_EMOJI[type]}</span>
-      <p>{message}</p>
+      <p aria-live="assertive">{message}</p>
     </Container>
   );
 };
