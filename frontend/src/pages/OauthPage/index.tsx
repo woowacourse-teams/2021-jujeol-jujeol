@@ -5,7 +5,8 @@ import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import API from 'src/apis/requests';
 import { LoveEmojiColorIcon } from 'src/components/@Icons';
 import FlexBox from 'src/components/@shared/FlexBox/FlexBox';
-import { LOCAL_STORAGE_KEY, MESSAGE, PATH } from 'src/constants';
+import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
+import { ERROR_MESSAGE, LOCAL_STORAGE_KEY, MESSAGE, PATH } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
 import { setLocalStorageItem } from 'src/utils/localStorage';
 import { Container } from './styles';
@@ -20,7 +21,9 @@ interface RequestData {
 const OauthPage = () => {
   const history = useHistory();
   const location = useLocation();
+
   const { getUser, isLoggedIn } = useContext(UserContext);
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
 
   const code = new URLSearchParams(location.search).get(KAKAO_CODE_QUERY_SELECTOR);
 
@@ -34,8 +37,15 @@ const OauthPage = () => {
         }
 
         setLocalStorageItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, accessToken);
+        setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.LOGIN_SUCCESS });
         getUser();
         history.push(PATH.HOME);
+      },
+      onError: (error: Request.Error) => {
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
       },
     }
   );
