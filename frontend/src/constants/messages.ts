@@ -14,6 +14,8 @@ const MESSAGE = {
   CREATE_REVIEW_SUCCESS: '리뷰가 등록되었습니다.',
   EDIT_REVIEW_SUCCESS: '리뷰를 수정하였습니다.',
   DELETE_REVIEW_SUCCESS: '리뷰를 삭제하였습니다.',
+
+  EDIT_PROFILE_SUCCESS: '프로필을 수정하였습니다.',
 };
 
 // API error
