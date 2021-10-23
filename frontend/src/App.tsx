@@ -6,6 +6,7 @@ import SnackbarProvider from './components/@shared/Snackbar/SnackbarProvider';
 import Tab from './components/Tab/Tab';
 import PATH from './constants/path';
 import { MainContainer } from './styles';
+import ConfirmProvider from './components/Confirm/ConfirmProvider';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
@@ -23,28 +24,30 @@ const App = () => {
   return (
     <>
       <Router>
-        <SnackbarProvider>
-          <ModalProvider>
-            <MainContainer>
-              <Suspense fallback>
-                <Switch>
-                  <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
-                  <Route exact path={[PATH.LOGIN]} component={LoginPage} />
-                  <Route exact path={[PATH.OAUTH]} component={OauthPage} />
-                  <Route exact path={[PATH.VIEW_ALL]} component={ViewAllPage} />
-                  <Route exact path={`${PATH.DRINKS}/:id`} component={DrinksDetailPage} />
-                  <Route exact path={[PATH.MYPAGE]} component={MyPage} />
-                  <Route exact path={[PATH.MY_DRINKS]} component={MyDrinksPage} />
-                  <Route exact path={[PATH.MY_REVIEWS]} component={MyReviewsPage} />
-                  <Route exact path={[PATH.SEARCH]} component={SearchPage} />
-                  <Route exact path={[PATH.SEARCH_RESULT]} component={SearchResultPage} />
-                  <Route exact path={[PATH.PREFERENCE]} component={PreferencePage} />
-                  <Redirect to={PATH.ROOT} />
-                </Switch>
-              </Suspense>
-            </MainContainer>
-          </ModalProvider>
-        </SnackbarProvider>
+        <ConfirmProvider>
+          <SnackbarProvider>
+            <ModalProvider>
+              <MainContainer>
+                <Suspense fallback>
+                  <Switch>
+                    <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
+                    <Route exact path={[PATH.LOGIN]} component={LoginPage} />
+                    <Route exact path={[PATH.OAUTH]} component={OauthPage} />
+                    <Route exact path={[PATH.VIEW_ALL]} component={ViewAllPage} />
+                    <Route exact path={`${PATH.DRINKS}/:id`} component={DrinksDetailPage} />
+                    <Route exact path={[PATH.MYPAGE]} component={MyPage} />
+                    <Route exact path={[PATH.MY_DRINKS]} component={MyDrinksPage} />
+                    <Route exact path={[PATH.MY_REVIEWS]} component={MyReviewsPage} />
+                    <Route exact path={[PATH.SEARCH]} component={SearchPage} />
+                    <Route exact path={[PATH.SEARCH_RESULT]} component={SearchResultPage} />
+                    <Route exact path={[PATH.PREFERENCE]} component={PreferencePage} />
+                    <Redirect to={PATH.ROOT} />
+                  </Switch>
+                </Suspense>
+              </MainContainer>
+            </ModalProvider>
+          </SnackbarProvider>
+        </ConfirmProvider>
 
         <Tab />
       </Router>
