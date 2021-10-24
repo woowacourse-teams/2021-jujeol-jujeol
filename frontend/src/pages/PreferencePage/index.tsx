@@ -11,6 +11,7 @@ import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
 import { ERROR_MESSAGE, PATH } from 'src/constants';
+import QUERY_KEY from 'src/constants/queryKey';
 import UserContext from 'src/contexts/UserContext';
 import usePageTitle from 'src/hooks/usePageTitle';
 import { InfinityScrollPoll } from '../ViewAllPage/ViewAllPage.styles';
@@ -29,7 +30,7 @@ const PreferencePage = () => {
   const queryClient = useQueryClient();
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery(
-    'preference-drinks',
+    QUERY_KEY.DRINK_LIST_SORTED_BY_PREFERENCE,
     ({ pageParam = 1 }) =>
       API.getDrinks({
         page: pageParam,
@@ -74,7 +75,7 @@ const PreferencePage = () => {
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
         });
 
-        queryClient.removeQueries('preference-drinks');
+        queryClient.removeQueries(QUERY_KEY.DRINK_LIST_SORTED_BY_PREFERENCE);
       },
     }
   );

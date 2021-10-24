@@ -27,7 +27,7 @@ const NotificationSection = styled.section`
 `;
 
 const Item = styled.div`
-  > p {
+  p {
     font-size: 0.8rem;
     margin-top: 0.5rem;
     text-align: center;

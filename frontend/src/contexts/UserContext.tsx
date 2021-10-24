@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 
 import API from 'src/apis/requests';
 import { LOCAL_STORAGE_KEY } from 'src/constants';
-import { removeLocalStorageItem } from 'src/utils/localStorage';
+import QUERY_KEY from 'src/constants/queryKey';
 
 type UserData = {
   id: number;
@@ -34,7 +34,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [userData, setUserData] = useState<UserData | null>(null);
 
   const { refetch } = useQuery(
-    'user-info',
+    QUERY_KEY.USER,
     () => {
       if (localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN)) {
         return API.getUserInfo();

@@ -16,6 +16,7 @@ import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import Review from 'src/components/Review/Review';
 import DrinksDetailDescriptionSkeleton from 'src/components/Skeleton/DrinksDetailDescriptionSkeleton';
 import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
+import QUERY_KEY from 'src/constants/queryKey';
 import UserContext from 'src/contexts/UserContext';
 import useNoticeToInputPreference from 'src/hooks/useInputPreference';
 import usePageTitle from 'src/hooks/usePageTitle';
@@ -70,7 +71,7 @@ const DrinksDetailPage = () => {
   const { setConfirm, closeConfirm } = useContext(confirmContext) ?? {};
 
   const { data: { data: drink = defaultDrinkDetail } = {}, isLoading } = useQuery(
-    'drink-detail',
+    QUERY_KEY.DRINK_DETAIL,
     () => API.getDrink<string>(drinkId),
     {
       retry: 0,

@@ -51,12 +51,6 @@ const API = {
       url: REQUEST_URL.GET_DRINKS + '?page=' + page + (params ? '&' + params.toString() : ''),
     });
   },
-  getRecommendedDrinks: () => {
-    return request({
-      method: 'GET' as Method,
-      url: REQUEST_URL.GET_RECOMMENDED_DRINKS,
-    });
-  },
   getDrink: <T>(id: T) => {
     return request({ method: 'GET' as Method, url: `${REQUEST_URL.GET_DRINK}/${id}` });
   },
