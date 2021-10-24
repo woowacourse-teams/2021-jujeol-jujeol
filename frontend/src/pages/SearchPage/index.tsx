@@ -95,7 +95,7 @@ const SearchPage = () => {
           {categories.map(({ key, name, Icon }) => {
             return (
               <CategoryItem key={key} title={name}>
-                <Link to={getCategoryPath(key)}>
+                <Link to={getCategoryPath(key)} title={name}>
                   <Icon />
                   <span>{name}</span>
                 </Link>
