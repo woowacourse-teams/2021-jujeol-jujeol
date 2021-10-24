@@ -33,17 +33,27 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
 
-  const { refetch } = useQuery('user-info', API.getUserInfo, {
-    retry: 0,
-    onSuccess: ({ data }) => {
-      setIsLoggedIn(true);
-      setUserData(data);
+  const { refetch } = useQuery(
+    'user-info',
+    () => {
+      if (localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN)) {
+        return API.getUserInfo();
+      }
     },
-    onError: () => {
-      removeLocalStorageItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
-      setIsLoggedIn(false);
-    },
-  });
+    {
+      retry: 0,
+      onSuccess: (response) => {
+        if (response?.data) {
+          setIsLoggedIn(true);
+          setUserData(response?.data);
+        }
+      },
+      onError: (error) => {
+        localStorage.removeItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
+        setIsLoggedIn(false);
+      },
+    }
+  );
 
   const getUser = async () => {
     await refetch();

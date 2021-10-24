@@ -27,10 +27,14 @@ const OauthPage = () => {
 
   const code = new URLSearchParams(location.search).get(KAKAO_CODE_QUERY_SELECTOR);
 
+  let loginFailTimeoutID: NodeJS.Timeout;
+
   const { mutate } = useMutation(
     () => API.login<RequestData>({ providerName: 'KAKAO', code: code as string }),
     {
       onSuccess: ({ data: { accessToken } }) => {
+        clearTimeout(loginFailTimeoutID);
+
         if (!accessToken) {
           history.push(PATH.LOGIN);
           return;
@@ -46,6 +50,10 @@ const OauthPage = () => {
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
         });
+
+        loginFailTimeoutID = setTimeout(() => {
+          history.push(PATH.LOGIN);
+        }, 3000);
       },
     }
   );

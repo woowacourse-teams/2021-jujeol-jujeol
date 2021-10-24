@@ -97,7 +97,7 @@ const MyPage = () => {
       await getUser();
 
       if (!queryClient.isFetching('user-info') && !isLoggedIn) {
-        alert(MESSAGE.LOGIN_REQUIRED_FOR_MYPAGE);
+        setSnackbarMessage?.({ type: 'ERROR', message: MESSAGE.LOGIN_REQUIRED_FOR_MYPAGE });
         history.push(PATH.LOGIN);
       }
     };
