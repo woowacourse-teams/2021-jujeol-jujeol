@@ -1,9 +1,10 @@
 import { screen, waitFor } from '@testing-library/react';
 
 import API from 'src/apis/requests';
-import { PATH } from 'src/constants';
+import { LOCAL_STORAGE_KEY, PATH } from 'src/constants';
 import { validateMember } from 'src/mocks/member';
 import { personalDrinks } from 'src/mocks/personalDrinks';
+import { ACCESS_TOKEN } from 'src/mocks/user';
 import { customRender } from 'src/tests/customRenderer';
 import { MockIntersectionObserver, mockMatchMedia, mockScrollTo } from 'src/tests/mockTestFunction';
 import MyDrinksPage from '.';
@@ -12,6 +13,8 @@ import '@testing-library/jest-dom';
 
 describe('로그인 된 사용자가 선호도를 남긴 술 페이지를 이용한다.', () => {
   beforeAll(async () => {
+    localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, ACCESS_TOKEN);
+
     Object.defineProperty(global.window, 'scrollTo', { value: mockScrollTo });
     Object.defineProperty(global.window, 'IntersectionObserver', {
       value: MockIntersectionObserver,
