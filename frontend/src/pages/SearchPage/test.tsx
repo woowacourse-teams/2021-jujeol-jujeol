@@ -6,7 +6,6 @@ import { Location } from 'history';
 import { customRender } from 'src/tests/customRenderer';
 import { MockIntersectionObserver, mockScrollTo } from 'src/tests/mockTestFunction';
 import SearchPage from '.';
-import SearchResultPage from '../SearchResultPage';
 import { PATH } from 'src/constants';
 import { categories } from 'src/mocks/category';
 
@@ -22,7 +21,7 @@ const renderSearchPage = async () => {
             <SearchPage />
           </Route>
           <Route exact path={PATH.SEARCH_RESULT}>
-            <SearchResultPage />
+            검색결과
           </Route>
           <Redirect to={PATH.SEARCH} />
         </Switch>
@@ -50,7 +49,7 @@ describe('사용자가 주류 검색 및 카테고리 검색을 위해 검색 �
   });
 
   it('사용자는 검색 페이지에서 검색창을 확인할 수 있다.', () => {
-    screen.getByRole('searchbox');
+    screen.getByRole('input');
     screen.getByPlaceholderText('검색어를 입력해주세요');
     screen.getByRole('button', { name: '검색' });
   });
@@ -64,10 +63,10 @@ describe('사용자가 주류 검색 및 카테고리 검색을 위해 검색 �
   });
 
   it('사용자는 검색어를 입력하지 않으면 검색을 할 수 없다.', () => {
-    const searchInput = screen.getByRole('searchbox');
+    const searchInput = screen.getByRole('input');
     const searchButton = screen.getByRole('button', { name: '검색' });
 
-    fireEvent.change(searchInput, { target: { value: null } });
+    fireEvent.change(searchInput, { target: { value: '' } });
     fireEvent.click(searchButton);
 
     expect(searchInput).toBeRequired();
@@ -75,7 +74,7 @@ describe('사용자가 주류 검색 및 카테고리 검색을 위해 검색 �
   });
 
   it('사용자가 검색창에 "맥주"라고 입력하면 입력을 하면, "맥주" 단어를 검색한다.', () => {
-    const searchInput = screen.getByRole('searchbox') as HTMLInputElement;
+    const searchInput = screen.getByRole('input') as HTMLInputElement;
     const searchButton = screen.getByRole('button', { name: '검색' });
 
     fireEvent.change(searchInput, { target: { value: '맥주' } });
@@ -86,7 +85,7 @@ describe('사용자가 주류 검색 및 카테고리 검색을 위해 검색 �
   });
 
   it('사용자는 맥주 카테고리를 선택하여 검색할 수 있다.', () => {
-    const beerCategory = screen.getByRole('listitem', { name: '맥주' });
+    const beerCategory = screen.getByRole('link', { name: '맥주' });
     fireEvent.click(beerCategory);
 
     expect(testLocation.pathname).not.toBe(`${PATH.SEARCH}`);
