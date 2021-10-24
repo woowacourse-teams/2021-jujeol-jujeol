@@ -7,6 +7,7 @@ import { COLOR, PREFERENCE } from 'src/constants';
 import { DrinkDescription, Title } from './styles';
 
 const PreferenceItem = ({
+  id,
   initialValue,
   labelText,
   imageUrl,
@@ -14,11 +15,12 @@ const PreferenceItem = ({
   onUpdatePreference,
   onClickImage,
 }: {
+  id: number;
   initialValue: number;
   labelText: string;
   imageUrl: string;
   name: string;
-  onUpdatePreference: (preferenceRate: number) => void;
+  onUpdatePreference: ({ id, preferenceRate }: { id: number; preferenceRate: number }) => void;
   onClickImage: () => void;
 }) => {
   const [preferenceRate, setPreferenceRate] = useState(initialValue);
@@ -36,7 +38,7 @@ const PreferenceItem = ({
           value={preferenceRate}
           setValue={setPreferenceRate}
           width="100%"
-          onEnd={() => onUpdatePreference(preferenceRate)}
+          onEnd={() => onUpdatePreference({ id, preferenceRate })}
         />
       </DrinkDescription>
     </FlexBox>

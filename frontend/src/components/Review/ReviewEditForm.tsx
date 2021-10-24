@@ -3,9 +3,11 @@ import { useMutation, useQueryClient } from 'react-query';
 
 import API from 'src/apis/requests';
 import { COLOR, ERROR_MESSAGE, MESSAGE, REVIEW } from 'src/constants';
+import QUERY_KEY from 'src/constants/queryKey';
 import Button from '../@shared/Button/Button';
 import TextButton from '../@shared/Button/TextButton';
 import Heading from '../@shared/Heading/Heading';
+import { SnackbarContext } from '../@shared/Snackbar/SnackbarProvider';
 import { confirmContext } from '../Confirm/ConfirmProvider';
 import { modalContext } from '../Modal/ModalProvider';
 import { Content, Form } from './ReviewEditForm.styles';
@@ -22,6 +24,7 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
 
   const { isModalOpened, closeModal } = useContext(modalContext) ?? {};
   const { setConfirm, closeConfirm } = useContext(confirmContext) ?? {};
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
 
   const [editContent, setEditContent] = useState(content);
 
@@ -29,12 +32,16 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
 
   const { mutate: deleteReview } = useMutation(() => API.deleteReview<number>(reviewId), {
     onSuccess: () => {
-      queryClient.invalidateQueries('reviews');
+      queryClient.invalidateQueries(QUERY_KEY.REVIEW_LIST);
       closeModal?.();
       closeConfirm?.();
+      setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.DELETE_REVIEW_SUCCESS });
     },
-    onError: () => {
-      alert(ERROR_MESSAGE.DEFAULT);
+    onError: (error: Request.Error) => {
+      setSnackbarMessage?.({
+        type: 'ERROR',
+        message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+      });
     },
   });
 
@@ -46,11 +53,15 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
       }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('reviews');
+        queryClient.invalidateQueries(QUERY_KEY.REVIEW_LIST);
         closeModal?.();
+        setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.EDIT_REVIEW_SUCCESS });
       },
-      onError: () => {
-        alert(ERROR_MESSAGE.DEFAULT);
+      onError: (error: Request.Error) => {
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
       },
     }
   );

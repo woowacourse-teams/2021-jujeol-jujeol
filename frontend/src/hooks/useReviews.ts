@@ -1,19 +1,31 @@
+import { useContext } from 'react';
 import { useInfiniteQuery } from 'react-query';
 
 import API from 'src/apis/requests';
+import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
+import { ERROR_MESSAGE } from 'src/constants';
+import QUERY_KEY from 'src/constants/queryKey';
 
 const useReviews = ({ drinkId }: { drinkId: string }) => {
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
+
   const {
     data: reviewData,
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    'reviews',
+    QUERY_KEY.REVIEW_LIST,
     ({ pageParam = 1 }) =>
       API.getReview({ page: pageParam, params: new URLSearchParams({ drink: drinkId }) }),
     {
       getNextPageParam: ({ pageInfo }) => {
         return pageInfo.currentPage < pageInfo.lastPage ? pageInfo.currentPage + 1 : undefined;
+      },
+      onError: (error: Request.Error) => {
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
       },
     }
   );

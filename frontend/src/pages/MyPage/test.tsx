@@ -3,11 +3,12 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { Location } from 'history';
 
 import API from 'src/apis/requests';
-import { PATH } from 'src/constants';
+import { LOCAL_STORAGE_KEY, PATH } from 'src/constants';
 import { drinks } from 'src/mocks/drinks';
 import { validateMember } from 'src/mocks/member';
 import { noPersonalDrink, personalDrinks } from 'src/mocks/personalDrinks';
 import { noPersonalReview, personalReviews } from 'src/mocks/personalReview';
+import { ACCESS_TOKEN } from 'src/mocks/user';
 import { customRender } from 'src/tests/customRenderer';
 import { MockIntersectionObserver, mockScrollTo } from 'src/tests/mockTestFunction';
 import MyPage from '.';
@@ -54,6 +55,8 @@ const renderMypage = async () => {
 
 describe('로그인 된 사용자가 마이페이지를 이용한다.', () => {
   beforeAll(async () => {
+    localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, ACCESS_TOKEN);
+
     Object.defineProperty(global.window, 'scrollTo', { value: mockScrollTo });
     Object.defineProperty(global.window, 'IntersectionObserver', {
       value: MockIntersectionObserver,
@@ -73,6 +76,7 @@ describe('로그인 된 사용자가 마이페이지를 이용한다.', () => {
   it('사용자는 마이페이지에서 닉네임, bio, 선호도를 남긴 술, 내가 남긴 리뷰를 확인할 수 있다.', async () => {
     API.getPersonalDrinks = jest.fn().mockReturnValue(personalDrinks);
     API.getPersonalReviews = jest.fn().mockReturnValue(personalReviews);
+
     await renderMypage();
 
     const numOfMyDrinks = screen.getAllByText('선호도를 남긴 술')[0].closest('li');

@@ -1,10 +1,11 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 
 import API from 'src/apis/requests';
-import { PATH } from 'src/constants';
+import { ERROR_MESSAGE, LOCAL_STORAGE_KEY, PATH } from 'src/constants';
 import { drinksDetail } from 'src/mocks/drinksDetail';
 import { drinksReviews } from 'src/mocks/drinksReviews';
 import { validateMember } from 'src/mocks/member';
+import { ACCESS_TOKEN } from 'src/mocks/user';
 import { customRender } from 'src/tests/customRenderer';
 import { MockIntersectionObserver } from 'src/tests/mockTestFunction';
 import DrinksDetailPage from '.';
@@ -34,6 +35,8 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
   });
 
   beforeEach(async () => {
+    localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, ACCESS_TOKEN);
+
     customRender({ initialEntries: [`${PATH.DRINKS}/0`], children: <DrinksDetailPage /> });
 
     await waitFor(() => expect(API.getUserInfo).toBeCalled());
@@ -122,7 +125,7 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
 
   it('로그인 된 사용자는 하루에 두 번이상 리뷰를 작성할 수 없다.', async () => {
     API.postReview = jest.fn().mockImplementation(() => {
-      throw new Error();
+      throw { code: 2007, message: ERROR_MESSAGE[2007] };
     });
 
     const review = 'good12312341234';
@@ -134,7 +137,9 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => expect(API.postReview).toBeCalled());
-    expect(window.alert).toBeCalled();
+
+    const snackBarText = await screen.findByText(ERROR_MESSAGE[2007]);
+    expect(snackBarText).toBeVisible();
   });
 
   it('로그인 된 사용자는 상세페이지에서 리뷰를 수정할 수 있다.', async () => {

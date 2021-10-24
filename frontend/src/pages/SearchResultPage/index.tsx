@@ -1,14 +1,16 @@
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { RouteComponentProps } from 'react-router-dom';
 
 import API from 'src/apis/requests';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
+import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
 import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';
 import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
+import { ERROR_MESSAGE } from 'src/constants';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import usePageTitle from 'src/hooks/usePageTitle';
 import { categories } from '../SearchPage';
@@ -17,6 +19,8 @@ import { Container, SearchResult } from './styles';
 
 const SearchResultPage = ({ location }: RouteComponentProps) => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
+
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
 
   const words = new URLSearchParams(location.search).get('words') ?? '';
   const categoryKey = new URLSearchParams(location.search).get('category') ?? '';
@@ -47,6 +51,12 @@ const SearchResultPage = ({ location }: RouteComponentProps) => {
         const { currentPage, lastPage } = pageInfo;
 
         return currentPage < lastPage ? currentPage + 1 : undefined;
+      },
+      onError: (error: Request.Error) => {
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
       },
     }
   );

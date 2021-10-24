@@ -51,12 +51,6 @@ const API = {
       url: REQUEST_URL.GET_DRINKS + '?page=' + page + (params ? '&' + params.toString() : ''),
     });
   },
-  getRecommendedDrinks: () => {
-    return request({
-      method: 'GET' as Method,
-      url: REQUEST_URL.GET_RECOMMENDED_DRINKS,
-    });
-  },
   getDrink: <T>(id: T) => {
     return request({ method: 'GET' as Method, url: `${REQUEST_URL.GET_DRINK}/${id}` });
   },
@@ -83,6 +77,7 @@ const API = {
   postPreference: <I, D>(id: I, data: D) => {
     return request({ method: 'PUT' as Method, url: `/members/me/drinks/${id}/preference`, data });
   },
+
   deletePreference: <I>(id: I) => {
     return request({ method: 'DELETE' as Method, url: `/members/me/drinks/${id}/preference` });
   },

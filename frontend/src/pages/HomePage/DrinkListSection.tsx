@@ -1,13 +1,15 @@
+import { useContext } from 'react';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
 import API from 'src/apis/requests';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
+import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
 import CardItem from 'src/components/Item/CardItem';
 import ListItem from 'src/components/Item/ListItem';
 import CardList from 'src/components/List/CardList';
 import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
-import { PATH } from 'src/constants';
+import { ERROR_MESSAGE, PATH } from 'src/constants';
 import List from '../../components/List/List';
 import Section from '../../components/Section/Section';
 
@@ -38,8 +40,19 @@ const DrinkListSection = ({
 }: Props) => {
   const queryParams = new URLSearchParams(query);
 
-  const { data: { data: drinks } = [], isLoading } = useQuery(queryKey, () =>
-    API.getDrinks({ page: 1, params: queryParams })
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
+
+  const { data: { data: drinks } = [], isLoading } = useQuery(
+    queryKey,
+    () => API.getDrinks({ page: 1, params: queryParams }),
+    {
+      onError: (error: Request.Error) => {
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
+      },
+    }
   );
 
   return (
