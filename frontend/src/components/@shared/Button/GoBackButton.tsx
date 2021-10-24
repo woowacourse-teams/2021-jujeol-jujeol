@@ -1,8 +1,8 @@
 import { useHistory } from 'react-router-dom';
-
-import IconButton from './IconButton';
-import ArrowIcon from '../../@Icons/ArrowIcon';
 import { SerializedStyles } from '@emotion/utils';
+
+import ArrowIcon from '../../@Icons/ArrowIcon';
+import IconButton from './IconButton';
 
 const GoBackButton = ({ color, css }: { color?: string; css?: SerializedStyles }) => {
   const history = useHistory();

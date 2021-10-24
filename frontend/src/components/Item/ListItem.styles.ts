@@ -1,14 +1,19 @@
 import styled from '@emotion/styled';
+
 import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
-import LineClamp from 'src/styles/LineClamp';
 
 const Item = styled.li`
   width: 100%;
   height: 88px;
   border-radius: 0.5rem;
 
-  ${Flex({ alignItems: 'center' })}
+  a {
+    width: 100%;
+    height: 88px;
+
+    ${Flex({ alignItems: 'center' })}
+  }
 
   img {
     width: 88px;
@@ -18,7 +23,8 @@ const Item = styled.li`
     object-fit: cover;
   }
 
-  :hover {
+  :hover,
+  :focus-within {
     background-color: ${COLOR.PURPLE_600};
   }
 `;

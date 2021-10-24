@@ -1,4 +1,4 @@
-package com.jujeol.drink.drink.application.dto;
+package com.jujeol.elasticsearch.application.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,10 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class SearchDto {
 
-    private String search;
-    private String categoryKey;
+    private String keyword;
 
-    public static SearchDto create(String search, String categoryKey) {
-        return new SearchDto(search, categoryKey);
+    public static SearchDto create(String keyword) {
+        return new SearchDto(keyword);
     }
 }

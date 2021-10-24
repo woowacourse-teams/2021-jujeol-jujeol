@@ -1,17 +1,20 @@
-import '@testing-library/jest-dom';
 import { screen, waitFor } from '@testing-library/react';
-import { customRender } from 'src/tests/customRenderer';
-import { MockIntersectionObserver, mockMatchMedia, mockScrollTo } from 'src/tests/mockTestFunction';
+
+import API from 'src/apis/requests';
+import { LOCAL_STORAGE_KEY, PATH } from 'src/constants';
 import { validateMember } from 'src/mocks/member';
 import { personalReviews } from 'src/mocks/personalReview';
-import API from 'src/apis/requests';
-
-import { PATH } from 'src/constants';
-
+import { ACCESS_TOKEN } from 'src/mocks/user';
+import { customRender } from 'src/tests/customRenderer';
+import { MockIntersectionObserver, mockMatchMedia, mockScrollTo } from 'src/tests/mockTestFunction';
 import MyReviewsPage from '.';
+
+import '@testing-library/jest-dom';
 
 describe('로그인 된 사용자가 내가 남긴 리뷰 페이지를 이용한다.', () => {
   beforeAll(async () => {
+    localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, ACCESS_TOKEN);
+
     Object.defineProperty(global.window, 'scrollTo', { value: mockScrollTo });
     Object.defineProperty(global.window, 'IntersectionObserver', {
       value: MockIntersectionObserver,

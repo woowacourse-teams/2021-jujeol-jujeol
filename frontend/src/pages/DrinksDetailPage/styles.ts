@@ -1,8 +1,8 @@
-import styled from '@emotion/styled';
 import { css, keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 
-import LineClamp from 'src/styles/LineClamp';
 import { COLOR } from 'src/constants';
+import LineClamp from 'src/styles/LineClamp';
 
 const blinkEffect = keyframes`
   50% {
@@ -103,10 +103,6 @@ const descriptionButtonStyle = css`
   font-size: 0.8rem;
   font-weight: 600;
   color: ${COLOR.PURPLE_100};
-
-  :hover {
-    cursor: pointer;
-  }
 `;
 
 const FoldButton = styled.button`
@@ -136,12 +132,12 @@ const ShowMoreButton = styled.button`
 
 export {
   Container,
-  ImageWrapper,
-  Image,
-  Section,
-  PreferenceSection,
-  DescriptionSection,
   Description,
-  ShowMoreButton,
+  DescriptionSection,
   FoldButton,
+  Image,
+  ImageWrapper,
+  PreferenceSection,
+  Section,
+  ShowMoreButton,
 };

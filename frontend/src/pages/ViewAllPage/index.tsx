@@ -1,17 +1,18 @@
 import { useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
-import { useHistory } from 'react-router-dom';
+
 import API from 'src/apis/requests';
-import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
 import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';
-import { PATH } from 'src/constants';
+import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
+import usePageTitle from 'src/hooks/usePageTitle';
 import { Container, InfinityScrollPoll } from './ViewAllPage.styles';
 
 const ViewAllPage = () => {
-  const history = useHistory();
   const infinityPollRef = useRef<HTMLDivElement>(null);
+
+  usePageTitle('전체보기');
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery(
     'drinks',
@@ -23,10 +24,6 @@ const ViewAllPage = () => {
     }
   );
   const drinks = data?.pages?.map((page) => page.data).flat() ?? [];
-
-  const onMoveToDrinkDetail = (id: number) => () => {
-    history.push(`${PATH.DRINKS}/${id}`);
-  };
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -53,6 +50,7 @@ const ViewAllPage = () => {
         {drinks?.map((item: Drink.Item) => (
           <ListItem
             key={item?.id}
+            itemId={item?.id}
             imageUrl={item?.imageResponse.small}
             title={item?.name}
             preferenceType={
@@ -60,7 +58,6 @@ const ViewAllPage = () => {
             }
             preferenceRate={item?.preferenceRate || item?.expectedPreference || item?.preferenceAvg}
             description={`도수: ${item?.alcoholByVolume}%`}
-            onClick={onMoveToDrinkDetail(item?.id)}
           />
         ))}
         {isFetching && <ListItemSkeleton count={7} />}

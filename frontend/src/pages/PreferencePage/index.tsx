@@ -1,27 +1,36 @@
 import { useContext, useEffect, useRef } from 'react';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+
 import API from 'src/apis/requests';
+import { DizzyEmojiColorIcon } from 'src/components/@Icons';
 import FlexBox from 'src/components/@shared/FlexBox/FlexBox';
 import Grid from 'src/components/@shared/Grid/Grid';
-import { DizzyEmojiColorIcon } from 'src/components/@Icons';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
+import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
-import { PATH } from 'src/constants';
+import { ERROR_MESSAGE, PATH } from 'src/constants';
+import QUERY_KEY from 'src/constants/queryKey';
 import UserContext from 'src/contexts/UserContext';
+import usePageTitle from 'src/hooks/usePageTitle';
 import { InfinityScrollPoll } from '../ViewAllPage/ViewAllPage.styles';
 import MemoizedPreferenceItem from './PreferenceItem';
-import { Container, AlertWrapper, NoDrink, Notification } from './styles';
+import { AlertWrapper, Container, NoDrink, Notification } from './styles';
 
 const PreferencePage = () => {
+  usePageTitle('선호도 평가');
+
   const history = useHistory();
 
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
   const infinityPollRef = useRef<HTMLDivElement>(null);
 
+  const queryClient = useQueryClient();
+
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery(
-    'preference-drinks',
+    QUERY_KEY.DRINK_LIST_SORTED_BY_PREFERENCE,
     ({ pageParam = 1 }) =>
       API.getDrinks({
         page: pageParam,
@@ -30,6 +39,12 @@ const PreferencePage = () => {
     {
       getNextPageParam: ({ pageInfo }) => {
         return pageInfo.currentPage < pageInfo.lastPage ? pageInfo.currentPage + 1 : undefined;
+      },
+      onError: (error: Request.Error) => {
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
       },
     }
   );
@@ -43,18 +58,27 @@ const PreferencePage = () => {
     });
   });
 
-  const onUpdatePreference = (id: number) => (value: number) => {
-    if (isLoggedIn) {
-      if (value === 0) {
-        API.deletePreference<number>(id);
-        return;
+  const { mutate: onUpdatePreference } = useMutation(
+    ({ id, preferenceRate }: { id: number; preferenceRate: number }) => {
+      if (preferenceRate === 0) {
+        return API.deletePreference<number>(id);
       }
 
-      API.postPreference<number, { preferenceRate: number }>(id, {
-        preferenceRate: value,
+      return API.postPreference<number, { preferenceRate: number }>(id, {
+        preferenceRate,
       });
+    },
+    {
+      onError: (error: Request.Error) => {
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
+
+        queryClient.removeQueries(QUERY_KEY.DRINK_LIST_SORTED_BY_PREFERENCE);
+      },
     }
-  };
+  );
 
   const onMoveToDrinkDetail = (id: number) => () => {
     history.push(`${PATH.DRINKS}/${id}`);
@@ -87,9 +111,11 @@ const PreferencePage = () => {
                 <li key={id}>
                   <MemoizedPreferenceItem
                     name={name}
+                    id={id}
+                    labelText={`${name} 선호도 입력`}
                     imageUrl={imageResponse.small}
                     initialValue={preferenceRate}
-                    onUpdatePreference={onUpdatePreference(id)}
+                    onUpdatePreference={onUpdatePreference}
                     onClickImage={onMoveToDrinkDetail(id)}
                   />
                 </li>

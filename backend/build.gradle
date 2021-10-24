@@ -8,6 +8,10 @@ plugins {
     id 'jacoco'
 }
 
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
 group = 'com.jujeol.'
 version = '1.2.4-beta'
 sourceCompatibility = '11'
@@ -23,12 +27,6 @@ repositories {
 }
 
 dependencies {
-    // recommendation library
-    implementation('org.apache.mahout:mahout-integration:0.13.0') {
-        exclude group: 'log4j', module: 'log4j'
-        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
-    }
-
     // application
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -77,10 +75,9 @@ dependencies {
     // monitoring tools
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
-}
 
-ext {
-    snippetsDir = file('build/generated-snippets')
+    // elastic search
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 }
 
 processResources.dependsOn('copySecret')

@@ -1,8 +1,9 @@
 import { createContext, useState } from 'react';
 import { useQuery } from 'react-query';
+
 import API from 'src/apis/requests';
 import { LOCAL_STORAGE_KEY } from 'src/constants';
-import { removeLocalStorageItem } from 'src/utils/localStorage';
+import QUERY_KEY from 'src/constants/queryKey';
 
 type UserData = {
   id: number;
@@ -32,17 +33,27 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
 
-  const { refetch } = useQuery('user-info', API.getUserInfo, {
-    retry: 0,
-    onSuccess: ({ data }) => {
-      setIsLoggedIn(true);
-      setUserData(data);
+  const { refetch } = useQuery(
+    QUERY_KEY.USER,
+    () => {
+      if (localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN)) {
+        return API.getUserInfo();
+      }
     },
-    onError: () => {
-      removeLocalStorageItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
-      setIsLoggedIn(false);
-    },
-  });
+    {
+      retry: 0,
+      onSuccess: (response) => {
+        if (response?.data) {
+          setIsLoggedIn(true);
+          setUserData(response?.data);
+        }
+      },
+      onError: (error) => {
+        localStorage.removeItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
+        setIsLoggedIn(false);
+      },
+    }
+  );
 
   const getUser = async () => {
     await refetch();

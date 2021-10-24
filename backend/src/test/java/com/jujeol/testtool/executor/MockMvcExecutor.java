@@ -183,7 +183,8 @@ public class MockMvcExecutor implements TestAdapter {
 
         if (httpMethod.matches("POST")) {
             if (Objects.nonNull(requestDto.getData())) {
-                return MockMvcRequestBuilders.post(requestDto.getUrl(), requestDto.getPathVariables())
+                return MockMvcRequestBuilders
+                        .post(requestDto.getUrl(), requestDto.getPathVariables())
                         .content(objectMapper.writeValueAsBytes(requestDto.getData()))
                         .contentType(MediaType.APPLICATION_JSON);
             }
@@ -192,7 +193,8 @@ public class MockMvcExecutor implements TestAdapter {
 
         if (httpMethod.matches("PUT")) {
             if (Objects.nonNull(requestDto.getData())) {
-                return MockMvcRequestBuilders.put(requestDto.getUrl(), requestDto.getPathVariables())
+                return MockMvcRequestBuilders
+                        .put(requestDto.getUrl(), requestDto.getPathVariables())
                         .content(objectMapper.writeValueAsBytes(requestDto.getData()))
                         .contentType(MediaType.APPLICATION_JSON);
             }

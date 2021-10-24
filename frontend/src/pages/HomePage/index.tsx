@@ -1,21 +1,23 @@
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import UserContext from 'src/contexts/UserContext';
-import MainHeader from 'src/components/Header/MainHeader';
-import getHomePageConfig from './config';
-import { PATH } from 'src/constants';
-
-import DrinkListSection from 'src/pages/HomePage/DrinkListSection';
 import Grid from 'src/components/@shared/Grid/Grid';
 import Banner from 'src/components/Banner/Banner';
-import SearchBar from 'src/components/@shared/SearchBar/SearchBar';
+import MainHeader from 'src/components/Header/MainHeader';
+import SearchBar from 'src/components/SearchBar/SearchBar';
+import { PATH } from 'src/constants';
+import UserContext from 'src/contexts/UserContext';
+import usePageTitle from 'src/hooks/usePageTitle';
+import DrinkListSection from 'src/pages/HomePage/DrinkListSection';
+import getHomePageConfig from './config';
 
 const HomePage = () => {
   const history = useHistory();
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
   const onMoveToSearchPage = () => history.push(PATH.SEARCH);
+
+  usePageTitle();
 
   return (
     <div>

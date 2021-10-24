@@ -1,10 +1,13 @@
 import { ChangeEventHandler, FormEventHandler, useContext, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+
 import API from 'src/apis/requests';
-import { COLOR, MESSAGE, ERROR_MESSAGE, REVIEW, PATH } from 'src/constants';
+import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, REVIEW } from 'src/constants';
+import QUERY_KEY from 'src/constants/queryKey';
 import UserContext from 'src/contexts/UserContext';
 import Card from '../@shared/Card/Card';
+import { SnackbarContext } from '../@shared/Snackbar/SnackbarProvider';
 import { Form } from './ReviewCreateForm.styles';
 
 const LOGGED_IN_PLACEHOLDER =
@@ -14,20 +17,27 @@ const NOT_LOGGED_IN_PLACEHOLDER = '리뷰를 등록하기 위해서는 로그인
 const ReviewCreateForm = () => {
   const [content, setContent] = useState('');
   const history = useHistory();
+
   const { id: drinkId } = useParams<{ id: string }>();
 
   const queryClient = useQueryClient();
+
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
 
   const { mutate } = useMutation(
     () => API.postReview<Review.PostRequestData>({ drinkId: Number(drinkId), content }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('reviews');
+        queryClient.invalidateQueries(QUERY_KEY.REVIEW_LIST);
         setContent('');
+        setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.CREATE_REVIEW_SUCCESS });
       },
-      onError: (error: { code: number; message: string }) => {
-        alert(ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT);
+      onError: (error: Request.Error) => {
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
       },
     }
   );
@@ -56,6 +66,7 @@ const ReviewCreateForm = () => {
     <Form onSubmit={onCreate}>
       <Card padding="1rem" backgroundColor={COLOR.GRAY_100}>
         <textarea
+          title="리뷰 작성"
           placeholder={isLoggedIn ? LOGGED_IN_PLACEHOLDER : NOT_LOGGED_IN_PLACEHOLDER}
           value={content}
           readOnly={!isLoggedIn}

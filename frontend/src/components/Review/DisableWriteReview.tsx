@@ -1,8 +1,8 @@
 import { MouseEventHandler } from 'react';
 
 import { COLOR } from 'src/constants';
-import Card from '../@shared/Card/Card';
 import Button from '../@shared/Button/Button';
+import Card from '../@shared/Card/Card';
 import { Container } from './DisableWriteReview.styles';
 
 interface Props {

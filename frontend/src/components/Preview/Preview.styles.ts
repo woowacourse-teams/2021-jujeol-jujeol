@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
-import Flex from 'src/styles/Flex';
 import { COLOR } from 'src/constants';
+import Flex from 'src/styles/Flex';
 
 const PreviewSection = styled.section`
   width: 100%;
@@ -33,4 +33,4 @@ const MoveViewAllPageButton = styled.button<{ fontSize: string }>`
   }
 `;
 
-export { PreviewSection, Header, MoveViewAllPageButton };
+export { Header, MoveViewAllPageButton, PreviewSection };

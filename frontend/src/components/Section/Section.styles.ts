@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { COLOR } from 'src/constants';
 
 interface TitleProps extends Omit<React.CSSProperties, 'translate'> {
@@ -15,14 +16,6 @@ const Title = styled.div<TitleProps>`
 
   p {
     color: ${COLOR.GRAY_200};
-  }
-
-  a {
-    color: ${COLOR.GRAY_200};
-
-    :hover {
-      text-decoration: underline;
-    }
   }
 `;
 

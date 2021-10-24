@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { COLOR } from 'src/constants';
 
 const SIZE = {
@@ -32,4 +33,4 @@ const Img = styled.img<ImageType>`
 `;
 
 export { Img };
-export type { ImageType, ImageSizeType, ImageShapeType };
+export type { ImageShapeType, ImageSizeType, ImageType };

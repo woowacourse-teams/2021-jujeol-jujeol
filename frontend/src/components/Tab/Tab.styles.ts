@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+
 import { COLOR, Z_INDEX } from 'src/constants';
 
 const Nav = styled.nav<{ keyboardUp: boolean }>`
@@ -44,7 +45,7 @@ const Nav = styled.nav<{ keyboardUp: boolean }>`
       }
 
       a.active {
-        color: ${COLOR.PURPLE_400};
+        color: ${COLOR.PURPLE_600};
         font-weight: 700;
 
         svg {

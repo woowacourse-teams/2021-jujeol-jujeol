@@ -1,11 +1,12 @@
+import { css } from '@emotion/react';
+
 import { COLOR } from 'src/constants';
 import { PreferenceRate } from 'src/pages/HomePage/styles';
-import Card from '../@shared/Card/Card';
-import { StarIcon } from '../@Icons';
-import { ItemImage, ItemInfo } from './CardItem.styles';
-import Heading from '../@shared/Heading/Heading';
-import { css } from '@emotion/react';
 import LineClamp from 'src/styles/LineClamp';
+import { StarIcon } from '../@Icons';
+import Card from '../@shared/Card/Card';
+import Heading from '../@shared/Heading/Heading';
+import { ItemImage, ItemInfo } from './CardItem.styles';
 
 interface Props {
   imageUrl: string;

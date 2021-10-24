@@ -1,4 +1,5 @@
-import { Global, css } from '@emotion/react';
+import { css, Global } from '@emotion/react';
+
 import { COLOR, Z_INDEX } from './constants';
 import Reset from './styles/Reset';
 
@@ -59,8 +60,24 @@ const GlobalStyle = () => (
         top: 0;
         bottom: 0;
         left: 50%;
+
         transform: translateX(-50%);
         z-index: ${Z_INDEX.MODAL};
+      }
+
+      #confirm {
+        width: 100%;
+        min-width: ${MOBILE_X_SMALL};
+        max-width: ${MOBILE_LARGE};
+        height: 100vh;
+
+        visibility: hidden;
+        position: fixed;
+        left: 50%;
+        bottom: 0;
+
+        transform: translateX(-50%);
+        z-index: ${Z_INDEX.CONFIRM};
       }
 
       #snackbar {
