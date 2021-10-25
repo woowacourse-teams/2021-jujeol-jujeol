@@ -4,11 +4,12 @@ interface Props {
   count?: number;
   colGap?: string;
   children: React.ReactNode;
+  title?: string;
 }
 
-const CardList = ({ colGap = '2rem', count = 7, children }: Props) => {
+const CardList = ({ colGap = '2rem', count = 7, children, title }: Props) => {
   return (
-    <ItemList col={count + 2} colGap={colGap}>
+    <ItemList col={count + 2} colGap={colGap} title={title}>
       {children}
     </ItemList>
   );

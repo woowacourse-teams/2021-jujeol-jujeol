@@ -26,7 +26,7 @@ const NoSearchResults = ({ search }: { search: string }) => {
       </NotificationSection>
 
       <Section title="이런 술은 어때요?" titleAlign="left">
-        <CardList count={7} colGap="1rem">
+        <CardList count={7} colGap="1rem" title="검색 결과가 없을 때 술 추천 리스트">
           {drinks?.map(
             ({ id, name, imageResponse }: Pick<Drink.Item, 'id' | 'name' | 'imageResponse'>) => (
               <Item key={id}>
