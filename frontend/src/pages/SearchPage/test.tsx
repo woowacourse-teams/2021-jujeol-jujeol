@@ -22,7 +22,10 @@ const renderSearchPage = async () => {
             <SearchPage />
           </Route>
           <Route exact path={PATH.SEARCH_RESULT}>
-            검색결과
+            검색어 검색결과
+          </Route>
+          <Route exact path={PATH.DRINKS}>
+            카테고리 검색결과
           </Route>
           <Redirect to={PATH.SEARCH} />
         </Switch>
