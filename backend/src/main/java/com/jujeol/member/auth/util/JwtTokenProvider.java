@@ -1,5 +1,6 @@
 package com.jujeol.member.auth.util;
 
+import com.jujeol.member.auth.exception.TokenExpiredException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -38,7 +39,11 @@ public class JwtTokenProvider {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
 
-            return !claims.getBody().getExpiration().before(new Date());
+            if(claims.getBody().getExpiration().before(new Date())) {
+               throw new TokenExpiredException();
+            }
+
+            return true;
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
