@@ -1,5 +1,6 @@
-import { TouchEventHandler, MouseEventHandler, useState } from 'react';
-import { Container, Content, CloseButton } from './Modal.styles';
+import { MouseEventHandler, TouchEventHandler, useState } from 'react';
+
+import { CloseButton, Container, Content } from './Modal.styles';
 
 interface Props {
   isOpened: boolean;

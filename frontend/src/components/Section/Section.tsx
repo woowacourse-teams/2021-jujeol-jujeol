@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import Heading from '../@shared/Heading/Heading';
 import { Title } from './Section.styles';
 

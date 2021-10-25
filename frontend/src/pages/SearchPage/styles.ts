@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
 
@@ -40,4 +41,4 @@ const CategoryItem = styled.li`
   }
 `;
 
-export { Container, Categories, CategoryItem };
+export { Categories, CategoryItem, Container };

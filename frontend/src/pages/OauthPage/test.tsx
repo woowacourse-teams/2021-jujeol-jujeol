@@ -1,11 +1,12 @@
-import '@testing-library/jest-dom';
-import { waitFor } from '@testing-library/react';
 import { Route, Switch } from 'react-router-dom';
+import { waitFor } from '@testing-library/react';
 import { Location } from 'history';
-import { customRender } from 'src/tests/customRenderer';
-import API from 'src/apis/requests';
 
+import API from 'src/apis/requests';
+import { customRender } from 'src/tests/customRenderer';
 import OauthPage from '.';
+
+import '@testing-library/jest-dom';
 
 const code = 'afadd123fiwelrjkaaaaafjfghkddltrkl34jk';
 const accessToken = 'afadd123fiwelrjkaaaaafjfghkddltrkl34jk';

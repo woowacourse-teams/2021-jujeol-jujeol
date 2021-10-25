@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { COLOR, PATH } from 'src/constants';
+
+import { PATH } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
 import { HomeIcon, HumanIcon, LoginIcon, SearchIconForTab, StarIcon } from '../@Icons';
 import { Nav } from './Tab.styles';

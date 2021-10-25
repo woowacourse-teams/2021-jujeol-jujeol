@@ -1,20 +1,13 @@
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
+import { StarIcon } from 'src/components/@Icons';
 import Card from 'src/components/@shared/Card/Card';
 import Grid from 'src/components/@shared/Grid/Grid';
-import { StarIcon } from 'src/components/@Icons';
 import { Img } from 'src/components/@shared/Image/Image';
 import { COLOR, PATH } from 'src/constants';
 import { Description, Header } from './NoReview.styles';
 
 const NoReview = ({ myDrinks }: { myDrinks: Drink.PersonalDrinkItem[] }) => {
-  const history = useHistory();
-
-  const onMoveToDrinkDetail =
-    ({ id }: Pick<Drink.PersonalDrinkItem, 'id'>) =>
-    () => {
-      history.push(`${PATH.DRINKS}/${id}`);
-    };
-
   return (
     <>
       <Header>
@@ -37,9 +30,10 @@ const NoReview = ({ myDrinks }: { myDrinks: Drink.PersonalDrinkItem[] }) => {
                   <StarIcon width="0.8rem" color={COLOR.YELLOW_300} />
                   <span>{preferenceRate.toFixed(1)}</span>
                 </div>
-                <button type="button" onClick={onMoveToDrinkDetail({ id })}>
+                <Link to={`${PATH.DRINKS}/${id}`}>
+                  <span>{name}</span>
                   리뷰하기
-                </button>
+                </Link>
               </Description>
             </Card>
           </li>

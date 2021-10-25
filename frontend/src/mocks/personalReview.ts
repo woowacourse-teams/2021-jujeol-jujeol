@@ -63,4 +63,4 @@ const noPersonalReview = {
   },
 };
 
-export { personalReviews, noPersonalReview };
+export { noPersonalReview, personalReviews };

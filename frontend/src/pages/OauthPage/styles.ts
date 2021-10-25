@@ -1,5 +1,6 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+
 import Flex from 'src/styles/Flex';
 
 const wave = keyframes`

@@ -1,23 +1,23 @@
 import { useContext, useRef } from 'react';
 import { useParams } from 'react-router-dom';
+import { css } from '@emotion/react';
+
 import { COLOR } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
 import useShowMoreContent from 'src/hooks/useShowMoreContent';
-import { css } from '@emotion/react';
-
-import Card from '../@shared/Card/Card';
 import {
-  LoveEmojiColorIcon,
-  SmileEmojiColorIcon,
   DizzyEmojiColorIcon,
   ExcitedEmojiColorIcon,
+  LoveEmojiColorIcon,
+  SmileEmojiColorIcon,
 } from '../@Icons';
-import IconButton from '../@shared/Button/IconButton';
 import ArrowIcon from '../@Icons/ArrowIcon';
 import MeatBallsIcon from '../@Icons/MeatBallsIcon';
+import IconButton from '../@shared/Button/IconButton';
+import Card from '../@shared/Card/Card';
 import { modalContext } from '../Modal/ModalProvider';
 import ReviewEditForm from '../Review/ReviewEditForm';
-import { Header, ReviewerInfo, Content } from './ReviewCard.styles';
+import { Content, Header, ReviewerInfo } from './ReviewCard.styles';
 
 interface Props {
   review: Review.Item;
@@ -31,7 +31,7 @@ const userProfileIcons = [
 ];
 
 const ReviewCard = ({ review }: Props) => {
-  const { author, content, createdAt, modifiedAt } = review;
+  const { author, content, createdAt } = review;
   const { id: drinkId } = useParams<{ id: string }>();
 
   const openModal = useContext(modalContext)?.openModal;

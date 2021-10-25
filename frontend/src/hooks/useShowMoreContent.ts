@@ -1,4 +1,4 @@
-import { useEffect, useState, RefObject, MouseEventHandler } from 'react';
+import { MouseEventHandler, RefObject, useEffect, useState } from 'react';
 
 const useShowMoreContent = (contentRef: RefObject<HTMLParagraphElement>, content: string) => {
   const [isShowMore, setIsShowMore] = useState(false);

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import Grid from 'src/components/@shared/Grid/Grid';
+import { css } from '@emotion/react';
+
 import {
   BeerColorIcon,
   CategoryEtcColorIcon,
@@ -10,12 +11,14 @@ import {
   YangjuColorIcon,
 } from 'src/components/@Icons';
 import AllIcon from 'src/components/@Icons/AllIcon';
-import SearchBar from 'src/components/@shared/SearchBar/SearchBar';
-import Banner from 'src/components/Banner/Banner';
-import { PATH } from 'src/constants';
-import { Container, Categories, CategoryItem } from './styles';
+import Grid from 'src/components/@shared/Grid/Grid';
 import Heading from 'src/components/@shared/Heading/Heading';
-import { css } from '@emotion/react';
+import Banner from 'src/components/Banner/Banner';
+import SearchBar from 'src/components/SearchBar/SearchBar';
+import { PATH } from 'src/constants';
+import usePageTitle from 'src/hooks/usePageTitle';
+import { hiddenStyle } from 'src/styles/hidden';
+import { Categories, CategoryItem, Container } from './styles';
 
 const categories: Category[] = [
   {
@@ -63,17 +66,12 @@ const categories: Category[] = [
 export { categories };
 
 const SearchPage = () => {
+  usePageTitle('검색');
+
   return (
     <Container>
-      <Heading.level2
-        css={css`
-          width: 0;
-          height: 0;
-          opacity: 0;
-        `}
-      >
-        검색페이지
-      </Heading.level2>
+      <Heading.level1 css={hiddenStyle}>주절주절</Heading.level1>
+      <Heading.level2 css={hiddenStyle}>검색페이지</Heading.level2>
       <SearchBar placeholder="검색어를 입력해주세요" readOnly={false} />
 
       <Categories>

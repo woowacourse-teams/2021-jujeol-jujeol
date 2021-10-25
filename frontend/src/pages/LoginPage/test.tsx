@@ -1,10 +1,10 @@
-import '@testing-library/jest-dom';
-import { screen, fireEvent } from '@testing-library/react';
-import { customRender } from 'src/tests/customRenderer';
+import { fireEvent, screen } from '@testing-library/react';
 
 import { PATH } from 'src/constants';
-
+import { customRender } from 'src/tests/customRenderer';
 import LoginPage from '.';
+
+import '@testing-library/jest-dom';
 
 describe('사용자는 로그인 페이지에서 소셜 로그인을 할 수 있다.', () => {
   beforeAll(async () => {

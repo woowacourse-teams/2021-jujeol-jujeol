@@ -1,12 +1,12 @@
-import '@testing-library/jest-dom';
 import { screen, waitFor } from '@testing-library/react';
-import { customRender } from 'src/tests/customRenderer';
-import { drinks } from 'src/mocks/drinks';
+
 import API from 'src/apis/requests';
-
 import { PATH } from 'src/constants';
-
+import { drinks } from 'src/mocks/drinks';
+import { customRender } from 'src/tests/customRenderer';
 import HomePage from '.';
+
+import '@testing-library/jest-dom';
 
 describe('사용자는 홈 화면에서 주류 목록을 조회할 수 있다.', () => {
   beforeAll(async () => {

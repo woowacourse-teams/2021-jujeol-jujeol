@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
+
 import Flex from 'src/styles/Flex';
 
 const Header = styled.div`
@@ -9,7 +11,7 @@ const Header = styled.div`
   ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })}
 `;
 
-const Content = styled.div`
+const Content = styled(Link)`
   ${Flex({ alignItems: 'center', justifyContent: 'center' })}
 
   img {
@@ -21,4 +23,4 @@ const Content = styled.div`
   }
 `;
 
-export { Header, Content };
+export { Content, Header };

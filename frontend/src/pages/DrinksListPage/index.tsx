@@ -1,12 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router';
+
 import API from 'src/apis/requests';
-import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
 import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';
+import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
 import { PATH } from 'src/constants';
+import usePageTitle from 'src/hooks/usePageTitle';
 import { Container, InfinityScrollPoll } from './styles';
 
 const CATEGORY_NAME = {
@@ -23,6 +25,8 @@ const CATEGORY_NAME = {
 const DrinksListPage = () => {
   const history = useHistory();
   const infinityPollRef = useRef<HTMLDivElement>(null);
+
+  usePageTitle('전체보기');
 
   const category =
     (new URLSearchParams(history.location.search).get('category') as keyof typeof CATEGORY_NAME) ??
@@ -41,10 +45,6 @@ const DrinksListPage = () => {
   );
   const drinks = data?.pages?.map((page) => page.data).flat() ?? [];
   const totalSize = data?.pages[0].pageInfo?.totalSize;
-
-  const onMoveToDrinkDetail = (id: number) => () => {
-    history.push(`${PATH.DRINKS}/${id}`);
-  };
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -71,6 +71,7 @@ const DrinksListPage = () => {
         {drinks?.map((item: Drink.Item) => (
           <ListItem
             key={item?.id}
+            itemId={item?.id}
             imageUrl={item?.imageResponse.small}
             title={item?.name}
             preferenceType={
@@ -78,7 +79,6 @@ const DrinksListPage = () => {
             }
             preferenceRate={item?.preferenceRate || item?.expectedPreference || item?.preferenceAvg}
             description={`도수: ${item?.alcoholByVolume}%`}
-            onClick={onMoveToDrinkDetail(item?.id)}
           />
         ))}
         {isFetching && <ListItemSkeleton count={7} />}
