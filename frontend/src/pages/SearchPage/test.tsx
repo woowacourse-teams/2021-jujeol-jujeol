@@ -1,13 +1,14 @@
-import '@testing-library/jest-dom';
-import { fireEvent, screen } from '@testing-library/dom';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import { fireEvent, screen } from '@testing-library/dom';
 import { Location } from 'history';
 
+import { PATH } from 'src/constants';
+import { categories } from 'src/mocks/category';
 import { customRender } from 'src/tests/customRenderer';
 import { MockIntersectionObserver, mockScrollTo } from 'src/tests/mockTestFunction';
 import SearchPage from '.';
-import { PATH } from 'src/constants';
-import { categories } from 'src/mocks/category';
+
+import '@testing-library/jest-dom';
 
 let testLocation: Location<unknown>;
 
