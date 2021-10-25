@@ -68,9 +68,6 @@ export { categories };
 const SearchPage = () => {
   usePageTitle('검색');
 
-  const getCategoryPath = (key: Category['key']) =>
-    key === 'ALL' ? PATH.VIEW_ALL : `${PATH.SEARCH_RESULT}?category=${key}`;
-
   return (
     <Container>
       <Heading.level1 css={hiddenStyle}>주절주절</Heading.level1>
@@ -95,7 +92,7 @@ const SearchPage = () => {
           {categories.map(({ key, name, Icon }) => {
             return (
               <CategoryItem key={key} title={name}>
-                <Link to={getCategoryPath(key)} title={name}>
+                <Link to={`${PATH.DRINKS}?category=${key}`} title={name}>
                   <Icon />
                   <span>{name}</span>
                 </Link>
