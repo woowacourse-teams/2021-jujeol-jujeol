@@ -1,7 +1,7 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 
 import API from 'src/apis/requests';
-import { MESSAGE, PATH } from 'src/constants';
+import { LOCAL_STORAGE_KEY, MESSAGE, PATH } from 'src/constants';
 import { drinksDetail } from 'src/mocks/drinksDetail';
 import { drinksReviews } from 'src/mocks/drinksReviews';
 import { customRender } from 'src/tests/customRenderer';
@@ -17,15 +17,11 @@ describe('로그인 되지 않은 사용자가 상세페이지를 이용한다.'
       value: MockIntersectionObserver,
     });
 
-    API.getUserInfo = jest.fn().mockImplementation(() => {
-      throw new Error();
-    });
     API.getDrink = jest.fn().mockReturnValue(drinksDetail);
     API.getReview = jest.fn().mockReturnValue(drinksReviews);
 
     customRender({ initialEntries: [`${PATH.DRINKS}/0`], children: <DrinksDetailPage /> });
 
-    await waitFor(() => expect(API.getUserInfo).toBeCalled());
     await waitFor(() => expect(API.getDrink).toBeCalled());
     await waitFor(() => expect(API.getReview).toBeCalled());
   });

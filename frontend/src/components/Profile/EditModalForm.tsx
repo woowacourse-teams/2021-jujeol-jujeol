@@ -4,6 +4,7 @@ import { css } from '@emotion/react';
 
 import API from 'src/apis/requests';
 import { COLOR, ERROR_MESSAGE, MESSAGE } from 'src/constants';
+import QUERY_KEY from 'src/constants/queryKey';
 import Button from '../@shared/Button/Button';
 import Heading from '../@shared/Heading/Heading';
 import { SnackbarContext } from '../@shared/Snackbar/SnackbarProvider';
@@ -43,7 +44,7 @@ const EditModalForm = ({ nickname: currentNickname = '', bio: currentBio = '' }:
       }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('user-info');
+        queryClient.invalidateQueries(QUERY_KEY.USER);
         closeModal?.();
         snackbar?.setSnackbarMessage({ type: 'CONFIRM', message: MESSAGE.EDIT_PROFILE_SUCCESS });
       },

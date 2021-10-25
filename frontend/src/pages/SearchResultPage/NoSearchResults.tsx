@@ -7,11 +7,15 @@ import { Img } from 'src/components/@shared/Image/Image';
 import CardList from 'src/components/List/CardList';
 import Section from 'src/components/Section/Section';
 import { PATH } from 'src/constants';
+import QUERY_KEY from 'src/constants/queryKey';
 import { Item, NotificationSection } from './NoSearchResult.styles';
 
 const NoSearchResults = ({ search }: { search: string }) => {
-  const { data: { data: drinks } = [] } = useQuery('recommendedDrinks', () =>
-    API.getRecommendedDrinks()
+  const { data: { data: drinks } = [] } = useQuery(QUERY_KEY.DRINK_LIST_SORTED_BY_PREFERENCE, () =>
+    API.getDrinks({
+      page: 1,
+      params: new URLSearchParams('sortBy=preferenceAvg&size=7'),
+    })
   );
 
   return (

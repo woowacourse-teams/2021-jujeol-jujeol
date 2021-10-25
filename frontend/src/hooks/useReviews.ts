@@ -4,6 +4,7 @@ import { useInfiniteQuery } from 'react-query';
 import API from 'src/apis/requests';
 import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
 import { ERROR_MESSAGE } from 'src/constants';
+import QUERY_KEY from 'src/constants/queryKey';
 
 const useReviews = ({ drinkId }: { drinkId: string }) => {
   const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
@@ -13,7 +14,7 @@ const useReviews = ({ drinkId }: { drinkId: string }) => {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    'reviews',
+    QUERY_KEY.REVIEW_LIST,
     ({ pageParam = 1 }) =>
       API.getReview({ page: pageParam, params: new URLSearchParams({ drink: drinkId }) }),
     {

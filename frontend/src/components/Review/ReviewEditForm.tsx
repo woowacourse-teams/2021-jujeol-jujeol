@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from 'react-query';
 
 import API from 'src/apis/requests';
 import { COLOR, ERROR_MESSAGE, MESSAGE, REVIEW } from 'src/constants';
+import QUERY_KEY from 'src/constants/queryKey';
 import Button from '../@shared/Button/Button';
 import TextButton from '../@shared/Button/TextButton';
 import Heading from '../@shared/Heading/Heading';
@@ -31,7 +32,7 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
 
   const { mutate: deleteReview } = useMutation(() => API.deleteReview<number>(reviewId), {
     onSuccess: () => {
-      queryClient.invalidateQueries('reviews');
+      queryClient.invalidateQueries(QUERY_KEY.REVIEW_LIST);
       closeModal?.();
       closeConfirm?.();
       setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.DELETE_REVIEW_SUCCESS });
@@ -52,7 +53,7 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
       }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('reviews');
+        queryClient.invalidateQueries(QUERY_KEY.REVIEW_LIST);
         closeModal?.();
         setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.EDIT_REVIEW_SUCCESS });
       },

@@ -20,6 +20,7 @@ import { HorizontalScroll } from 'src/components/Scroll/HorizontalScroll';
 import PersonalDrinkItemSkeleton from 'src/components/Skeleton/PersonalDrinkItemSkeleton';
 import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewItemSkeleton';
 import { COLOR, ERROR_MESSAGE, LOCAL_STORAGE_KEY, MESSAGE, PATH, VALUE } from 'src/constants';
+import QUERY_KEY from 'src/constants/queryKey';
 import UserContext from 'src/contexts/UserContext';
 import usePageTitle from 'src/hooks/usePageTitle';
 import { removeLocalStorageItem } from 'src/utils/localStorage';
@@ -56,7 +57,7 @@ const MyPage = () => {
     } = defaultRequestData,
     isLoading: isMyDrinksLoading,
   } = useQuery(
-    'my-drinks',
+    QUERY_KEY.PERSONAL_DRINK_LIST,
     () => API.getPersonalDrinks({ page: 1, size: VALUE.MYPAGE_DRINKS_DISPLAY_NUMBER }),
     {
       retry: 0,
@@ -76,7 +77,7 @@ const MyPage = () => {
     } = defaultRequestData,
     isLoading: isMyReviewsLoading,
   } = useQuery(
-    'my-reviews',
+    QUERY_KEY.PERSONAL_REVIEW_LIST,
     () => API.getPersonalReviews({ page: 1, size: VALUE.MYPAGE_REVIEWS_DISPLAY_NUMBER }),
     {
       retry: 0,
@@ -96,8 +97,8 @@ const MyPage = () => {
     const getFetch = async () => {
       await getUser();
 
-      if (!queryClient.isFetching('user-info') && !isLoggedIn) {
-        alert(MESSAGE.LOGIN_REQUIRED_FOR_MYPAGE);
+      if (!queryClient.isFetching(QUERY_KEY.USER) && !isLoggedIn) {
+        setSnackbarMessage?.({ type: 'ERROR', message: MESSAGE.LOGIN_REQUIRED_FOR_MYPAGE });
         history.push(PATH.LOGIN);
       }
     };

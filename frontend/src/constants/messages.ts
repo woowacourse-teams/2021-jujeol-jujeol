@@ -24,7 +24,7 @@ const ERROR_MESSAGE: { [key: string]: string } = {
   DEFAULT: '에러가 발생했습니다. 다시 한 번 시도해주세요.',
 
   '1002': '카카오 로그인 서버에 문제가 발생했습니다. 잠시후 다시 시도해주세요.',
-  '1005': MESSAGE.LOGIN_REQUIRED_TO_UPDATE_PREFERENCE,
+  '1005': '권한이 없는 유저입니다',
 
   '2005': '존재하지 않는 리뷰입니다.',
   '2007': '글은 하루에 한 번만 작성할 수 있습니다.',

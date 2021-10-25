@@ -4,6 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import API from 'src/apis/requests';
 import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, REVIEW } from 'src/constants';
+import QUERY_KEY from 'src/constants/queryKey';
 import UserContext from 'src/contexts/UserContext';
 import Card from '../@shared/Card/Card';
 import { SnackbarContext } from '../@shared/Snackbar/SnackbarProvider';
@@ -28,7 +29,7 @@ const ReviewCreateForm = () => {
     () => API.postReview<Review.PostRequestData>({ drinkId: Number(drinkId), content }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('reviews');
+        queryClient.invalidateQueries(QUERY_KEY.REVIEW_LIST);
         setContent('');
         setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.CREATE_REVIEW_SUCCESS });
       },
