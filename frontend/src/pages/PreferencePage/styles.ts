@@ -98,4 +98,18 @@ const NoDrink = styled.div`
   }
 `;
 
-export { AlertWrapper, Container, DrinkDescription, NoDrink, Notification, Title };
+const InfinityScrollPoll = styled.div`
+  width: 100%;
+  height: 2rem;
+  background-color: transparent;
+`;
+
+export {
+  AlertWrapper,
+  Container,
+  DrinkDescription,
+  InfinityScrollPoll,
+  NoDrink,
+  Notification,
+  Title,
+};

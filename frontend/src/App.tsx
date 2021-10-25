@@ -13,7 +13,7 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const OauthPage = lazy(() => import('./pages/OauthPage'));
 const DrinksDetailPage = lazy(() => import('./pages/DrinksDetailPage'));
 const MyPage = lazy(() => import('./pages/MyPage'));
-const ViewAllPage = lazy(() => import('./pages/ViewAllPage'));
+const DrinksListPage = lazy(() => import('./pages/DrinksListPage'));
 const MyDrinksPage = lazy(() => import('./pages/MyDrinksPage'));
 const MyReviewsPage = lazy(() => import('./pages/MyReviewsPage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
@@ -33,7 +33,7 @@ const App = () => {
                     <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
                     <Route exact path={[PATH.LOGIN]} component={LoginPage} />
                     <Route exact path={[PATH.OAUTH]} component={OauthPage} />
-                    <Route exact path={[PATH.VIEW_ALL]} component={ViewAllPage} />
+                    <Route exact path={[PATH.DRINKS]} component={DrinksListPage} />
                     <Route exact path={`${PATH.DRINKS}/:id`} component={DrinksDetailPage} />
                     <Route exact path={[PATH.MYPAGE]} component={MyPage} />
                     <Route exact path={[PATH.MY_DRINKS]} component={MyDrinksPage} />
