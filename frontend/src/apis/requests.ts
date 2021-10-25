@@ -14,8 +14,8 @@ const request = async (config: AxiosRequestConfig) => {
     const response = await axios(config);
 
     return response.data;
-  } catch ({ response }) {
-    throw response.data;
+  } catch ({ response: { data } }) {
+    throw data;
   }
 };
 
