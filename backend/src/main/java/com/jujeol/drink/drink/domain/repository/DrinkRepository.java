@@ -31,6 +31,10 @@ public interface DrinkRepository extends JpaRepository<Drink, Long>, DrinkCustom
 
     @Query(value = "select d from Drink d join fetch d.category c where c.key = :category order by d.preferenceAvg desc"
             ,countQuery = "select count(d) from Drink d where d.category.key = :category")
+    Page<Drink> findAllByCategorySorted(String category, Pageable pageable);
+
+    @Query(value = "select d from Drink d join fetch d.category c where c.key = :category"
+            ,countQuery = "select count(d) from Drink d where d.category.key = :category")
     Page<Drink> findAllByCategory(String category, Pageable pageable);
 
     @Query(value = "select d from Drink d join fetch d.category order by d.preferenceAvg desc",
