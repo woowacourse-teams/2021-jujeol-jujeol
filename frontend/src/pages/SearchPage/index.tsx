@@ -82,11 +82,17 @@ const SearchPage = () => {
         >
           카테고리
         </Heading.level3>
-        <Grid col={4} colGap="0.5rem" rowGap="1rem" justifyItems="center">
+        <Grid
+          col={4}
+          colGap="0.5rem"
+          rowGap="1rem"
+          justifyItems="center"
+          title="주류 카테고리 목록"
+        >
           {categories.map(({ key, name, Icon }) => {
             return (
-              <CategoryItem key={key}>
-                <Link to={`${PATH.DRINKS}?category=${key}`}>
+              <CategoryItem key={key} title={name}>
+                <Link to={`${PATH.DRINKS}?category=${key}`} title={name}>
                   <Icon />
                   <span>{name}</span>
                 </Link>

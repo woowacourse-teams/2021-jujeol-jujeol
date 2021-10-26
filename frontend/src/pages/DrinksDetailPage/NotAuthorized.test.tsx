@@ -1,7 +1,7 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 
 import API from 'src/apis/requests';
-import { LOCAL_STORAGE_KEY, MESSAGE, PATH } from 'src/constants';
+import { MESSAGE, PATH } from 'src/constants';
 import { drinksDetail } from 'src/mocks/drinksDetail';
 import { drinksReviews } from 'src/mocks/drinksReviews';
 import { customRender } from 'src/tests/customRenderer';
