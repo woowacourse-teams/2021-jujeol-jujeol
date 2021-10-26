@@ -26,7 +26,6 @@ const GlobalStyle = () => (
         height: 100%;
         overflow: hidden;
 
-        /* background-color: ${COLOR.GRAY_100}; */
         background: linear-gradient(${COLOR.VIOLET_800}, ${COLOR.PURPLE_800});
 
         font-size: 16px;
