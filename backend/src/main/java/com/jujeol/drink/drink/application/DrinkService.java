@@ -127,6 +127,7 @@ public class DrinkService {
 
     @Transactional
     public void removeDrink(Long id) {
+        preferenceService.deletePreferenceByDrinkId(id);
         drinkRepository.deleteById(id);
     }
 
