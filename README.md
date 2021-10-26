@@ -2,7 +2,8 @@
 
 # 술 알고 마시자! 술 추천 및 리뷰 서비스 주절주절
 
-[jujeol-jujeol.com](https://jujeol-jujeol.com) 에서 이용하실 수 있습니다.
+- [jujeol-jujeol.com](https://jujeol-jujeol.com) 에서 이용하실 수 있어요.
+- [주절주절에 대한 더 많고 흥미진진한 이야기들](https://github.com/woowacourse-teams/2021-jujeol-jujeol/wiki)
 
 ---
 
@@ -53,10 +54,10 @@
 	<img src="https://user-images.githubusercontent.com/52682603/138669346-4e85a80c-9615-40c2-9eff-8173a0d2cf25.png" alt="recommend_algorithm" width=50%>  
 </p>
 
-주절주절은 [직접 구현한 **협업 필터링 알고리즘**](https://jujeol-jujeol.github.io/2021/10/24/%EC%95%84%EC%9D%B4%ED%85%9C_%EA%B8%B0%EB%B0%98_%EC%B6%94%EC%B2%9C_Slope_One/)으로 사용자 맞춤형 서비스를 제공합니다. 
+주절주절은 [직접 구현한 **협업 필터링 알고리즘**](https://jujeol-jujeol.github.io/2021/10/24/%EC%95%84%EC%9D%B4%ED%85%9C_%EA%B8%B0%EB%B0%98_%EC%B6%94%EC%B2%9C_Slope_One/)으로 사용자 맞춤형 서비스를 제공해요. 
 
-주절주절은 초기에 **사용자 기반**의 알고리즘을 구성했습니다. 이는 한 사용자가 많은 선호도를 남겨야 유의미한 알고리즘입니다. 
-하지만 **슬로프 원 알고리즘**을 이용해 **아이템 기반** 필터링 방식으로 변경하여 선호도를 적게 남기더라도 즉시 기능을 누릴 수 있게 되었습니다.
+주절주절은 초기에 **사용자 기반**의 알고리즘을 구성했어요. 이는 한 사용자가 많은 선호도를 남겨야 유의미한 알고리즘이죠.</br>
+하지만 **슬로프 원 알고리즘**을 이용해 **아이템 기반** 필터링 방식으로 변경하여 선호도를 적게 남기더라도 즉시 기능을 누릴 수 있게 되었답니다!
 </br>
 </br>
 
