@@ -71,4 +71,8 @@ public class PreferenceService {
         Double average = preferenceRepository.averageOfPreferenceRate(drinkId).orElse(0.0);
         drink.updateAverage(average);
     }
+
+    public void deletePreferenceByDrinkId(Long id) {
+        preferenceRepository.deleteByDrinkId(id);
+    }
 }

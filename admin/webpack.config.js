@@ -5,10 +5,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: './src/js/admin.js',
+  entry: {
+    admin: './src/js/admin.js',
+    login: './src/js/login.js',
+  },
   resolve: { extensions: ['.js', '.jsx'] },
   output: {
-    filename: 'bundle.js',
+    filename: '[name]/dist/[name].bundle.js',
     path: path.join(__dirname, '/dist'),
     clean: true,
     assetModuleFilename: 'static/[hash][ext][query]',
@@ -25,8 +28,20 @@ module.exports = {
         collapseWhitespace: true,
         removeComments: true,
       },
+      filename: 'index.html',
       template: './src/index.html',
       hash: true,
+      chunks: ['admin'],
+    }),
+    new HtmlWebpackPlugin({
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true,
+      },
+      filename: 'login.html',
+      template: './src/pages/login.html',
+      hash: true,
+      chunks: ['login'],
     }),
     new CopyWebpackPlugin({
       patterns: [

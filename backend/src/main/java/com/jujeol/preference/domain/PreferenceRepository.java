@@ -25,4 +25,7 @@ public interface PreferenceRepository extends JpaRepository<Preference, Long> {
 
     @Query("select p from Preference p where p.drink.category.name = :category")
     List<Preference> findAllByCategory(String category);
+
+    @Modifying
+    void deleteByDrinkId(Long drinkId);
 }

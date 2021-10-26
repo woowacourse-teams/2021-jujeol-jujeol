@@ -9,5 +9,6 @@
 |link:preference.html[선호도 api]
 |link:review.html[리뷰 api]
 |link:category.html[카테고리 api]
+|link:admin.html[어드민 api]
 |link:error.html[에러 문서]
 |===
