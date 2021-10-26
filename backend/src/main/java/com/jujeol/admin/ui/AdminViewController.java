@@ -10,4 +10,9 @@ public class AdminViewController {
     public String adminPage() {
         return "admin/html/index.html";
     }
+
+    @GetMapping("/admin/login")
+    public String adminLoginPage() {
+        return "admin/html/login.html";
+    }
 }
