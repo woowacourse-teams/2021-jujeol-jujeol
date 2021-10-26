@@ -13,6 +13,6 @@ public class AdminViewController {
 
     @GetMapping("/admin/login")
     public String adminLoginPage() {
-        return "admin/html/pages/login.html";
+        return "admin/html/login.html";
     }
 }

@@ -29,7 +29,7 @@ public class AdminMvcConfigure implements WebMvcConfigurer {
                 .excludePathPattern("/**", PathMethod.OPTIONS)
                 .excludePathPattern("/admin/login", PathMethod.POST)
                 .excludePathPattern("/admin/login", PathMethod.GET)
-                .excludePathPattern("/admin/admin/html/pages/login.html", PathMethod.ANY)
+                .excludePathPattern("/admin/admin/html/login.html", PathMethod.ANY)
 
                 .includePathPattern("/admin/**", PathMethod.ANY);
     }
