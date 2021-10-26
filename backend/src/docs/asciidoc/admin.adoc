@@ -1,0 +1,23 @@
+= 어드민 API
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:nofooter:
+
+*link:index.html[메인화면으로 돌아가기]*
+
+== 어드민 로그인
+
+- Request
+
+include::{snippets}/admin/login/http-request.adoc[]
+
+- Response
+
+include::{snippets}/admin/login/http-response.adoc[]
