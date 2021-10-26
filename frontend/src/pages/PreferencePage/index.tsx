@@ -14,9 +14,8 @@ import { ERROR_MESSAGE, PATH } from 'src/constants';
 import QUERY_KEY from 'src/constants/queryKey';
 import UserContext from 'src/contexts/UserContext';
 import usePageTitle from 'src/hooks/usePageTitle';
-import { InfinityScrollPoll } from '../ViewAllPage/ViewAllPage.styles';
 import MemoizedPreferenceItem from './PreferenceItem';
-import { AlertWrapper, Container, NoDrink, Notification } from './styles';
+import { AlertWrapper, Container, InfinityScrollPoll, NoDrink, Notification } from './styles';
 
 const PreferencePage = () => {
   usePageTitle('선호도 평가');
