@@ -67,3 +67,20 @@
 
   fill: var(--color-purple-100);
 }
+
+@media screen and (max-width: 1120px) {
+  #background-aria {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1460px) {
+  #background-aria {
+    padding: 4rem 7rem;
+  }
+
+  .dialog {
+    width: 24rem;
+    font-size: 1.25rem;
+  }
+}
