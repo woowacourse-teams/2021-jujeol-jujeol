@@ -30,7 +30,7 @@ body {
 
 main {
   width: 480px;
-  height: 65%;
+  height: fit-content;
 
   padding: 2rem;
 
