@@ -12,10 +12,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.jujeol.AcceptanceTest;
 import com.jujeol.admin.ui.dto.AdminDrinkRequest;
 import com.jujeol.admin.ui.dto.AdminDrinkResponse;
+import com.jujeol.admin.ui.dto.AdminLoginRequest;
 import com.jujeol.commons.exception.JujeolExceptionDto;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
+import com.jujeol.member.auth.application.dto.TokenDto;
 import com.jujeol.testtool.response.HttpResponse;
 import java.nio.file.Files;
 import java.util.List;
@@ -31,6 +33,19 @@ class AdminAcceptanceTest extends AcceptanceTest {
     private AdminAcceptanceTool adminAcceptanceTool;
     @Autowired
     private DrinkAcceptanceTool drinkAcceptanceTool;
+
+    @Test
+    @DisplayName("어드민 로그인 - 성공")
+    public void adminLogin() throws Exception{
+        //when
+        final HttpResponse response = request()
+                .post("/admin/login", new AdminLoginRequest("admin", "password"))
+                .withDocument("admin/login")
+                .withoutLog()
+                .build();
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK);
+    }
 
     @Test
     @DisplayName("주류 등록 - 성공")

@@ -1,9 +1,13 @@
-import axios, { AxiosRequestConfig, Method } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, Method } from 'axios';
 
 import { LOCAL_STORAGE_KEY, REQUEST_URL } from 'src/constants';
 import { getLocalStorageItem } from 'src/utils/localStorage';
 
 axios.defaults.baseURL = process.env.SNOWPACK_PUBLIC_API_URL;
+
+const isAxiosError = (error: any): error is AxiosError => {
+  return error.isAxiosError;
+};
 
 const isNoAuthorizationRequired = (path: string) => {
   return [REQUEST_URL.LOGIN, REQUEST_URL.GET_DRINKS].includes(path);
@@ -14,8 +18,10 @@ const request = async (config: AxiosRequestConfig) => {
     const response = await axios(config);
 
     return response.data;
-  } catch ({ response }) {
-    throw response.data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw error.response?.data;
+    }
   }
 };
 

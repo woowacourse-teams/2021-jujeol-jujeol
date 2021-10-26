@@ -48,7 +48,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
           setUserData(response?.data);
         }
       },
-      onError: (error) => {
+      onError: () => {
         localStorage.removeItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
         setIsLoggedIn(false);
       },

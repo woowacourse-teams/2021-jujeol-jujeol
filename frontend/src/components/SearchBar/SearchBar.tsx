@@ -23,6 +23,8 @@ const SearchBar = ({
   const onSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (value === '') return;
+
     if (!readOnly) {
       history.push(`${PATH.SEARCH_RESULT}?words=${value}`);
       return;

@@ -7,7 +7,6 @@ import NavigationHeader from 'src/components/Header/NavigationHeader';
 import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';
 import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
-import { PATH } from 'src/constants';
 import usePageTitle from 'src/hooks/usePageTitle';
 import { Container, InfinityScrollPoll } from './styles';
 

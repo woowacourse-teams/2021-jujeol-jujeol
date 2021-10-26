@@ -1,6 +1,5 @@
 import { useContext, useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
-import { RouteComponentProps } from 'react-router-dom';
 
 import API from 'src/apis/requests';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
@@ -17,7 +16,7 @@ import { categories } from '../SearchPage';
 import NoSearchResults from './NoSearchResults';
 import { Container, SearchResult } from './styles';
 
-const SearchResultPage = ({ location }: RouteComponentProps) => {
+const SearchResultPage = () => {
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
   const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};

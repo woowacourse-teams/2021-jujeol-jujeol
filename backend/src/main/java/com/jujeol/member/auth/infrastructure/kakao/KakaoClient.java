@@ -34,14 +34,17 @@ public class KakaoClient implements SocialClient {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(AUTHORIZATION, String.format(BEARER_FORM, accessToken));
-        final String body = restTemplate
-                .exchange(kakaoOauthInfo.getKakaoUserUrl(), HttpMethod.GET,
-                        new HttpEntity<>(httpHeaders),
-                        String.class)
-                .getBody();
-
-        final String id = clientResponseConverter.extractDataAsString(body, ID);
-        return new KakaoMemberDetails(id);
+        try {
+            final String body = restTemplate
+                    .exchange(kakaoOauthInfo.getKakaoUserUrl(), HttpMethod.GET,
+                            new HttpEntity<>(httpHeaders),
+                            String.class)
+                    .getBody();
+            final String id = clientResponseConverter.extractDataAsString(body, ID);
+            return new KakaoMemberDetails(id);
+        } catch (HttpClientErrorException e) {
+            throw new KakaoAccessException();
+        }
     }
 
     @Override
