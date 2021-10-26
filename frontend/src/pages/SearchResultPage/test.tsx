@@ -46,7 +46,7 @@ describe('사용자는 검색 결과를 확인할 수 있다.', () => {
 
   it('사용자는 검색 결과가 없을 때 추천 데이터를 확인할 수 있다.', async () => {
     const recommendationDrinksTitle = screen.getByRole('list', {
-      name: '검색 결과가 없을 때 술 추천 리스트',
+      name: '술 추천 리스트',
     });
     expect(recommendationDrinksTitle).toBeVisible();
   });
