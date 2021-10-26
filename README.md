@@ -145,7 +145,7 @@
 
 <p>
   <img src="https://user-images.githubusercontent.com/52682603/138834264-b88dfc2d-5649-42da-b2b8-e4532b572f79.png" alt="prometheus" width=15%>
-  <img src="https://grafana.com/static/img/menu/grafana2.svg" alt="grafana" width=12%>
+  <img src="https://user-images.githubusercontent.com/52682603/138843856-e8fe1938-b78a-437d-84fa-75c3cc72b167.png" alt="grafana" width=15%>
   <img src="https://user-images.githubusercontent.com/52682603/138834279-f606ede9-874c-4eee-bf89-ac43daeda6af.png" alt="ngrinder" width=15%>
 </p>
 
