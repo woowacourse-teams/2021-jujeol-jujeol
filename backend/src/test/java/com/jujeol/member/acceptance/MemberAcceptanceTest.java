@@ -88,6 +88,23 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    @DisplayName("멤버 수정 - 실패 (중복 닉네임)")
+    public void updateMember_fail_duplicateNickname() {
+        //when
+        String updateNickname = "나봄";
+        memberAcceptanceTool.회원가입(updateNickname);
+
+        HttpResponse response = 내_정보를_수정한다(WEDGE,
+                new MemberRequest(updateNickname, "test"),
+                "member/update/me-duplicate-nickname");
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(response.errorResponse().getCode()).isEqualTo("1010");
+        assertThat(response.errorResponse().getMessage()).isEqualTo("닉네임이 중복되었습니다.");
+    }
+
+    @Test
     @DisplayName("멤버 수정 - 실패 (부적절한 자기소개)")
     public void updateMember_InvalidBio() {
         //when

@@ -14,4 +14,7 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberCus
 
     @Query("select m from Member m where m.nickname.nickname like :nickname% order by m.createdAt desc")
     List<Member> findOneStartingWithNicknameAndMostRecent(String nickname, Pageable pageable);
+
+    @Query("select m from Member m where m.nickname.nickname = :nickname")
+    Optional<Member> findByNickname(String nickname);
 }
