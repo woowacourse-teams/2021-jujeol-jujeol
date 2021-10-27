@@ -15,6 +15,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("select m from Member m where m.nickname.nickname like :nickname% order by m.createdAt desc")
     List<Member> findOneStartingWithNicknameAndMostRecent(String nickname, Pageable pageable);
 
-    @Query("select count(m) from Member m where m.nickname.nickname = :nickname")
-    boolean isExists(String nickname);
+    boolean existsByNicknameNickname(String nickname);
 }
