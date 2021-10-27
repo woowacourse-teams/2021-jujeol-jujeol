@@ -1,9 +1,14 @@
 import axios, { AxiosError, AxiosRequestConfig, Method } from 'axios';
 
 import { LOCAL_STORAGE_KEY, REQUEST_URL } from 'src/constants';
+import APPLICATION_ERROR_CODE from 'src/constants/applicationErrorCode';
 import { getLocalStorageItem } from 'src/utils/localStorage';
 
 axios.defaults.baseURL = process.env.SNOWPACK_PUBLIC_API_URL;
+
+const STATUS_CODE = {
+  INTERNAL_SERVER_ERROR: 500,
+};
 
 const isAxiosError = (error: any): error is AxiosError => {
   return error.isAxiosError;
@@ -20,6 +25,17 @@ const request = async (config: AxiosRequestConfig) => {
     return response.data;
   } catch (error) {
     if (isAxiosError(error)) {
+      if (!error.response) {
+        throw { code: APPLICATION_ERROR_CODE.NETWORK_ERROR, message: 'Network Error' };
+      }
+
+      if (error.response.status === STATUS_CODE.INTERNAL_SERVER_ERROR) {
+        throw {
+          code: APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR,
+          message: 'internal server error',
+        };
+      }
+
       throw error.response?.data;
     }
   }

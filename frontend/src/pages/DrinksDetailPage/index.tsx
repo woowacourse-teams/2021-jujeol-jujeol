@@ -15,7 +15,14 @@ import Property from 'src/components/Property/Property';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import Review from 'src/components/Review/Review';
 import DrinksDetailDescriptionSkeleton from 'src/components/Skeleton/DrinksDetailDescriptionSkeleton';
-import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
+import {
+  APPLICATION_ERROR_CODE,
+  COLOR,
+  ERROR_MESSAGE,
+  MESSAGE,
+  PATH,
+  PREFERENCE,
+} from 'src/constants';
 import QUERY_KEY from 'src/constants/queryKey';
 import UserContext from 'src/contexts/UserContext';
 import useNoticeToInputPreference from 'src/hooks/useInputPreference';
@@ -79,6 +86,16 @@ const DrinksDetailPage = () => {
         setCurrentPreferenceRate(data.preferenceRate);
       },
       onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
         setSnackbarMessage?.({
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
@@ -122,6 +139,16 @@ const DrinksDetailPage = () => {
     },
     {
       onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
         setSnackbarMessage?.({
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
