@@ -38,7 +38,7 @@ public class AddHashNicknameCreator implements NicknameCreator {
     }
 
     private String ifExistCreateNewHash(String nickname, String nicknamePrefix) {
-        if (memberRepository.isExists(nickname)) {
+        if (memberRepository.existsByNicknameNickname(nickname)) {
             return ifExistCreateNewHash(
                     assembleNickname(nicknamePrefix, nextHash(parsedHash(nickname)))
                     , nicknamePrefix);
