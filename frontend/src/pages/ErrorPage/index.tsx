@@ -1,15 +1,18 @@
-import { useLocation } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 
 import { DizzyEmojiColorIcon } from 'src/components/@Icons';
 import { APPLICATION_ERROR_CODE, PATH } from 'src/constants';
 import { Container, LinkButton, SurveyLink } from './styles';
 
+const NO_STATE = -999;
+
 const ErrorPage = () => {
   const location = useLocation<{ code: number }>();
-  const code = location.state?.code ?? 0;
+  const code = location.state?.code ?? NO_STATE;
 
   return (
     <Container>
+      {code === NO_STATE && <Redirect to={PATH.NON_EXISTENCE_PAGE} />}
       <DizzyEmojiColorIcon width="128px" height="128px" />
       <h3>
         <p>
