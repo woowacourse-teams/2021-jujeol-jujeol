@@ -33,6 +33,8 @@ const Container = styled.section`
 `;
 
 const EditButtonStyle = css`
+  padding: 0.3rem;
+
   position: absolute;
   top: -15%;
   right: 0;

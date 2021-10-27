@@ -7,6 +7,10 @@ const Header = styled.div`
   margin-bottom: 0.5rem;
 
   ${Flex({})}
+
+  button {
+    padding: 0.3rem;
+  }
 `;
 
 const ReviewerInfo = styled.div`

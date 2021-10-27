@@ -1,6 +1,6 @@
 import { COLOR } from 'src/constants';
 
-const BeerIcon = ({ width = '2rem', height = '2rem', color = COLOR.BLACK }: IconProps) => {
+const BeerIcon = ({ width = '32px', height = '32px', color = COLOR.BLACK }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

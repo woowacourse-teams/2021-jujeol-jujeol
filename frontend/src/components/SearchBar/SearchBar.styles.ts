@@ -14,6 +14,10 @@ const Container = styled.form<Omit<React.CSSProperties, 'translate'>>`
   background-color: rgba(255, 255, 255, 0.3);
   border: 2px solid white;
   border-radius: 2rem;
+
+  button {
+    padding: 0.3rem;
+  }
 `;
 
 const SearchInput = styled.input<Omit<React.CSSProperties, 'translate'>>`
