@@ -25,7 +25,7 @@ public class Recommender {
             for (Entry<Long, Double> itemPreference : dataByMember.entrySet()) {
                 final Long itemId = itemPreference.getKey();
                 final Double preference = itemPreference.getValue();
-                final ItemCounter itemCounter = matrixValue.get(itemId);
+                final ItemCounter itemCounter = matrixValue.getOrDefault(itemId, new ItemCounter());
                 final double deviation = itemCounter.getDeviation();
                 sumValue += (preference + deviation) * itemCounter.getCount();
                 count += itemCounter.getCount();
