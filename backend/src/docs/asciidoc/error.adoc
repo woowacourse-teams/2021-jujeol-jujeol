@@ -16,6 +16,8 @@
 |1006|INVALID_USER_NICKNAME_LENGTH|"닉네임이 비어있거나 너무 깁니다."
 |1007|INVALID_USER_NICKNAME_CHARACTER|"닉네임에 잘 못 된 문자가 들어있습니다."
 |1008|INVALID_USER_BIOGRAPHY_LENGTH|"자기 소개가 너무 깁니다."
+|1009|EXPIRED_TOKEN|"토큰 유효기간이 만료되었습니다."
+|1010|DUPLICATE_NAME|"닉네임이 중복되었습니다."
 |2001|INVALID_ALCOHOL_BY_VOLUME|"해당 주류의 도수가 잘 못 되었습니다."
 |2002|INVALID_DRINK_NAME|"해당 주류의 이름이 형식에 맞지 않습니다."
 |2003|NOT_FOUND_DRINK|"해당하는 id의 상품을 찾을 수 없습니다."
