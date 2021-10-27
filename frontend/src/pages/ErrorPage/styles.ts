@@ -32,7 +32,10 @@ export const LinkButton = styled(Link)`
 
   background-color: ${COLOR.YELLOW_300};
   border-radius: 1rem;
-  color: ${COLOR.BLACK};
+
+  && {
+    color: ${COLOR.BLACK};
+  }
 
   text-align: center;
 `;
