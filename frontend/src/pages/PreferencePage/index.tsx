@@ -13,6 +13,7 @@ import NavigationHeader from 'src/components/Header/NavigationHeader';
 import { APPLICATION_ERROR_CODE, ERROR_MESSAGE, PATH } from 'src/constants';
 import QUERY_KEY from 'src/constants/queryKey';
 import UserContext from 'src/contexts/UserContext';
+import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import usePageTitle from 'src/hooks/usePageTitle';
 import MemoizedPreferenceItem from './PreferenceItem';
 import { AlertWrapper, Container, InfinityScrollPoll, NoDrink, Notification } from './styles';
@@ -60,13 +61,7 @@ const PreferencePage = () => {
   const drinks = data?.pages?.map((page) => page.data).flat() ?? [];
   const hasUnratedDrinks = !!drinks.filter(({ preferenceRate }) => !preferenceRate).length;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    });
-  });
+  useInfinityScroll({ target: infinityPollRef, fetchNextPage, hasNextPage });
 
   const { mutate: onUpdatePreference } = useMutation(
     ({ id, preferenceRate }: { id: number; preferenceRate: number }) => {
@@ -93,24 +88,6 @@ const PreferencePage = () => {
   const onMoveToDrinkDetail = (id: number) => () => {
     history.push(`${PATH.DRINKS}/${id}`);
   };
-
-  useEffect(() => {
-    if (infinityPollRef.current) {
-      observer.observe(infinityPollRef.current);
-    }
-
-    return () => {
-      if (infinityPollRef.current) {
-        observer.unobserve(infinityPollRef.current);
-      }
-    };
-  }, [infinityPollRef.current]);
-
-  useEffect(() => {
-    if (!hasUnratedDrinks && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [hasUnratedDrinks]);
 
   return (
     <>
