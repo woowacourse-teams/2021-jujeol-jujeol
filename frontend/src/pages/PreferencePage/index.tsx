@@ -28,7 +28,7 @@ const PreferencePage = () => {
 
   const queryClient = useQueryClient();
 
-  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery(
+  const { data, fetchNextPage, hasNextPage, isFetching, isSuccess } = useInfiniteQuery(
     QUERY_KEY.DRINK_LIST_SORTED_BY_PREFERENCE,
     ({ pageParam = 1 }) =>
       API.getDrinks({
@@ -144,14 +144,14 @@ const PreferencePage = () => {
                 <Skeleton type="SQUARE" size="X_SMALL" width="100%" />
               </FlexBox>
             ))}
-          {!hasUnratedDrinks && !hasNextPage && (
+          {isSuccess && !hasUnratedDrinks && !hasNextPage && (
             <NoDrink>
               <DizzyEmojiColorIcon />
               <p>주절주절에 있는 모든 술을 드셨네요!</p>
               <p>회원님을 이 구역의 술쟁이로 인정합니다!</p>
             </NoDrink>
           )}
-          {hasUnratedDrinks && !hasNextPage && (
+          {isSuccess && hasUnratedDrinks && !hasNextPage && (
             <Notification>
               <p>등록된 술이 더이상 없습니다. 곧 추가 될 예정이니 기다려 주세요 :)</p>
             </Notification>
