@@ -48,6 +48,7 @@ const PreferencePage = () => {
     }
   );
   const drinks = data?.pages?.map((page) => page.data).flat() ?? [];
+  const hasUnratedDrinks = !!drinks.filter(({ preferenceRate }) => !preferenceRate).length;
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -96,10 +97,10 @@ const PreferencePage = () => {
   }, [infinityPollRef.current]);
 
   useEffect(() => {
-    if (!drinks.filter(({ preferenceRate }) => !preferenceRate).length && hasNextPage) {
+    if (!hasUnratedDrinks && hasNextPage) {
       fetchNextPage();
     }
-  }, [drinks]);
+  }, [hasUnratedDrinks]);
 
   return (
     <>
@@ -133,12 +134,17 @@ const PreferencePage = () => {
                 <Skeleton type="SQUARE" size="X_SMALL" width="100%" />
               </FlexBox>
             ))}
-          {!drinks.filter(({ preferenceRate }) => !preferenceRate).length && !hasNextPage && (
+          {!hasUnratedDrinks && !hasNextPage && (
             <NoDrink>
               <DizzyEmojiColorIcon />
               <p>주절주절에 있는 모든 술을 드셨네요!</p>
               <p>회원님을 이 구역의 술쟁이로 인정합니다!</p>
             </NoDrink>
+          )}
+          {hasUnratedDrinks && !hasNextPage && (
+            <Notification>
+              <p>등록된 술이 더이상 없습니다. 곧 추가 될 예정이니 기다려 주세요 :)</p>
+            </Notification>
           )}
         </div>
         <InfinityScrollPoll ref={infinityPollRef} />
