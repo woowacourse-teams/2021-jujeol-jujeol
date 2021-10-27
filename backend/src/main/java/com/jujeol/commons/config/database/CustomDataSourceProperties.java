@@ -1,25 +1,25 @@
-package com.jujeol.replication;
+package com.jujeol.commons.config.database;
 
-import java.util.HashMap;
-import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "datasource")
+@ConfigurationProperties(prefix = "spring.datasource")
 public class CustomDataSourceProperties {
 
-    private final Map<String, Slave> slave = new HashMap<>();
+    private final Replica replica1 = new Replica();
+    private final Replica replica2 = new Replica();
 
+    private String name = "source";
     private String url;
     private String username;
     private String password;
 
     @Getter
     @Setter
-    public static class Slave {
+    public static class Replica {
         private String name;
         private String url;
         private String username;
