@@ -51,6 +51,30 @@
     </appender>
   </springProfile>
 
+  <springProfile name="dev">
+    <appender name="file-error-logger" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <file>${LOG_PATH}/error.log</file>
+      <filter class="ch.qos.logback.classic.filter.LevelFilter">
+        <level>ERROR</level>
+        <onMatch>ACCEPT</onMatch>
+        <onMismatch>DENY</onMismatch>
+      </filter>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${LOG_PATH}/error-%d{yyyyMMdd}-%i.log</fileNamePattern>
+        <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+          <maxFileSize>15MB</maxFileSize>
+        </timeBasedFileNamingAndTriggeringPolicy>
+        <maxHistory>7</maxHistory>
+      </rollingPolicy>
+      <encoder>
+        <charset>utf8</charset>
+        <Pattern>
+          %d{yyyy-MM-dd HH:mm:ss}:%-4relative %-5level [%C.%M]:%L] %n    > %msg%n
+        </Pattern>
+      </encoder>
+    </appender>
+  </springProfile>
+
   <appender name="PERFORMANCE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <file>${LOG_PATH}/performance.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
