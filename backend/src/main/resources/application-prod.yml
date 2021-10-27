@@ -1,10 +1,6 @@
 logging:
   level:
     root: info
-decorator:
-  datasource:
-    p6spy:
-      enable-logging: false
 spring:
   flyway:
     baselineOnMigrate: true
