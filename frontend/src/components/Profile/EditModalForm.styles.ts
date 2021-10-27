@@ -27,7 +27,7 @@ const Form = styled.form`
       padding-left: 0.4rem;
 
       font-size: 0.7rem;
-      color: ${COLOR.GRAY_700};
+      color: ${COLOR.GRAY_800};
     }
   }
 `;
