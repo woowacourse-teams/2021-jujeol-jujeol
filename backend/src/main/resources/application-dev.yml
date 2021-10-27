@@ -1,6 +1,11 @@
 logging:
   level:
     root: info
+spring:
+  flyway:
+    baselineOnMigrate: true
+    locations: classpath:db/migration/prod
+    enabled: true
 application:
   bucket:
     name: 2021-jujeol-test
