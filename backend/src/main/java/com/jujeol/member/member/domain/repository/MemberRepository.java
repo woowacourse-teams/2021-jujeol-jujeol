@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface MemberRepository extends JpaRepository<Member, Long>, MemberCustomRepository {
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("select m from Member m where m.provider.provideId = :provideId")
     Optional<Member> findByProvideId(String provideId);
@@ -17,4 +17,6 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberCus
 
     @Query("select m from Member m where m.nickname.nickname = :nickname")
     Optional<Member> findByNickname(String nickname);
+
+    boolean existsByNicknameNickname(String nickname);
 }
