@@ -96,6 +96,7 @@ const EditModalForm = ({ nickname: currentNickname = '', bio: currentBio = '' }:
           maxLength={10}
           placeholder="닉네임을 입력해주세요"
         />
+        <p>{ERROR_MESSAGE[1007]}</p>
       </label>
 
       <label>
