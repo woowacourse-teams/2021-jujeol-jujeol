@@ -114,7 +114,7 @@ const getHomePageConfig = ({
     const config = getBestDrinksConfig(drinks[index]);
     return {
       ...config,
-      query: { ...config.query, sortBy: isLoggedIn ? 'expectedPreference' : 'preferenceAvg' },
+      query: { ...config.query, sortBy: 'preferenceAvg' },
     };
   });
 
