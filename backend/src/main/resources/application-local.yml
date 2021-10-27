@@ -1,11 +1,13 @@
 spring:
   jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     properties:
       hibernate:
+        show_sql: true
         format_sql: true
-        dialect: org.hibernate.dialect.H2Dialect
-        use_sql_commets: true
-        ddl-auto: create-drop
+        use_sql_comments: true
+    open-in-view: false
   output:
     ansi:
       enabled: always

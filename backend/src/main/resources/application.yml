@@ -16,6 +16,9 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true
+  # jpa
+  jpa:
+    open-in-view: false
   # flyway
   flyway:
     enabled: false
