@@ -5,7 +5,6 @@ import com.jujeol.drink.category.domain.CategoryRepository;
 import com.jujeol.drink.drink.domain.Drink;
 import com.jujeol.drink.drink.domain.ImageFilePath;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
-import com.jujeol.elasticsearch.domain.reopsitory.DrinkDocumentRepository;
 import com.jujeol.member.auth.domain.Provider;
 import com.jujeol.member.auth.domain.ProviderName;
 import com.jujeol.member.auth.util.JwtTokenProvider;
@@ -32,7 +31,6 @@ public class DataLoader implements CommandLineRunner {
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final PreferenceService preferenceService;
-    private final DrinkDocumentRepository drinkDocumentRepository;
 
     @Override
     public void run(String... args) throws Exception {

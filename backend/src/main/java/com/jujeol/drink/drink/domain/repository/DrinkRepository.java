@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface DrinkRepository extends JpaRepository<Drink, Long>, DrinkCustomRepository {
+public interface DrinkRepository extends JpaRepository<Drink, Long> {
 
     @Query("select d from Drink d join fetch d.category where d.id = :drinkId")
     Optional<Drink> findByIdWithFetch(Long drinkId);
@@ -43,4 +43,7 @@ public interface DrinkRepository extends JpaRepository<Drink, Long>, DrinkCustom
 
     @Query(value = "select d from Drink d where d.name.name like %:keyword% or d.englishName.englishName like %:keyword%")
     Page<Drink> findWithKeyword(String keyword, Pageable pageable);
+
+    @Query(value = "select d from Drink d join fetch d.category where d.id in :iDs")
+    List<Drink> findByIds(List<Long> iDs);
 }
