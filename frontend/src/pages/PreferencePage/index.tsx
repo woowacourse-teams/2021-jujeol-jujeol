@@ -33,7 +33,7 @@ const PreferencePage = () => {
     ({ pageParam = 1 }) =>
       API.getDrinks({
         page: pageParam,
-        params: new URLSearchParams('sortBy=preferenceAvg&size=10'),
+        params: new URLSearchParams('size=25'),
       }),
     {
       getNextPageParam: ({ pageInfo }) => {
@@ -95,6 +95,12 @@ const PreferencePage = () => {
     };
   }, [infinityPollRef.current]);
 
+  useEffect(() => {
+    if (!drinks.filter(({ preferenceRate }) => !preferenceRate).length && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [drinks]);
+
   return (
     <>
       <NavigationHeader title="선호도 평가" />
@@ -127,17 +133,12 @@ const PreferencePage = () => {
                 <Skeleton type="SQUARE" size="X_SMALL" width="100%" />
               </FlexBox>
             ))}
-          {!drinks.filter(({ preferenceRate }) => !preferenceRate).length && (
+          {!drinks.filter(({ preferenceRate }) => !preferenceRate).length && !hasNextPage && (
             <NoDrink>
               <DizzyEmojiColorIcon />
               <p>주절주절에 있는 모든 술을 드셨네요!</p>
               <p>회원님을 이 구역의 술쟁이로 인정합니다!</p>
             </NoDrink>
-          )}
-          {!!drinks.filter(({ preferenceRate }) => !preferenceRate).length && !hasNextPage && (
-            <Notification>
-              <p>등록된 술이 더이상 없습니다. 곧 추가 될 예정이니 기다려 주세요 :)</p>
-            </Notification>
           )}
         </div>
         <InfinityScrollPoll ref={infinityPollRef} />
