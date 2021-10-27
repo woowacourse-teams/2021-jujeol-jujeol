@@ -11,7 +11,11 @@ public class ItemCounter {
     }
 
     public double getDeviation() {
-        return sum / count;
+        try {
+            return sum / count;
+        } catch (ArithmeticException e) {
+            return 0;
+        }
     }
 
     public long getCount() {
