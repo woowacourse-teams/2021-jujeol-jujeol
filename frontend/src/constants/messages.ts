@@ -17,6 +17,8 @@ const MESSAGE = {
   DELETE_REVIEW_SUCCESS: '리뷰를 삭제하였습니다.',
 
   EDIT_PROFILE_SUCCESS: '프로필을 수정하였습니다.',
+
+  SEARCH_INPUT_CANNOT_EMPTY: '공백이 아닌 검색어를 입력해주세요.',
 };
 
 // API error
