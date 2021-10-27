@@ -44,7 +44,7 @@ public class ElasticSearchHelper implements SearchHelper {
         List<Drink> drinksByIds = drinkRepository.findByIds(drinkIds);
         return new DrinkSearchResult(
                 sortDrinkBySearchHit(drinkIds, drinksByIds),
-                pageable,
+                searchHitsByPage.getPageable(),
                 searchHitsByPage.getTotalElements());
     }
 
