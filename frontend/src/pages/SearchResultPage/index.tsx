@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
+import { useHistory } from 'react-router';
 
 import API from 'src/apis/requests';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
@@ -9,7 +10,8 @@ import NavigationHeader from 'src/components/Header/NavigationHeader';
 import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';
 import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
-import { ERROR_MESSAGE } from 'src/constants';
+import { ERROR_MESSAGE, PATH } from 'src/constants';
+import APPLICATION_ERROR_CODE from 'src/constants/applicationErrorCode';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import usePageTitle from 'src/hooks/usePageTitle';
 import { categories } from '../SearchPage';
@@ -17,6 +19,7 @@ import NoSearchResults from './NoSearchResults';
 import { Container, SearchResult } from './styles';
 
 const SearchResultPage = () => {
+  const history = useHistory();
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
   const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
@@ -52,6 +55,16 @@ const SearchResultPage = () => {
         return currentPage < lastPage ? currentPage + 1 : undefined;
       },
       onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
         setSnackbarMessage?.({
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,

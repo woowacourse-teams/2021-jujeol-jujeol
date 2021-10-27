@@ -10,7 +10,7 @@ import Grid from 'src/components/@shared/Grid/Grid';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
-import { ERROR_MESSAGE, PATH } from 'src/constants';
+import { APPLICATION_ERROR_CODE, ERROR_MESSAGE, PATH } from 'src/constants';
 import QUERY_KEY from 'src/constants/queryKey';
 import UserContext from 'src/contexts/UserContext';
 import usePageTitle from 'src/hooks/usePageTitle';
@@ -40,6 +40,16 @@ const PreferencePage = () => {
         return pageInfo.currentPage < pageInfo.lastPage ? pageInfo.currentPage + 1 : undefined;
       },
       onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
         setSnackbarMessage?.({
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,

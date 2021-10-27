@@ -1,12 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useHistory } from 'react-router';
 
 import API from 'src/apis/requests';
+import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
 import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';
 import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
+import { APPLICATION_ERROR_CODE, ERROR_MESSAGE, PATH } from 'src/constants';
 import usePageTitle from 'src/hooks/usePageTitle';
 import { Container, InfinityScrollPoll } from './styles';
 
@@ -25,6 +27,8 @@ const DrinksListPage = () => {
   const history = useHistory();
   const infinityPollRef = useRef<HTMLDivElement>(null);
 
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
+
   usePageTitle('전체보기');
 
   const category =
@@ -39,6 +43,22 @@ const DrinksListPage = () => {
     {
       getNextPageParam: ({ pageInfo }) => {
         return pageInfo.currentPage < pageInfo.lastPage ? pageInfo.currentPage + 1 : undefined;
+      },
+      onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
       },
     }
   );

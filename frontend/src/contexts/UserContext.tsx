@@ -1,8 +1,9 @@
 import { createContext, useState } from 'react';
 import { useQuery } from 'react-query';
+import { useHistory } from 'react-router-dom';
 
 import API from 'src/apis/requests';
-import { LOCAL_STORAGE_KEY } from 'src/constants';
+import { APPLICATION_ERROR_CODE, LOCAL_STORAGE_KEY, PATH } from 'src/constants';
 import QUERY_KEY from 'src/constants/queryKey';
 
 type UserData = {
@@ -30,6 +31,8 @@ const UserContext = createContext<UserContext>({
 });
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const history = useHistory();
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
 
@@ -48,7 +51,18 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
           setUserData(response?.data);
         }
       },
-      onError: () => {
+      onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+          return;
+        }
+
         localStorage.removeItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
         setIsLoggedIn(false);
       },

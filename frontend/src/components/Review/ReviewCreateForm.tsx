@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useHistory, useParams } from 'react-router-dom';
 
 import API from 'src/apis/requests';
-import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, REVIEW } from 'src/constants';
+import { APPLICATION_ERROR_CODE, COLOR, ERROR_MESSAGE, MESSAGE, PATH, REVIEW } from 'src/constants';
 import QUERY_KEY from 'src/constants/queryKey';
 import UserContext from 'src/contexts/UserContext';
 import Card from '../@shared/Card/Card';
@@ -34,6 +34,16 @@ const ReviewCreateForm = () => {
         setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.CREATE_REVIEW_SUCCESS });
       },
       onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
         setSnackbarMessage?.({
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
