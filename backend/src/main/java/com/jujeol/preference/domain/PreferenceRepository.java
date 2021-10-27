@@ -28,4 +28,8 @@ public interface PreferenceRepository extends JpaRepository<Preference, Long> {
 
     @Modifying
     void deleteByDrinkId(Long drinkId);
+
+    @Query("select p from Preference p where p.member.id = :memberId and p.drink.id in :drinkIds")
+    List<Preference> showByMemberIdAndDrinks(Long memberId, List<Long> drinkIds);
+
 }

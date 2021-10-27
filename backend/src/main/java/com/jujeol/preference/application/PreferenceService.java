@@ -6,6 +6,7 @@ import com.jujeol.drink.drink.exception.NotFoundDrinkException;
 import com.jujeol.member.member.application.dto.PreferenceDto;
 import com.jujeol.preference.domain.Preference;
 import com.jujeol.preference.domain.PreferenceRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -74,5 +75,9 @@ public class PreferenceService {
 
     public void deletePreferenceByDrinkId(Long id) {
         preferenceRepository.deleteByDrinkId(id);
+    }
+
+    public List<Preference> showByMemberIdAndDrinks(Long memberId, List<Long> drinkIds) {
+        return preferenceRepository.showByMemberIdAndDrinks(memberId, drinkIds);
     }
 }
