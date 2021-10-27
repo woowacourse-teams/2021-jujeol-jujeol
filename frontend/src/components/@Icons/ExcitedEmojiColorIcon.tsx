@@ -1,4 +1,4 @@
-const ExcitedEmojiColorIcon = ({ width = '2rem', height = '2rem' }: IconProps) => {
+const ExcitedEmojiColorIcon = ({ width = '32px', height = '32px' }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

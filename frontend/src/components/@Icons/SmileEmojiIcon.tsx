@@ -1,6 +1,6 @@
 import { COLOR } from 'src/constants';
 
-const SmileEmojiIcon = ({ width = '2rem', height = '2rem', color = COLOR.WHITE }: IconProps) => {
+const SmileEmojiIcon = ({ width = '32px', height = '32px', color = COLOR.WHITE }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

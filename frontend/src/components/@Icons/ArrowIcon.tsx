@@ -12,8 +12,8 @@ interface Props extends IconProps {
 }
 
 const ArrowIcon = ({
-  width = '2rem',
-  height = '2rem',
+  width = '32px',
+  height = '32px',
   color = COLOR.BLACK,
   direction = 'LEFT',
 }: Props) => {
