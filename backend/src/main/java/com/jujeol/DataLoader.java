@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -33,6 +34,7 @@ public class DataLoader {
     private final PreferenceRepository preferenceRepository;
     private final ReviewRepository reviewRepository;
 
+    @Transactional
     public void loadData() {
         preferenceRepository.deleteAll();
         reviewRepository.deleteAll();
