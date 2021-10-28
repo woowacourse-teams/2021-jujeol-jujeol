@@ -42,7 +42,7 @@ public class MemberService {
         final Optional<Member> memberByNickname = memberRepository
                 .findByNickname(memberDto.getNickname());
 
-        if(memberByNickname.isPresent()) {
+        if (duplicatedName(memberDto, member, memberByNickname)) {
             throw new DuplicateMemberException();
         }
 
@@ -50,6 +50,12 @@ public class MemberService {
                 Nickname.create(memberDto.getNickname()),
                 Biography.create(memberDto.getBio())
         );
+    }
+
+    private boolean duplicatedName(MemberDto memberDto, Member member,
+            Optional<Member> memberByNickname) {
+        return memberByNickname.isPresent() &&
+                !member.getNickname().getNickname().equals(memberDto.getNickname());
     }
 
     public Page<DrinkDto> findDrinks(Long memberId, Pageable pageable) {
