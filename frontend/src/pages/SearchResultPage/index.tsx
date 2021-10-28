@@ -14,7 +14,6 @@ import { ERROR_MESSAGE, PATH } from 'src/constants';
 import APPLICATION_ERROR_CODE from 'src/constants/applicationErrorCode';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import usePageTitle from 'src/hooks/usePageTitle';
-import { categories } from '../SearchPage';
 import NoSearchResults from './NoSearchResults';
 import { Container, SearchResult } from './styles';
 
@@ -25,19 +24,16 @@ const SearchResultPage = () => {
   const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
 
   const words = new URLSearchParams(location.search).get('words') ?? '';
-  const categoryKey = new URLSearchParams(location.search).get('category') ?? '';
-  const categoryName =
-    categoryKey && categories.find((category) => category.key === categoryKey)?.name;
+  const params = new URLSearchParams({ keyword: words });
 
-  const params = new URLSearchParams({ keyword: words, category: categoryKey });
-
-  params.forEach((value, key) => {
-    if (value === '') {
-      params.delete(key);
+  useEffect(() => {
+    if (words === '') {
+      history.push(PATH.SEARCH);
+      return;
     }
-  });
+  }, [words]);
 
-  usePageTitle(`${words || categoryName} 검색 결과`);
+  usePageTitle(`${words} 검색 결과`);
 
   const {
     data: resultsData,
@@ -105,7 +101,7 @@ const SearchResultPage = () => {
         ) : searchResult?.length ? (
           <>
             <SearchResult>
-              <strong>{words || categoryName}</strong>로 검색한 결과입니다.
+              <strong>{words}</strong>로 검색한 결과입니다.
             </SearchResult>
             <List count={searchResult?.length || 0}>
               {searchResult?.map((item: Drink.Item) => (
@@ -126,7 +122,7 @@ const SearchResultPage = () => {
             </List>
           </>
         ) : (
-          <NoSearchResults search={words || categoryName || ''} />
+          <NoSearchResults search={words || ''} />
         )}
 
         <InfinityScrollPoll ref={observerTargetRef} />
