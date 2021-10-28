@@ -16,6 +16,7 @@ const Header = styled.div`
 const ReviewerInfo = styled.div`
   margin-left: 0.5rem;
 
+  flex-grow: 1; // 특정 닉네임 개행 방지 (ex. 진달래_001)
   ${Flex({ flexDirection: 'column' })}
 
   text-align: left;
