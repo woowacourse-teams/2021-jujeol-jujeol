@@ -6,11 +6,13 @@ import com.jujeol.member.member.domain.Biography;
 import com.jujeol.member.member.domain.Member;
 import com.jujeol.member.member.domain.nickname.Nickname;
 import com.jujeol.member.member.domain.repository.MemberRepository;
+import com.jujeol.member.member.exception.DuplicateMemberException;
 import com.jujeol.member.member.exception.NoSuchMemberException;
 import com.jujeol.preference.application.PreferenceService;
 import com.jujeol.preference.domain.Preference;
 import com.jujeol.review.application.dto.ReviewDto;
 import com.jujeol.review.domain.repository.ReviewRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +38,13 @@ public class MemberService {
     public void updateMember(MemberDto memberDto) {
         Member member = memberRepository.findById(memberDto.getId())
                 .orElseThrow(NoSuchMemberException::new);
+
+        final Optional<Member> memberByNickname = memberRepository
+                .findByNickname(memberDto.getNickname());
+
+        if(memberByNickname.isPresent()) {
+            throw new DuplicateMemberException();
+        }
 
         member.updateNicknameAndBiography(
                 Nickname.create(memberDto.getNickname()),

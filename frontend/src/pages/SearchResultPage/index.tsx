@@ -83,7 +83,17 @@ const SearchResultPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   useInfinityScroll({ target: observerTargetRef, fetchNextPage, hasNextPage });
+
+  const getSkeletonUI = () => (
+    <>
+      <Skeleton type="TEXT" size="MEDIUM" width="14rem" margin="1rem 2rem" />
+      <List>
+        <ListItemSkeleton count={7} />
+      </List>
+    </>
+  );
 
   return (
     <Container>
@@ -91,12 +101,7 @@ const SearchResultPage = () => {
 
       <section>
         {isLoading ? (
-          <>
-            <Skeleton type="TEXT" size="MEDIUM" width="14rem" margin="1rem 2rem" />
-            <List>
-              <ListItemSkeleton count={7} />
-            </List>
-          </>
+          getSkeletonUI()
         ) : searchResult?.length ? (
           <>
             <SearchResult>
@@ -119,11 +124,12 @@ const SearchResultPage = () => {
                 />
               ))}
             </List>
-            <InfinityScrollPoll ref={observerTargetRef} />
           </>
         ) : (
           <NoSearchResults search={words || categoryName || ''} />
         )}
+
+        <InfinityScrollPoll ref={observerTargetRef} />
       </section>
     </Container>
   );

@@ -16,4 +16,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     List<Member> findOneStartingWithNicknameAndMostRecent(String nickname, Pageable pageable);
 
     boolean existsByNicknameNickname(String nickname);
+
+    @Query("select m from Member m where m.nickname.nickname = :nickname")
+    Optional<Member> findByNickname(String nickname);
 }
