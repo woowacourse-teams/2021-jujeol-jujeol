@@ -8,12 +8,6 @@ const NavHeader = styled(Header)`
 
   width: 100%;
   position: relative;
-
-  button {
-    background-color: transparent;
-    border: 0;
-    margin-left: 0.5rem;
-  }
 `;
 
 export { NavHeader };
