@@ -1,14 +1,17 @@
+import { useContext } from 'react';
 import { useQuery } from 'react-query';
+import { Link, useHistory } from 'react-router-dom';
+
 import API from 'src/apis/requests';
-import List from '../../components/List/List';
-import Section from '../../components/Section/Section';
-import { useHistory } from 'react-router-dom';
-import { PATH } from 'src/constants';
-import CardList from 'src/components/List/CardList';
+import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
+import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
 import CardItem from 'src/components/Item/CardItem';
 import ListItem from 'src/components/Item/ListItem';
-import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
+import CardList from 'src/components/List/CardList';
 import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
+import { APPLICATION_ERROR_CODE, ERROR_MESSAGE, PATH } from 'src/constants';
+import List from '../../components/List/List';
+import Section from '../../components/Section/Section';
 
 interface Props {
   type: 'CARD' | 'LIST';
@@ -35,12 +38,33 @@ const DrinkListSection = ({
   isShowMoreEnabled = true,
   showMoreLink,
 }: Props) => {
+  const history = useHistory();
   const queryParams = new URLSearchParams(query);
 
-  const { data: { data: drinks } = [], isLoading } = useQuery(queryKey, () =>
-    API.getDrinks({ page: 1, params: queryParams })
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
+
+  const { data: { data: drinks } = [], isLoading } = useQuery(
+    queryKey,
+    () => API.getDrinks({ page: 1, params: queryParams }),
+    {
+      onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
+      },
+    }
   );
-  const history = useHistory();
 
   return (
     <Section
@@ -53,21 +77,19 @@ const DrinkListSection = ({
       {type === 'CARD' && (
         <CardList count={count ?? drinks?.length}>
           {drinks?.slice(0, count ?? drinks.length).map((item: Drink.Item) => (
-            <CardItem
-              key={item?.id}
-              imageUrl={item?.imageResponse?.small}
-              title={item?.name}
-              description={`도수: ${item?.alcoholByVolume}%`}
-              preferenceType={
-                item?.preferenceRate ? 'MY' : item?.expectedPreference ? 'EXPECTED' : 'AVG'
-              }
-              preferenceRate={
-                item?.preferenceRate || item?.expectedPreference || item?.preferenceAvg
-              }
-              onClick={() => {
-                history.push(`${PATH.DRINKS}/${item?.id}`);
-              }}
-            />
+            <Link key={item?.id} to={`${PATH.DRINKS}/${item?.id}`}>
+              <CardItem
+                imageUrl={item?.imageResponse?.small}
+                title={item?.name}
+                description={`도수: ${item?.alcoholByVolume}%`}
+                preferenceType={
+                  item?.preferenceRate ? 'MY' : item?.expectedPreference ? 'EXPECTED' : 'AVG'
+                }
+                preferenceRate={
+                  item?.preferenceRate || item?.expectedPreference || item?.preferenceAvg
+                }
+              />
+            </Link>
           ))}
           {isLoading &&
             Array.from({ length: 3 }).map((_, index) => (
@@ -81,6 +103,7 @@ const DrinkListSection = ({
           {drinks?.slice(0, count ?? drinks.length).map((item: Drink.Item) => (
             <ListItem
               key={item?.id}
+              itemId={item?.id}
               imageUrl={item?.imageResponse?.small}
               title={item?.name}
               description={`도수: ${item?.alcoholByVolume}%`}
@@ -90,9 +113,6 @@ const DrinkListSection = ({
               preferenceRate={
                 item?.preferenceRate || item?.expectedPreference || item?.preferenceAvg
               }
-              onClick={() => {
-                history.push(`${PATH.DRINKS}/${item?.id}`);
-              }}
             />
           ))}
           {isLoading && <ListItemSkeleton count={3} />}

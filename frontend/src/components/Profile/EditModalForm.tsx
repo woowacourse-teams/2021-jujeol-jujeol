@@ -1,12 +1,16 @@
 import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
+import { useHistory } from 'react-router-dom';
+import { css } from '@emotion/react';
 
+import API from 'src/apis/requests';
+import { APPLICATION_ERROR_CODE, COLOR, ERROR_MESSAGE, MESSAGE, PATH } from 'src/constants';
+import QUERY_KEY from 'src/constants/queryKey';
+import Button from '../@shared/Button/Button';
+import Heading from '../@shared/Heading/Heading';
+import { SnackbarContext } from '../@shared/Snackbar/SnackbarProvider';
 import { modalContext } from '../Modal/ModalProvider';
 import { BioInput, Form, NicknameInput } from './EditModalForm.styles';
-import { EditButton } from '../Review/ReviewEditForm.styles';
-import API from 'src/apis/requests';
-import { SnackbarContext } from '../@shared/Snackbar/SnackbarProvider';
-import { AxiosError } from 'axios';
 
 interface Props {
   nickname?: string;
@@ -14,6 +18,8 @@ interface Props {
 }
 
 const EditModalForm = ({ nickname: currentNickname = '', bio: currentBio = '' }: Props) => {
+  const history = useHistory();
+
   const { isModalOpened, closeModal } = useContext(modalContext) ?? {};
   const snackbar = useContext(SnackbarContext);
 
@@ -41,11 +47,25 @@ const EditModalForm = ({ nickname: currentNickname = '', bio: currentBio = '' }:
       }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('user-info');
+        queryClient.invalidateQueries(QUERY_KEY.USER);
         closeModal?.();
+        snackbar?.setSnackbarMessage({ type: 'CONFIRM', message: MESSAGE.EDIT_PROFILE_SUCCESS });
       },
-      onError: (error: { code: number; message: string }) => {
-        snackbar?.setSnackbarMessage({ type: 'ERROR', message: error.message });
+      onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
+        snackbar?.setSnackbarMessage({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
       },
     }
   );
@@ -71,10 +91,17 @@ const EditModalForm = ({ nickname: currentNickname = '', bio: currentBio = '' }:
 
   return (
     <Form onSubmit={onEditProfile}>
-      <h2>닉네임 수정하기</h2>
+      <Heading.level2
+        color={COLOR.BLACK}
+        css={css`
+          text-align: center;
+        `}
+      >
+        닉네임 수정하기
+      </Heading.level2>
 
       <label>
-        <h3>닉네임</h3>
+        <Heading.level3 color={COLOR.BLACK}>닉네임</Heading.level3>
         <NicknameInput
           value={nickname}
           onChange={onEditNickname}
@@ -82,10 +109,11 @@ const EditModalForm = ({ nickname: currentNickname = '', bio: currentBio = '' }:
           maxLength={10}
           placeholder="닉네임을 입력해주세요"
         />
+        <p>{ERROR_MESSAGE[1007]}</p>
       </label>
 
       <label>
-        <h3>소개</h3>
+        <Heading.level3 color={COLOR.BLACK}>소개</Heading.level3>
         <BioInput
           value={bio}
           onChange={onEditBio}
@@ -95,7 +123,7 @@ const EditModalForm = ({ nickname: currentNickname = '', bio: currentBio = '' }:
         />
       </label>
 
-      <EditButton disabled={!nickname || !bio}>수정하기</EditButton>
+      <Button disabled={!nickname || !bio}>수정하기</Button>
     </Form>
   );
 };

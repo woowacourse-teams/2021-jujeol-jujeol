@@ -1,7 +1,8 @@
 import React, { createContext, useState } from 'react';
-import Modal from './Modal';
-import Portal from 'src/portals/Portal';
+
 import { PORTAL_ID } from 'src/constants';
+import Portal from 'src/portals/Portal';
+import Modal from './Modal';
 
 interface modalContextValue {
   isModalOpened: boolean;

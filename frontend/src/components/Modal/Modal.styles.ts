@@ -1,5 +1,6 @@
-import styled from '@emotion/styled';
 import { css, keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
+
 import { COLOR, Z_INDEX } from 'src/constants';
 
 const popUp = keyframes`
@@ -49,11 +50,11 @@ const Content = styled.div<{ isOpened: boolean; isTouchDown: boolean }>`
   height: 80vh;
   border-top-right-radius: 1.5rem;
   border-top-left-radius: 1.5rem;
-  padding: 2.5rem 2rem 2rem;
+  padding: 2.5rem 2rem 5rem;
   position: absolute;
   bottom: 0;
   left: 0;
-  background-color: ${COLOR.WHITE_100};
+  background-color: ${COLOR.WHITE};
   ${({ isOpened, isTouchDown }) =>
     isOpened
       ? css`
@@ -92,4 +93,4 @@ const CloseButton = styled.button`
   }
 `;
 
-export { Container, Content, CloseButton };
+export { CloseButton, Container, Content };

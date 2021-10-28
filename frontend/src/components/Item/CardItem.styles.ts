@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
+
 import { COLOR, Z_INDEX } from 'src/constants';
-import LineClamp from 'src/styles/LineClamp';
 
 const ItemImage = styled.img`
   width: 100%;
@@ -18,14 +18,6 @@ const ItemInfo = styled.div`
   padding: 2rem 1rem 1rem;
 
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
-
-  h3 {
-    font-size: 1.25rem;
-    font-weight: 800;
-    line-height: 1.3;
-    margin-bottom: 0.3rem;
-    ${LineClamp({ lineClamp: 2 })}
-  }
 
   p {
     font-size: 0.9rem;

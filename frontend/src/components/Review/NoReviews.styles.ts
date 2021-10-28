@@ -1,5 +1,6 @@
-import { COLOR } from 'src/constants';
 import styled from '@emotion/styled';
+
+import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
 
 const Container = styled.div`
@@ -20,7 +21,7 @@ const Container = styled.div`
     line-height: 1.5;
 
     span {
-      color: ${COLOR.WHITE_200};
+      color: ${COLOR.GRAY_100};
       font-weight: 600;
     }
   }

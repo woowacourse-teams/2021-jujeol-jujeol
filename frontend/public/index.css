@@ -1,0 +1,119 @@
+* {
+  --color-purple-100: #d6d0ea;
+}
+
+@keyframes popup {
+  from {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+#background-aria {
+  padding: 4rem 2rem;
+
+  display: flex;
+  flex-direction: column;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.dialog {
+  width: 21rem;
+  height: 6rem;
+  padding: 1rem 1.5rem;
+  margin-bottom: 4rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  background-color: var(--color-purple-100);
+  border-radius: 1rem;
+
+  font-size: 1.1rem;
+  line-height: 1.5;
+
+  animation: popup 1.5s ease-in-out;
+}
+
+.right-dialog {
+  align-self: flex-end;
+}
+
+.left-dialog-arrow {
+  position: absolute;
+  bottom: -2rem;
+  right: 0;
+
+  fill: var(--color-purple-100);
+}
+
+.right-dialog-arrow {
+  position: absolute;
+  bottom: -2rem;
+  left: 2rem;
+
+  fill: var(--color-purple-100);
+}
+
+@media screen and (max-width: 1000px) {
+  #background-aria {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  #background-aria {
+    padding: 4rem 2rem;
+  }
+
+  .dialog {
+    width: 14rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1220px) {
+  #background-aria {
+    padding: 4rem 2rem;
+  }
+
+  .dialog {
+    width: 16rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (min-width: 1220px) and (max-width: 1460px) {
+  #background-aria {
+    padding: 4rem 3rem;
+  }
+
+  .dialog {
+    width: 22rem;
+    font-size: 1.1rem;
+  }
+}
+
+@media screen and (min-width: 1460px) {
+  #background-aria {
+    padding: 4rem 10rem;
+  }
+
+  .dialog {
+    width: 22rem;
+    font-size: 1.25rem;
+  }
+}

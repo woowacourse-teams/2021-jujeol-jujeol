@@ -1,5 +1,9 @@
-import { useHistory } from 'react-router-dom';
-import Arrow from '../@shared/Arrow/Arrow';
+import { css } from '@emotion/react';
+
+import { COLOR } from 'src/constants';
+import { hiddenStyle } from 'src/styles/hidden';
+import GoBackButton from '../@shared/Button/GoBackButton';
+import Heading from '../@shared/Heading/Heading';
 import { NavHeader } from './NavigationHeader.styles';
 
 interface Props {
@@ -7,15 +11,26 @@ interface Props {
 }
 
 const NavigationHeader = ({ title }: Props) => {
-  const history = useHistory();
-  const onMoveToPrevPage = () => history.goBack();
-
   return (
     <NavHeader>
-      <button type="button" onClick={onMoveToPrevPage}>
-        <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
-      </button>
-      <h2>{title}</h2>
+      <GoBackButton
+        color={COLOR.WHITE}
+        css={css`
+          padding: 0.5rem;
+
+          background-color: transparent;
+          border: 0;
+          margin-left: 0.5rem;
+        `}
+      />
+      <Heading.level1 css={hiddenStyle}>주절주절</Heading.level1>
+      <Heading.level2
+        css={css`
+          margin-top: 0.2rem;
+        `}
+      >
+        {title}
+      </Heading.level2>
     </NavHeader>
   );
 };

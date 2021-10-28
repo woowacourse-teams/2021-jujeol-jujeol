@@ -5,6 +5,8 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="맛있는 술을 더 즐겁게, 술 추천 서비스 주절주절 입니다." />
+
   <link rel="icon" href="%PUBLIC_URL%/favicon.png" />
 
   <meta property="og:type" content="website">
@@ -21,6 +23,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap"
     rel="stylesheet">
+  <link rel="preload" href="%PUBLIC_URL%/index.css" as="style" />
+
+  <link rel="stylesheet" href="%PUBLIC_URL%/index.css" />
+
 
   <!-- Global site tag (gtag.js) - Google Analytics only for prod -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-8EM73DMKBC"></script>
@@ -28,7 +34,6 @@
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-8EM73DMKBC');
   </script>
 
@@ -36,9 +41,36 @@
 </head>
 
 <body>
+  <noscript>현재 사용 중인 브라우저는 스크립트를 지원하지 않거나, 해당 기능이 활성화되어 있지 않습니다. 스크립트를 활성화하거나 다른 브라우저를 사용해주세요.</noscript>
+  <div id="background-aria">
+    <div class="dialog">
+      <p>무슨 술 마시지? 🧐</p>
+      <p>이제 더이상 <b>고민하지 마세요</b></p>
+      <svg class="left-dialog-arrow" viewport="0 0 32 16" width="64px" height="32px">
+        <path d="M 0 0 L 32 16 L 24 0" />
+      </svg>
+    </div>
+    <div class="dialog right-dialog">
+      <p><strong>당신이 좋아할 만한 술</strong>을</p>
+      <p>모두 준비했어요 🍻</p>
+      <svg class="right-dialog-arrow" viewport="0 0 32 16" width="64px" height="32px">
+        <path d="M 32 0 L 0 16 L 8 0" />
+      </svg>
+    </div>
+    <div class="dialog">
+      <p>맛있는 술을 더 즐겁게!😎</p>
+      <p><strong>주절주절</strong>과 즐거운 음주생활!</p>
+      <svg class="left-dialog-arrow" viewport="0 0 32 16" width="64px" height="32px">
+        <path d="M 0 0 L 32 16 L 24 0" />
+      </svg>
+    </div>
+  </div>
+
   <div id="root"></div>
   <div id="modal"></div>
+  <div id="confirm"></div>
   <div id="snackbar"></div>
+
   <script type="module" src="%PUBLIC_URL%/dist/index.js"></script>
 </body>
 

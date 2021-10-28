@@ -1,37 +1,39 @@
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useInfiniteQuery } from 'react-query';
-import { RouteComponentProps } from 'react-router-dom';
-import API from 'src/apis/requests';
-import Arrow from 'src/components/@shared/Arrow/Arrow';
+import { useHistory } from 'react-router';
 
-import Header from 'src/components/@shared/Header/Header';
+import API from 'src/apis/requests';
 import InfinityScrollPoll from 'src/components/@shared/InfinityScrollPoll/InfinityScrollPoll';
-import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
+import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
+import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
+import NavigationHeader from 'src/components/Header/NavigationHeader';
 import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';
-import { PATH } from 'src/constants';
+import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
+import { ERROR_MESSAGE, PATH } from 'src/constants';
+import APPLICATION_ERROR_CODE from 'src/constants/applicationErrorCode';
 import useInfinityScroll from 'src/hooks/useInfinityScroll';
-import { categories } from '../SearchPage';
+import usePageTitle from 'src/hooks/usePageTitle';
 import NoSearchResults from './NoSearchResults';
+import { Container, SearchResult } from './styles';
 
-import { Container, Title, ResultHeading } from './styles';
-import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
-
-const SearchResultPage = ({ history, location }: RouteComponentProps) => {
+const SearchResultPage = () => {
+  const history = useHistory();
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
+
   const words = new URLSearchParams(location.search).get('words') ?? '';
-  const categoryKey = new URLSearchParams(location.search).get('category') ?? '';
+  const params = new URLSearchParams({ keyword: words });
 
-  const params = new URLSearchParams({ keyword: words, category: categoryKey });
-  params.forEach((value, key) => {
-    if (value === '') {
-      params.delete(key);
+  useEffect(() => {
+    if (words === '') {
+      history.push(PATH.SEARCH);
+      return;
     }
-  });
+  }, [words]);
 
-  const categoryName =
-    categoryKey && categories.find((category) => category.key === categoryKey)?.name;
+  usePageTitle(`${words} 검색 결과`);
 
   const {
     data: resultsData,
@@ -48,6 +50,22 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
 
         return currentPage < lastPage ? currentPage + 1 : undefined;
       },
+      onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
+      },
     }
   );
 
@@ -61,38 +79,35 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   useInfinityScroll({ target: observerTargetRef, fetchNextPage, hasNextPage });
 
-  const onMoveToPrevPage = () => history.goBack();
+  const getSkeletonUI = () => (
+    <>
+      <Skeleton type="TEXT" size="MEDIUM" width="14rem" margin="1rem 2rem" />
+      <List>
+        <ListItemSkeleton count={7} />
+      </List>
+    </>
+  );
 
   return (
     <Container>
-      <Header>
-        <Title>
-          <button type="button" onClick={onMoveToPrevPage}>
-            <Arrow size="0.7rem" borderWidth="2px" dir="LEFT" />
-          </button>
-          <h1>검색결과 {totalSize || 0}건</h1>
-        </Title>
-      </Header>
+      <NavigationHeader title={`검색결과 ${totalSize || 0}건`} />
 
       <section>
         {isLoading ? (
-          <>
-            <Skeleton type="TEXT" size="MEDIUM" width="14rem" margin="1rem 2rem" />
-            <List>
-              <ListItemSkeleton count={7} />
-            </List>
-          </>
+          getSkeletonUI()
         ) : searchResult?.length ? (
           <>
-            <ResultHeading>
-              <strong>{words || categoryName}</strong>로 검색한 결과입니다.
-            </ResultHeading>
+            <SearchResult>
+              <strong>{words}</strong>로 검색한 결과입니다.
+            </SearchResult>
             <List count={searchResult?.length || 0}>
               {searchResult?.map((item: Drink.Item) => (
                 <ListItem
                   key={item?.id}
+                  itemId={item?.id}
                   imageUrl={item?.imageResponse.small}
                   title={item?.name}
                   description={`도수: ${item?.alcoholByVolume}%`}
@@ -102,17 +117,15 @@ const SearchResultPage = ({ history, location }: RouteComponentProps) => {
                   preferenceRate={
                     item?.preferenceRate || item?.expectedPreference || item?.preferenceAvg
                   }
-                  onClick={() => {
-                    history.push(`${PATH.DRINKS}/${item?.id}`);
-                  }}
                 />
               ))}
             </List>
-            <InfinityScrollPoll ref={observerTargetRef} />
           </>
         ) : (
-          <NoSearchResults search={words || categoryName || ''} />
+          <NoSearchResults search={words || ''} />
         )}
+
+        <InfinityScrollPoll ref={observerTargetRef} />
       </section>
     </Container>
   );

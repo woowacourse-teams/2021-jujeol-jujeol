@@ -4,6 +4,13 @@ declare interface Category {
   Icon: (props: IconProps) => React.ReactElement;
 }
 
+declare namespace Request {
+  interface Error {
+    code: number;
+    message: string;
+  }
+}
+
 declare namespace Drink {
   interface Item {
     id: number;
@@ -66,6 +73,7 @@ declare namespace Review {
 }
 
 declare interface IconProps {
+  borderColor?: string;
   color?: string;
   width?: string;
   height?: string;

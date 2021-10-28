@@ -1,5 +1,11 @@
+import { Link } from 'react-router-dom';
+import { css } from '@emotion/react';
+
+import { PATH } from 'src/constants';
 import { PreferenceRate } from 'src/pages/HomePage/styles';
-import { StarIcon } from '../@shared/Icons';
+import LineClamp from 'src/styles/LineClamp';
+import { StarIcon } from '../@Icons';
+import Heading from '../@shared/Heading/Heading';
 import { Item, ItemInfo } from './ListItem.styles';
 
 interface Props {
@@ -8,7 +14,7 @@ interface Props {
   description: string;
   preferenceType: 'MY' | 'AVG' | 'EXPECTED';
   preferenceRate: number;
-  onClick?: () => void;
+  itemId: number;
 }
 
 const preferenceKR = {
@@ -23,22 +29,31 @@ const ListItem = ({
   description,
   preferenceType,
   preferenceRate,
-  onClick,
+  itemId,
 }: Props) => {
   return (
-    <Item onClick={onClick}>
-      <img src={imageUrl} alt={title} loading="lazy" />
-      <ItemInfo>
-        <h3>{title}</h3>
-        <p>{description}</p>
-        {!!preferenceType && (
-          <PreferenceRate type={preferenceType}>
-            {preferenceKR[preferenceType]}
-            <StarIcon width="12px" />
-            {preferenceRate.toFixed(1)}
-          </PreferenceRate>
-        )}
-      </ItemInfo>
+    <Item>
+      <Link to={`${PATH.DRINKS}/${itemId}`}>
+        <img src={imageUrl} alt="" loading="lazy" />
+        <ItemInfo>
+          <Heading.level3
+            css={css`
+              margin-bottom: 0.3rem;
+              ${LineClamp({ lineClamp: 2 })};
+            `}
+          >
+            {title}
+          </Heading.level3>
+          <p>{description}</p>
+          {!!preferenceType && (
+            <PreferenceRate type={preferenceType}>
+              {preferenceKR[preferenceType]}
+              <StarIcon width="12px" />
+              {preferenceRate.toFixed(1)}
+            </PreferenceRate>
+          )}
+        </ItemInfo>
+      </Link>
     </Item>
   );
 };

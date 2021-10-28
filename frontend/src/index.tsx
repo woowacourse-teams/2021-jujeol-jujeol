@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import APIProvider from './apis/APIProvider';
-import App from './App';
-import GlobalStyle from './GlobalStyle';
-import dotenv from 'dotenv';
-import { UserProvider } from './contexts/UserContext';
-
+import { setLogger } from 'react-query';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
-import { setLogger } from 'react-query';
+import dotenv from 'dotenv';
+
+import APIProvider from './apis/APIProvider';
+import App from './App';
+import { UserProvider } from './contexts/UserContext';
+import GlobalStyle from './GlobalStyle';
 
 dotenv.config();
 
@@ -21,7 +21,7 @@ if (process.env.SNOWPACK_PUBLIC_ENV === 'PROD') {
 
   setLogger({
     log: (message) => {
-      Sentry.captureMessage(message);
+      console.log(message);
     },
     warn: (message) => {
       Sentry.captureMessage(message);

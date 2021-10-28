@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @RequiredArgsConstructor
-@Profile("local")
+@Profile({"local", "dummy"})
 @Slf4j
 @Service
 public class FakeS3Uploader implements StorageUploader {

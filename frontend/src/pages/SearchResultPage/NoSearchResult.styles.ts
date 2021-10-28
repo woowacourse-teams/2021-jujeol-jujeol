@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+
+import { FONT_WEIGHT } from 'src/constants';
 import Flex from 'src/styles/Flex';
 import LineClamp from 'src/styles/LineClamp';
 
@@ -17,23 +19,21 @@ const NotificationSection = styled.section`
     height: 5rem;
   }
 
-  h2 {
+  p {
     font-size: 1rem;
     text-align: center;
-    font-weight: 600;
-    line-height: 1.25;
+    font-weight: ${FONT_WEIGHT.BOLD};
   }
 `;
 
 const Item = styled.div`
-  > p {
+  p {
     font-size: 0.8rem;
     margin-top: 0.5rem;
-    line-height: 1.25;
     text-align: center;
 
     ${LineClamp({ lineClamp: 2 })}
   }
 `;
 
-export { NotificationSection, Item };
+export { Item, NotificationSection };

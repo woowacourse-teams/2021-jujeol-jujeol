@@ -1,27 +1,25 @@
 import styled from '@emotion/styled';
-import { COLOR } from 'src/constants';
+
+import Flex from 'src/styles/Flex';
 import LineClamp from 'src/styles/LineClamp';
 
 const Header = styled.div`
-  display: flex;
   margin-bottom: 0.5rem;
 
-  button {
-    margin-left: auto;
-    border: none;
-    background-color: transparent;
+  ${Flex({})}
 
-    :focus {
-      border: 1px solid ${COLOR.GRAY_200};
-    }
+  button {
+    padding: 0.3rem;
   }
 `;
 
 const ReviewerInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  text-align: left;
   margin-left: 0.5rem;
+
+  flex-grow: 1; // 특정 닉네임 개행 방지 (ex. 진달래_001)
+  ${Flex({ flexDirection: 'column' })}
+
+  text-align: left;
 
   span {
     font-size: 1rem;
@@ -34,7 +32,7 @@ const ReviewerInfo = styled.div`
   }
 `;
 
-const Content = styled.div<{ isContentOpen: boolean }>`
+const Content = styled.p<{ isContentOpen: boolean }>`
   text-align: justify;
   white-space: break-spaces;
 
@@ -53,17 +51,14 @@ const ShowMoreButton = styled.button`
 
   :after {
     content: ' ';
+    width: 0.5rem;
+    height: 0.5rem;
+
     display: inline-block;
     position: absolute;
     right: 0.9rem;
     bottom: 1.4rem;
-
-    width: 0.5rem;
-    height: 0.5rem;
-    border-top: 2px solid ${COLOR.GRAY_300};
-    border-right: 2px solid ${COLOR.GRAY_300};
-    transform: rotate(135deg);
   }
 `;
 
-export { Header, ReviewerInfo, ShowMoreButton, Content };
+export { Content, Header, ReviewerInfo, ShowMoreButton };

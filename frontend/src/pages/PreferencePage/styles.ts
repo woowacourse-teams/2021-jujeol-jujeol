@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+
 import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
 import LineClamp from 'src/styles/LineClamp';
@@ -23,7 +24,6 @@ const Container = styled.div<{ isLoggedIn: boolean }>`
 const Notification = styled.div`
   p {
     font-size: 0.8rem;
-    line-height: 1.1;
     margin: 1rem 0;
   }
 `;
@@ -35,7 +35,7 @@ const AlertWrapper = styled.div`
   left: 0;
   right: 0;
 
-  background-color: ${`${COLOR.BLACK_900}aa`};
+  background-color: ${`${COLOR.BLACK}aa`};
 
   ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })}
 
@@ -46,8 +46,8 @@ const AlertWrapper = styled.div`
 
     ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })}
 
-    background-color: ${COLOR.PURPLE_300};
-    color: ${COLOR.WHITE_200};
+    background-color: ${COLOR.PURPLE_600};
+    color: ${COLOR.GRAY_100};
     text-align: center;
 
     margin: 1rem 0;
@@ -84,17 +84,32 @@ const NoDrink = styled.div`
     height: 5rem;
   }
 
-  h2 {
+  p {
     margin: 2rem 0 1rem;
     font-size: 1rem;
     text-align: center;
-    font-weight: 600;
-    line-height: 1.25;
+    font-weight: 700;
   }
 
-  p {
+  p:last-child {
+    margin: 0;
     font-size: 0.8rem;
+    font-weight: 400;
   }
 `;
 
-export { Container, Notification, AlertWrapper, DrinkDescription, Title, NoDrink };
+const InfinityScrollPoll = styled.div`
+  width: 100%;
+  height: 2rem;
+  background-color: transparent;
+`;
+
+export {
+  AlertWrapper,
+  Container,
+  DrinkDescription,
+  InfinityScrollPoll,
+  NoDrink,
+  Notification,
+  Title,
+};

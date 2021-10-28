@@ -1,3 +1,6 @@
+import { css } from '@emotion/react';
+
+import Heading from '../@shared/Heading/Heading';
 import { Container } from './Banner.styles';
 
 interface Props {
@@ -9,10 +12,19 @@ interface Props {
 
 const Banner = ({ type, title, src, alt }: Props) => {
   return (
-    <Container>
+    <Container tabIndex={0} aria-label={`광고 : ${alt}`}>
       {type === 'IMAGE' && (
         <>
-          <h2>{title}</h2>
+          <Heading.level2
+            css={css`
+              opacity: 0;
+              position: absolute;
+              top: 0;
+              left: 0;
+            `}
+          >
+            {title}
+          </Heading.level2>
           <img src={src} alt={alt} loading="lazy" />
         </>
       )}

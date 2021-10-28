@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { COLOR } from 'src/constants';
 
 const SIZE = {
@@ -28,8 +29,8 @@ const Img = styled.img<ImageType>`
   height: ${({ size }) => SIZE[size] || SIZE.MEDIUM};
   border-radius: ${({ shape }) => SHAPE[shape] || SHAPE.ROUND_SQUARE};
 
-  background-color: ${COLOR.WHITE_200};
+  background-color: ${COLOR.GRAY_100};
 `;
 
 export { Img };
-export type { ImageType, ImageSizeType, ImageShapeType };
+export type { ImageShapeType, ImageSizeType, ImageType };

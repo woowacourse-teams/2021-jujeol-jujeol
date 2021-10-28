@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { COLOR, PATH } from 'src/constants';
+
+import { PATH } from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
-import { HomeIcon, HumanIcon, LoginIcon, SearchIconForTab, StarIcon } from '../@shared/Icons';
+import { HomeIcon, HumanIcon, LoginIcon, SearchIconForTab, StarIcon } from '../@Icons';
 import { Nav } from './Tab.styles';
 
 const tabConfig = (isLoggedIn: boolean) => {
@@ -72,7 +73,7 @@ const Tab = () => {
         {tabConfig(isLoggedIn).map(({ mainPath, path, title, Icon }) => (
           <li key={title}>
             <NavLink exact to={mainPath} isActive={() => path.includes(location.pathname)}>
-              <Icon />
+              <Icon borderColor="transparent" />
               <p>{title}</p>
             </NavLink>
           </li>

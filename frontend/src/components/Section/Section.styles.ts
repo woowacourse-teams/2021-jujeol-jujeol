@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { COLOR } from 'src/constants';
 
 interface TitleProps extends Omit<React.CSSProperties, 'translate'> {
@@ -13,23 +14,8 @@ const Title = styled.div<TitleProps>`
   justify-content: ${({ isShowMoreEnabled }) => (isShowMoreEnabled ? 'space-between' : 'center')};
   align-items: baseline;
 
-  h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    line-height: 1.8;
-  }
-
   p {
-    line-height: 1.25;
     color: ${COLOR.GRAY_200};
-  }
-
-  a {
-    color: ${COLOR.GRAY_200};
-
-    :hover {
-      text-decoration: underline;
-    }
   }
 `;
 

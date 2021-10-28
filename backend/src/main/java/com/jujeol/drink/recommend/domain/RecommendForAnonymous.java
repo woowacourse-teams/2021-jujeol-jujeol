@@ -20,7 +20,7 @@ public class RecommendForAnonymous implements RecommendStrategy {
                     .map(drink -> new RecommendedDrinkResponse(drink, 0))
                     .collect(Collectors.toList());
         }
-        return drinkRepository.findAllByCategory(category, PageRequest.ofSize(pageSize))
+        return drinkRepository.findAllByCategorySorted(category, PageRequest.ofSize(pageSize))
                 .stream()
                 .map(drink -> new RecommendedDrinkResponse(drink, 0))
                 .collect(Collectors.toList());

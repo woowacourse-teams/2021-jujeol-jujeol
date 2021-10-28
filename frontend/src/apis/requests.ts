@@ -1,8 +1,18 @@
-import axios, { AxiosRequestConfig, Method } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, Method } from 'axios';
+
 import { LOCAL_STORAGE_KEY, REQUEST_URL } from 'src/constants';
+import APPLICATION_ERROR_CODE from 'src/constants/applicationErrorCode';
 import { getLocalStorageItem } from 'src/utils/localStorage';
 
 axios.defaults.baseURL = process.env.SNOWPACK_PUBLIC_API_URL;
+
+const STATUS_CODE = {
+  INTERNAL_SERVER_ERROR: 500,
+};
+
+const isAxiosError = (error: any): error is AxiosError => {
+  return error.isAxiosError;
+};
 
 const isNoAuthorizationRequired = (path: string) => {
   return [REQUEST_URL.LOGIN, REQUEST_URL.GET_DRINKS].includes(path);
@@ -13,8 +23,21 @@ const request = async (config: AxiosRequestConfig) => {
     const response = await axios(config);
 
     return response.data;
-  } catch ({ response }) {
-    throw response.data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      if (!error.response) {
+        throw { code: APPLICATION_ERROR_CODE.NETWORK_ERROR, message: 'Network Error' };
+      }
+
+      if (error.response.status === STATUS_CODE.INTERNAL_SERVER_ERROR) {
+        throw {
+          code: APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR,
+          message: 'internal server error',
+        };
+      }
+
+      throw error.response?.data;
+    }
   }
 };
 
@@ -50,12 +73,6 @@ const API = {
       url: REQUEST_URL.GET_DRINKS + '?page=' + page + (params ? '&' + params.toString() : ''),
     });
   },
-  getRecommendedDrinks: () => {
-    return request({
-      method: 'GET' as Method,
-      url: REQUEST_URL.GET_RECOMMENDED_DRINKS,
-    });
-  },
   getDrink: <T>(id: T) => {
     return request({ method: 'GET' as Method, url: `${REQUEST_URL.GET_DRINK}/${id}` });
   },
@@ -82,6 +99,7 @@ const API = {
   postPreference: <I, D>(id: I, data: D) => {
     return request({ method: 'PUT' as Method, url: `/members/me/drinks/${id}/preference`, data });
   },
+
   deletePreference: <I>(id: I) => {
     return request({ method: 'DELETE' as Method, url: `/members/me/drinks/${id}/preference` });
   },

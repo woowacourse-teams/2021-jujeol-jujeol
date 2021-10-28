@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
-import Flex from 'src/styles/Flex';
 import { COLOR } from 'src/constants';
+import Flex from 'src/styles/Flex';
 
 const PreviewSection = styled.section`
   width: 100%;
@@ -13,28 +13,24 @@ const PreviewSection = styled.section`
 `;
 
 const Header = styled.div`
-  ${Flex({ justifyContent: 'space-between', alignItems: 'flex-start' })};
+  margin-bottom: 1rem;
 
-  h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-  }
+  ${Flex({ justifyContent: 'space-between', alignItems: 'center' })};
 `;
 
 const MoveViewAllPageButton = styled.button<{ fontSize: string }>`
-  ${Flex({ justifyContent: 'center', alignItems: 'center' })}
-
   padding: 0;
 
+  ${Flex({ justifyContent: 'center', alignItems: 'center' })}
   background-color: transparent;
-  border: 0;
 
   span {
+    margin-right: 0.1rem;
+
     ${({ fontSize }) => fontSize && `font-size:  ${fontSize}`};
-    line-height: 1.5;
-    color: ${COLOR.WHITE_200};
+
+    color: ${COLOR.GRAY_100};
   }
 `;
 
-export { PreviewSection, Header, MoveViewAllPageButton };
+export { Header, MoveViewAllPageButton, PreviewSection };

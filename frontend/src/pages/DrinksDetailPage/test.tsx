@@ -1,15 +1,16 @@
-import '@testing-library/jest-dom';
-import { screen, waitFor, fireEvent } from '@testing-library/react';
-import { customRender } from 'src/tests/customRenderer';
-import { MockIntersectionObserver } from 'src/tests/mockTestFunction';
-import { validateMember } from 'src/mocks/member';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
+
+import API from 'src/apis/requests';
+import { ERROR_MESSAGE, LOCAL_STORAGE_KEY, PATH } from 'src/constants';
 import { drinksDetail } from 'src/mocks/drinksDetail';
 import { drinksReviews } from 'src/mocks/drinksReviews';
-import API from 'src/apis/requests';
-
-import { PATH } from 'src/constants';
-
+import { validateMember } from 'src/mocks/member';
+import { ACCESS_TOKEN } from 'src/mocks/user';
+import { customRender } from 'src/tests/customRenderer';
+import { MockIntersectionObserver } from 'src/tests/mockTestFunction';
 import DrinksDetailPage from '.';
+
+import '@testing-library/jest-dom';
 
 describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
   beforeAll(async () => {
@@ -34,6 +35,8 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
   });
 
   beforeEach(async () => {
+    localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, ACCESS_TOKEN);
+
     customRender({ initialEntries: [`${PATH.DRINKS}/0`], children: <DrinksDetailPage /> });
 
     await waitFor(() => expect(API.getUserInfo).toBeCalled());
@@ -55,6 +58,7 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
     expect(
       screen.getByText(`다른 사람들은 평균적으로 ${drinksDetail.data.preferenceAvg}점을 줬어요`)
     ).toBeVisible();
+    expect(screen.getByText(drinksDetail.data.description)).toBeVisible();
   });
 
   it('로그인 된 사용자는 상세페이지에서 선호도를 남길 수 있다.', async () => {
@@ -121,7 +125,7 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
 
   it('로그인 된 사용자는 하루에 두 번이상 리뷰를 작성할 수 없다.', async () => {
     API.postReview = jest.fn().mockImplementation(() => {
-      throw new Error();
+      throw { code: 2007, message: ERROR_MESSAGE[2007] };
     });
 
     const review = 'good12312341234';
@@ -133,7 +137,9 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => expect(API.postReview).toBeCalled());
-    expect(window.alert).toBeCalled();
+
+    const snackBarText = await screen.findByText(ERROR_MESSAGE[2007]);
+    expect(snackBarText).toBeVisible();
   });
 
   it('로그인 된 사용자는 상세페이지에서 리뷰를 수정할 수 있다.', async () => {
@@ -195,10 +201,10 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
     fireEvent.click(editButton);
 
     const deleteButton = screen.getByRole('button', { name: '삭제하기' });
-
     fireEvent.click(deleteButton);
 
-    expect(window.confirm).toBeCalled();
+    const confirmButton = await screen.findByText('확인');
+    fireEvent.click(confirmButton);
 
     await waitFor(() => expect(API.deleteReview).toBeCalled());
     await waitFor(() => expect(API.getReview).toBeCalled());

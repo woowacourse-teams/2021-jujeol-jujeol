@@ -1,18 +1,23 @@
 import { ChangeEvent, InputHTMLAttributes } from 'react';
+
 import { COLOR } from 'src/constants';
-import StarIcon, { fillStatus } from '../@shared/Icons/StarIcon';
+import StarIcon, { fillStatus } from '../@Icons/StarIcon';
 import { Wrapper } from './RangeWithIcons.styles';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
+  labelText?: string;
   color?: string;
   value: number;
   setValue?: (value: number) => void;
   onTouchEnd?: () => void;
+  onStart?: () => void;
+  onEnd?: () => void;
   maxWidth?: string;
 }
 
 const RangeWithIcons = ({
-  color = COLOR.WHITE_100,
+  labelText,
+  color = COLOR.WHITE,
   min = 0,
   max,
   step,
@@ -20,10 +25,9 @@ const RangeWithIcons = ({
   disabled,
   maxWidth,
   setValue,
-  onClick,
-  onTouchStart,
-  onTouchEnd,
-  onMouseUp,
+  onStart,
+  onEnd,
+  readOnly,
 }: Props) => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue?.(Number(event.target.value));
@@ -46,17 +50,23 @@ const RangeWithIcons = ({
   };
 
   return (
-    <Wrapper onClick={onClick} onTouchStart={onTouchStart} maxWidth={maxWidth}>
+    <Wrapper maxWidth={maxWidth}>
+      <span>{labelText}</span>
       <input
         type="range"
         min={min}
         max={max}
         step={step}
         value={value}
-        disabled={disabled}
-        onChange={onChange}
-        onTouchEnd={onTouchEnd}
-        onMouseUp={onMouseUp}
+        onChange={(event) => !disabled && onChange(event)}
+        onTouchStart={onStart}
+        onKeyDown={onStart}
+        onMouseDown={onStart}
+        onTouchEnd={onEnd}
+        onMouseUp={onEnd}
+        onKeyUp={onEnd}
+        readOnly={readOnly}
+        tabIndex={readOnly ? -1 : 0}
       />
       <div>
         {Array.from({ length: max as number }).map((_, index) => {

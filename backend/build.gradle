@@ -2,14 +2,17 @@ plugins {
     id 'org.springframework.boot' version '2.5.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id "org.asciidoctor.jvm.convert" version "3.3.2"
-    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
     id 'org.sonarqube' version '3.3'
     id 'java'
     id 'jacoco'
 }
 
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
 group = 'com.jujeol.'
-version = '1.2.4-beta'
+version = '1.0.0'
 sourceCompatibility = '11'
 
 configurations {
@@ -23,12 +26,6 @@ repositories {
 }
 
 dependencies {
-    // recommendation library
-    implementation('org.apache.mahout:mahout-integration:0.13.0') {
-        exclude group: 'log4j', module: 'log4j'
-        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
-    }
-
     // application
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -46,36 +43,38 @@ dependencies {
     implementation 'org.flywaydb:flyway-core:6.4.2'
 
     // test
-    implementation 'com.querydsl:querydsl-jpa'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
     testImplementation 'io.rest-assured:rest-assured:3.3.0'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
     // token encoding
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
     // log
     implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
-    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'
 
     // sonarqube
     implementation 'org.springframework.boot:spring-boot-gradle-plugin:2.5.2'
     implementation 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
     implementation 'io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE'
 
-    //commons
+    // commons
     implementation 'commons-io:commons-io:2.4'
 
-    //file type
+    // file type
     implementation 'org.apache.tika:tika-core:1.26'
 
-    //s3 image upload
+    // s3 image upload
     implementation 'com.amazonaws:aws-java-sdk-s3'
     implementation 'org.springframework.cloud:spring-cloud-aws-core:2.2.6.RELEASE'
-}
 
-ext {
-    snippetsDir = file('build/generated-snippets')
+    // monitoring tools
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    // elastic search
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 }
 
 processResources.dependsOn('copySecret')
@@ -141,25 +140,3 @@ bootJar {
         into 'static'
     }
 }
-
-//querydsl 추가 시작
-def querydslDir = "$buildDir/generated/querydsl"
-
-querydsl {
-    jpa = true
-    querydslSourcesDir = querydslDir
-}
-
-sourceSets {
-    main.java.srcDir querydslDir
-}
-
-configurations {
-    //아래를 지정하지 않으면, compile 로 걸린 JPA 의존성에 접근하지 못한다.
-    querydsl.extendsFrom compileClasspath
-}
-
-compileQuerydsl {
-    options.annotationProcessorPath = configurations.querydsl
-}
-//querydsl 추가 끝

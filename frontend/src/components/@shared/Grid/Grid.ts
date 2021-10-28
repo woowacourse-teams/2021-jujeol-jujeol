@@ -23,8 +23,12 @@ const Grid = styled.ul<GridStyle>`
   ${({ rowMin, rowMax }) =>
     (rowMin || rowMax) && `grid-template-rows: minmax(${rowMin ?? 'auto'}, ${rowMax ?? 'auto'});`}
     
+  ${({ gridTemplateColumns }) =>
+    gridTemplateColumns && `grid-template-columns: ${gridTemplateColumns};`}
+
   ${({ padding }) => padding && `padding: ${padding};`}
-  ${({ justifyItems }) => justifyItems && `justify-items: ${justifyItems}`}
+  ${({ justifyItems }) => justifyItems && `justify-items: ${justifyItems};`}
+  ${({ justifyContent }) => justifyContent && `justify-content: ${justifyContent};`}
 `;
 
 export default Grid;

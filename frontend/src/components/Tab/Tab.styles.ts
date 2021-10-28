@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+
 import { COLOR, Z_INDEX } from 'src/constants';
 
 const Nav = styled.nav<{ keyboardUp: boolean }>`
@@ -7,7 +8,7 @@ const Nav = styled.nav<{ keyboardUp: boolean }>`
   min-width: 100%;
   height: 3rem;
   padding: 0.3rem;
-  background-color: ${COLOR.WHITE_100};
+  background-color: ${COLOR.WHITE};
   position: sticky;
   bottom: 0;
   left: 0;
@@ -44,14 +45,14 @@ const Nav = styled.nav<{ keyboardUp: boolean }>`
       }
 
       a.active {
-        color: ${COLOR.PURPLE_200};
+        color: ${COLOR.PURPLE_600};
         font-weight: 700;
 
         svg {
           transform: scale(1.4) translateY(-20%);
-          fill: ${COLOR.PURPLE_200};
+          fill: ${COLOR.PURPLE_400};
           stroke-width: 0.1rem;
-          stroke: ${COLOR.WHITE_100};
+          stroke: ${COLOR.WHITE};
         }
       }
     }

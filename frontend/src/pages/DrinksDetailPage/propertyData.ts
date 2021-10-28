@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   BeerIcon,
   CategoryEtcIcon,
@@ -10,7 +11,7 @@ import {
   SojuIcon,
   WineIcon,
   YangjuIcon,
-} from 'src/components/@shared/Icons';
+} from 'src/components/@Icons';
 
 const categories: {
   [key: string]: { content: string; Icon: (props: IconProps) => React.ReactElement };

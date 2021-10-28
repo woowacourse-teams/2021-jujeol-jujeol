@@ -1,19 +1,47 @@
 import { MouseEventHandler, useContext, useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useHistory, useParams } from 'react-router-dom';
+import { css } from '@emotion/react';
 
-import UserContext from 'src/contexts/UserContext';
 import API from 'src/apis/requests';
-import GoBackButton from 'src/components/@shared/GoBackButton/GoBackButton';
+import GoBackButton from 'src/components/@shared/Button/GoBackButton';
+import Grid from 'src/components/@shared/Grid/Grid';
+import Heading from 'src/components/@shared/Heading/Heading';
+import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
+import SkipNav from 'src/components/@shared/SkipNav/SkipNav';
+import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
+import { confirmContext } from 'src/components/Confirm/ConfirmProvider';
+import Property from 'src/components/Property/Property';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import Review from 'src/components/Review/Review';
-import Property from 'src/components/Property/Property';
-import { properties } from './propertyData';
-import { Section, PreferenceSection, Image, DescriptionSection, Container } from './styles';
-import { COLOR, ERROR_MESSAGE, MESSAGE, PATH, PREFERENCE } from 'src/constants';
-import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 import DrinksDetailDescriptionSkeleton from 'src/components/Skeleton/DrinksDetailDescriptionSkeleton';
+import {
+  APPLICATION_ERROR_CODE,
+  COLOR,
+  ERROR_MESSAGE,
+  MESSAGE,
+  PATH,
+  PREFERENCE,
+} from 'src/constants';
+import QUERY_KEY from 'src/constants/queryKey';
+import UserContext from 'src/contexts/UserContext';
 import useNoticeToInputPreference from 'src/hooks/useInputPreference';
+import usePageTitle from 'src/hooks/usePageTitle';
+import useShowMoreContent from 'src/hooks/useShowMoreContent';
+import { hiddenStyle } from 'src/styles/hidden';
+import { isKeyboardEvent, isMouseEvent } from 'src/types/typeGuard';
+import { properties } from './propertyData';
+import {
+  Container,
+  Description,
+  DescriptionSection,
+  FoldButton,
+  Image,
+  ImageWrapper,
+  PreferenceSection,
+  Section,
+  ShowMoreButton,
+} from './styles';
 
 const defaultDrinkDetail = {
   name: 'name',
@@ -24,6 +52,7 @@ const defaultDrinkDetail = {
     name: '',
     key: '',
   },
+  description: '',
   alcoholByVolume: 0,
   preferenceRate: 0.0,
   preferenceAvg: 0.0,
@@ -34,26 +63,43 @@ const DrinksDetailPage = () => {
 
   const history = useHistory();
 
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
+
   const pageContainerRef = useRef<HTMLImageElement>(null);
   const preferenceRef = useRef<HTMLDivElement>(null);
+  const descriptionRef = useRef<HTMLParagraphElement>(null);
 
   const [currentPreferenceRate, setCurrentPreferenceRate] = useState(
     defaultDrinkDetail.preferenceRate
   );
+  const [isShowImageFull, setIsShowImageFull] = useState(false);
 
   const isLoggedIn = useContext(UserContext)?.isLoggedIn;
-
-  useEffect(() => {
-    pageContainerRef.current?.scrollIntoView();
-  }, []);
+  const { setConfirm, closeConfirm } = useContext(confirmContext) ?? {};
 
   const { data: { data: drink = defaultDrinkDetail } = {}, isLoading } = useQuery(
-    'drink-detail',
+    QUERY_KEY.DRINK_DETAIL,
     () => API.getDrink<string>(drinkId),
     {
       retry: 0,
       onSuccess: ({ data }) => {
         setCurrentPreferenceRate(data.preferenceRate);
+      },
+      onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
       },
     }
   );
@@ -65,7 +111,21 @@ const DrinksDetailPage = () => {
     category: { key: categoryKey },
     alcoholByVolume,
     preferenceAvg,
+    description,
   }: Drink.DetailItem = drink;
+
+  const { setPageTitle } = usePageTitle(name);
+
+  useEffect(() => {
+    pageContainerRef.current?.scrollIntoView();
+
+    setPageTitle(name);
+  }, [name]);
+
+  const { isShowMore, isContentOpen, onOpenContent, onCloseContent } = useShowMoreContent(
+    descriptionRef,
+    description
+  );
 
   const { mutate: updatePreference } = useMutation(
     () => {
@@ -78,8 +138,21 @@ const DrinksDetailPage = () => {
       });
     },
     {
-      onError: (error: { code: number; message: string }) => {
-        alert(ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT);
+      onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
       },
     }
   );
@@ -93,14 +166,24 @@ const DrinksDetailPage = () => {
   };
 
   const moveToLoginPage = () => {
-    if (confirm(MESSAGE.LOGIN_REQUIRED_TO_UPDATE_PREFERENCE)) {
-      history.push(PATH.LOGIN);
-    }
+    setConfirm?.({
+      message: MESSAGE.LOGIN_REQUIRED_TO_UPDATE_PREFERENCE,
+      subMessage: MESSAGE.LOGIN_REQUIRED_TO_UPDATE_PREFERENCE_SUB_MESSAGE,
+      onConfirm: () => {
+        history.push(PATH.LOGIN);
+      },
+      onCancel: closeConfirm as () => void,
+    });
   };
 
-  const onCheckLoggedIn = () => {
+  const onCheckLoggedIn = (event?: MouseEvent | KeyboardEvent | TouchEvent) => {
     setIsBlinked(false);
+
     if (!isLoggedIn) {
+      if (isKeyboardEvent(event) || isMouseEvent(event)) {
+        event?.preventDefault();
+      }
+
       moveToLoginPage();
     }
   };
@@ -120,44 +203,97 @@ const DrinksDetailPage = () => {
     observePreferenceSection();
   };
 
+  const showButton = () => {
+    return isContentOpen ? (
+      <FoldButton type="button" onClick={onCloseContent}>
+        접기
+      </FoldButton>
+    ) : (
+      <ShowMoreButton type="button">...더보기</ShowMoreButton>
+    );
+  };
+
+  const onImageSizeIncrease = () => {
+    setIsShowImageFull(true);
+  };
+
+  const onImageSizeReduce = () => {
+    setIsShowImageFull(false);
+  };
+
   return (
     <Container ref={pageContainerRef}>
-      <GoBackButton color={COLOR.BLACK_900} />
+      <SkipNav>
+        <a href="#description">상세 설명 바로가기</a>
+        <a href="#preference">선호도 입력 바로가기</a>
+        <a href="#review">리뷰 바로가기</a>
+      </SkipNav>
+      <Heading.level1 css={hiddenStyle}>주절주절</Heading.level1>
+      <GoBackButton
+        color={COLOR.BLACK}
+        css={css`
+          padding: 0.5rem;
+
+          position: absolute;
+          left: 0.5rem;
+          top: 0.75rem;
+        `}
+      />
       {isLoading ? (
         <Skeleton width="100" height="30rem" />
       ) : (
-        <Image src={imageResponse.medium} alt={name} loading="lazy" />
+        <ImageWrapper>
+          <Image
+            src={imageResponse.medium}
+            alt={name}
+            loading="lazy"
+            onMouseDown={onImageSizeIncrease}
+            onMouseUp={onImageSizeReduce}
+            onTouchStart={onImageSizeIncrease}
+            onTouchEnd={onImageSizeReduce}
+          />
+        </ImageWrapper>
       )}
-      <Section>
+
+      <Section isShowImageFull={isShowImageFull} id="preference">
         <PreferenceSection ref={preferenceRef} isBlinked={isBlinked}>
-          <h3>
+          <Heading.level3
+            color={COLOR.GRAY_100}
+            css={css`
+              margin-bottom: 0.8rem;
+            `}
+          >
             {currentPreferenceRate
               ? `당신의 선호도는? ${currentPreferenceRate} 점`
               : '선호도를 입력해주세요'}
-          </h3>
+          </Heading.level3>
           <RangeWithIcons
+            labelText="선호도 입력"
             color={COLOR.YELLOW_300}
             max={PREFERENCE.MAX_VALUE}
             step={PREFERENCE.STEP}
             value={currentPreferenceRate}
             setValue={setPreferenceRate}
             disabled={!isLoggedIn}
-            onTouchStart={onCheckLoggedIn}
-            onClick={onCheckLoggedIn}
-            onTouchEnd={onUpdatePreference}
-            onMouseUp={onUpdatePreference}
+            onStart={onCheckLoggedIn}
+            onEnd={onUpdatePreference}
           />
           <p>다른 사람들은 평균적으로 {preferenceAvg.toFixed(1) ?? '0'}점을 줬어요</p>
         </PreferenceSection>
 
-        <DescriptionSection>
+        <DescriptionSection id="description">
           {isLoading && <DrinksDetailDescriptionSkeleton />}
-          <h2>{name}</h2>
+          <Heading.level2>{name}</Heading.level2>
           <p>
             {englishName === '' ? `(${alcoholByVolume}%)` : `(${englishName}, ${alcoholByVolume}%)`}
           </p>
 
-          <ul>
+          <Grid
+            gridTemplateColumns="repeat(2, auto)"
+            colGap="2rem"
+            justifyItems="center"
+            justifyContent="center"
+          >
             {properties.map((property) => {
               const { Icon, content } = property.getProperty({
                 categoryKey,
@@ -170,10 +306,20 @@ const DrinksDetailPage = () => {
                 </li>
               );
             })}
-          </ul>
+          </Grid>
+
+          <Description
+            isShowMore={isShowMore}
+            isContentOpen={isContentOpen}
+            onClick={onOpenContent}
+          >
+            <p ref={descriptionRef}>{description}</p>
+            {isShowMore && showButton()}
+          </Description>
         </DescriptionSection>
 
         <Review
+          id="review"
           drinkId={drinkId}
           drinkName={name}
           preferenceRate={currentPreferenceRate}

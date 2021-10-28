@@ -1,17 +1,19 @@
-import '@testing-library/jest-dom';
-import { screen, waitFor, fireEvent } from '@testing-library/react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { Location } from 'history';
-import { customRender } from 'src/tests/customRenderer';
-import { MockIntersectionObserver, mockScrollTo } from 'src/tests/mockTestFunction';
+
+import API from 'src/apis/requests';
+import { LOCAL_STORAGE_KEY, PATH } from 'src/constants';
+import { drinks } from 'src/mocks/drinks';
 import { validateMember } from 'src/mocks/member';
 import { noPersonalDrink, personalDrinks } from 'src/mocks/personalDrinks';
 import { noPersonalReview, personalReviews } from 'src/mocks/personalReview';
-import { drinks } from 'src/mocks/drinks';
-import API from 'src/apis/requests';
-
+import { ACCESS_TOKEN } from 'src/mocks/user';
+import { customRender } from 'src/tests/customRenderer';
+import { MockIntersectionObserver, mockScrollTo } from 'src/tests/mockTestFunction';
 import MyPage from '.';
-import { PATH } from 'src/constants';
+
+import '@testing-library/jest-dom';
 
 let testLocation: Location<unknown>;
 
@@ -29,6 +31,9 @@ const renderMypage = async () => {
           </Route>
           <Route exact path={PATH.MY_REVIEWS}>
             내가 남긴 리뷰
+          </Route>
+          <Route exact path={PATH.HOME}>
+            홈
           </Route>
           <Redirect to={PATH.MYPAGE} />
         </Switch>
@@ -50,6 +55,8 @@ const renderMypage = async () => {
 
 describe('로그인 된 사용자가 마이페이지를 이용한다.', () => {
   beforeAll(async () => {
+    localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, ACCESS_TOKEN);
+
     Object.defineProperty(global.window, 'scrollTo', { value: mockScrollTo });
     Object.defineProperty(global.window, 'IntersectionObserver', {
       value: MockIntersectionObserver,
@@ -69,6 +76,7 @@ describe('로그인 된 사용자가 마이페이지를 이용한다.', () => {
   it('사용자는 마이페이지에서 닉네임, bio, 선호도를 남긴 술, 내가 남긴 리뷰를 확인할 수 있다.', async () => {
     API.getPersonalDrinks = jest.fn().mockReturnValue(personalDrinks);
     API.getPersonalReviews = jest.fn().mockReturnValue(personalReviews);
+
     await renderMypage();
 
     const numOfMyDrinks = screen.getAllByText('선호도를 남긴 술')[0].closest('li');
@@ -118,7 +126,6 @@ describe('로그인 된 사용자가 마이페이지를 이용한다.', () => {
     expect(MyDrinksSection).toHaveTextContent('선호도를 남긴 술이 없네요.');
     expect(MyDrinksSection).toHaveTextContent('선호도를 한 번 남겨보시는건 어떠세요?');
     expect(MyDrinksSection).toHaveTextContent(recommendedDrink.name);
-    expect(MyDrinksSection?.querySelector('img')).toHaveAccessibleName(recommendedDrink.name);
   });
 
   it('선호도를 남긴 술이 없고, 리뷰가 없는 경우, 리뷰를 남길 것을 안내한다.', async () => {
@@ -187,5 +194,17 @@ describe('로그인 된 사용자가 마이페이지를 이용한다.', () => {
     fireEvent.click(reviewShowMoreButton);
 
     expect(testLocation.pathname).toBe('/mypage/reviews');
+  });
+
+  it('사용자는 로그아웃 할 수 있다.', async () => {
+    API.getPersonalDrinks = jest.fn().mockReturnValue(personalDrinks);
+    API.getPersonalReviews = jest.fn().mockReturnValue(personalReviews);
+    await renderMypage();
+
+    const $logoutButton = screen.getByRole('button', { name: /로그아웃/i });
+
+    fireEvent.click($logoutButton);
+
+    expect(testLocation.pathname).toBe(PATH.HOME);
   });
 });

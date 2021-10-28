@@ -1,5 +1,6 @@
-import { RouteComponentProps } from 'react-router-dom';
-import Grid from 'src/components/@shared/Grid/Grid';
+import { Link } from 'react-router-dom';
+import { css } from '@emotion/react';
+
 import {
   BeerColorIcon,
   CategoryEtcColorIcon,
@@ -8,12 +9,16 @@ import {
   SojuColorIcon,
   WineColorIcon,
   YangjuColorIcon,
-} from 'src/components/@shared/Icons';
-import AllIcon from 'src/components/@shared/Icons/AllIcon';
-import SearchBar from 'src/components/@shared/SearchBar/SearchBar';
+} from 'src/components/@Icons';
+import AllIcon from 'src/components/@Icons/AllIcon';
+import Grid from 'src/components/@shared/Grid/Grid';
+import Heading from 'src/components/@shared/Heading/Heading';
 import Banner from 'src/components/Banner/Banner';
+import SearchBar from 'src/components/SearchBar/SearchBar';
 import { PATH } from 'src/constants';
-import { Container, Categories, CategoryItem } from './styles';
+import usePageTitle from 'src/hooks/usePageTitle';
+import { hiddenStyle } from 'src/styles/hidden';
+import { Categories, CategoryItem, Container } from './styles';
 
 const categories: Category[] = [
   {
@@ -60,28 +65,37 @@ const categories: Category[] = [
 
 export { categories };
 
-const SearchPage = ({ history }: RouteComponentProps) => {
-  const onMoveToSearchResult = (key: string) => () => {
-    if (key === 'ALL') {
-      history.push(PATH.VIEW_ALL);
-      return;
-    }
-
-    history.push(`${PATH.SEARCH_RESULT}?category=${key}`);
-  };
+const SearchPage = () => {
+  usePageTitle('검색');
 
   return (
     <Container>
+      <Heading.level1 css={hiddenStyle}>주절주절</Heading.level1>
+      <Heading.level2 css={hiddenStyle}>검색페이지</Heading.level2>
       <SearchBar placeholder="검색어를 입력해주세요" readOnly={false} />
 
       <Categories>
-        <h3>카테고리</h3>
-        <Grid col={4} colGap="0.5rem" rowGap="1rem" justifyItems="center">
+        <Heading.level3
+          css={css`
+            margin: 1rem 0.5rem;
+          `}
+        >
+          카테고리
+        </Heading.level3>
+        <Grid
+          col={4}
+          colGap="0.5rem"
+          rowGap="1rem"
+          justifyItems="center"
+          title="주류 카테고리 목록"
+        >
           {categories.map(({ key, name, Icon }) => {
             return (
-              <CategoryItem key={key} onClick={onMoveToSearchResult(key)}>
-                <Icon />
-                <span>{name}</span>
+              <CategoryItem key={key} title={name}>
+                <Link to={`${PATH.DRINKS}?category=${key}`} title={name}>
+                  <Icon />
+                  <span>{name}</span>
+                </Link>
               </CategoryItem>
             );
           })}

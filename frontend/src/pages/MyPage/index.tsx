@@ -1,32 +1,41 @@
-import { useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-
-import UserContext from 'src/contexts/UserContext';
+import { useHistory } from 'react-router-dom';
 
 import API from 'src/apis/requests';
-
-import NavigationHeader from 'src/components/Header/NavigationHeader';
+import {
+  DizzyEmojiColorIcon,
+  ExcitedEmojiColorIcon,
+  LoveEmojiColorIcon,
+  SmileEmojiColorIcon,
+} from 'src/components/@Icons';
+import TextButton from 'src/components/@shared/Button/TextButton';
 import Grid from 'src/components/@shared/Grid/Grid';
+import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
+import NavigationHeader from 'src/components/Header/NavigationHeader';
+import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
 import Preview from 'src/components/Preview/Preview';
 import Profile from 'src/components/Profile/Profile';
 import { HorizontalScroll } from 'src/components/Scroll/HorizontalScroll';
-import Status from './Status';
-import PersonalReviewItem from 'src/components/Item/PersonalReviewItem';
-
+import PersonalDrinkItemSkeleton from 'src/components/Skeleton/PersonalDrinkItemSkeleton';
+import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewItemSkeleton';
+import {
+  APPLICATION_ERROR_CODE,
+  COLOR,
+  ERROR_MESSAGE,
+  LOCAL_STORAGE_KEY,
+  MESSAGE,
+  PATH,
+  VALUE,
+} from 'src/constants';
+import QUERY_KEY from 'src/constants/queryKey';
+import UserContext from 'src/contexts/UserContext';
+import usePageTitle from 'src/hooks/usePageTitle';
+import { removeLocalStorageItem } from 'src/utils/localStorage';
 import MyDrinkItem from '../MyDrinksPage/MyDrinkItem';
 import NoPreference from './NoPreference';
 import NoReview from './NoReview';
-
-import { PATH, VALUE } from 'src/constants';
-import {
-  SmileEmojiColorIcon,
-  LoveEmojiColorIcon,
-  DizzyEmojiColorIcon,
-  ExcitedEmojiColorIcon,
-} from 'src/components/@shared/Icons';
-import PersonalDrinkItemSkeleton from 'src/components/Skeleton/PersonalDrinkItemSkeleton';
-import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewItemSkeleton';
+import Status from './Status';
 import { SurveyLink } from './styles';
 
 const userProfileIcons = [
@@ -39,9 +48,12 @@ const userProfileIcons = [
 const defaultRequestData = { data: [], pageInfo: {} };
 
 const MyPage = () => {
+  usePageTitle('내 정보');
+
   const history = useHistory();
 
-  const { userData, isLoggedIn, getUser } = useContext(UserContext);
+  const { userData, isLoggedIn, getUser, setIsLoggedIn } = useContext(UserContext);
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
   const UserProfileIcon = userProfileIcons[(userData?.id ?? 0) % VALUE.PROFILE_IMAGE_NUMBER];
 
   const queryClient = useQueryClient();
@@ -53,10 +65,26 @@ const MyPage = () => {
     } = defaultRequestData,
     isLoading: isMyDrinksLoading,
   } = useQuery(
-    'my-drinks',
+    QUERY_KEY.PERSONAL_DRINK_LIST,
     () => API.getPersonalDrinks({ page: 1, size: VALUE.MYPAGE_DRINKS_DISPLAY_NUMBER }),
     {
       retry: 0,
+      onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
+      },
     }
   );
 
@@ -67,10 +95,26 @@ const MyPage = () => {
     } = defaultRequestData,
     isLoading: isMyReviewsLoading,
   } = useQuery(
-    'my-reviews',
+    QUERY_KEY.PERSONAL_REVIEW_LIST,
     () => API.getPersonalReviews({ page: 1, size: VALUE.MYPAGE_REVIEWS_DISPLAY_NUMBER }),
     {
       retry: 0,
+      onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
+        setSnackbarMessage?.({
+          type: 'ERROR',
+          message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
+        });
+      },
     }
   );
 
@@ -81,14 +125,24 @@ const MyPage = () => {
     const getFetch = async () => {
       await getUser();
 
-      if (!queryClient.isFetching('user-info') && !isLoggedIn) {
-        alert('마이페이지를 이용하시려면 로그인 해주세요');
+      if (!queryClient.isFetching(QUERY_KEY.USER) && !isLoggedIn) {
+        setSnackbarMessage?.({ type: 'ERROR', message: MESSAGE.LOGIN_REQUIRED_FOR_MYPAGE });
         history.push(PATH.LOGIN);
       }
     };
 
     getFetch();
   }, [isLoggedIn]);
+
+  const onLogout = () => {
+    removeLocalStorageItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
+
+    history.push(PATH.HOME);
+
+    setIsLoggedIn(false);
+
+    setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.LOGOUT_SUCCESS });
+  };
 
   return (
     <>
@@ -128,11 +182,11 @@ const MyPage = () => {
             <PersonalReviewItemSkeleton count={3} />
           </Grid>
         ) : myReviews?.length ? (
-          <ul>
+          <Grid row={3} rowGap="1rem">
             {myReviews.map((myReview: Review.PersonalReviewItem) => (
               <PersonalReviewItem key={myReview.id} review={myReview} />
             ))}
-          </ul>
+          </Grid>
         ) : (
           <NoReview myDrinks={myDrinks} />
         )}
@@ -145,6 +199,15 @@ const MyPage = () => {
       >
         🚨 불편사항 신고 및 기타문의 작성하기
       </SurveyLink>
+      <TextButton
+        color={COLOR.GRAY_300}
+        fontSize="0.8rem"
+        type="button"
+        margin="0 auto"
+        onClick={onLogout}
+      >
+        로그아웃
+      </TextButton>
     </>
   );
 };

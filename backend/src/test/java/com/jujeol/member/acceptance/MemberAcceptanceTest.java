@@ -8,8 +8,6 @@ import static com.jujeol.member.fixture.TestMember.WEDGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jujeol.AcceptanceTest;
-import com.jujeol.RequestBuilder.HttpResponse;
-import com.jujeol.RequestBuilder.Option;
 import com.jujeol.admin.acceptance.AdminAcceptanceTool;
 import com.jujeol.drink.DrinkTestContainer;
 import com.jujeol.drink.acceptance.DrinkAcceptanceTool;
@@ -18,8 +16,8 @@ import com.jujeol.member.fixture.TestMember;
 import com.jujeol.member.member.application.dto.PreferenceDto;
 import com.jujeol.member.member.ui.dto.MemberRequest;
 import com.jujeol.member.member.ui.dto.MemberResponse;
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
+import com.jujeol.testtool.option.RequestOption;
+import com.jujeol.testtool.response.HttpResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,10 +61,10 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         String updateNickname = "열글자_닉네임_쁘이";
         String updateBiography = "적절한 길이의 자기소개가 필요합니다. 적절한 길이가 몇글자?35";
 
-        ExtractableResponse<Response> response = 내_정보를_수정한다(WEDGE,
+        HttpResponse response = 내_정보를_수정한다(WEDGE,
                 new MemberRequest(updateNickname, updateBiography), "member/update/me");
 
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK);
 
         //then
         MemberResponse memberResponse = 내_정보를_조회한다(WEDGE);
@@ -81,12 +79,29 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         String updateNickname = "딱_열글자_넘기는_놈";
         String updateBiography = "적절한 길이의 자기소개가 필요합니다. 적절한 길이가 몇글자?35";
 
-        ExtractableResponse<Response> response = 내_정보를_수정한다(WEDGE,
+        HttpResponse response = 내_정보를_수정한다(WEDGE,
                 new MemberRequest(updateNickname, updateBiography),
                 "member/update/me-fail-nickname");
 
         //then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    @DisplayName("멤버 수정 - 실패 (중복 닉네임)")
+    public void updateMember_fail_duplicateNickname() {
+        //when
+        String updateNickname = "나봄";
+        memberAcceptanceTool.회원가입(updateNickname);
+
+        HttpResponse response = 내_정보를_수정한다(WEDGE,
+                new MemberRequest(updateNickname, "test"),
+                "member/update/me-duplicate-nickname");
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(response.errorResponse().getCode()).isEqualTo("1010");
+        assertThat(response.errorResponse().getMessage()).isEqualTo("닉네임이 중복되었습니다.");
     }
 
     @Test
@@ -96,11 +111,11 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         String updateNickname = "열글자_닉네임_쁘이";
         String updateBiography = "제가 LA 에인절스에 있을 때가 생각나는군요. 그떄는 36글자를 ";
 
-        ExtractableResponse<Response> response = 내_정보를_수정한다(WEDGE,
+        HttpResponse response = 내_정보를_수정한다(WEDGE,
                 new MemberRequest(updateNickname, updateBiography), "member/update/me-fail-bio");
 
         //then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     @Test
@@ -111,16 +126,15 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         PreferenceDto preferenceDto = PreferenceDto.create(4.5);
 
         //when
-        ExtractableResponse<Response> response = request()
+        HttpResponse response = request()
                 .put("/members/me/drinks/{drinkId}/preference", preferenceDto, obId)
                 .withDocument("member/preference/create")
                 .withUser(CROFFLE)
-                .build()
-                .totalResponse();
+                .build();
 
         //then
         final DrinkResponse drinkResponse = drinkAcceptanceTool.단일_상품_조회(obId);
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK);
         assertThat(drinkResponse.getPreferenceAvg()).isEqualTo(4.5);
     }
 
@@ -133,16 +147,15 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         PreferenceDto newPreference = PreferenceDto.create(3.0);
 
         //when
-        ExtractableResponse<Response> updateResponse = request()
+        HttpResponse updateResponse = request()
                 .put("/members/me/drinks/{drinkId}/preference", newPreference, obId)
                 .withDocument("member/preference/update")
                 .withUser(CROFFLE)
-                .build()
-                .totalResponse();
+                .build();
 
         //then
         final DrinkResponse drinkResponse = drinkAcceptanceTool.단일_상품_조회(obId);
-        assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.OK);
         assertThat(drinkResponse.getPreferenceAvg()).isEqualTo(3.0);
     }
 
@@ -222,23 +235,22 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         예외_검증(httpResponse.errorResponse(), UNAUTHORIZED_USER);
     }
 
-    private ExtractableResponse<Response> 내_정보를_수정한다(TestMember testMember,
+    private HttpResponse 내_정보를_수정한다(TestMember testMember,
             MemberRequest memberRequest) {
         return 내_정보를_수정한다(testMember, memberRequest, "");
     }
 
-    private ExtractableResponse<Response> 내_정보를_수정한다(TestMember testMember,
+    private HttpResponse 내_정보를_수정한다(TestMember testMember,
             MemberRequest memberRequest,
             String documentPath) {
-        Option updateRequest = request().put("/members/me", memberRequest);
+        RequestOption updateRequest = request().put("/members/me", memberRequest);
 
         if (!documentPath.isBlank()) {
             updateRequest.withDocument(documentPath);
         }
 
         return updateRequest.withUser(testMember)
-                .build()
-                .totalResponse();
+                .build();
     }
 
     private MemberResponse 내_정보를_조회한다(TestMember testMember) {
@@ -246,7 +258,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     private MemberResponse 내_정보를_조회한다(String documentPath, TestMember testMember) {
-        Option getRequest = request().get("/members/me");
+        RequestOption getRequest = request().get("/members/me");
         if (!documentPath.isBlank()) {
             getRequest.withDocument(documentPath);
         }

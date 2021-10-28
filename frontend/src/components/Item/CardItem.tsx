@@ -1,7 +1,11 @@
+import { css } from '@emotion/react';
+
 import { COLOR } from 'src/constants';
 import { PreferenceRate } from 'src/pages/HomePage/styles';
+import LineClamp from 'src/styles/LineClamp';
+import { StarIcon } from '../@Icons';
 import Card from '../@shared/Card/Card';
-import { StarIcon } from '../@shared/Icons';
+import Heading from '../@shared/Heading/Heading';
 import { ItemImage, ItemInfo } from './CardItem.styles';
 
 interface Props {
@@ -29,10 +33,18 @@ const CardItem = ({
 }: Props) => {
   return (
     <li>
-      <Card width="13rem" height="17rem" onClick={onClick} color={COLOR.WHITE_100}>
+      <Card width="13rem" height="17rem" onClick={onClick} color={COLOR.WHITE}>
         <ItemImage src={imageUrl} alt={title} loading="lazy" />
         <ItemInfo>
-          <h3>{title}</h3>
+          <Heading.level3
+            css={css`
+              font-size: 1.25rem;
+              margin-bottom: 0.3rem;
+              ${LineClamp({ lineClamp: 2 })};
+            `}
+          >
+            {title}
+          </Heading.level3>
           <p>{description}</p>
           {!!preferenceType && (
             <PreferenceRate type={preferenceType}>
