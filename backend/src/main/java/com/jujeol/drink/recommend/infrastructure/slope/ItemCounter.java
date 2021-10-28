@@ -17,4 +17,13 @@ public class ItemCounter {
     public long getCount() {
         return count;
     }
+
+    public void minusSum(double preference) {
+        --this.count;
+        this.sum -= preference;
+    }
+
+    public void updateSum(double preference) {
+        this.sum += preference;
+    }
 }
