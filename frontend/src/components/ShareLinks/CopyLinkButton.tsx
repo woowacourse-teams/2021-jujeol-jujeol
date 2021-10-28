@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'react';
+import { useContext } from 'react';
 import { useLocation } from 'react-router';
 import { css as emotionCss } from '@emotion/react';
 import { SerializedStyles } from '@emotion/utils';
@@ -15,15 +15,11 @@ const CopyLinkButton = ({ css }: { css: SerializedStyles }) => {
   const location = useLocation();
 
   const targetLink = HOST_URL + location.pathname;
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
 
   const copyLink = async () => {
     const clipboard = navigator.clipboard;
-
-    inputRef.current?.select();
-    inputRef.current?.setSelectionRange(0, targetLink.length);
 
     try {
       await clipboard.writeText(targetLink);
@@ -51,7 +47,6 @@ const CopyLinkButton = ({ css }: { css: SerializedStyles }) => {
         <LinkIcon />
       </IconButton>
       <label htmlFor="copy-url-button">URL 복사</label>
-      <input type="text" ref={inputRef} value={targetLink} readOnly />
     </Container>
   );
 };

@@ -3,7 +3,6 @@ import { SerializedStyles } from '@emotion/utils';
 
 import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
-import { hiddenStyle } from 'src/styles/hidden';
 
 export const Container = styled.div<{ css: SerializedStyles }>`
   ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })}
@@ -13,10 +12,6 @@ export const Container = styled.div<{ css: SerializedStyles }>`
 
   > button {
     cursor: copy;
-  }
-
-  > input {
-    ${hiddenStyle};
   }
 
   ${({ css }) => css};
