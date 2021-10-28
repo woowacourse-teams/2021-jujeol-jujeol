@@ -9,7 +9,7 @@ import IconButton from '../@shared/Button/IconButton';
 import { Container } from './CopyLinkButton.styles';
 
 const JS_KEY = process.env.SNOWPACK_PUBLIC_KAKAO_JS_KEY;
-const TEMPLATE_ID = 59769;
+const TEMPLATE_ID = Number(process.env.SNOWPACK_PUBLIC_KAKAO_SHARE_TEMPLATE_ID);
 
 const KakaoShareButton = ({
   content,
