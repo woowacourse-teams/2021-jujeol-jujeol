@@ -1,14 +1,7 @@
 import { COLOR } from 'src/constants';
 
-const DIRECTION = {
-  UP: '90',
-  RIGHT: '180',
-  DOWN: '270',
-  LEFT: '0',
-};
-
 interface Props extends IconProps {
-  direction?: keyof typeof DIRECTION;
+  direction?: 'UP' | 'RIGHT' | 'DOWN' | 'LEFT';
 }
 
 const ArrowIcon = ({
@@ -27,10 +20,12 @@ const ArrowIcon = ({
       stroke={color}
       width={width}
       height={height}
-      transform={`rotate(${DIRECTION[direction]})`}
     >
       <title id="arrow-icon-title">{`${direction} 화살표`}</title>
-      <path d="M 20 0 L 4 16 M 4 16 L 20 32" />
+      {direction === 'LEFT' && <path d="M 20 0 L 4 16 M 4 16 L 20 32" />}
+      {direction === 'RIGHT' && <path d="M 4 0 L 20 16 M 20 16 L 4 32" />}
+      {direction === 'UP' && <path d="M 0 24 L 16 8 M 16 8 L 32 24" />}
+      {direction === 'DOWN' && <path d="M 0 8 L 16 24 M 16 24 L 32 8" />}
     </svg>
   );
 };

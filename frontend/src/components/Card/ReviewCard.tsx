@@ -76,7 +76,7 @@ const ReviewCard = ({ review }: Props) => {
           css={css`
             height: 1rem;
 
-            padding-top: 0;
+            padding: 0.3rem;
 
             position: absolute;
             bottom: 1rem;

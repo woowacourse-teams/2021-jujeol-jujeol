@@ -182,11 +182,11 @@ const MyPage = () => {
             <PersonalReviewItemSkeleton count={3} />
           </Grid>
         ) : myReviews?.length ? (
-          <ul>
+          <Grid row={3} rowGap="1rem">
             {myReviews.map((myReview: Review.PersonalReviewItem) => (
               <PersonalReviewItem key={myReview.id} review={myReview} />
             ))}
-          </ul>
+          </Grid>
         ) : (
           <NoReview myDrinks={myDrinks} />
         )}

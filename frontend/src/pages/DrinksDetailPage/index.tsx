@@ -232,6 +232,8 @@ const DrinksDetailPage = () => {
       <GoBackButton
         color={COLOR.BLACK}
         css={css`
+          padding: 0.5rem;
+
           position: absolute;
           left: 0.5rem;
           top: 0.75rem;

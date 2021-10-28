@@ -33,7 +33,12 @@ const PersonalReviewCard = ({ review }: Props) => {
   };
 
   return (
-    <Card width="100%" backgroundColor={COLOR.GRAY_100} padding="0.6rem 1.3rem 0.6rem 0.6rem">
+    <Card
+      width="100%"
+      height="100%"
+      backgroundColor={COLOR.GRAY_100}
+      padding="0.6rem 1.3rem 0.6rem 0.6rem"
+    >
       <Img src={drink.imageUrl} alt={drink.name} shape="ROUND_SQUARE" size="SMALL" />
 
       <TextContainer>
@@ -48,15 +53,17 @@ const PersonalReviewCard = ({ review }: Props) => {
             <IconButton
               size="XX_SMALL"
               css={css`
-                height: 1rem;
+                width: 2rem;
+                height: 1.2rem;
 
-                padding-top: 0;
+                padding: 0.3rem;
+                padding-left: 1rem;
 
                 position: absolute;
                 bottom: 0;
                 right: 0;
 
-                background: ${COLOR.GRAY_100};
+                background: linear-gradient(90deg, ${COLOR.GRAY_100}00 0%, ${COLOR.GRAY_100} 30%);
               `}
               onClick={onShowMore}
             >
