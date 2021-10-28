@@ -14,13 +14,13 @@ import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfig
 @Configuration
 public class ElasticSearchConfig extends AbstractElasticsearchConfiguration {
 
-    @Value("${elasticsearch.host}")
+    @Value("${elasticsearch.host:52.79.227.198}")
     private String host;
-    @Value("${elasticsearch.port}")
+    @Value("${elasticsearch.port:9000}")
     private Integer port;
-    @Value("${elasticsearch.user}")
+    @Value("${elasticsearch.user:}")
     private String user;
-    @Value("${elasticsearch.password}")
+    @Value("${elasticsearch.password:}")
     private String password;
 
     @Bean(destroyMethod = "close")
