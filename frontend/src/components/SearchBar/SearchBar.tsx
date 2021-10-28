@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, InputHTMLAttributes, useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { css } from '@emotion/react';
 
 import { COLOR, MESSAGE, PATH, SEARCH } from 'src/constants';
 import { SearchIcon } from '../@Icons';
@@ -53,7 +54,14 @@ const SearchBar = ({
       {readOnly ? (
         <SearchIcon color={COLOR.GRAY_100} width="1.2rem" />
       ) : (
-        <GoBackButton color={COLOR.WHITE} />
+        <GoBackButton
+          color={COLOR.WHITE}
+          css={css`
+            && {
+              padding: 0.5rem;
+            }
+          `}
+        />
       )}
       <SearchInput
         title="검색"
