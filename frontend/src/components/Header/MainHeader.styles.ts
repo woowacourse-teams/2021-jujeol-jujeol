@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 
+import Flex from 'src/styles/Flex';
 import Heading from '../@shared/Heading/Heading';
 
 const envContent =
@@ -7,6 +8,7 @@ const envContent =
 
 const Logo = styled(Heading.level1)`
   position: relative;
+  ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })}
 
   :after {
     content: '${envContent}';
