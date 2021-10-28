@@ -1,9 +1,10 @@
 import { ChangeEvent, FormEventHandler, useContext, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
+import { useHistory } from 'react-router-dom';
 import { css } from '@emotion/react';
 
 import API from 'src/apis/requests';
-import { COLOR, ERROR_MESSAGE, MESSAGE } from 'src/constants';
+import { APPLICATION_ERROR_CODE, COLOR, ERROR_MESSAGE, MESSAGE, PATH } from 'src/constants';
 import QUERY_KEY from 'src/constants/queryKey';
 import Button from '../@shared/Button/Button';
 import Heading from '../@shared/Heading/Heading';
@@ -17,6 +18,8 @@ interface Props {
 }
 
 const EditModalForm = ({ nickname: currentNickname = '', bio: currentBio = '' }: Props) => {
+  const history = useHistory();
+
   const { isModalOpened, closeModal } = useContext(modalContext) ?? {};
   const snackbar = useContext(SnackbarContext);
 
@@ -49,6 +52,16 @@ const EditModalForm = ({ nickname: currentNickname = '', bio: currentBio = '' }:
         snackbar?.setSnackbarMessage({ type: 'CONFIRM', message: MESSAGE.EDIT_PROFILE_SUCCESS });
       },
       onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
         snackbar?.setSnackbarMessage({
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
@@ -96,6 +109,7 @@ const EditModalForm = ({ nickname: currentNickname = '', bio: currentBio = '' }:
           maxLength={10}
           placeholder="닉네임을 입력해주세요"
         />
+        <p>{ERROR_MESSAGE[1007]}</p>
       </label>
 
       <label>

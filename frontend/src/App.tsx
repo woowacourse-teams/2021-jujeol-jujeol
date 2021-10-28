@@ -1,5 +1,6 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { easter } from 'jujeol';
 
 import SnackbarProvider from './components/@shared/Snackbar/SnackbarProvider';
 import ConfirmProvider from './components/Confirm/ConfirmProvider';
@@ -19,8 +20,14 @@ const MyReviewsPage = lazy(() => import('./pages/MyReviewsPage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
 const SearchResultPage = lazy(() => import('./pages/SearchResultPage'));
 const PreferencePage = lazy(() => import('./pages/PreferencePage'));
+const ErrorPage = lazy(() => import('./pages/ErrorPage'));
+const NonExistencePage = lazy(() => import('./pages/NonExistencePage'));
 
 const App = () => {
+  useEffect(() => {
+    easter();
+  }, []);
+
   return (
     <>
       <Router>
@@ -30,6 +37,7 @@ const App = () => {
               <MainContainer>
                 <Suspense fallback>
                   <Switch>
+                    <Route exact path={[PATH.ERROR_PAGE]} component={ErrorPage} />
                     <Route exact path={[PATH.HOME, PATH.ROOT]} component={HomePage} />
                     <Route exact path={[PATH.LOGIN]} component={LoginPage} />
                     <Route exact path={[PATH.OAUTH]} component={OauthPage} />
@@ -41,7 +49,8 @@ const App = () => {
                     <Route exact path={[PATH.SEARCH]} component={SearchPage} />
                     <Route exact path={[PATH.SEARCH_RESULT]} component={SearchResultPage} />
                     <Route exact path={[PATH.PREFERENCE]} component={PreferencePage} />
-                    <Redirect to={PATH.ROOT} />
+                    <Route exact path={[PATH.NON_EXISTENCE_PAGE]} component={NonExistencePage} />
+                    <Redirect to={PATH.NON_EXISTENCE_PAGE} />
                   </Switch>
                 </Suspense>
               </MainContainer>

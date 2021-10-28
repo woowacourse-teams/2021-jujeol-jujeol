@@ -10,6 +10,8 @@ const PATH: { [key: string]: string } = {
   SEARCH: '/search',
   SEARCH_RESULT: '/search/result',
   PREFERENCE: '/preference',
+  ERROR_PAGE: '/error',
+  NON_EXISTENCE_PAGE: '/404',
 };
 
 export default PATH;

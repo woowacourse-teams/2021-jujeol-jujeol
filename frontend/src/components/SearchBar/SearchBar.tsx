@@ -1,11 +1,13 @@
-import { ChangeEvent, FormEvent, InputHTMLAttributes, useState } from 'react';
+import { ChangeEvent, FormEvent, InputHTMLAttributes, useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { css } from '@emotion/react';
 
-import { COLOR, PATH, SEARCH } from 'src/constants';
+import { COLOR, MESSAGE, PATH, SEARCH } from 'src/constants';
 import { SearchIcon } from '../@Icons';
 import CancelIcon from '../@Icons/CancelIcon';
 import GoBackButton from '../@shared/Button/GoBackButton';
 import IconButton from '../@shared/Button/IconButton';
+import { SnackbarContext } from '../@shared/Snackbar/SnackbarProvider';
 import { Container, SearchInput } from './SearchBar.styles';
 
 const SearchBar = ({
@@ -16,21 +18,30 @@ const SearchBar = ({
   const history = useHistory();
 
   const [value, setValue] = useState('');
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
 
-  const onInputWords = (event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
+  const onInputWords = (event: ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+  };
+
   const onResetInput = () => setValue('');
 
   const onSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (value === '') return;
+    const searchWords = value.trim();
 
-    if (!readOnly) {
-      history.push(`${PATH.SEARCH_RESULT}?words=${value}`);
+    if (readOnly) {
+      history.push(PATH.SEARCH);
       return;
     }
 
-    history.push(PATH.SEARCH);
+    if (searchWords === '') {
+      setSnackbarMessage?.({ type: 'ERROR', message: MESSAGE.SEARCH_INPUT_CANNOT_EMPTY });
+      return;
+    }
+
+    history.push(`${PATH.SEARCH_RESULT}?words=${searchWords}`);
   };
 
   return (
@@ -43,7 +54,14 @@ const SearchBar = ({
       {readOnly ? (
         <SearchIcon color={COLOR.GRAY_100} width="1.2rem" />
       ) : (
-        <GoBackButton color={COLOR.WHITE} />
+        <GoBackButton
+          color={COLOR.WHITE}
+          css={css`
+            && {
+              padding: 0.5rem;
+            }
+          `}
+        />
       )}
       <SearchInput
         title="검색"

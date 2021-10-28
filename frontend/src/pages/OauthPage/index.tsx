@@ -6,7 +6,13 @@ import API from 'src/apis/requests';
 import { LoveEmojiColorIcon } from 'src/components/@Icons';
 import FlexBox from 'src/components/@shared/FlexBox/FlexBox';
 import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
-import { ERROR_MESSAGE, LOCAL_STORAGE_KEY, MESSAGE, PATH } from 'src/constants';
+import {
+  APPLICATION_ERROR_CODE,
+  ERROR_MESSAGE,
+  LOCAL_STORAGE_KEY,
+  MESSAGE,
+  PATH,
+} from 'src/constants';
 import UserContext from 'src/contexts/UserContext';
 import { setLocalStorageItem } from 'src/utils/localStorage';
 import { Container } from './styles';
@@ -46,6 +52,16 @@ const OauthPage = () => {
         history.push(PATH.HOME);
       },
       onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
         setSnackbarMessage?.({
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,

@@ -10,9 +10,10 @@ import Grid from 'src/components/@shared/Grid/Grid';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
 import { SnackbarContext } from 'src/components/@shared/Snackbar/SnackbarProvider';
 import NavigationHeader from 'src/components/Header/NavigationHeader';
-import { ERROR_MESSAGE, PATH } from 'src/constants';
+import { APPLICATION_ERROR_CODE, ERROR_MESSAGE, PATH } from 'src/constants';
 import QUERY_KEY from 'src/constants/queryKey';
 import UserContext from 'src/contexts/UserContext';
+import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import usePageTitle from 'src/hooks/usePageTitle';
 import MemoizedPreferenceItem from './PreferenceItem';
 import { AlertWrapper, Container, InfinityScrollPoll, NoDrink, Notification } from './styles';
@@ -28,18 +29,28 @@ const PreferencePage = () => {
 
   const queryClient = useQueryClient();
 
-  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery(
+  const { data, fetchNextPage, hasNextPage, isFetching, isSuccess } = useInfiniteQuery(
     QUERY_KEY.DRINK_LIST_SORTED_BY_PREFERENCE,
     ({ pageParam = 1 }) =>
       API.getDrinks({
         page: pageParam,
-        params: new URLSearchParams('sortBy=preferenceAvg&size=10'),
+        params: new URLSearchParams('size=25'),
       }),
     {
       getNextPageParam: ({ pageInfo }) => {
         return pageInfo.currentPage < pageInfo.lastPage ? pageInfo.currentPage + 1 : undefined;
       },
       onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
         setSnackbarMessage?.({
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
@@ -48,14 +59,9 @@ const PreferencePage = () => {
     }
   );
   const drinks = data?.pages?.map((page) => page.data).flat() ?? [];
+  const hasUnratedDrinks = !!drinks.filter(({ preferenceRate }) => !preferenceRate).length;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    });
-  });
+  useInfinityScroll({ target: infinityPollRef, fetchNextPage, hasNextPage });
 
   const { mutate: onUpdatePreference } = useMutation(
     ({ id, preferenceRate }: { id: number; preferenceRate: number }) => {
@@ -82,18 +88,6 @@ const PreferencePage = () => {
   const onMoveToDrinkDetail = (id: number) => () => {
     history.push(`${PATH.DRINKS}/${id}`);
   };
-
-  useEffect(() => {
-    if (infinityPollRef.current) {
-      observer.observe(infinityPollRef.current);
-    }
-
-    return () => {
-      if (infinityPollRef.current) {
-        observer.unobserve(infinityPollRef.current);
-      }
-    };
-  }, [infinityPollRef.current]);
 
   return (
     <>
@@ -127,14 +121,14 @@ const PreferencePage = () => {
                 <Skeleton type="SQUARE" size="X_SMALL" width="100%" />
               </FlexBox>
             ))}
-          {!drinks.filter(({ preferenceRate }) => !preferenceRate).length && (
+          {isSuccess && !hasUnratedDrinks && !hasNextPage && (
             <NoDrink>
               <DizzyEmojiColorIcon />
               <p>주절주절에 있는 모든 술을 드셨네요!</p>
               <p>회원님을 이 구역의 술쟁이로 인정합니다!</p>
             </NoDrink>
           )}
-          {!!drinks.filter(({ preferenceRate }) => !preferenceRate).length && !hasNextPage && (
+          {isSuccess && hasUnratedDrinks && !hasNextPage && (
             <Notification>
               <p>등록된 술이 더이상 없습니다. 곧 추가 될 예정이니 기다려 주세요 :)</p>
             </Notification>

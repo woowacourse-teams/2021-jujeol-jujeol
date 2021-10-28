@@ -42,6 +42,21 @@ const GlobalStyle = () => (
 
         background-color: ${COLOR.PURPLE_900};
       }
+      
+      main {
+        ::-webkit-scrollbar {
+          width: 0.5rem;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background-color: ${COLOR.WHITE}33;
+          border-radius: 1rem;
+        }
+
+        ::-webkit-scrollbar-track {
+          background-color: transparent;
+        }
+      }
 
       @media screen and (max-width: ${MOBILE_SMALL}) {
         html,

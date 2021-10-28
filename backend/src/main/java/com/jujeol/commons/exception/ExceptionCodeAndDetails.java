@@ -14,6 +14,7 @@ import com.jujeol.member.auth.exception.InvalidTokenException;
 import com.jujeol.member.auth.exception.KakaoAccessException;
 import com.jujeol.member.auth.exception.TokenExpiredException;
 import com.jujeol.member.auth.exception.UnauthorizedUserException;
+import com.jujeol.member.member.exception.DuplicateMemberException;
 import com.jujeol.member.member.exception.InvalidUserBiographyLengthException;
 import com.jujeol.member.member.exception.InvalidUserNicknameCharacterException;
 import com.jujeol.member.member.exception.InvalidUserNicknameLengthException;
@@ -45,6 +46,7 @@ public enum ExceptionCodeAndDetails {
     INVALID_USER_BIOGRAPHY_LENGTH("1008", "자기 소개가 너무 깁니다.",
         InvalidUserBiographyLengthException.class),
     EXPIRED_TOKEN("1009", "토큰 유효기간이 만료되었습니다.", TokenExpiredException.class),
+    DUPLICATE_NAME("1010", "닉네임이 중복되었습니다.", DuplicateMemberException.class),
     INVALID_ALCOHOL_BY_VOLUME("2001", "해당 주류의 도수가 잘 못 되었습니다.",
         InvalidAlcoholByVolumeException.class),
     INVALID_DRINK_NAME("2002", "해당 주류의 이름이 형식에 맞지 않습니다.", InvalidDrinkNameException.class),

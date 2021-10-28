@@ -1,3 +1,4 @@
+export { default as APPLICATION_ERROR_CODE } from './applicationErrorCode';
 export { default as COLOR } from './color';
 export { FONT_WEIGHT } from './font';
 export { LOCAL_STORAGE_KEY } from './localStorage';

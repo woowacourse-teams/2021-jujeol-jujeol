@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import API from 'src/apis/requests';
 import Skeleton from 'src/components/@shared/Skeleton/Skeleton';
@@ -9,7 +9,7 @@ import CardItem from 'src/components/Item/CardItem';
 import ListItem from 'src/components/Item/ListItem';
 import CardList from 'src/components/List/CardList';
 import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
-import { ERROR_MESSAGE, PATH } from 'src/constants';
+import { APPLICATION_ERROR_CODE, ERROR_MESSAGE, PATH } from 'src/constants';
 import List from '../../components/List/List';
 import Section from '../../components/Section/Section';
 
@@ -38,6 +38,7 @@ const DrinkListSection = ({
   isShowMoreEnabled = true,
   showMoreLink,
 }: Props) => {
+  const history = useHistory();
   const queryParams = new URLSearchParams(query);
 
   const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
@@ -47,6 +48,16 @@ const DrinkListSection = ({
     () => API.getDrinks({ page: 1, params: queryParams }),
     {
       onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
         setSnackbarMessage?.({
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,

@@ -19,7 +19,15 @@ import Profile from 'src/components/Profile/Profile';
 import { HorizontalScroll } from 'src/components/Scroll/HorizontalScroll';
 import PersonalDrinkItemSkeleton from 'src/components/Skeleton/PersonalDrinkItemSkeleton';
 import PersonalReviewItemSkeleton from 'src/components/Skeleton/PersonalReviewItemSkeleton';
-import { COLOR, ERROR_MESSAGE, LOCAL_STORAGE_KEY, MESSAGE, PATH, VALUE } from 'src/constants';
+import {
+  APPLICATION_ERROR_CODE,
+  COLOR,
+  ERROR_MESSAGE,
+  LOCAL_STORAGE_KEY,
+  MESSAGE,
+  PATH,
+  VALUE,
+} from 'src/constants';
 import QUERY_KEY from 'src/constants/queryKey';
 import UserContext from 'src/contexts/UserContext';
 import usePageTitle from 'src/hooks/usePageTitle';
@@ -62,6 +70,16 @@ const MyPage = () => {
     {
       retry: 0,
       onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
         setSnackbarMessage?.({
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
@@ -82,6 +100,16 @@ const MyPage = () => {
     {
       retry: 0,
       onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
         setSnackbarMessage?.({
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
@@ -154,11 +182,11 @@ const MyPage = () => {
             <PersonalReviewItemSkeleton count={3} />
           </Grid>
         ) : myReviews?.length ? (
-          <ul>
+          <Grid row={3} rowGap="1rem">
             {myReviews.map((myReview: Review.PersonalReviewItem) => (
               <PersonalReviewItem key={myReview.id} review={myReview} />
             ))}
-          </ul>
+          </Grid>
         ) : (
           <NoReview myDrinks={myDrinks} />
         )}

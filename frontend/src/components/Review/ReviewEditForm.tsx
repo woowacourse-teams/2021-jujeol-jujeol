@@ -1,8 +1,9 @@
 import { FormEventHandler, useContext, useEffect, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
+import { useHistory } from 'react-router-dom';
 
 import API from 'src/apis/requests';
-import { COLOR, ERROR_MESSAGE, MESSAGE, REVIEW } from 'src/constants';
+import { APPLICATION_ERROR_CODE, COLOR, ERROR_MESSAGE, MESSAGE, PATH, REVIEW } from 'src/constants';
 import QUERY_KEY from 'src/constants/queryKey';
 import Button from '../@shared/Button/Button';
 import TextButton from '../@shared/Button/TextButton';
@@ -19,6 +20,8 @@ interface Props {
 
 const ReviewEditForm = ({ drinkId, review }: Props) => {
   const { id: reviewId, content, createdAt } = review;
+
+  const history = useHistory();
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -38,6 +41,16 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
       setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.DELETE_REVIEW_SUCCESS });
     },
     onError: (error: Request.Error) => {
+      if (
+        error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+        error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+      ) {
+        history.push({
+          pathname: PATH.ERROR_PAGE,
+          state: { code: error.code },
+        });
+      }
+
       setSnackbarMessage?.({
         type: 'ERROR',
         message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
@@ -58,6 +71,16 @@ const ReviewEditForm = ({ drinkId, review }: Props) => {
         setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.EDIT_REVIEW_SUCCESS });
       },
       onError: (error: Request.Error) => {
+        if (
+          error.code === APPLICATION_ERROR_CODE.NETWORK_ERROR ||
+          error.code === APPLICATION_ERROR_CODE.INTERNAL_SERVER_ERROR
+        ) {
+          history.push({
+            pathname: PATH.ERROR_PAGE,
+            state: { code: error.code },
+          });
+        }
+
         setSnackbarMessage?.({
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,

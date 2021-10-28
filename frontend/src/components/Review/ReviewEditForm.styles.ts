@@ -4,10 +4,14 @@ import { COLOR } from 'src/constants';
 import Flex from 'src/styles/Flex';
 
 const Form = styled.form`
-  height: 90%;
+  height: 75%;
   width: 100%;
 
   ${Flex({ flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' })}
+
+  button {
+    padding: 0.4rem 0;
+  }
 `;
 
 const Content = styled.div`
