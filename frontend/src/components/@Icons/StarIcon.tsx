@@ -12,12 +12,17 @@ interface Props extends IconProps {
   status?: fillStatus;
 }
 
-const StarIcon = ({ color = COLOR.YELLOW_300, status = 'FULL', width = '48px' }: Props) => {
+const StarIcon = ({
+  borderColor = COLOR.YELLOW_300,
+  color = COLOR.YELLOW_300,
+  status = 'FULL',
+  width = '48px',
+}: Props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 31.58 30.52"
-      stroke={color}
+      stroke={borderColor}
       width={width}
       preserveAspectRatio="xMidYMid meet"
     >
