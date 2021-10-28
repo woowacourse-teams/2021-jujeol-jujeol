@@ -8,6 +8,10 @@ const Form = styled.form`
   width: 100%;
 
   ${Flex({ flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' })}
+
+  button {
+    padding: 0.4rem 0;
+  }
 `;
 
 const Content = styled.div`

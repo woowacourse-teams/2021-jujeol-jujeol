@@ -21,7 +21,7 @@ if (process.env.SNOWPACK_PUBLIC_ENV === 'PROD') {
 
   setLogger({
     log: (message) => {
-      Sentry.captureMessage(message);
+      console.log(message);
     },
     warn: (message) => {
       Sentry.captureMessage(message);
