@@ -14,6 +14,8 @@ import com.jujeol.member.member.domain.Member;
 import com.jujeol.member.member.domain.nickname.Nickname;
 import com.jujeol.member.member.domain.repository.MemberRepository;
 import com.jujeol.preference.application.PreferenceService;
+import com.jujeol.preference.domain.PreferenceRepository;
+import com.jujeol.review.domain.repository.ReviewRepository;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +30,18 @@ public class DataLoader {
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final PreferenceService preferenceService;
+    private final PreferenceRepository preferenceRepository;
+    private final ReviewRepository reviewRepository;
 
     public void loadData() {
+        preferenceRepository.deleteAll();
+        reviewRepository.deleteAll();
+        memberRepository.deleteAll();
+
+        drinkRepository.deleteAll();
+        categoryRepository.deleteAll();
+
+
         Category BEER = categoryRepository.save(Category.create("맥주", "BEER"));
         Category SOJU = categoryRepository.save(Category.create("소주", "SOJU"));
         Category WINE = categoryRepository.save(Category.create("와인", "WINE"));
