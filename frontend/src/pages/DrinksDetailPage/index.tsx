@@ -96,6 +96,10 @@ const DrinksDetailPage = () => {
           });
         }
 
+        if (Number(error.code) === APPLICATION_ERROR_CODE.NON_EXISTENCE_DRINK) {
+          return history.push(PATH.NON_EXISTENCE_PAGE);
+        }
+
         setSnackbarMessage?.({
           type: 'ERROR',
           message: ERROR_MESSAGE[error.code] ?? ERROR_MESSAGE.DEFAULT,
@@ -244,7 +248,7 @@ const DrinksDetailPage = () => {
       ) : (
         <ImageWrapper>
           <Image
-            src={imageResponse.medium}
+            src={imageResponse?.medium}
             alt={name}
             loading="lazy"
             onMouseDown={onImageSizeIncrease}
