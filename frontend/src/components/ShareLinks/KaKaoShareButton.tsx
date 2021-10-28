@@ -30,6 +30,7 @@ const KakaoShareButton = ({
         type: 'ERROR',
         message: MESSAGE.KAKAO_SHARE_FAILED,
       });
+      return;
     }
 
     kakao.Link.sendCustom({
