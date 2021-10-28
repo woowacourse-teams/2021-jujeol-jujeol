@@ -55,6 +55,10 @@ const Reset = () => css`
   input {
     -webkit-tap-highlight-color: transparent;
   }
+
+  button {
+    padding: 0;
+  }
 `;
 
 export default Reset;
