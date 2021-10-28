@@ -4,19 +4,6 @@ import Flex from 'src/styles/Flex';
 import LineClamp from 'src/styles/LineClamp';
 
 const Container = styled.li`
-  ${Flex({ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' })};
-
-  :last-child {
-    position: relative;
-    &::after {
-      content: '';
-      position: absolute;
-      right: -1.5rem;
-      width: 1.5rem;
-      height: 100%;
-    }
-  }
-
   p {
     margin: 0.5rem 0 0.2rem;
 
@@ -24,6 +11,16 @@ const Container = styled.li`
     font-size: 0.95rem;
 
     ${LineClamp({ lineClamp: 1 })}
+  }
+
+  a {
+    width: 100%;
+
+    ${Flex({
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+    })};
   }
 `;
 

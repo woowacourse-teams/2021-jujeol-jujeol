@@ -71,7 +71,7 @@ const MyDrinksPage = () => {
       <NavigationHeader title="선호도를 남긴 술" />
 
       <Container>
-        <Grid col={matches ? 2 : 3} rowGap="1.5rem" title="선호도를 남긴 술" justifyItems="center">
+        <Grid col={matches ? 2 : 3} rowGap="1.5rem" title="선호도를 남긴 술" justifyItems="stretch">
           {myDrinks?.map((myDrink: Drink.PersonalDrinkItem) => (
             <MyDrinkItem key={myDrink.id} size={matches ? 'X_LARGE' : 'LARGE'} drink={myDrink} />
           ))}
