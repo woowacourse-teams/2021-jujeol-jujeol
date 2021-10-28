@@ -3,7 +3,7 @@ import { useLocation } from 'react-router';
 import { css as emotionCss } from '@emotion/react';
 import { SerializedStyles } from '@emotion/utils';
 
-import { COLOR } from 'src/constants';
+import { COLOR, MESSAGE } from 'src/constants';
 import { LinkIcon } from '../@Icons';
 import IconButton from '../@shared/Button/IconButton';
 import { SnackbarContext } from '../@shared/Snackbar/SnackbarProvider';
@@ -23,14 +23,14 @@ const CopyLinkButton = ({ css }: { css: SerializedStyles }) => {
     const clipboard = navigator.clipboard;
 
     inputRef.current?.select();
-    inputRef.current?.setSelectionRange(0, 9999);
+    inputRef.current?.setSelectionRange(0, targetLink.length);
 
     try {
       await clipboard.writeText(targetLink);
 
-      setSnackbarMessage?.({ type: 'CONFIRM', message: '클립보드에 복사되었습니다.' });
+      setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.COPY_LINK_SUCCESS });
     } catch (error) {
-      setSnackbarMessage?.({ type: 'ERROR', message: '복사에 실패했습니다.' });
+      setSnackbarMessage?.({ type: 'ERROR', message: MESSAGE.COPY_LINK_FAILED });
     }
   };
 

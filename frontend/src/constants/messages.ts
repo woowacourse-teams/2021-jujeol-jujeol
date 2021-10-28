@@ -18,6 +18,9 @@ const MESSAGE = {
 
   EDIT_PROFILE_SUCCESS: '프로필을 수정하였습니다.',
 
+  COPY_LINK_SUCCESS: '클립보드에 복사 되었습니다.',
+  COPY_LINK_FAILED: '링크를 복사하지 못했습니다.',
+
   SEARCH_INPUT_CANNOT_EMPTY: '공백이 아닌 검색어를 입력해주세요.',
 };
 
