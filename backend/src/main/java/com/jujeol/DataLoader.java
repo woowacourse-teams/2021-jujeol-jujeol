@@ -1,10 +1,14 @@
 package com.jujeol;
 
+import static java.util.stream.Collectors.toList;
+
 import com.jujeol.drink.category.domain.Category;
 import com.jujeol.drink.category.domain.CategoryRepository;
 import com.jujeol.drink.drink.domain.Drink;
 import com.jujeol.drink.drink.domain.ImageFilePath;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
+import com.jujeol.elasticsearch.domain.DrinkDocument;
+import com.jujeol.elasticsearch.domain.reopsitory.DrinkDocumentRepository;
 import com.jujeol.member.auth.domain.Provider;
 import com.jujeol.member.auth.domain.ProviderName;
 import com.jujeol.member.auth.util.JwtTokenProvider;
@@ -19,11 +23,13 @@ import com.jujeol.review.domain.repository.ReviewRepository;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Profile({"local", "dev", "prod"})
 public class DataLoader {
 
     private final DrinkRepository drinkRepository;
@@ -33,6 +39,7 @@ public class DataLoader {
     private final PreferenceService preferenceService;
     private final PreferenceRepository preferenceRepository;
     private final ReviewRepository reviewRepository;
+    private final DrinkDocumentRepository drinkDocumentRepository;
 
     @Transactional
     public void loadData() {
@@ -332,6 +339,8 @@ public class DataLoader {
                     .createOrUpdatePreference(savedMember5.getId(), drink.getId(), PreferenceDto
                             .create(Math.round((Math.random() * 3 + 2) * 10) / 10.0));
         }
+
+        sync();
     }
 
     private ImageFilePath createFilePath(String drinkName) {
@@ -344,4 +353,15 @@ public class DataLoader {
 
         return ImageFilePath.create(smallFilePath, mediumFilePath, largeFilePath);
     }
+
+    private void sync() {
+        drinkDocumentRepository.deleteAll();
+        List<DrinkDocument> drinkDocuments = drinkRepository.findAll()
+                .stream()
+                .map(Drink::toDrinkDocument)
+                .collect(toList());
+        drinkDocumentRepository.saveAll(drinkDocuments);
+    }
 }
+
+
