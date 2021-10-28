@@ -15,6 +15,7 @@ import Property from 'src/components/Property/Property';
 import RangeWithIcons from 'src/components/RangeWithIcons/RangeWithIcons';
 import Review from 'src/components/Review/Review';
 import CopyLinkButton from 'src/components/ShareLinks/CopyLinkButton';
+import KakaoShareButton from 'src/components/ShareLinks/KaKaoShareButton';
 import DrinksDetailDescriptionSkeleton from 'src/components/Skeleton/DrinksDetailDescriptionSkeleton';
 import {
   APPLICATION_ERROR_CODE,
@@ -259,6 +260,14 @@ const DrinksDetailPage = () => {
         css={css`
           position: absolute;
           top: 1rem;
+          right: 1rem;
+        `}
+      />
+      <KakaoShareButton
+        content={{ title: name, description: description, imageUrl: imageResponse?.small ?? '' }}
+        css={css`
+          position: absolute;
+          top: 5.4rem;
           right: 1rem;
         `}
       />

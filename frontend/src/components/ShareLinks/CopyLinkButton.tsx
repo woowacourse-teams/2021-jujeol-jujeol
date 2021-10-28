@@ -9,7 +9,7 @@ import IconButton from '../@shared/Button/IconButton';
 import { SnackbarContext } from '../@shared/Snackbar/SnackbarProvider';
 import { Container } from './CopyLinkButton.styles';
 
-const HOST_URL = 'http://jujeol-jujeol.com';
+const HOST_URL = process.env.SNOWPACK_PUBLIC_HOST_URL;
 
 const CopyLinkButton = ({ css }: { css: SerializedStyles }) => {
   const location = useLocation();
