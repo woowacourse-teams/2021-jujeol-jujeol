@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.jujeol.drink.drink.domain.Drink;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
+import com.jujeol.drink.drink.exception.NotFoundDrinkException;
 import com.jujeol.elasticsearch.application.SearchHelper;
 import com.jujeol.elasticsearch.domain.DrinkDocument;
 import com.jujeol.elasticsearch.domain.reopsitory.DrinkDocumentQueryBuilder;
@@ -34,6 +35,14 @@ public class ElasticSearchHelper implements SearchHelper {
 
         final SearchHits<DrinkDocument> searchHits = elasticsearchRestTemplate
                 .search(query, DrinkDocument.class, IndexCoordinates.of("drink"));
+        if (!searchHits.hasSearchHits()) {
+            return new DrinkSearchResult(
+                    new ArrayList<>(),
+                    pageable,
+                    searchHits.getTotalHits()
+            );
+        }
+
         final SearchPage<DrinkDocument> searchHitsByPage = SearchHitSupport
                 .searchPageFor(searchHits, query.getPageable());
 
@@ -55,7 +64,7 @@ public class ElasticSearchHelper implements SearchHelper {
                     drinks.stream()
                             .filter(drink -> id.equals(drink.getId()))
                             .findAny()
-                            .orElseThrow()
+                            .orElseThrow(NotFoundDrinkException::new)
             );
         }
         return sortedDrinks;
