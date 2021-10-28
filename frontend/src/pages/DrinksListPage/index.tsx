@@ -9,6 +9,7 @@ import ListItem from 'src/components/Item/ListItem';
 import List from 'src/components/List/List';
 import ListItemSkeleton from 'src/components/Skeleton/ListItemSkeleton';
 import { APPLICATION_ERROR_CODE, ERROR_MESSAGE, PATH } from 'src/constants';
+import useInfinityScroll from 'src/hooks/useInfinityScroll';
 import usePageTitle from 'src/hooks/usePageTitle';
 import { Container, InfinityScrollPoll } from './styles';
 
@@ -65,23 +66,11 @@ const DrinksListPage = () => {
   const drinks = data?.pages?.map((page) => page.data).flat() ?? [];
   const totalSize = data?.pages[0].pageInfo?.totalSize;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    });
-  });
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    if (infinityPollRef.current) {
-      observer.observe(infinityPollRef.current);
-    }
-  }, [infinityPollRef.current]);
+  useInfinityScroll({ target: infinityPollRef, fetchNextPage, hasNextPage });
 
   return (
     <Container>
