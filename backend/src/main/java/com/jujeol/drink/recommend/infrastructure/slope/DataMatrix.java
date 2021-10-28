@@ -1,23 +1,33 @@
 package com.jujeol.drink.recommend.infrastructure.slope;
 
+import com.jujeol.preference.domain.PreferenceRepository;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DataMatrix {
 
-    private final Map<Long, Map<Long, ItemCounter>> matrix;
-    private final Map<Long, Map<Long, Double>> dataByMember;
+    private final PreferenceRepository preferenceRepository;
+    private List<DataModel> dataModel;
+    private Map<Long, Map<Long, ItemCounter>> matrix;
+    private Map<Long, Map<Long, Double>> dataByMember;
 
-    public DataMatrix(List<DataModel> dataModel) {
-        this.dataByMember = new ConcurrentHashMap<>();
-        this.matrix = new ConcurrentHashMap<>();
-        prepareMatrix(dataModel);
+    public DataMatrix(PreferenceRepository preferenceRepository) {
+        this.preferenceRepository = preferenceRepository;
+        this.dataModel = new ArrayList<>();
+        resetData();
     }
 
-    private void prepareMatrix(List<DataModel> dataModel) {
+    public void prepareMatrix() {
+        this.dataByMember = new ConcurrentHashMap<>();
+        this.matrix = new ConcurrentHashMap<>();
+
         for (DataModel model : dataModel) {
             final Long memberId = model.getMemberId();
             final Map<Long, Double> itemByMember = dataByMember
@@ -45,6 +55,10 @@ public class DataMatrix {
     }
 
     public void addData(DataModel dataModel) {
+        if (matrix == null) {
+            this.dataModel.add(dataModel);
+            return;
+        }
         final Map<Long, Double> itemWithPreference = dataByMember
                 .computeIfAbsent(dataModel.getMemberId(), id -> new ConcurrentHashMap<>());
         itemWithPreference.put(dataModel.getItemId(), dataModel.getPreference());
@@ -73,6 +87,10 @@ public class DataMatrix {
     }
 
     public void removeData(Long memberId, Long itemId) {
+        if (matrix == null) {
+            this.dataModel.remove(new DataModel(memberId, itemId, 0.0));
+            return;
+        }
         final Map<Long, Double> itemByMember = dataByMember
                 .computeIfAbsent(memberId, id -> new ConcurrentHashMap<>());
 
@@ -100,6 +118,11 @@ public class DataMatrix {
     }
 
     public void updateData(DataModel dataModel) {
+        if (matrix == null) {
+            this.dataModel.remove(dataModel);
+            this.dataModel.add(dataModel);
+            return;
+        }
         final Map<Long, Double> itemByMember = dataByMember
                 .computeIfAbsent(dataModel.getMemberId(), id -> new ConcurrentHashMap<>());
 
@@ -126,10 +149,25 @@ public class DataMatrix {
     }
 
     public Map<Long, Map<Long, ItemCounter>> getMatrix() {
+        if(matrix == null) {
+            prepareMatrix();
+        }
         return matrix;
     }
 
     public Map<Long, Double> getDataByMember(Long id) {
+        if(matrix == null) {
+            prepareMatrix();
+        }
         return dataByMember.getOrDefault(id, new HashMap<>());
+    }
+
+    public void resetData() {
+        this.dataModel = preferenceRepository.findAll()
+                .stream()
+                .map(preference -> new DataModel(preference.getMember().getId(), preference.getDrink().getId(), preference.getRate()))
+                .collect(Collectors.toList());
+        this.matrix = null;
+        this.dataByMember = null;
     }
 }

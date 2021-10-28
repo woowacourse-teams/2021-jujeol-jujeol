@@ -3,6 +3,8 @@ package com.jujeol.preference.application;
 import com.jujeol.drink.drink.domain.Drink;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.drink.exception.NotFoundDrinkException;
+import com.jujeol.drink.recommend.infrastructure.slope.DataMatrix;
+import com.jujeol.drink.recommend.infrastructure.slope.DataModel;
 import com.jujeol.member.member.application.dto.PreferenceDto;
 import com.jujeol.preference.domain.Preference;
 import com.jujeol.preference.domain.PreferenceRepository;
@@ -19,6 +21,7 @@ public class PreferenceService {
 
     private final PreferenceRepository preferenceRepository;
     private final DrinkRepository drinkRepository;
+    private final DataMatrix dataMatrix;
 
     public Page<Preference> showPreferenceByMemberId(Long memberId, Pageable pageable) {
         return preferenceRepository.findByMemberIdOrderByCreatedAtDesc(memberId, pageable);
@@ -45,13 +48,20 @@ public class PreferenceService {
         Drink drink = drinkRepository.findById(drinkId)
                 .orElseThrow(NotFoundDrinkException::new);
 
+        final DataModel dataModel = new DataModel(memberId, drinkId, preferenceDto.getPreferenceRate());
+
         preferenceRepository
                 .findByMemberIdAndDrinkId(memberId, drink.getId())
-                .ifPresentOrElse(exist -> exist.updateRate(preferenceDto.getPreferenceRate()),
+                .ifPresentOrElse(exist -> {
+                    exist.updateRate(preferenceDto.getPreferenceRate());
+                    dataMatrix.updateData(
+                            dataModel);
+                        },
                         () -> {
                             Preference newPreference = Preference
                                     .create(memberId, drink, preferenceDto.getPreferenceRate());
                             preferenceRepository.save(newPreference);
+                            dataMatrix.addData(dataModel);
                         }
                 );
 
@@ -65,6 +75,7 @@ public class PreferenceService {
 
         preferenceRepository.deleteByMemberIdAndDrinkId(memberId, drinkId);
 
+        dataMatrix.removeData(memberId, drinkId);
         updatePreferenceAverage(drinkId, drink);
     }
 
@@ -75,6 +86,7 @@ public class PreferenceService {
 
     public void deletePreferenceByDrinkId(Long id) {
         preferenceRepository.deleteByDrinkId(id);
+        dataMatrix.resetData();
     }
 
     public List<Preference> showByMemberIdAndDrinks(Long memberId, List<Long> drinkIds) {

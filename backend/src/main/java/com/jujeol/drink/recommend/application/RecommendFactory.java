@@ -3,6 +3,7 @@ package com.jujeol.drink.recommend.application;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.recommend.domain.RecommendForAnonymous;
 import com.jujeol.drink.recommend.domain.RecommendForMember;
+import com.jujeol.drink.recommend.infrastructure.slope.DataMatrix;
 import com.jujeol.drink.recommend.infrastructure.slope.Recommender;
 import com.jujeol.member.auth.ui.LoginMember;
 import com.jujeol.preference.domain.PreferenceRepository;
@@ -20,6 +21,7 @@ public class RecommendFactory {
     private final Map<MemberStatus, RecommendStrategy> recommendStrategyMap;
 
     public RecommendFactory(Recommender recommender,
+            DataMatrix dataMatrix,
             DrinkRepository drinkRepository,
             PreferenceRepository preferenceRepository
     ) {
@@ -27,7 +29,7 @@ public class RecommendFactory {
         this.recommendStrategyMap
                 .put(MemberStatus.ANONYMOUS, new RecommendForAnonymous(drinkRepository));
         this.recommendStrategyMap.put(MemberStatus.MEMBER,
-                new RecommendForMember(drinkRepository, preferenceRepository, recommender));
+                new RecommendForMember(drinkRepository, preferenceRepository, recommender, dataMatrix));
     }
 
     public RecommendStrategy create(LoginMember loginMember) {

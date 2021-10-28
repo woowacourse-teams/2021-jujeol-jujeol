@@ -3,7 +3,6 @@ package com.jujeol.drink.recommend.domain;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.recommend.application.RecommendStrategy;
 import com.jujeol.drink.recommend.infrastructure.slope.DataMatrix;
-import com.jujeol.drink.recommend.infrastructure.slope.DataModel;
 import com.jujeol.drink.recommend.infrastructure.slope.RecommendationResponse;
 import com.jujeol.drink.recommend.infrastructure.slope.Recommender;
 import com.jujeol.preference.domain.Preference;
@@ -20,6 +19,7 @@ public class RecommendForMember implements RecommendStrategy {
     private final DrinkRepository drinkRepository;
     private final PreferenceRepository preferenceRepository;
     private final Recommender recommender;
+    private final DataMatrix dataMatrix;
 
     @Override
     public List<RecommendedDrinkResponse> recommend(String category, Long memberId, int pageSize) {
@@ -29,16 +29,11 @@ public class RecommendForMember implements RecommendStrategy {
         } else {
             preferences = preferenceRepository.findAllByCategory(category);
         }
-        final List<DataModel> dataModel = preferences.stream()
-                .map(pr -> new DataModel(pr.getMember().getId(), pr.getDrink().getId(),
-                        pr.getRate()))
-                .collect(Collectors.toList());
         final List<Preference> myPreferences = preferences.stream()
                 .filter(preference -> preference.getMember().getId().equals(memberId))
                 .collect(Collectors.toList());
         final List<RecommendationResponse> recommendedItems = recommender
-                .recommend(new DataMatrix(dataModel), memberId, 3.0);
-
+                .recommend(dataMatrix, memberId, 3.0);
 
         List<RecommendedDrinkResponse> drinks = recommendedItems.stream()
                 .map(res -> new RecommendedDrinkResponse(drinkRepository.getById(res.getItemId()),
