@@ -1,11 +1,11 @@
 package com.jujeol.drink.recommend.infrastructure.slope;
 
 import com.jujeol.preference.domain.PreferenceRepository;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -14,13 +14,13 @@ import org.springframework.stereotype.Component;
 public class DataMatrix {
 
     private final PreferenceRepository preferenceRepository;
-    private List<DataModel> dataModel;
+    private Set<DataModel> dataModel;
     private Map<Long, Map<Long, ItemCounter>> matrix;
     private Map<Long, Map<Long, Double>> dataByMember;
 
     public DataMatrix(PreferenceRepository preferenceRepository) {
         this.preferenceRepository = preferenceRepository;
-        this.dataModel = new ArrayList<>();
+        this.dataModel = new HashSet<>();
         resetData();
     }
 
@@ -166,7 +166,7 @@ public class DataMatrix {
         this.dataModel = preferenceRepository.findAll()
                 .stream()
                 .map(preference -> new DataModel(preference.getMember().getId(), preference.getDrink().getId(), preference.getRate()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
         this.matrix = null;
         this.dataByMember = null;
     }
