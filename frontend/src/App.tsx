@@ -1,5 +1,6 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { easter } from 'jujeol';
 
 import SnackbarProvider from './components/@shared/Snackbar/SnackbarProvider';
 import ConfirmProvider from './components/Confirm/ConfirmProvider';
@@ -23,6 +24,10 @@ const ErrorPage = lazy(() => import('./pages/ErrorPage'));
 const NonExistencePage = lazy(() => import('./pages/NonExistencePage'));
 
 const App = () => {
+  useEffect(() => {
+    easter();
+  }, []);
+
   return (
     <>
       <Router>

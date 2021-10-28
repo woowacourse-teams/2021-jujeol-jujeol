@@ -35,7 +35,7 @@ const DrinksListPage = () => {
   const category =
     (new URLSearchParams(history.location.search).get('category') as keyof typeof CATEGORY_NAME) ??
     'ALL';
-  const categoryName = CATEGORY_NAME[category];
+  const categoryName = CATEGORY_NAME[category] ?? CATEGORY_NAME['ALL'];
   const params = new URLSearchParams({ category });
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery(

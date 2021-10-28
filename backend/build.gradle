@@ -12,7 +12,7 @@ ext {
 }
 
 group = 'com.jujeol.'
-version = '1.2.4-beta'
+version = '1.0.0'
 sourceCompatibility = '11'
 
 configurations {
