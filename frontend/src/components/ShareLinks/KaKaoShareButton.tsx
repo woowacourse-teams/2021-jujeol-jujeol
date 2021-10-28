@@ -1,11 +1,12 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { css as emotionCss } from '@emotion/react';
 import { SerializedStyles } from '@emotion/utils';
 
-import { COLOR } from 'src/constants';
+import { COLOR, MESSAGE } from 'src/constants';
 import { KakaoIcon } from '../@Icons';
 import IconButton from '../@shared/Button/IconButton';
+import { SnackbarContext } from '../@shared/Snackbar/SnackbarProvider';
 import { Container } from './CopyLinkButton.styles';
 
 const JS_KEY = process.env.SNOWPACK_PUBLIC_KAKAO_JS_KEY;
@@ -21,7 +22,16 @@ const KakaoShareButton = ({
   const location = useLocation();
   const kakao = window.Kakao;
 
+  const { setSnackbarMessage } = useContext(SnackbarContext) ?? {};
+
   const shareWithKakao = async () => {
+    if (!kakao) {
+      setSnackbarMessage?.({
+        type: 'ERROR',
+        message: MESSAGE.KAKAO_SHARE_FAILED,
+      });
+    }
+
     kakao.Link.sendCustom({
       templateId: TEMPLATE_ID,
       templateArgs: {
@@ -34,15 +44,15 @@ const KakaoShareButton = ({
   };
 
   useEffect(() => {
-    if (!kakao.isInitialized()) {
-      kakao.init(JS_KEY);
+    if (!kakao?.isInitialized()) {
+      kakao?.init(JS_KEY);
     }
-  }, []);
+  }, [kakao]);
 
   return (
     <Container css={css}>
       <IconButton
-        id="copy-url-button"
+        id="kakao-share-button"
         size="SMALL"
         margin="0 0 0.3rem"
         css={emotionCss`
@@ -55,7 +65,7 @@ const KakaoShareButton = ({
       >
         <KakaoIcon />
       </IconButton>
-      <label htmlFor="copy-url-button">
+      <label htmlFor="kakao-share-button">
         카카오톡
         <br />
         공유하기
