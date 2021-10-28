@@ -1,5 +1,7 @@
 package com.jujeol.drink.recommend.domain;
 
+import static java.util.Comparator.*;
+
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.recommend.application.RecommendStrategy;
 import com.jujeol.drink.recommend.infrastructure.slope.DataMatrix;
@@ -44,7 +46,7 @@ public class RecommendForMember implements RecommendStrategy {
         List<RecommendedDrinkResponse> drinks = recommendedItems.stream()
                 .map(res -> new RecommendedDrinkResponse(drinkRepository.getById(res.getItemId()),
                         res.getExpectedPreference()))
-                .sorted(Comparator.comparingDouble(RecommendedDrinkResponse::getExpectedPreference))
+                .sorted(comparingDouble(RecommendedDrinkResponse::getExpectedPreference))
                 .limit(pageSize)
                 .collect(Collectors.toList());
 
