@@ -9,6 +9,7 @@ import com.jujeol.drink.recommend.infrastructure.slope.Recommender;
 import com.jujeol.preference.domain.Preference;
 import com.jujeol.preference.domain.PreferenceRepository;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,7 @@ public class RecommendForMember implements RecommendStrategy {
         List<RecommendedDrinkResponse> drinks = recommendedItems.stream()
                 .map(res -> new RecommendedDrinkResponse(drinkRepository.getById(res.getItemId()),
                         res.getExpectedPreference()))
-                .sorted((o1, o2) -> (int) (o1.getExpectedPreference() - o2.getExpectedPreference()))
+                .sorted(Comparator.comparingDouble(RecommendedDrinkResponse::getExpectedPreference))
                 .limit(pageSize)
                 .collect(Collectors.toList());
 
