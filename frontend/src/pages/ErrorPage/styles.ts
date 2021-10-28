@@ -44,6 +44,10 @@ export const SurveyLink = styled.a`
   margin-top: 1rem;
 
   color: ${COLOR.GRAY_200};
-  text-decoration: underline;
+
+  && {
+    text-decoration: underline;
+  }
+
   text-align: center;
 `;
