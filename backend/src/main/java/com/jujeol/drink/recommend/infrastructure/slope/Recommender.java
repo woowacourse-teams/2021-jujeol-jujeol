@@ -42,8 +42,11 @@ public class Recommender {
                 continue;
             }
 
-            final double expectedPreference = sumValue / count;
+            double expectedPreference = sumValue / count;
             if (expectedPreference >= minPreference) {
+                if(expectedPreference > 5.0) {
+                    expectedPreference = 5.0;
+                }
                 recommendItems.add(new RecommendationResponse(primaryItemId, expectedPreference));
             }
         }
