@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { useLocation } from 'react-router';
 import { css as emotionCss } from '@emotion/react';
 import { SerializedStyles } from '@emotion/utils';
@@ -12,6 +12,8 @@ import { Container } from './CopyLinkButton.styles';
 const HOST_URL = process.env.SNOWPACK_PUBLIC_HOST_URL;
 
 const CopyLinkButton = ({ css }: { css: SerializedStyles }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const location = useLocation();
 
   const targetLink = HOST_URL + location.pathname;
@@ -26,7 +28,16 @@ const CopyLinkButton = ({ css }: { css: SerializedStyles }) => {
 
       setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.COPY_LINK_SUCCESS });
     } catch (error) {
-      setSnackbarMessage?.({ type: 'ERROR', message: MESSAGE.COPY_LINK_FAILED });
+      try {
+        // 카카오톡 인앱 브라우저에서 clipboard 미적용으로 인한 지원 하지 않음 에러 발생
+        inputRef.current?.select();
+        inputRef.current?.setSelectionRange(0, targetLink.length);
+
+        document.execCommand('Copy');
+        setSnackbarMessage?.({ type: 'CONFIRM', message: MESSAGE.COPY_LINK_SUCCESS });
+      } catch (error) {
+        setSnackbarMessage?.({ type: 'ERROR', message: MESSAGE.COPY_LINK_FAILED });
+      }
     }
   };
 
@@ -47,6 +58,7 @@ const CopyLinkButton = ({ css }: { css: SerializedStyles }) => {
         <LinkIcon />
       </IconButton>
       <label htmlFor="copy-url-button">URL 복사</label>
+      <input ref={inputRef} type="text" value={targetLink} readOnly />
     </Container>
   );
 };
