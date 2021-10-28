@@ -1,6 +1,7 @@
 package com.jujeol.drink.recommend.domain;
 
 import static java.util.Comparator.*;
+import static java.util.stream.Collectors.*;
 
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.recommend.application.RecommendStrategy;
@@ -35,10 +36,10 @@ public class RecommendForMember implements RecommendStrategy {
         final List<DataModel> dataModel = preferences.stream()
                 .map(pr -> new DataModel(pr.getMember().getId(), pr.getDrink().getId(),
                         pr.getRate()))
-                .collect(Collectors.toList());
+                .collect(toList());
         final List<Preference> myPreferences = preferences.stream()
                 .filter(preference -> preference.getMember().getId().equals(memberId))
-                .collect(Collectors.toList());
+                .collect(toList());
         final List<RecommendationResponse> recommendedItems = recommender
                 .recommend(new DataMatrix(dataModel), memberId, 3.0);
 
@@ -48,7 +49,7 @@ public class RecommendForMember implements RecommendStrategy {
                         res.getExpectedPreference()))
                 .sorted(comparingDouble(RecommendedDrinkResponse::getExpectedPreference))
                 .limit(pageSize)
-                .collect(Collectors.toList());
+                .collect(toList());
 
         if (recommendedItems.size() < pageSize) {
             addItemByPreferenceAvg(drinks, myPreferences, memberId, pageSize, category);
@@ -66,13 +67,13 @@ public class RecommendForMember implements RecommendStrategy {
                     .findDrinksForMember(memberId, Pageable.ofSize(pageSize), category)
                     .stream()
                     .map(drink -> new RecommendedDrinkResponse(drink, 0))
-                    .collect(Collectors.toList());
+                    .collect(toList());
         } else {
             drinksByPreference = drinkRepository
                     .findDrinksForMember(memberId, Pageable.ofSize(pageSize))
                     .stream()
                     .map(drink -> new RecommendedDrinkResponse(drink, 0))
-                    .collect(Collectors.toList());
+                    .collect(toList());
         }
 
         drinksByPreference = sortByNoTriedItem(drinksByPreference, myPreferences);
