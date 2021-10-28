@@ -3,9 +3,7 @@ import styled from '@emotion/styled';
 import Heading from '../@shared/Heading/Heading';
 
 const envContent =
-  process.env.SNOWPACK_PUBLIC_ENV === 'PROD'
-    ? 'beta'
-    : process.env.SNOWPACK_PUBLIC_ENV?.toLowerCase();
+  process.env.SNOWPACK_PUBLIC_ENV === 'PROD' ? '' : process.env.SNOWPACK_PUBLIC_ENV?.toLowerCase();
 
 const Logo = styled(Heading.level1)`
   position: relative;
