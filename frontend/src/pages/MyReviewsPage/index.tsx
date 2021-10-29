@@ -70,12 +70,12 @@ const MyReviewsPage = () => {
       <NavigationHeader title="내가 남긴 리뷰" />
 
       <Container>
-        <ul title="내가 남긴 리뷰">
+        <Grid row={7} rowGap="1rem" title="내가 남긴 리뷰">
           {personalReviews?.map((review) => (
             <PersonalReviewItem key={review.id} review={review} />
           ))}
           <InfinityScrollPoll ref={observerTargetRef} />
-        </ul>
+        </Grid>
         {isFetching && (
           <Grid row={7} rowGap="1rem">
             <PersonalReviewItemSkeleton count={7} />
