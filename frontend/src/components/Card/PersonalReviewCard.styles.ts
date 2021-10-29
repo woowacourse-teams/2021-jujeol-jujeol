@@ -19,7 +19,7 @@ const Title = styled.p`
   }
 `;
 
-const Content = styled.div<{ isContentOpen: boolean }>`
+const Content = styled.div`
   margin-top: 0.3rem;
 
   position: relative;
@@ -29,7 +29,7 @@ const Content = styled.div<{ isContentOpen: boolean }>`
   white-space: break-spaces;
   word-break: break-word;
 
-  ${({ isContentOpen }) => !isContentOpen && LineClamp({ lineClamp: 3 })}
+  ${LineClamp({ lineClamp: 3 })}
 `;
 
 export { Content, TextContainer, Title };
