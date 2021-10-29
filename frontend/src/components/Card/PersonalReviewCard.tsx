@@ -1,9 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-import { css } from '@emotion/react';
-
 import { COLOR } from 'src/constants';
-import ArrowIcon from '../@Icons/ArrowIcon';
-import IconButton from '../@shared/Button/IconButton';
 import Card from '../@shared/Card/Card';
 import { Img } from '../@shared/Image/Image';
 import { Content, TextContainer, Title } from './PersonalReviewCard.styles';
@@ -14,23 +9,6 @@ interface Props {
 
 const PersonalReviewCard = ({ review }: Props) => {
   const { drink } = review;
-
-  const [isShowMore, setIsShowMore] = useState(false);
-  const [isContentOpen, setIsContentOpen] = useState(false);
-
-  const contentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const content = contentRef.current;
-    if (content) {
-      setIsShowMore(content.clientHeight < content.scrollHeight);
-    }
-  }, [contentRef, review.content]);
-
-  const onShowMore = () => {
-    setIsShowMore(false);
-    setIsContentOpen(true);
-  };
 
   return (
     <Card
@@ -47,30 +25,7 @@ const PersonalReviewCard = ({ review }: Props) => {
           <span>{new Date(review.createdAt).toLocaleDateString()}</span>
         </div>
 
-        <Content ref={contentRef} isContentOpen={isContentOpen}>
-          {review.content}
-          {isShowMore && (
-            <IconButton
-              size="XX_SMALL"
-              css={css`
-                width: 2rem;
-                height: 1.2rem;
-
-                padding: 0.3rem;
-                padding-left: 1rem;
-
-                position: absolute;
-                bottom: 0;
-                right: 0;
-
-                background: linear-gradient(90deg, ${COLOR.GRAY_100}00 0%, ${COLOR.GRAY_100} 30%);
-              `}
-              onClick={onShowMore}
-            >
-              <ArrowIcon color={COLOR.GRAY_500} direction="DOWN" />
-            </IconButton>
-          )}
-        </Content>
+        <Content>{review.content}</Content>
       </TextContainer>
     </Card>
   );
