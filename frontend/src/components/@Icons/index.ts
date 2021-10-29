@@ -12,6 +12,7 @@ export { default as ExcitedEmojiIcon } from './ExcitedEmojiIcon';
 export { default as HomeIcon } from './HomeIcon';
 export { default as HumanIcon } from './HumanIcon';
 export { default as KakaoIcon } from './KakaoIcon';
+export { default as LinkIcon } from './LinkIcon';
 export { default as LoginIcon } from './LoginIcon';
 export { default as LoveEmojiColorIcon } from './LoveEmojiColorIcon';
 export { default as LoveEmojiIcon } from './LoveEmojiIcon';

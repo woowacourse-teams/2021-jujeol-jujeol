@@ -110,7 +110,7 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
       pageInfo: drinksReviews.pageInfo,
     });
 
-    const reviewInput = screen.getByRole('textbox');
+    const reviewInput = screen.getByRole('textbox', { name: '리뷰 작성' });
     const submitButton = screen.getByRole('button', { name: '작성 완료' });
 
     fireEvent.change(reviewInput, { target: { value: review } });
@@ -130,7 +130,7 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
 
     const review = 'good12312341234';
 
-    const reviewInput = screen.getByRole('textbox');
+    const reviewInput = screen.getByRole('textbox', { name: '리뷰 작성' });
     const submitButton = screen.getByRole('button', { name: '작성 완료' });
 
     fireEvent.change(reviewInput, { target: { value: review } });
@@ -144,7 +144,7 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
 
   it('로그인 된 사용자는 상세페이지에서 리뷰를 수정할 수 있다.', async () => {
     const review = 'good12312341234';
-    const reviewInput = screen.getByRole('textbox');
+    const reviewInput = screen.getByRole('textbox', { name: '리뷰 작성' });
     const submitButton = screen.getByRole('button', { name: '작성 완료' });
 
     fireEvent.change(reviewInput, { target: { value: review } });
@@ -188,7 +188,7 @@ describe('로그인 된 사용자가 상세페이지를 이용한다.', () => {
 
   it('로그인 된 사용자는 상세페이지에서 리뷰를 삭제할 수 있다.', async () => {
     const review = 'good12312341234';
-    const reviewInput = screen.getByRole('textbox');
+    const reviewInput = screen.getByRole('textbox', { name: '리뷰 작성' });
     const submitButton = screen.getByRole('button', { name: '작성 완료' });
 
     fireEvent.change(reviewInput, { target: { value: review } });
