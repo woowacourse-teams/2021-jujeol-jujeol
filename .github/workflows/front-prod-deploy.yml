@@ -30,7 +30,7 @@ jobs:
         run: npm run build:prod
 
       - name: Deploy
-        run: aws s3 sync --delete ./build s3://jujeol-prod-deploy
+        run: aws s3 sync --delete ./build s3://jujeol-prod-deploy --metadata Cache-Control=max-age=15552000
 
       - name: Cloud Front Caching Invalid
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.PROD_DISTRIBUTION_ID }} --paths "/*"
