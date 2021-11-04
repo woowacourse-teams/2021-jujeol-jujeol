@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-@Profile({"local", "dev", "prod"})
+@Profile({"local", "dev", "prod", "repliDummy"})
 public class DataLoader {
 
     private final DrinkRepository drinkRepository;

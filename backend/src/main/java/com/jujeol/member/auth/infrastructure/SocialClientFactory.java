@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-@Profile({"dev", "prod", "local", "dummy"})
+@Profile({"dev", "prod", "local", "dummy", "repliDummy"})
 @RequiredArgsConstructor
 public class SocialClientFactory implements SocialLoginStrategyFactory {
 

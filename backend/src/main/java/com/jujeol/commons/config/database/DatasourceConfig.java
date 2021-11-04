@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 
-@Profile({"dev", "prod"})
+@Profile({"dev", "prod", "repliDummy"})
 @Configuration
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 @EnableConfigurationProperties(CustomDataSourceProperties.class)

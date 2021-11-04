@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @RequiredArgsConstructor
-@Profile({"dev", "prod"})
+@Profile({"dev", "prod", "repliDummy"})
 @Slf4j
 @Service
 public class S3Uploader implements StorageUploader {

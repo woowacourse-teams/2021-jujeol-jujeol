@@ -11,6 +11,7 @@ spring:
       "prod": "file-logging,http-file-logging"
       "test": "console-logging"
       "dummy": "console-logging,performance-logging"
+      "repliDummy": "console-logging,performance-logging"
     include: oauth, datasource
   data:
     web:
