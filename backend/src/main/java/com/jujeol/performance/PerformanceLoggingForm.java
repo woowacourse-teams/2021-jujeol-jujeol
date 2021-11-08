@@ -13,7 +13,7 @@ public class PerformanceLoggingForm {
 
     private String targetApi;
     private String targetMethod;
-    private Long transactionTime;
+    private Long requestTime;
     private Long queryCounts = 0L;
     private Long queryTime = 0L;
 

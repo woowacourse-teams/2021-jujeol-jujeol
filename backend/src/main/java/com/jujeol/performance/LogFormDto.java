@@ -4,7 +4,7 @@ public class LogFormDto {
 
     private String targetApi;
     private String targetMethod;
-    private Long transactionTime;
+    private Long requestTime;
     private Long queryCounts;
     private Long queryTime;
 
@@ -12,7 +12,7 @@ public class LogFormDto {
         final LogFormDto logFormDto = new LogFormDto();
         logFormDto.targetApi = logForm.getTargetApi();
         logFormDto.targetMethod = logForm.getTargetMethod();
-        logFormDto.transactionTime = logForm.getTransactionTime();
+        logFormDto.requestTime = logForm.getRequestTime();
         logFormDto.queryCounts = logForm.getQueryCounts();
         logFormDto.queryTime = logForm.getQueryTime();
         return logFormDto;
@@ -26,8 +26,8 @@ public class LogFormDto {
         return targetMethod;
     }
 
-    public Long getTransactionTime() {
-        return transactionTime;
+    public Long getRequestTime() {
+        return requestTime;
     }
 
     public Long getQueryCounts() {
