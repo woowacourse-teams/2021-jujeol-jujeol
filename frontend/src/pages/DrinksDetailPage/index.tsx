@@ -80,7 +80,7 @@ const DrinksDetailPage = () => {
   const { setConfirm, closeConfirm } = useContext(confirmContext) ?? {};
 
   const { data: { data: drink = defaultDrinkDetail } = {}, isLoading } = useQuery(
-    QUERY_KEY.DRINK_DETAIL,
+    [QUERY_KEY.DRINK_DETAIL, drinkId],
     () => API.getDrink<string>(drinkId),
     {
       retry: 0,
