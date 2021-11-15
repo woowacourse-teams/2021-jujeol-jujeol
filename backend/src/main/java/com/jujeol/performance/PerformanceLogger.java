@@ -21,7 +21,9 @@ public class PerformanceLogger {
     @Before("@within(org.springframework.web.bind.annotation.RestController) || @annotation(org.springframework.web.bind.annotation.RestController)")
     public void beforeController(JoinPoint joinPoint) {
         try {
-            final String test = logForm.toString();
+            // requestScope 인 logForm 의 toString()을 호출함으로써 제대로 할당이 되었는지 체크한다.
+            // (request 가 아닐 경우 ScopeNotActiveException 이 발생)
+            logForm.toString();
             final RequestApi requestApi = requestApiExtractor.extractRequestApi(joinPoint);
 
             logForm.setTargetApi(requestApi.getUrlForm());
@@ -36,7 +38,9 @@ public class PerformanceLogger {
         final Object proceed = proceedingJoinPoint.proceed();
 
         try {
-            final String test = logForm.toString();
+            // requestScope 인 logForm 의 toString()을 호출함으로써 제대로 할당이 되었는지 체크한다.
+            // (request 가 아닐 경우 ScopeNotActiveException 이 발생)
+            logForm.toString();
             return Proxy.newProxyInstance(
                     proceed.getClass().getClassLoader(),
                     proceed.getClass().getInterfaces(),
