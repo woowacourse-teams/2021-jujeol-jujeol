@@ -41,7 +41,20 @@ public class MockMvcResult implements HttpResponse {
     public <T> List<T> convertBodyToList(Class<T> tClass) {
         try {
             final String json = resultActions.andReturn().getResponse().getContentAsString();
-            return objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, tClass));
+            final JsonNode jsonNode = objectMapper.readTree(json);
+
+            final List<T> list = new ArrayList<>();
+            final Iterator<JsonNode> data = jsonNode.withArray("data").elements();
+
+            data.forEachRemaining(dataNode -> {
+                try {
+                    final T hello = objectMapper.treeToValue(dataNode, tClass);
+                    list.add(hello);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+            });
+            return list;
         } catch (UnsupportedEncodingException | JsonProcessingException e) {
             e.printStackTrace();
             return new ArrayList<>();

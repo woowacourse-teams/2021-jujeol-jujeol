@@ -1,40 +1,26 @@
 package com.jujeol.performance;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+
+@Getter
 public class LogFormDto {
 
     private String targetApi;
     private String targetMethod;
-    private Long requestTime;
+    @JsonProperty("requestTime")
+    private Long requestTimeMils;
     private Long queryCounts;
-    private Long queryTime;
+    @JsonProperty("queryTime")
+    private Long queryTimeMils;
 
     public static LogFormDto from(PerformanceLoggingForm logForm) {
         final LogFormDto logFormDto = new LogFormDto();
         logFormDto.targetApi = logForm.getTargetApi();
         logFormDto.targetMethod = logForm.getTargetMethod();
-        logFormDto.requestTime = logForm.getRequestTime();
+        logFormDto.requestTimeMils = logForm.getRequestTime();
         logFormDto.queryCounts = logForm.getQueryCounts();
-        logFormDto.queryTime = logForm.getQueryTime();
+        logFormDto.queryTimeMils = logForm.getQueryTime();
         return logFormDto;
-    }
-
-    public String getTargetApi() {
-        return targetApi;
-    }
-
-    public String getTargetMethod() {
-        return targetMethod;
-    }
-
-    public Long getRequestTime() {
-        return requestTime;
-    }
-
-    public Long getQueryCounts() {
-        return queryCounts;
-    }
-
-    public Long getQueryTime() {
-        return queryTime;
     }
 }
