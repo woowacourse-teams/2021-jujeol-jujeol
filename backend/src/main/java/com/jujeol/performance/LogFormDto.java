@@ -18,9 +18,9 @@ public class LogFormDto {
         final LogFormDto logFormDto = new LogFormDto();
         logFormDto.targetApi = logForm.getTargetApi();
         logFormDto.targetMethod = logForm.getTargetMethod();
-        logFormDto.requestTimeMils = logForm.getRequestTime();
+        logFormDto.requestTimeMils = logForm.getRequestTimeMils();
         logFormDto.queryCounts = logForm.getQueryCounts();
-        logFormDto.queryTimeMils = logForm.getQueryTime();
+        logFormDto.queryTimeMils = logForm.getQueryTimeMils();
         return logFormDto;
     }
 }

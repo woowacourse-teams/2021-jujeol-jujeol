@@ -23,7 +23,7 @@ public class PerformanceInterceptor implements HandlerInterceptor {
         if (request.getMethod().equals("OPTIONS")) {
             return true;
         }
-        logForm.setRequestTime(System.currentTimeMillis());
+        logForm.setRequestTimeMils(System.currentTimeMillis());
         return true;
     }
 
@@ -33,8 +33,8 @@ public class PerformanceInterceptor implements HandlerInterceptor {
         if (request.getMethod().equals("OPTIONS") || logForm.getTargetApi() == null || logForm.getTargetApi().isEmpty()) {
             return;
         }
-        final long transactionTime = System.currentTimeMillis() - logForm.getRequestTime();
-        logForm.setRequestTime(transactionTime);
+        final long transactionTime = System.currentTimeMillis() - logForm.getRequestTimeMils();
+        logForm.setRequestTimeMils(transactionTime);
 
         log.info(objectMapper.writeValueAsString(LogFormDto.from(logForm)));
     }
