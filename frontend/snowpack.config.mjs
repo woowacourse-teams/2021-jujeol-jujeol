@@ -11,6 +11,7 @@ export default {
     minify: true,
     splitting: true,
     treeshake: true,
+    sourcemap: false,
   },
   packageOptions: {
     polyfillNode: true,
