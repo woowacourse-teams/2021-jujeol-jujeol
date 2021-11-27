@@ -1,0 +1,45 @@
+name: backend-build-test
+
+# PR 요청에 대해
+on:
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: ./backend # build steps의 run을 ./backend 경로에서 실행
+
+jobs:
+  build:
+    # 머지 된 PR일 경우, 그리고 label이 [backend] (id: 3141722951) 일때만 동작
+    if: (
+      github.event.pull_request.merged == true &&
+      contains(github.event.pull_request.labels.*.id, 3141722951)
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+          token: ${{ secrets.SUBMODULE_ACCESS_TOKEN }}
+
+      - name: Build Test
+        run: ./gradlew bootJar
+
+      - name: Deploy Prod use SCP
+        uses: appleboy/scp-action@master
+        with:
+          username: ubuntu
+          host: ${{ secrets.PROD_HOST }}
+          key: ${{ secrets.PROD_RSA_PRIVATE_KEY }}
+          source: "./backend/build/lib/*.jar"
+          target: "/home/ubuntu/jujeol-jujeol/deploy"
+
+      - name: Execute Server Init Script
+        uses: appleboy/ssh-action@master
+        with:
+          username: ubuntu
+          host: ${{ secrets.PROD_HOST }}
+          key: ${{ secrets.PROD_RSA_PRIVATE_KEY }}
+          script_stop: true
+          script: sh /home/ubuntu/2021-jujeol-jujeol/script/init_server.sh
