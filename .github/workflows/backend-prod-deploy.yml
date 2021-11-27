@@ -1,4 +1,4 @@
-name: backend-build-test
+name: backend-prod-deploy
 
 # PR 요청에 대해
 on:
@@ -10,11 +10,6 @@ defaults:
 
 jobs:
   build:
-    # 머지 된 PR일 경우, 그리고 label이 [backend] (id: 3141722951) 일때만 동작
-    if: (
-      github.event.pull_request.merged == true &&
-      contains(github.event.pull_request.labels.*.id, 3141722951)
-      )
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
@@ -23,7 +18,7 @@ jobs:
           submodules: true
           token: ${{ secrets.SUBMODULE_ACCESS_TOKEN }}
 
-      - name: Build Test
+      - name: Build App
         run: ./gradlew bootJar
 
       - name: Deploy Prod use SCP
