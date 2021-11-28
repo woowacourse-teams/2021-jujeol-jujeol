@@ -29,6 +29,7 @@ jobs:
           key: ${{ secrets.PROD_RSA_PRIVATE_KEY }}
           source: "./backend/build/libs/*.jar"
           target: "/home/ubuntu/jujeol-jujeol/backend/deploy"
+          strip_components: 3
 
       - name: Execute Server Init Script
         uses: appleboy/ssh-action@master
