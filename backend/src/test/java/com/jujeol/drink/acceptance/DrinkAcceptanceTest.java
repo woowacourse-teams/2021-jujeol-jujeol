@@ -245,6 +245,27 @@ public class DrinkAcceptanceTest extends AcceptanceTest {
         예외_검증(errorResponse, NOT_FOUND_DRINK);
     }
 
+    @DisplayName("검색 조회 - 성공")
+    @Test
+    public void showDrinksBySearchTest() {
+        //given
+        String search = "OB";
+        int page = 1;
+
+        //when
+        final HttpResponse httpResponse = request()
+                .get("/search?keyword=" + search + "&page=" + page)
+                .withDocument("drinks/show/search")
+                .build();
+
+        //then
+        final List<DrinkResponse> drinkSimpleResponses =
+                httpResponse.convertBodyToList(DrinkResponse.class);
+
+        assertThat(drinkSimpleResponses.get(0).getName()).isEqualTo(OB.getName());
+
+        페이징_검증(httpResponse.pageInfo(), 1, 1, 10, 1);
+    }
 
     private Long 주류_아이디(DrinkTestContainer drinkTestContainer) {
         return drinkAcceptanceTool.주류_아이디_조회(drinkTestContainer.getName());
