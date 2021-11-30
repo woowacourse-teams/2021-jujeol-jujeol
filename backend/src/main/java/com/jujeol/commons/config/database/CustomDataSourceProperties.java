@@ -1,5 +1,7 @@
 package com.jujeol.commons.config.database;
 
+import java.util.HashMap;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -9,10 +11,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "spring.datasource")
 public class CustomDataSourceProperties {
 
-    private final Replica replica1 = new Replica();
-    private final Replica replica2 = new Replica();
+    private final Map<String, Replica> replicas = new HashMap<>();
 
-    private String name = "source";
+    private String name = "SOURCE";
     private String url;
     private String username;
     private String password;
@@ -20,9 +21,14 @@ public class CustomDataSourceProperties {
     @Getter
     @Setter
     public static class Replica {
+
         private String name;
         private String url;
         private String username;
         private String password;
+    }
+
+    public boolean hasOnlySourceDatabase() {
+        return replicas.size() == 0;
     }
 }

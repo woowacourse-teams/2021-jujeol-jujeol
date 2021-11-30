@@ -1,9 +1,8 @@
 package com.jujeol.commons.config.database;
 
-import static com.jujeol.commons.config.database.DatabaseReplicaType.REPLICA1;
-import static com.jujeol.commons.config.database.DatabaseReplicaType.REPLICA2;
 import static com.jujeol.commons.config.database.DatabaseReplicaType.SOURCE;
 
+import com.jujeol.commons.config.database.CustomDataSourceProperties.Replica;
 import com.zaxxer.hikari.HikariDataSource;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -35,38 +34,46 @@ public class DatasourceConfig {
     @Primary
     @Bean
     public DataSource dataSource() {
+        if (databaseProperty.hasOnlySourceDatabase()) {
+            return createDataSource(
+                databaseProperty.getUrl(),
+                databaseProperty.getUsername(),
+                databaseProperty.getPassword()
+            );
+        }
+
         return new LazyConnectionDataSourceProxy(routingDataSource());
     }
 
     @Bean
     public DataSource routingDataSource() {
-        Map<Object, Object> dataSources = createDataSources(databaseProperty);
-
         ReplicationRoutingDataSource replicationRoutingDataSource = new ReplicationRoutingDataSource();
-        replicationRoutingDataSource.setDefaultTargetDataSource(dataSources.get(SOURCE));
-        replicationRoutingDataSource.setTargetDataSources(dataSources);
+        replicationRoutingDataSource
+            .setDefaultTargetDataSource(createDefaultDatasource(databaseProperty));
+        replicationRoutingDataSource.setTargetDataSources(createTargetDatasource(databaseProperty));
 
         return replicationRoutingDataSource;
     }
 
-    private Map<Object, Object> createDataSources(CustomDataSourceProperties databaseProperty) {
+    private Object createDefaultDatasource(CustomDataSourceProperties databaseProperty) {
+        return createDataSource(databaseProperty.getUrl(),
+            databaseProperty.getUsername(),
+            databaseProperty.getPassword()
+        );
+    }
+
+    private Map<Object, Object> createTargetDatasource(
+        CustomDataSourceProperties databaseProperty) {
         Map<Object, Object> dataSourceMap = new LinkedHashMap<>();
-        dataSourceMap.put(SOURCE,
+
+        dataSourceMap.put(SOURCE.name(),
             createDataSource(databaseProperty.getUrl(),
                 databaseProperty.getUsername(),
                 databaseProperty.getPassword())
         );
 
-        dataSourceMap.put(REPLICA1,
-            createDataSource(databaseProperty.getReplica1().getUrl(),
-                databaseProperty.getReplica1().getUsername(),
-                databaseProperty.getReplica2().getPassword())
-        );
-
-        dataSourceMap.put(REPLICA2,
-            createDataSource(databaseProperty.getReplica2().getUrl(),
-                databaseProperty.getReplica2().getUsername(),
-                databaseProperty.getReplica2().getPassword())
+        databaseProperty.getReplicas().forEach(
+            (name, replica) -> dataSourceMap.put(name, createDataSource(replica))
         );
 
         return dataSourceMap;
@@ -82,4 +89,7 @@ public class DatasourceConfig {
             .build();
     }
 
+    private DataSource createDataSource(Replica replica) {
+        return createDataSource(replica.getUrl(), replica.getUsername(), replica.getPassword());
+    }
 }
