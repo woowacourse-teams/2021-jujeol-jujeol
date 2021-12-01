@@ -1,7 +1,6 @@
 package com.jujeol.drink.drink.domain;
 
 import com.jujeol.drink.category.domain.Category;
-import com.jujeol.elasticsearch.domain.DrinkDocument;
 import com.jujeol.review.domain.Review;
 import java.util.ArrayList;
 import java.util.List;
@@ -141,14 +140,5 @@ public class Drink {
 
     public void updateAverage(Double average) {
         this.preferenceAvg = average;
-    }
-
-    public DrinkDocument toDrinkDocument(){
-        return DrinkDocument.builder()
-                .id(id)
-                .name(name.getName())
-                .englishName(englishName.getEnglishName())
-                .category(category.getName())
-                .build();
     }
 }

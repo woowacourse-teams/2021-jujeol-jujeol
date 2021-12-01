@@ -1,4 +1,4 @@
-package com.jujeol.elasticsearch.application.dto;
+package com.jujeol.drink.drink.application.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

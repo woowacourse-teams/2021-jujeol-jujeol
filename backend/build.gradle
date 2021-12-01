@@ -72,9 +72,6 @@ dependencies {
     // monitoring tools
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
-
-    // elastic search
-    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 }
 
 processResources.dependsOn('copySecret')

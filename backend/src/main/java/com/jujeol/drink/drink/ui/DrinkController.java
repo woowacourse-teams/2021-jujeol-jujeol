@@ -7,6 +7,7 @@ import com.jujeol.drink.drink.application.dto.DrinkDto;
 import com.jujeol.drink.drink.exception.InvalidSortByException;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
 import com.jujeol.drink.recommend.application.RecommendFactory;
+import com.jujeol.drink.drink.ui.dto.SearchRequest;
 import com.jujeol.member.auth.ui.AuthenticationPrincipal;
 import com.jujeol.member.auth.ui.LoginMember;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,21 +45,23 @@ public class DrinkController {
         Page<DrinkDto> drinkDtos = new PageImpl<>(new ArrayList<>(), page, page.getPageSize());
 
         checkSortBy(sortBy);
-        
-        if(EXPECT_PREFERENCE.equals(sortBy) || EXPECTED_PREFERENCE.equals(sortBy)) {
+
+        if (EXPECT_PREFERENCE.equals(sortBy) || EXPECTED_PREFERENCE.equals(sortBy)) {
             drinkDtos = drinkService
-                    .showDrinksByExpect(category, recommendFactory.create(loginMember), page, loginMember);
+                    .showDrinksByExpect(category, recommendFactory.create(loginMember), page,
+                            loginMember);
         }
-        if(PREFERENCE_AVG.equals(sortBy)) {
+        if (PREFERENCE_AVG.equals(sortBy)) {
             drinkDtos = drinkService
                     .showDrinksByPreference(category, page, loginMember);
         }
-        if(NO_SORT.equals(sortBy)) {
+        if (NO_SORT.equals(sortBy)) {
             drinkDtos = drinkService.showAllDrinksByPage(page, loginMember, category);
         }
 
-        if(loginMember.isAnonymous()) {
-            return ResponseEntity.ok(PageResponseAssembler.assemble(drinkDtos.map(drink -> DrinkResponse.from(drink, 0))));
+        if (loginMember.isAnonymous()) {
+            return ResponseEntity.ok(PageResponseAssembler
+                    .assemble(drinkDtos.map(drink -> DrinkResponse.from(drink, 0))));
         }
 
         return ResponseEntity
@@ -65,7 +69,7 @@ public class DrinkController {
     }
 
     private void checkSortBy(String sortBy) {
-        if(!EXPECT_PREFERENCE.equals(sortBy) && !PREFERENCE_AVG.equals(sortBy)
+        if (!EXPECT_PREFERENCE.equals(sortBy) && !PREFERENCE_AVG.equals(sortBy)
                 && !EXPECTED_PREFERENCE.equals(sortBy) && !NO_SORT.equals(sortBy)) {
             throw new InvalidSortByException();
         }
@@ -85,5 +89,15 @@ public class DrinkController {
         }
         DrinkResponse drinkResponse = DrinkResponse.from(drinkDto);
         return ResponseEntity.ok(CommonResponse.from(drinkResponse));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<CommonResponse<List<DrinkResponse>>> showDrinksBySearch(
+            @ModelAttribute SearchRequest searchRequest,
+            @AuthenticationPrincipal LoginMember loginMember,
+            @PageableDefault Pageable pageable
+    ) {
+        Page<DrinkDto> drinkDtos = drinkService.showDrinksBySearch(searchRequest.toDto(), loginMember, pageable);
+        return ResponseEntity.ok(PageResponseAssembler.assemble(drinkDtos.map(DrinkResponse::from)));
     }
 }
