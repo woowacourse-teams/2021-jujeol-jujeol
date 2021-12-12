@@ -1,12 +1,6 @@
 name: front-prod-deploy
 
-# PR 요청에 대해
 on:
-  pull_request:
-    branches:
-      - main # develop 브랜치에서 pr 이벤트가 일어났을 때 실행
-    types: [closed] # PR이 closed 됐을 때에만 build 실행
-
   workflow_dispatch:
 
 defaults:
@@ -15,10 +9,7 @@ defaults:
 
 jobs:
   build:
-    # close 이벤트 중 merge일 때만 동작 && label이 [front] (id: 3141723409) 일때만 동작
-    if: (github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.id, 3141723409))
-        || github.event_name == 'workflow_dispatch'
-    runs-on: deploy-runner
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v2
@@ -29,8 +20,20 @@ jobs:
       - name: Build
         run: npm run build:prod
 
-      - name: Deploy
-        run: aws s3 sync --delete ./build s3://jujeol-prod-deploy --metadata Cache-Control=max-age=15552000
-
-      - name: Cloud Front Caching Invalid
-        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.PROD_DISTRIBUTION_ID }} --paths "/*"
+      - name: Deploy with scp
+        uses: appleboy/scp-action@master
+        with:
+          username: ubuntu
+          host: ${{ secrets.PROD_HOST }}
+          key: ${{ secrets.PROD_RSA_PRIVATE_KEY }}
+          source: "./frontend/deploy.tar"
+          target: "/home/ubuntu/jujeol-jujeol/frontend"
+          strip_components: 2
+          
+      - name: Unzip deploy
+        uses: appleboy/ssh-action@master
+        with:
+          username: ubuntu
+          host: ${{ secrets.PROD_HOST }}
+          key: ${{ secrets.PROD_RSA_PRIVATE_KEY }}
+          script: tar -xvf deploy.tar

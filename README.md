@@ -94,7 +94,7 @@
 </p>
 
 - **Springboot** 로 웹 어플리케이션 서버를 구축했어요.
-- **Spring Data JPA(Hybernate)** 로 객체 지향 데이터 로직을 작성했어요.
+- **Spring Data JPA(Hibernate)** 로 객체 지향 데이터 로직을 작성했어요.
 - **QueryDSL** 로 컴파일 시점에 SQL 오류를 감지해요. 더 가독성 높은 코드를 작성할 수 있어요.
 - **Flyway** 로 데이터베이스 버전 관리를 하고 있어요.
 - **RestDocs** 로 작성한 API 문서를 통해 클라이언트와 원활하게 소통해요.
