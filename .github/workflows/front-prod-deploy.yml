@@ -20,6 +20,9 @@ jobs:
       - name: Build
         run: npm run build:prod
 
+      - name: Zip build files
+        run: tar -cvf deploy.tar ./build/
+        
       - name: Deploy with scp
         uses: appleboy/scp-action@master
         with:
@@ -27,7 +30,7 @@ jobs:
           host: ${{ secrets.PROD_HOST }}
           key: ${{ secrets.PROD_RSA_PRIVATE_KEY }}
           source: "./frontend/deploy.tar"
-          target: "/home/ubuntu/jujeol-jujeol/frontend"
+          target: "/home/ubuntu/jujeol-jujeol/frontend/frontend"
           strip_components: 2
           
       - name: Unzip deploy
@@ -36,4 +39,8 @@ jobs:
           username: ubuntu
           host: ${{ secrets.PROD_HOST }}
           key: ${{ secrets.PROD_RSA_PRIVATE_KEY }}
-          script: tar -xvf deploy.tar
+          script:
+            tar -xvf /home/ubuntu/jujeol-jujeol/frontend/frontend/deploy.tar &&
+            rm -rf /home/ubuntu/jujeol-jujeol/frontend/deploy/* &&
+            cp -r /home/ubuntu/jujeol-jujeol/frontend/frontend/build/* /home/ubuntu/jujeol-jujeol/frontend/deploy
+          
