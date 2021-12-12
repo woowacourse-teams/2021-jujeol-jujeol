@@ -30,8 +30,8 @@ jobs:
           host: ${{ secrets.PROD_HOST }}
           key: ${{ secrets.PROD_RSA_PRIVATE_KEY }}
           source: "./frontend/deploy.tar"
-          target: "/home/ubuntu/jujeol-jujeol/frontend"
-          strip_components: 1
+          target: "/home/ubuntu/jujeol-jujeol/frontend/frontend"
+          strip_components: 2
           
       - name: Unzip deploy
         uses: appleboy/ssh-action@master
