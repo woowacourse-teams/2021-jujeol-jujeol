@@ -39,4 +39,4 @@ jobs:
           username: ubuntu
           host: ${{ secrets.PROD_HOST }}
           key: ${{ secrets.PROD_RSA_PRIVATE_KEY }}
-          script: tar -xvf deploy.tar
+          script: tar -xvf /home/ubuntu/jujeol-jujeol/frontend/deploy.tar -C /home/ubuntu/jujeol-jujeol/deploy
