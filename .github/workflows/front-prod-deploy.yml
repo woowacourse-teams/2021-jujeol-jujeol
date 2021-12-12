@@ -21,7 +21,7 @@ jobs:
         run: npm run build:prod
 
       - name: Zip build files
-        run: tar -cvf front-deploy.tar ./build/
+        run: tar -cvf deploy.tar ./build/
         
       - name: Deploy with scp
         uses: appleboy/scp-action@master
