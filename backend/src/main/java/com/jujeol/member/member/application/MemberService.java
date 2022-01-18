@@ -40,7 +40,7 @@ public class MemberService {
                 .orElseThrow(NoSuchMemberException::new);
 
         final Optional<Member> memberByNickname = memberRepository
-                .findByNickname(memberDto.getNickname());
+                .findByNicknameNickname(memberDto.getNickname());
 
         if (duplicatedName(memberDto, member, memberByNickname)) {
             throw new DuplicateMemberException();
