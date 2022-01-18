@@ -5,7 +5,7 @@ import com.jujeol.drink.recommend.domain.RecommendForAnonymous;
 import com.jujeol.drink.recommend.domain.RecommendForMember;
 import com.jujeol.drink.recommend.infrastructure.slope.Recommender;
 import com.jujeol.member.auth.ui.LoginMember;
-import com.jujeol.preference.domain.PreferenceRepository;
+import com.jujeol.preference.domain.repository.PreferenceRepository;
 import java.util.EnumMap;
 import java.util.Map;
 import org.springframework.stereotype.Component;

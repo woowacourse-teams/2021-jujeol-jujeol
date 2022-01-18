@@ -15,7 +15,7 @@ import com.jujeol.member.member.domain.Member;
 import com.jujeol.member.member.domain.nickname.Nickname;
 import com.jujeol.member.member.domain.repository.MemberRepository;
 import com.jujeol.preference.domain.Preference;
-import com.jujeol.preference.domain.PreferenceRepository;
+import com.jujeol.preference.domain.repository.PreferenceRepository;
 import com.jujeol.review.domain.Review;
 import com.jujeol.review.domain.repository.ReviewRepository;
 import java.util.Collections;

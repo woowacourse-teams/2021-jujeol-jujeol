@@ -8,7 +8,7 @@ import com.jujeol.member.member.domain.Member;
 import com.jujeol.member.member.domain.repository.MemberRepository;
 import com.jujeol.member.member.exception.NoSuchMemberException;
 import com.jujeol.preference.domain.Preference;
-import com.jujeol.preference.domain.PreferenceRepository;
+import com.jujeol.preference.domain.repository.PreferenceRepository;
 import com.jujeol.review.application.dto.MemberSimpleDto;
 import com.jujeol.review.application.dto.ReviewCreateDto;
 import com.jujeol.review.application.dto.ReviewWithAuthorDto;
