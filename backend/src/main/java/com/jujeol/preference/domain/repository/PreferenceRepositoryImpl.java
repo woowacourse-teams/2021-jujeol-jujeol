@@ -40,6 +40,8 @@ public class PreferenceRepositoryImpl implements PreferenceCustomRepository {
                 .join(preference.member, member)
                 .fetchJoin()
                 .where(preference.member.id.eq(memberId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .orderBy(preference.createdAt.desc())
                 .fetchResults();
 
