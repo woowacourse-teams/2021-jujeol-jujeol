@@ -5,7 +5,7 @@ import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.drink.exception.NotFoundDrinkException;
 import com.jujeol.member.member.application.dto.PreferenceDto;
 import com.jujeol.preference.domain.Preference;
-import com.jujeol.preference.domain.PreferenceRepository;
+import com.jujeol.preference.domain.repository.PreferenceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

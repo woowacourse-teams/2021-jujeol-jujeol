@@ -10,11 +10,10 @@ import com.jujeol.drink.recommend.infrastructure.slope.DataModel;
 import com.jujeol.drink.recommend.infrastructure.slope.RecommendationResponse;
 import com.jujeol.drink.recommend.infrastructure.slope.Recommender;
 import com.jujeol.preference.domain.Preference;
-import com.jujeol.preference.domain.PreferenceRepository;
+import com.jujeol.preference.domain.repository.PreferenceRepository;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 
