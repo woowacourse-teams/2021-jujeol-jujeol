@@ -17,9 +17,10 @@ public class MemberRepositoryImpl implements MemberCustomRepository {
 
     @Override
     public Optional<Member> findByProvideId(String provideId) {
-        return Optional.ofNullable(factory.selectFrom(member)
-                .where(member.provider.provideId.eq(provideId))
-                .fetchOne());
+        return Optional.ofNullable(
+                factory.selectFrom(member)
+                        .where(member.provider.provideId.eq(provideId))
+                        .fetchOne());
     }
 
     @Override
