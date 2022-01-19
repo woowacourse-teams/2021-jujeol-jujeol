@@ -11,10 +11,12 @@ import java.util.List;
 import java.util.Optional;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Component
+@Profile("dev")
 public class RequestApiExtractor {
 
     private final List<AnnotationDataExtractor> dataExtractors = new ArrayList<>();
