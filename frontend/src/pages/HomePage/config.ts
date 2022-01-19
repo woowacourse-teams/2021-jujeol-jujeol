@@ -98,7 +98,7 @@ const topContentConfig = ({
   title: '오늘 이런 술 어때요?',
   titleAlign: 'center',
   subTitle: isLoggedIn
-    ? '회원님과 비슷한 취향을 가진 회원님들이 좋아하는 술이에요'
+    ? '주절주절 선호도 BEST' // 임시로 변경됨, 추천 기능 정상화 후 메세지 변경: '회원님과 비슷한 취향을 가진 회원님들이 좋아하는 술이에요'
     : '주절주절 선호도 BEST',
   count: 7,
   isShowMoreEnabled: false,
