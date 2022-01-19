@@ -5,7 +5,7 @@ spring:
   flyway:
     baselineOnMigrate: true
     locations: classpath:db/migration/prod
-    enabled: true
+    enabled: false
 application:
   bucket:
     name: jujeol-bucket
