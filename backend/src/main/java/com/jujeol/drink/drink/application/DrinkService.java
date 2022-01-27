@@ -5,25 +5,26 @@ import com.jujeol.drink.category.domain.CategoryRepository;
 import com.jujeol.drink.category.exception.NotFoundCategoryException;
 import com.jujeol.drink.drink.application.dto.DrinkDto;
 import com.jujeol.drink.drink.application.dto.DrinkRequestDto;
+import com.jujeol.drink.drink.application.dto.SearchDto;
 import com.jujeol.drink.drink.domain.Drink;
 import com.jujeol.drink.drink.domain.SearchWords;
 import com.jujeol.drink.drink.domain.repository.DrinkRepository;
 import com.jujeol.drink.drink.exception.NotFoundDrinkException;
 import com.jujeol.drink.recommend.application.RecommendStrategy;
 import com.jujeol.drink.recommend.domain.RecommendedDrinkResponse;
-import com.jujeol.drink.drink.application.dto.SearchDto;
 import com.jujeol.member.auth.ui.LoginMember;
 import com.jujeol.preference.application.PreferenceService;
 import com.jujeol.preference.domain.Preference;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,24 +35,24 @@ public class DrinkService {
     private final CategoryRepository categoryRepository;
     private final PreferenceService preferenceService;
 
-    public Page<DrinkDto> showAllDrinksByPage(Pageable pageable,
-            LoginMember loginMember, String category) {
+    public Page<DrinkDto> showAllDrinksByPage(
+            Pageable pageable,
+            LoginMember loginMember,
+            String category
+    ) {
+        Page<Drink> drinks = drinkRepository.findAllByCategory(category, pageable);
 
-        Page<Drink> drinks;
-
-        if (category == null || category.isEmpty() || category.equals("ALL")) {
-            drinks = drinkRepository.findAll(pageable);
-        } else {
-            drinks = drinkRepository.findAllByCategory(category, pageable);
-        }
-        return drinks
-                .map(drink -> DrinkDto.create(
-                        drink,
-                        preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)));
+        return drinks.map(drink -> DrinkDto.create(
+                drink,
+                preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink))
+        );
     }
 
-    public Page<DrinkDto> showDrinksByPreference(String category, Pageable pageable,
-            LoginMember loginMember) {
+    public Page<DrinkDto> showDrinksByPreference(
+            String category,
+            Pageable pageable,
+            LoginMember loginMember
+    ) {
         if (category == null) {
             return drinkRepository.findAllSortByPreference(pageable)
                     .map(drink -> DrinkDto.create(drink,
@@ -63,31 +64,28 @@ public class DrinkService {
                         preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)));
     }
 
-    public Page<DrinkDto> showDrinksByExpect(String category,
+    public Page<DrinkDto> showDrinksByExpect(
+            String category,
             RecommendStrategy recommendStrategy,
-            Pageable pageable, LoginMember loginMember) {
-        List<RecommendedDrinkResponse> recommendDrinks = recommendStrategy
-                .recommend(category, loginMember.getId(), pageable.getPageSize());
+            Pageable pageable, LoginMember loginMember
+    ) {
+        List<RecommendedDrinkResponse> recommendDrinks = recommendStrategy.recommend(category, loginMember.getId(), pageable.getPageSize());
 
         if (loginMember.isMember()) {
             final List<DrinkDto> drinkDtos = recommendDrinks.stream()
                     .map(drink -> DrinkDto.create(drink.getDrink(),
-                            preferenceService
-                                    .showByMemberIdAndDrink(loginMember.getId(), drink.getDrink()),
+                            preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink.getDrink()),
                             drink.getExpectedPreference()))
-                    .sorted((o1, o2) -> Double
-                            .compare(o2.getExpectedPreference(), o1.getExpectedPreference()))
+                    .sorted((o1, o2) -> Double.compare(o2.getExpectedPreference(), o1.getExpectedPreference()))
                     .collect(Collectors.toList());
             return new PageImpl<>(drinkDtos, Pageable.ofSize(pageable.getPageSize()),
                     drinkDtos.size());
         }
         List<DrinkDto> drinkDtos = recommendDrinks.stream()
                 .map(drink -> DrinkDto.create(drink.getDrink(),
-                        preferenceService
-                                .showByMemberIdAndDrink(loginMember.getId(), drink.getDrink()),
+                        preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink.getDrink()),
                         drink.getExpectedPreference()))
-                .sorted((o1, o2) -> Double
-                        .compare(o2.getExpectedPreference(), o1.getExpectedPreference()))
+                .sorted((o1, o2) -> Double.compare(o2.getExpectedPreference(), o1.getExpectedPreference()))
                 .collect(Collectors.toList());
 
         return new PageImpl<>(drinkDtos, Pageable.ofSize(pageable.getPageSize()), drinkDtos.size());

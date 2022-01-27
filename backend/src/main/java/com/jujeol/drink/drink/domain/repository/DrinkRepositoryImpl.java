@@ -4,6 +4,7 @@ import com.jujeol.drink.drink.domain.Drink;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -112,10 +113,17 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
 
     @Override
     public Page<Drink> findAllByCategory(String categoryKey, Pageable pageable) {
-        QueryResults<Drink> result = factory.selectFrom(drink)
+        JPAQuery<Drink> query = factory.selectFrom(drink)
                 .join(drink.category, category)
-                .fetchJoin()
-                .where(drink.category.key.eq(categoryKey))
+                .fetchJoin();
+
+        if (categoryKey == null || categoryKey.isEmpty() || categoryKey.equals("ALL")) {
+            query.where(drink.category.key.eq(categoryKey));
+        }
+
+        QueryResults<Drink> result = query
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetchResults();
 
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());

@@ -6,23 +6,20 @@ import com.jujeol.drink.drink.application.DrinkService;
 import com.jujeol.drink.drink.application.dto.DrinkDto;
 import com.jujeol.drink.drink.exception.InvalidSortByException;
 import com.jujeol.drink.drink.ui.dto.DrinkResponse;
-import com.jujeol.drink.recommend.application.RecommendFactory;
 import com.jujeol.drink.drink.ui.dto.SearchRequest;
+import com.jujeol.drink.recommend.application.RecommendFactory;
 import com.jujeol.member.auth.ui.AuthenticationPrincipal;
 import com.jujeol.member.auth.ui.LoginMember;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,30 +44,26 @@ public class DrinkController {
         checkSortBy(sortBy);
 
         if (EXPECT_PREFERENCE.equals(sortBy) || EXPECTED_PREFERENCE.equals(sortBy)) {
-            drinkDtos = drinkService
-                    .showDrinksByExpect(category, recommendFactory.create(loginMember), page,
-                            loginMember);
+            drinkDtos = drinkService.showDrinksByExpect(category, recommendFactory.create(loginMember), page, loginMember);
         }
         if (PREFERENCE_AVG.equals(sortBy)) {
-            drinkDtos = drinkService
-                    .showDrinksByPreference(category, page, loginMember);
+            drinkDtos = drinkService.showDrinksByPreference(category, page, loginMember);
         }
         if (NO_SORT.equals(sortBy)) {
             drinkDtos = drinkService.showAllDrinksByPage(page, loginMember, category);
         }
 
         if (loginMember.isAnonymous()) {
-            return ResponseEntity.ok(PageResponseAssembler
-                    .assemble(drinkDtos.map(drink -> DrinkResponse.from(drink, 0))));
+            return ResponseEntity.ok(PageResponseAssembler.assemble(drinkDtos.map(drink -> DrinkResponse.from(drink, 0))));
         }
 
-        return ResponseEntity
-                .ok(PageResponseAssembler.assemble(drinkDtos.map(DrinkResponse::from)));
+        return ResponseEntity.ok(PageResponseAssembler.assemble(drinkDtos.map(DrinkResponse::from)));
     }
 
     private void checkSortBy(String sortBy) {
         if (!EXPECT_PREFERENCE.equals(sortBy) && !PREFERENCE_AVG.equals(sortBy)
-                && !EXPECTED_PREFERENCE.equals(sortBy) && !NO_SORT.equals(sortBy)) {
+                && !EXPECTED_PREFERENCE.equals(sortBy) && !NO_SORT.equals(sortBy)
+        ) {
             throw new InvalidSortByException();
         }
     }
