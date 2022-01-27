@@ -1,6 +1,8 @@
 package com.jujeol.drink.drink.domain.repository;
 
 import com.jujeol.drink.drink.domain.Drink;
+import com.jujeol.drink.drink.domain.SearchWords;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
@@ -143,21 +145,28 @@ public class DrinkRepositoryImpl implements DrinkCustomRepository {
     }
 
     @Override
-    public List<Drink> findByKeyword(String keyword) {
+    public List<Drink> findBySearch(SearchWords searchWords, Pageable pageable) {
         return factory.selectFrom(drink)
-                .join(drink.category, category)
+                .join(drink.category)
                 .fetchJoin()
-                .where(drink.name.name.like("%" + keyword + "%")
-                        .or(drink.englishName.englishName.like("%" + keyword + "%")))
+                .where(searchCondition(searchWords))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
     }
 
-    @Override
-    public List<Drink> findByCategory(String searchWord) {
-        return factory.selectFrom(drink)
-                .join(drink.category, category)
-                .fetchJoin()
-                .where(drink.category.name.eq(searchWord))
-                .fetch();
+    private BooleanBuilder searchCondition(SearchWords searchWords) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if (searchWords.hasSearchWords()) {
+            for (String word : searchWords.getSearchWords()) {
+                //TODO : category.name.toString 대신 category들과 비교하는 구문 필요
+                if (word.equalsIgnoreCase(category.name.toString())) {
+                    continue;
+                }
+                builder.or(drink.name.name.likeIgnoreCase("%" + word + "%"));
+                builder.or(drink.englishName.englishName.likeIgnoreCase("%" + word + "%"));
+            }
+        }
+        return builder;
     }
 }

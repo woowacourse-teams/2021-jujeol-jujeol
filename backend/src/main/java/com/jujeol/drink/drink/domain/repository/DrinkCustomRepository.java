@@ -1,6 +1,7 @@
 package com.jujeol.drink.drink.domain.repository;
 
 import com.jujeol.drink.drink.domain.Drink;
+import com.jujeol.drink.drink.domain.SearchWords;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -25,7 +26,5 @@ public interface DrinkCustomRepository {
 
     Page<Drink> findAllSortByPreference(Pageable pageable);
 
-    List<Drink> findByKeyword(String keyword);
-
-    List<Drink> findByCategory(String searchWord);
+    List<Drink> findBySearch(SearchWords searchWords, Pageable pageable);
 }

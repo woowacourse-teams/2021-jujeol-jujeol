@@ -55,8 +55,7 @@ public class DrinkService {
     ) {
         if (category == null) {
             return drinkRepository.findAllSortByPreference(pageable)
-                    .map(drink -> DrinkDto.create(drink,
-                            preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)));
+                    .map(drink -> DrinkDto.create(drink, preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)));
         }
 
         return drinkRepository.findAllByCategorySorted(category, pageable)
@@ -107,15 +106,9 @@ public class DrinkService {
 
     public Page<DrinkDto> showDrinksBySearch(SearchDto searchDto, LoginMember loginMember, Pageable pageable) {
         SearchWords searchWords = SearchWords.create(searchDto.getKeyword());
-        List<Drink> drinks = new ArrayList<>();
-        for (String searchWord : searchWords.getSearchWords()) {
-            drinks.addAll(drinkRepository.findByKeyword(searchWord));
-        }
-        for (String searchWord : searchWords.getSearchWords()) {
-            drinks.addAll(drinkRepository.findByCategory(searchWord));
-        }
+        List<Drink> drinks = drinkRepository.findBySearch(searchWords, pageable);
+
         List<DrinkDto> drinkDtos = drinks.stream()
-                .distinct()
                 .map(drink -> DrinkDto.create(
                         drink, Preference.create(drink, 0)))
                 .collect(Collectors.toList());
