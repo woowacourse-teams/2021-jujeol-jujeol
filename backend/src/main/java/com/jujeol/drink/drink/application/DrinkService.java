@@ -47,23 +47,45 @@ public class DrinkService {
         } else {
             drinks = drinkRepository.findAllByCategory(category, pageable);
         }
-        return drinks
-                .map(drink -> DrinkDto.create(
-                        drink,
-                        preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)));
+
+        return drinksWithMemberPreference(loginMember, drinks);
     }
 
     public Page<DrinkDto> showDrinksByPreference(String category, Pageable pageable,
                                                  LoginMember loginMember) {
+
+        Page<Drink> drinkPage;
+
         if (category == null) {
-            return drinkRepository.findAllSortByPreference(pageable)
-                    .map(drink -> DrinkDto.create(drink,
-                            preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)));
+            drinkPage = drinkRepository.findAllSortByPreference(pageable);
+        } else {
+            drinkPage = drinkRepository.findAllByCategorySorted(category, pageable);
         }
 
-        return drinkRepository.findAllByCategorySorted(category, pageable)
-                .map(drink -> DrinkDto.create(drink,
-                        preferenceService.showByMemberIdAndDrink(loginMember.getId(), drink)));
+        return drinksWithMemberPreference(loginMember, drinkPage);
+    }
+
+    private Page<DrinkDto> drinksWithMemberPreference(LoginMember loginMember, Page<Drink> drinkPage) {
+        if(loginMember.isAnonymous()) {
+            return drinkPage
+                    .map(drink -> DrinkDto.create(
+                            drink,
+                            Preference.anonymousPreference(drink)));
+        }
+
+        List<Long> drinkIds = drinkPage
+                .stream().map(Drink::getId)
+                .collect(Collectors.toList());
+
+        Map<Long, Preference> preferenceByDrink = preferenceService.findWithDrinkIds(drinkIds, loginMember.getId());
+
+        return drinkPage
+                .map(drink -> DrinkDto.create(
+                        drink,
+                        preferenceByDrink.getOrDefault(
+                                drink.getId(),
+                                Preference.anonymousPreference(drink)
+                        )));
     }
 
     public Page<DrinkDto> showDrinksByExpect(String category,
