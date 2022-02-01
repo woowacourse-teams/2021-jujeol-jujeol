@@ -15,9 +15,12 @@ import com.jujeol.drink.drink.application.dto.SearchDto;
 import com.jujeol.member.auth.ui.LoginMember;
 import com.jujeol.preference.application.PreferenceService;
 import com.jujeol.preference.domain.Preference;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -35,7 +38,7 @@ public class DrinkService {
     private final PreferenceService preferenceService;
 
     public Page<DrinkDto> showAllDrinksByPage(Pageable pageable,
-            LoginMember loginMember, String category) {
+                                              LoginMember loginMember, String category) {
 
         Page<Drink> drinks;
 
@@ -51,7 +54,7 @@ public class DrinkService {
     }
 
     public Page<DrinkDto> showDrinksByPreference(String category, Pageable pageable,
-            LoginMember loginMember) {
+                                                 LoginMember loginMember) {
         if (category == null) {
             return drinkRepository.findAllSortByPreference(pageable)
                     .map(drink -> DrinkDto.create(drink,
@@ -64,27 +67,33 @@ public class DrinkService {
     }
 
     public Page<DrinkDto> showDrinksByExpect(String category,
-            RecommendStrategy recommendStrategy,
-            Pageable pageable, LoginMember loginMember) {
+                                             RecommendStrategy recommendStrategy,
+                                             Pageable pageable, LoginMember loginMember) {
         List<RecommendedDrinkResponse> recommendDrinks = recommendStrategy
                 .recommend(category, loginMember.getId(), pageable.getPageSize());
 
         if (loginMember.isMember()) {
+            List<Long> drinkIds = recommendDrinks.stream()
+                    .map(drink -> drink.getDrink().getId())
+                    .collect(Collectors.toList());
+
+            Map<Long, Preference> preferenceByDrink = preferenceService.findWithDrinkIds(drinkIds, loginMember.getId());
+
             final List<DrinkDto> drinkDtos = recommendDrinks.stream()
                     .map(drink -> DrinkDto.create(drink.getDrink(),
-                            preferenceService
-                                    .showByMemberIdAndDrink(loginMember.getId(), drink.getDrink()),
+                            preferenceByDrink.getOrDefault(drink.getDrink().getId(), Preference.anonymousPreference(drink.getDrink())),
                             drink.getExpectedPreference()))
                     .sorted((o1, o2) -> Double
                             .compare(o2.getExpectedPreference(), o1.getExpectedPreference()))
                     .collect(Collectors.toList());
+
             return new PageImpl<>(drinkDtos, Pageable.ofSize(pageable.getPageSize()),
                     drinkDtos.size());
         }
+
         List<DrinkDto> drinkDtos = recommendDrinks.stream()
                 .map(drink -> DrinkDto.create(drink.getDrink(),
-                        preferenceService
-                                .showByMemberIdAndDrink(loginMember.getId(), drink.getDrink()),
+                        Preference.anonymousPreference(drink.getDrink()),
                         drink.getExpectedPreference()))
                 .sorted((o1, o2) -> Double
                         .compare(o2.getExpectedPreference(), o1.getExpectedPreference()))
