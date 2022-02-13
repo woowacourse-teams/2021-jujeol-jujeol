@@ -12,6 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class PreferenceService {
@@ -74,5 +78,14 @@ public class PreferenceService {
 
     public void deletePreferenceByDrinkId(Long id) {
         preferenceRepository.deleteByDrinkId(id);
+    }
+
+    public Map<Long, Preference> findWithDrinkIds(List<Long> drinkIds, Long memberId) {
+        Map<Long, Preference> result = new HashMap<>();
+        List<Preference> preferences = preferenceRepository.findByMemberWithDrinkIds(drinkIds, memberId);
+        for (Preference preference : preferences) {
+            result.put(preference.getDrink().getId(), preference);
+        }
+        return result;
     }
 }
