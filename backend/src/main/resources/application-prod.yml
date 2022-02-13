@@ -8,6 +8,6 @@ spring:
     enabled: true
 application:
   bucket:
-    name: jujeol-bucket
+    name: jujeol-image
   cloudfront:
-    url: https://dmaxaug2ve9od.cloudfront.net/
+    url: https://d1sqi8cd60mbpv.cloudfront.net/
