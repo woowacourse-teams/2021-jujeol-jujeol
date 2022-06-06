@@ -1,0 +1,9 @@
+bootJar { enabled = false }
+jar { enabled = true }
+
+dependencies {
+    implementation project(":member:member-domain-model")
+
+    runtimeOnly project(":member:member-data-rds")
+    testImplementation project(":member:member-data-rds")
+}

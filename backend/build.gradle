@@ -26,6 +26,110 @@ repositories {
     mavenCentral()
 }
 
+def realSubProjects = subprojects.findAll { it.childProjects.isEmpty() }
+def rdsProjects = subprojects.findAll {it.name.endsWith('rds')}
+
+configure(realSubProjects) {
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        // application
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+        // lombok
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        testCompileOnly 'org.projectlombok:lombok'
+        testAnnotationProcessor 'org.projectlombok:lombok'
+
+        // test
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+        // log
+        implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
+        implementation 'org.apache.logging.log4j:log4j-core:2.15.0'
+        implementation 'org.apache.logging.log4j:log4j-api:2.15.0'
+
+        // sonarqube
+        implementation 'org.springframework.boot:spring-boot-gradle-plugin:2.5.2'
+        implementation 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
+        implementation 'io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE'
+
+        // monitoring tools
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        implementation 'io.micrometer:micrometer-registry-prometheus'
+    }
+
+    test {
+        useJUnitPlatform()
+        finalizedBy 'jacocoTestReport'
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled true
+            csv.enabled false
+            html.enabled false
+        }
+    }
+
+    sonarqube {
+        properties {
+            property "sonar.sources", "src"
+            property "sonar.language", "java"
+            property "sonar.sourceEncoding", "UTF-8"
+            property "sonar.profile", "Sonar way"
+            property "sonar.java.binaries", "${buildDir}/classes"
+            property "sonar.test.inclusions", "**/*Test.java"
+            property "sonar.exclusions", "**/resources/static/**, **/Q*.class, **/test/**"
+            property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+        }
+    }
+}
+
+configure(rdsProjects) {
+    apply plugin: "com.ewerk.gradle.plugins.querydsl"
+
+    dependencies {
+        runtimeOnly 'com.h2database:h2'
+        runtimeOnly 'mysql:mysql-connector-java'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+        // queryDsl
+        implementation 'com.querydsl:querydsl-jpa'
+    }
+
+    //querydsl 추가 시작
+    def querydslDir = "$buildDir/generated/querydsl"
+
+    querydsl {
+        jpa = true
+        querydslSourcesDir = querydslDir
+    }
+
+    sourceSets {
+        main.java.srcDir querydslDir
+    }
+
+    compileQuerydsl {
+        options.annotationProcessorPath = configurations.querydsl
+    }
+
+    configurations {
+        //아래를 지정하지 않으면, compile 로 걸린 JPA 의존성에 접근하지 못한다.
+        querydsl.extendsFrom compileClasspath
+    }
+//querydsl 추가 끝
+}
+
 dependencies {
     // application
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -127,7 +231,6 @@ jacocoTestReport {
         csv.enabled false
         html.enabled false
     }
-
 }
 
 sonarqube {

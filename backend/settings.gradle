@@ -1,1 +1,12 @@
 rootProject.name = 'jujeol-jujeol'
+
+/**
+ * Member
+ */
+include 'member:member-domain-model'
+findProject(':member:member-domain-model')?.name = 'member-domain-model'
+include 'member:member-data-rds'
+findProject(':member:member-data-rds')?.name = 'member-data-rds'
+include 'member:member-domain'
+findProject(':member:member-domain')?.name = 'member-domain'
+
