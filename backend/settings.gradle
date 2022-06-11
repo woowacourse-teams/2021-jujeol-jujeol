@@ -22,4 +22,6 @@ include 'feedback:feedback-domain'
 findProject(':feedback:feedback-domain')?.name = 'feedback-domain'
 include 'feedback:feedback-data-rds'
 findProject(':feedback:feedback-data-rds')?.name = 'feedback-data-rds'
+include 'modules:image-upload'
+findProject(':modules:image-upload')?.name = 'image-upload'
 

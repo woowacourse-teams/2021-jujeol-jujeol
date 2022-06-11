@@ -1,0 +1,11 @@
+bootJar { enabled = false }
+jar { enabled = true }
+
+dependencies {
+    // s3 image upload
+    api 'com.amazonaws:aws-java-sdk-s3'
+    api 'org.springframework.cloud:spring-cloud-aws-core:2.2.6.RELEASE'
+
+    // file type
+    api 'org.apache.tika:tika-core:1.26'
+}

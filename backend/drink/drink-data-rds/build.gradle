@@ -1,2 +1,6 @@
 bootJar { enabled = false }
 jar { enabled = true }
+
+dependencies {
+    api project(":drink:drink-domain-model")
+}

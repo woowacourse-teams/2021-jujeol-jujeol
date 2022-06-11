@@ -70,28 +70,6 @@ configure(realSubProjects) {
 
     test {
         useJUnitPlatform()
-        finalizedBy 'jacocoTestReport'
-    }
-
-    jacocoTestReport {
-        reports {
-            xml.enabled true
-            csv.enabled false
-            html.enabled false
-        }
-    }
-
-    sonarqube {
-        properties {
-            property "sonar.sources", "src"
-            property "sonar.language", "java"
-            property "sonar.sourceEncoding", "UTF-8"
-            property "sonar.profile", "Sonar way"
-            property "sonar.java.binaries", "${buildDir}/classes"
-            property "sonar.test.inclusions", "**/*Test.java"
-            property "sonar.exclusions", "**/resources/static/**, **/Q*.class, **/test/**"
-            property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
-        }
     }
 }
 
@@ -101,11 +79,11 @@ configure(rdsProjects) {
     dependencies {
         runtimeOnly 'com.h2database:h2'
         runtimeOnly 'mysql:mysql-connector-java'
-        implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        api 'org.springframework.boot:spring-boot-starter-data-jdbc'
+        api 'org.springframework.boot:spring-boot-starter-data-jpa'
 
         // queryDsl
-        implementation 'com.querydsl:querydsl-jpa'
+        api 'com.querydsl:querydsl-jpa'
     }
 
     //querydsl 추가 시작
@@ -167,21 +145,6 @@ configure(appProjects) {
     }
 }
 
-dependencies {
-    // token encoding
-    implementation 'io.jsonwebtoken:jjwt:0.9.1'
-
-    // commons
-    implementation 'commons-io:commons-io:2.4'
-
-    // file type
-    implementation 'org.apache.tika:tika-core:1.26'
-
-    // s3 image upload
-    implementation 'com.amazonaws:aws-java-sdk-s3'
-    implementation 'org.springframework.cloud:spring-cloud-aws-core:2.2.6.RELEASE'
-}
-
 processResources.dependsOn('copySecret')
 
 task copySecret(type: Copy) {
@@ -190,34 +153,4 @@ task copySecret(type: Copy) {
 
     from '../jujeol-auth/application-datasource.yml'
     into 'src/main/resources'
-}
-
-test {
-    useJUnitPlatform()
-    finalizedBy 'jacocoTestReport'
-}
-
-jacoco {
-    toolVersion = "0.8.7"
-}
-
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        csv.enabled false
-        html.enabled false
-    }
-}
-
-sonarqube {
-    properties {
-        property "sonar.sources", "src"
-        property "sonar.language", "java"
-        property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.profile", "Sonar way"
-        property "sonar.java.binaries", "${buildDir}/classes"
-        property "sonar.test.inclusions", "**/*Test.java"
-        property "sonar.exclusions", "**/resources/static/**, **/Q*.class, **/test/**"
-        property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
-    }
 }

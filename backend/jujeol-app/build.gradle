@@ -1,3 +1,15 @@
 dependencies {
     implementation project(":member:member-domain-model")
+    implementation project(":drink:drink-domain-model")
+
+    implementation project(":modules:image-upload")
+
+    // token encoding
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+    // TODO : io 작업은 분리 필요로 보임
+    implementation 'commons-io:commons-io:2.4'
+
+    // TODO : testOnly 로 수정 필요 (Pageable, Page 와 같은 객체 삭제 필요)
+    implementation project(":drink:drink-data-rds")
 }
