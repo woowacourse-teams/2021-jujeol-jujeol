@@ -1,5 +1,6 @@
 package com.jujeol.drink.presenter;
 
+import com.jujeol.commons.BadStatus;
 import com.jujeol.commons.exception.JujeolBadRequestException;
 import com.jujeol.drink.controller.requeset.AdminDrinkSaveRequest;
 import com.jujeol.drink.domain.exception.NotFoundCategoryException;
@@ -22,7 +23,7 @@ public class DrinkAdminPresenter {
         try {
             drinkService.saveDrink(adminDrinkSaveRequest, imageFilePath);
         } catch (NotFoundCategoryException e) {
-            throw new JujeolBadRequestException();
+            throw new JujeolBadRequestException(BadStatus.NOT_EXIST_CATEGORY);
         }
     }
 }

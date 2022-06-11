@@ -9,7 +9,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public abstract class DomainTestContext {
+public abstract class IntegrationTestContext {
+
     @Autowired
     protected CategoryRepository categoryRepository;
 

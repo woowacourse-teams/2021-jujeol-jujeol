@@ -32,7 +32,7 @@ public class ImageService {
         File file = toFile(image);
         convertImageFile(file);
 
-        ImageFilePath imageFilePath = createImageFilePathDto(file);
+        ImageFilePath imageFilePath = createImageFilePath(file);
 
         deleteOriginalFile(file);
         return imageFilePath;
@@ -45,7 +45,7 @@ public class ImageService {
         return save(file);
     }
 
-    private ImageFilePath createImageFilePathDto(File file) {
+    private ImageFilePath createImageFilePath(File file) {
         return ImageFilePath.create(
             uploadResizedImage(file, SMALL),
             uploadResizedImage(file, MEDIUM),
