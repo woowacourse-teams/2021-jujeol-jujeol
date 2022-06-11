@@ -4,6 +4,9 @@ dependencies {
 
     implementation project(":modules:image-upload")
 
+    runtimeOnly project(":member:member-domain")
+    runtimeOnly project(":drink:drink-domain")
+
     // token encoding
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 

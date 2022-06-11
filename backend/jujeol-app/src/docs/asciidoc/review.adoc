@@ -1,0 +1,73 @@
+= 리뷰 API
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:nofooter:
+
+*link:index.html[메인화면으로 돌아가기]*
+
+== 내가 남긴 리뷰 조회
+
+=== 마이 페이지에서 내가 남긴 리뷰 목록 조회
+
+- Request
+
+include::{snippets}/member/info/reviews/http-request.adoc[]
+
+- Response
+
+include::{snippets}/member/info/reviews/http-response.adoc[]
+
+== 리뷰 생성
+
+=== 상세 화면에서 특정 상품에 대한 리뷰를 작성
+
+- Request
+
+include::{snippets}/reviews/create/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/create/http-response.adoc[]
+
+== 리뷰 조회
+
+=== 상세 화면에서 특정 상품에 대한 리뷰를 조회
+
+- Request
+
+include::{snippets}/reviews/show/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/show/http-response.adoc[]
+
+== 리뷰 수정
+
+=== 선택한 리뷰를 수정
+
+- Request
+
+include::{snippets}/reviews/update/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/update/http-response.adoc[]
+
+== 리뷰 식제
+
+=== 선택한 리뷰를 삭제
+
+- Request
+
+include::{snippets}/reviews/delete/http-request.adoc[]
+
+- Response
+
+include::{snippets}/reviews/delete/http-response.adoc[]

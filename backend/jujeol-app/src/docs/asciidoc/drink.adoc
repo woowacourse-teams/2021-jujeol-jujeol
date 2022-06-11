@@ -1,0 +1,90 @@
+= 주류 API
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:nofooter:
+
+*link:index.html[메인화면으로 돌아가기]*
+
+== 메인 페이지 조회
+
+=== 메인 페이지 - 예상 선호도 비로그인
+
+- Request
+
+include::{snippets}/drinks/show/sortByExpectPreferenceWithoutLogin/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/sortByExpectPreferenceWithoutLogin/http-response.adoc[]
+
+=== 메인 페이지 - 예상 선호도 로그인
+
+- Request
+
+include::{snippets}/drinks/show/sortByExpectPreferenceWithLogin/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/sortByExpectPreferenceWithLogin/http-response.adoc[]
+
+=== 메인 페이지 - 선호도 기준으로 전체 조회
+
+- Request
+
+include::{snippets}/drinks/show/allSortByPreference/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/allSortByPreference/http-response.adoc[]
+
+=== 메인 페이지 - 선호도 기준으로 맥주 조회
+
+- Request
+
+include::{snippets}/drinks/show/allSortByPreferenceAndCategoryByBEER/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/allSortByPreferenceAndCategoryByBEER/http-response.adoc[]
+
+== 검색 정보 조회
+
+=== 검색 - 카테고리, 검색어
+
+- Request
+
+include::{snippets}/drinks/show/search/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/search/http-response.adoc[]
+
+
+=== 특정 단어를 검색했지만 빈 검색 결과
+
+- Request
+
+include::{snippets}/drinks/show/search-nothing/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/search-nothing/http-response.adoc[]
+
+== 단일 상품 조회
+
+=== 상세 화면에서 단일 상품 정보 조회
+
+- Request
+
+include::{snippets}/drinks/show/detail/http-request.adoc[]
+
+- Response
+
+include::{snippets}/drinks/show/detail/http-response.adoc[]
