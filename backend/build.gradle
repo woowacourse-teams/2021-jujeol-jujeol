@@ -28,6 +28,7 @@ repositories {
 
 def realSubProjects = subprojects.findAll { it.childProjects.isEmpty() }
 def rdsProjects = subprojects.findAll {it.name.endsWith('rds')}
+def appProjects = subprojects.findAll {it.name.endsWith('app')}
 
 configure(realSubProjects) {
     apply plugin: 'java'
@@ -130,41 +131,45 @@ configure(rdsProjects) {
 //querydsl 추가 끝
 }
 
+configure(appProjects) {
+    apply plugin: 'org.asciidoctor.jvm.convert'
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+
+        testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
+        testImplementation 'io.rest-assured:rest-assured:3.3.0'
+        testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    }
+
+    asciidoctor {
+        dependsOn test
+        inputs.dir snippetsDir
+    }
+
+    task createDocument(type: Copy) {
+        dependsOn asciidoctor
+        delete file('src/main/resources/static/index.html')
+        from file("build/docs/asciidoc/index.html")
+        into file("src/main/resources/static")
+    }
+
+    build {
+        dependsOn createDocument
+    }
+
+    bootJar {
+        dependsOn createDocument
+        from("${asciidoctor.outputDir}") {
+            into 'static'
+        }
+    }
+}
+
 dependencies {
-    // application
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-
-    // lombok
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-
-    // database
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'mysql:mysql-connector-java'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.flywaydb:flyway-core:6.4.2'
-
-    // test
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
-    testImplementation 'io.rest-assured:rest-assured:3.3.0'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-
     // token encoding
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
-
-    // log
-    implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
-    implementation 'org.apache.logging.log4j:log4j-core:2.15.0'
-    implementation 'org.apache.logging.log4j:log4j-api:2.15.0'
-
-    // sonarqube
-    implementation 'org.springframework.boot:spring-boot-gradle-plugin:2.5.2'
-    implementation 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
-    implementation 'io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE'
 
     // commons
     implementation 'commons-io:commons-io:2.4'
@@ -175,36 +180,7 @@ dependencies {
     // s3 image upload
     implementation 'com.amazonaws:aws-java-sdk-s3'
     implementation 'org.springframework.cloud:spring-cloud-aws-core:2.2.6.RELEASE'
-
-    // monitoring tools
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'io.micrometer:micrometer-registry-prometheus'
-
-    //querydsl
-    implementation 'com.querydsl:querydsl-jpa'
 }
-
-//querydsl 추가 시작
-def querydslDir = "$buildDir/generated/querydsl"
-
-querydsl {
-    jpa = true
-    querydslSourcesDir = querydslDir
-}
-
-sourceSets {
-    main.java.srcDir querydslDir
-}
-
-compileQuerydsl {
-    options.annotationProcessorPath = configurations.querydsl
-}
-
-configurations {
-    //아래를 지정하지 않으면, compile 로 걸린 JPA 의존성에 접근하지 못한다.
-    querydsl.extendsFrom compileClasspath
-}
-//querydsl 추가 끝
 
 processResources.dependsOn('copySecret')
 
@@ -243,28 +219,5 @@ sonarqube {
         property "sonar.test.inclusions", "**/*Test.java"
         property "sonar.exclusions", "**/resources/static/**, **/Q*.class, **/test/**"
         property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
-    }
-}
-
-asciidoctor {
-    dependsOn test
-    inputs.dir snippetsDir
-}
-
-task createDocument(type: Copy) {
-    dependsOn asciidoctor
-    delete file('src/main/resources/static/index.html')
-    from file("build/docs/asciidoc/index.html")
-    into file("src/main/resources/static")
-}
-
-build {
-    dependsOn createDocument
-}
-
-bootJar {
-    dependsOn createDocument
-    from("${asciidoctor.outputDir}") {
-        into 'static'
     }
 }
