@@ -1,6 +1,7 @@
 package com.jujeol.member.member.domain;
 
 import com.jujeol.member.auth.domain.Provider;
+import com.jujeol.member.auth.domain.ProviderName;
 import com.jujeol.member.member.domain.nickname.Nickname;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -27,7 +28,9 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String provideId;
+    @Enumerated(EnumType.STRING)
+    private ProviderName providerName;
     @Embedded
     private Provider provider;
 

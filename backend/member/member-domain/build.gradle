@@ -2,6 +2,8 @@ bootJar { enabled = false }
 jar { enabled = true }
 
 dependencies {
+    implementation 'org.springframework:spring-tx'
+    
     implementation project(":member:member-domain-model")
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
