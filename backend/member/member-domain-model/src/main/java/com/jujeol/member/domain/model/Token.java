@@ -5,9 +5,9 @@ import lombok.Getter;
 @Getter
 public class Token {
 
-    private String accessToken;
+    private final String accessToken;
 
-    public Token(String accessToken) {
+    private Token(String accessToken) {
         this.accessToken = accessToken;
     }
 

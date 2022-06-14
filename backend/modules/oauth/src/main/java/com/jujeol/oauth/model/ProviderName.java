@@ -1,4 +1,4 @@
-package com.jujeol.member.domain.model;
+package com.jujeol.oauth.model;
 
 public enum ProviderName {
     KAKAO

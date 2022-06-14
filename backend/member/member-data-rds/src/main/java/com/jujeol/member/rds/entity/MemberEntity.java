@@ -1,6 +1,6 @@
 package com.jujeol.member.rds.entity;
 
-import com.jujeol.member.domain.model.ProviderName;
+import com.jujeol.member.domain.model.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,5 +46,14 @@ public class MemberEntity {
     @PreUpdate
     private void preUpdate() {
         modifiedAt = LocalDateTime.now();
+    }
+
+    public Member toDomain() {
+        return Member.create(
+            id,
+            Provider.create(provideId, providerName),
+            Nickname.create(nickname),
+            Biography.create(biography)
+        );
     }
 }

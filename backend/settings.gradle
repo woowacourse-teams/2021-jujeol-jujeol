@@ -37,4 +37,6 @@ findProject(':feedback:feedback-data-rds')?.name = 'feedback-data-rds'
  */
 include 'modules:image-upload'
 findProject(':modules:image-upload')?.name = 'image-upload'
+include 'modules:oauth'
+findProject(':modules:oauth')?.name = 'oauth'
 

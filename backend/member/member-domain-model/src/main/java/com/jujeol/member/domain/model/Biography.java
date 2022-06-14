@@ -1,13 +1,12 @@
 package com.jujeol.member.domain.model;
 
 import com.jujeol.member.domain.exception.InvalidUserBiographyLengthException;
-import lombok.Getter;
 
 public class Biography {
 
-    private static int CONTENT_LENGTH_LIMIT = 35;
+    private static final int CONTENT_LENGTH_LIMIT = 35;
 
-    private String biography;
+    private final String biography;
 
     private Biography(String biography) {
         if (biography.length() > CONTENT_LENGTH_LIMIT) {

@@ -3,6 +3,7 @@ dependencies {
     implementation project(":drink:drink-domain-model")
 
     implementation project(":modules:image-upload")
+    implementation project(":modules:oauth")
 
     runtimeOnly project(":member:member-domain")
     runtimeOnly project(":drink:drink-domain")
@@ -15,4 +16,5 @@ dependencies {
 
     // TODO : testOnly 로 수정 필요 (Pageable, Page 와 같은 객체 삭제 필요)
     implementation project(":drink:drink-data-rds")
+    testImplementation project(":member:member-data-rds")
 }

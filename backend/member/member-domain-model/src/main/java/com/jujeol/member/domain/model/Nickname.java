@@ -2,7 +2,6 @@ package com.jujeol.member.domain.model;
 
 import com.jujeol.member.domain.exception.InvalidUserNicknameCharacterException;
 import com.jujeol.member.domain.exception.InvalidUserNicknameLengthException;
-import lombok.Getter;
 
 import java.util.regex.Pattern;
 
@@ -12,7 +11,7 @@ public class Nickname {
         .compile("^[가-힣a-zA-Z0-9_-]+$");
     private static final int NAME_LENGTH_LIMIT = 10;
 
-    private String nickname;
+    private final String nickname;
 
     private Nickname(String nickname) {
         if (nickname.isBlank() || nickname.length() > NAME_LENGTH_LIMIT) {

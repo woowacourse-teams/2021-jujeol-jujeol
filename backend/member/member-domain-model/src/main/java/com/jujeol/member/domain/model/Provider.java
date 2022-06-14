@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public class Provider {
 
-    private String provideId;
-    private ProviderName providerName;
+    private final String provideId;
+    private final ProviderName providerName;
 
     private Provider(String provideId, ProviderName providerName) {
         this.provideId = provideId;

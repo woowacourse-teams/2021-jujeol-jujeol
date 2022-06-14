@@ -1,6 +1,8 @@
 package com.jujeol.member.rds.repository;
 
-import com.jujeol.member.domain.model.*;
+import com.jujeol.member.domain.model.Member;
+import com.jujeol.member.domain.model.ProviderName;
+import com.jujeol.member.domain.usecase.AuthLoginUseCase;
 import com.jujeol.member.domain.usecase.MemberRegisterUseCase;
 import com.jujeol.member.rds.entity.MemberEntity;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +13,10 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class MemberDomainRepository implements MemberRegisterUseCase.MemberPort {
+public class MemberDomainRepository implements
+    MemberRegisterUseCase.MemberPort,
+
+    AuthLoginUseCase.MemberPort {
 
     private final MemberRepository memberRepository;
 
@@ -19,12 +24,7 @@ public class MemberDomainRepository implements MemberRegisterUseCase.MemberPort 
     @Transactional(readOnly = true)
     public Optional<Member> findByProvideId(String provideId) {
         return memberRepository.findByProvideId(provideId)
-            .map(memberEntity -> Member.builder()
-                .id(memberEntity.getId())
-                .provider(Provider.create(memberEntity.getProvideId(), memberEntity.getProviderName()))
-                .nickname(Nickname.create(memberEntity.getNickname()))
-                .biography(Biography.create(memberEntity.getBiography()))
-                .build());
+            .map(MemberEntity::toDomain);
     }
 
     @Override
@@ -37,5 +37,12 @@ public class MemberDomainRepository implements MemberRegisterUseCase.MemberPort 
             .biography(biography)
             .build();
         memberRepository.save(memberEntity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Member> findByProviderNameAndProvideId(ProviderName providerName, String provideId) {
+        return memberRepository.findByProviderNameAndProvideId(providerName, provideId)
+            .map(MemberEntity::toDomain);
     }
 }

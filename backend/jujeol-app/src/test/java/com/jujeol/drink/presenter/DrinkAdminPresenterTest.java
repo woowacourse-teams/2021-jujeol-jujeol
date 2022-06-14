@@ -1,8 +1,8 @@
 package com.jujeol.drink.presenter;
 
+import com.jujeol.IntegrationTestContext;
 import com.jujeol.commons.BadStatus;
 import com.jujeol.commons.exception.JujeolBadRequestException;
-import com.jujeol.drink.IntegrationTestContext;
 import com.jujeol.drink.controller.requeset.AdminDrinkSaveRequest;
 import com.jujeol.drink.rds.entity.CategoryEntity;
 import com.jujeol.drink.rds.entity.DrinkEntity;
@@ -23,7 +23,7 @@ class DrinkAdminPresenterTest extends IntegrationTestContext {
     public static final File TEST_IMAGE = new File(new File("").getAbsolutePath() + "/src/test/resources/static/test.png");
 
     @Autowired
-    private DrinkAdminPresenter presenter;
+    private DrinkAdminPresenter sut;
 
     @Nested
     @DisplayName("어드민 주류 등록")
@@ -49,7 +49,7 @@ class DrinkAdminPresenterTest extends IntegrationTestContext {
                 .build();
 
             // when
-            presenter.saveDrink(request, getMockImage());
+            sut.saveDrink(request, getMockImage());
 
             // then
             DrinkEntity savedDrink = drinkRepository.findAll()
@@ -87,7 +87,7 @@ class DrinkAdminPresenterTest extends IntegrationTestContext {
                 .build();
 
             // when, then
-            assertThatThrownBy(() -> presenter.saveDrink(request, getMockImage()))
+            assertThatThrownBy(() -> sut.saveDrink(request, getMockImage()))
                 .isInstanceOf(JujeolBadRequestException.class)
                 .hasMessage(BadStatus.NOT_EXIST_CATEGORY.getMessage());
         }
