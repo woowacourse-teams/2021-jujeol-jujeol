@@ -2,6 +2,7 @@ package com.jujeol.member.rds.repository;
 
 import com.jujeol.member.domain.model.Member;
 import com.jujeol.member.domain.model.ProviderName;
+import com.jujeol.member.domain.reader.MemberReader;
 import com.jujeol.member.domain.usecase.AuthLoginUseCase;
 import com.jujeol.member.domain.usecase.MemberRegisterUseCase;
 import com.jujeol.member.rds.entity.MemberEntity;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class MemberDomainRepository implements
+    MemberReader,
     MemberRegisterUseCase.MemberPort,
 
     AuthLoginUseCase.MemberPort {
@@ -44,5 +46,10 @@ public class MemberDomainRepository implements
     public Optional<Member> findByProviderNameAndProvideId(ProviderName providerName, String provideId) {
         return memberRepository.findByProviderNameAndProvideId(providerName, provideId)
             .map(MemberEntity::toDomain);
+    }
+
+    @Override
+    public Optional<Member> findById(Long memberId) {
+        return memberRepository.findById(memberId).map(MemberEntity::toDomain);
     }
 }

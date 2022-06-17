@@ -3,6 +3,7 @@ package com.jujeol.member.service;
 
 import com.jujeol.member.domain.exception.NotFoundAuthException;
 import com.jujeol.member.domain.model.*;
+import com.jujeol.member.domain.reader.MemberReader;
 import com.jujeol.member.domain.usecase.AuthLoginUseCase;
 import com.jujeol.member.domain.usecase.MemberRegisterUseCase;
 import com.jujeol.member.domain.usecase.command.AuthLoginCommand;
@@ -12,12 +13,16 @@ import com.jujeol.oauth.model.SocialClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class MemberService {
 
     private final AuthLoginUseCase authLoginUseCase;
     private final MemberRegisterUseCase memberRegisterUseCase;
+
+    private final MemberReader memberReader;
 
     private final CheersExpressionProvider cheersExpressionProvider;
 
@@ -39,5 +44,9 @@ public class MemberService {
 
             return authLoginUseCase.login(AuthLoginCommand.create(Provider.create(memberDetails.getAccountId(), providerName)));
         }
+    }
+
+    public Optional<Member> findMemberInfo(Long memberId) {
+        return memberReader.findById(memberId);
     }
 }
