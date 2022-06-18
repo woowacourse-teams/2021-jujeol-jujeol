@@ -56,4 +56,9 @@ public class MemberEntity {
             Biography.create(biography)
         );
     }
+
+    public void update(String nickname, String bio) {
+        this.nickname = nickname;
+        this.biography = bio;
+    }
 }

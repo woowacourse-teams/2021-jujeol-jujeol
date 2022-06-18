@@ -2,6 +2,7 @@ package com.jujeol.member.presenter;
 
 import com.jujeol.IntegrationTestContext;
 import com.jujeol.commons.exception.NotAuthorizedException;
+import com.jujeol.member.controller.request.UpdateMeRequest;
 import com.jujeol.member.controller.response.MemberInfoResponse;
 import com.jujeol.member.domain.model.ProviderName;
 import com.jujeol.member.rds.entity.MemberEntity;
@@ -30,14 +31,7 @@ class MemberPresenterTest extends IntegrationTestContext {
             String biography = "나는 나봄";
             ProviderName providerName = ProviderName.KAKAO;
             String provideId = "1234";
-            MemberEntity savedMember = memberRepository.save(
-                MemberEntity.builder()
-                    .nickname(nickname)
-                    .biography(biography)
-                    .providerName(providerName)
-                    .provideId(provideId)
-                    .build()
-            );
+            MemberEntity savedMember = saveMember(providerName, provideId, nickname, biography);
 
             LoginMember loginMember = new LoginMember(savedMember.getId(), LoginMember.Authority.USER);
 
@@ -69,5 +63,69 @@ class MemberPresenterTest extends IntegrationTestContext {
             assertThatThrownBy(() -> sut.findMemberInfo(loginMember))
                 .isExactlyInstanceOf(IllegalArgumentException.class);
         }
+    }
+
+    @Nested
+    @DisplayName("내 정보 수정")
+    class UpdateMe {
+
+        @Test
+        void 내정보_수정() {
+            // given
+            String nickname = "nabom";
+            String biography = "나는 나봄";
+            ProviderName providerName = ProviderName.KAKAO;
+            String provideId = "1234";
+            MemberEntity savedMember = saveMember(providerName, provideId, nickname, biography);
+
+            String targetNickname = "bom";
+            String targetBio = "hello";
+            Long memberId = savedMember.getId();
+
+            LoginMember loginMember = new LoginMember(memberId, LoginMember.Authority.USER);
+
+            // when
+            sut.updateMe(loginMember, new UpdateMeRequest(targetNickname, targetBio));
+
+            // then
+            MemberEntity member = memberRepository.findById(memberId)
+                .stream()
+                .findAny()
+                .orElseThrow();
+
+            assertThat(member.getId()).isEqualTo(memberId);
+            assertThat(member.getProvideId()).isEqualTo(provideId);
+            assertThat(member.getProviderName()).isEqualTo(providerName);
+            assertThat(member.getBiography()).isEqualTo(targetBio);
+            assertThat(member.getNickname()).isEqualTo(targetNickname);
+        }
+
+        @Test
+        void 익명_유저_접근() {
+            // given
+            String nickname = "nabom";
+            String biography = "나는 나봄";
+            ProviderName providerName = ProviderName.KAKAO;
+            String provideId = "1234";
+            saveMember(providerName, provideId, nickname, biography);
+
+            String targetNickname = "bom";
+            String targetBio = "hello";
+
+            // when, then
+            assertThatThrownBy(() -> sut.updateMe(LoginMember.anonymous(), new UpdateMeRequest(targetNickname, targetBio)))
+                .isExactlyInstanceOf(NotAuthorizedException.class);
+        }
+    }
+
+    private MemberEntity saveMember(ProviderName providerName, String provideId, String nickname, String bio) {
+        return memberRepository.save(
+            MemberEntity.builder()
+                .providerName(providerName)
+                .provideId(provideId)
+                .nickname(nickname)
+                .biography(bio)
+                .build()
+        );
     }
 }

@@ -10,21 +10,17 @@ import com.jujeol.member.member.application.MemberService;
 import com.jujeol.member.member.application.dto.MemberDto;
 import com.jujeol.member.member.ui.dto.MemberDrinkResponse;
 import com.jujeol.member.member.ui.dto.MemberRequest;
-import com.jujeol.member.member.ui.dto.MemberResponse;
 import com.jujeol.member.member.ui.dto.MemberReviewResponse;
 import com.jujeol.member.member.ui.dto.ReviewDrinkResponse;
 import com.jujeol.review.application.dto.ReviewDto;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,27 +30,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping
-    public ResponseEntity<CommonResponse<MemberResponse>> findMemberOfMine(
-            @AuthenticationPrincipal LoginMember loginMember
-    ) {
-        MemberDto member = memberService.findMember(loginMember.getId());
-        return ResponseEntity
-                .ok(CommonResponse.from(MemberResponse.create(member)));
-    }
-
-    @PutMapping
-    public ResponseEntity<Void> updateMember(
-            @AuthenticationPrincipal LoginMember loginMember,
-            @RequestBody MemberRequest memberRequest
-    ) {
-
-        memberService.updateMember(
-                MemberDto.create(loginMember.getId(), memberRequest.getNickname(),
-                        memberRequest.getBio())
-        );
-        return ResponseEntity.ok().build();
-    }
 
     @GetMapping("/drinks")
     public ResponseEntity<CommonResponse<List<MemberDrinkResponse>>> showDrinksOfMine(

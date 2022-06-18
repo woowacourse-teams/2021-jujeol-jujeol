@@ -6,12 +6,15 @@ import com.jujeol.member.domain.model.*;
 import com.jujeol.member.domain.reader.MemberReader;
 import com.jujeol.member.domain.usecase.AuthLoginUseCase;
 import com.jujeol.member.domain.usecase.MemberRegisterUseCase;
+import com.jujeol.member.domain.usecase.MemberUpdateUseCase;
 import com.jujeol.member.domain.usecase.command.AuthLoginCommand;
 import com.jujeol.member.domain.usecase.command.MemberRegisterCommand;
+import com.jujeol.member.domain.usecase.command.MemberUpdateCommand;
 import com.jujeol.oauth.model.MemberDetails;
 import com.jujeol.oauth.model.SocialClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -21,6 +24,7 @@ public class MemberService {
 
     private final AuthLoginUseCase authLoginUseCase;
     private final MemberRegisterUseCase memberRegisterUseCase;
+    private final MemberUpdateUseCase memberUpdateUseCase;
 
     private final MemberReader memberReader;
 
@@ -46,7 +50,13 @@ public class MemberService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Optional<Member> findMemberInfo(Long memberId) {
         return memberReader.findById(memberId);
+    }
+
+    @Transactional
+    public void updateMember(Long id, String nickname, String bio) {
+        memberUpdateUseCase.update(MemberUpdateCommand.create(id, Nickname.create(nickname), Biography.create(bio)));
     }
 }

@@ -5,6 +5,7 @@ import com.jujeol.member.domain.model.ProviderName;
 import com.jujeol.member.domain.reader.MemberReader;
 import com.jujeol.member.domain.usecase.AuthLoginUseCase;
 import com.jujeol.member.domain.usecase.MemberRegisterUseCase;
+import com.jujeol.member.domain.usecase.MemberUpdateUseCase;
 import com.jujeol.member.rds.entity.MemberEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class MemberDomainRepository implements
     MemberReader,
     MemberRegisterUseCase.MemberPort,
+    MemberUpdateUseCase.MemberPort,
 
     AuthLoginUseCase.MemberPort {
 
@@ -49,7 +51,21 @@ public class MemberDomainRepository implements
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Member> findById(Long memberId) {
         return memberRepository.findById(memberId).map(MemberEntity::toDomain);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByNickname(String nickname) {
+        return memberRepository.existsByNickname(nickname);
+    }
+
+    @Override
+    @Transactional
+    public void update(Long id, String nickname, String bio) {
+        MemberEntity memberEntity = memberRepository.findById(id).orElseThrow();
+        memberEntity.update(nickname, bio);
     }
 }
