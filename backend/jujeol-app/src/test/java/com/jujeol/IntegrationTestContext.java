@@ -42,5 +42,6 @@ public abstract class IntegrationTestContext {
         drinkRepository.deleteAll();
         categoryRepository.deleteAll();
         memberRepository.deleteAll();
+        fixedTokenProvider.reset();
     }
 }

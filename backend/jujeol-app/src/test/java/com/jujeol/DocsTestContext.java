@@ -1,7 +1,9 @@
 package com.jujeol;
 
+import com.jujeol.conf.FixedTokenProvider;
 import com.jujeol.drink.presenter.DrinkAdminPresenter;
 import com.jujeol.member.presenter.LoginPresenter;
+import com.jujeol.member.presenter.MemberPresenter;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
@@ -36,6 +38,12 @@ public abstract class DocsTestContext {
     @MockBean
     protected LoginPresenter loginPresenter;
 
+    @MockBean
+    protected MemberPresenter memberPresenter;
+
+    @Autowired
+    protected FixedTokenProvider fixedTokenProvider;
+
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation) {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
@@ -48,6 +56,7 @@ public abstract class DocsTestContext {
     void tearDown() {
         Mockito.reset(drinkAdminPresenter);
         Mockito.reset(loginPresenter);
+        fixedTokenProvider.reset();
     }
 
     protected MockMvcRequestSpecification given() {

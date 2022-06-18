@@ -29,4 +29,9 @@ public class FixedTokenProvider implements TokenProvider {
     public void fixToken(String token) {
         this.token = token;
     }
+
+    public void reset() {
+        this.payload = "";
+        this.token = "";
+    }
 }
