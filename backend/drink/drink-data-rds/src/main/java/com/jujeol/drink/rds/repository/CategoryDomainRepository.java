@@ -30,6 +30,18 @@ public class CategoryDomainRepository implements
 
     @Override
     @Transactional(readOnly = true)
+    public boolean existsByKey(String key) {
+        return categoryRepository.existsByKey(key);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByName(String name) {
+        return categoryRepository.existsByName(name);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<Category> findByKey(String key) {
         return categoryRepository.findByKey(key)
             .map(category -> Category.create(category.getId(), category.getName(), category.getKey()));
