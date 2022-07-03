@@ -1,5 +1,6 @@
 package com.jujeol.drink.rds.entity;
 
+import com.jujeol.drink.domain.model.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,5 +41,17 @@ public class DrinkEntity {
         this.preferenceAvg = preferenceAvg;
         this.description = description;
         this.category = category;
+    }
+
+    public Drink toDomain() {
+        return Drink.builder()
+            .drinkId(id)
+            .name(DrinkName.from(name))
+            .englishName(DrinkEnglishName.from(englishName))
+            .alcoholByVolume(AlcoholByVolume.from(alcoholByVolume))
+            .description(Description.from(description))
+            .category(Category.create(category.getId(), category.getName(), category.getKey()))
+            .imageFilePath(ImageFilePath.create(smallImageFilePath, mediumImageFilePath, largeImageFilePath))
+            .build();
     }
 }

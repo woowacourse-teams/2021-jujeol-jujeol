@@ -4,12 +4,17 @@ import com.jujeol.IntegrationTestContext;
 import com.jujeol.commons.BadStatus;
 import com.jujeol.commons.exception.JujeolBadRequestException;
 import com.jujeol.drink.controller.requeset.AdminDrinkSaveRequest;
+import com.jujeol.drink.controller.response.AdminDrinkResponse;
 import com.jujeol.drink.rds.entity.CategoryEntity;
 import com.jujeol.drink.rds.entity.DrinkEntity;
+import com.jujeol.member.resolver.LoginMember;
+import org.assertj.core.data.Index;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
 
 import java.io.File;
@@ -108,5 +113,64 @@ class DrinkAdminPresenterTest extends IntegrationTestContext {
             TEST_IMAGE.getName(),
             "image/png",
             Files.readAllBytes(TEST_IMAGE.toPath()));
+    }
+
+    @Nested
+    @DisplayName("주류 조회")
+    class ShowAdminDrinks {
+
+        @Test
+        void 조회_성공() {
+            // given
+            CategoryEntity savedCategory = categoryRepository.save(
+                CategoryEntity.builder()
+                    .key("key")
+                    .name("name")
+                    .build()
+            );
+
+            DrinkEntity drinkEntity1 = DrinkEntity.builder()
+                .name("name")
+                .description("description")
+                .englishName("englishName")
+                .alcoholByVolume(3.5)
+                .category(savedCategory)
+                .preferenceAvg(2.0)
+                .largeImageFilePath("largeImageFile")
+                .mediumImageFilePath("mediumImageFile")
+                .smallImageFilePath("smallImageFile")
+                .build();
+
+            DrinkEntity drinkEntity2 = DrinkEntity.builder()
+                .name("name2")
+                .description("description2")
+                .englishName("englishName2")
+                .alcoholByVolume(3.5)
+                .category(savedCategory)
+                .preferenceAvg(3.0)
+                .largeImageFilePath("largeImageFile")
+                .mediumImageFilePath("mediumImageFile")
+                .smallImageFilePath("smallImageFile")
+                .build();
+            drinkRepository.save(drinkEntity1);
+            drinkRepository.save(drinkEntity2);
+
+            // when
+            Page<AdminDrinkResponse> response = sut.showAdminDrinks(Pageable.ofSize(2), LoginMember.anonymous());
+
+            // then
+            assertThat(response.getTotalElements()).isEqualTo(2);
+            assertThat(response.getContent())
+                .satisfies(adminDrinkResponse -> {
+                        assertThat(adminDrinkResponse.getName()).isEqualTo("name");
+                        assertThat(adminDrinkResponse.getEnglishName()).isEqualTo("englishName");
+                    },
+                    Index.atIndex(0))
+                .satisfies(adminDrinkResponse -> {
+                        assertThat(adminDrinkResponse.getName()).isEqualTo("name2");
+                        assertThat(adminDrinkResponse.getEnglishName()).isEqualTo("englishName2");
+                    },
+                    Index.atIndex(1));
+        }
     }
 }
