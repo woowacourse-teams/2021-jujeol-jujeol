@@ -52,6 +52,7 @@ public class DrinkEntity {
             .description(Description.from(description))
             .category(Category.create(category.getId(), category.getName(), category.getKey()))
             .imageFilePath(ImageFilePath.create(smallImageFilePath, mediumImageFilePath, largeImageFilePath))
+            .preferenceAvg(preferenceAvg)
             .build();
     }
 }

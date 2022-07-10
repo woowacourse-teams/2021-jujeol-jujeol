@@ -1,2 +1,10 @@
 bootJar { enabled = false }
 jar { enabled = true }
+
+dependencies {
+    implementation 'org.springframework:spring-tx'
+
+    api project(":feedback:feedback-domain-model")
+    runtimeOnly project(":feedback:feedback-data-rds")
+    testImplementation project(":feedback:feedback-data-rds")
+}

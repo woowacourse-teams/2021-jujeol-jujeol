@@ -1,12 +1,14 @@
 dependencies {
     implementation project(":member:member-domain-model")
     implementation project(":drink:drink-domain-model")
+    implementation project(":feedback:feedback-domain-model")
 
     implementation project(":modules:image-upload")
     implementation project(":modules:oauth")
 
     runtimeOnly project(":member:member-domain")
     runtimeOnly project(":drink:drink-domain")
+    runtimeOnly project(":feedback:feedback-domain")
 
     // token encoding
     implementation 'io.jsonwebtoken:jjwt:0.9.1'

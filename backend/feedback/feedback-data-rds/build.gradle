@@ -1,2 +1,6 @@
 bootJar { enabled = false }
 jar { enabled = true }
+
+dependencies {
+    api project(":feedback:feedback-domain-model")
+}
