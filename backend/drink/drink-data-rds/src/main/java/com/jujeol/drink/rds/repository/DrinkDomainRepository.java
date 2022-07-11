@@ -1,7 +1,9 @@
 package com.jujeol.drink.rds.repository;
 
 import com.jujeol.drink.domain.model.Category;
+import com.jujeol.drink.domain.model.Drink;
 import com.jujeol.drink.domain.model.ImageFilePath;
+import com.jujeol.drink.domain.reader.DrinkReader;
 import com.jujeol.drink.domain.usecase.DrinkRegisterUseCase;
 import com.jujeol.drink.domain.usecase.command.DrinkPortCreateCommand;
 import com.jujeol.drink.rds.entity.CategoryEntity;
@@ -10,9 +12,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Component
 @RequiredArgsConstructor
-public class DrinkDomainRepository implements DrinkRegisterUseCase.DrinkPort {
+public class DrinkDomainRepository implements
+    DrinkReader,
+
+    DrinkRegisterUseCase.DrinkPort {
 
     private final DrinkRepository drinkRepository;
 
@@ -38,5 +48,17 @@ public class DrinkDomainRepository implements DrinkRegisterUseCase.DrinkPort {
             .build();
 
         drinkRepository.save(drinkEntity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Drink> findById(Long id) {
+        return drinkRepository.findById(id).map(DrinkEntity::toDomain);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Drink> findAllByDrinkIdIn(Collection<Long> drinkIds) {
+        return drinkRepository.findAllByDrinkIdIn(drinkIds).stream().map(DrinkEntity::toDomain).collect(Collectors.toList());
     }
 }

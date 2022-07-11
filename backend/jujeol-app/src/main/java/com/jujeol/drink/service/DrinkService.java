@@ -8,14 +8,21 @@ import com.jujeol.drink.domain.usecase.command.DrinkRegisterCommand;
 import com.jujeol.drink.rds.repository.DrinkPageRepository;
 import com.jujeol.feedback.domain.model.Preference;
 import com.jujeol.feedback.domain.reader.PreferenceReader;
+import com.jujeol.feedback.rds.repository.PreferencePageRepository;
 import com.jujeol.model.DrinkWithPreference;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +33,7 @@ public class DrinkService {
     private final PreferenceReader preferenceReader;
 
     private final DrinkPageRepository drinkPageRepository;
+    private final PreferencePageRepository preferencePageRepository;
 
     @Transactional
     public void saveDrink(AdminDrinkSaveRequest adminDrinkSaveRequest, ImageFilePath imageFilePath) {
@@ -41,7 +49,8 @@ public class DrinkService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Drink> getDrinksWithPage(Pageable pageable) {
+    @Deprecated
+    public Page<Drink> getDrinksPage(Pageable pageable) {
         return drinkPageRepository.findAll(pageable);
     }
 
@@ -63,5 +72,23 @@ public class DrinkService {
         }
 
         return Optional.of(DrinkWithPreference.create(foundDrink.get(), foundPreference.get()));
+    }
+
+    @Transactional(readOnly = true)
+    @Deprecated
+    public Page<DrinkWithPreference> findDrinksWithPreferencePage(Long memberId, Pageable pageable) {
+        Page<Preference> preferencePage = preferencePageRepository.findByMemberId(memberId, pageable);
+        Pageable resultPageable = preferencePage.getPageable();
+        long totalElements = preferencePage.getTotalElements();
+        Map<Long, List<Preference>> preferenceByDrinkId = preferencePage.stream().collect(groupingBy(Preference::getDrinkId));
+
+        List<DrinkWithPreference> contents = drinkReader.findAllByDrinkIdIn(preferenceByDrinkId.keySet())
+            .stream()
+            .flatMap(drink -> preferenceByDrinkId.get(drink.getDrinkId())
+                .stream()
+                .map(preference -> DrinkWithPreference.create(drink, preference)))
+            .collect(Collectors.toList());
+
+        return new PageImpl<>(contents, resultPageable, totalElements);
     }
 }

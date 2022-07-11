@@ -35,7 +35,7 @@ public class DrinkAdminPresenter {
     public Page<AdminDrinkResponse> showAdminDrinks(Pageable pageable, LoginMember loginMember) {
         // TODO : 어드민 권한 관련 확인 필요
 
-        return drinkService.getDrinksWithPage(pageable)
+        return drinkService.getDrinksPage(pageable)
             .map(drink ->
                 AdminDrinkResponse.builder()
                     .id(drink.getDrinkId())
