@@ -5,7 +5,7 @@ import com.jujeol.drink.controller.response.MemberDrinkResponse;
 import com.jujeol.drink.domain.model.Drink;
 import com.jujeol.drink.service.DrinkService;
 import com.jujeol.member.resolver.LoginMember;
-import com.jujeol.model.DrinkWithPreference;
+import com.jujeol.model.PreferenceWithDrink;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +21,8 @@ public class DrinkPresenter {
 
         if (loginMember.isMember()) {
             // TODO : 존재하지 않을 시 예외 처리 필요
-            DrinkWithPreference drinkWithPreference = drinkService.findDrinkWithPreference(id, loginMember.getId()).orElseThrow();
-            return DrinkDetailResponse.from(drinkWithPreference.getDrink(), drinkWithPreference.getPreference().getRate());
+            PreferenceWithDrink preferenceWithDrink = drinkService.findDrinkWithPreference(id, loginMember.getId()).orElseThrow();
+            return DrinkDetailResponse.from(preferenceWithDrink.getDrink(), preferenceWithDrink.getPreference().getRate());
         }
 
         // TODO : 존재하지 않을 시 예외 처리 필요
@@ -37,12 +37,12 @@ public class DrinkPresenter {
             throw new IllegalArgumentException();
         }
         return drinkService.findDrinksWithPreferencePage(loginMember.getId(), pageable)
-            .map(drinkWithPreference ->
+            .map(preferenceWithDrink ->
                 new MemberDrinkResponse(
-                    drinkWithPreference.getDrink().getDrinkId(),
-                    drinkWithPreference.getDrink().getName().value(),
-                    drinkWithPreference.getDrink().getImageFilePath().getMediumImageFilePath(),
-                    drinkWithPreference.getPreference().getRate()
+                    preferenceWithDrink.getDrink().getDrinkId(),
+                    preferenceWithDrink.getDrink().getName().value(),
+                    preferenceWithDrink.getDrink().getImageFilePath().getMediumImageFilePath(),
+                    preferenceWithDrink.getPreference().getRate()
                     )
             );
     }

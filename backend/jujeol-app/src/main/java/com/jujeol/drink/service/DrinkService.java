@@ -9,7 +9,7 @@ import com.jujeol.drink.rds.repository.DrinkPageRepository;
 import com.jujeol.feedback.domain.model.Preference;
 import com.jujeol.feedback.domain.reader.PreferenceReader;
 import com.jujeol.feedback.rds.repository.PreferencePageRepository;
-import com.jujeol.model.DrinkWithPreference;
+import com.jujeol.model.PreferenceWithDrink;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -60,7 +60,7 @@ public class DrinkService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<DrinkWithPreference> findDrinkWithPreference(Long drinkId, Long memberId) {
+    public Optional<PreferenceWithDrink> findDrinkWithPreference(Long drinkId, Long memberId) {
         Optional<Drink> foundDrink = drinkReader.findById(drinkId);
         if (foundDrink.isEmpty()) {
             return Optional.empty();
@@ -71,22 +71,22 @@ public class DrinkService {
             return Optional.empty();
         }
 
-        return Optional.of(DrinkWithPreference.create(foundDrink.get(), foundPreference.get()));
+        return Optional.of(PreferenceWithDrink.create(foundDrink.get(), foundPreference.get()));
     }
 
     @Transactional(readOnly = true)
     @Deprecated
-    public Page<DrinkWithPreference> findDrinksWithPreferencePage(Long memberId, Pageable pageable) {
+    public Page<PreferenceWithDrink> findDrinksWithPreferencePage(Long memberId, Pageable pageable) {
         Page<Preference> preferencePage = preferencePageRepository.findByMemberId(memberId, pageable);
         Pageable resultPageable = preferencePage.getPageable();
         long totalElements = preferencePage.getTotalElements();
         Map<Long, List<Preference>> preferenceByDrinkId = preferencePage.stream().collect(groupingBy(Preference::getDrinkId));
 
-        List<DrinkWithPreference> contents = drinkReader.findAllByDrinkIdIn(preferenceByDrinkId.keySet())
+        List<PreferenceWithDrink> contents = drinkReader.findAllByDrinkIdIn(preferenceByDrinkId.keySet())
             .stream()
             .flatMap(drink -> preferenceByDrinkId.get(drink.getDrinkId())
                 .stream()
-                .map(preference -> DrinkWithPreference.create(drink, preference)))
+                .map(preference -> PreferenceWithDrink.create(drink, preference)))
             .collect(Collectors.toList());
 
         return new PageImpl<>(contents, resultPageable, totalElements);
