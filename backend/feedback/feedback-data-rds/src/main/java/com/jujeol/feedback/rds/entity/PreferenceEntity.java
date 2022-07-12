@@ -34,4 +34,8 @@ public class PreferenceEntity {
     public Preference toDomain() {
         return Preference.create(id, memberId, drinkId, rate);
     }
+
+    public void updateRate(double rate) {
+        this.rate = rate;
+    }
 }

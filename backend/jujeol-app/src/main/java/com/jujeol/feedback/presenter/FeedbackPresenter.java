@@ -1,5 +1,7 @@
 package com.jujeol.feedback.presenter;
 
+import com.jujeol.commons.exception.NotAuthorizedException;
+import com.jujeol.feedback.controller.request.UpdatePreferenceRequest;
 import com.jujeol.feedback.controller.response.MemberReviewResponse;
 import com.jujeol.feedback.service.FeedbackService;
 import com.jujeol.member.resolver.LoginMember;
@@ -18,7 +20,7 @@ public class FeedbackPresenter {
     public Page<MemberReviewResponse> getMyReviews(LoginMember loginMember, Pageable pageable) {
         // TODO : unauthorized 정의 필요
         if(loginMember.isAnonymous()) {
-            throw new IllegalArgumentException();
+            throw new NotAuthorizedException();
         }
 
         return feedbackService.findMyReviews(loginMember.getId(), pageable)
@@ -35,5 +37,12 @@ public class FeedbackPresenter {
                         )
                 )
             );
+    }
+
+    public void createOrUpdatePreference(LoginMember loginMember, Long drinkId, UpdatePreferenceRequest preferenceRequest) {
+        if (loginMember.isAnonymous()) {
+            throw new NotAuthorizedException();
+        }
+        feedbackService.createOrUpdatePreference(loginMember.getId(), drinkId, preferenceRequest.getPreferenceRate());
     }
 }

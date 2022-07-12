@@ -2,6 +2,7 @@ package com.jujeol.feedback.controller;
 
 import com.jujeol.commons.CommonResponse;
 import com.jujeol.commons.PageResponseAssembler;
+import com.jujeol.feedback.controller.request.UpdatePreferenceRequest;
 import com.jujeol.feedback.controller.response.MemberReviewResponse;
 import com.jujeol.feedback.presenter.FeedbackPresenter;
 import com.jujeol.member.resolver.AuthenticationPrincipal;
@@ -10,8 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +28,15 @@ public class FeedbackApiController {
         @PageableDefault(size = 3) Pageable pageable
     ) {
         return ResponseEntity.ok(PageResponseAssembler.assemble(feedbackPresenter.getMyReviews(loginMember, pageable)));
+    }
+
+    @PutMapping("/members/me/drinks/{id}/preference")
+    public ResponseEntity<Void> createOrUpdatePreference(
+        @AuthenticationPrincipal LoginMember loginMember,
+        @PathVariable(name = "id") Long drinkId,
+        @RequestBody UpdatePreferenceRequest preferenceRequest
+    ) {
+        feedbackPresenter.createOrUpdatePreference(loginMember, drinkId, preferenceRequest);
+        return ResponseEntity.ok().build();
     }
 }
