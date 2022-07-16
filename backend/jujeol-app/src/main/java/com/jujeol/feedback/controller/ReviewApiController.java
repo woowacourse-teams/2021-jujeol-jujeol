@@ -2,6 +2,7 @@ package com.jujeol.feedback.controller;
 
 import com.jujeol.commons.CommonResponse;
 import com.jujeol.commons.PageResponseAssembler;
+import com.jujeol.feedback.controller.request.ReviewCreateRequest;
 import com.jujeol.feedback.controller.response.MemberReviewResponse;
 import com.jujeol.feedback.controller.response.ReviewResponse;
 import com.jujeol.feedback.presenter.ReviewPresenter;
@@ -12,10 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -40,5 +40,14 @@ public class ReviewApiController {
         @RequestParam(required = false, name = "drink") Long drinkId
     ) {
         return ResponseEntity.ok(PageResponseAssembler.assemble(reviewPresenter.reviewList(drinkId, pageable)));
+    }
+
+    @PostMapping("/reviews")
+    public ResponseEntity<Void> createReview(
+        @AuthenticationPrincipal LoginMember loginMember,
+        @RequestBody ReviewCreateRequest reviewCreateRequest
+    ) {
+        reviewPresenter.createReview(loginMember, reviewCreateRequest, LocalDateTime.now());
+        return ResponseEntity.ok().build();
     }
 }

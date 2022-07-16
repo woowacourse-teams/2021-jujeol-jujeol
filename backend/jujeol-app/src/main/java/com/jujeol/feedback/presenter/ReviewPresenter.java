@@ -1,6 +1,7 @@
 package com.jujeol.feedback.presenter;
 
 import com.jujeol.commons.exception.NotAuthorizedException;
+import com.jujeol.feedback.controller.request.ReviewCreateRequest;
 import com.jujeol.feedback.controller.response.MemberReviewResponse;
 import com.jujeol.feedback.controller.response.ReviewResponse;
 import com.jujeol.feedback.service.ReviewService;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Component
@@ -51,5 +54,13 @@ public class ReviewPresenter {
                         .build())
                     .build()
             );
+    }
+
+    public void createReview(LoginMember loginMember, ReviewCreateRequest reviewCreateRequest, LocalDateTime now) {
+        if(loginMember.isAnonymous()) {
+            throw new NotAuthorizedException();
+        }
+
+        reviewService.createReview(loginMember.getId(), reviewCreateRequest.getDrinkId(), reviewCreateRequest.getContent(), now);
     }
 }
