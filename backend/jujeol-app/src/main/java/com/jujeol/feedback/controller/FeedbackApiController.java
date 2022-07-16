@@ -39,4 +39,13 @@ public class FeedbackApiController {
         feedbackPresenter.createOrUpdatePreference(loginMember, drinkId, preferenceRequest);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/drinks/{id}/preference")
+    public ResponseEntity<Void> deletePreference(
+        @AuthenticationPrincipal LoginMember loginMember,
+        @PathVariable(name = "id") Long drinkId
+    ) {
+        feedbackPresenter.deletePreference(loginMember, drinkId);
+        return ResponseEntity.ok().build();
+    }
 }

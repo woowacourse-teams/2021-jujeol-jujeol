@@ -45,4 +45,11 @@ public class FeedbackPresenter {
         }
         feedbackService.createOrUpdatePreference(loginMember.getId(), drinkId, preferenceRequest.getPreferenceRate());
     }
+
+    public void deletePreference(LoginMember loginMember, Long drinkId) {
+        if (loginMember.isAnonymous()) {
+            throw new NotAuthorizedException();
+        }
+        feedbackService.deletePreference(loginMember.getId(), drinkId);
+    }
 }

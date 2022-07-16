@@ -3,6 +3,7 @@ package com.jujeol.feedback.rds.repository;
 import com.jujeol.feedback.domain.exception.PreferenceNotExistException;
 import com.jujeol.feedback.domain.model.Preference;
 import com.jujeol.feedback.domain.reader.PreferenceReader;
+import com.jujeol.feedback.domain.usecase.PreferenceDeleteUseCase;
 import com.jujeol.feedback.domain.usecase.PreferenceRegisterUseCase;
 import com.jujeol.feedback.domain.usecase.PreferenceUpdateUseCase;
 import com.jujeol.feedback.rds.entity.PreferenceEntity;
@@ -18,7 +19,8 @@ public class PreferenceDomainRepository implements
     PreferenceReader,
 
     PreferenceRegisterUseCase.PreferencePort,
-    PreferenceUpdateUseCase.PreferencePort {
+    PreferenceUpdateUseCase.PreferencePort,
+    PreferenceDeleteUseCase.PreferencePort {
 
     private final PreferenceJpaRepository preferenceJpaRepository;
 
@@ -51,5 +53,11 @@ public class PreferenceDomainRepository implements
         preferenceJpaRepository.findById(id)
             .orElseThrow(PreferenceNotExistException::new)
             .updateRate(rate);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long drinkId) {
+        preferenceJpaRepository.deleteById(drinkId);
     }
 }
