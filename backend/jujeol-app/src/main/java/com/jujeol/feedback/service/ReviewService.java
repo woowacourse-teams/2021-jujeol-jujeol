@@ -7,7 +7,9 @@ import com.jujeol.feedback.domain.model.Review;
 import com.jujeol.feedback.domain.model.ReviewContent;
 import com.jujeol.feedback.domain.reader.PreferenceReader;
 import com.jujeol.feedback.domain.reader.ReviewReader;
+import com.jujeol.feedback.domain.usecase.ReviewModifyUseCase;
 import com.jujeol.feedback.domain.usecase.ReviewRegisterUseCase;
+import com.jujeol.feedback.domain.usecase.command.ReviewModifyCommand;
 import com.jujeol.feedback.domain.usecase.command.ReviewRegisterCommand;
 import com.jujeol.feedback.rds.repository.ReviewPageRepository;
 import com.jujeol.member.domain.model.Member;
@@ -43,6 +45,7 @@ public class ReviewService {
     private final PreferenceReader preferenceReader;
 
     private final ReviewRegisterUseCase reviewRegisterUseCase;
+    private final ReviewModifyUseCase reviewModifyUseCase;
 
     @Transactional(readOnly = true)
     public Page<ReviewWithDrink> findMyReviews(Long memberId, Pageable pageable) {
@@ -97,5 +100,10 @@ public class ReviewService {
         if (preference.getRate() == 0) {
             throw new InvalidReviewRegisterException();
         }
+    }
+
+    @Transactional
+    public void updateReview(Long memberId, Long reviewId, String content) {
+        reviewModifyUseCase.modify(ReviewModifyCommand.create(memberId, reviewId, ReviewContent.create(content)));
     }
 }

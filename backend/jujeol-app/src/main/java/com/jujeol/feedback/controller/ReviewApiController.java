@@ -3,6 +3,7 @@ package com.jujeol.feedback.controller;
 import com.jujeol.commons.CommonResponse;
 import com.jujeol.commons.PageResponseAssembler;
 import com.jujeol.feedback.controller.request.ReviewCreateRequest;
+import com.jujeol.feedback.controller.request.ReviewUpdateRequest;
 import com.jujeol.feedback.controller.response.MemberReviewResponse;
 import com.jujeol.feedback.controller.response.ReviewResponse;
 import com.jujeol.feedback.presenter.ReviewPresenter;
@@ -48,6 +49,16 @@ public class ReviewApiController {
         @RequestBody ReviewCreateRequest reviewCreateRequest
     ) {
         reviewPresenter.createReview(loginMember, reviewCreateRequest, LocalDateTime.now());
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/reviews/{reviewId}")
+    public ResponseEntity<Void> updateReview(
+        @AuthenticationPrincipal LoginMember loginMember,
+        @PathVariable Long reviewId,
+        @RequestBody ReviewUpdateRequest reviewUpdateRequest
+    ) {
+        reviewPresenter.updateReview(loginMember, reviewId, reviewUpdateRequest.getContent());
         return ResponseEntity.ok().build();
     }
 }

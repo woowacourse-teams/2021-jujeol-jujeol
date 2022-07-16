@@ -63,4 +63,12 @@ public class ReviewPresenter {
 
         reviewService.createReview(loginMember.getId(), reviewCreateRequest.getDrinkId(), reviewCreateRequest.getContent(), now);
     }
+
+    public void updateReview(LoginMember loginMember, Long reviewId, String content) {
+        if(loginMember.isAnonymous()) {
+            throw new NotAuthorizedException();
+        }
+
+        reviewService.updateReview(loginMember.getId(), reviewId, content);
+    }
 }

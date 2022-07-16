@@ -37,4 +37,8 @@ public class ReviewEntity {
     public Review toDomain() {
         return Review.create(id, ReviewContent.create(content), drinkId, memberId, null, null);
     }
+
+    public void changeContent(String content) {
+        this.content = content;
+    }
 }

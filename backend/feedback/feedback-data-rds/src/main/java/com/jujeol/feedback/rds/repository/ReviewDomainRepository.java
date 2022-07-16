@@ -2,6 +2,7 @@ package com.jujeol.feedback.rds.repository;
 
 import com.jujeol.feedback.domain.model.Review;
 import com.jujeol.feedback.domain.reader.ReviewReader;
+import com.jujeol.feedback.domain.usecase.ReviewModifyUseCase;
 import com.jujeol.feedback.domain.usecase.ReviewRegisterUseCase;
 import com.jujeol.feedback.rds.entity.ReviewEntity;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -16,8 +18,8 @@ import java.util.stream.Collectors;
 public class ReviewDomainRepository
     implements ReviewReader,
 
-    ReviewRegisterUseCase.ReviewPort
-{
+    ReviewRegisterUseCase.ReviewPort,
+    ReviewModifyUseCase.ReviewPort {
 
     private final ReviewJpaRepository reviewJpaRepository;
 
@@ -36,5 +38,19 @@ public class ReviewDomainRepository
                 .content(content)
                 .build()
         );
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Review> findById(Long id) {
+        return reviewJpaRepository.findById(id).map(ReviewEntity::toDomain);
+    }
+
+    @Override
+    @Transactional
+    public void update(Long reviewId, String content) {
+        reviewJpaRepository.findById(reviewId)
+            .orElseThrow()
+            .changeContent(content);
     }
 }
