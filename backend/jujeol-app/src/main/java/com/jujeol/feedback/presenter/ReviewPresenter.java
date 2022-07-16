@@ -71,4 +71,12 @@ public class ReviewPresenter {
 
         reviewService.updateReview(loginMember.getId(), reviewId, content);
     }
+
+    public void deleteReview(LoginMember loginMember, Long reviewId) {
+        if(loginMember.isAnonymous()) {
+            throw new NotAuthorizedException();
+        }
+
+        reviewService.deleteReview(loginMember.getId(), reviewId);
+    }
 }

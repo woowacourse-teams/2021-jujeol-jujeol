@@ -61,4 +61,13 @@ public class ReviewApiController {
         reviewPresenter.updateReview(loginMember, reviewId, reviewUpdateRequest.getContent());
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/reviews/{reviewId}")
+    public ResponseEntity<Void> deleteReview(
+        @AuthenticationPrincipal LoginMember loginMember,
+        @PathVariable Long reviewId
+    ) {
+        reviewPresenter.deleteReview(loginMember, reviewId);
+        return ResponseEntity.ok().build();
+    }
 }

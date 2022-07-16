@@ -2,6 +2,7 @@ package com.jujeol.feedback.rds.repository;
 
 import com.jujeol.feedback.domain.model.Review;
 import com.jujeol.feedback.domain.reader.ReviewReader;
+import com.jujeol.feedback.domain.usecase.ReviewDeleteUseCase;
 import com.jujeol.feedback.domain.usecase.ReviewModifyUseCase;
 import com.jujeol.feedback.domain.usecase.ReviewRegisterUseCase;
 import com.jujeol.feedback.rds.entity.ReviewEntity;
@@ -19,7 +20,8 @@ public class ReviewDomainRepository
     implements ReviewReader,
 
     ReviewRegisterUseCase.ReviewPort,
-    ReviewModifyUseCase.ReviewPort {
+    ReviewModifyUseCase.ReviewPort,
+    ReviewDeleteUseCase.ReviewPort {
 
     private final ReviewJpaRepository reviewJpaRepository;
 
@@ -44,6 +46,12 @@ public class ReviewDomainRepository
     @Transactional(readOnly = true)
     public Optional<Review> findById(Long id) {
         return reviewJpaRepository.findById(id).map(ReviewEntity::toDomain);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        reviewJpaRepository.deleteById(id);
     }
 
     @Override

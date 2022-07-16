@@ -7,8 +7,10 @@ import com.jujeol.feedback.domain.model.Review;
 import com.jujeol.feedback.domain.model.ReviewContent;
 import com.jujeol.feedback.domain.reader.PreferenceReader;
 import com.jujeol.feedback.domain.reader.ReviewReader;
+import com.jujeol.feedback.domain.usecase.ReviewDeleteUseCase;
 import com.jujeol.feedback.domain.usecase.ReviewModifyUseCase;
 import com.jujeol.feedback.domain.usecase.ReviewRegisterUseCase;
+import com.jujeol.feedback.domain.usecase.command.ReviewDeleteCommand;
 import com.jujeol.feedback.domain.usecase.command.ReviewModifyCommand;
 import com.jujeol.feedback.domain.usecase.command.ReviewRegisterCommand;
 import com.jujeol.feedback.rds.repository.ReviewPageRepository;
@@ -46,6 +48,7 @@ public class ReviewService {
 
     private final ReviewRegisterUseCase reviewRegisterUseCase;
     private final ReviewModifyUseCase reviewModifyUseCase;
+    private final ReviewDeleteUseCase reviewDeleteUseCase;
 
     @Transactional(readOnly = true)
     public Page<ReviewWithDrink> findMyReviews(Long memberId, Pageable pageable) {
@@ -105,5 +108,10 @@ public class ReviewService {
     @Transactional
     public void updateReview(Long memberId, Long reviewId, String content) {
         reviewModifyUseCase.modify(ReviewModifyCommand.create(memberId, reviewId, ReviewContent.create(content)));
+    }
+
+    @Transactional
+    public void deleteReview(Long memberId, Long reviewId) {
+        reviewDeleteUseCase.delete(ReviewDeleteCommand.create(memberId, reviewId));
     }
 }
