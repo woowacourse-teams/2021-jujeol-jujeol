@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -54,6 +56,12 @@ public class MemberDomainRepository implements
     @Transactional(readOnly = true)
     public Optional<Member> findById(Long memberId) {
         return memberRepository.findById(memberId).map(MemberEntity::toDomain);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Member> findAllByIdsIn(List<Long> memberIds) {
+        return memberRepository.findAllById(memberIds).stream().map(MemberEntity::toDomain).collect(Collectors.toList());
     }
 
     @Override

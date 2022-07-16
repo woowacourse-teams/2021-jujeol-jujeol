@@ -33,7 +33,8 @@ public class ReviewEntity {
         this.memberId = memberId;
     }
 
+    // TODO : modifiedAt, createdAt Audit 추가
     public Review toDomain() {
-        return Review.create(id, ReviewContent.create(content), drinkId, memberId);
+        return Review.create(id, ReviewContent.create(content), drinkId, memberId, null, null);
     }
 }

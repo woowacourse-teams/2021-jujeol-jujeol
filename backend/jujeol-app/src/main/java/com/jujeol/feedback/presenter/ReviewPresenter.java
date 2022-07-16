@@ -1,9 +1,9 @@
 package com.jujeol.feedback.presenter;
 
 import com.jujeol.commons.exception.NotAuthorizedException;
-import com.jujeol.feedback.controller.request.UpdatePreferenceRequest;
 import com.jujeol.feedback.controller.response.MemberReviewResponse;
-import com.jujeol.feedback.service.FeedbackService;
+import com.jujeol.feedback.controller.response.ReviewResponse;
+import com.jujeol.feedback.service.ReviewService;
 import com.jujeol.member.resolver.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,18 +12,17 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class FeedbackPresenter {
+public class ReviewPresenter {
 
-    private final FeedbackService feedbackService;
+    private final ReviewService reviewService;
 
     //TODO : Pageable 삭제 필요, Page 응답값 삭제 필요 (응용쪽에서 JPA 기술 의존적 삭제 필요)
     public Page<MemberReviewResponse> getMyReviews(LoginMember loginMember, Pageable pageable) {
-        // TODO : unauthorized 정의 필요
         if(loginMember.isAnonymous()) {
             throw new NotAuthorizedException();
         }
 
-        return feedbackService.findMyReviews(loginMember.getId(), pageable)
+        return reviewService.findMyReviews(loginMember.getId(), pageable)
             .map(reviewWithDrink ->
                 new MemberReviewResponse(
                     reviewWithDrink.getReview().getId(),
@@ -39,17 +38,18 @@ public class FeedbackPresenter {
             );
     }
 
-    public void createOrUpdatePreference(LoginMember loginMember, Long drinkId, UpdatePreferenceRequest preferenceRequest) {
-        if (loginMember.isAnonymous()) {
-            throw new NotAuthorizedException();
-        }
-        feedbackService.createOrUpdatePreference(loginMember.getId(), drinkId, preferenceRequest.getPreferenceRate());
-    }
-
-    public void deletePreference(LoginMember loginMember, Long drinkId) {
-        if (loginMember.isAnonymous()) {
-            throw new NotAuthorizedException();
-        }
-        feedbackService.deletePreference(loginMember.getId(), drinkId);
+    // TODO : modifiedAt, createdAt 설정 필요
+    public Page<ReviewResponse> reviewList(Long drinkId, Pageable pageable) {
+        return reviewService.findReviewWithMember(drinkId, pageable)
+            .map(reviewWithMember ->
+                ReviewResponse.builder()
+                    .id(reviewWithMember.getReview().getId())
+                    .content(reviewWithMember.getReview().getContent().value())
+                    .author(ReviewResponse.MemberSimpleResponse.builder()
+                        .id(reviewWithMember.getMember().getId())
+                        .name(reviewWithMember.getMember().getNickname().value())
+                        .build())
+                    .build()
+            );
     }
 }
