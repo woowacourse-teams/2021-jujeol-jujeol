@@ -1,5 +1,6 @@
 package com.jujeol.drink.rds.entity;
 
+import com.jujeol.drink.domain.model.Category;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,5 +26,9 @@ public class CategoryEntity {
         this.id = id;
         this.name = name;
         this.key = key;
+    }
+
+    public Category toDomain() {
+        return Category.create(id, name, key);
     }
 }
