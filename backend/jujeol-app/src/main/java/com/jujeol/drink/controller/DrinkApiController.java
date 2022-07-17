@@ -2,7 +2,9 @@ package com.jujeol.drink.controller;
 
 import com.jujeol.commons.CommonResponse;
 import com.jujeol.commons.PageResponseAssembler;
+import com.jujeol.drink.controller.requeset.DrinkSearchRequest;
 import com.jujeol.drink.controller.response.DrinkDetailResponse;
+import com.jujeol.drink.controller.response.DrinkSearchResponse;
 import com.jujeol.drink.controller.response.MemberDrinkResponse;
 import com.jujeol.drink.presenter.DrinkPresenter;
 import com.jujeol.member.resolver.AuthenticationPrincipal;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,5 +41,14 @@ public class DrinkApiController {
         @PageableDefault(size = 7) Pageable pageable
     ) {
         return ResponseEntity.ok(PageResponseAssembler.assemble(drinkPresenter.findDrinkOfMine(loginMember, pageable)));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<CommonResponse<List<DrinkSearchResponse>>> showDrinksBySearch(
+        @ModelAttribute DrinkSearchRequest searchRequest,
+        @AuthenticationPrincipal LoginMember loginMember,
+        @PageableDefault Pageable pageable
+    ) {
+        return ResponseEntity.ok(PageResponseAssembler.assemble(drinkPresenter.showDrinksBySearch(searchRequest, loginMember, pageable)));
     }
 }

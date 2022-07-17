@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -28,6 +30,15 @@ public class PreferenceDomainRepository implements
     @Transactional(readOnly = true)
     public Optional<Preference> findByDrinkIdAndMemberId(Long drinkId, Long memberId) {
         return preferenceJpaRepository.findByDrinkIdAndMemberId(drinkId, memberId).map(PreferenceEntity::toDomain);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Preference> findByMemberIdAndDrinkIdIn(Long memberId, List<Long> drinkIds) {
+        return preferenceJpaRepository.findByMemberIdAndDrinkIdIn(memberId, drinkIds)
+            .stream()
+            .map(PreferenceEntity::toDomain)
+            .collect(Collectors.toList());
     }
 
     @Override

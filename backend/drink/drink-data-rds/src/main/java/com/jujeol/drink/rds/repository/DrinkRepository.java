@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Collection;
 import java.util.List;
 
-public interface DrinkRepository extends JpaRepository<DrinkEntity, Long> {
+public interface DrinkRepository extends JpaRepository<DrinkEntity, Long>, DrinkRepositoryCustom {
 
     List<DrinkEntity> findAllByDrinkIdIn(Collection<Long> drinkIds);
 }

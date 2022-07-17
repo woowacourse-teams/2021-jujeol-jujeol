@@ -20,4 +20,8 @@ public class Preference {
     public static Preference create(Long id, Long memberId, Long drinkId, double rate) {
         return new Preference(id, memberId, drinkId, rate);
     }
+
+    public static Preference anonymousPreference(Long drinkId) {
+        return new Preference(null, null, drinkId, 0.0);
+    }
 }

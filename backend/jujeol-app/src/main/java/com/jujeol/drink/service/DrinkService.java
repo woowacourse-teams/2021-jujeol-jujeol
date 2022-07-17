@@ -9,7 +9,9 @@ import com.jujeol.drink.rds.repository.DrinkPageRepository;
 import com.jujeol.feedback.domain.model.Preference;
 import com.jujeol.feedback.domain.reader.PreferenceReader;
 import com.jujeol.feedback.rds.repository.PreferencePageRepository;
+import com.jujeol.model.DrinkWithMemberPreference;
 import com.jujeol.model.PreferenceWithDrink;
+import com.jujeol.model.SearchWords;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -90,5 +93,29 @@ public class DrinkService {
             .collect(Collectors.toList());
 
         return new PageImpl<>(contents, resultPageable, totalElements);
+    }
+
+    // search 일 때는 expectedPreference 를 계산 안 함?!
+    @Transactional(readOnly = true)
+    public Page<DrinkWithMemberPreference> searchForMember(Long memberId, SearchWords searchWords, Pageable pageable) {
+        Page<Drink> drinks = drinkPageRepository.findByKeywords(searchWords.getSearchWords(), pageable);
+        List<Long> drinkIds = drinks.stream().map(Drink::getDrinkId).collect(Collectors.toList());
+
+        Map<Long, Preference> preferenceByDrinkId = new HashMap<>();
+        preferenceReader.findByMemberIdAndDrinkIdIn(memberId, drinkIds)
+            .forEach(preference -> preferenceByDrinkId.put(preference.getDrinkId(), preference));
+
+        return drinks.map(drink ->
+            DrinkWithMemberPreference.create(
+                drink,
+                preferenceByDrinkId.getOrDefault(drink.getDrinkId(), Preference.anonymousPreference(drink.getDrinkId())),
+                0.0
+            )
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Drink> searchForAnonymous(SearchWords searchWords, Pageable pageable) {
+        return drinkPageRepository.findByKeywords(searchWords.getSearchWords(), pageable);
     }
 }
