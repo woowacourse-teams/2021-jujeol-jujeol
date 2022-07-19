@@ -4,6 +4,7 @@ import com.jujeol.commons.CommonResponse;
 import com.jujeol.commons.PageResponseAssembler;
 import com.jujeol.drink.controller.requeset.DrinkSearchRequest;
 import com.jujeol.drink.controller.response.DrinkDetailResponse;
+import com.jujeol.drink.controller.response.DrinkListResponse;
 import com.jujeol.drink.controller.response.DrinkSearchResponse;
 import com.jujeol.drink.controller.response.MemberDrinkResponse;
 import com.jujeol.drink.presenter.DrinkPresenter;
@@ -13,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -50,5 +48,15 @@ public class DrinkApiController {
         @PageableDefault Pageable pageable
     ) {
         return ResponseEntity.ok(PageResponseAssembler.assemble(drinkPresenter.showDrinksBySearch(searchRequest, loginMember, pageable)));
+    }
+
+    @GetMapping("/drinks")
+    public ResponseEntity<CommonResponse<List<DrinkListResponse>>> showDrinksInMainPage(
+        @RequestParam(required = false) String category,
+        @RequestParam(defaultValue = "NO_SORT", required = false) String sortBy,
+        @PageableDefault Pageable pageable,
+        @AuthenticationPrincipal LoginMember loginMember
+    ) {
+        return ResponseEntity.ok(PageResponseAssembler.assemble(drinkPresenter.showDrinkList(loginMember, category, sortBy, pageable)));
     }
 }

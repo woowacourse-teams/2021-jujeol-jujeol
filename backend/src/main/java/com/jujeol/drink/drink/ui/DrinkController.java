@@ -74,14 +74,4 @@ public class DrinkController {
             throw new InvalidSortByException();
         }
     }
-
-    @GetMapping("/search")
-    public ResponseEntity<CommonResponse<List<DrinkResponse>>> showDrinksBySearch(
-            @ModelAttribute SearchRequest searchRequest,
-            @AuthenticationPrincipal LoginMember loginMember,
-            @PageableDefault Pageable pageable
-    ) {
-        Page<DrinkDto> drinkDtos = drinkService.showDrinksBySearch(searchRequest.toDto(), loginMember, pageable);
-        return ResponseEntity.ok(PageResponseAssembler.assemble(drinkDtos.map(DrinkResponse::from)));
-    }
 }

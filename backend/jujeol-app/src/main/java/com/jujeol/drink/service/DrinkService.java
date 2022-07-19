@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -117,5 +118,63 @@ public class DrinkService {
     @Transactional(readOnly = true)
     public Page<Drink> searchForAnonymous(SearchWords searchWords, Pageable pageable) {
         return drinkPageRepository.findByKeywords(searchWords.getSearchWords(), pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<DrinkWithMemberPreference> findDrinkListWithPreference(String category, Long memberId, DrinkSort drinkSort, Pageable pageable) {
+        Page<Drink> drinks;
+        if (StringUtils.hasText(category)) {
+            drinks = drinkPageRepository.findByCategory(drinkSort, category, pageable);
+        } else {
+            drinks = drinkPageRepository.findAll(drinkSort, pageable);
+        }
+
+        List<Long> drinkIds = drinks.stream().map(Drink::getDrinkId).collect(Collectors.toList());
+
+        Map<Long, Preference> preferenceByDrinkId = new HashMap<>();
+        preferenceReader.findByMemberIdAndDrinkIdIn(memberId, drinkIds)
+            .forEach(preference -> preferenceByDrinkId.put(preference.getDrinkId(), preference));
+
+        return drinks.map(drink ->
+            DrinkWithMemberPreference.create(
+                drink,
+                preferenceByDrinkId.getOrDefault(drink.getDrinkId(), Preference.anonymousPreference(drink.getDrinkId())),
+                0.0
+            )
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Drink> findDrinkList(String category, DrinkSort drinkSort, Pageable pageable) {
+        if (StringUtils.hasText(category)) {
+            return drinkPageRepository.findByCategory(drinkSort, category, pageable);
+        } else {
+            return drinkPageRepository.findAll(drinkSort, pageable);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    // TODO : 주류 추천 등록하기 (리팩토링 필요)
+    public Page<DrinkWithMemberPreference> recommendDrink(String category, Long memberId, Pageable pageable) {
+        Page<Drink> drinks;
+        if (StringUtils.hasText(category)) {
+            drinks = drinkPageRepository.findByCategory(DrinkSort.PREFERENCE_AVG, category, pageable);
+        } else {
+            drinks = drinkPageRepository.findAll(DrinkSort.PREFERENCE_AVG, pageable);
+        }
+
+        List<Long> drinkIds = drinks.stream().map(Drink::getDrinkId).collect(Collectors.toList());
+
+        Map<Long, Preference> preferenceByDrinkId = new HashMap<>();
+        preferenceReader.findByMemberIdAndDrinkIdIn(memberId, drinkIds)
+            .forEach(preference -> preferenceByDrinkId.put(preference.getDrinkId(), preference));
+
+        return drinks.map(drink ->
+            DrinkWithMemberPreference.create(
+                drink,
+                preferenceByDrinkId.getOrDefault(drink.getDrinkId(), Preference.anonymousPreference(drink.getDrinkId())),
+                drink.getPreferenceAvg()
+            )
+        );
     }
 }

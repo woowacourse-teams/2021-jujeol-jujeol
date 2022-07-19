@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,13 @@ public class DrinkRepositoryCustomImpl implements DrinkRepositoryCustom {
 //            .where(drink.name.name.like("%" + keyword + "%")
 //                .or(drink.englishName.englishName.like("%" + keyword + "%")))
 //            .fetch();
+        return null;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<DrinkEntity> findAllByCategoryName(String category, Pageable pageable) {
+        // TODO : findByCategoryName
         return null;
     }
 }

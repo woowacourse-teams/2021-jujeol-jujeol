@@ -2,17 +2,22 @@ package com.jujeol.drink.presenter;
 
 import com.jujeol.drink.controller.requeset.DrinkSearchRequest;
 import com.jujeol.drink.controller.response.DrinkDetailResponse;
+import com.jujeol.drink.controller.response.DrinkListResponse;
 import com.jujeol.drink.controller.response.DrinkSearchResponse;
 import com.jujeol.drink.controller.response.MemberDrinkResponse;
 import com.jujeol.drink.domain.model.Drink;
+import com.jujeol.drink.domain.model.DrinkSort;
 import com.jujeol.drink.service.DrinkService;
 import com.jujeol.member.resolver.LoginMember;
+import com.jujeol.model.DrinkWithMemberPreference;
 import com.jujeol.model.PreferenceWithDrink;
 import com.jujeol.model.SearchWords;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import static com.jujeol.model.SortBy.*;
 
 @Component
 @RequiredArgsConstructor
@@ -104,5 +109,95 @@ public class DrinkPresenter {
                     .preferenceRate(0)
                     .build());
         }
+    }
+
+    public Page<DrinkListResponse> showDrinkList(LoginMember loginMember, String category, String sortBy, Pageable pageable) {
+        if (NO_SORT.hasSameValue(sortBy)) {
+            if (loginMember.isMember()) {
+                return drinkService.findDrinkListWithPreference(category, loginMember.getId(), DrinkSort.NO_SORT, pageable).map(this::mapToDrinkListResponse);
+            }
+
+            if (loginMember.isAnonymous()) {
+                return drinkService.findDrinkList(category, DrinkSort.NO_SORT, pageable).map(this::mapToAnonymousDrinkList);
+            }
+        }
+
+        if (PREFERENCE_AVG.hasSameValue(sortBy)) {
+            if (loginMember.isMember()) {
+                return drinkService.findDrinkListWithPreference(category, loginMember.getId(), DrinkSort.PREFERENCE_AVG, pageable).map(this::mapToDrinkListResponse);
+            }
+
+            if (loginMember.isAnonymous()) {
+                return drinkService.findDrinkList(category, DrinkSort.PREFERENCE_AVG, pageable).map(this::mapToAnonymousDrinkList);
+            }
+        }
+
+
+        if (EXPECT_PREFERENCE.hasSameValue(sortBy) || EXPECTED_PREFERENCE.hasSameValue(sortBy)) {
+            if (loginMember.isMember()) {
+                return drinkService.recommendDrink(category, loginMember.getId(), pageable).map(this::mapToDrinkListResponse);
+            }
+
+            if (loginMember.isAnonymous()) {
+                return drinkService.findDrinkList(category, DrinkSort.PREFERENCE_AVG, pageable).map(this::mapToAnonymousDrinkList);
+            }
+        }
+
+        // TODO : BadRequest
+        throw new IllegalArgumentException();
+    }
+
+    private DrinkListResponse mapToAnonymousDrinkList(Drink drink) {
+        return DrinkListResponse.builder()
+            .id(drink.getDrinkId())
+            .description(drink.getDescription().value())
+            .alcoholByVolume(drink.getAlcoholByVolume().value())
+            .englishName(drink.getEnglishName().value())
+            .name(drink.getName().value())
+            .category(
+                DrinkListResponse.CategoryResponse.builder()
+                    .id(drink.getCategory().getId())
+                    .key(drink.getCategory().getKey())
+                    .name(drink.getName().value())
+                    .build()
+            )
+            .imageResponse(
+                DrinkListResponse.ImageResponse.builder()
+                    .small(drink.getImageFilePath().getSmallImageFilePath())
+                    .medium(drink.getImageFilePath().getMediumImageFilePath())
+                    .large(drink.getImageFilePath().getLargeImageFilePath())
+                    .build()
+            )
+            .expectedPreference(0)
+            .preferenceAvg(drink.getPreferenceAvg())
+            .preferenceRate(0)
+            .build();
+    }
+
+    private DrinkListResponse mapToDrinkListResponse(DrinkWithMemberPreference preferenceWithDrink) {
+        return DrinkListResponse.builder()
+            .id(preferenceWithDrink.getDrink().getDrinkId())
+            .description(preferenceWithDrink.getDrink().getDescription().value())
+            .alcoholByVolume(preferenceWithDrink.getDrink().getAlcoholByVolume().value())
+            .englishName(preferenceWithDrink.getDrink().getEnglishName().value())
+            .name(preferenceWithDrink.getDrink().getName().value())
+            .category(
+                DrinkListResponse.CategoryResponse.builder()
+                    .id(preferenceWithDrink.getDrink().getCategory().getId())
+                    .key(preferenceWithDrink.getDrink().getCategory().getKey())
+                    .name(preferenceWithDrink.getDrink().getName().value())
+                    .build()
+            )
+            .imageResponse(
+                DrinkListResponse.ImageResponse.builder()
+                    .small(preferenceWithDrink.getDrink().getImageFilePath().getSmallImageFilePath())
+                    .medium(preferenceWithDrink.getDrink().getImageFilePath().getMediumImageFilePath())
+                    .large(preferenceWithDrink.getDrink().getImageFilePath().getLargeImageFilePath())
+                    .build()
+            )
+            .expectedPreference(preferenceWithDrink.getExpectedPreference())
+            .preferenceAvg(preferenceWithDrink.getDrink().getPreferenceAvg())
+            .preferenceRate(preferenceWithDrink.getPreference().getRate())
+            .build();
     }
 }
