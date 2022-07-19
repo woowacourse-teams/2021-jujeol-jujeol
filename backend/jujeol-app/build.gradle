@@ -19,6 +19,5 @@ dependencies {
     // TODO : testOnly 로 수정 필요 (Pageable, Page 와 같은 객체 삭제 필요)
     implementation project(":drink:drink-data-rds")
     implementation project(":feedback:feedback-data-rds")
-
-    testImplementation project(":member:member-data-rds")
+    implementation project(":member:member-data-rds")
 }

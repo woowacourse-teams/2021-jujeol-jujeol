@@ -1,26 +1,26 @@
-package com.jujeol.member.member.application;
+package com.jujeol.member.service;
 
-import com.jujeol.member.member.domain.Member;
-import com.jujeol.member.member.domain.nickname.Nickname;
-import com.jujeol.member.member.domain.nickname.NicknameCreator;
-import com.jujeol.member.member.domain.repository.MemberRepository;
-import java.util.List;
+import com.jujeol.member.domain.model.Member;
+import com.jujeol.member.domain.model.Nickname;
+import com.jujeol.member.domain.reader.MemberReader;
+import com.jujeol.member.rds.repository.MemberPageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
-public class AddHashNicknameCreator implements NicknameCreator {
+public class NicknameCreator {
 
     private static final PageRequest FIRST_OBJECT = PageRequest.of(0, 1);
     private static final String DELIMITER = "_";
     private static final String HUNDREDS_PLACE_PATTERN = "%03d";
-    private static final int EXIST = 0;
 
-    private final MemberRepository memberRepository;
+    private final MemberReader memberReader;
+    private final MemberPageRepository memberPageRepository;
 
-    @Override
     public Nickname createNickname(String nicknamePrefix) {
         int lastHashOfNickname = findLastHashOfNickname(nicknamePrefix);
 
@@ -38,7 +38,7 @@ public class AddHashNicknameCreator implements NicknameCreator {
     }
 
     private String ifExistCreateNewHash(String nickname, String nicknamePrefix) {
-        if (memberRepository.existsByNicknameNickname(nickname)) {
+        if (memberReader.existsByNickname(nickname)) {
             return ifExistCreateNewHash(
                     assembleNickname(nicknamePrefix, nextHash(parsedHash(nickname)))
                     , nicknamePrefix);
@@ -47,14 +47,13 @@ public class AddHashNicknameCreator implements NicknameCreator {
     }
 
     private int findLastHashOfNickname(String nickname) {
-        List<Member> existMember = memberRepository
-                .findOneStartingWithNicknameAndMostRecent(nickname, FIRST_OBJECT);
+        Optional<Member> existMember = memberPageRepository.findByNickname(nickname, FIRST_OBJECT);
 
         if (existMember.isEmpty()) {
             return 0;
         }
 
-        return parsedHash(existMember.get(EXIST).getNickname().getNickname());
+        return parsedHash(existMember.get().getNickname().value());
     }
 
     private int parsedHash(String nickname) {

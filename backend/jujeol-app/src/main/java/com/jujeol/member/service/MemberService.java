@@ -29,6 +29,7 @@ public class MemberService {
     private final MemberReader memberReader;
 
     private final CheersExpressionProvider cheersExpressionProvider;
+    private final NicknameCreator nicknameCreator;
 
     private final SocialClient socialClient;
 
@@ -39,9 +40,9 @@ public class MemberService {
         } catch (NotFoundAuthException e) {
             // 존재하지 않을 경우 회원가입 후 로그인 진행
             CheersExpression cheersExpression = cheersExpressionProvider.getRandomCheersExpression();
+            Nickname nickname = nicknameCreator.createNickname(cheersExpression.getAbbreviation());
             MemberRegisterCommand memberRegisterCommand = MemberRegisterCommand.create(
-                Provider.create(memberDetails.getAccountId(), providerName),
-                Nickname.create(cheersExpression.getAbbreviation()),
+                Provider.create(memberDetails.getAccountId(), providerName), nickname,
                 Biography.create(cheersExpression.getExpression())
             );
             memberRegisterUseCase.register(memberRegisterCommand);

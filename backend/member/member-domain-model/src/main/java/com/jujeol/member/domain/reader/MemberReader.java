@@ -10,4 +10,6 @@ public interface MemberReader {
     Optional<Member> findById(Long memberId);
 
     List<Member> findAllByIdsIn(List<Long> memberIds);
+
+    boolean existsByNickname(String nickname);
 }
