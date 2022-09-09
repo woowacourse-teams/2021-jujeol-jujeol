@@ -8,6 +8,8 @@ import com.jujeol.drink.controller.response.MemberDrinkResponse;
 import com.jujeol.drink.domain.model.Drink;
 import com.jujeol.drink.domain.model.DrinkSort;
 import com.jujeol.drink.service.DrinkService;
+import com.jujeol.exception.ExceptionCodeAndDetails;
+import com.jujeol.exception.JujeolBadRequestException;
 import com.jujeol.member.resolver.LoginMember;
 import com.jujeol.model.DrinkWithMemberPreference;
 import com.jujeol.model.PreferenceWithDrink;
@@ -17,7 +19,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import static com.jujeol.model.SortBy.*;
+import static com.jujeol.model.SortBy.EXPECTED_PREFERENCE;
+import static com.jujeol.model.SortBy.EXPECT_PREFERENCE;
+import static com.jujeol.model.SortBy.NO_SORT;
+import static com.jujeol.model.SortBy.PREFERENCE_AVG;
 
 @Component
 @RequiredArgsConstructor
@@ -28,21 +33,18 @@ public class DrinkPresenter {
     public DrinkDetailResponse showDrinkDetail(Long id, LoginMember loginMember) {
 
         if (loginMember.isMember()) {
-            // TODO : 존재하지 않을 시 예외 처리 필요
-            PreferenceWithDrink preferenceWithDrink = drinkService.findDrinkWithPreference(id, loginMember.getId()).orElseThrow();
+            PreferenceWithDrink preferenceWithDrink = drinkService.findDrinkWithPreference(id, loginMember.getId()).orElseThrow(() -> new JujeolBadRequestException(ExceptionCodeAndDetails.NOT_FOUND_DRINK));
             return DrinkDetailResponse.from(preferenceWithDrink.getDrink(), preferenceWithDrink.getPreference().getRate());
         }
 
-        // TODO : 존재하지 않을 시 예외 처리 필요
-        Drink drink = drinkService.findDrink(id).orElseThrow();
+        Drink drink = drinkService.findDrink(id).orElseThrow(() -> new JujeolBadRequestException(ExceptionCodeAndDetails.NOT_FOUND_DRINK));
         return DrinkDetailResponse.from(drink, 0);
     }
 
     //TODO : Pageable 삭제 필요, Page 응답값 삭제 필요 (응용쪽에서 JPA 기술 의존적 삭제 필요)
     public Page<MemberDrinkResponse> findDrinkOfMine(LoginMember loginMember, Pageable pageable) {
-        // TODO : unauthorized 정의 필요
         if (loginMember.isAnonymous()) {
-            throw new IllegalArgumentException();
+            throw new JujeolBadRequestException(ExceptionCodeAndDetails.UNAUTHORIZED_USER);
         }
         return drinkService.findDrinksWithPreferencePage(loginMember.getId(), pageable)
             .map(preferenceWithDrink ->
@@ -143,8 +145,7 @@ public class DrinkPresenter {
             }
         }
 
-        // TODO : BadRequest
-        throw new IllegalArgumentException();
+        throw new JujeolBadRequestException(ExceptionCodeAndDetails.INVALID_SORT_BY);
     }
 
     private DrinkListResponse mapToAnonymousDrinkList(Drink drink) {

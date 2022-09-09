@@ -2,12 +2,11 @@ package com.jujeol.drink.rds.repository;
 
 import com.jujeol.drink.rds.entity.DrinkEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 public class DrinkRepositoryCustomImpl implements DrinkRepositoryCustom {
@@ -31,6 +30,18 @@ public class DrinkRepositoryCustomImpl implements DrinkRepositoryCustom {
     @Transactional(readOnly = true)
     public Page<DrinkEntity> findAllByCategoryName(String category, Pageable pageable) {
         // TODO : findByCategoryName
+        return null;
+    }
+
+    @Override
+    public Page<DrinkEntity> findAllWithSort(Pageable pageable) {
+        // TODO : findAllWithSort
+        return null;
+    }
+
+    @Override
+    public Page<DrinkEntity> findAllByCategoryNameWithSort(String category, Pageable pageable) {
+        // TODO : findAllByCategoryNameWithSort
         return null;
     }
 }

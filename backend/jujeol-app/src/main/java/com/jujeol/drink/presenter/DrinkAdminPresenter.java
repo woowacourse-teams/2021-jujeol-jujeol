@@ -1,12 +1,12 @@
 package com.jujeol.drink.presenter;
 
-import com.jujeol.commons.BadStatus;
-import com.jujeol.commons.exception.JujeolBadRequestException;
 import com.jujeol.drink.controller.requeset.AdminDrinkSaveRequest;
 import com.jujeol.drink.controller.response.AdminDrinkResponse;
 import com.jujeol.drink.domain.exception.NotFoundCategoryException;
 import com.jujeol.drink.domain.model.ImageFilePath;
 import com.jujeol.drink.service.DrinkService;
+import com.jujeol.exception.ExceptionCodeAndDetails;
+import com.jujeol.exception.JujeolBadRequestException;
 import com.jujeol.image.service.ImageService;
 import com.jujeol.member.resolver.LoginMember;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class DrinkAdminPresenter {
         try {
             drinkService.saveDrink(adminDrinkSaveRequest, imageFilePath);
         } catch (NotFoundCategoryException e) {
-            throw new JujeolBadRequestException(BadStatus.NOT_EXIST_CATEGORY);
+            throw new JujeolBadRequestException(ExceptionCodeAndDetails.NOT_EXIST_CATEGORY);
         }
     }
 

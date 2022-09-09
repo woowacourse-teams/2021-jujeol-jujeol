@@ -1,10 +1,10 @@
 package com.jujeol.image;
 
-import com.jujeol.commons.exception.JujeolServerException;
-import lombok.RequiredArgsConstructor;
-import org.apache.tika.Tika;
-import org.springframework.stereotype.Service;
-
+import com.jujeol.exception.JujeolServerException;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Locale;
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
@@ -12,10 +12,9 @@ import javax.imageio.ImageWriter;
 import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Locale;
+import lombok.RequiredArgsConstructor;
+import org.apache.tika.Tika;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

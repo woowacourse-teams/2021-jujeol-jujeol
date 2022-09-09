@@ -1,15 +1,11 @@
 package com.jujeol.image.service;
 
-import com.jujeol.commons.exception.JujeolServerException;
 import com.jujeol.drink.domain.model.ImageFilePath;
+import com.jujeol.exception.JujeolServerException;
 import com.jujeol.image.ImageConverter;
 import com.jujeol.image.ImageResizer;
 import com.jujeol.image.ImageSize;
 import com.jujeol.image.StorageUploader;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,8 +13,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import static com.jujeol.image.ImageSize.*;
+import static com.jujeol.image.ImageSize.LARGE;
+import static com.jujeol.image.ImageSize.MEDIUM;
+import static com.jujeol.image.ImageSize.SMALL;
 
 @Service
 @RequiredArgsConstructor

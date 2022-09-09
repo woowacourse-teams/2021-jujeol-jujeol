@@ -1,13 +1,13 @@
 package com.jujeol.member.interceptor;
 
-import com.jujeol.commons.exception.InvalidTokenException;
+import com.jujeol.exception.ExceptionCodeAndDetails;
+import com.jujeol.exception.JujeolBadRequestException;
 import com.jujeol.member.domain.model.TokenProvider;
 import com.jujeol.utils.AuthorizationExtractor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.servlet.HandlerInterceptor;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.servlet.HandlerInterceptor;
 
 @RequiredArgsConstructor
 public class AuthInterceptor implements HandlerInterceptor {
@@ -22,7 +22,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         if (!tokenProvider.validateToken(credentials)) {
-            throw new InvalidTokenException();
+            throw new JujeolBadRequestException(ExceptionCodeAndDetails.INVALID_TOKEN);
         }
         Long memberId = Long.parseLong(tokenProvider.getPayload(credentials));
         AuthHttpServletRequest authHttpServletRequest = new AuthHttpServletRequest(request);

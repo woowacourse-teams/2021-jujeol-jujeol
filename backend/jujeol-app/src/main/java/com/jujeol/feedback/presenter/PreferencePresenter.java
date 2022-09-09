@@ -1,6 +1,7 @@
 package com.jujeol.feedback.presenter;
 
-import com.jujeol.commons.exception.NotAuthorizedException;
+import com.jujeol.exception.ExceptionCodeAndDetails;
+import com.jujeol.exception.JujeolBadRequestException;
 import com.jujeol.feedback.controller.request.UpdatePreferenceRequest;
 import com.jujeol.feedback.service.PreferenceService;
 import com.jujeol.member.resolver.LoginMember;
@@ -13,17 +14,20 @@ public class PreferencePresenter {
 
     private final PreferenceService preferenceService;
 
-    public void createOrUpdatePreference(LoginMember loginMember, Long drinkId, UpdatePreferenceRequest preferenceRequest) {
+    public void createOrUpdatePreference(LoginMember loginMember, Long drinkId,
+                                         UpdatePreferenceRequest preferenceRequest) {
         if (loginMember.isAnonymous()) {
-            throw new NotAuthorizedException();
+            throw new JujeolBadRequestException(ExceptionCodeAndDetails.UNAUTHORIZED_USER);
         }
-        preferenceService.createOrUpdatePreference(loginMember.getId(), drinkId, preferenceRequest.getPreferenceRate());
+        preferenceService.createOrUpdatePreference(loginMember.getId(), drinkId,
+                                                   preferenceRequest.getPreferenceRate());
     }
 
     public void deletePreference(LoginMember loginMember, Long drinkId) {
         if (loginMember.isAnonymous()) {
-            throw new NotAuthorizedException();
+            throw new JujeolBadRequestException(ExceptionCodeAndDetails.UNAUTHORIZED_USER);
         }
+
         preferenceService.deletePreference(loginMember.getId(), drinkId);
     }
 }

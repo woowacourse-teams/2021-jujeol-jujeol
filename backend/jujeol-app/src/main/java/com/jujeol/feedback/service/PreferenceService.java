@@ -1,6 +1,7 @@
 package com.jujeol.feedback.service;
 
 import com.jujeol.feedback.domain.exception.DuplicatePreferenceException;
+import com.jujeol.feedback.domain.exception.PreferenceNotExistException;
 import com.jujeol.feedback.domain.usecase.PreferenceDeleteUseCase;
 import com.jujeol.feedback.domain.usecase.PreferenceRegisterUseCase;
 import com.jujeol.feedback.domain.usecase.PreferenceUpdateUseCase;
@@ -31,6 +32,10 @@ public class PreferenceService {
 
     @Transactional
     public void deletePreference(Long memberId, Long drinkId) {
-        preferenceDeleteUseCase.delete(PreferenceDeleteCommand.create(drinkId, memberId));
+        try {
+            preferenceDeleteUseCase.delete(PreferenceDeleteCommand.create(drinkId, memberId));
+        } catch (PreferenceNotExistException ignored) {
+            // preference 가 없으면 무시
+        }
     }
 }

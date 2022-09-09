@@ -1,7 +1,14 @@
 package com.jujeol.drink.service;
 
 import com.jujeol.drink.controller.requeset.AdminDrinkSaveRequest;
-import com.jujeol.drink.domain.model.*;
+import com.jujeol.drink.domain.exception.NotFoundCategoryException;
+import com.jujeol.drink.domain.model.AlcoholByVolume;
+import com.jujeol.drink.domain.model.Description;
+import com.jujeol.drink.domain.model.Drink;
+import com.jujeol.drink.domain.model.DrinkEnglishName;
+import com.jujeol.drink.domain.model.DrinkName;
+import com.jujeol.drink.domain.model.DrinkSort;
+import com.jujeol.drink.domain.model.ImageFilePath;
 import com.jujeol.drink.domain.reader.DrinkReader;
 import com.jujeol.drink.domain.usecase.DrinkRegisterUseCase;
 import com.jujeol.drink.domain.usecase.command.DrinkRegisterCommand;
@@ -12,6 +19,11 @@ import com.jujeol.feedback.rds.repository.PreferencePageRepository;
 import com.jujeol.model.DrinkWithMemberPreference;
 import com.jujeol.model.PreferenceWithDrink;
 import com.jujeol.model.SearchWords;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,12 +31,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 
@@ -40,7 +46,7 @@ public class DrinkService {
     private final PreferencePageRepository preferencePageRepository;
 
     @Transactional
-    public void saveDrink(AdminDrinkSaveRequest adminDrinkSaveRequest, ImageFilePath imageFilePath) {
+    public void saveDrink(AdminDrinkSaveRequest adminDrinkSaveRequest, ImageFilePath imageFilePath) throws NotFoundCategoryException {
         DrinkRegisterCommand command = DrinkRegisterCommand.builder()
             .name(DrinkName.from(adminDrinkSaveRequest.getName()))
             .englishName(DrinkEnglishName.from(adminDrinkSaveRequest.getEnglishName()))

@@ -2,6 +2,9 @@ package com.jujeol.feedback.service;
 
 import com.jujeol.drink.domain.reader.DrinkReader;
 import com.jujeol.feedback.domain.exception.InvalidReviewRegisterException;
+import com.jujeol.feedback.domain.exception.InvalidReviewRegisterException.Reason;
+import com.jujeol.feedback.domain.exception.NotAuthorizedActionException;
+import com.jujeol.feedback.domain.exception.ReviewNotExistException;
 import com.jujeol.feedback.domain.model.Preference;
 import com.jujeol.feedback.domain.model.Review;
 import com.jujeol.feedback.domain.model.ReviewContent;
@@ -18,13 +21,6 @@ import com.jujeol.member.domain.model.Member;
 import com.jujeol.member.domain.reader.MemberReader;
 import com.jujeol.model.ReviewWithDrink;
 import com.jujeol.model.ReviewWithMember;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -32,6 +28,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import static java.util.stream.Collectors.groupingBy;
 
@@ -80,38 +82,36 @@ public class ReviewService {
     }
 
     @Transactional
-    public void createReview(Long memberId, Long drinkId, String content, LocalDateTime now) {
+    public void createReview(Long memberId, Long drinkId, String content, LocalDateTime now) throws InvalidReviewRegisterException {
         validateCreateReview(memberId, drinkId, now);
 
         reviewRegisterUseCase.register(ReviewRegisterCommand.create(memberId, drinkId, ReviewContent.create(content)));
     }
 
     private void validateCreateReview(Long memberId, Long drinkId, LocalDateTime now) {
-        // 날짜 체크
         Optional<Review> previousReview = reviewReader.findByDrinkIdAndMemberId(drinkId, memberId)
             .stream()
             .findFirst();
         if (previousReview.isPresent()) {
             LocalDate createdAt = previousReview.get().getCreatedAt().toLocalDate();
             if (createdAt.isEqual(now.toLocalDate())) {
-                throw new InvalidReviewRegisterException();
+                throw new InvalidReviewRegisterException(Reason.ONCE_PER_DAY);
             }
         }
 
-        // Preference 를 남겼는 지 확인
-        Preference preference = preferenceReader.findByDrinkIdAndMemberId(drinkId, memberId).orElseThrow(InvalidReviewRegisterException::new);
+        Preference preference = preferenceReader.findByDrinkIdAndMemberId(drinkId, memberId).orElseThrow(() -> new InvalidReviewRegisterException(Reason.NO_PREFERENCE));
         if (preference.getRate() == 0) {
-            throw new InvalidReviewRegisterException();
+            throw new InvalidReviewRegisterException(Reason.NO_PREFERENCE);
         }
     }
 
     @Transactional
-    public void updateReview(Long memberId, Long reviewId, String content) {
+    public void updateReview(Long memberId, Long reviewId, String content) throws ReviewNotExistException, NotAuthorizedActionException {
         reviewModifyUseCase.modify(ReviewModifyCommand.create(memberId, reviewId, ReviewContent.create(content)));
     }
 
     @Transactional
-    public void deleteReview(Long memberId, Long reviewId) {
+    public void deleteReview(Long memberId, Long reviewId) throws ReviewNotExistException, NotAuthorizedActionException {
         reviewDeleteUseCase.delete(ReviewDeleteCommand.create(memberId, reviewId));
     }
 }

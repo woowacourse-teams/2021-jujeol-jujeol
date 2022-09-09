@@ -1,13 +1,15 @@
 package com.jujeol.drink.presenter;
 
 import com.jujeol.IntegrationTestContext;
-import com.jujeol.commons.BadStatus;
-import com.jujeol.commons.exception.JujeolBadRequestException;
 import com.jujeol.drink.controller.requeset.AdminDrinkSaveRequest;
 import com.jujeol.drink.controller.response.AdminDrinkResponse;
 import com.jujeol.drink.rds.entity.CategoryEntity;
 import com.jujeol.drink.rds.entity.DrinkEntity;
+import com.jujeol.exception.ExceptionCodeAndDetails;
+import com.jujeol.exception.JujeolBadRequestException;
 import com.jujeol.member.resolver.LoginMember;
+import java.io.File;
+import java.nio.file.Files;
 import org.assertj.core.data.Index;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -16,9 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
-
-import java.io.File;
-import java.nio.file.Files;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -94,7 +93,7 @@ class DrinkAdminPresenterTest extends IntegrationTestContext {
             // when, then
             assertThatThrownBy(() -> sut.saveDrink(request, getMockImage()))
                 .isInstanceOf(JujeolBadRequestException.class)
-                .hasMessage(BadStatus.NOT_EXIST_CATEGORY.getMessage());
+                .hasMessage(ExceptionCodeAndDetails.NOT_EXIST_CATEGORY.getMessage());
         }
     }
 

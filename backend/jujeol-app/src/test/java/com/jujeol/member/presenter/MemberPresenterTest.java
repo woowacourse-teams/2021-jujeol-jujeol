@@ -1,7 +1,8 @@
 package com.jujeol.member.presenter;
 
 import com.jujeol.IntegrationTestContext;
-import com.jujeol.commons.exception.NotAuthorizedException;
+import com.jujeol.exception.ExceptionCodeAndDetails;
+import com.jujeol.exception.JujeolBadRequestException;
 import com.jujeol.member.controller.request.UpdateMeRequest;
 import com.jujeol.member.controller.response.MemberInfoResponse;
 import com.jujeol.member.domain.model.ProviderName;
@@ -51,7 +52,8 @@ class MemberPresenterTest extends IntegrationTestContext {
 
             // when, then
             assertThatThrownBy(() -> sut.findMemberInfo(anonymous))
-                .isExactlyInstanceOf(NotAuthorizedException.class);
+                .isExactlyInstanceOf(JujeolBadRequestException.class)
+                .hasMessage(ExceptionCodeAndDetails.UNAUTHORIZED_USER.getMessage());
         }
 
         @Test
@@ -61,7 +63,8 @@ class MemberPresenterTest extends IntegrationTestContext {
 
             // when, then
             assertThatThrownBy(() -> sut.findMemberInfo(loginMember))
-                .isExactlyInstanceOf(IllegalArgumentException.class);
+                    .isExactlyInstanceOf(JujeolBadRequestException.class)
+                    .hasMessage(ExceptionCodeAndDetails.UNAUTHORIZED_USER.getMessage());
         }
     }
 
@@ -114,7 +117,8 @@ class MemberPresenterTest extends IntegrationTestContext {
 
             // when, then
             assertThatThrownBy(() -> sut.updateMe(LoginMember.anonymous(), new UpdateMeRequest(targetNickname, targetBio)))
-                .isExactlyInstanceOf(NotAuthorizedException.class);
+                    .isExactlyInstanceOf(JujeolBadRequestException.class)
+                    .hasMessage(ExceptionCodeAndDetails.UNAUTHORIZED_USER.getMessage());
         }
     }
 
