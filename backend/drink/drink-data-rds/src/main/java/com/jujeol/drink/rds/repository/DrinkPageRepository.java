@@ -26,7 +26,6 @@ public class DrinkPageRepository {
 
     @Transactional(readOnly = true)
     public Page<Drink> findAll(DrinkSort drinkSort, Pageable pageable) {
-        // TODO : sort 추가
         return drinkRepository.findAllWithSort(pageable, drinkSort).map(DrinkEntity::toDomain);
     }
 

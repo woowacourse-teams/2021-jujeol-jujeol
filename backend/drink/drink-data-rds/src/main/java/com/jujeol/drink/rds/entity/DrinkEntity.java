@@ -1,17 +1,29 @@
 package com.jujeol.drink.rds.entity;
 
-import com.jujeol.drink.domain.model.*;
+import com.jujeol.drink.domain.model.AlcoholByVolume;
+import com.jujeol.drink.domain.model.Category;
+import com.jujeol.drink.domain.model.Description;
+import com.jujeol.drink.domain.model.Drink;
+import com.jujeol.drink.domain.model.DrinkEnglishName;
+import com.jujeol.drink.domain.model.DrinkName;
+import com.jujeol.drink.domain.model.ImageFilePath;
+import com.jujeol.rds.BaseEntity;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DrinkEntity {
+public class DrinkEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

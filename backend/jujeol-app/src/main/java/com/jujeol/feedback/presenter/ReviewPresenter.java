@@ -44,7 +44,6 @@ public class ReviewPresenter {
             );
     }
 
-    // TODO : modifiedAt, createdAt 설정 필요
     public Page<ReviewResponse> reviewList(Long drinkId, Pageable pageable) {
         return reviewService.findReviewWithMember(drinkId, pageable)
             .map(reviewWithMember ->
@@ -55,6 +54,8 @@ public class ReviewPresenter {
                         .id(reviewWithMember.getMember().getId())
                         .name(reviewWithMember.getMember().getNickname().value())
                         .build())
+                        .createdAt(reviewWithMember.getReview().getCreatedAt())
+                        .modifiedAt(reviewWithMember.getReview().getModifiedAt())
                     .build()
             );
     }

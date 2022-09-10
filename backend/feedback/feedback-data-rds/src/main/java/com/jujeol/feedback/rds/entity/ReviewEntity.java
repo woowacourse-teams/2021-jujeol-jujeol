@@ -2,17 +2,21 @@ package com.jujeol.feedback.rds.entity;
 
 import com.jujeol.feedback.domain.model.Review;
 import com.jujeol.feedback.domain.model.ReviewContent;
+import com.jujeol.rds.BaseEntity;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewEntity {
+public class ReviewEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,9 +37,8 @@ public class ReviewEntity {
         this.memberId = memberId;
     }
 
-    // TODO : modifiedAt, createdAt Audit 추가
     public Review toDomain() {
-        return Review.create(id, ReviewContent.create(content), drinkId, memberId, null, null);
+        return Review.create(id, ReviewContent.create(content), drinkId, memberId, getCreatedAt(), getModifiedAt());
     }
 
     public void changeContent(String content) {
