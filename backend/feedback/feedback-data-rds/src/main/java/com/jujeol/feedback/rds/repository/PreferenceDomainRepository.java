@@ -7,13 +7,12 @@ import com.jujeol.feedback.domain.usecase.PreferenceDeleteUseCase;
 import com.jujeol.feedback.domain.usecase.PreferenceRegisterUseCase;
 import com.jujeol.feedback.domain.usecase.PreferenceUpdateUseCase;
 import com.jujeol.feedback.rds.entity.PreferenceEntity;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -39,6 +38,12 @@ public class PreferenceDomainRepository implements
             .stream()
             .map(PreferenceEntity::toDomain)
             .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Preference> findByDrinkId(Long drinkId) {
+        return preferenceJpaRepository.findAllByDrinkId(drinkId);
     }
 
     @Override

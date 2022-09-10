@@ -1,8 +1,5 @@
 package com.jujeol.member.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import com.jujeol.commons.config.QuerydslConfig;
 import com.jujeol.drink.category.domain.Category;
 import com.jujeol.drink.category.domain.CategoryRepository;
 import com.jujeol.drink.drink.domain.Drink;
@@ -32,6 +29,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @Import(value = QuerydslConfig.class)

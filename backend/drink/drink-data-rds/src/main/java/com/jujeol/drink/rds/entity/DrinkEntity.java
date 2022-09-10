@@ -67,4 +67,8 @@ public class DrinkEntity extends BaseEntity {
             .preferenceAvg(preferenceAvg)
             .build();
     }
+
+    public void changePreferenceAvg(Double preferenceAvg) {
+        this.preferenceAvg = preferenceAvg;
+    }
 }

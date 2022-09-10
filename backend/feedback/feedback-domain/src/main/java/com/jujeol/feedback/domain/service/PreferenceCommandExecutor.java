@@ -1,5 +1,7 @@
 package com.jujeol.feedback.domain.service;
 
+import com.jujeol.feedback.domain.event.PreferenceEvent;
+import com.jujeol.feedback.domain.event.PreferenceEvent.EventType;
 import com.jujeol.feedback.domain.exception.DuplicatePreferenceException;
 import com.jujeol.feedback.domain.exception.NotAuthorizedActionException;
 import com.jujeol.feedback.domain.exception.PreferenceNotExistException;
@@ -11,6 +13,7 @@ import com.jujeol.feedback.domain.usecase.command.PreferenceDeleteCommand;
 import com.jujeol.feedback.domain.usecase.command.PreferenceRegisterCommand;
 import com.jujeol.feedback.domain.usecase.command.PreferenceUpdateCommand;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +28,8 @@ public class PreferenceCommandExecutor implements
     private final PreferenceUpdateUseCase.PreferencePort updatePreferencePort;
     private final PreferenceDeleteUseCase.PreferencePort deletePreferencePort;
 
+    private final ApplicationEventPublisher eventPublisher;
+
     @Override
     @Transactional
     public void register(PreferenceRegisterCommand command) {
@@ -32,7 +37,7 @@ public class PreferenceCommandExecutor implements
             throw new DuplicatePreferenceException();
         }
         registerPreferencePort.insert(command.getMemberId(), command.getDrinkId(), command.getPreferenceRate());
-        // TODO : 선호도 등록 이벤트 발행 (리뷰 평균 점수 업데이트 필요 Drink.preferenceAvg)
+        eventPublisher.publishEvent(PreferenceEvent.create(EventType.CREATE, command.getPreferenceRate(), command.getDrinkId()));
     }
 
     @Override
@@ -42,7 +47,7 @@ public class PreferenceCommandExecutor implements
             .orElseThrow(PreferenceNotExistException::new);
 
         updatePreferencePort.update(preference.getId(), command.getPreferenceRate());
-        // TODO : 선호도 업데이트 이벤트 발행 (리뷰 평균 점수 업데이트 필요 Drink.preferenceAvg)
+        eventPublisher.publishEvent(PreferenceEvent.create(EventType.UPDATE, command.getPreferenceRate(), command.getDrinkId()));
     }
 
     @Override
@@ -56,5 +61,6 @@ public class PreferenceCommandExecutor implements
         }
 
         deletePreferencePort.delete(command.getDrinkId());
+        eventPublisher.publishEvent(PreferenceEvent.create(EventType.DELETE, 0, command.getDrinkId()));
     }
 }

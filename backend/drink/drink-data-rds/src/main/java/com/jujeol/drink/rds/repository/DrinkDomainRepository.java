@@ -1,9 +1,11 @@
 package com.jujeol.drink.rds.repository;
 
+import com.jujeol.drink.domain.exception.NotFoundDrinkException;
 import com.jujeol.drink.domain.model.Category;
 import com.jujeol.drink.domain.model.Drink;
 import com.jujeol.drink.domain.model.ImageFilePath;
 import com.jujeol.drink.domain.reader.DrinkReader;
+import com.jujeol.drink.domain.usecase.DrinkPreferenceUpdateUseCase;
 import com.jujeol.drink.domain.usecase.DrinkRegisterUseCase;
 import com.jujeol.drink.domain.usecase.command.DrinkPortCreateCommand;
 import com.jujeol.drink.rds.entity.CategoryEntity;
@@ -21,7 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class DrinkDomainRepository implements
     DrinkReader,
 
-    DrinkRegisterUseCase.DrinkPort {
+    DrinkRegisterUseCase.DrinkPort,
+        DrinkPreferenceUpdateUseCase.DrinkPort
+{
 
     private final DrinkRepository drinkRepository;
 
@@ -59,5 +63,12 @@ public class DrinkDomainRepository implements
     @Transactional(readOnly = true)
     public List<Drink> findAllByDrinkIdIn(Collection<Long> drinkIds) {
         return drinkRepository.findAllByIdIn(drinkIds).stream().map(DrinkEntity::toDomain).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void updatePreference(Long drinkId, Double preferenceAvg) {
+        DrinkEntity drinkEntity = drinkRepository.findById(drinkId).orElseThrow(NotFoundDrinkException::new);
+        drinkEntity.changePreferenceAvg(preferenceAvg);
     }
 }
