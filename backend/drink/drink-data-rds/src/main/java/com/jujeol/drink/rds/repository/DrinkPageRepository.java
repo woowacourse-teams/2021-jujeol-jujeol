@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Deprecated // app 쪽에서 page 관련 의존성이 빠질 때가지만 잠시 사용
 @Component
@@ -41,12 +42,18 @@ public class DrinkPageRepository {
 
     @Transactional(readOnly = true)
     public Page<Drink> findByCategory(DrinkSort drinkSort, String category, Pageable pageable) {
+        if (StringUtils.hasText(category) && "ALL".equals(category)) {
+            return findAll(drinkSort, pageable);
+        }
+
         return drinkRepository.findAllByCategoryNameWithSort(category, pageable, drinkSort).map(DrinkEntity::toDomain);
     }
 
     @Transactional(readOnly = true)
     public Page<Drink> findAllSortByPreference(Pageable pageable) {
-        return drinkRepository.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("preferenceAvg")))
-            .map(DrinkEntity::toDomain);
+        return drinkRepository.findAll(
+                                      PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                                                     Sort.by("preferenceAvg")))
+                              .map(DrinkEntity::toDomain);
     }
 }

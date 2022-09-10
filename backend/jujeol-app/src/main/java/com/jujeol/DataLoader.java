@@ -336,6 +336,7 @@ public class DataLoader {
                 .smallImageFilePath(imageFilePath.getSmallImageFilePath())
                 .mediumImageFilePath(imageFilePath.getMediumImageFilePath())
                 .largeImageFilePath(imageFilePath.getLargeImageFilePath())
+                .alcoholByVolume(alcoholByVolume)
                 .category(category)
                 .preferenceAvg(preferenceAvg)
                    .description(description)

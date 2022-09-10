@@ -72,7 +72,7 @@ public class DrinkRepositoryCustomImpl implements DrinkRepositoryCustom {
     public Page<DrinkEntity> findAllByCategoryNameWithSort(String category, Pageable pageable, DrinkSort drinkSort) {
         JPAQuery<DrinkEntity> query = queryFactory.selectFrom(drinkEntity)
                                                   .join(drinkEntity.category).fetchJoin()
-                                                  .where(drinkEntity.category.name.eq(category))
+                                                  .where(drinkEntity.category.key.eq(category))
                                                   .offset(pageable.getOffset())
                                                   .limit(pageable.getPageSize());
         switch (drinkSort) {

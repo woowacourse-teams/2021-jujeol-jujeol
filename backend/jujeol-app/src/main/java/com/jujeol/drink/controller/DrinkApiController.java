@@ -10,13 +10,16 @@ import com.jujeol.drink.controller.response.MemberDrinkResponse;
 import com.jujeol.drink.presenter.DrinkPresenter;
 import com.jujeol.member.resolver.AuthenticationPrincipal;
 import com.jujeol.member.resolver.LoginMember;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -53,7 +56,7 @@ public class DrinkApiController {
     @GetMapping("/drinks")
     public ResponseEntity<CommonResponse<List<DrinkListResponse>>> showDrinksInMainPage(
         @RequestParam(required = false) String category,
-        @RequestParam(defaultValue = "NO_SORT", required = false) String sortBy,
+        @RequestParam(defaultValue = "noSort", required = false) String sortBy,
         @PageableDefault Pageable pageable,
         @AuthenticationPrincipal LoginMember loginMember
     ) {
