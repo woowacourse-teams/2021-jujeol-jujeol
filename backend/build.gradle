@@ -89,6 +89,7 @@ configure(rdsProjects) {
     //querydsl 추가 시작
     def querydslDir = "$buildDir/generated/querydsl"
 
+    // TODO : 전체 queryDsl 실행시 자동으로 rds queryDsl 실행하도록 수정 필요
     querydsl {
         jpa = true
         querydslSourcesDir = querydslDir

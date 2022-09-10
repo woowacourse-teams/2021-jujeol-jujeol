@@ -1,15 +1,11 @@
 package com.jujeol.drink.rds.repository;
 
 import com.jujeol.drink.rds.entity.DrinkEntity;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.Collection;
 import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DrinkRepository extends JpaRepository<DrinkEntity, Long>, DrinkRepositoryCustom {
 
-    List<DrinkEntity> findAllByDrinkIdIn(Collection<Long> drinkIds);
+    List<DrinkEntity> findAllByIdIn(Collection<Long> drinkIds);
 }

@@ -2,11 +2,8 @@ package com.jujeol.member.rds.repository;
 
 import com.jujeol.member.domain.model.ProviderName;
 import com.jujeol.member.rds.entity.MemberEntity;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.nio.channels.FileChannel;
 import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
@@ -16,6 +13,6 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
     boolean existsByNickname(String nickname);
 
-    Optional<MemberEntity> findByNickname(String nickname, Pageable pageable);
+    Optional<MemberEntity> findByNickname(String nickname);
 
 }

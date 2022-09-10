@@ -3,4 +3,5 @@ jar { enabled = true }
 
 dependencies {
     api project(":drink:drink-domain-model")
+    api project(":commons:base-rds")
 }

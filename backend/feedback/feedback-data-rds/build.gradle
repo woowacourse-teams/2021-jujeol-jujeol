@@ -3,4 +3,5 @@ jar { enabled = true }
 
 dependencies {
     api project(":feedback:feedback-domain-model")
+    api project(":commons:base-rds")
 }

@@ -64,7 +64,7 @@ class MemberPresenterTest extends IntegrationTestContext {
             // when, then
             assertThatThrownBy(() -> sut.findMemberInfo(loginMember))
                     .isExactlyInstanceOf(JujeolBadRequestException.class)
-                    .hasMessage(ExceptionCodeAndDetails.UNAUTHORIZED_USER.getMessage());
+                    .hasMessage(ExceptionCodeAndDetails.NO_SUCH_MEMBER.getMessage());
         }
     }
 

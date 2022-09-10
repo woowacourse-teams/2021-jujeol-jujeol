@@ -8,14 +8,13 @@ import com.jujeol.drink.domain.usecase.DrinkRegisterUseCase;
 import com.jujeol.drink.domain.usecase.command.DrinkPortCreateCommand;
 import com.jujeol.drink.rds.entity.CategoryEntity;
 import com.jujeol.drink.rds.entity.DrinkEntity;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -59,6 +58,6 @@ public class DrinkDomainRepository implements
     @Override
     @Transactional(readOnly = true)
     public List<Drink> findAllByDrinkIdIn(Collection<Long> drinkIds) {
-        return drinkRepository.findAllByDrinkIdIn(drinkIds).stream().map(DrinkEntity::toDomain).collect(Collectors.toList());
+        return drinkRepository.findAllByIdIn(drinkIds).stream().map(DrinkEntity::toDomain).collect(Collectors.toList());
     }
 }

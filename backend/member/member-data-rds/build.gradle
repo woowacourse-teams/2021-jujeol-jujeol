@@ -2,5 +2,6 @@ bootJar { enabled = false }
 jar { enabled = true }
 
 dependencies {
-    implementation project(":member:member-domain-model")
+    api project(":member:member-domain-model")
+    api project(":commons:base-rds")
 }
