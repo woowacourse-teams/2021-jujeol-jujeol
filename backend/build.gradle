@@ -1,15 +1,11 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.2'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.springframework.boot' version '2.5.2' apply false
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply false
     id "org.asciidoctor.jvm.convert" version "3.3.2"
     id 'org.sonarqube' version '3.3'
     id 'java'
     id 'jacoco'
-    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
-}
-
-ext {
-    snippetsDir = file('build/generated-snippets')
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10" apply false
 }
 
 group = 'com.jujeol.'
@@ -113,6 +109,8 @@ configure(rdsProjects) {
 configure(appProjects) {
     apply plugin: 'org.asciidoctor.jvm.convert'
 
+    def subDir = it.name.split('-')[0] + "/" + it.name.split('-')[1]
+
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-validation'
         implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -125,14 +123,13 @@ configure(appProjects) {
 
     asciidoctor {
         dependsOn test
-        inputs.dir snippetsDir
     }
 
     task createDocument(type: Copy) {
         dependsOn asciidoctor
-        delete file('src/main/resources/static/index.html')
-        from file("build/docs/asciidoc/index.html")
-        into file("src/main/resources/static")
+        from ("${asciidoctor.outputDir}/html5") {
+            into "static/${subDir}"
+        }
     }
 
     build {
@@ -141,9 +138,6 @@ configure(appProjects) {
 
     bootJar {
         dependsOn createDocument
-        from("${asciidoctor.outputDir}") {
-            into 'static'
-        }
     }
 
     processResources.dependsOn('copySecret')

@@ -55,7 +55,7 @@ class LoginPresenterTest extends IntegrationTestContext {
             assertThat(savedMember.getId()).isNotNull();
             assertThat(savedMember.getProvideId()).isEqualTo(accountId);
             assertThat(savedMember.getProviderName()).isEqualTo(providerName);
-            assertThat(savedMember.getNickname()).isEqualTo(abbreviation);
+            assertThat(savedMember.getNickname()).isEqualTo(abbreviation + "_001");
             assertThat(savedMember.getBiography()).isEqualTo(expression);
         }
 

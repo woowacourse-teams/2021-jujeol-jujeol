@@ -1,4 +1,4 @@
-package com.jujeol.drink;
+package com.jujeol;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

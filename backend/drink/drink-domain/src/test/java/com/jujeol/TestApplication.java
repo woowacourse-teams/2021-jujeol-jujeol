@@ -1,4 +1,4 @@
-package com.jujeol.member;
+package com.jujeol;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
