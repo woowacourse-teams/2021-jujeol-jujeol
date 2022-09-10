@@ -43,7 +43,7 @@ public class PreferenceDomainRepository implements
     @Override
     @Transactional(readOnly = true)
     public List<Preference> findByDrinkId(Long drinkId) {
-        return preferenceJpaRepository.findAllByDrinkId(drinkId);
+        return preferenceJpaRepository.findAllByDrinkId(drinkId).stream().map(PreferenceEntity::toDomain).collect(Collectors.toList());
     }
 
     @Override

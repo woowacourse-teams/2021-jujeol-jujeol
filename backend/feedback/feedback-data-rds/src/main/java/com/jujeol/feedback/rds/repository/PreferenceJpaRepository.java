@@ -16,5 +16,5 @@ public interface PreferenceJpaRepository extends JpaRepository<PreferenceEntity,
 
     List<PreferenceEntity> findByMemberIdAndDrinkIdIn(Long memberId, List<Long> drinkIds);
 
-    List<Preference> findAllByDrinkId(Long drinkId);
+    List<PreferenceEntity> findAllByDrinkId(Long drinkId);
 }

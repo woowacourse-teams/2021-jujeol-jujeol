@@ -8,6 +8,7 @@ import com.jujeol.drink.domain.model.DrinkEnglishName;
 import com.jujeol.drink.domain.model.DrinkName;
 import com.jujeol.drink.domain.model.ImageFilePath;
 import com.jujeol.rds.BaseEntity;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -35,6 +36,7 @@ public class DrinkEntity extends BaseEntity {
     private String mediumImageFilePath;
     private String largeImageFilePath;
     private Double preferenceAvg;
+    @Column(length = 1000)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
