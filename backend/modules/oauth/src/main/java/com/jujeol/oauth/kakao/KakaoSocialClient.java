@@ -77,6 +77,7 @@ public class KakaoSocialClient implements OauthSocial {
             final String id = clientResponseConverter.extractDataAsString(body, ID);
             return new MemberDetails(id, ProviderName.KAKAO);
         } catch (HttpClientErrorException e) {
+            log.error(e.getMessage(), e);
             throw new OauthAccessException();
         }
     }
