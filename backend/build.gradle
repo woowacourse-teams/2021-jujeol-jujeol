@@ -1,15 +1,11 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.2'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.springframework.boot' version '2.5.2' apply false
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply false
     id "org.asciidoctor.jvm.convert" version "3.3.2"
     id 'org.sonarqube' version '3.3'
     id 'java'
     id 'jacoco'
-    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
-}
-
-ext {
-    snippetsDir = file('build/generated-snippets')
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10" apply false
 }
 
 group = 'com.jujeol.'
@@ -26,142 +22,131 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    // application
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+def realSubProjects = subprojects.findAll { it.childProjects.isEmpty() }
+def rdsProjects = subprojects.findAll {it.name.endsWith('rds')}
+def appProjects = subprojects.findAll {it.name.endsWith('app')}
 
-    // lombok
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+configure(realSubProjects) {
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
 
-    // database
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'mysql:mysql-connector-java'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.flywaydb:flyway-core:6.4.2'
+    repositories {
+        mavenCentral()
+    }
 
-    // test
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
-    testImplementation 'io.rest-assured:rest-assured:3.3.0'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    dependencies {
+        // application
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-    // token encoding
-    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+        // lombok
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        testCompileOnly 'org.projectlombok:lombok'
+        testAnnotationProcessor 'org.projectlombok:lombok'
 
-    // log
-    implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
-    implementation 'org.apache.logging.log4j:log4j-core:2.15.0'
-    implementation 'org.apache.logging.log4j:log4j-api:2.15.0'
+        // test
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    // sonarqube
-    implementation 'org.springframework.boot:spring-boot-gradle-plugin:2.5.2'
-    implementation 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
-    implementation 'io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE'
+        // log
+        implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
+        implementation 'org.apache.logging.log4j:log4j-core:2.15.0'
+        implementation 'org.apache.logging.log4j:log4j-api:2.15.0'
 
-    // commons
-    implementation 'commons-io:commons-io:2.4'
+        // sonarqube
+        implementation 'org.springframework.boot:spring-boot-gradle-plugin:2.5.2'
+        implementation 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
+        implementation 'io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE'
 
-    // file type
-    implementation 'org.apache.tika:tika-core:1.26'
+        // monitoring tools
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        implementation 'io.micrometer:micrometer-registry-prometheus'
+    }
 
-    // s3 image upload
-    implementation 'com.amazonaws:aws-java-sdk-s3'
-    implementation 'org.springframework.cloud:spring-cloud-aws-core:2.2.6.RELEASE'
-
-    // monitoring tools
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'io.micrometer:micrometer-registry-prometheus'
-
-    //querydsl
-    implementation 'com.querydsl:querydsl-jpa'
+    test {
+        useJUnitPlatform()
+    }
 }
 
-//querydsl 추가 시작
-def querydslDir = "$buildDir/generated/querydsl"
+configure(rdsProjects) {
+    apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
-querydsl {
-    jpa = true
-    querydslSourcesDir = querydslDir
-}
+    dependencies {
+        runtimeOnly 'com.h2database:h2'
+        runtimeOnly 'mysql:mysql-connector-java'
+        api 'org.springframework.boot:spring-boot-starter-data-jdbc'
+        api 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-sourceSets {
-    main.java.srcDir querydslDir
-}
+        // queryDsl
+        api 'com.querydsl:querydsl-jpa'
+    }
 
-compileQuerydsl {
-    options.annotationProcessorPath = configurations.querydsl
-}
+    //querydsl 추가 시작
+    def querydslDir = "$buildDir/generated/querydsl"
 
-configurations {
-    //아래를 지정하지 않으면, compile 로 걸린 JPA 의존성에 접근하지 못한다.
-    querydsl.extendsFrom compileClasspath
-}
+    // TODO : 전체 queryDsl 실행시 자동으로 rds queryDsl 실행하도록 수정 필요
+    querydsl {
+        jpa = true
+        querydslSourcesDir = querydslDir
+    }
+
+    sourceSets {
+        main.java.srcDir querydslDir
+    }
+
+    compileQuerydsl {
+        options.annotationProcessorPath = configurations.querydsl
+    }
+
+    configurations {
+        //아래를 지정하지 않으면, compile 로 걸린 JPA 의존성에 접근하지 못한다.
+        querydsl.extendsFrom compileClasspath
+    }
 //querydsl 추가 끝
-
-processResources.dependsOn('copySecret')
-
-task copySecret(type: Copy) {
-    from '../jujeol-auth/application-oauth.yml'
-    into 'src/main/resources'
-
-    from '../jujeol-auth/application-datasource.yml'
-    into 'src/main/resources'
 }
 
-test {
-    useJUnitPlatform()
-    finalizedBy 'jacocoTestReport'
-}
+configure(appProjects) {
+    apply plugin: 'org.asciidoctor.jvm.convert'
 
-jacoco {
-    toolVersion = "0.8.7"
-}
+    def subDir = it.name.split('-')[0] + "/" + it.name.split('-')[1]
 
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        csv.enabled false
-        html.enabled false
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+
+        testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
+        testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+        testImplementation 'io.rest-assured:rest-assured:3.3.0'
+        testImplementation "io.rest-assured:spring-mock-mvc"
     }
 
-}
-
-sonarqube {
-    properties {
-        property "sonar.sources", "src"
-        property "sonar.language", "java"
-        property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.profile", "Sonar way"
-        property "sonar.java.binaries", "${buildDir}/classes"
-        property "sonar.test.inclusions", "**/*Test.java"
-        property "sonar.exclusions", "**/resources/static/**, **/Q*.class, **/test/**"
-        property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+    asciidoctor {
+        dependsOn test
     }
-}
 
-asciidoctor {
-    dependsOn test
-    inputs.dir snippetsDir
-}
+    task createDocument(type: Copy) {
+        dependsOn asciidoctor
+        from ("${asciidoctor.outputDir}/html5") {
+            into "static/${subDir}"
+        }
+    }
 
-task createDocument(type: Copy) {
-    dependsOn asciidoctor
-    delete file('src/main/resources/static/index.html')
-    from file("build/docs/asciidoc/index.html")
-    into file("src/main/resources/static")
-}
+    build {
+        dependsOn createDocument
+    }
 
-build {
-    dependsOn createDocument
-}
+    bootJar {
+        dependsOn createDocument
+    }
 
-bootJar {
-    dependsOn createDocument
-    from("${asciidoctor.outputDir}") {
-        into 'static'
+    processResources.dependsOn('copySecret')
+
+    task copySecret(type: Copy) {
+        from '../../jujeol-auth/application-oauth.yml'
+        into 'src/main/resources'
+
+        from '../../jujeol-auth/application-datasource.yml'
+        into 'src/main/resources'
     }
 }

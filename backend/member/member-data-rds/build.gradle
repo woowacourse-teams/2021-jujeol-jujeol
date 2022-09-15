@@ -1,0 +1,7 @@
+bootJar { enabled = false }
+jar { enabled = true }
+
+dependencies {
+    api project(":member:member-domain-model")
+    api project(":commons:base-rds")
+}

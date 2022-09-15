@@ -1,1 +1,45 @@
 rootProject.name = 'jujeol-jujeol'
+
+include 'jujeol-app'
+
+/**
+ * Member
+ */
+include 'member:member-domain-model'
+findProject(':member:member-domain-model')?.name = 'member-domain-model'
+include 'member:member-data-rds'
+findProject(':member:member-data-rds')?.name = 'member-data-rds'
+include 'member:member-domain'
+findProject(':member:member-domain')?.name = 'member-domain'
+
+/**
+ * Drink
+ */
+include 'drink:drink-domain-model'
+findProject(':drink:drink-domain-model')?.name = 'drink-domain-model'
+include 'drink:drink-domain'
+findProject(':drink:drink-domain')?.name = 'drink-domain'
+include 'drink:drink-data-rds'
+findProject(':drink:drink-data-rds')?.name = 'drink-data-rds'
+
+/**
+ * Feedback
+ */
+include 'feedback:feedback-domain-model'
+findProject(':feedback:feedback-domain-model')?.name = 'feedback-domain-model'
+include 'feedback:feedback-domain'
+findProject(':feedback:feedback-domain')?.name = 'feedback-domain'
+include 'feedback:feedback-data-rds'
+findProject(':feedback:feedback-data-rds')?.name = 'feedback-data-rds'
+
+/**
+ * etc
+ */
+include 'modules:image-upload'
+findProject(':modules:image-upload')?.name = 'image-upload'
+include 'modules:oauth'
+findProject(':modules:oauth')?.name = 'oauth'
+
+include 'commons:base-rds'
+findProject(':commons:base-rds')?.name = 'base-rds'
+

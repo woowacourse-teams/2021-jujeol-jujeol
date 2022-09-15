@@ -1,0 +1,10 @@
+bootJar { enabled = false }
+jar { enabled = true }
+
+dependencies {
+    implementation 'org.springframework:spring-tx'
+
+    api project(":drink:drink-domain-model")
+    runtimeOnly project(":drink:drink-data-rds")
+    testImplementation project(":drink:drink-data-rds")
+}
